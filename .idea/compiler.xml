@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="pb" />
+        <module name="legacy" />
+        <module name="common" />
+        <module name="bnc" />
+        <module name="fn" />
+        <module name="vn" />
+        <module name="sn" />
+        <module name="legacymaps" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fn" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
