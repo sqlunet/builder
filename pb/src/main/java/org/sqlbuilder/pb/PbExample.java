@@ -128,11 +128,11 @@ public class PbExample implements Insertable<PbExample>, Comparable<PbExample>
 
 	private static final Comparator<PbExample> COMPARATOR = Comparator.comparing(PbExample::getRoleSet) //
 			.thenComparing(PbExample::getName) //
-			.thenComparing(PbExample::getAspect) //
-			.thenComparing(PbExample::getForm) //
-			.thenComparing(PbExample::getPerson) //
-			.thenComparing(PbExample::getTense) //
-			.thenComparing(PbExample::getVoice) //
+			.thenComparing(PbExample::getAspect, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(PbExample::getForm, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(PbExample::getPerson, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(PbExample::getTense, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(PbExample::getVoice, Comparator.nullsFirst(Comparator.naturalOrder())) //
 			.thenComparing(PbExample::getText);
 
 	@Override

@@ -21,7 +21,7 @@ public class SemlinkProcessor extends Processor
 	{
 		Progress.traceHeader("semlink3", "processing");
 		processSemlinks();
-		Progress.traceTailer("semlink3", 1L);
+		Progress.traceTailer("semlink3", "");
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
@@ -70,10 +70,10 @@ public class SemlinkProcessor extends Processor
 			pbVnRoleMap.dataRow();
 			nMappings++;
 		}
-		Progress.traceTailer("total", nTotal);
-		Progress.traceTailer("mappings", nMappings);
-		Progress.traceTailer("pbrole not found", nPbRolesNotFound);
-		Progress.traceTailer("vnrole not found", nVnRolesNotFound);
+		Progress.traceTailer("total", Long.toString(nTotal));
+		Progress.traceTailer("mappings", Long.toString(nMappings));
+		Progress.traceTailer("pbrole not found", Long.toString(nPbRolesNotFound));
+		Progress.traceTailer("vnrole not found", Long.toString(nVnRolesNotFound));
 		return PbVnRoleMapping.semlinkMap.size();
 	}
 

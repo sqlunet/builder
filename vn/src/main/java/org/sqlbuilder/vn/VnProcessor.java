@@ -55,7 +55,7 @@ public abstract class VnProcessor extends Processor
 			// trace
 			Progress.trace(this.fileCount);
 		}
-		Progress.traceTailer("reading verbnet files", this.fileCount);
+		Progress.traceTailer(this.fileCount);
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
@@ -79,7 +79,7 @@ public abstract class VnProcessor extends Processor
 
 		if (Logger.verbose)
 		{
-			Progress.traceTailer("verbnet " + head, count);
+			Progress.traceTailer("verbnet " + head, Long.toString(count));
 		}
 	}
 

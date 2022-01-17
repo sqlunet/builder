@@ -3,9 +3,17 @@ package org.sqlbuilder.pb;
 import org.sqlbuilder.common.Insertable;
 
 import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-public class PbRel implements Insertable<PbRel>, Serializable
+public class PbRel implements Insertable<PbRel>, Comparable<PbRel>
 {
+	protected static final SortedSet<PbRel> SET = new TreeSet<>();
+
+	public static Map<PbRel, Integer> MAP;
+
 	private final String text;
 
 	private final String f;
@@ -17,6 +25,7 @@ public class PbRel implements Insertable<PbRel>, Serializable
 		this.text = PbNormalizer.normalize(rel);
 		this.f = f;
 		this.example = example;
+		SET.add(this);
 	}
 
 	public static PbRel make(final PbExample example, final String rel, final String f)
@@ -37,6 +46,19 @@ public class PbRel implements Insertable<PbRel>, Serializable
 	public String getF()
 	{
 		return this.f;
+	}
+
+	// O R D E R
+
+	private static final Comparator<PbRel> COMPARATOR = Comparator //
+			.comparing(PbRel::getExample) //
+			.thenComparing(PbRel::getText) //
+			.thenComparing(PbRel::getF);
+
+	@Override
+	public int compareTo(final PbRel that)
+	{
+		return COMPARATOR.compare(this, that);
 	}
 
 	@Override

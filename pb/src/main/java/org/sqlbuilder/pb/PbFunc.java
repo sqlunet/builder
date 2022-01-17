@@ -69,6 +69,7 @@ public class PbFunc implements Comparable<PbFunc>
 	private final String pbfunc;
 
 	// C O N S T R U C T O R
+
 	public PbFunc(final String funcName)
 	{
 		this.pbfunc = normalize(funcName);

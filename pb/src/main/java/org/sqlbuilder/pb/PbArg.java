@@ -38,6 +38,7 @@ public class PbArg implements Insertable<PbArg>, Comparable<PbArg>
 		this.text = PbNormalizer.normalize(text);
 		this.n = n;
 		this.f = f == null ? null : new PbFunc(f.toLowerCase());
+		SET.add(this);
 		if (this.n != null && !this.n.isEmpty())
 		{
 			PbArg.nSet.add(this.n);

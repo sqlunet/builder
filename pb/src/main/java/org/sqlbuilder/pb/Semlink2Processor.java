@@ -19,7 +19,7 @@ public class Semlink2Processor extends Processor
 	{
 		Progress.traceHeader("semlink2", "processing");
 		Semlink2Processor.processSemlinks();
-		Progress.traceTailer("semlink2", 1L);
+		Progress.traceTailer("semlink2", "");
 	}
 
 	@SuppressWarnings("UnusedReturnValue")

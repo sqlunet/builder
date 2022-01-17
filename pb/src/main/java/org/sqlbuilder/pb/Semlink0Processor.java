@@ -42,7 +42,7 @@ public class Semlink0Processor extends Processor
 
 		if (Logger.verbose)
 		{
-			Progress.traceTailer("semlink ", 1L);
+			Progress.traceTailer("semlink ", "");
 		}
 	}
 
@@ -51,7 +51,7 @@ public class Semlink0Processor extends Processor
 	{
 		Progress.traceHeader("semlink file", "reading");
 		PbVnRoleMapping.semlinkMap = SemlinkDocument.getMappings(start);
-		Progress.traceTailer("semlink files", 1L);
+		Progress.traceTailer("semlink files", "");
 		return PbVnRoleMapping.semlinkMap.size();
 	}
 }

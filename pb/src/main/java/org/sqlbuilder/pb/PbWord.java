@@ -2,13 +2,19 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Insertable;
 
-public class PbWord implements Insertable<PbWord>
+public class PbWord implements Insertable<PbWord>, Comparable<PbWord>
 {
 	public final String word;
 
 	public PbWord(final String lemma)
 	{
 		this.word = lemma;
+	}
+
+	@Override
+	public int compareTo(final PbWord that)
+	{
+		return word.compareTo(that.word);
 	}
 
 	@Override

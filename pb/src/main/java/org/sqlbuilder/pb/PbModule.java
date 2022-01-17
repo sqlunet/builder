@@ -29,20 +29,17 @@ public class PbModule extends Module
 
 	private static void buildPropBank(final Properties props) throws IOException
 	{
-		PbModule.initPropBankBase(props);
+		new PbProcessor(props).run();
+	}
 
-		new Pb1Processor(props).run();
-		new Pb2Processor(props).run();
+	private static void initPropBankBase(final Properties props)
+	{
+		new PbProcessor(props).run();
 	}
 
 	private static void initSemLink(final Properties props)
 	{
 		new Semlink0Processor(props).run();
-	}
-
-	private static void initPropBankBase(final Properties props)
-	{
-		new Pb0Processor(props).run();
 	}
 
 	private static void buildSemLink(final Properties props)
@@ -87,5 +84,6 @@ public class PbModule extends Module
 	public static void main(final String[] args)
 	{
 		new PbModule(args[0]).run();
+		Inserter.insert();
 	}
 }

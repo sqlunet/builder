@@ -27,7 +27,7 @@ public class PbCrossRefsProcessor extends Processor
 		{
 			e.printStackTrace();
 		}
-		Progress.traceTailer("pbxref", 0);
+		Progress.traceTailer("pbxref", "");
 	}
 
 	public void insertAliases(final Collection<PbRoleSet> roleSets) throws NotFoundException

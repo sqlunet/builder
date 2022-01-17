@@ -4,27 +4,46 @@ public class Progress
 {
 	public static boolean hyperverbose = false;
 
+	public static void traceHeader(final String tag, final String message)
+	{
+		System.err.println(">" + tag + " " + message);
+	}
+
+	public static void traceTailer(final String tag, final String message)
+	{
+		System.err.println("<" + tag + " " + message);
+	}
+
 	public static void trace(final String tag, final String message)
 	{
+		System.err.println(tag + " " + message);
 	}
 
-	public static void traceHeader(final String tag, final String info)
+	public static void trace(final String message)
 	{
+		System.err.println("mess: " + message);
 	}
 
-	public static void traceTailer(final String tag, final long count)
+	private static final long GRANULARITY = 10;
+
+	private static final long PERLINE = 100;
+
+	public static void trace(final long count)
 	{
+		if (count % GRANULARITY == 0)
+		System.err.print('.');
+		if (count % (GRANULARITY * PERLINE) == 0)
+		{
+			System.err.print('\n');
+		}
+	}
+	public static void traceTailer(final long count)
+	{
+		System.err.println("<" + count);
 	}
 
 	public static void info(final String message)
 	{
-	}
-
-	public static void trace(final String s)
-	{
-	}
-
-	public static void trace(final long count)
-	{
+		System.err.println(message);
 	}
 }

@@ -14,7 +14,7 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public abstract class PbProcessor extends Processor
+public class PbProcessor extends Processor
 {
 	protected final Properties conf;
 
@@ -22,9 +22,9 @@ public abstract class PbProcessor extends Processor
 
 	protected int fileCount;
 
-	public PbProcessor(final Properties conf, final String tag)
+	public PbProcessor(final Properties conf)
 	{
-		super(tag);
+		super("pb");
 		this.conf = conf;
 		this.propBankHome = conf.getProperty("pbhome", System.getenv().get("PBHOME"));
 		this.fileCount = 0;
@@ -49,17 +49,13 @@ public abstract class PbProcessor extends Processor
 
 			Progress.trace(this.fileCount);
 		}
-		Progress.traceTailer("reading propbank files", this.fileCount);
+		Progress.traceTailer(this.fileCount);
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
 	private int processPropBankFile(final String fileName, final String name)
 	{
 		final String head = name.split("\\.")[0];
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("propbank " + head, "");
-		}
 		int count = 0;
 		try
 		{
@@ -70,28 +66,80 @@ public abstract class PbProcessor extends Processor
 		{
 			Logger.instance.logXmlException("pb", this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
 		}
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("propbank " + head, count);
-		}
 		return count;
 	}
 
-	protected abstract int processFrameset(PbVerbDocument paramPbVerbDocument, Node paramNode, String paramString);
-
-	protected static <T> void insertSet(final Set<T> set, final String table)
+	protected int processFrameset(final PbVerbDocument document, final Node start, final String head)
 	{
-	}
+		long count = 0;
+		try
+		{
+			// predicates
+			final Collection<PbPredicate> predicates = PbVerbDocument.getPredicates(head, start);
+			if (predicates != null)
+			{
+				for (final PbPredicate predicate : predicates)
+				{
+					try
+					{
+						predicate.put();
+					}
+					catch (RuntimeException e)
+					{
+						// Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+					}
+				}
+				count += predicates.size();
+			}
+			final Collection<PbLexItem> aliasLexItems = PbVerbDocument.getAliasPredicates(start);
+			if (aliasLexItems != null)
+			{
+				for (final PbLexItem lexItem : aliasLexItems)
+				{
+					try
+					{
+						lexItem.put();
+					}
+					catch (RuntimeException e)
+					{
+						// Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+					}
+				}
+				count += aliasLexItems.size();
+			}
 
-	protected static <T> void insertSet(final Set<T> set, final Properties props, final String table)
-	{
-	}
+			// rolesets
+			final Collection<PbRoleSet> roleSets = PbVerbDocument.getRoleSets(head, start);
+			if (roleSets != null)
+			{
+				PbRoleSet.SET.addAll(roleSets);
+			}
 
-	protected static <T> void insertMap(final Map<T, Integer> map, final String table)
-	{
-	}
+			// roles
+			final Collection<PbRole> roles = PbVerbDocument.getRoles(head, start);
+			if (roles != null)
+			{
+				PbRole.SET.addAll(roles);
+			}
 
-	protected static <T> void insertMap(final Map<T, Integer> map, final Properties props, final String table)
-	{
+			// examples
+			final Collection<PbExample> examples = PbVerbDocument.getExamples(head, start);
+			if (examples != null)
+			{
+				PbExample.SET.addAll(examples);
+			}
+
+			// args
+			final Collection<PbArg> args = PbVerbDocument.getExampleArgs(head, start);
+			if (args != null)
+			{
+				PbArg.SET.addAll(args);
+			}
+		}
+		catch (XPathExpressionException e)
+		{
+			Logger.instance.logXmlException(PbModule.MODULE_ID, this.tag, "read-frameset", document.getFileName(), -1, null, "xpath", e);
+		}
+		return (int) count;
 	}
 }
