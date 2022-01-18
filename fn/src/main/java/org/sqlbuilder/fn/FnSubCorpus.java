@@ -1,66 +1,38 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SubCorpusType;
 
-public class FnSubCorpus implements Insertable
+public class FnSubCorpus implements Insertable<FnSubCorpus>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_subcorpuses.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_subcorpuses.table");
-
-	private static long allocator = 0;
-
-	private final long subcorpusid;
+	public static final Set<FnSubCorpus> SET = new HashSet<>();
 
 	public final SubCorpusType subcorpus;
 
-	public final long luid;
+	public final FnLexUnit lu;
 
-	public FnSubCorpus(final long luid, final SubCorpusType subcorpus)
+	public FnSubCorpus(final FnLexUnit lu, final SubCorpusType subcorpus)
 	{
-		this.subcorpusid = ++FnSubCorpus.allocator;
-		this.luid = luid;
+		this.lu = lu;
 		this.subcorpus = subcorpus;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnSubCorpus.SQL_INSERT))
-		{
-			statement.setLong(1, getId());
-			statement.setLong(2, this.luid);
-			statement.setString(3, this.subcorpus.getName());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnsubcorpus", FnSubCorpus.TABLE, FnSubCorpus.SQL_INSERT, sqle);
-		}
-	}
-
-	public long getId()
-	{
-		return this.subcorpusid;
-	}
-
-	public static void reset()
-	{
-		FnSubCorpus.allocator = 0;
+		// Long(1, getId());
+		// Long(2, this.luid);
+		// String(3, this.subcorpus.getName());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[SUBCORPUS id=%s name=%s luid=%s]", getId(), this.subcorpus.getName(), this.luid);
+		return String.format("[SUBCORPUS id=%s name=%s lu=%s]", this.subcorpus.getName(), this.lu);
 	}
 }

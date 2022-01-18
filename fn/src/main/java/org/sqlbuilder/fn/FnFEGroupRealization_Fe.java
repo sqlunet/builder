@@ -1,66 +1,38 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FEValenceType;
 
-public class FnFEGroupRealization_Fe implements Insertable
+public class FnFEGroupRealization_Fe implements Insertable<FnFEGroupRealization_Fe>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_fegrouprealizations_fes.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_fegrouprealizations_fes.table");
-
-	private static long allocator = 0;
-
-	private final long rfeid;
+	public static final Set<FnFEGroupRealization_Fe> SET = new HashSet<>();
 
 	public final FEValenceType fe;
 
-	public final long fegrid;
+	public final FnFEGroupRealization fegr;
 
-	public FnFEGroupRealization_Fe(final long fegrid, final FEValenceType fe)
+	public FnFEGroupRealization_Fe(final FnFEGroupRealization fegr, final FEValenceType fe)
 	{
-		this.rfeid = ++FnFEGroupRealization_Fe.allocator;
-		this.fegrid = fegrid;
+		this.fegr = fegr;
 		this.fe = fe;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnFEGroupRealization_Fe.SQL_INSERT))
-		{
-			statement.setLong(1, this.rfeid);
-			statement.setLong(2, this.fegrid);
-			statement.setString(3, this.fe.getName());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnfegrouprealization_fe", FnFEGroupRealization_Fe.TABLE, FnFEGroupRealization_Fe.SQL_INSERT, sqle);
-		}
-	}
-
-	public long getId()
-	{
-		return this.rfeid;
-	}
-
-	public static void reset()
-	{
-		FnFEGroupRealization_Fe.allocator = 0;
+		// Long(1, this.rfeid);
+		// Long(2, this.fegrid);
+		// String(3, this.fe.getName());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FEGR-FE ferid=%s fe=%s]", this.fegrid, this.fe.getName());
+		return String.format("[FEGR-FE fegr=%s fe=%s]", this.fegr, this.fe.getName());
 	}
 }

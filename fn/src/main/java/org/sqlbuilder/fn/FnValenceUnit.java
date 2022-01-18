@@ -1,45 +1,27 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.ValenceUnitType;
 
-public class FnValenceUnit extends FnValenceUnitBase implements Insertable
+public class FnValenceUnit extends FnValenceUnitBase implements Insertable<FnValenceUnit>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_valenceunits.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_valenceunits.table");
-
-	// A L L O C A T O R
-
-	private static long allocator = 0;
-
-	public static void reset()
-	{
-		FnValenceUnit.allocator = 0;
-	}
+	public static final Set<FnValenceUnit> SET = new HashSet<>();
 
 	// M E M B E R S
 
-	private final long vuid;
-
-	public final long ferid;
+	public final FnFERealization fer;
 
 	// C O N S T R U C T O R
 
-	public FnValenceUnit(final long ferid, final ValenceUnitType vu)
+	public FnValenceUnit(final FnFERealization fer, final ValenceUnitType vu)
 	{
 		super(vu);
-		this.vuid = ++FnValenceUnit.allocator;
-		this.ferid = ferid;
-		FnValenceUnitBase.map.put(this, getId());
+		this.fer = fer;
+		FnValenceUnitBase.SET.add(this);
 	}
 
 	// I D E N T I T Y
@@ -58,15 +40,15 @@ public class FnValenceUnit extends FnValenceUnitBase implements Insertable
 
 	// A C C E S S
 
-	public long getId()
+	public FnFERealization getFer()
 	{
-		return this.vuid;
+		return fer;
 	}
 
 	// I N S E R T
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
 		String pt = this.vu.getPT();
 		if (pt.isEmpty())
@@ -79,33 +61,13 @@ public class FnValenceUnit extends FnValenceUnitBase implements Insertable
 			gf = null;
 		}
 
-		try (PreparedStatement statement = connection.prepareStatement(FnValenceUnit.SQL_INSERT))
-		{
-			statement.setLong(1, getId());
-			statement.setLong(2, this.ferid);
-			if (pt != null)
-			{
-				statement.setString(3, pt);
-			}
-			else
-			{
-				statement.setNull(3, Types.VARCHAR);
-			}
-			if (gf != null)
-			{
-				statement.setString(4, gf);
-			}
-			else
-			{
-				statement.setNull(4, Types.VARCHAR);
-			}
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnvalenceunit", FnValenceUnit.TABLE, FnValenceUnit.SQL_INSERT, sqle);
-		}
+		//Long(1, getId());
+		//Long(2, this.ferid);
+		//String(3, pt);
+		//Null(3, Types.VARCHAR);
+		//String(4, gf);
+		//Null(4, Types.VARCHAR);
+		return null;
 	}
 
 	// T O S T R I N G
@@ -113,6 +75,6 @@ public class FnValenceUnit extends FnValenceUnitBase implements Insertable
 	@Override
 	public String toString()
 	{
-		return String.format("[VU feid=%s fe=%s pt=%s gf=%s]", this.ferid, this.vu.getFE(), this.vu.getPT(), this.vu.getGF());
+		return String.format("[VU fer=%s fe=%s pt=%s gf=%s]", this.fer, this.vu.getFE(), this.vu.getPT(), this.vu.getGF());
 	}
 }

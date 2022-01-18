@@ -1,25 +1,23 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-
 import org.apache.xmlbeans.StringEnumAbstractBase;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
-import org.sqlbuilder.Progress;
-import org.sqlbuilder.SQLProcessor;
+import org.sqlbuilder.common.Processor;
+import org.sqlbuilder.common.Progress;
 
 import edu.berkeley.icsi.framenet.CoreType;
 import edu.berkeley.icsi.framenet.LabelType;
 import edu.berkeley.icsi.framenet.POSType;
 
-public class FnPresetProcessor extends SQLProcessor
+public class FnPresetProcessor extends Processor
 {
 	public FnPresetProcessor()
 	{
-		this.processorTag = "preset";
+		super("preset");
 	}
 
 	@Override
-	protected void run(final Connection connection) throws Exception
+	protected void run()
 	{
 		Progress.traceHeader("preset framenet tables", "poses coretypes");
 
@@ -27,15 +25,15 @@ public class FnPresetProcessor extends SQLProcessor
 		for (final String pos : FnPresetProcessor.getPoses())
 		{
 			final FnPos fnPos = new FnPos(pos);
-			fnPos.insert(connection);
+			FnPos.SET.add(fnPos);
 		}
 		Progress.trace(1);
 
 		// coretypes
 		for (final String coretype : FnPresetProcessor.getCoreTypes())
 		{
-			final FnCoreType fnPos = new FnCoreType(coretype);
-			fnPos.insert(connection);
+			final FnCoreType fnCoretype = new FnCoreType(coretype);
+			FnCoreType.SET.add(fnCoretype);
 		}
 		Progress.trace(1);
 
@@ -43,11 +41,11 @@ public class FnPresetProcessor extends SQLProcessor
 		for (final String labelitype : FnPresetProcessor.getLabelITypes())
 		{
 			final FnLabelIType labelIType = new FnLabelIType(labelitype);
-			labelIType.insert(connection);
+			FnLabelIType.SET.add(labelIType);
 		}
 		Progress.trace(1);
 
-		Progress.traceTailer("preset framenet tables", 3L);
+		Progress.traceTailer("preset framenet tables", "done");
 	}
 
 	public static String[] getValues(final Table types)

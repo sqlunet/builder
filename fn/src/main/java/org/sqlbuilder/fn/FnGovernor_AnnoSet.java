@@ -1,33 +1,22 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnGovernor_AnnoSet extends FnMap
+import edu.berkeley.icsi.framenet.AnnoSetType;
+
+public class FnGovernor_AnnoSet extends Pair<FnGovernor, AnnoSetType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_governors_annosets.insert");
+	public static final Set<FnGovernor_AnnoSet> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_governors_annosets.table");
-
-	public FnGovernor_AnnoSet(final long governorid, final long annosetid)
+	public FnGovernor_AnnoSet(final FnGovernor governor, final AnnoSetType annoset)
 	{
-		super(governorid, annosetid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnGovernor_AnnoSet.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnGovernor_AnnoSet.TABLE;
+		super(governor, annoset);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GOV-AS governorid=%s annosetid=%s]", this.id1, this.id2);
+		return String.format("[GOV-AS governor=%s annoset=%s]", this.first, this.second);
 	}
 }

@@ -1,33 +1,22 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnSemTypeSuper extends FnMap
+import edu.berkeley.icsi.framenet.SemTypeType.SuperType;
+
+public class FnSemTypeSuper extends Pair<FnSemType, SuperType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_semtypes_supers.insert");
+	public static final Set<FnSemTypeSuper> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_semtypes_supers.table");
-
-	public FnSemTypeSuper(final long semtypeid, final long supersemtypeid)
+	public FnSemTypeSuper(final FnSemType semtype, final SuperType supersemtype)
 	{
-		super(semtypeid, supersemtypeid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnSemTypeSuper.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnSemTypeSuper.TABLE;
+		super(semtype, supersemtype);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[SEMsuper semtypeid=%s supersemtypeid=%s]", this.id1, this.id2);
+		return String.format("[SEMsuper semtypeid=%s supersemtypeid=%s]", this.first, this.second);
 	}
 }

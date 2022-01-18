@@ -1,52 +1,36 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnFrameRelated implements Insertable
+import edu.berkeley.icsi.framenet.FrameIDNameType;
+
+public class FnFrameRelated extends Pair<FnFrame, FrameIDNameType> implements Insertable<FnFrameRelated>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_frames_related.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_frames_related.table");
-
-	private final long frameid;
-
-	private final String frame2;
+	public static final Set<FnFrameRelated> SET = new HashSet<>();
 
 	private final String relation;
 
-	public FnFrameRelated(final long frameid, final String frame2, final int frame2id, final String relation)
+	public FnFrameRelated(final FnFrame frame1, final FrameIDNameType frame2, final String relation)
 	{
-		this.frameid = frameid;
-		this.frame2 = frame2;
+		super(frame1, frame2);
 		this.relation = relation;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnFrameRelated.SQL_INSERT))
-		{
-			statement.setLong(1, this.frameid);
-			statement.setString(2, this.frame2);
-			statement.setString(3, this.relation);
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnframerelated", FnFrameRelated.TABLE, FnFrameRelated.SQL_INSERT, sqle);
-		}
+		// Long(1, this.frameid);
+		// String(2, this.frame2);
+		// String(3, this.relation);
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FRrel frameid=%s frame2=%s type=%s]", this.frameid, this.frame2, this.relation);
+		return String.format("[FRrel frameid=%s frame2=%s type=%s]", this.first, this.second, this.relation);
 	}
 }

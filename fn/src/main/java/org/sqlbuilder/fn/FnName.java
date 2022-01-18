@@ -1,13 +1,8 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.SQLUpdateException;
-
-public abstract class FnName implements Insertable
+public abstract class FnName implements Insertable<FnName>
 {
 	public final String name;
 
@@ -16,22 +11,10 @@ public abstract class FnName implements Insertable
 		this.name = name;
 	}
 
-	protected abstract String getSql();
-
-	protected abstract String getTable();
-
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(getSql()))
-		{
-			statement.setString(1, this.name);
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnname", getTable(), getSql(), sqle);
-		}
+		// String(1, this.name);
+		return null;
 	}
 }

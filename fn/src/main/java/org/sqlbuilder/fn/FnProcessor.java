@@ -1,17 +1,16 @@
 package org.sqlbuilder.fn;
 
+import org.sqlbuilder.common.Processor;
+import org.sqlbuilder.common.Progress;
+
 import java.io.File;
 import java.io.FilenameFilter;
-import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
-import org.sqlbuilder.Progress;
-import org.sqlbuilder.SQLProcessor;
-
-public abstract class FnProcessor extends SQLProcessor
+public abstract class FnProcessor extends Processor
 {
 	protected final String fnHome;
 
@@ -21,15 +20,16 @@ public abstract class FnProcessor extends SQLProcessor
 
 	protected int fileCount;
 
-	public FnProcessor(final String subDir, final Properties props)
+	public FnProcessor(final String subDir, final Properties props, final String tag)
 	{
+		super(tag);
 		this.fnHome = props.getProperty("fnhome", System.getenv().get("FNHOME"));
 		this.fnDir = subDir;
 		this.fileCount = 0;
 	}
 
 	@Override
-	protected void run(final Connection connection) throws Exception
+	protected void run()
 	{
 		final String folderName = this.fnHome + File.separatorChar + this.fnDir;
 		final File folder = new File(folderName);
@@ -48,7 +48,7 @@ public abstract class FnProcessor extends SQLProcessor
 			this.filename = file.getName();
 			try
 			{
-				this.fileCount += processFrameNetFile(file.getCanonicalPath(), file.getName(), connection);
+				this.fileCount += processFrameNetFile(file.getCanonicalPath(), file.getName());
 			}
 			catch (Exception e)
 			{
@@ -56,9 +56,9 @@ public abstract class FnProcessor extends SQLProcessor
 			}
 			Progress.trace(this.fileCount);
 		}
-		Progress.traceTailer("reading framenet files", this.fnDir, this.fileCount);
+		Progress.traceTailer("reading framenet files in " + this.fnDir, Integer.toString(this.fileCount));
 	}
 
 	@SuppressWarnings("SameReturnValue")
-	protected abstract int processFrameNetFile(final String fileName, final String name, final Connection connection);
+	protected abstract int processFrameNetFile(final String fileName, final String name);
 }

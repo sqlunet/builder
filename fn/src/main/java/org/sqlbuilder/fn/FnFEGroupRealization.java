@@ -1,70 +1,42 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 
-public class FnFEGroupRealization implements Insertable
+public class FnFEGroupRealization implements Insertable<FnFEGroupRealization>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_fegrouprealizations.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_fegrouprealizations.table");
-
-	private static long allocator = 0;
-
-	private final long fegrid;
+	public static final Set<FnFEGroupRealization> SET = new HashSet<>();
 
 	public final FEGroupRealizationType fer;
 
-	public final long luid;
+	public final FnLexUnit lu;
 
-	public FnFEGroupRealization(final long luid, final FEGroupRealizationType fer)
+	public FnFEGroupRealization(final FnLexUnit lu, final FEGroupRealizationType fer)
 	{
-		this.fegrid = ++FnFEGroupRealization.allocator;
-		this.luid = luid;
+		this.lu = lu;
 		this.fer = fer;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
 		// fegrid INTEGER NOT NULL,
 		// luid INTEGER,
 		// total INTEGER,
 
-		try (PreparedStatement statement = connection.prepareStatement(FnFEGroupRealization.SQL_INSERT))
-		{
-			statement.setLong(1, getId());
-			statement.setLong(2, this.luid);
-			statement.setLong(3, this.fer.getTotal());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnfegrouprealization", FnFEGroupRealization.TABLE, FnFEGroupRealization.SQL_INSERT, sqle);
-		}
-	}
-
-	public long getId()
-	{
-		return this.fegrid;
-	}
-
-	public static void reset()
-	{
-		FnFEGroupRealization.allocator = 0;
+		// Long(1, getId());
+		// Long(2, this.lu);
+		// Long(3, this.fer.getTotal());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FEGR ferid=%s luid=%s]", getId(), this.luid);
+		return String.format("[FEGR fer=%s lu=%s]", fer, lu);
 	}
 }

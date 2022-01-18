@@ -1,33 +1,20 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnSubCorpus_Sentence extends FnMap
+public class FnSubCorpus_Sentence extends Pair<FnSubCorpus, FnSentence>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_subcorpuses_sentences.insert");
+	public static final Set<FnSubCorpus_Sentence> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_subcorpuses_sentences.table");
-
-	public FnSubCorpus_Sentence(final long subcorpusid, final long sentenceid)
+	public FnSubCorpus_Sentence(final FnSubCorpus subcorpus, final FnSentence sentence)
 	{
-		super(subcorpusid, sentenceid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnSubCorpus_Sentence.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnSubCorpus_Sentence.TABLE;
+		super(subcorpus, sentence);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[SUBCORPUS-SENT subcorpusid=%s sentenceid=%s]", this.id1, this.id2);
+		return String.format("[SUBCORPUS-SENT subcorpusid=%s sentenceid=%s]", this.first, this.second);
 	}
 }

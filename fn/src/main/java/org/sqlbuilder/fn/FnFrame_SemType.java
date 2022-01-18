@@ -1,33 +1,20 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnFrame_SemType extends FnMap
+public class FnFrame_SemType extends Pair<FnFrame, FnSemTypeRef>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_frames_semtypes.insert");
+	public static final Set<FnFrame_SemType> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_frames_semtypes.table");
-
-	public FnFrame_SemType(final long frameid, final long semtypeid)
+	public FnFrame_SemType(final FnFrame frame, final FnSemTypeRef semtype)
 	{
-		super(frameid, semtypeid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnFrame_SemType.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnFrame_SemType.TABLE;
+		super(frame, semtype);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FR-SEM frameid=%s semtypeid=%s]", this.id1, this.id2);
+		return String.format("[FR-SEM frame=%s semtype=%s]", this.first, this.second);
 	}
 }

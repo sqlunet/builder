@@ -1,33 +1,23 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnFERequired extends FnMap
+import edu.berkeley.icsi.framenet.FEType;
+import edu.berkeley.icsi.framenet.InternalFrameRelationFEType;
+
+public class FnFERequired extends Pair<FEType, InternalFrameRelationFEType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_fes_required.insert");
+	public static final Set<FnFERequired> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_fes_required.table");
-
-	public FnFERequired(final long feid, final long fe2id)
+	public FnFERequired(final FEType fe, final InternalFrameRelationFEType fe2)
 	{
-		super(feid, fe2id);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnFERequired.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnFERequired.TABLE;
+		super(fe, fe2);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FEreq feid=%s fe2id=%s]", this.id1, this.id2);
+		return String.format("[FEreq fe=%s fe2=%s]", this.first, this.second);
 	}
 }

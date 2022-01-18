@@ -1,53 +1,38 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
-import org.sqlbuilder.common.SQLUpdateException;
-import org.w3c.dom.Document;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.CorpDocType.Document;
 
-public class FnDocument implements Insertable
+public class FnDocument implements Insertable<FnDocument>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_documents.insert");
+	public static final Set<FnDocument> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_documents.table");
-
-	private final long corpusid;
+	private final FnCorpus corpus;
 
 	public final Document doc;
 
-	public FnDocument(final long corpusid, final Document doc)
+	public FnDocument(final FnCorpus corpus, final Document doc)
 	{
-		this.corpusid = corpusid;
+		this.corpus = corpus;
 		this.doc = doc;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnDocument.SQL_INSERT))
-		{
-			statement.setLong(1, this.doc.getID());
-			statement.setLong(2, this.corpusid);
-			statement.setString(3, this.doc.getDescription());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fndocument", FnDocument.TABLE, FnDocument.SQL_INSERT, sqle);
-		}
+		// Long(1, this.doc.getID());
+		// Long(2, this.corpusid);
+		// String(3, this.doc.getDescription());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[DOC id=%s corpusid=%s description=%s]", this.doc.getID(), this.corpusid, this.doc.getDescription());
+		return String.format("[DOC corpus=%s description=%s]", this.corpus, this.doc);
 	}
 }

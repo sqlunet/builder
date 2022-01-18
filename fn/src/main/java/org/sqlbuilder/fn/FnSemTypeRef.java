@@ -5,17 +5,17 @@ import org.sqlbuilder.common.Insertable;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.berkeley.icsi.framenet.SemTypeType;
+import edu.berkeley.icsi.framenet.SemTypeRefType;
 
-public class FnSemType implements Insertable<FnSemType>
+public class FnSemTypeRef implements Insertable<FnSemTypeRef>
 {
-	public static final Set<FnSemType> SET = new HashSet<>();
+	public static final Set<FnSemTypeRef> SET = new HashSet<>();
 
-	public final SemTypeType type;
+	public final SemTypeRefType ref;
 
-	public FnSemType(final SemTypeType type)
+	public FnSemTypeRef(final SemTypeRefType ref)
 	{
-		this.type = type;
+		this.ref = ref;
 	}
 
 	@Override
@@ -31,6 +31,6 @@ public class FnSemType implements Insertable<FnSemType>
 	@Override
 	public String toString()
 	{
-		return String.format("[SEM semtypeid=%s name=%s]", this.type.getID(), this.type.getName());
+		return String.format("[SEM semtypeid=%s name=%s]", this.ref.getID(), this.ref.getName());
 	}
 }

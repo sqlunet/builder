@@ -1,33 +1,22 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnPattern_AnnoSet extends FnMap
+import edu.berkeley.icsi.framenet.AnnoSetType;
+
+public class FnPattern_AnnoSet extends Pair<FnGroupPattern, AnnoSetType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_patterns_annosets.insert");
+	public static final Set<FnPattern_AnnoSet> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_patterns_annosets.table");
-
-	public FnPattern_AnnoSet(final long patternid, final long annosetid)
+	public FnPattern_AnnoSet(final FnGroupPattern pattern, final AnnoSetType annoset)
 	{
-		super(patternid, annosetid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnPattern_AnnoSet.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnPattern_AnnoSet.TABLE;
+		super(pattern, annoset);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[PAT-AS patternid=%s annosetid=%s]", this.id1, this.id2);
+		return String.format("[PAT-AS pattern=%s annoset=%s]", this.first, this.second);
 	}
 }

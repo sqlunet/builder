@@ -1,15 +1,15 @@
 package org.sqlbuilder.fn;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.sqlbuilder.Checker;
-import org.sqlbuilder.XmlProcessor;
+import org.sqlbuilder.common.Checker;
+import org.sqlbuilder.common.XmlProcessor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class FnFrameXmlProcessor extends XmlProcessor
 {

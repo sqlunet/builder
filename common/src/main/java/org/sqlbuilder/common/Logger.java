@@ -31,4 +31,8 @@ public class Logger
 	public void logNotFoundExceptionSilently(final String moduleId, final String tag, final String message, final String fileName, final int lineCount, final Object o, final String s, final NotFoundException nfe)
 	{
 	}
+
+	public void logWarn(final String moduleId, final String tag, final String message, final String fileName, final int lineCount, final Object o, final String s)
+	{
+	}
 }

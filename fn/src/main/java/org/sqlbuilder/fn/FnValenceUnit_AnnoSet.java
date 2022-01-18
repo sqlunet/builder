@@ -1,33 +1,22 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnValenceUnit_AnnoSet extends FnMap
+import edu.berkeley.icsi.framenet.AnnoSetType;
+
+public class FnValenceUnit_AnnoSet extends Pair<FnValenceUnit, AnnoSetType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_valenceunits_annosets.insert");
+	public static final Set<FnValenceUnit_AnnoSet> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_valenceunits_annosets.table");
-
-	public FnValenceUnit_AnnoSet(final long vuid, final long annosetid)
+	public FnValenceUnit_AnnoSet(final FnValenceUnit vu, final AnnoSetType annoset)
 	{
-		super(vuid, annosetid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnValenceUnit_AnnoSet.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnValenceUnit_AnnoSet.TABLE;
+		super(vu, annoset);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[VU-AS vuid=%s annosetid=%s]", this.id1, this.id2);
+		return String.format("[VU-AS vu=%s annoset=%s]", this.first, this.second);
 	}
 }

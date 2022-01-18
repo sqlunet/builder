@@ -16,8 +16,5 @@
         <module name="legacymaps" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="fn" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

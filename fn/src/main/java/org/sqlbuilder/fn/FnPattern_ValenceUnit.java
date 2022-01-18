@@ -1,52 +1,34 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnPattern_ValenceUnit implements Insertable
+public class FnPattern_ValenceUnit extends Pair<FnGroupPattern, FnValenceUnitBase> implements Insertable<FnPattern_ValenceUnit>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_patterns_valenceunits.insert");
+	public static final Set<FnPattern_ValenceUnit> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_patterns_valenceunits.table");
+	//public final FnFE fe;
 
-	public final long patternid;
-
-	public final long vuid;
-
-	public final String fe;
-
-	public FnPattern_ValenceUnit(final long patternid, final long vuid, final String fe)
+	public FnPattern_ValenceUnit(final FnGroupPattern pattern, final FnValenceUnitBase vu /*, final FnFE fe*/)
 	{
-		this.patternid = patternid;
-		this.vuid = vuid;
-		this.fe = fe;
+		super(pattern, vu);
+		//this.fe = fe;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnPattern_ValenceUnit.SQL_INSERT))
-		{
-			statement.setLong(1, this.patternid);
-			statement.setLong(2, this.vuid);
-			statement.setString(3, this.fe);
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnpattern_vu", FnPattern_ValenceUnit.TABLE, FnPattern_ValenceUnit.SQL_INSERT, sqle);
-		}
+		// Long(1, this.patternid);
+		// Long(2, this.vuid);
+		// String(3, this.fe);
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[PAT-VU patternid=%s vuid=%s fe=%s]", this.patternid, this.vuid, this.fe);
+		return String.format("[PAT-VU pattern=%s vu=%s fe=%s]", this.first, this.second, null /*this.fe*/);
 	}
 }

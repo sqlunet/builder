@@ -1,14 +1,16 @@
 package org.sqlbuilder.fn;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import edu.berkeley.icsi.framenet.ValenceUnitType;
 
-public class FnValenceUnitBase
+public class FnValenceUnitBase implements Comparable<FnValenceUnitBase>
 {
-	protected static final Map<FnValenceUnitBase, Long> map = new HashMap<>();
+	protected static final SortedSet<FnValenceUnitBase> SET = new TreeSet<>();
+
+	protected static Map<FnValenceUnitBase, Long> MAP;
 
 	public final ValenceUnitType vu;
 
@@ -25,7 +27,9 @@ public class FnValenceUnitBase
 	public boolean equals(final Object o)
 	{
 		if (!(o instanceof FnValenceUnitBase))
+		{
 			return false;
+		}
 		final FnValenceUnitBase vu2 = (FnValenceUnitBase) o;
 		return this.vu.getFE().equals(vu2.vu.getFE()) && this.vu.getPT().equals(vu2.vu.getPT()) && this.vu.getGF().equals(vu2.vu.getGF());
 	}
@@ -36,24 +40,19 @@ public class FnValenceUnitBase
 		return this.vu.getFE().hashCode() + 7 * this.vu.getPT().hashCode() + 13 * this.vu.getGF().hashCode();
 	}
 
-	// F I N D
+	// A C C E S S
 
-	public Long findId()
+	public ValenceUnitType getVu()
 	{
-		return FnValenceUnitBase.map.get(this);
+		return vu;
 	}
 
-	public static void clearMap()
-	{
-		FnValenceUnitBase.map.clear();
-	}
+	// O R D E R
 
-	public static void dumpMap()
+	@Override
+	public int compareTo(final FnValenceUnitBase o)
 	{
-		for (final Entry<FnValenceUnitBase, Long> e : FnValenceUnitBase.map.entrySet())
-		{
-			System.err.println("\t" + e.getKey() + " - " + e.getValue());
-		}
+		return 0;
 	}
 
 	// T O S T R I N G

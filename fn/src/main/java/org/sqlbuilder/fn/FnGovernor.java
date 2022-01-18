@@ -1,67 +1,39 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.GovernorType;
 
-public class FnGovernor implements Insertable
+public class FnGovernor implements Insertable<FnGovernor>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_governors.insert");
+	public static final Set<FnGovernor> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_governors.table");
-
-	private static long allocator = 0;
-
-	private final long governorid;
-
-	public final long fnwordid;
+	public final FnWord fnword;
 
 	public final GovernorType governor;
 
-	public FnGovernor(final long wordid, final GovernorType governor)
+	public FnGovernor(final FnWord word, final GovernorType governor)
 	{
-		this.governorid = ++FnGovernor.allocator;
-		this.fnwordid = wordid;
+		this.fnword = word;
 		this.governor = governor;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnGovernor.SQL_INSERT))
-		{
-			statement.setLong(1, getId());
-			// statement.setString(2, this.governor.getLemma());
-			statement.setLong(2, this.fnwordid);
-			statement.setString(3, this.governor.getType());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fngovernor", FnGovernor.TABLE, FnGovernor.SQL_INSERT, sqle);
-		}
-	}
-
-	public long getId()
-	{
-		return this.governorid;
-	}
-
-	public static void reset()
-	{
-		FnGovernor.allocator = 0;
+		// Long(1, getId());
+		// // String(2, this.governor.getLemma());
+		// Long(2, this.fnwordid);
+		// String(3, this.governor.getType());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GOV lemma=%s type=%s]", this.governor.getLemma(), this.governor.getType());
+		return String.format("[GOV lemma=%s type=%s]", fnword, governor.getType());
 	}
 }

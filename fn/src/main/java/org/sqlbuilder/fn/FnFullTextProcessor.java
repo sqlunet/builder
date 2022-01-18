@@ -1,39 +1,28 @@
 package org.sqlbuilder.fn;
 
+import org.apache.xmlbeans.XmlException;
+import org.sqlbuilder.common.Logger;
+import org.sqlbuilder.common.Progress;
+
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Properties;
 
-import org.apache.xmlbeans.XmlException;
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Logger;
-import org.sqlbuilder.NotFoundException;
-import org.sqlbuilder.Progress;
-import org.sqlbuilder.SQLUpdateException;
-
-import edu.berkeley.icsi.framenet.AnnotationSetType;
-import edu.berkeley.icsi.framenet.CorpDocType;
+import edu.berkeley.icsi.framenet.*;
 import edu.berkeley.icsi.framenet.CorpDocType.Document;
-import edu.berkeley.icsi.framenet.FullTextAnnotationDocument;
 import edu.berkeley.icsi.framenet.FullTextAnnotationDocument.FullTextAnnotation;
-import edu.berkeley.icsi.framenet.HeaderType;
 import edu.berkeley.icsi.framenet.HeaderType.Frame;
 import edu.berkeley.icsi.framenet.HeaderType.Frame.FE;
-import edu.berkeley.icsi.framenet.LabelType;
-import edu.berkeley.icsi.framenet.LayerType;
-import edu.berkeley.icsi.framenet.SentenceType;
 
 public class FnFullTextProcessor extends FnProcessor
 {
 	public FnFullTextProcessor(final Properties props)
 	{
-		super("fulltext", props);
-		this.processorTag = "fulltext";
+		super("fulltext", props, "fulltext");
 	}
 
 	@Override
-	protected int processFrameNetFile(final String fileName, final String name, final Connection connection)
+	protected int processFrameNetFile(final String fileName, final String name)
 	{
 		if (Logger.verbose)
 		{
@@ -75,19 +64,18 @@ public class FnFullTextProcessor extends FnProcessor
 			final CorpDocType[] corpuses = header.getCorpusArray();
 			for (final CorpDocType corpus : corpuses)
 			{
-				final long corpusid = corpus.getID();
-				final FnCorpus fnCorpus = new FnCorpus(corpus, 0);
-				final int insertCorpusCount = insert(fnCorpus, connection);
-				if (insertCorpusCount == 0)
+				final FnCorpus fnCorpus = new FnCorpus(corpus, null);
+				final boolean isNew = FnCorpus.SET.add(fnCorpus);
+				if (!isNew)
 				{
-					Logger.instance.logWarn(FnModule.MODULE_ID, this.processorTag, "corpus-duplicate", fileName, -1, null, fnCorpus.toString());
+					Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "corpus-duplicate", fileName, -1, null, fnCorpus.toString());
 				}
 
 				final Document[] documents = corpus.getDocumentArray();
 				for (final Document document2 : documents)
 				{
-					final FnDocument fnDocument = new FnDocument(corpusid, document2);
-					insert(fnDocument, connection);
+					final FnDocument fnDocument = new FnDocument(fnCorpus, document2);
+					FnDocument.SET.add(fnDocument);
 				}
 			}
 
@@ -97,21 +85,19 @@ public class FnFullTextProcessor extends FnProcessor
 			for (final SentenceType sentence : sentences)
 			{
 				final FnSentence fnSentence = new FnSentence(sentence, true);
-				final long sentenceid = fnSentence.getId();
-				final int insertCount = insert(fnSentence, connection);
-				if (insertCount == 0)
+				final boolean isNew = FnSentence.SET.add(fnSentence);
+				if (!isNew)
 				{
-					Logger.instance.logWarn(FnModule.MODULE_ID, this.processorTag, "sentence-duplicate", fileName, -1, null, fnSentence.toString());
+					Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "sentence-duplicate", fileName, -1, null, fnSentence.toString());
 				}
 
 				// annotation sets
 				final AnnotationSetType[] annosets = sentence.getAnnotationSetArray();
 				for (final AnnotationSetType annoset : annosets)
 				{
-					final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(sentenceid, annoset);
-					final long annosetid = fnAnnotationSet.getId();
-					final int insertCount2 = insert(fnAnnotationSet, connection);
-					if (insertCount2 == 0)
+					final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(fnSentence, annoset);
+					final boolean isNew2 = FnAnnotationSet.SET.add(fnAnnotationSet);
+					if (!isNew2)
 					{
 						continue;
 					}
@@ -120,16 +106,15 @@ public class FnFullTextProcessor extends FnProcessor
 					final LayerType[] layerTypes = annoset.getLayerArray();
 					for (final LayerType layerType : layerTypes)
 					{
-						final FnLayer layer = new FnLayer(annosetid, layerType);
-						final long layerid = layer.getId();
-						insert(layer, connection);
+						final FnLayer layer = new FnLayer(fnAnnotationSet, layerType);
+						FnLayer.SET.add(layer);
 
 						// labels
 						final LabelType[] labelTypes = layerType.getLabelArray();
 						for (final LabelType labelType : labelTypes)
 						{
-							final FnLabel label = new FnLabel(layerid, labelType);
-							insert(label, connection);
+							final FnLabel label = new FnLabel(layer, labelType);
+							FnLabel.SET.add(label);
 						}
 					}
 				}
@@ -137,31 +122,12 @@ public class FnFullTextProcessor extends FnProcessor
 		}
 		catch (XmlException | IOException e)
 		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, this.processorTag, "xml-document", fileName, -1L, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(FnModule.MODULE_ID, this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
 		}
 		if (Logger.verbose)
 		{
-			Progress.traceTailer("framenet (fulltext)", name, count);
+			Progress.traceTailer("framenet (fulltext)" + name, Long.toString(count));
 		}
 		return 1;
-	}
-
-	// convenience function
-
-	int insert(final Insertable insertable, final Connection connection)
-	{
-		try
-		{
-			return insertable.insert(connection);
-		}
-		catch (NotFoundException nfe)
-		{
-			Logger.instance.logNotFoundException(FnModule.MODULE_ID, this.processorTag, "find-" + insertable.getClass().getSimpleName().toLowerCase(), this.filename, -1L, null, insertable.toString(), nfe);
-		}
-		catch (SQLUpdateException sqlue)
-		{
-			Logger.instance.logSQLUpdateException(FnModule.MODULE_ID, this.processorTag, "insert-" + insertable.getClass().getSimpleName().toLowerCase(), this.filename, -1L, null, insertable.toString(), sqlue);
-		}
-		return 0;
 	}
 }

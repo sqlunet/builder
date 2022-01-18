@@ -1,33 +1,20 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnFE_SemType extends FnMap
+public class FnFE_SemType extends Pair<FnFE, FnSemTypeRef>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_fes_semtypes.insert");
+	public static final Set<FnFE_SemType> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_fes_semtypes.table");
-
-	public FnFE_SemType(final long feid, final long semtypeid)
+	public FnFE_SemType(final FnFE fe, final FnSemTypeRef semtype)
 	{
-		super(feid, semtypeid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnFE_SemType.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnFE_SemType.TABLE;
+		super(fe, semtype);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-SEM feid=%s semtypeid=%s]", this.id1, this.id2);
+		return String.format("[FE-SEM fe=%s semtype=%s]", this.first, this.second);
 	}
 }

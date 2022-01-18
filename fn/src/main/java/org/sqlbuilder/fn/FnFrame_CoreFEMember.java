@@ -1,33 +1,16 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
 
-public class FnFrame_CoreFEMember extends FnMap
+public class FnFrame_CoreFEMember extends Pair<FnFrame, FnFE>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_frames_corefes.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_frames_corefes.table");
-
-	public FnFrame_CoreFEMember(final long frameid, final long feid)
+	public FnFrame_CoreFEMember(final FnFrame frameid, final FnFE feid)
 	{
 		super(frameid, feid);
 	}
 
 	@Override
-	protected String getSql()
-	{
-		return FnFrame_CoreFEMember.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnFrame_CoreFEMember.TABLE;
-	}
-
-	@Override
 	public String toString()
 	{
-		return String.format("[FR-coreFE frameid=%s feid=%s]", this.id1, this.id2);
+		return String.format("[FR-coreFE frameid=%s feid=%s]", this.first, this.second);
 	}
 }

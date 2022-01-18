@@ -1,24 +1,19 @@
 package org.sqlbuilder.fn;
 
+import org.sqlbuilder.common.Insertable;
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
-import org.xml.sax.SAXException;
-
 import edu.berkeley.icsi.framenet.FrameDocument.Frame;
 
-public class FnFrame implements Insertable
+public class FnFrame implements Insertable<FnFrame>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_frames.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_frames.table");
+	public static final Set<FnFrame> SET = new HashSet<>();
 
 	private static final FnFrameXmlProcessor definitionProcessor = new FnFrameXmlProcessor();
 
@@ -42,22 +37,14 @@ public class FnFrame implements Insertable
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnFrame.SQL_INSERT))
-		{
-			statement.setLong(1, this.frame.getID());
-			statement.setString(2, this.frame.getName());
-			statement.setString(3, this.definition);
-			statement.setString(4, this.frame.getCDate());
-			statement.setString(5, this.frame.getCBy());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnframe", FnFrame.TABLE, FnFrame.SQL_INSERT, sqle);
-		}
+		// Long(1, this.frame.getID());
+		// String(2, this.frame.getName());
+		// String(3, this.definition);
+		// String(4, this.frame.getCDate());
+		// String(5, this.frame.getCBy());
+		return null;
 	}
 
 	@Override

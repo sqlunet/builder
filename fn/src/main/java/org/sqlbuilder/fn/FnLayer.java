@@ -1,67 +1,39 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.LayerType;
 
-public class FnLayer implements Insertable
+public class FnLayer implements Insertable<FnLayer>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_layers.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_layers.table");
-
-	private static long allocator = 0;
-
-	private final long layerid;
+	public static final Set<FnLayer> SET = new HashSet<>();
 
 	public final LayerType layer;
 
-	public final long annosetid;
+	public final FnAnnotationSet annosetid;
 
-	public FnLayer(final long annosetid, final LayerType layer)
+	public FnLayer(final FnAnnotationSet annoset, final LayerType layer)
 	{
-		this.layerid = ++FnLayer.allocator;
-		this.annosetid = annosetid;
+		this.annosetid = annoset;
 		this.layer = layer;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnLayer.SQL_INSERT))
-		{
-			statement.setLong(1, getId());
-			statement.setLong(2, this.annosetid);
-			statement.setString(3, this.layer.getName());
-			statement.setInt(4, this.layer.getRank());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnlayer", FnLayer.TABLE, FnLayer.SQL_INSERT, sqle);
-		}
-	}
-
-	public long getId()
-	{
-		return this.layerid;
-	}
-
-	public static void reset()
-	{
-		FnLayer.allocator = 0;
+		// Long(1, getId());
+		// Long(2, this.annosetid);
+		// String(3, this.layer.getName());
+		// Int(4, this.layer.getRank());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LAY layerid=%s layer=%s annosetid=%s]", getId(), this.layer.getName(), this.annosetid);
+		return String.format("[LAY name=%s annoset=%s]", this.layer.getName(), this.annosetid);
 	}
 }

@@ -1,60 +1,46 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.CorpDocType;
 
-public class FnCorpus implements Insertable
+public class FnCorpus implements Insertable<FnCorpus>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_corpuses.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_corpuses.table");
+	public static final Set<FnCorpus> SET = new HashSet<>();
 
 	public final CorpDocType corpus;
 
-	public final long luid;
+	public final FnLexUnit lu;
 
-	public FnCorpus(final CorpDocType corpus, final long luid)
+	public FnCorpus(final CorpDocType corpus, final FnLexUnit lu)
 	{
 		this.corpus = corpus;
-		this.luid = luid;
+		this.lu = lu;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnCorpus.SQL_INSERT))
+		// Long(1, this.corpus.getID());
+		// String(2, this.corpus.getName());
+		// String(3, this.corpus.getDescription());
+		if (this.lu != null)
 		{
-			statement.setLong(1, this.corpus.getID());
-			statement.setString(2, this.corpus.getName());
-			statement.setString(3, this.corpus.getDescription());
-			if (this.luid != 0)
-			{
-				statement.setLong(4, this.luid);
-			}
-			else
-			{
-				statement.setNull(4, Types.INTEGER);
-			}
-			statement.executeUpdate();
-			return 1;
+			// Long(4, this.luid);
 		}
-		catch (SQLException sqle)
+		else
 		{
-			throw new SQLUpdateException("fncorpus", FnCorpus.TABLE, FnCorpus.SQL_INSERT, sqle);
+			// Null(4, Types.INTEGER);
 		}
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[CORPUS corpusid=%s name=%s]", this.corpus.getID(), this.corpus.getName());
+		return String.format("[CORPUS corpus=%s name=%s]", this.corpus, this.corpus.getName());
 	}
 }

@@ -1,117 +1,102 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
-import org.sqlbuilder.common.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnotationSetType;
 
-public class FnAnnotationSet implements Insertable
+public class FnAnnotationSet implements Insertable<FnAnnotationSet>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_annosets.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_annosets.table");
+	public static final Set<FnAnnotationSet> SET = new HashSet<>();
 
 	public final AnnotationSetType annoset;
 
-	public final long sentenceid;
+	public final FnSentence sentence;
 
-	public final long frameid;
-
-	public final long luid;
+	public final FnLexUnit lu;
 
 	private final boolean fromFullText;
 
-	public FnAnnotationSet(final long sentenceid, final AnnotationSetType annoset)
+	public FnAnnotationSet(final FnSentence sentence, final AnnotationSetType annoset)
 	{
 		super();
 		this.annoset = annoset;
-		this.sentenceid = sentenceid;
-		this.frameid = 0;
-		this.luid = 0;
+		this.sentence = sentence;
+		this.lu = null;
 		this.fromFullText = true;
 	}
 
-	public FnAnnotationSet(final long sentenceid, final AnnotationSetType annoset, final long frameid, final long luid)
+	public FnAnnotationSet(final FnSentence sentence, final AnnotationSetType annoset, final FnLexUnit lu)
 	{
 		super();
 		this.annoset = annoset;
-		this.sentenceid = sentenceid;
-		this.frameid = frameid;
-		this.luid = luid;
+		this.sentence = sentence;
+		this.lu = lu;
 		this.fromFullText = false;
 	}
 
 	public long getId()
 	{
-		return this.annoset.getID() + (this.fromFullText ? 100000000L : 0L);
+		return 0;
+		// return this.annoset.getID() + (this.fromFullText ? 100000000L : 0L);
 	}
 
 	public long getFrameId()
 	{
-		return this.fromFullText ? this.annoset.getFrameID() : this.frameid;
+		return 0;
+		//return this.fromFullText ? this.annoset.getFrameID() : this.frame;
 	}
 
 	public long getLuId()
 	{
-		return this.fromFullText ? this.annoset.getLuID() : this.luid;
+		return 0;
+		// return this.fromFullText ? this.annoset.getLuID() : this.lu;
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
-		try (PreparedStatement statement = connection.prepareStatement(FnAnnotationSet.SQL_INSERT))
-		{
-			final long frameid2 = getFrameId();
-			final long luid2 = getLuId();
-			final long cxnid = this.annoset.getCxnID();
+		final long frameid2 = getFrameId();
+		final long luid2 = getLuId();
+		final long cxnid = this.annoset.getCxnID();
 
-			statement.setLong(1, getId());
-			statement.setLong(2, this.sentenceid);
-			if (frameid2 != 0)
-			{
-				statement.setLong(3, frameid2);
-			}
-			else
-			{
-				statement.setNull(3, Types.INTEGER);
-			}
-			if (luid2 != 0)
-			{
-				statement.setLong(4, luid2);
-			}
-			else
-			{
-				statement.setNull(4, Types.INTEGER);
-			}
-			if (cxnid != 0)
-			{
-				statement.setLong(5, cxnid);
-			}
-			else
-			{
-				statement.setNull(5, Types.INTEGER);
-			}
-			statement.setString(6, this.annoset.getCxnName());
-			statement.setString(7, this.annoset.getStatus());
-			statement.setString(8, this.annoset.getCDate());
-			return statement.executeUpdate();
-		}
-		catch (SQLException sqle)
+		// Long(1, getId());
+		// Long(2, this.sentence);
+		if (frameid2 != 0)
 		{
-			throw new SQLUpdateException("fnannotationset", FnAnnotationSet.TABLE, FnAnnotationSet.SQL_INSERT, sqle);
+			// Long(3, frameid2);
 		}
+		else
+		{
+			// Null(3, Types.INTEGER);
+		}
+		if (luid2 != 0)
+		{
+			// Long(4, luid2);
+		}
+		else
+		{
+			// Null(4, Types.INTEGER);
+		}
+		if (cxnid != 0)
+		{
+			// Long(5, cxnid);
+		}
+		else
+		{
+			// Null(5, Types.INTEGER);
+		}
+		// String(6, this.annoset.getCxnName());
+		// String(7, this.annoset.getStatus());
+		// String(8, this.annoset.getCDate());
+		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[AS annosetid=%s frameid=%s luid=%s]", getId(), getFrameId(), getLuId());
+		return String.format("[AS frame=%s lu=%s]", getId(), getFrameId(), getLuId());
 	}
 }

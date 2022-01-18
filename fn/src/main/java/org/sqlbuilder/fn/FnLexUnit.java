@@ -1,20 +1,15 @@
 package org.sqlbuilder.fn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.sqlbuilder.common.Insertable;
 
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Resources;
-import org.sqlbuilder.SQLUpdateException;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit;
 
-public class FnLexUnit extends FnLexUnitBase implements Insertable
+public class FnLexUnit extends FnLexUnitBase implements Insertable<FnLexUnit>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_lexunits.insert");
-
-	private static final String TABLE = Resources.resources.getString("Fn_lexunits.table");
+	public static final Set<FnLexUnit> SET = new HashSet<>();
 
 	public final LexUnit lu;
 
@@ -25,48 +20,39 @@ public class FnLexUnit extends FnLexUnitBase implements Insertable
 	}
 
 	@Override
-	public int insert(final Connection connection) throws SQLUpdateException
+	public String dataRow()
 	{
 		final Definition definition = FnLexUnitBase.getDefinition(this.lu.getDefinition());
 
-		try (PreparedStatement statement = connection.prepareStatement(FnLexUnit.SQL_INSERT))
-		{
-			statement.setLong(1, this.lu.getID());
-			statement.setLong(2, this.lu.getFrameID());
-			statement.setString(3, this.lu.getName());
-			statement.setInt(4, this.lu.getPOS().intValue());
+			// Long(1, this.lu.getID());
+			// Long(2, this.lu.getFrameID());
+			// String(3, this.lu.getName());
+			// Int(4, this.lu.getPOS().intValue());
 			if (definition.def != null)
 			{
-				statement.setString(5, definition.def);
+				// String(5, definition.def);
 			}
 			else
 			{
-				statement.setNull(5, java.sql.Types.CHAR);
+				// Null(5, java.sql.Types.CHAR);
 			}
 			if (definition.dict != null)
 			{
-				statement.setString(6, String.valueOf(definition.dict));
+				// String(6, String.valueOf(definition.dict));
 			}
 			else
 			{
-				statement.setNull(6, java.sql.Types.CHAR);
+				// Null(6, java.sql.Types.CHAR);
 			}
-			statement.setString(7, this.lu.getStatus());
-			statement.setString(8, this.lu.getIncorporatedFE());
-			statement.setLong(9, this.lu.getTotalAnnotated());
-			statement.executeUpdate();
-			return 1;
-		}
-		catch (SQLException sqle)
-		{
-			throw new SQLUpdateException("fnlexunit", FnLexUnit.TABLE, FnLexUnit.SQL_INSERT, sqle);
-		}
+			// String(7, this.lu.getStatus());
+			// String(8, this.lu.getIncorporatedFE());
+			// Long(9, this.lu.getTotalAnnotated());
+			return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		final int frameid = this.lu.getFrameID();
-		return String.format("[LU luid=%s name=%s frameid=%s frame=%s]", this.lu.getID(), this.lu.getName(), frameid, this.lu.getFrame());
+		return String.format("[LU lu=%s frame=%s]", this.lu.getName(), this.lu.getFrame());
 	}
 }

@@ -1,55 +1,29 @@
 package org.sqlbuilder.fn;
 
+import org.apache.xmlbeans.XmlException;
+import org.sqlbuilder.common.Logger;
+import org.sqlbuilder.common.Progress;
+
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Properties;
 
-import org.apache.xmlbeans.XmlException;
-import org.sqlbuilder.Insertable;
-import org.sqlbuilder.Logger;
-import org.sqlbuilder.NotFoundException;
-import org.sqlbuilder.Progress;
-import org.sqlbuilder.SQLUpdateException;
-import org.sqlbuilder.wordnet.db.DBWordFinder;
-import org.sqlbuilder.wordnet.id.WordId;
-
-import edu.berkeley.icsi.framenet.AnnoSetType;
-import edu.berkeley.icsi.framenet.AnnotationSetType;
-import edu.berkeley.icsi.framenet.CorpDocType;
+import edu.berkeley.icsi.framenet.*;
 import edu.berkeley.icsi.framenet.CorpDocType.Document;
-import edu.berkeley.icsi.framenet.FEGroupRealizationType;
-import edu.berkeley.icsi.framenet.FERealizationType;
-import edu.berkeley.icsi.framenet.FEValenceType;
-import edu.berkeley.icsi.framenet.GovernorType;
-import edu.berkeley.icsi.framenet.HeaderType;
-import edu.berkeley.icsi.framenet.LabelType;
-import edu.berkeley.icsi.framenet.LayerType;
-import edu.berkeley.icsi.framenet.LexUnitDocument;
 import edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit;
-import edu.berkeley.icsi.framenet.LexemeType;
-import edu.berkeley.icsi.framenet.SemTypeRefType;
-import edu.berkeley.icsi.framenet.SentenceType;
-import edu.berkeley.icsi.framenet.SubCorpusType;
-import edu.berkeley.icsi.framenet.ValenceUnitType;
-import edu.berkeley.icsi.framenet.ValencesType;
 
 public class FnLexUnitProcessor extends FnProcessor
 {
-	private final boolean matchToWn;
-
 	private final boolean skipLayers;
 
 	public FnLexUnitProcessor(final Properties props)
 	{
-		super("lu", props);
-		this.processorTag = "lu";
-		this.matchToWn = props.getProperty("fnmatchwn", "").compareToIgnoreCase("true") == 0;
+		super("lu", props, "lu");
 		this.skipLayers = props.getProperty("fnskiplayers", "").compareToIgnoreCase("true") == 0;
 	}
 
 	@Override
-	protected int processFrameNetFile(final String fileName, final String name, final Connection connection)
+	protected int processFrameNetFile(final String fileName, final String name)
 	{
 		if (Logger.verbose)
 		{
@@ -57,7 +31,7 @@ public class FnLexUnitProcessor extends FnProcessor
 		}
 
 		// clear map
-		FnValenceUnitBase.clearMap();
+		// FnValenceUnitBase.clearMap();
 
 		final int count = 0;
 		final File file = new File(fileName);
@@ -69,16 +43,15 @@ public class FnLexUnitProcessor extends FnProcessor
 			// L E X U N I T
 
 			final LexUnit lu = document.getLexUnit();
-			final long luid = lu.getID();
 			final long frameid = lu.getFrameID();
 
 			final FnLexUnit lexUnit = new FnLexUnit(lu);
 			// System.out.println(lexUnit);
-			final int insertLexUnitCount = insert(lexUnit, connection);
-			if (insertLexUnitCount == 0)
+			final boolean isNew = FnLexUnit.SET.add(lexUnit);
+			if (!isNew)
 			{
 				// Exception now raised
-				Logger.instance.logWarn(FnModule.MODULE_ID, this.processorTag, "lu-duplicate", fileName, -1, null, lexUnit.toString());
+				Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "lu-duplicate", fileName, -1, null, lexUnit.toString());
 			}
 
 			// H E A D E R
@@ -87,14 +60,14 @@ public class FnLexUnitProcessor extends FnProcessor
 			final CorpDocType[] corpuses = header.getCorpusArray();
 			for (final CorpDocType corpus : corpuses)
 			{
-				final FnCorpus fnCorpus = new FnCorpus(corpus, luid);
-				insert(fnCorpus, connection);
+				final FnCorpus fnCorpus = new FnCorpus(corpus, lexUnit);
+				FnCorpus.SET.add(fnCorpus);
 
 				final Document[] docs = corpus.getDocumentArray();
 				for (final Document doc : docs)
 				{
-					final FnDocument fnDocument = new FnDocument(corpus.getID(), doc);
-					insert(fnDocument, connection);
+					final FnDocument fnDocument = new FnDocument(fnCorpus, doc);
+					FnDocument.SET.add(fnDocument);
 				}
 			}
 
@@ -104,22 +77,20 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (final LexemeType lexeme : lexemes)
 			{
 				final String word = FnLexeme.makeWord(lexeme.getName());
-				final WordId wordId = this.matchToWn ? DBWordFinder.findOrCreateWord(word, connection) : null;
 
-				final FnWord fnWord = new FnWord(word, wordId);
-				insert(fnWord, connection);
-				final long fnwordid = fnWord.getId();
+				final FnWord fnWord = new FnWord(word);
+				FnWord.SET.add(fnWord);
 
-				final FnLexeme fnLexeme = new FnLexeme(luid, fnwordid, lexeme);
-				insert(fnLexeme, connection);
+				final FnLexeme fnLexeme = new FnLexeme(lexUnit.lu.getID(), fnWord, lexeme);
+				FnLexeme.SET.add(fnLexeme);
 			}
 
 			// S E M T Y P E S
 
 			for (final SemTypeRefType semtyperef : lu.getSemTypeArray())
 			{
-				final FnLexUnit_SemType fnLu_SemType = new FnLexUnit_SemType(luid, semtyperef.getID());
-				insert(fnLu_SemType, connection);
+				final FnLexUnit_SemType fnLu_SemType = new FnLexUnit_SemType(lexUnit.lu.getID(), semtyperef);
+				FnLexUnit_SemType.SET.add(fnLu_SemType);
 			}
 
 			// V A L E N C E S
@@ -132,24 +103,20 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (final GovernorType governor : governors)
 			{
 				final String word = governor.getLemma();
-				final WordId wordId = this.matchToWn ? DBWordFinder.findOrCreateWord(word, connection) : null;
+				final FnWord fnWord = new FnWord(word);
+				FnWord.SET.add(fnWord);
 
-				final FnWord fnWord = new FnWord(word, wordId);
-				insert(fnWord, connection);
-				final long fnwordid = fnWord.getId();
+				final FnGovernor fnGovernor = new FnGovernor(fnWord, governor);
+				FnGovernor.SET.add(fnGovernor);
 
-				final FnGovernor fnGovernor = new FnGovernor(fnwordid, governor);
-				final long governorid = fnGovernor.getId();
-				insert(fnGovernor, connection);
-
-				final FnLexUnit_Governor fnLexUnit_Governor = new FnLexUnit_Governor(luid, governorid);
-				insert(fnLexUnit_Governor, connection);
+				final FnLexUnit_Governor fnLexUnit_Governor = new FnLexUnit_Governor(lexUnit, fnGovernor);
+				FnLexUnit_Governor.SET.add(fnLexUnit_Governor);
 
 				final AnnoSetType[] annosets = governor.getAnnoSetArray();
 				for (final AnnoSetType annoset : annosets)
 				{
-					final FnGovernor_AnnoSet fnGovernor_Annoset = new FnGovernor_AnnoSet(governorid, annoset.getID());
-					insert(fnGovernor_Annoset, connection);
+					final FnGovernor_AnnoSet fnGovernor_Annoset = new FnGovernor_AnnoSet(fnGovernor, annoset);
+					FnGovernor_AnnoSet.SET.add(fnGovernor_Annoset);
 				}
 			}
 
@@ -158,9 +125,8 @@ public class FnLexUnitProcessor extends FnProcessor
 			final FERealizationType[] FErealizations = valences.getFERealizationArray();
 			for (final FERealizationType fer : FErealizations)
 			{
-				final FnFERealization fnFERealization = new FnFERealization(luid, fer);
-				final long ferid = fnFERealization.getId();
-				insert(fnFERealization, connection);
+				final FnFERealization fnFERealization = new FnFERealization(lexUnit, fer);
+				FnFERealization.SET.add(fnFERealization);
 
 				// p a t t e r n s
 				final FERealizationType.Pattern[] patterns = fer.getPatternArray();
@@ -168,16 +134,15 @@ public class FnLexUnitProcessor extends FnProcessor
 				{
 					// v a l e n c e u n i t
 					final ValenceUnitType vu = pattern.getValenceUnit();
-					final FnValenceUnit fnValenceUnit = new FnValenceUnit(ferid, vu);
-					final long vuid = fnValenceUnit.getId();
-					insert(fnValenceUnit, connection);
+					final FnValenceUnit fnValenceUnit = new FnValenceUnit(fnFERealization, vu);
+					FnValenceUnit.SET.add(fnValenceUnit);
 
 					// a n n o s e t s
 					final AnnoSetType[] annosets = pattern.getAnnoSetArray();
 					for (final AnnoSetType annoset : annosets)
 					{
-						final FnValenceUnit_AnnoSet fnAnnosetRef = new FnValenceUnit_AnnoSet(vuid, annoset.getID());
-						insert(fnAnnosetRef, connection);
+						final FnValenceUnit_AnnoSet fnAnnosetRef = new FnValenceUnit_AnnoSet(fnValenceUnit, annoset);
+						FnValenceUnit_AnnoSet.SET.add(fnAnnosetRef);
 					}
 				}
 			}
@@ -187,47 +152,41 @@ public class FnLexUnitProcessor extends FnProcessor
 			final FEGroupRealizationType[] FEgrealizations = valences.getFEGroupRealizationArray();
 			for (final FEGroupRealizationType fegr : FEgrealizations)
 			{
-				final FnFEGroupRealization fERealization = new FnFEGroupRealization(luid, fegr);
-				final long fegrid = fERealization.getId();
-				insert(fERealization, connection);
+				final FnFEGroupRealization fEGroupRealization = new FnFEGroupRealization(lexUnit, fegr);
+				FnFEGroupRealization.SET.add(fEGroupRealization);
 
 				// f e s
 				final FEValenceType[] fevs = fegr.getFEArray();
 				for (final FEValenceType fev : fevs)
 				{
-					final FnFEGroupRealization_Fe fnFE = new FnFEGroupRealization_Fe(fegrid, fev);
-					insert(fnFE, connection);
+					final FnFEGroupRealization_Fe fnFE = new FnFEGroupRealization_Fe(fEGroupRealization, fev);
+					FnFEGroupRealization_Fe.SET.add(fnFE);
 				}
 
 				// p a t t e r n s
 				final FEGroupRealizationType.Pattern[] patterns = fegr.getPatternArray();
 				for (final FEGroupRealizationType.Pattern pattern : patterns)
 				{
-					final FnGroupPattern groupPattern = new FnGroupPattern(fegrid, pattern);
-					final long patternid = groupPattern.getId();
-					insert(groupPattern, connection);
+					final FnGroupPattern groupPattern = new FnGroupPattern(fEGroupRealization, pattern);
+					FnGroupPattern.SET.add(groupPattern);
 
 					// v a l e n c e u n i t s
 					final ValenceUnitType[] vus = pattern.getValenceUnitArray();
 					for (final ValenceUnitType vu : vus)
 					{
 						final FnValenceUnitBase valenceUnit = new FnValenceUnitBase(vu);
-						final Long vuid = valenceUnit.findId();
-						if (vuid == null)
-						{
-							Logger.instance.logWarn(FnModule.MODULE_ID, this.processorTag, "vu-not-found", fileName, -1, null, valenceUnit.toString());
-							continue;
-						}
-						final FnPattern_ValenceUnit pattern_ValenceUnit = new FnPattern_ValenceUnit(patternid, vuid, vu.getFE());
-						insert(pattern_ValenceUnit, connection);
+						FnValenceUnitBase.SET.add(valenceUnit);
+
+						final FnPattern_ValenceUnit pattern_ValenceUnit = new FnPattern_ValenceUnit(groupPattern, valenceUnit);
+						FnPattern_ValenceUnit.SET.add(pattern_ValenceUnit);
 					}
 
 					// a n n o s e t s
 					final AnnoSetType[] annosets = pattern.getAnnoSetArray();
 					for (final AnnoSetType annoset : annosets)
 					{
-						final FnPattern_AnnoSet fnPattern_Annoset = new FnPattern_AnnoSet(patternid, annoset.getID());
-						insert(fnPattern_Annoset, connection);
+						final FnPattern_AnnoSet fnPattern_Annoset = new FnPattern_AnnoSet(groupPattern, annoset);
+						FnPattern_AnnoSet.SET.add(fnPattern_Annoset);
 					}
 				}
 			}
@@ -237,31 +196,28 @@ public class FnLexUnitProcessor extends FnProcessor
 			final SubCorpusType[] subcorpuses = lu.getSubCorpusArray();
 			for (final SubCorpusType subcorpus : subcorpuses)
 			{
-				final FnSubCorpus fnSubCorpus = new FnSubCorpus(luid, subcorpus);
-				final long subcorpusid = fnSubCorpus.getId();
-				insert(fnSubCorpus, connection);
+				final FnSubCorpus fnSubCorpus = new FnSubCorpus(lexUnit, subcorpus);
+				FnSubCorpus.SET.add(fnSubCorpus);
 
 				final SentenceType[] sentences = subcorpus.getSentenceArray();
 				for (final SentenceType sentence : sentences)
 				{
 					final FnSentence fnSentence = new FnSentence(sentence, false);
-					final long sentenceid = fnSentence.getId();
-					final int insertSentenceCount = insert(fnSentence, connection);
-					if (insertSentenceCount == 0)
+					final boolean isNew2 = FnSentence.SET.add(fnSentence);
+					if (!isNew2)
 					{
-						Logger.instance.logWarn(FnModule.MODULE_ID, this.processorTag, "sentence-duplicate", fileName, -1, null, fnSentence.toString());
+						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "sentence-duplicate", fileName, -1, null, fnSentence.toString());
 					}
 
-					final FnSubCorpus_Sentence fnSubCorpus_Sentence = new FnSubCorpus_Sentence(subcorpusid, sentenceid);
-					insert(fnSubCorpus_Sentence, connection);
+					final FnSubCorpus_Sentence fnSubCorpus_Sentence = new FnSubCorpus_Sentence(fnSubCorpus, fnSentence);
+					FnSubCorpus_Sentence.SET.add(fnSubCorpus_Sentence);
 
 					final AnnotationSetType[] annosets = sentence.getAnnotationSetArray();
 					for (final AnnotationSetType annoset : annosets)
 					{
-						final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(sentenceid, annoset, frameid, luid);
-						final long annosetid = fnAnnotationSet.getId();
-						final int insertAnnosetCount = insert(fnAnnotationSet, connection);
-						if (insertAnnosetCount == 0 || this.skipLayers)
+						final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(fnSentence, annoset, lexUnit);
+						final boolean isNew3 = FnAnnotationSet.SET.add(fnAnnotationSet);
+						if (!isNew3 || this.skipLayers)
 						{
 							continue;
 						}
@@ -270,16 +226,15 @@ public class FnLexUnitProcessor extends FnProcessor
 						final LayerType[] layerTypes = annoset.getLayerArray();
 						for (final LayerType layerType : layerTypes)
 						{
-							final FnLayer layer = new FnLayer(annosetid, layerType);
-							final long layerid = layer.getId();
-							insert(layer, connection);
+							final FnLayer layer = new FnLayer(fnAnnotationSet, layerType);
+							FnLayer.SET.add(layer);
 
 							// labels
 							final LabelType[] labelTypes = layerType.getLabelArray();
 							for (final LabelType labelType : labelTypes)
 							{
-								final FnLabel label = new FnLabel(layerid, labelType);
-								insert(label, connection);
+								final FnLabel label = new FnLabel(layer, labelType);
+								FnLabel.SET.add(label);
 							}
 						}
 					}
@@ -288,31 +243,12 @@ public class FnLexUnitProcessor extends FnProcessor
 		}
 		catch (XmlException | IOException e)
 		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, this.processorTag, "xml-document", fileName, -1L, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(FnModule.MODULE_ID, this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
 		}
 		if (Logger.verbose)
 		{
-			Progress.traceTailer("framenet (lu)", name, count);
+			Progress.traceTailer("framenet (lu) " + name, Integer.toString(count));
 		}
 		return 1;
-	}
-
-	// convenience function
-
-	int insert(final Insertable insertable, final Connection connection)
-	{
-		try
-		{
-			return insertable.insert(connection);
-		}
-		catch (NotFoundException nfe)
-		{
-			Logger.instance.logNotFoundException(FnModule.MODULE_ID, this.processorTag, "find-" + insertable.getClass().getSimpleName().toLowerCase(), this.filename, -1L, null, insertable.toString(), nfe);
-		}
-		catch (SQLUpdateException sqlue)
-		{
-			Logger.instance.logSQLUpdateException(FnModule.MODULE_ID, this.processorTag, "insert-" + insertable.getClass().getSimpleName().toLowerCase(), this.filename, -1L, null, insertable.toString(), sqlue);
-		}
-		return 0;
 	}
 }

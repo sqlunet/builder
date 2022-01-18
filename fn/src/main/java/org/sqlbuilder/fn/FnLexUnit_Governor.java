@@ -1,33 +1,20 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnLexUnit_Governor extends FnMap
+public class FnLexUnit_Governor extends Pair<FnLexUnit, FnGovernor>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_lexunits_governors.insert");
+	public static final Set<FnLexUnit_Governor> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_lexunits_governors.table");
-
-	public FnLexUnit_Governor(final long luid, final long governorid)
+	public FnLexUnit_Governor(final FnLexUnit lu, final FnGovernor governor)
 	{
-		super(luid, governorid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnLexUnit_Governor.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnLexUnit_Governor.TABLE;
+		super(lu, governor);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LU-GOV luid=%s governorid=%s]", this.id1, this.id2);
+		return String.format("[LU-GOV lu=%s governor=%s]", this.first, this.second);
 	}
 }

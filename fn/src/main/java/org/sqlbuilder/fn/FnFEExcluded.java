@@ -1,33 +1,23 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FnFEExcluded extends FnMap
+import edu.berkeley.icsi.framenet.FEType;
+import edu.berkeley.icsi.framenet.InternalFrameRelationFEType;
+
+public class FnFEExcluded extends Pair<FEType, InternalFrameRelationFEType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_fes_excluded.insert");
+	public static final Set<FnFEExcluded> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_fes_excluded.table");
-
-	public FnFEExcluded(final long feid, final long fe2id)
+	public FnFEExcluded(final FEType fe1, final InternalFrameRelationFEType fe2)
 	{
-		super(feid, fe2id);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnFEExcluded.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnFEExcluded.TABLE;
+		super(fe1, fe2);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FEexcl feid=%s fe2id=%s]", this.id1, this.id2);
+		return String.format("[FEexcl fe1=%s fe2=%s]", this.first, this.second);
 	}
 }

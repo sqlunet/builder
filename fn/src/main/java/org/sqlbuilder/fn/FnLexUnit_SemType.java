@@ -1,33 +1,23 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.Resources;
 
-public class FnLexUnit_SemType extends FnMap
+import java.util.HashSet;
+import java.util.Set;
+
+import edu.berkeley.icsi.framenet.SemTypeRefType;
+
+public class FnLexUnit_SemType extends Pair<Long, SemTypeRefType>
 {
-	private static final String SQL_INSERT = Resources.resources.getString("Fn_lexunits_semtypes.insert");
+	public static final Set<FnLexUnit_SemType> SET = new HashSet<>();
 
-	private static final String TABLE = Resources.resources.getString("Fn_lexunits_semtypes.table");
-
-	public FnLexUnit_SemType(final long luid, final long semtypeid)
+	public FnLexUnit_SemType(final long luid, final SemTypeRefType semtype)
 	{
-		super(luid, semtypeid);
-	}
-
-	@Override
-	protected String getSql()
-	{
-		return FnLexUnit_SemType.SQL_INSERT;
-	}
-
-	@Override
-	protected String getTable()
-	{
-		return FnLexUnit_SemType.TABLE;
+		super(luid, semtype);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LU-SEM luid=%s semtypeid=%s]", this.id1, this.id2);
+		return String.format("[LU-SEM luid=%s semtype=%s]", this.first, this.second);
 	}
 }
