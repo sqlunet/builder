@@ -11,13 +11,13 @@ public class FnFrameLexUnit extends FnLexUnitBase implements Insertable<FnLexUni
 {
 	public static final Set<FnFrameLexUnit> SET = new HashSet<>();
 
-	public final FnFrame frame;
+	public final long frameid;
 
 	public final FrameLUType luType;
 
-	public FnFrameLexUnit(final FnFrame frame, final FrameLUType luType)
+	public FnFrameLexUnit(final long frameid, final FrameLUType luType)
 	{
-		this.frame = frame;
+		this.frameid = frameid;
 		this.luType = luType;
 	}
 
@@ -55,6 +55,6 @@ public class FnFrameLexUnit extends FnLexUnitBase implements Insertable<FnLexUni
 	@Override
 	public String toString()
 	{
-		return String.format("[FRLU lutype=%s frame=%s]", this.luType.getName(), this.frame);
+		return String.format("[FRLU lutype=%s frameid=%s]", this.luType.getName(), this.frameid);
 	}
 }

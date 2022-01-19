@@ -7,15 +7,15 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FrameIDNameType;
 
-public class FnFrameRelated extends Pair<FnFrame, FrameIDNameType> implements Insertable<FnFrameRelated>
+public class FnFrameRelated extends Pair<Long, FrameIDNameType> implements Insertable<FnFrameRelated>
 {
 	public static final Set<FnFrameRelated> SET = new HashSet<>();
 
 	private final String relation;
 
-	public FnFrameRelated(final FnFrame frame1, final FrameIDNameType frame2, final String relation)
+	public FnFrameRelated(final long frameid, final FrameIDNameType frame2, final String relation)
 	{
-		super(frame1, frame2);
+		super(frameid, frame2);
 		this.relation = relation;
 	}
 

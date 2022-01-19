@@ -55,6 +55,38 @@
 					<javaSource>1.6</javaSource>
 				</configuration>
 			</plugin>
+
+<!--
+			<plugin>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+				<version>5.0.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<name>ewn</name>
+					<verbose>true</verbose>
+					<xmlConfigs>${project.basedir}/src/main/schema/xmlconfig.xml</xmlConfigs>
+					<repackage>org.ewn.xmlbeans</repackage>
+					<partialMethods>ALL,-GET_LIST,-XGET_LIST,-XGET_ARRAY</partialMethods>
+				</configuration>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-core</artifactId>
+						<version>2.14.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+-->
+
 		</plugins>
 	</build>
 

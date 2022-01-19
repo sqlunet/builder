@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -29,6 +30,15 @@ public class MapFactory
 				.peek(item -> ++i[0]) //
 				.map(item -> new SimpleEntry<>(item, i[0])) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (o1, o2) -> o1, TreeMap::new));
+	}
+
+	public static <T> Map<T, Integer> makeSortedMap(final Set<T> items, final Comparator<T> comparator)
+	{
+		int[] i = {0};
+		return items.stream() //
+				.peek(item -> ++i[0]) //
+				.map(item -> new SimpleEntry<>(item, i[0])) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (o1, o2) -> o1, ()->new TreeMap<>(comparator)));
 	}
 
 	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException

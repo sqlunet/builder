@@ -23,7 +23,7 @@ public class FnLexUnitProcessor extends FnProcessor
 	}
 
 	@Override
-	protected int processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName, final String name)
 	{
 		if (Logger.verbose)
 		{
@@ -249,6 +249,5 @@ public class FnLexUnitProcessor extends FnProcessor
 		{
 			Progress.traceTailer("framenet (lu) " + name, Integer.toString(count));
 		}
-		return 1;
 	}
 }

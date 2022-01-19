@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ public class FnFE implements Insertable<FnFE>
 
 	private static final FnFEXmlProcessor definitionProcessor = new FnFEXmlProcessor();
 
+	private final long frameid;
+
 	private final FEType fe;
 
 	private final Integer coreset;
@@ -25,6 +28,7 @@ public class FnFE implements Insertable<FnFE>
 
 	public FnFE(final long frameid, final FEType fe, final Integer coreset) throws ParserConfigurationException, IOException, SAXException
 	{
+		this.frameid = frameid;
 		this.fe = fe;
 		this.coreset = coreset;
 		try
@@ -36,6 +40,11 @@ public class FnFE implements Insertable<FnFE>
 			System.err.println(this.fe.getDefinition());
 			throw e;
 		}
+	}
+
+	public long getID()
+	{
+		return fe.getID();
 	}
 
 	@Override
@@ -53,7 +62,14 @@ public class FnFE implements Insertable<FnFE>
 		//String(9, this.fe.getBgColor());
 		//String(10, this.fe.getCDate());
 		//String(11, this.fe.getCBy());
-		return null;
+		return String.format("%d,%d,'%s','%s','%s',%d,%s", //
+				fe.getID(), //
+				frameid, //
+				Utils.escape(fe.getName()), //
+				Utils.escape(fe.getAbbrev()), //
+				Utils.escape(definition), //
+				fe.getCoreType().intValue(), //
+				coreset == null ? "NULL" : coreset);
 	}
 
 	@Override

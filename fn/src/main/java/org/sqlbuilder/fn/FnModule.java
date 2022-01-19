@@ -2,6 +2,7 @@ package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Module;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FnModule extends Module
@@ -17,10 +18,25 @@ public class FnModule extends Module
 	protected void run()
 	{
 		new FnPresetProcessor().run();
-		new FnSemTypeProcessor("semTypes.xml", props).run();
-		new FnLexUnitProcessor(props).run();
+		//new FnSemTypeProcessor("semTypes.xml", props).run();
+
+		Inserter inserter = new Inserter(props);
+
 		new FnFrameProcessor(props).run();
-		new FnFullTextProcessor(props).run();
+		try
+		{
+			inserter.insertFrames();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
+		//new FnLexUnitProcessor(props).run();
+		//Inserter.insertLexUnits();
+
+		//new FnFullTextProcessor(props).run();
+		//Inserter.insertFullText();
 	}
 
 	public static void main(final String[] args) throws IOException

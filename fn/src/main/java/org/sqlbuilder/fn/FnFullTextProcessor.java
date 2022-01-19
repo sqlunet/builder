@@ -22,7 +22,7 @@ public class FnFullTextProcessor extends FnProcessor
 	}
 
 	@Override
-	protected int processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName, final String name)
 	{
 		if (Logger.verbose)
 		{
@@ -128,6 +128,5 @@ public class FnFullTextProcessor extends FnProcessor
 		{
 			Progress.traceTailer("framenet (fulltext)" + name, Long.toString(count));
 		}
-		return 1;
 	}
 }

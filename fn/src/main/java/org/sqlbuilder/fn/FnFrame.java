@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -27,29 +28,31 @@ public class FnFrame implements Insertable<FnFrame>
 		this.frame = frame;
 		try
 		{
-			this.definition = FnFrame.definitionProcessor.process(this.frame.getDefinition());
+			this.definition = FnFrame.definitionProcessor.process(frame.getDefinition());
 		}
 		catch (ParserConfigurationException | SAXException | IOException e)
 		{
-			System.err.println(this.frame.getDefinition());
+			System.err.println(frame.getDefinition());
 			throw e;
 		}
+	}
+
+	public long getID()
+	{
+		return frame.getID();
 	}
 
 	@Override
 	public String dataRow()
 	{
-		// Long(1, this.frame.getID());
-		// String(2, this.frame.getName());
-		// String(3, this.definition);
 		// String(4, this.frame.getCDate());
 		// String(5, this.frame.getCBy());
-		return null;
+		return String.format("%d,'%s','%s'", frame.getID(), Utils.escape(frame.getName()), Utils.escape(definition));
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FRAME frid=%s name=%s]", this.frame.getID(), this.frame.getName());
+		return String.format("[FRAME frid=%s name=%s]", frame.getID(), frame.getName());
 	}
 }

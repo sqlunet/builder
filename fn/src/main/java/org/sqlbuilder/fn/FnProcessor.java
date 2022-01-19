@@ -37,28 +37,31 @@ public abstract class FnProcessor extends Processor
 
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
+		{
 			return;
+		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
 
 		Progress.traceHeader("reading framenet files", this.fnDir);
-		this.fileCount = 0;
+		int fileCount = 0;
 		for (final File file : files)
 		{
 			this.filename = file.getName();
 			try
 			{
-				this.fileCount += processFrameNetFile(file.getCanonicalPath(), file.getName());
+				processFrameNetFile(file.getAbsolutePath(), file.getName());
+				fileCount++;
 			}
 			catch (Exception e)
 			{
 				throw new RuntimeException("File:" + this.filename);
 			}
-			Progress.trace(this.fileCount);
+			Progress.trace(fileCount);
 		}
-		Progress.traceTailer("reading framenet files in " + this.fnDir, Integer.toString(this.fileCount));
+		Progress.traceTailer("reading framenet files in " + this.fnDir, Integer.toString(fileCount));
 	}
 
 	@SuppressWarnings("SameReturnValue")
-	protected abstract int processFrameNetFile(final String fileName, final String name);
+	protected abstract void processFrameNetFile(final String fileName, final String name);
 }

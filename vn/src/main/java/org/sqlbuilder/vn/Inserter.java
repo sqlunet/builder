@@ -66,14 +66,14 @@ public class Inserter
 		Insert.insert(VnFrame.MAP, new File(outDir, Names.FRAMES.FILE), Names.FRAMES.TABLE, Names.FRAMES.COLUMNS);
 
 		// from pass3
-		Insert.insert(VnFrameExampleMapping.SET, new File(outDir, Names.FRAMES_EXAMPLES.FILE), Names.FRAMES_EXAMPLES.TABLE, Names.FRAMES_EXAMPLES.COLUMNS);
-		Insert.insert(VnPredicateMapping.SET, new File(outDir, Names.SEMANTICS_PREDICATES.FILE), Names.SEMANTICS_PREDICATES.TABLE, Names.SEMANTICS_PREDICATES.COLUMNS);
+		Insert.insert(VnFrameExampleMapping.SET, null, new File(outDir, Names.FRAMES_EXAMPLES.FILE), Names.FRAMES_EXAMPLES.TABLE, Names.FRAMES_EXAMPLES.COLUMNS);
+		Insert.insert(VnPredicateMapping.SET, null, new File(outDir, Names.SEMANTICS_PREDICATES.FILE), Names.SEMANTICS_PREDICATES.TABLE, Names.SEMANTICS_PREDICATES.COLUMNS);
 
 		// from pass4
-		Insert.insert(VnMember.SET, new File(outDir, Names.MEMBERS.FILE), Names.MEMBERS.TABLE, Names.MEMBERS.COLUMNS);
-		Insert.insert(VnGroupingMapping.SET, new File(outDir, Names.MEMBERS_GROUPINGS.FILE), Names.MEMBERS_GROUPINGS.TABLE, Names.MEMBERS_GROUPINGS.COLUMNS);
+		Insert.insert(VnMember.SET, null, new File(outDir, Names.MEMBERS.FILE), Names.MEMBERS.TABLE, Names.MEMBERS.COLUMNS);
+		Insert.insert(VnGroupingMapping.SET, null, new File(outDir, Names.MEMBERS_GROUPINGS.FILE), Names.MEMBERS_GROUPINGS.TABLE, Names.MEMBERS_GROUPINGS.COLUMNS);
 
 		Insert.insert(VnWord.MAP, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
-		Insert.insert(VnMemberSense.SET, new File(outDir, Names.MEMBERS_SENSES.FILE), Names.MEMBERS_SENSES.TABLE, Names.MEMBERS_SENSES.COLUMNS);
+		Insert.insert(VnMemberSense.SET, null, new File(outDir, Names.MEMBERS_SENSES.FILE), Names.MEMBERS_SENSES.TABLE, Names.MEMBERS_SENSES.COLUMNS);
 	}
 }
