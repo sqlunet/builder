@@ -7,18 +7,13 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FERealizationType;
 
-public class FnFERealization implements Insertable<FnFERealization>
+public class FnFERealization extends Pair<Long, FERealizationType> implements Insertable<FnFERealization>
 {
 	public static final Set<FnFERealization> SET = new HashSet<>();
 
-	public final FERealizationType fer;
-
-	public final FnLexUnit lu;
-
-	public FnFERealization(final FnLexUnit lu, final FERealizationType fer)
+	public FnFERealization(final long luid, final FERealizationType fer)
 	{
-		this.lu = lu;
-		this.fer = fer;
+		super(luid, fer);
 	}
 
 	@Override
@@ -34,6 +29,6 @@ public class FnFERealization implements Insertable<FnFERealization>
 	@Override
 	public String toString()
 	{
-		return String.format("[FER lu=%s fe=%s]", this.lu, this.fer.getFE());
+		return String.format("[FER luid=%s fe=%s]", this.first, this.second.getFE());
 	}
 }

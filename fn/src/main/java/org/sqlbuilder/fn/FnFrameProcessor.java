@@ -36,21 +36,21 @@ public class FnFrameProcessor extends FnProcessor
 		final File xmlFile = new File(fileName);
 		try
 		{
-			final FrameDocument document = FrameDocument.Factory.parse(xmlFile);
+			final FrameDocument _document = FrameDocument.Factory.parse(xmlFile);
 
 			// F R A M E
 
-			final Frame frame = document.getFrame();
-			final long frameid = frame.getID();
-			final FnFrame fnFrame = new FnFrame(frame);
-			FnFrame.SET.add(fnFrame);
+			final Frame _frame = _document.getFrame();
+			final long frameid = _frame.getID();
+			final FnFrame frame = new FnFrame(_frame);
+			FnFrame.SET.add(frame);
 
 			// S E M T Y P E
 
-			for (var semtype : frame.getSemTypeArray())
+			for (var _semtype : _frame.getSemTypeArray())
 			{
-				final FnSemTypeRef fnSemtype = new FnSemTypeRef(semtype);
-				final FnFrame_SemType frame_semtype = new FnFrame_SemType(frameid, fnSemtype);
+				final FnSemTypeRef semtype = new FnSemTypeRef(_semtype);
+				final FnFrame_SemType frame_semtype = new FnFrame_SemType(frameid, semtype);
 				FnFrame_SemType.SET.add(frame_semtype);
 			}
 
@@ -58,12 +58,12 @@ public class FnFrameProcessor extends FnProcessor
 
 			final Map<Long, Integer> feToCoresetMap = new HashMap<>();
 			int setid = 0;
-			for (var fecoreset : frame.getFEcoreSetArray())
+			for (var _fecoreset : _frame.getFEcoreSetArray())
 			{
 				++setid;
-				for (var coreFE : fecoreset.getMemberFEArray())
+				for (var _corefe : _fecoreset.getMemberFEArray())
 				{
-					final long feid = coreFE.getID();
+					final long feid = _corefe.getID();
 					final Integer prev = feToCoresetMap.put(feid, setid);
 					if (prev != null)
 					{
@@ -74,76 +74,78 @@ public class FnFrameProcessor extends FnProcessor
 
 			// F E
 
-			for (var fe : frame.getFEArray())
+			for (var _fe : _frame.getFEArray())
 			{
-				final long feid = fe.getID();
-				final FnFE fnFE = new FnFE(frameid, fe, feToCoresetMap.get(feid));
-				FnFE.SET.add(fnFE);
+				final long feid = _fe.getID();
+				final FnFE fe = new FnFE(frameid, _fe, feToCoresetMap.get(feid));
+				FnFE.SET.add(fe);
 
 				// s e m t y p e s
-				for (var fesemtype : fe.getSemTypeArray())
+				for (var _semtype : _fe.getSemTypeArray())
 				{
-					FnSemTypeRef fnSemtypeRef = new FnSemTypeRef(fesemtype);
-					final FnFE_SemType fE_semtype = new FnFE_SemType(feid, fnSemtypeRef);
-					FnFE_SemType.SET.add(fE_semtype);
+					FnSemTypeRef semtype = new FnSemTypeRef(_semtype);
+					final FnFE_SemType fe_semtype = new FnFE_SemType(feid, semtype);
+					FnFE_SemType.SET.add(fe_semtype);
 				}
 
 				// r e q u i r e s
-				for (var requiredFE : fe.getRequiresFEArray())
+				for (var _requiredfe : _fe.getRequiresFEArray())
 				{
-					final FnFERequired fnRequiredFE = new FnFERequired(feid, requiredFE);
-					FnFERequired.SET.add(fnRequiredFE);
+					final FnFERequired requiredfe = new FnFERequired(feid, _requiredfe);
+					FnFERequired.SET.add(requiredfe);
 				}
 
 				// e x c l u d e s / r e q u i r e s
-				for (var excludedFE : fe.getExcludesFEArray())
+				for (var _excludedfe : _fe.getExcludesFEArray())
 				{
-					final FnFEExcluded fnExcludedFE = new FnFEExcluded(feid, excludedFE);
-					FnFEExcluded.SET.add(fnExcludedFE);
+					final FnFEExcluded excludedfe = new FnFEExcluded(feid, _excludedfe);
+					FnFEExcluded.SET.add(excludedfe);
 				}
 			}
 
 			// R E L A T E D F R A M E S
 
-			for (var relatedFrame : frame.getFrameRelationArray())
+			for (var _framerelations : _frame.getFrameRelationArray())
 			{
-				final String t = relatedFrame.getType();
-				for (var rf : relatedFrame.getRelatedFrameArray())
+				final String t = _framerelations.getType();
+				for (var _relatedframe : _framerelations.getRelatedFrameArray())
 				{
-					final FnFrameRelated fnRelatedFrame = new FnFrameRelated(fnFrame.frame.getID(), rf, t);
-					FnFrameRelated.SET.add(fnRelatedFrame);
+					final FnFrameRelated relatedframe = new FnFrameRelated(frame.frame.getID(), _relatedframe, t);
+					FnFrameRelated.SET.add(relatedframe);
 				}
 			}
 
 			// L E X U N I T S
+
 			if (!this.skipLexUnits)
 			{
-				for (var lexunit : frame.getLexUnitArray())
+				for (var _lexunit : _frame.getLexUnitArray())
 				{
-					final FnFrameLexUnit frameLexUnit = new FnFrameLexUnit(frameid, lexunit);
-					final boolean isNew = FnFrameLexUnit.SET.add(frameLexUnit);
+					final long luid = _lexunit.getID();
+					final FnFrame_LexUnit frame_lexunit = new FnFrame_LexUnit(frameid, _lexunit);
+					final boolean isNew = FnFrame_LexUnit.SET.add(frame_lexunit);
 					if (!isNew)
 					{
-						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "frame-lu-duplicate", fileName, -1, null, frameLexUnit.toString());
+						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "frame-lu-duplicate", fileName, -1, null, frame_lexunit.toString());
 						continue;
 					}
 
 					// lexemes
-					for (var lexeme : lexunit.getLexemeArray())
+					for (var _lexeme : _lexunit.getLexemeArray())
 					{
-						final String word = FnLexeme.makeWord(lexeme.getName());
-						final FnWord fnWord = new FnWord(word);
-						FnWord.SET.add(fnWord);
+						final String lemma = FnLexeme.makeWord(_lexeme.getName());
+						final FnWord word = new FnWord(lemma);
+						FnWord.SET.add(word);
 
-						final FnLexeme fnLexeme = new FnLexeme(lexunit.getID(), fnWord, lexeme);
-						FnLexeme.SET.add(fnLexeme);
+						final FnLexeme lexeme = new FnLexeme(luid, word, _lexeme);
+						FnLexeme.SET.add(lexeme);
 					}
 
 					// semtypes
-					for (var semtype : lexunit.getSemTypeArray())
+					for (var _semtype : _lexunit.getSemTypeArray())
 					{
-						final FnLexUnit_SemType fnLexUnit_SemType = new FnLexUnit_SemType(lexunit.getID(), semtype);
-						FnLexUnit_SemType.SET.add(fnLexUnit_SemType);
+						final FnLexUnit_SemType lexunit_semtype = new FnLexUnit_SemType(luid, _semtype);
+						FnLexUnit_SemType.SET.add(lexunit_semtype);
 					}
 				}
 			}

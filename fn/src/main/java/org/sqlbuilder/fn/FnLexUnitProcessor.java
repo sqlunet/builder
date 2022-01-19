@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import edu.berkeley.icsi.framenet.*;
-import edu.berkeley.icsi.framenet.CorpDocType.Document;
 import edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit;
 
 public class FnLexUnitProcessor extends FnProcessor
@@ -31,209 +30,185 @@ public class FnLexUnitProcessor extends FnProcessor
 		}
 
 		// clear map
-		// FnValenceUnitBase.clearMap();
+		FnValenceUnitBase.MAP.clear();
 
 		final int count = 0;
 		final File file = new File(fileName);
-		// System.out.printf("file=<%s>\n", file);
 		try
 		{
-			final LexUnitDocument document = LexUnitDocument.Factory.parse(file);
+			final LexUnitDocument _document = LexUnitDocument.Factory.parse(file);
 
 			// L E X U N I T
 
-			final LexUnit lu = document.getLexUnit();
-			final long frameid = lu.getFrameID();
-
-			final FnLexUnit lexUnit = new FnLexUnit(lu);
-			// System.out.println(lexUnit);
-			final boolean isNew = FnLexUnit.SET.add(lexUnit);
+			final LexUnit _lexunit = _document.getLexUnit();
+			final long luid = _lexunit.getID();
+			final FnLexUnit lexunit = new FnLexUnit(_lexunit);
+			final boolean isNew = FnLexUnit.SET.add(lexunit);
 			if (!isNew)
 			{
-				// Exception now raised
-				Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "lu-duplicate", fileName, -1, null, lexUnit.toString());
+				Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "lu-duplicate", fileName, -1, null, lexunit.toString());
 			}
 
 			// H E A D E R
 
-			final HeaderType header = lu.getHeader();
-			final CorpDocType[] corpuses = header.getCorpusArray();
-			for (final CorpDocType corpus : corpuses)
+			for (var _corpus : _lexunit.getHeader().getCorpusArray())
 			{
-				final FnCorpus fnCorpus = new FnCorpus(corpus, lexUnit);
-				FnCorpus.SET.add(fnCorpus);
+				final FnCorpus corpus = new FnCorpus(_corpus, lexunit);
+				FnCorpus.SET.add(corpus);
 
-				final Document[] docs = corpus.getDocumentArray();
-				for (final Document doc : docs)
+				for (var _doc : _corpus.getDocumentArray())
 				{
-					final FnDocument fnDocument = new FnDocument(fnCorpus, doc);
-					FnDocument.SET.add(fnDocument);
+					final FnDocument doc = new FnDocument(corpus, _doc);
+					FnDocument.SET.add(doc);
 				}
 			}
 
 			// L E X E M E S
 
-			final LexemeType[] lexemes = lu.getLexemeArray();
-			for (final LexemeType lexeme : lexemes)
+			for (var _lexeme : _lexunit.getLexemeArray())
 			{
-				final String word = FnLexeme.makeWord(lexeme.getName());
+				final String lemma = FnLexeme.makeWord(_lexeme.getName());
+				final FnWord word = new FnWord(lemma);
+				FnWord.SET.add(word);
 
-				final FnWord fnWord = new FnWord(word);
-				FnWord.SET.add(fnWord);
-
-				final FnLexeme fnLexeme = new FnLexeme(lexUnit.lu.getID(), fnWord, lexeme);
-				FnLexeme.SET.add(fnLexeme);
+				final FnLexeme lexeme = new FnLexeme(luid, word, _lexeme);
+				FnLexeme.SET.add(lexeme);
 			}
 
 			// S E M T Y P E S
 
-			for (final SemTypeRefType semtyperef : lu.getSemTypeArray())
+			for (var _semtype : _lexunit.getSemTypeArray())
 			{
-				final FnLexUnit_SemType fnLu_SemType = new FnLexUnit_SemType(lexUnit.lu.getID(), semtyperef);
-				FnLexUnit_SemType.SET.add(fnLu_SemType);
+				final FnLexUnit_SemType lexunit_semtype = new FnLexUnit_SemType(luid, _semtype);
+				FnLexUnit_SemType.SET.add(lexunit_semtype);
 			}
 
 			// V A L E N C E S
 
-			final ValencesType valences = lu.getValences();
+			final ValencesType _valences = _lexunit.getValences();
 
 			// g o v e r n o r s
 
-			final GovernorType[] governors = valences.getGovernorArray();
-			for (final GovernorType governor : governors)
+			for (var _governor : _valences.getGovernorArray())
 			{
-				final String word = governor.getLemma();
-				final FnWord fnWord = new FnWord(word);
-				FnWord.SET.add(fnWord);
+				final String lemma = _governor.getLemma();
+				final FnWord word = new FnWord(lemma);
+				FnWord.SET.add(word);
 
-				final FnGovernor fnGovernor = new FnGovernor(fnWord, governor);
-				FnGovernor.SET.add(fnGovernor);
+				final FnGovernor governor = new FnGovernor(word, _governor);
+				FnGovernor.SET.add(governor);
 
-				final FnLexUnit_Governor fnLexUnit_Governor = new FnLexUnit_Governor(lexUnit, fnGovernor);
-				FnLexUnit_Governor.SET.add(fnLexUnit_Governor);
+				final FnLexUnit_Governor lexunit_governor = new FnLexUnit_Governor(luid, governor);
+				FnLexUnit_Governor.SET.add(lexunit_governor);
 
-				final AnnoSetType[] annosets = governor.getAnnoSetArray();
-				for (final AnnoSetType annoset : annosets)
+				for (var _annoset : _governor.getAnnoSetArray())
 				{
-					final FnGovernor_AnnoSet fnGovernor_Annoset = new FnGovernor_AnnoSet(fnGovernor, annoset);
-					FnGovernor_AnnoSet.SET.add(fnGovernor_Annoset);
+					final FnGovernor_AnnoSet governor_annoset = new FnGovernor_AnnoSet(governor, _annoset);
+					FnGovernor_AnnoSet.SET.add(governor_annoset);
 				}
 			}
 
 			// F E r e a l i z a t i o n s
 
-			final FERealizationType[] FErealizations = valences.getFERealizationArray();
-			for (final FERealizationType fer : FErealizations)
+			for (var _fer : _valences.getFERealizationArray())
 			{
-				final FnFERealization fnFERealization = new FnFERealization(lexUnit, fer);
-				FnFERealization.SET.add(fnFERealization);
+				final FnFERealization fer = new FnFERealization(luid, _fer);
+				FnFERealization.SET.add(fer);
 
 				// p a t t e r n s
-				final FERealizationType.Pattern[] patterns = fer.getPatternArray();
-				for (final FERealizationType.Pattern pattern : patterns)
+				for (var _pattern : _fer.getPatternArray())
 				{
 					// v a l e n c e u n i t
-					final ValenceUnitType vu = pattern.getValenceUnit();
-					final FnValenceUnit fnValenceUnit = new FnValenceUnit(fnFERealization, vu);
-					FnValenceUnit.SET.add(fnValenceUnit);
+					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
+					final FnValenceUnit valenceunit = new FnValenceUnit(fer, _valenceunit);
+					FnValenceUnit.SET.add(valenceunit);
 
 					// a n n o s e t s
-					final AnnoSetType[] annosets = pattern.getAnnoSetArray();
-					for (final AnnoSetType annoset : annosets)
+					for (var _annoset : _pattern.getAnnoSetArray())
 					{
-						final FnValenceUnit_AnnoSet fnAnnosetRef = new FnValenceUnit_AnnoSet(fnValenceUnit, annoset);
-						FnValenceUnit_AnnoSet.SET.add(fnAnnosetRef);
+						final FnValenceUnit_AnnoSet valenceunit_annoset = new FnValenceUnit_AnnoSet(valenceunit, _annoset);
+						FnValenceUnit_AnnoSet.SET.add(valenceunit_annoset);
 					}
 				}
 			}
 
 			// F E g r o u p r e a l i z a t i o n s
 
-			final FEGroupRealizationType[] FEgrealizations = valences.getFEGroupRealizationArray();
-			for (final FEGroupRealizationType fegr : FEgrealizations)
+			for (var _fegr : _valences.getFEGroupRealizationArray())
 			{
-				final FnFEGroupRealization fEGroupRealization = new FnFEGroupRealization(lexUnit, fegr);
-				FnFEGroupRealization.SET.add(fEGroupRealization);
+				final FnFEGroupRealization fegr = new FnFEGroupRealization(lexunit, _fegr);
+				FnFEGroupRealization.SET.add(fegr);
 
 				// f e s
-				final FEValenceType[] fevs = fegr.getFEArray();
-				for (final FEValenceType fev : fevs)
+				for (var _fe : _fegr.getFEArray())
 				{
-					final FnFEGroupRealization_Fe fnFE = new FnFEGroupRealization_Fe(fEGroupRealization, fev);
-					FnFEGroupRealization_Fe.SET.add(fnFE);
+					final FnFEGroupRealization_Fe fegr_fe = new FnFEGroupRealization_Fe(fegr, _fe);
+					FnFEGroupRealization_Fe.SET.add(fegr_fe);
 				}
 
 				// p a t t e r n s
-				final FEGroupRealizationType.Pattern[] patterns = fegr.getPatternArray();
-				for (final FEGroupRealizationType.Pattern pattern : patterns)
+				for (var _grouppattern : _fegr.getPatternArray())
 				{
-					final FnGroupPattern groupPattern = new FnGroupPattern(fEGroupRealization, pattern);
-					FnGroupPattern.SET.add(groupPattern);
+					final FnGroupPattern grouppattern = new FnGroupPattern(fegr, _grouppattern);
+					FnGroupPattern.SET.add(grouppattern);
 
 					// v a l e n c e u n i t s
-					final ValenceUnitType[] vus = pattern.getValenceUnitArray();
-					for (final ValenceUnitType vu : vus)
+					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
-						final FnValenceUnitBase valenceUnit = new FnValenceUnitBase(vu);
-						FnValenceUnitBase.SET.add(valenceUnit);
+						final FnValenceUnitBase valenceunit = new FnValenceUnitBase(_valenceunit);
+						FnValenceUnitBase.SET.add(valenceunit);
 
-						final FnPattern_ValenceUnit pattern_ValenceUnit = new FnPattern_ValenceUnit(groupPattern, valenceUnit);
-						FnPattern_ValenceUnit.SET.add(pattern_ValenceUnit);
+						final FnPattern_ValenceUnit pattern_valenceunit = new FnPattern_ValenceUnit(grouppattern, valenceunit);
+						FnPattern_ValenceUnit.SET.add(pattern_valenceunit);
 					}
 
 					// a n n o s e t s
-					final AnnoSetType[] annosets = pattern.getAnnoSetArray();
-					for (final AnnoSetType annoset : annosets)
+					for (var _annoset : _grouppattern.getAnnoSetArray())
 					{
-						final FnPattern_AnnoSet fnPattern_Annoset = new FnPattern_AnnoSet(groupPattern, annoset);
-						FnPattern_AnnoSet.SET.add(fnPattern_Annoset);
+						final FnPattern_AnnoSet pattern_annoset = new FnPattern_AnnoSet(grouppattern, _annoset);
+						FnPattern_AnnoSet.SET.add(pattern_annoset);
 					}
 				}
 			}
 
 			// S U B C O R P U S
 
-			final SubCorpusType[] subcorpuses = lu.getSubCorpusArray();
-			for (final SubCorpusType subcorpus : subcorpuses)
+			for (var _subcorpus : _lexunit.getSubCorpusArray())
 			{
-				final FnSubCorpus fnSubCorpus = new FnSubCorpus(lexUnit, subcorpus);
-				FnSubCorpus.SET.add(fnSubCorpus);
+				final FnSubCorpus subcorpus = new FnSubCorpus(luid, _subcorpus);
+				FnSubCorpus.SET.add(subcorpus);
 
-				final SentenceType[] sentences = subcorpus.getSentenceArray();
-				for (final SentenceType sentence : sentences)
+				for (var _sentence : _subcorpus.getSentenceArray())
 				{
-					final FnSentence fnSentence = new FnSentence(sentence, false);
-					final boolean isNew2 = FnSentence.SET.add(fnSentence);
+					final FnSentence sentence = new FnSentence(_sentence, false);
+					final boolean isNew2 = FnSentence.SET.add(sentence);
 					if (!isNew2)
 					{
-						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "sentence-duplicate", fileName, -1, null, fnSentence.toString());
+						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "sentence-duplicate", fileName, -1, null, sentence.toString());
 					}
 
-					final FnSubCorpus_Sentence fnSubCorpus_Sentence = new FnSubCorpus_Sentence(fnSubCorpus, fnSentence);
-					FnSubCorpus_Sentence.SET.add(fnSubCorpus_Sentence);
+					final FnSubCorpus_Sentence subcorpus_sentence = new FnSubCorpus_Sentence(subcorpus, sentence);
+					FnSubCorpus_Sentence.SET.add(subcorpus_sentence);
 
-					final AnnotationSetType[] annosets = sentence.getAnnotationSetArray();
-					for (final AnnotationSetType annoset : annosets)
+					for (final AnnotationSetType _annoset : _sentence.getAnnotationSetArray())
 					{
-						final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(fnSentence, annoset, lexUnit);
-						final boolean isNew3 = FnAnnotationSet.SET.add(fnAnnotationSet);
+						final FnAnnotationSet annoset = new FnAnnotationSet(_sentence.getID(), _annoset, luid, _lexunit.getFrameID());
+						final boolean isNew3 = FnAnnotationSet.SET.add(annoset);
 						if (!isNew3 || this.skipLayers)
 						{
 							continue;
 						}
 
 						// layers
-						final LayerType[] layerTypes = annoset.getLayerArray();
-						for (final LayerType layerType : layerTypes)
+						for (var _layer : _annoset.getLayerArray())
 						{
-							final FnLayer layer = new FnLayer(fnAnnotationSet, layerType);
+							final FnLayer layer = new FnLayer(annoset, _layer);
 							FnLayer.SET.add(layer);
 
 							// labels
-							final LabelType[] labelTypes = layerType.getLabelArray();
-							for (final LabelType labelType : labelTypes)
+							for (var _label : _layer.getLabelArray())
 							{
-								final FnLabel label = new FnLabel(layer, labelType);
+								final FnLabel label = new FnLabel(layer, _label);
 								FnLabel.SET.add(label);
 							}
 						}

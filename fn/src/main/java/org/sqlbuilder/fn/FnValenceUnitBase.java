@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -10,7 +11,7 @@ public class FnValenceUnitBase implements Comparable<FnValenceUnitBase>
 {
 	protected static final SortedSet<FnValenceUnitBase> SET = new TreeSet<>();
 
-	protected static Map<FnValenceUnitBase, Long> MAP;
+	protected static Map<FnValenceUnitBase, Long> MAP = new HashMap<>();
 
 	public final ValenceUnitType vu;
 

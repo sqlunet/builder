@@ -7,15 +7,15 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FrameLUType;
 
-public class FnFrameLexUnit extends FnLexUnitBase implements Insertable<FnLexUnitBase>
+public class FnFrame_LexUnit extends FnLexUnitBase implements Insertable<FnLexUnitBase>
 {
-	public static final Set<FnFrameLexUnit> SET = new HashSet<>();
+	public static final Set<FnFrame_LexUnit> SET = new HashSet<>();
 
 	public final long frameid;
 
 	public final FrameLUType luType;
 
-	public FnFrameLexUnit(final long frameid, final FrameLUType luType)
+	public FnFrame_LexUnit(final long frameid, final FrameLUType luType)
 	{
 		this.frameid = frameid;
 		this.luType = luType;

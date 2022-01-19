@@ -13,28 +13,32 @@ public class FnAnnotationSet implements Insertable<FnAnnotationSet>
 
 	public final AnnotationSetType annoset;
 
-	public final FnSentence sentence;
+	public final long sentenceid;
 
-	public final FnLexUnit lu;
+	public final Long frameid;
+
+	public final Long luid;
 
 	private final boolean fromFullText;
 
-	public FnAnnotationSet(final FnSentence sentence, final AnnotationSetType annoset)
+	public FnAnnotationSet(final long sentenceid, final AnnotationSetType annoset)
 	{
-		super();
-		this.annoset = annoset;
-		this.sentence = sentence;
-		this.lu = null;
-		this.fromFullText = true;
+		this(sentenceid, annoset, null, null,true);
 	}
 
-	public FnAnnotationSet(final FnSentence sentence, final AnnotationSetType annoset, final FnLexUnit lu)
+	public FnAnnotationSet(final long sentenceid, final AnnotationSetType annoset, final long luid, final long frameid)
+	{
+		this(sentenceid, annoset, luid, frameid, false);
+	}
+
+	public FnAnnotationSet(final long sentenceid, final AnnotationSetType annoset, final Long luid, final Long frameid, final boolean fromFullText)
 	{
 		super();
 		this.annoset = annoset;
-		this.sentence = sentence;
-		this.lu = lu;
-		this.fromFullText = false;
+		this.sentenceid = sentenceid;
+		this.luid = luid;
+		this.frameid = frameid;
+		this.fromFullText = fromFullText;
 	}
 
 	public long getId()

@@ -95,7 +95,7 @@ public class FnFullTextProcessor extends FnProcessor
 				final AnnotationSetType[] annosets = sentence.getAnnotationSetArray();
 				for (final AnnotationSetType annoset : annosets)
 				{
-					final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(fnSentence, annoset);
+					final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(sentence.getID(), annoset);
 					final boolean isNew2 = FnAnnotationSet.SET.add(fnAnnotationSet);
 					if (!isNew2)
 					{

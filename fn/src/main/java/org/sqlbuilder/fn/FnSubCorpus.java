@@ -7,18 +7,13 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SubCorpusType;
 
-public class FnSubCorpus implements Insertable<FnSubCorpus>
+public class FnSubCorpus extends Pair<Long, SubCorpusType> implements Insertable<FnSubCorpus>
 {
 	public static final Set<FnSubCorpus> SET = new HashSet<>();
 
-	public final SubCorpusType subcorpus;
-
-	public final FnLexUnit lu;
-
-	public FnSubCorpus(final FnLexUnit lu, final SubCorpusType subcorpus)
+	public FnSubCorpus(final long luid, final SubCorpusType subcorpus)
 	{
-		this.lu = lu;
-		this.subcorpus = subcorpus;
+		super(luid, subcorpus);
 	}
 
 	@Override
@@ -33,6 +28,6 @@ public class FnSubCorpus implements Insertable<FnSubCorpus>
 	@Override
 	public String toString()
 	{
-		return String.format("[SUBCORPUS id=%s name=%s lu=%s]", this.subcorpus.getName(), this.lu);
+		return String.format("[SUBCORPUS name=%s luid=%s]", this.second.getName(), this.first);
 	}
 }

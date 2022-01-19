@@ -31,8 +31,10 @@ public class FnModule extends Module
 		{
 			e.printStackTrace();
 		}
+		/*
+		*/
 
-		//new FnLexUnitProcessor(props).run();
+		new FnLexUnitProcessor(props).run();
 		//Inserter.insertLexUnits();
 
 		//new FnFullTextProcessor(props).run();
