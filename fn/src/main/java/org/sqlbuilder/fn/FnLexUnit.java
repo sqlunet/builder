@@ -1,13 +1,14 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit;
 
-public class FnLexUnit extends FnLexUnitBase implements Insertable<FnLexUnit>
+public class FnLexUnit extends FnLexUnitBase implements HasID, Insertable<FnLexUnit>
 {
 	public static final Set<FnLexUnit> SET = new HashSet<>();
 
@@ -24,35 +25,21 @@ public class FnLexUnit extends FnLexUnitBase implements Insertable<FnLexUnit>
 	{
 		final Definition definition = FnLexUnitBase.getDefinition(this.lu.getDefinition());
 
-			// Long(1, this.lu.getID());
-			// Long(2, this.lu.getFrameID());
-			// String(3, this.lu.getName());
-			// Int(4, this.lu.getPOS().intValue());
-			if (definition.def != null)
-			{
-				// String(5, definition.def);
-			}
-			else
-			{
-				// Null(5, java.sql.Types.CHAR);
-			}
-			if (definition.dict != null)
-			{
-				// String(6, String.valueOf(definition.dict));
-			}
-			else
-			{
-				// Null(6, java.sql.Types.CHAR);
-			}
-			// String(7, this.lu.getStatus());
-			// String(8, this.lu.getIncorporatedFE());
-			// Long(9, this.lu.getTotalAnnotated());
-			return null;
+		return String.format("%d,%d,'%s',%d,%s,%s,'%s',%s,%d", //
+				lu.getID(), //
+				lu.getFrameID(), //
+				Utils.escape(lu.getName()), //
+				lu.getPOS().intValue(), //
+				Utils.nullableString(definition.def), //
+				Utils.nullableChar(definition.dict), //
+				lu.getStatus(), //
+				Utils.nullableString(lu.getIncorporatedFE()), //
+				lu.getTotalAnnotated());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LU lu=%s frame=%s]", this.lu.getName(), this.lu.getFrame());
+		return String.format("[LU lu=%s  luid=%d frame=%s frameid=%d]", lu.getName(), lu.getID(), lu.getFrame(), lu.getFrameID());
 	}
 }

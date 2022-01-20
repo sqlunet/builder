@@ -8,8 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import edu.berkeley.icsi.framenet.*;
+import edu.berkeley.icsi.framenet.AnnotationSetType;
+import edu.berkeley.icsi.framenet.LexUnitDocument;
 import edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit;
+import edu.berkeley.icsi.framenet.ValenceUnitType;
+import edu.berkeley.icsi.framenet.ValencesType;
 
 public class FnLexUnitProcessor extends FnProcessor
 {
@@ -53,7 +56,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _corpus : _lexunit.getHeader().getCorpusArray())
 			{
-				final FnCorpus corpus = new FnCorpus(_corpus, lexunit);
+				final FnCorpus corpus = new FnCorpus(_corpus, luid);
 				FnCorpus.SET.add(corpus);
 
 				for (var _doc : _corpus.getDocumentArray())

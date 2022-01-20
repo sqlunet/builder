@@ -43,7 +43,7 @@ public abstract class FnProcessor extends Processor
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
 
-		Progress.traceHeader("reading framenet files", this.fnDir);
+		Progress.traceHeader("framenet files", this.fnDir);
 		int fileCount = 0;
 		for (final File file : files)
 		{
@@ -59,7 +59,7 @@ public abstract class FnProcessor extends Processor
 			}
 			Progress.trace(fileCount);
 		}
-		Progress.traceTailer("reading framenet files in " + this.fnDir, Integer.toString(fileCount));
+		Progress.traceTailer(fileCount);
 	}
 
 	@SuppressWarnings("SameReturnValue")

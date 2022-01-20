@@ -1,15 +1,20 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SemTypeType;
 
-public class FnSemType implements Insertable<FnSemType>
+public class FnSemType implements HasID, Insertable<FnSemType>
 {
 	public static final Set<FnSemType> SET = new HashSet<>();
+
+	public static Map<FnSemType, Integer> MAP;
 
 	public final SemTypeType type;
 
@@ -18,14 +23,16 @@ public class FnSemType implements Insertable<FnSemType>
 		this.type = type;
 	}
 
+	public static final Comparator<FnSemType> COMPARATOR = Comparator.comparing(t -> t.type.getName());
+
 	@Override
 	public String dataRow()
 	{
-		// Long(1, this.semtype.getID());
-		// String(2, this.semtype.getName());
-		// String(3, this.semtype.getAbbrev());
-		// String(4, this.semtype.getDefinition());
-		return null;
+		return String.format("%d,'%s','%s','%s'", //
+				type.getID(), //
+				type.getName(), //
+				type.getAbbrev(), //
+				Utils.escape(type.getDefinition()));
 	}
 
 	@Override

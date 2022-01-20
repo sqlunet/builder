@@ -22,7 +22,7 @@ public class FnPresetProcessor extends Processor
 		Progress.traceHeader("preset framenet tables", "poses coretypes");
 
 		// pos
-		for (final String pos : FnPresetProcessor.getPoses())
+		for (final String pos : getPoses())
 		{
 			final FnPos fnPos = new FnPos(pos);
 			FnPos.SET.add(fnPos);
@@ -30,7 +30,7 @@ public class FnPresetProcessor extends Processor
 		Progress.trace(1);
 
 		// coretypes
-		for (final String coretype : FnPresetProcessor.getCoreTypes())
+		for (final String coretype : getCoreTypes())
 		{
 			final FnCoreType fnCoretype = new FnCoreType(coretype);
 			FnCoreType.SET.add(fnCoretype);
@@ -38,7 +38,7 @@ public class FnPresetProcessor extends Processor
 		Progress.trace(1);
 
 		// labelitypes
-		for (final String labelitype : FnPresetProcessor.getLabelITypes())
+		for (final String labelitype : getLabelITypes())
 		{
 			final FnLabelIType labelIType = new FnLabelIType(labelitype);
 			FnLabelIType.SET.add(labelIType);

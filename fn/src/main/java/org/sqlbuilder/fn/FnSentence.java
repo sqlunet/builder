@@ -7,7 +7,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SentenceType;
 
-public class FnSentence implements Insertable<FnSentence>
+public class FnSentence implements HasID, Insertable<FnSentence>
 {
 	public static final Set<FnSentence> SET = new HashSet<>();
 
@@ -30,9 +30,8 @@ public class FnSentence implements Insertable<FnSentence>
 	@Override
 	public String dataRow()
 	{
-		final int corpusid = this.sentence.getCorpID();
-		final int documentid = this.sentence.getDocID();
-		final long sentenceid = getId();
+		final int corpusid = sentence.getCorpID();
+		final int documentid = sentence.getDocID();
 
 		// Long(1, sentenceid);
 		if (corpusid != 0)

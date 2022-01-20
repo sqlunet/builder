@@ -1,20 +1,13 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.common.Insertable;
+import java.util.Comparator;
 
-public abstract class FnName implements Insertable<FnName>
+public abstract class FnName
 {
 	public final String name;
 
 	public FnName(final String name)
 	{
 		this.name = name;
-	}
-
-	@Override
-	public String dataRow()
-	{
-		// String(1, this.name);
-		return null;
 	}
 }

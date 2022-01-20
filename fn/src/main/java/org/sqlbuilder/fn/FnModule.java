@@ -17,10 +17,26 @@ public class FnModule extends Module
 	@Override
 	protected void run()
 	{
-		new FnPresetProcessor().run();
-		//new FnSemTypeProcessor("semTypes.xml", props).run();
-
 		Inserter inserter = new Inserter(props);
+		new FnPresetProcessor().run();
+		try
+		{
+			inserter.insertPreset();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
+		new FnSemTypeProcessor("semTypes.xml", props).run();
+		try
+		{
+			inserter.insertSemTypes();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 
 		new FnFrameProcessor(props).run();
 		try
@@ -31,14 +47,40 @@ public class FnModule extends Module
 		{
 			e.printStackTrace();
 		}
-		/*
-		*/
 
 		new FnLexUnitProcessor(props).run();
-		//Inserter.insertLexUnits();
+		try
+		{
+			inserter.insertLexUnits();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 
 		//new FnFullTextProcessor(props).run();
-		//Inserter.insertFullText();
+		try
+		{
+			inserter.insertFullText();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+		try
+		{
+			inserter.insertFinal();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(final String[] args) throws IOException

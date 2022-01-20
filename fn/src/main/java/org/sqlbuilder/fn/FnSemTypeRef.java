@@ -7,7 +7,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SemTypeRefType;
 
-public class FnSemTypeRef implements Insertable<FnSemTypeRef>
+public class FnSemTypeRef implements HasID, Insertable<FnSemTypeRef>
 {
 	public static final Set<FnSemTypeRef> SET = new HashSet<>();
 

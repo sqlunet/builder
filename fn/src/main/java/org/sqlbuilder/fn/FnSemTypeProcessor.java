@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import edu.berkeley.icsi.framenet.SemTypeType;
-import edu.berkeley.icsi.framenet.SemTypeType.SuperType;
 import edu.berkeley.icsi.framenet.SemTypesDocument;
 
 public class FnSemTypeProcessor extends FnProcessor1
@@ -26,25 +24,20 @@ public class FnSemTypeProcessor extends FnProcessor1
 		{
 			Progress.traceHeader("framenet (semtype)", name);
 		}
-		final int count = 0;
 		final File xmlFile = new File(fileName);
-		// System.out.printf("file=<%s>\n", xmlFile);
 		try
 		{
-			final SemTypesDocument document = SemTypesDocument.Factory.parse(xmlFile);
+			final SemTypesDocument _document = SemTypesDocument.Factory.parse(xmlFile);
 
-			final SemTypeType[] semtypes = document.getSemTypes().getSemTypeArray();
-			for (final SemTypeType semtype : semtypes)
+			for (var _semtype : _document.getSemTypes().getSemTypeArray())
 			{
-				final FnSemType fnSemType = new FnSemType(semtype);
-				FnSemType.SET.add(fnSemType);
+				final FnSemType semtype = new FnSemType(_semtype);
+				FnSemType.SET.add(semtype);
 
-				final SuperType[] supertypes = semtype.getSuperTypeArray();
-				for (final SuperType supertype : supertypes)
+				for (var _supertype : _semtype.getSuperTypeArray())
 				{
-					//final FnSemType fnSemType2 = new FnSemType(supertype);
-					final FnSemTypeSuper fnSemSuperType = new FnSemTypeSuper(fnSemType, supertype);
-					FnSemTypeSuper.SET.add(fnSemSuperType);
+					final FnSemTypeSuper semsupertype = new FnSemTypeSuper(semtype, _supertype);
+					FnSemTypeSuper.SET.add(semsupertype);
 				}
 			}
 		}

@@ -22,11 +22,11 @@ public abstract class FnProcessor1 extends Processor
 	@Override
 	protected void run()
 	{
-		Progress.traceHeader("reading framenet file", this.filename);
+		Progress.traceHeader("framenet file", this.filename);
 		final File file = new File(this.fnHome + File.separatorChar + this.filename);
 		processFrameNetFile(file.getAbsolutePath(), file.getName());
 		Progress.trace(1);
-		Progress.traceTailer("reading framenet file ", this.filename);
+		Progress.traceTailer(1);
 	}
 
 	@SuppressWarnings({ "SameReturnValue", "UnusedReturnValue" })

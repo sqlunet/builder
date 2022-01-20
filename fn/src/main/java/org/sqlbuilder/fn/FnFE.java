@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FEType;
 
-public class FnFE implements Insertable<FnFE>
+public class FnFE implements HasID, Insertable<FnFE>
 {
 	public static final Set<FnFE> SET = new HashSet<>();
 
@@ -50,18 +50,6 @@ public class FnFE implements Insertable<FnFE>
 	@Override
 	public String dataRow()
 	{
-		//Long(1, this.fe.getID());
-		//Long(2, this.frameid);
-		//String(3, this.fe.getName());
-		//String(4, this.fe.getAbbrev());
-		//String(5, this.definition);
-		//Int(6, this.fe.getCoreType().intValue());
-		//Int(7, this.coreset);
-		//Null(7, Types.INTEGER);
-		//String(8, this.fe.getFgColor());
-		//String(9, this.fe.getBgColor());
-		//String(10, this.fe.getCDate());
-		//String(11, this.fe.getCBy());
 		return String.format("%d,%d,'%s','%s','%s',%d,%s", //
 				fe.getID(), //
 				frameid, //
@@ -70,11 +58,15 @@ public class FnFE implements Insertable<FnFE>
 				Utils.escape(definition), //
 				fe.getCoreType().intValue(), //
 				coreset == null ? "NULL" : coreset);
+		//String(8, this.fe.getFgColor());
+		//String(9, this.fe.getBgColor());
+		//String(10, this.fe.getCDate());
+		//String(11, this.fe.getCBy());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FE feid=%s frameid=%s name=%s]", this.fe.getID(), this.fe.getName());
+		return String.format("[FE feid=%s name=%s frameid=%s]", fe.getID(), fe.getName(), frameid);
 	}
 }

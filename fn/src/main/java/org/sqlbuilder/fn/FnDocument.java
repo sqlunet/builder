@@ -7,7 +7,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.CorpDocType.Document;
 
-public class FnDocument implements Insertable<FnDocument>
+public class FnDocument implements HasID, Insertable<FnDocument>
 {
 	public static final Set<FnDocument> SET = new HashSet<>();
 

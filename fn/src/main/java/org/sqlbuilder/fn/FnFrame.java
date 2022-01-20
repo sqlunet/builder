@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FrameDocument.Frame;
 
-public class FnFrame implements Insertable<FnFrame>
+public class FnFrame implements HasID, Insertable<FnFrame>
 {
 	public static final Set<FnFrame> SET = new HashSet<>();
 
@@ -45,9 +45,12 @@ public class FnFrame implements Insertable<FnFrame>
 	@Override
 	public String dataRow()
 	{
+		return String.format("%d,'%s','%s'", //
+				frame.getID(), //
+				Utils.escape(frame.getName()), //
+				Utils.escape(definition));
 		// String(4, this.frame.getCDate());
 		// String(5, this.frame.getCBy());
-		return String.format("%d,'%s','%s'", frame.getID(), Utils.escape(frame.getName()), Utils.escape(definition));
 	}
 
 	@Override
