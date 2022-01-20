@@ -30,61 +30,56 @@ public class FnFullTextProcessor extends FnProcessor
 		}
 		final int count = 0;
 		final File xmlFile = new File(fileName);
-		// System.out.printf("file=<%s>\n", xmlFile);
 		try
 		{
-			final FullTextAnnotationDocument document = FullTextAnnotationDocument.Factory.parse(xmlFile);
+			final FullTextAnnotationDocument _document = FullTextAnnotationDocument.Factory.parse(xmlFile);
 
 			// F U L L T E X T A N N O T A T I O N
 
-			final FullTextAnnotation fulltextannotation = document.getFullTextAnnotation();
+			final FullTextAnnotation _fulltextannotation = _document.getFullTextAnnotation();
 
 			// H E A D E R
 
-			final HeaderType header = fulltextannotation.getHeader();
+			final HeaderType _header = _fulltextannotation.getHeader();
 
 			// F R A M E
 
-			final Frame frame = header.getFrame();
-			if (frame != null)
+			final Frame _frame = _header.getFrame();
+			if (_frame != null)
 			{
 				// F E
 
-				final FE[] fes = frame.getFEArray();
-				for (final FE fe : fes)
+				for (var _fe : _frame.getFEArray())
 				{
-					final String fEName = fe.getName();
-					final String type = fe.getType().toString();
-					System.err.printf("%s %s%n", fEName, type);
+					System.err.printf("%s %s%n", _fe.getName(), _fe.getType().toString());
 				}
 			}
 
 			// C O R P U S
 
-			final CorpDocType[] corpuses = header.getCorpusArray();
-			for (final CorpDocType corpus : corpuses)
+			for (var _corpus : _header.getCorpusArray())
 			{
-				final FnCorpus fnCorpus = new FnCorpus(corpus, null);
+				final FnCorpus fnCorpus = new FnCorpus(_corpus, null);
 				final boolean isNew = FnCorpus.SET.add(fnCorpus);
 				if (!isNew)
 				{
 					Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "corpus-duplicate", fileName, -1, null, fnCorpus.toString());
 				}
 
-				final Document[] documents = corpus.getDocumentArray();
-				for (final Document document2 : documents)
+				for (var _doc : _corpus.getDocumentArray())
 				{
-					final FnDocument fnDocument = new FnDocument(fnCorpus, document2);
+					final FnDocument fnDocument = new FnDocument(fnCorpus, _doc);
 					FnDocument.SET.add(fnDocument);
 				}
 			}
 
 			// S E N T E N C E S
 
-			final SentenceType[] sentences = fulltextannotation.getSentenceArray();
-			for (final SentenceType sentence : sentences)
+			for (var _sentence : _fulltextannotation.getSentenceArray())
 			{
-				final FnSentence fnSentence = new FnSentence(sentence, true);
+				long sentenceid = _sentence.getID();
+
+				final FnSentence fnSentence = new FnSentence(_sentence, true);
 				final boolean isNew = FnSentence.SET.add(fnSentence);
 				if (!isNew)
 				{
@@ -92,28 +87,25 @@ public class FnFullTextProcessor extends FnProcessor
 				}
 
 				// annotation sets
-				final AnnotationSetType[] annosets = sentence.getAnnotationSetArray();
-				for (final AnnotationSetType annoset : annosets)
+				for (var _annoset : _sentence.getAnnotationSetArray())
 				{
-					final FnAnnotationSet fnAnnotationSet = new FnAnnotationSet(sentence.getID(), annoset);
-					final boolean isNew2 = FnAnnotationSet.SET.add(fnAnnotationSet);
+					final FnAnnotationSet annoset = new FnAnnotationSet(sentenceid, _annoset);
+					final boolean isNew2 = FnAnnotationSet.SET.add(annoset);
 					if (!isNew2)
 					{
 						continue;
 					}
 
 					// layers
-					final LayerType[] layerTypes = annoset.getLayerArray();
-					for (final LayerType layerType : layerTypes)
+					for (var _layer : _annoset.getLayerArray())
 					{
-						final FnLayer layer = new FnLayer(fnAnnotationSet, layerType);
+						final FnLayer layer = new FnLayer(annoset, _layer);
 						FnLayer.SET.add(layer);
 
 						// labels
-						final LabelType[] labelTypes = layerType.getLabelArray();
-						for (final LabelType labelType : labelTypes)
+						for (var _label : _layer.getLabelArray())
 						{
-							final FnLabel label = new FnLabel(layer, labelType);
+							final FnLabel label = new FnLabel(layer, _label);
 							FnLabel.SET.add(label);
 						}
 					}

@@ -7,18 +7,13 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 
-public class FnFEGroupRealization implements Insertable<FnFEGroupRealization>
+public class FnFEGroupRealization extends Pair<Long, FEGroupRealizationType> implements Insertable<FnFEGroupRealization>
 {
 	public static final Set<FnFEGroupRealization> SET = new HashSet<>();
 
-	public final FEGroupRealizationType fer;
-
-	public final FnLexUnit lu;
-
-	public FnFEGroupRealization(final FnLexUnit lu, final FEGroupRealizationType fer)
+	public FnFEGroupRealization(final long luid, final FEGroupRealizationType fer)
 	{
-		this.lu = lu;
-		this.fer = fer;
+		super(luid, fer);
 	}
 
 	@Override
@@ -37,6 +32,6 @@ public class FnFEGroupRealization implements Insertable<FnFEGroupRealization>
 	@Override
 	public String toString()
 	{
-		return String.format("[FEGR fer=%s lu=%s]", fer, lu);
+		return String.format("[FEGR fer=%s lu=%s]", second, first);
 	}
 }

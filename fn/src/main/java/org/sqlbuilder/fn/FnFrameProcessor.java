@@ -134,6 +134,7 @@ public class FnFrameProcessor extends FnProcessor
 					for (var _lexeme : _lexunit.getLexemeArray())
 					{
 						final String lemma = FnLexeme.makeWord(_lexeme.getName());
+
 						final FnWord word = new FnWord(lemma);
 						FnWord.SET.add(word);
 

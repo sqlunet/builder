@@ -68,6 +68,7 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _lexeme : _lexunit.getLexemeArray())
 			{
 				final String lemma = FnLexeme.makeWord(_lexeme.getName());
+
 				final FnWord word = new FnWord(lemma);
 				FnWord.SET.add(word);
 
@@ -92,6 +93,7 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _governor : _valences.getGovernorArray())
 			{
 				final String lemma = _governor.getLemma();
+
 				final FnWord word = new FnWord(lemma);
 				FnWord.SET.add(word);
 
@@ -136,7 +138,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _fegr : _valences.getFEGroupRealizationArray())
 			{
-				final FnFEGroupRealization fegr = new FnFEGroupRealization(lexunit, _fegr);
+				final FnFEGroupRealization fegr = new FnFEGroupRealization(luid, _fegr);
 				FnFEGroupRealization.SET.add(fegr);
 
 				// f e s
