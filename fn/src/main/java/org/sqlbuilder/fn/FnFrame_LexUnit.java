@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,48 +14,36 @@ public class FnFrame_LexUnit extends FnLexUnitBase implements Insertable<FnLexUn
 
 	public final long frameid;
 
-	public final FrameLUType luType;
+	public final FrameLUType lu;
 
-	public FnFrame_LexUnit(final long frameid, final FrameLUType luType)
+	public FnFrame_LexUnit(final long frameid, final FrameLUType lu)
 	{
 		this.frameid = frameid;
-		this.luType = luType;
+		this.lu = lu;
 	}
 
 	@Override
 	public String dataRow()
 	{
-		final Definition definition = FnLexUnitBase.getDefinition(this.luType.getDefinition());
+		final Definition definition = FnLexUnitBase.getDefinition(this.lu.getDefinition());
 
-		// Long(1, this.lu.getID());
-		// Long(2, this.frame.getID());
-		// String(3, this.lu.getName());
-		// Int(4, this.lu.getPOS().intValue());
-		if (definition.def != null)
-		{
-			// String(5, definition.def);
-		}
-		else
-		{
-			// Null(5, java.sql.Types.CHAR);
-		}
-		if (definition.dict != null)
-		{
-			// String(6, String.valueOf(definition.dict));
-		}
-		else
-		{
-			// Null(6, java.sql.Types.CHAR);
-		}
+		return String.format("%d,%d,'%s',%d,%s,%s,%s,%d", //
+				lu.getID(), //
+				frameid, //
+				lu.getName(), //
+				lu.getPOS().intValue(),  //
+				Utils.nullableString(definition.def), //
+				Utils.nullableChar(definition.dict), //
+				Utils.nullableString(lu.getIncorporatedFE()), //
+				lu.getSentenceCount().getAnnotated() //
+		);
+
 		// String(7, this.lu.getStatus());
-		// String(8, this.lu.getIncorporatedFE());
-		// Long(9, this.lu.getSentenceCount().getAnnotated());
-		return null;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FRLU lutype=%s frameid=%s]", this.luType.getName(), this.frameid);
+		return String.format("[FR-LU lu=%s frameid=%s]", this.lu.getName(), this.frameid);
 	}
 }

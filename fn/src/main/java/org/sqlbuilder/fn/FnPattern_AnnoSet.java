@@ -1,5 +1,7 @@
 package org.sqlbuilder.fn;
 
+import org.sqlbuilder.fn.joins.Pair;
+
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,6 +1,10 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Module;
+import org.sqlbuilder.fn.collectors.FnFrameProcessor;
+import org.sqlbuilder.fn.collectors.FnLexUnitProcessor;
+import org.sqlbuilder.fn.collectors.FnPresetProcessor;
+import org.sqlbuilder.fn.collectors.FnSemTypeProcessor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

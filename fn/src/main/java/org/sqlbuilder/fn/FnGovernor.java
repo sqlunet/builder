@@ -1,6 +1,8 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.objects.Word;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,11 +13,11 @@ public class FnGovernor implements Insertable<FnGovernor>
 {
 	public static final Set<FnGovernor> SET = new HashSet<>();
 
-	public final FnWord fnword;
+	public final Word fnword;
 
 	public final GovernorType governor;
 
-	public FnGovernor(final FnWord word, final GovernorType governor)
+	public FnGovernor(final Word word, final GovernorType governor)
 	{
 		this.fnword = word;
 		this.governor = governor;
@@ -24,11 +26,10 @@ public class FnGovernor implements Insertable<FnGovernor>
 	@Override
 	public String dataRow()
 	{
-		// Long(1, getId());
-		// // String(2, this.governor.getLemma());
-		// Long(2, this.fnwordid);
-		// String(3, this.governor.getType());
-		return null;
+		return String.format("'%s', NULL, '%s'", //
+				Utils.escape(governor.getLemma()), //
+				Utils.escape(governor.getType())
+				);
 	}
 
 	@Override

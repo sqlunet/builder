@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.objects.Word;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,9 +16,9 @@ public class FnLexeme implements Insertable<FnLexeme>
 
 	public final long luid;
 
-	public final FnWord fnword;
+	public final Word fnword;
 
-	public FnLexeme(final long luid, final FnWord fnword, final LexemeType type)
+	public FnLexeme(final long luid, final Word fnword, final LexemeType type)
 	{
 		this.luid = luid;
 		this.fnword = fnword;

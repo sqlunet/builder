@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.joins.FnFERealization;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class FnValenceUnit extends FnValenceUnitBase implements Insertable<FnVal
 
 	// C O N S T R U C T O R
 
-	public FnValenceUnit(final FnFERealization fer, final ValenceUnitType vu)
+	public FnValenceUnit(final ValenceUnitType vu, final FnFERealization fer)
 	{
 		super(vu);
 		this.fer = fer;

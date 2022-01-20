@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.objects.FEGroupRealization;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +14,9 @@ public class FnGroupPattern implements Insertable<FnGroupPattern>
 
 	public final Pattern pattern;
 
-	public final FnFEGroupRealization fegr;
+	public final FEGroupRealization fegr;
 
-	public FnGroupPattern(final FnFEGroupRealization fegr, final Pattern pattern)
+	public FnGroupPattern(final FEGroupRealization fegr, final Pattern pattern)
 	{
 		this.fegr = fegr;
 		this.pattern = pattern;

@@ -9,9 +9,9 @@ import edu.berkeley.icsi.framenet.ValenceUnitType;
 
 public class FnValenceUnitBase implements Comparable<FnValenceUnitBase>
 {
-	protected static final SortedSet<FnValenceUnitBase> SET = new TreeSet<>();
+	public static final SortedSet<FnValenceUnitBase> SET = new TreeSet<>();
 
-	protected static Map<FnValenceUnitBase, Long> MAP = new HashMap<>();
+	public static Map<FnValenceUnitBase, Long> MAP = new HashMap<>();
 
 	public final ValenceUnitType vu;
 
