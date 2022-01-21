@@ -31,10 +31,9 @@ public class Word implements Insertable<Word>
 	@Override
 	public String dataRow()
 	{
-		// Long(1, getId());
-		// Long(2, this.wordid.toLong());
-		// Null(2, Types.INTEGER);
-		// String(3, this.word);
-		return String.format("%s,'%s'", "NULL", Utils.escape(word));
+		return String.format("%s,%s,'%s'", //
+				"NULL", //
+				"NULL", //
+				Utils.escape(word));
 	}
 }

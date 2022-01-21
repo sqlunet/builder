@@ -47,7 +47,18 @@ public class Utils
 	}
 
 	/**
-	 * Escape nullable long for it to be handled by SQL
+	 * Escape nullable int for it to be handled by SQL
+	 *
+	 * @param i int
+	 * @return SQL int or "NULL"
+	 */
+	public static String nullableInt(final Integer i)
+	{
+		return i == null ? "NULL" : String.valueOf(i);
+	}
+
+	/**
+	 * Escape nullable int for it to be handled by SQL
 	 *
 	 * @param l long
 	 * @return SQL long or "NULL"
@@ -60,10 +71,21 @@ public class Utils
 	/**
 	 * Escape zeroable long for it to be handled by SQL
 	 *
-	 * @param i int
+	 * @param i long
 	 * @return SQL escaped string or "NULL"
 	 */
 	public static String zeroableLong(final long i)
+	{
+		return i == 0 ? "NULL" : String.valueOf(i);
+	}
+
+	/**
+	 * Escape zeroable int for it to be handled by SQL
+	 *
+	 * @param i int
+	 * @return SQL escaped string or "NULL"
+	 */
+	public static String zeroableInt(final int i)
 	{
 		return i == 0 ? "NULL" : String.valueOf(i);
 	}

@@ -6,7 +6,7 @@ public class Names
 	{
 		public static final String FILE = "annosets.sql";
 		public static final String TABLE = "fn_annosets";
-		public static final String COLUMNS = "annosetid,sentenceid,frameid,luid,cxnid,statusid,cdate,noccurs";
+		public static final String COLUMNS = "annosetid,sentenceid,luid,frameid,cxnid,statusid,cdate,noccurs";
 	}
 
 	static public class CORETYPES
@@ -62,7 +62,7 @@ public class Names
 	{
 		public static final String FILE = "fes.sql";
 		public static final String TABLE = "fn_fes";
-		public static final String COLUMNS = "feid,frameid,fetypeid,feabbrev,fedefinition,coretypeid,coreset,fgcolor,bgcolor,cdate,cby";
+		public static final String COLUMNS = "feid,fetypeid,feabbrev,fedefinition,coretypeid,coreset,frameid"; //,fgcolor,bgcolor,cdate,cby
 	}
 
 	static public class FES_EXCLUDED
@@ -104,7 +104,7 @@ public class Names
 	{
 		public static final String FILE = "frames.sql";
 		public static final String TABLE = "fn_frames";
-		public static final String COLUMNS = "frameid,frame,framedefinition,cdate,cby";
+		public static final String COLUMNS = "frameid,frame,framedefinition"; //,cdate,cby
 	}
 
 	static public class FRAMES_RELATED
@@ -153,7 +153,7 @@ public class Names
 	{
 		public static final String FILE = "labels.sql";
 		public static final String TABLE = "fn_labels";
-		public static final String COLUMNS = "labelid,layerid,labeltypeid,labelitypeid,feid,start,end,fgcolor,bgcolor,cby";
+		public static final String COLUMNS = "labelid,labeltypeid,labelitypeid,feid,start,end,layerid"; // ,fgcolor,bgcolor,cby
 	}
 
 	static public class LABELTYPES
@@ -188,7 +188,7 @@ public class Names
 	{
 		public static final String FILE = "lexunits.sql";
 		public static final String TABLE = "fn_lexunits";
-		public static final String COLUMNS = "luid,frameid,lexunit,posid,ludefinition,ludict,statusid,totalannotated,incorporatedfeid,incorporatedfetypeid,noccurs";
+		public static final String COLUMNS = "luid,lexunit,posid,ludefinition,ludict,statusid,totalannotated,incorporatedfeid,incorporatedfetypeid,noccurs,frameid";
 	}
 
 	static public class LEXUNITS_GOVERNORS

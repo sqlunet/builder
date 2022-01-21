@@ -13,9 +13,9 @@ public class FEGroupRealization implements Insertable<FEGroupRealization>
 
 	final FEGroupRealizationType fegr;
 
-	final long luid;
+	final int luid;
 
-	public FEGroupRealization(final FEGroupRealizationType fegr, final long luid)
+	public FEGroupRealization(final FEGroupRealizationType fegr, final int luid)
 	{
 		this.fegr = fegr;
 		this.luid = luid;
@@ -24,19 +24,15 @@ public class FEGroupRealization implements Insertable<FEGroupRealization>
 	@Override
 	public String dataRow()
 	{
-		// fegrid INTEGER NOT NULL,
-		// luid INTEGER,
-		// total INTEGER,
-
-		// Long(1, getId());
-		// Long(2, this.lu);
-		// Long(3, this.fer.getTotal());
-		return null;
+		return String.format("%s,%s,%d", //
+				"NULL", // fegr.getId()
+				fegr.getTotal(), //
+				luid);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FEGR fer=%s luid=%s]", fegr, luid);
+		return String.format("[FEGR fegr=%s luid=%s]", fegr, luid);
 	}
 }

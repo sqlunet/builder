@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
 
 import java.util.HashSet;
@@ -31,36 +32,19 @@ public class Sentence implements HasID, Insertable<Sentence>
 	@Override
 	public String dataRow()
 	{
-		final int corpusid = sentence.getCorpID();
-		final int documentid = sentence.getDocID();
-
-		// Long(1, sentenceid);
-		if (corpusid != 0)
-		{
-			// Int(2, corpusid);
-		}
-		else
-		{
-			// Null(2, Types.INTEGER);
-		}
-		if (documentid != 0)
-		{
-			// Int(3, documentid);
-		}
-		else
-		{
-			// Null(3, Types.INTEGER);
-		}
-		// Int(4, this.sentence.getParagNo());
-		// Int(5, this.sentence.getSentNo());
-		// String(6, this.sentence.getText());
-		// Int(7, this.sentence.getAPos());
-		return null;
+		return String.format("%d,%s,%s,", //
+				sentence.getID(), //
+				Utils.zeroableLong(sentence.getCorpID()), //
+				Utils.zeroableLong(sentence.getDocID()), //
+				sentence.getParagNo(), //
+				sentence.getSentNo(), //
+				sentence.getText(), //
+				sentence.getAPos());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[SENT sentenceid=%s id=%s corpusid=%s docid=%s]", getId(), this.sentence.getID(), this.sentence.getCorpID(), this.sentence.getDocID());
+		return String.format("[SENT id=%s id=%s corpusid=%s docid=%s]", getId(), this.sentence.getID(), this.sentence.getCorpID(), this.sentence.getDocID());
 	}
 }

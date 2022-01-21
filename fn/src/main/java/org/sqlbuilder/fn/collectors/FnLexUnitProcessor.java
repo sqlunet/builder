@@ -46,7 +46,7 @@ public class FnLexUnitProcessor extends FnProcessor
 			// L E X U N I T
 
 			final LexUnitDocument.LexUnit _lexunit = _document.getLexUnit();
-			final long luid = _lexunit.getID();
+			final int luid = _lexunit.getID();
 			final LexUnit lexunit = new LexUnit(_lexunit);
 			final boolean isNew = LexUnit.SET.add(lexunit);
 			if (!isNew)
@@ -63,7 +63,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 				for (var _doc : _corpus.getDocumentArray())
 				{
-					final Doc doc = new Doc(_doc, corpus);
+					final Doc doc = new Doc(_doc, _corpus);
 					Doc.SET.add(doc);
 				}
 			}

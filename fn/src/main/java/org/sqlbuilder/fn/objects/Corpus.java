@@ -15,9 +15,9 @@ public class Corpus implements HasID, Insertable<Corpus>
 
 	public final CorpDocType corpus;
 
-	public final Long luid;
+	public final Integer luid;
 
-	public Corpus(final CorpDocType corpus, final Long luid)
+	public Corpus(final CorpDocType corpus, final Integer luid)
 	{
 		this.corpus = corpus;
 		this.luid = luid;
@@ -30,12 +30,12 @@ public class Corpus implements HasID, Insertable<Corpus>
 				corpus.getID(), //
 				corpus.getName(), //
 				Utils.escape(corpus.getDescription()), //
-				Utils.nullableLong(luid));
+				Utils.nullableInt(luid));
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[CORPUS name=%s]", this.corpus.getName());
+		return String.format("[CORPUS id=%s name=%s]", corpus.getID(), corpus.getName());
 	}
 }

@@ -25,16 +25,15 @@ public class Layer implements Insertable<Layer>
 	public String dataRow()
 	{
 		return String.format("NULL,'%s',%d,%d", //
-				//layer.getId(),
-				layer.getName(),
-				layer.getRank(),
-				annosetid
-		);
+				//layer.getId(), //
+				layer.getName(), //
+				layer.getRank(), //
+				annosetid);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LAY name=%s annoset=%s]", this.layer.getName(), this.annosetid);
+		return String.format("[LAY name=%s annosetid=%s]", this.layer.getName(), this.annosetid);
 	}
 }

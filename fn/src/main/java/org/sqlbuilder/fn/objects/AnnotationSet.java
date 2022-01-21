@@ -10,7 +10,7 @@ import java.util.Set;
 import edu.berkeley.icsi.framenet.AnnotationSetType;
 
 /*
-FROM FULL TEXT
+FROM FULL TEXT:
 <fullTextAnnotation>
     <header>
         <corpus description="American National Corpus Texts" name="ANC" ID="195">
@@ -29,6 +29,8 @@ FROM FULL TEXT
             </layer>
             <layer rank="1" name="WSL"/>
         </annotationSet>
+    </sentence>
+</fullTextAnnotation>
 */
 /*
 FROM LEXUNIT
@@ -50,6 +52,9 @@ FROM LEXUNIT
                 <layer rank="1" name="NER"/>
                 <layer rank="1" name="WSL"/>
             </annotationSet>
+        </sentence>
+   </subcorpus>
+</lexUnit>
 */
 
 public class AnnotationSet implements HasID, Insertable<AnnotationSet>
@@ -60,60 +65,51 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 
 	public final long sentenceid;
 
-	public final Long frameid;
+	public final Integer luid;
 
-	public final Long luid;
+	public final Integer frameid;
 
-	private final boolean fromFullText;
+	private final boolean hasNullLuid;
 
 	public AnnotationSet(final AnnotationSetType annoset, final long sentenceid)
 	{
-		this(annoset, sentenceid, null, null,true);
+		this(annoset, sentenceid, null, null);
 	}
 
-	public AnnotationSet(final AnnotationSetType annoset, final long sentenceid, final long luid, final long frameid)
-	{
-		this(annoset, sentenceid, luid, frameid, false);
-	}
-
-	private AnnotationSet(final AnnotationSetType annoset, final long sentenceid, final Long luid, final Long frameid, final boolean fromFullText)
+	public AnnotationSet(final AnnotationSetType annoset, final long sentenceid, final Integer luid, final Integer frameid)
 	{
 		super();
 		this.annoset = annoset;
 		this.sentenceid = sentenceid;
 		this.luid = luid;
 		this.frameid = frameid;
-		this.fromFullText = fromFullText;
+		this.hasNullLuid = luid == null;
 	}
 
 	public long getId()
 	{
-		return annoset.getID() + (fromFullText ? 100000000L : 0L);
-	}
-
-	public long getFrameId()
-	{
-		return fromFullText ? annoset.getFrameID() : frameid;
+		return annoset.getID() + (hasNullLuid ? 100000000L : 0L);
 	}
 
 	public long getLuId()
 	{
-		return this.fromFullText ? annoset.getLuID() : luid;
+		return this.hasNullLuid ? annoset.getLuID() : luid;
+	}
+
+	public long getFrameId()
+	{
+		return hasNullLuid ? annoset.getFrameID() : frameid;
 	}
 
 	@Override
 	public String dataRow()
 	{
-		final long frameid2 = getFrameId();
-		final long luid2 = getLuId();
-		final long cxnid2 = annoset.getCxnID();
-
 		return String.format("%d,%d,%s,%s,%s,'%s'", //
 				getId(), //
 				sentenceid, //
-				Utils.zeroableLong(frameid2), //
-				Utils.zeroableLong(luid2), //
-				Utils.zeroableLong(cxnid2), //
+				Utils.zeroableLong(getLuId()), //
+				Utils.zeroableLong(getFrameId()), //
+				Utils.zeroableLong(annoset.getCxnID()), //
 				Utils.escape(annoset.getCxnName()) //
 				);
 		// String(7, this.annoset.getStatus());

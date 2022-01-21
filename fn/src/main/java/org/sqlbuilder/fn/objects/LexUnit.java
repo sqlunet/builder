@@ -25,21 +25,21 @@ public class LexUnit extends FnLexUnitBase implements HasID, Insertable<LexUnit>
 	{
 		final Definition definition = FnLexUnitBase.getDefinition(this.lu.getDefinition());
 
-		return String.format("%d,%d,'%s',%d,%s,%s,'%s',%s,%d", //
+		return String.format("%d,'%s',%d,%s,%s,'%s',%s,%d,%d", //
 				lu.getID(), //
-				lu.getFrameID(), //
 				Utils.escape(lu.getName()), //
 				lu.getPOS().intValue(), //
 				Utils.nullableString(definition.def), //
 				Utils.nullableChar(definition.dict), //
 				lu.getStatus(), //
 				Utils.nullableString(lu.getIncorporatedFE()), //
-				lu.getTotalAnnotated());
+				lu.getTotalAnnotated(), //
+				lu.getFrameID()); //
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LU lu=%s  luid=%d frame=%s frameid=%d]", lu.getName(), lu.getID(), lu.getFrame(), lu.getFrameID());
+		return String.format("[LU luid=%d lu=%s frame=%s frameid=%d]", lu.getID(), lu.getName(), lu.getFrame(), lu.getFrameID());
 	}
 }

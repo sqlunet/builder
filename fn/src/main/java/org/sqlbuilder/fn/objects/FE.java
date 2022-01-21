@@ -2,8 +2,8 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
 import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -22,15 +22,16 @@ public class FE implements HasID, Insertable<FE>
 
 	private final FEType fe;
 
-	public final String definition;
-
-	private final long frameid;
-
 	private final Integer coreset;
 
-	public FE(final FEType fe, final Integer coreset, final long frameid) throws ParserConfigurationException, IOException, SAXException
+	public final String definition;
+
+	private final int frameid;
+
+	public FE(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
 	{
 		this.fe = fe;
+		this.coreset = coreset;
 		try
 		{
 			this.definition = FE.definitionProcessor.process(this.fe.getDefinition());
@@ -40,7 +41,6 @@ public class FE implements HasID, Insertable<FE>
 			System.err.println(this.fe.getDefinition());
 			throw e;
 		}
-		this.coreset = coreset;
 		this.frameid = frameid;
 	}
 
@@ -52,14 +52,14 @@ public class FE implements HasID, Insertable<FE>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%d,'%s','%s','%s',%d,%s", //
+		return String.format("%d,'%s','%s','%s',%d,%s,%d", //
 				fe.getID(), //
-				frameid, //
 				Utils.escape(fe.getName()), //
 				Utils.escape(fe.getAbbrev()), //
 				Utils.escape(definition), //
 				fe.getCoreType().intValue(), //
-				coreset == null ? "NULL" : coreset);
+				coreset == null ? "NULL" : coreset, //
+				frameid); //
 		//String(8, this.fe.getFgColor());
 		//String(9, this.fe.getBgColor());
 		//String(10, this.fe.getCDate());

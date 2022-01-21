@@ -68,7 +68,7 @@ public class FnFullTextProcessor extends FnProcessor
 
 				for (var _doc : _corpus.getDocumentArray())
 				{
-					final Doc fnDocument = new Doc(_doc, fnCorpus);
+					final Doc fnDocument = new Doc(_doc, _corpus);
 					Doc.SET.add(fnDocument);
 				}
 			}

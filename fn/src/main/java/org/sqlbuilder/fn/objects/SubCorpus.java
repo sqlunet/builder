@@ -13,9 +13,9 @@ public class SubCorpus implements Insertable<SubCorpus>
 
 	private final SubCorpusType subcorpus;
 
-	private final long luid;
+	private final int luid;
 
-	public SubCorpus(final SubCorpusType subcorpus, final long luid)
+	public SubCorpus(final SubCorpusType subcorpus, final int luid)
 	{
 		this.subcorpus = subcorpus;
 		this.luid = luid;
@@ -24,10 +24,10 @@ public class SubCorpus implements Insertable<SubCorpus>
 	@Override
 	public String dataRow()
 	{
-		// Long(1, getId());
-		// Long(2, this.luid);
-		// String(3, this.subcorpus.getName());
-		return null;
+		return String.format("NULL,'%s',%d",
+				// getId(),
+				subcorpus.getName(), //
+				luid);
 	}
 
 	@Override

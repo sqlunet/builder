@@ -2,8 +2,8 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.collectors.FnFrameXmlProcessor;
 import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.fn.collectors.FnFrameXmlProcessor;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -12,17 +12,19 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import edu.berkeley.icsi.framenet.FrameDocument;
+
 public class Frame implements HasID, Insertable<Frame>
 {
 	public static final Set<Frame> SET = new HashSet<>();
 
 	private static final FnFrameXmlProcessor definitionProcessor = new FnFrameXmlProcessor();
 
-	public final edu.berkeley.icsi.framenet.FrameDocument.Frame frame;
+	public final FrameDocument.Frame frame;
 
 	public final String definition;
 
-	public Frame(final edu.berkeley.icsi.framenet.FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
+	public Frame(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
 	{
 		super();
 		this.frame = frame;
@@ -56,6 +58,6 @@ public class Frame implements HasID, Insertable<Frame>
 	@Override
 	public String toString()
 	{
-		return String.format("[FRAME frid=%s name=%s]", frame.getID(), frame.getName());
+		return String.format("[FRAME id=%s name=%s]", frame.getID(), frame.getName());
 	}
 }

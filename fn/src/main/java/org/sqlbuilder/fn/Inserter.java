@@ -24,13 +24,13 @@ public class Inserter
 
 	public void insertPreset() throws FileNotFoundException
 	{
-		Pos.MAP = MapFactory.makeSortedMap(Pos.SET, Pos.COMPARATOR);
-		CoreType.MAP = MapFactory.makeSortedMap(CoreType.SET, CoreType.COMPARATOR);
-		LabelIType.MAP = MapFactory.makeSortedMap(LabelIType.SET, LabelIType.COMPARATOR);
+		Values.Pos.MAP = MapFactory.makeSortedMap(Values.Pos.SET, Values.Pos.COMPARATOR);
+		Values.CoreType.MAP = MapFactory.makeSortedMap(Values.CoreType.SET, Values.CoreType.COMPARATOR);
+		Values.LabelIType.MAP = MapFactory.makeSortedMap(Values.LabelIType.SET, Values.LabelIType.COMPARATOR);
 
-		Insert.insert(Pos.MAP, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
-		Insert.insert(CoreType.MAP, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
-		Insert.insert(LabelIType.MAP, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
+		Insert.insert(Values.Pos.MAP, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
+		Insert.insert(Values.CoreType.MAP, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
+		Insert.insert(Values.LabelIType.MAP, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
 	}
 
 	public void insertFrames() throws FileNotFoundException
@@ -59,7 +59,6 @@ public class Inserter
 
 	public void insertSemTypes() throws FileNotFoundException
 	{
-		SemType.MAP = MapFactory.makeSortedMap(SemType.SET, SemType.COMPARATOR);
-		Insert.insert(SemType.MAP, new File(outDir, Names.SEMTYPES.FILE), Names.SEMTYPES.TABLE, Names.SEMTYPES.COLUMNS);
+		Insert.insert(SemType.SET, SemType.COMPARATOR, new File(outDir, Names.SEMTYPES.FILE), Names.SEMTYPES.TABLE, Names.SEMTYPES.COLUMNS);
 	}
 }

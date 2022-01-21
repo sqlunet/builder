@@ -48,7 +48,7 @@ public class FnFrameProcessor extends FnProcessor
 			// F R A M E
 
 			final FrameDocument.Frame _frame = _document.getFrame();
-			final long frameid = _frame.getID();
+			final int frameid = _frame.getID();
 			final Frame frame = new Frame(_frame);
 			Frame.SET.add(frame);
 

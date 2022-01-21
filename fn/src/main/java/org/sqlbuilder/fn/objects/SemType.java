@@ -15,8 +15,6 @@ public class SemType implements HasID, Insertable<SemType>
 {
 	public static final Set<SemType> SET = new HashSet<>();
 
-	public static Map<SemType, Integer> MAP;
-
 	public final SemTypeType type;
 
 	public SemType(final SemTypeType type)
