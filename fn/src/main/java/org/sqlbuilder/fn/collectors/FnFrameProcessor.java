@@ -3,8 +3,8 @@ package org.sqlbuilder.fn.collectors;
 import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.fn.FnFrame_LexUnit;
-import org.sqlbuilder.fn.FnLexeme;
+import org.sqlbuilder.fn.objects.LexUnit2;
+import org.sqlbuilder.fn.objects.FnLexeme;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.FE;
@@ -128,9 +128,9 @@ public class FnFrameProcessor extends FnProcessor
 			{
 				for (var _lexunit : _frame.getLexUnitArray())
 				{
-					final long luid = _lexunit.getID();
-					final FnFrame_LexUnit frame_lexunit = new FnFrame_LexUnit(frameid, _lexunit);
-					final boolean isNew = FnFrame_LexUnit.SET.add(frame_lexunit);
+					final int luid = _lexunit.getID();
+					final LexUnit2 frame_lexunit = new LexUnit2(frameid, _lexunit);
+					final boolean isNew = LexUnit2.SET.add(frame_lexunit);
 					if (!isNew)
 					{
 						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "frame-lu-duplicate", fileName, -1, null, frame_lexunit.toString());
@@ -143,9 +143,8 @@ public class FnFrameProcessor extends FnProcessor
 						final String lemma = FnLexeme.makeWord(_lexeme.getName());
 
 						final Word word = new Word(lemma);
-						Word.SET.add(word);
 
-						final FnLexeme lexeme = new FnLexeme(luid, word, _lexeme);
+						final FnLexeme lexeme = new FnLexeme(_lexeme, word, luid);
 						FnLexeme.SET.add(lexeme);
 					}
 

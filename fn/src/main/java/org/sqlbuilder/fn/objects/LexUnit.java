@@ -2,19 +2,19 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.FnLexUnitBase;
 import org.sqlbuilder.fn.HasID;
 
 import java.util.HashSet;
 import java.util.Set;
+import edu.berkeley.icsi.framenet.LexUnitDocument;
 
-public class LexUnit extends FnLexUnitBase implements HasID, Insertable<LexUnit>
+public class LexUnit extends LexUnitBase implements HasID, Insertable<LexUnit>
 {
 	public static final Set<LexUnit> SET = new HashSet<>();
 
-	public final edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit lu;
+	public final LexUnitDocument.LexUnit lu;
 
-	public LexUnit(final edu.berkeley.icsi.framenet.LexUnitDocument.LexUnit lu)
+	public LexUnit(final LexUnitDocument.LexUnit lu)
 	{
 		super();
 		this.lu = lu;
@@ -23,7 +23,7 @@ public class LexUnit extends FnLexUnitBase implements HasID, Insertable<LexUnit>
 	@Override
 	public String dataRow()
 	{
-		final Definition definition = FnLexUnitBase.getDefinition(this.lu.getDefinition());
+		final Definition definition = LexUnitBase.getDefinition(this.lu.getDefinition());
 
 		return String.format("%d,'%s',%d,%s,%s,'%s',%s,%d,%d", //
 				lu.getID(), //

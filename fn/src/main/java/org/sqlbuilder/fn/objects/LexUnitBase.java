@@ -1,6 +1,6 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn.objects;
 
-public class FnLexUnitBase
+public abstract class LexUnitBase
 {
 	public static class Definition
 	{
@@ -48,7 +48,7 @@ public class FnLexUnitBase
 	{
 		for (final String arg : args)
 		{
-			final Definition definition = FnLexUnitBase.getDefinition(arg);
+			final Definition definition = LexUnitBase.getDefinition(arg);
 			System.out.println("<" + definition.def + ">");
 		}
 	}

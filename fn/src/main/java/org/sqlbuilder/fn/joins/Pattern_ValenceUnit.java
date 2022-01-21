@@ -1,19 +1,19 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.FnGroupPattern;
-import org.sqlbuilder.fn.FnValenceUnitBase;
+import org.sqlbuilder.fn.objects.Pattern;
+import org.sqlbuilder.fn.objects.ValenceUnit;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class FnPattern_ValenceUnit extends Pair<FnGroupPattern, FnValenceUnitBase> implements Insertable<FnPattern_ValenceUnit>
+public class Pattern_ValenceUnit extends Pair<Pattern, ValenceUnit> implements Insertable<Pattern_ValenceUnit>
 {
-	public static final Set<FnPattern_ValenceUnit> SET = new HashSet<>();
+	public static final Set<Pattern_ValenceUnit> SET = new HashSet<>();
 
 	//public final FnFE fe;
 
-	public FnPattern_ValenceUnit(final FnGroupPattern pattern, final FnValenceUnitBase vu /*, final FnFE fe*/)
+	public Pattern_ValenceUnit(final Pattern pattern, final ValenceUnit vu /*, final FnFE fe*/)
 	{
 		super(pattern, vu);
 		//this.fe = fe;

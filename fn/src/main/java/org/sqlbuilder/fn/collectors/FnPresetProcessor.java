@@ -23,24 +23,21 @@ public class FnPresetProcessor extends Processor
 		// pos
 		for (var pos : getPoses())
 		{
-			final Values.Pos fnPos = new Values.Pos(pos);
-			Values.Pos.SET.add(fnPos);
+			new Values.Pos(pos);
 		}
 		Progress.trace(1);
 
 		// coretypes
 		for (var coretype : getCoreTypes())
 		{
-			final Values.CoreType fnCoretype = new Values.CoreType(coretype);
-			Values.CoreType.SET.add(fnCoretype);
+			new Values.CoreType(coretype);
 		}
 		Progress.trace(1);
 
 		// labelitypes
 		for (var labelitype : getLabelITypes())
 		{
-			final Values.LabelIType labelIType = new Values.LabelIType(labelitype);
-			Values.LabelIType.SET.add(labelIType);
+			new Values.LabelIType(labelitype);
 		}
 		Progress.trace(1);
 

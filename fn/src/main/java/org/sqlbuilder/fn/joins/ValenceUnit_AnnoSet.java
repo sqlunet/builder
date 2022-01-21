@@ -1,17 +1,17 @@
 package org.sqlbuilder.fn.joins;
 
-import org.sqlbuilder.fn.FnValenceUnit;
+import org.sqlbuilder.fn.objects.ValenceUnit;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnoSetType;
 
-public class FnValenceUnit_AnnoSet extends Pair<FnValenceUnit, AnnoSetType>
+public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, AnnoSetType>
 {
-	public static final Set<FnValenceUnit_AnnoSet> SET = new HashSet<>();
+	public static final Set<ValenceUnit_AnnoSet> SET = new HashSet<>();
 
-	public FnValenceUnit_AnnoSet(final FnValenceUnit vu, final AnnoSetType annoset)
+	public ValenceUnit_AnnoSet(final ValenceUnit vu, final AnnoSetType annoset)
 	{
 		super(vu, annoset);
 	}

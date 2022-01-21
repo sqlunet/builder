@@ -1,17 +1,17 @@
 package org.sqlbuilder.fn.joins;
 
-import org.sqlbuilder.fn.FnGovernor;
+import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnoSetType;
 
-public class FnGovernor_AnnoSet extends Pair<FnGovernor, AnnoSetType>
+public class FnGovernor_AnnoSet extends Pair<Governor, AnnoSetType>
 {
 	public static final Set<FnGovernor_AnnoSet> SET = new HashSet<>();
 
-	public FnGovernor_AnnoSet(final FnGovernor governor, final AnnoSetType annoset)
+	public FnGovernor_AnnoSet(final Governor governor, final AnnoSetType annoset)
 	{
 		super(governor, annoset);
 	}

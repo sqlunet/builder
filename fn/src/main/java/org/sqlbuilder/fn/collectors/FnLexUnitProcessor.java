@@ -35,7 +35,7 @@ public class FnLexUnitProcessor extends FnProcessor
 		}
 
 		// clear map
-		FnValenceUnitBase.MAP.clear();
+		ValenceUnit.MAP.clear();
 
 		final int count = 0;
 		final File file = new File(fileName);
@@ -75,9 +75,8 @@ public class FnLexUnitProcessor extends FnProcessor
 				final String lemma = FnLexeme.makeWord(_lexeme.getName());
 
 				final Word word = new Word(lemma);
-				Word.SET.add(word);
 
-				final FnLexeme lexeme = new FnLexeme(luid, word, _lexeme);
+				final FnLexeme lexeme = new FnLexeme( _lexeme, word, luid);
 				FnLexeme.SET.add(lexeme);
 			}
 
@@ -97,13 +96,8 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _governor : _valences.getGovernorArray())
 			{
-				final String lemma = _governor.getLemma();
-
-				final Word word = new Word(lemma);
-				Word.SET.add(word);
-
-				final FnGovernor governor = new FnGovernor(word, _governor);
-				FnGovernor.SET.add(governor);
+				final Governor governor = new Governor(_governor);
+				Governor.SET.add(governor);
 
 				final LexUnit_Governor lexunit_governor = new LexUnit_Governor(luid, governor);
 				LexUnit_Governor.SET.add(lexunit_governor);
@@ -119,22 +113,25 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _fer : _valences.getFERealizationArray())
 			{
-				final FnFERealization fer = new FnFERealization(luid, _fer);
-				FnFERealization.SET.add(fer);
+				final FERealization fer = new FERealization(_fer, luid);
+				FERealization.SET.add(fer);
 
 				// p a t t e r n s
 				for (var _pattern : _fer.getPatternArray())
 				{
 					// v a l e n c e u n i t
 					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
-					final FnValenceUnit valenceunit = new FnValenceUnit(_valenceunit, fer);
-					FnValenceUnit.SET.add(valenceunit);
+					final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
+					ValenceUnit.SET.add(valenceunit);
+
+					final ValenceUnit_FERealization valenceunit_fer = new ValenceUnit_FERealization(valenceunit, fer);
+					ValenceUnit_FERealization.SET.add(valenceunit_fer);
 
 					// a n n o s e t s
 					for (var _annoset : _pattern.getAnnoSetArray())
 					{
-						final FnValenceUnit_AnnoSet valenceunit_annoset = new FnValenceUnit_AnnoSet(valenceunit, _annoset);
-						FnValenceUnit_AnnoSet.SET.add(valenceunit_annoset);
+						final ValenceUnit_AnnoSet valenceunit_annoset = new ValenceUnit_AnnoSet(valenceunit, _annoset);
+						ValenceUnit_AnnoSet.SET.add(valenceunit_annoset);
 					}
 				}
 			}
@@ -156,24 +153,24 @@ public class FnLexUnitProcessor extends FnProcessor
 				// p a t t e r n s
 				for (var _grouppattern : _fegr.getPatternArray())
 				{
-					final FnGroupPattern grouppattern = new FnGroupPattern(fegr, _grouppattern);
-					FnGroupPattern.SET.add(grouppattern);
+					final Pattern grouppattern = new Pattern(_grouppattern, fegr);
+					Pattern.SET.add(grouppattern);
 
 					// v a l e n c e u n i t s
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
-						final FnValenceUnitBase valenceunit = new FnValenceUnitBase(_valenceunit);
-						FnValenceUnitBase.SET.add(valenceunit);
+						final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
+						ValenceUnit.SET.add(valenceunit);
 
-						final FnPattern_ValenceUnit pattern_valenceunit = new FnPattern_ValenceUnit(grouppattern, valenceunit);
-						FnPattern_ValenceUnit.SET.add(pattern_valenceunit);
+						final Pattern_ValenceUnit pattern_valenceunit = new Pattern_ValenceUnit(grouppattern, valenceunit);
+						Pattern_ValenceUnit.SET.add(pattern_valenceunit);
 					}
 
 					// a n n o s e t s
 					for (var _annoset : _grouppattern.getAnnoSetArray())
 					{
-						final FnPattern_AnnoSet pattern_annoset = new FnPattern_AnnoSet(grouppattern, _annoset);
-						FnPattern_AnnoSet.SET.add(pattern_annoset);
+						final Pattern_AnnoSet pattern_annoset = new Pattern_AnnoSet(grouppattern, _annoset);
+						Pattern_AnnoSet.SET.add(pattern_annoset);
 					}
 				}
 			}

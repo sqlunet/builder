@@ -1,4 +1,4 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
@@ -8,24 +8,24 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FrameLUType;
 
-public class FnFrame_LexUnit extends FnLexUnitBase implements Insertable<FnLexUnitBase>
+public class LexUnit2 extends LexUnitBase implements Insertable<LexUnitBase>
 {
-	public static final Set<FnFrame_LexUnit> SET = new HashSet<>();
+	public static final Set<LexUnit2> SET = new HashSet<>();
 
 	public final long frameid;
 
 	public final FrameLUType lu;
 
-	public FnFrame_LexUnit(final long frameid, final FrameLUType lu)
+	public LexUnit2(final long frameid, final FrameLUType lu)
 	{
-		this.frameid = frameid;
 		this.lu = lu;
+		this.frameid = frameid;
 	}
 
 	@Override
 	public String dataRow()
 	{
-		final Definition definition = FnLexUnitBase.getDefinition(this.lu.getDefinition());
+		final Definition definition = LexUnitBase.getDefinition(this.lu.getDefinition());
 
 		return String.format("%d,%d,'%s',%d,%s,%s,%s,%d", //
 				lu.getID(), //
