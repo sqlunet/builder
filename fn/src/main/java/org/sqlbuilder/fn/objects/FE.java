@@ -14,6 +14,22 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FEType;
 
+/*
+fes.table=fnfes
+fes.create=CREATE TABLE IF NOT EXISTS %Fn_fes.table% ( feid INTEGER NOT NULL,frameid INTEGER,fetypeid INTEGER DEFAULT NULL,feabbrev VARCHAR(24),fedefinition TEXT,coretypeid INTEGER DEFAULT NULL,coreset INTEGER DEFAULT NULL,fgcolor VARCHAR(6),bgcolor VARCHAR(6),cdate VARCHAR(27),cby VARCHAR(5),PRIMARY KEY (feid) );
+fes.altcreate1=ALTER TABLE %Fn_fes.table% ADD COLUMN fetype VARCHAR(30) AFTER fetypeid;
+fes.index1=CREATE INDEX IF NOT EXISTS k_%Fn_fes.table%_frameid ON %Fn_fes.table% (frameid);
+fes.no-index1=DROP INDEX IF EXISTS k_%Fn_fes.table%_frameid;
+fes.index2=CREATE INDEX IF NOT EXISTS k_%Fn_fes.table%_fetypeid ON %Fn_fes.table% (fetypeid);
+fes.no-index2=DROP INDEX IF EXISTS k_%Fn_fes.table%_fetypeid;
+fes.fk1=ALTER TABLE %Fn_fes.table% ADD CONSTRAINT fk_%Fn_fes.table%_frameid FOREIGN KEY (frameid) REFERENCES %Fn_frames.table% (frameid);
+fes.fk2=ALTER TABLE %Fn_fes.table% ADD CONSTRAINT fk_%Fn_fes.table%_fetypeid FOREIGN KEY (fetypeid) REFERENCES %Fn_fetypes.table% (fetypeid);
+fes.fk3=ALTER TABLE %Fn_fes.table% ADD CONSTRAINT fk_%Fn_fes.table%_coretypeid FOREIGN KEY (coretypeid) REFERENCES %Fn_coretypes.table% (coretypeid);
+fes.no-fk1=ALTER TABLE %Fn_fes.table% DROP CONSTRAINT fk_%Fn_fes.table%_coretypeid CASCADE;
+fes.no-fk2=ALTER TABLE %Fn_fes.table% DROP CONSTRAINT fk_%Fn_fes.table%_fetypeid CASCADE;
+fes.no-fk3=ALTER TABLE %Fn_fes.table% DROP CONSTRAINT fk_%Fn_fes.table%_frameid CASCADE;
+fes.insert=INSERT INTO %Fn_fes.table% (feid,frameid,fetype,feabbrev,fedefinition,coretypeid,coreset,fgcolor,bgcolor,cdate,cby) VALUES(?,?,?,?,?,?,?,?,?,?,?);
+ */
 public class FE implements HasID, Insertable<FE>
 {
 	public static final Set<FE> SET = new HashSet<>();

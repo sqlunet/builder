@@ -56,6 +56,25 @@ FROM LEXUNIT
    </subcorpus>
 </lexUnit>
 */
+/*
+annosets.table=fnannosets
+annosets.create=CREATE TABLE IF NOT EXISTS %Fn_annosets.table% ( annosetid INTEGER NOT NULL,sentenceid INTEGER NOT NULL,frameid INTEGER DEFAULT NULL,luid INTEGER DEFAULT NULL,cxnid INTEGER DEFAULT NULL,statusid INTEGER DEFAULT NULL,cdate VARCHAR(27),noccurs INTEGER DEFAULT 1,PRIMARY KEY (annosetid) );
+annosets.altcreate1=ALTER TABLE %Fn_annosets.table% ADD COLUMN cxn VARCHAR(32) AFTER cxnid;
+annosets.altcreate2=ALTER TABLE %Fn_annosets.table% ADD COLUMN status VARCHAR(32) AFTER statusid;
+annosets.index1=CREATE INDEX IF NOT EXISTS k_%Fn_annosets.table%_frameid ON %Fn_annosets.table% (frameid);
+annosets.no-index1=DROP INDEX IF EXISTS k_%Fn_annosets.table%_frameid;
+annosets.index2=CREATE INDEX IF NOT EXISTS k_%Fn_annosets.table%_luid ON %Fn_annosets.table% (luid);
+annosets.no-index2=DROP INDEX IF EXISTS k_%Fn_annosets.table%_luid;
+annosets.fk1=ALTER TABLE %Fn_annosets.table% ADD CONSTRAINT fk_%Fn_annosets.table%_sentenceid FOREIGN KEY (sentenceid) REFERENCES %Fn_sentences.table% (sentenceid);
+annosets.fk2=ALTER TABLE %Fn_annosets.table% ADD CONSTRAINT fk_%Fn_annosets.table%_frameid FOREIGN KEY (frameid) REFERENCES %Fn_frames.table% (frameid);
+annosets.fk3=ALTER TABLE %Fn_annosets.table% ADD CONSTRAINT fk_%Fn_annosets.table%_luid FOREIGN KEY (luid) REFERENCES %Fn_lexunits.table% (luid);
+annosets.fk4=ALTER TABLE %Fn_annosets.table% ADD CONSTRAINT fk_%Fn_annosets.table%_cxnid FOREIGN KEY (cxnid) REFERENCES %Fn_cxns.table% (cxnid);
+annosets.no-fk1=ALTER TABLE %Fn_annosets.table% DROP CONSTRAINT fk_%Fn_annosets.table%_sentenceid CASCADE;
+annosets.no-fk2=ALTER TABLE %Fn_annosets.table% DROP CONSTRAINT fk_%Fn_annosets.table%_frameid CASCADE;
+annosets.no-fk3=ALTER TABLE %Fn_annosets.table% DROP CONSTRAINT fk_%Fn_annosets.table%_luid CASCADE;
+annosets.no-fk4=ALTER TABLE %Fn_annosets.table% DROP CONSTRAINT fk_%Fn_annosets.table%_cxnid CASCADE;
+annosets.insert=INSERT INTO %Fn_annosets.table% (annosetid,sentenceid,frameid,luid,cxnid,cxn,status,cdate) VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE noccurs=noccurs+1;
+*/
 
 public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 {

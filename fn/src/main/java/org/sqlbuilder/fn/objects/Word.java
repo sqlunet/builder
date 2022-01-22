@@ -9,6 +9,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/*
+words.table=fnwords
+words.create=CREATE TABLE IF NOT EXISTS %Fn_words.table% ( fnwordid INTEGER NOT NULL,wordid INTEGER NULL,word VARCHAR(30),PRIMARY KEY (fnwordid) );
+words.pk=ALTER TABLE %Fn_words.table% ADD CONSTRAINT pk_%Fn_words.table% PRIMARY KEY (fnwordid);
+words.no-pk=ALTER TABLE %Fn_words.table% DROP PRIMARY KEY;
+words.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_words.table%_word ON %Fn_words.table% (word);
+words.no-unq1=DROP INDEX IF EXISTS unq_%Fn_words.table%_word;
+words.fk1=ALTER TABLE %Fn_words.table% ADD CONSTRAINT fk_%Fn_words.table%_wordid FOREIGN KEY (wordid) REFERENCES %Word.table% (wordid);
+words.no-fk1=ALTER TABLE %Fn_words.table% DROP CONSTRAINT fk_%Fn_words.table%_wordid CASCADE;
+words.insert=INSERT INTO %Fn_words.table% (fnwordid,wordid,word) VALUES(?,?,?);
+words.select=SELECT fnwordid FROM %Fn_words.table% WHERE word = ?;
+ */
 public class Word implements HasId, Insertable<Word>
 {
 	public static final Set<Word> SET = new HashSet<>();

@@ -9,6 +9,15 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SentenceType;
 
+/*
+sentences.table=fnsentences
+sentences.create=CREATE TABLE IF NOT EXISTS %Fn_sentences.table% ( sentenceid INTEGER NOT NULL,documentid INTEGER DEFAULT NULL,corpusid INTEGER DEFAULT NULL,paragno INTEGER,sentno INTEGER,text TEXT,apos INTEGER,noccurs INTEGER DEFAULT 1,PRIMARY KEY (sentenceid) );
+sentences.fk1=ALTER TABLE %Fn_sentences.table% ADD CONSTRAINT fk_%Fn_sentences.table%_documentid FOREIGN KEY (documentid) REFERENCES %Fn_documents.table% (documentid);
+sentences.fk2=ALTER TABLE %Fn_sentences.table% ADD CONSTRAINT fk_%Fn_sentences.table%_corpusid FOREIGN KEY (corpusid) REFERENCES %Fn_corpuses.table% (corpusid);
+sentences.no-fk1=ALTER TABLE %Fn_sentences.table% DROP CONSTRAINT fk_%Fn_sentences.table%_corpusid CASCADE;
+sentences.no-fk2=ALTER TABLE %Fn_sentences.table% DROP CONSTRAINT fk_%Fn_sentences.table%_documentid CASCADE;
+sentences.insert=INSERT INTO %Fn_sentences.table% (sentenceid,corpusid,documentid,paragno,sentno,text,apos) VALUES(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE noccurs=noccurs+1;
+ */
 public class Sentence implements HasID, Insertable<Sentence>
 {
 	public static final Set<Sentence> SET = new HashSet<>();

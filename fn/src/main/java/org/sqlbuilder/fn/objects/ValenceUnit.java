@@ -4,6 +4,19 @@ import java.util.*;
 
 import edu.berkeley.icsi.framenet.ValenceUnitType;
 
+/*
+valenceunits.table=fnvalenceunits
+valenceunits.create=CREATE TABLE IF NOT EXISTS %Fn_valenceunits.table% ( vuid INTEGER NOT NULL,ferid INTEGER NOT NULL,ptid INTEGER,gfid INTEGER,PRIMARY KEY (vuid) );
+valenceunits.altcreate1=ALTER TABLE %Fn_valenceunits.table% ADD COLUMN pt VARCHAR(20) AFTER ptid;
+valenceunits.altcreate2=ALTER TABLE %Fn_valenceunits.table% ADD COLUMN gf VARCHAR(10) AFTER gfid;
+valenceunits.fk1=ALTER TABLE %Fn_valenceunits.table% ADD CONSTRAINT fk_%Fn_valenceunits.table%_ferid FOREIGN KEY (ferid) REFERENCES %Fn_ferealizations.table% (ferid);
+valenceunits.fk2=ALTER TABLE %Fn_valenceunits.table% ADD CONSTRAINT fk_%Fn_valenceunits.table%_ptid FOREIGN KEY (ptid) REFERENCES %Fn_pttypes.table% (ptid);
+valenceunits.fk3=ALTER TABLE %Fn_valenceunits.table% ADD CONSTRAINT fk_%Fn_valenceunits.table%_gfid FOREIGN KEY (gfid) REFERENCES %Fn_gftypes.table% (gfid);
+valenceunits.no-fk1=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_valenceunits.table%_ferid CASCADE;
+valenceunits.no-fk2=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_valenceunits.table%_gfid CASCADE;
+valenceunits.no-fk3=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_valenceunits.table%_ptid CASCADE;
+valenceunits.insert=INSERT INTO %Fn_valenceunits.table% (vuid,ferid,pt,gf) VALUES(?,?,?,?);
+ */
 public class ValenceUnit implements Comparable<ValenceUnit>
 {
 	public static final SortedSet<ValenceUnit> SET = new TreeSet<>();

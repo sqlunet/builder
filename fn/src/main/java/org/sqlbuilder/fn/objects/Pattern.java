@@ -9,6 +9,13 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 
+/*
+patterns.table=fnpatterns
+patterns.create=CREATE TABLE IF NOT EXISTS %Fn_patterns.table% ( patternid INTEGER NOT NULL,fegrid INTEGER,total INTEGER,PRIMARY KEY (patternid) );
+patterns.fk1=ALTER TABLE %Fn_patterns.table% ADD CONSTRAINT fk_%Fn_patterns.table%_fegrid FOREIGN KEY (fegrid) REFERENCES %Fn_fegrouprealizations.table% (fegrid);
+patterns.no-fk1=ALTER TABLE %Fn_patterns.table% DROP CONSTRAINT fk_%Fn_patterns.table%_fegrid CASCADE;
+patterns.insert=INSERT INTO %Fn_patterns.table% (patternid,fegrid,total) VALUES(?,?,?);
+ */
 public class Pattern implements HasId, Insertable<Pattern>
 {
 	public static final Set<Pattern> SET = new HashSet<>();
