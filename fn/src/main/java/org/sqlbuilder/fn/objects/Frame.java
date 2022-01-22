@@ -42,6 +42,7 @@ public class Frame implements HasID, Insertable<Frame>
 			System.err.println(frame.getDefinition());
 			throw e;
 		}
+		SET.add(this);
 	}
 
 	public long getID()

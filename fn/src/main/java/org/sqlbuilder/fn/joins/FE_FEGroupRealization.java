@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
+import org.sqlbuilder.fn.types.FeType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,30 +21,27 @@ fegrouprealizations_fes.no-fk2=ALTER TABLE %Fn_fegrouprealizations_fes.table% DR
 fegrouprealizations_fes.no-fk3=ALTER TABLE %Fn_fegrouprealizations_fes.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_feid CASCADE;
 fegrouprealizations_fes.insert=INSERT INTO %Fn_fegrouprealizations_fes.table% (rfeid,fegrid,fetype) VALUES(?,?,?);
  */
-public class FEGroupRealization_FE extends Pair<FEGroupRealization, FEValenceType> implements Insertable<FEGroupRealization_FE>
+public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealization> implements Insertable<FE_FEGroupRealization>
 {
-	public static final Set<FEGroupRealization_FE> SET = new HashSet<>();
+	public static final Set<FE_FEGroupRealization> SET = new HashSet<>();
 
-	public FEGroupRealization_FE(final FEGroupRealization fegr, final FEValenceType fe)
+	public FE_FEGroupRealization(final FEValenceType fe, final FEGroupRealization fegr)
 	{
-		super(fegr, fe);
+		super(fe, fegr);
+		SET.add(this);
 	}
 
 	@Override
 	public String dataRow()
 	{
-		// Long(1, this.rfeid);
-		// Long(2, this.fegrid);
-		// String(3, this.fe.getName());
-		return String.format("",
-				first,
-				second.getName()
-		);
+		return String.format("%s,%s", //
+				FeType.getId(first.getName()), //
+				second.getId());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FEGR-FE fegr=%s fe=%s]", this.first, this.second.getName());
+		return String.format("[FE-FEGR fe=%s fegr=%s]", this.first.getName(), this.second);
 	}
 }

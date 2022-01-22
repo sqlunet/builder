@@ -1,7 +1,9 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
 
 import java.util.HashSet;
@@ -28,6 +30,11 @@ public class Corpus implements HasID, Insertable<Corpus>
 	{
 		this.corpus = corpus;
 		this.luid = luid;
+		final boolean isNew = SET.add(this);
+		if (!isNew)
+		{
+			Logger.instance.logWarn(FnModule.MODULE_ID, "Corpus", "corpus-duplicate", null, -1, null, toString());
+		}
 	}
 
 	@Override

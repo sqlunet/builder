@@ -38,6 +38,7 @@ public class FnLexeme implements Insertable<FnLexeme>
 		this.lexeme = type;
 		this.word = fnword;
 		this.luid = luid;
+		SET.add(this);
 	}
 
 	@Override

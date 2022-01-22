@@ -31,6 +31,7 @@ public class Pattern_ValenceUnit extends Pair<Pattern, ValenceUnit> implements I
 	{
 		super(pattern, vu);
 		//this.fe = fe;
+		SET.add(this);
 	}
 
 	@Override

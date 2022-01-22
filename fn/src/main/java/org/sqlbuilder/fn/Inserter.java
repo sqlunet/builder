@@ -3,6 +3,7 @@ package org.sqlbuilder.fn;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.MapFactory;
 import org.sqlbuilder.fn.objects.*;
+import org.sqlbuilder.fn.types.FeType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,9 +37,7 @@ public class Inserter
 	public void insertFrames() throws FileNotFoundException
 	{
 		Insert.insert(Frame.SET, Comparator.comparing(Frame::getID), new File(outDir, Names.FRAMES.FILE), Names.FRAMES.TABLE, Names.FRAMES.COLUMNS);
-		Insert.insert(FE.SET, Comparator.comparing(FE::getID), new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
 		Frame.SET.clear();
-		FE.SET.clear();
 	}
 
 	public void insertLexUnits() throws FileNotFoundException
@@ -55,6 +54,12 @@ public class Inserter
 	{
 		Word.MAP = MapFactory.makeSortedMap(Word.SET, Word.COMPARATOR);
 		Insert.insert(Word.MAP, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
+
+		FeType.MAP = MapFactory.makeSortedMap(FeType.SET,Comparator.naturalOrder());
+		Insert.insertStringMap(FeType.MAP, new File(outDir, Names.FETYPES.FILE), Names.FETYPES.TABLE, Names.FETYPES.COLUMNS);
+
+		Insert.insert(FE.SET, Comparator.comparing(FE::getID), new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
+		FE.SET.clear();
 	}
 
 	public void insertSemTypes() throws FileNotFoundException

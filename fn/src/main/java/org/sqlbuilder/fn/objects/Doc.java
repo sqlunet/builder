@@ -29,6 +29,7 @@ public class Doc implements HasID, Insertable<Doc>
 	{
 		this.doc = doc;
 		this.corpus = corpus;
+		SET.add(this);
 	}
 
 	@Override

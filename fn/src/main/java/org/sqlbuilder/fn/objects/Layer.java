@@ -29,6 +29,7 @@ public class Layer implements Insertable<Layer>
 	{
 		this.layer = layer;
 		this.annosetid = annosetid;
+		SET.add(this);
 	}
 
 	@Override

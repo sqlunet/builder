@@ -23,6 +23,7 @@ public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, AnnoSetType>
 	public ValenceUnit_AnnoSet(final ValenceUnit vu, final AnnoSetType annoset)
 	{
 		super(vu, annoset);
+		SET.add(this);
 	}
 
 	@Override

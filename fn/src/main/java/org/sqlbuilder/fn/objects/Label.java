@@ -34,6 +34,7 @@ public class Label implements Insertable<Label>
 	{
 		this.label = label;
 		this.layer = layer;
+		SET.add(this);
 	}
 
 	@Override

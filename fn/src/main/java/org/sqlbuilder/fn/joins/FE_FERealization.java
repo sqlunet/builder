@@ -1,15 +1,14 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.HasId;
-import org.sqlbuilder.fn.types.FeType;
+import org.sqlbuilder.fn.objects.FERealization;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import edu.berkeley.icsi.framenet.FERealizationType;
+import edu.berkeley.icsi.framenet.FEValenceType;
 
+/*
 /*
 ferealizations.table=fnferealizations
 ferealizations.create=CREATE TABLE IF NOT EXISTS %Fn_ferealizations.table% ( ferid INTEGER NOT NULL,luid INTEGER,fetypeid INTEGER DEFAULT NULL,feid INTEGER DEFAULT NULL,total INTEGER,PRIMARY KEY (ferid) );
@@ -20,59 +19,27 @@ ferealizations.no-fk1=ALTER TABLE %Fn_ferealizations.table% DROP CONSTRAINT fk_%
 ferealizations.no-fk2=ALTER TABLE %Fn_ferealizations.table% DROP CONSTRAINT fk_%Fn_ferealizations.table%_luid CASCADE;
 ferealizations.insert=INSERT INTO %Fn_ferealizations.table% (ferid,luid,fetype,total) VALUES(?,?,?,?);
  */
-public class FERealization implements HasId, Insertable<FERealization>
+public class FE_FERealization extends Pair<FEValenceType, FERealization> implements Insertable<FE_FERealization>
 {
-	public static final Set<FERealization> SET = new HashSet<>();
+	public static final Set<FE_FERealization> SET = new HashSet<>();
 
-	public static Map<FERealization, Integer> MAP;
-
-	private final FERealizationType fer;
-
-	private final int luid;
-
-	public FERealization(final FERealizationType fer, final int luid)
+	public FE_FERealization(final FEValenceType fe, final FERealization fer)
 	{
-		this.fer = fer;
-		this.luid = luid;
+		super(fe, fer);
 		SET.add(this);
-	}
-
-	@Override
-	public Object getId()
-	{
-		Integer id = MAP.get(this);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
 	}
 
 	@Override
 	public String dataRow()
 	{
-		// ferid INTEGER NOT NULL
-		// fetypeid INTEGER DEFAULT NULL
-		// feid INTEGER DEFAULT NULL
-		// total INTEGER
-		// luid INTEGER
-		return String.format("%s,'%s',%s,%d", //
-				getId(), //
-				FeType.getId(fer.getFE().getName()), //
-				// feid INTEGER DEFAULT NULL
-				fer.getTotal(), //
-				luid);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s", fer.getFE().getName());
+		return String.format("%s,%s", //
+				first.getName(), //
+				second.dataRow());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FER fe=%s luid=%s]", fer.getFE(), luid);
+		return String.format("[FE-FER fe=%s fer=%s]", this.first, this.second);
 	}
 }

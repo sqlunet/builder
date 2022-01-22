@@ -16,13 +16,14 @@ governors_annosets.no-fk1=ALTER TABLE %Fn_governors_annosets.table% DROP CONSTRA
 governors_annosets.no-fk2=ALTER TABLE %Fn_governors_annosets.table% DROP CONSTRAINT fk_%Fn_governors_annosets.table%_governorid CASCADE;
 governors_annosets.insert=INSERT INTO %Fn_governors_annosets.table% (governorid,annosetid) VALUES(?,?);
  */
-public class FnGovernor_AnnoSet extends Pair<Governor, AnnoSetType>
+public class Governor_AnnoSet extends Pair<Governor, AnnoSetType>
 {
-	public static final Set<FnGovernor_AnnoSet> SET = new HashSet<>();
+	public static final Set<Governor_AnnoSet> SET = new HashSet<>();
 
-	public FnGovernor_AnnoSet(final Governor governor, final AnnoSetType annoset)
+	public Governor_AnnoSet(final Governor governor, final AnnoSetType annoset)
 	{
 		super(governor, annoset);
+		SET.add(this);
 	}
 
 	@Override

@@ -50,7 +50,6 @@ public class FnFrameProcessor extends FnProcessor
 			final FrameDocument.Frame _frame = _document.getFrame();
 			final int frameid = _frame.getID();
 			final Frame frame = new Frame(_frame);
-			Frame.SET.add(frame);
 
 			// S E M T Y P E
 
@@ -58,7 +57,6 @@ public class FnFrameProcessor extends FnProcessor
 			{
 				final SemTypeRef semtype = new SemTypeRef(_semtype);
 				final Frame_SemType frame_semtype = new Frame_SemType(frameid, semtype);
-				Frame_SemType.SET.add(frame_semtype);
 			}
 
 			// F E C O R E S E T S
@@ -85,28 +83,24 @@ public class FnFrameProcessor extends FnProcessor
 			{
 				final long feid = _fe.getID();
 				final FE fe = new FE(_fe, feToCoresetMap.get(feid), frameid);
-				FE.SET.add(fe);
 
 				// s e m t y p e s
 				for (var _semtype : _fe.getSemTypeArray())
 				{
 					SemTypeRef semtype = new SemTypeRef(_semtype);
 					final FE_SemType fe_semtype = new FE_SemType(feid, semtype);
-					FE_SemType.SET.add(fe_semtype);
 				}
 
 				// r e q u i r e s
 				for (var _requiredfe : _fe.getRequiresFEArray())
 				{
 					final FE_FERequired requiredfe = new FE_FERequired(feid, _requiredfe);
-					FE_FERequired.SET.add(requiredfe);
 				}
 
 				// e x c l u d e s / r e q u i r e s
 				for (var _excludedfe : _fe.getExcludesFEArray())
 				{
 					final FE_FEExcluded excludedfe = new FE_FEExcluded(feid, _excludedfe);
-					FE_FEExcluded.SET.add(excludedfe);
 				}
 			}
 
@@ -118,7 +112,6 @@ public class FnFrameProcessor extends FnProcessor
 				for (var _relatedframe : _framerelations.getRelatedFrameArray())
 				{
 					final Frame_FrameRelated relatedframe = new Frame_FrameRelated(frame.frame.getID(), _relatedframe, t);
-					Frame_FrameRelated.SET.add(relatedframe);
 				}
 			}
 
@@ -130,12 +123,6 @@ public class FnFrameProcessor extends FnProcessor
 				{
 					final int luid = _lexunit.getID();
 					final LexUnit2 frame_lexunit = new LexUnit2(frameid, _lexunit);
-					final boolean isNew = LexUnit2.SET.add(frame_lexunit);
-					if (!isNew)
-					{
-						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "frame-lu-duplicate", fileName, -1, null, frame_lexunit.toString());
-						continue;
-					}
 
 					// lexemes
 					for (var _lexeme : _lexunit.getLexemeArray())
@@ -145,14 +132,12 @@ public class FnFrameProcessor extends FnProcessor
 						final Word word = new Word(lemma);
 
 						final FnLexeme lexeme = new FnLexeme(_lexeme, word, luid);
-						FnLexeme.SET.add(lexeme);
 					}
 
 					// semtypes
 					for (var _semtype : _lexunit.getSemTypeArray())
 					{
 						final LexUnit_SemType lexunit_semtype = new LexUnit_SemType(luid, _semtype);
-						LexUnit_SemType.SET.add(lexunit_semtype);
 					}
 				}
 			}

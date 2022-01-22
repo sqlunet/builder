@@ -20,7 +20,7 @@ public class Pattern implements HasId, Insertable<Pattern>
 {
 	public static final Set<Pattern> SET = new HashSet<>();
 
-	public static Map<Pattern,Integer> MAP;
+	public static Map<Pattern, Integer> MAP;
 
 	public final FEGroupRealizationType.Pattern pattern;
 
@@ -30,6 +30,7 @@ public class Pattern implements HasId, Insertable<Pattern>
 	{
 		this.fegr = fegr;
 		this.pattern = pattern;
+		SET.add(this);
 	}
 
 	@Override
@@ -46,16 +47,14 @@ public class Pattern implements HasId, Insertable<Pattern>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%d,%s",
-				getId(), //
+		return String.format("%s,%d,%s", getId(), //
 				pattern.getTotal(), //
-				fegr.getId()
-		);
+				fegr.getId());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GRPPAT pattern=%s fegr=%s]", this.pattern, this.fegr);
+		return String.format("[GPAT pattern=%s fegr=%s]", this.pattern, this.fegr);
 	}
 }

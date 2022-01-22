@@ -1,11 +1,14 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import edu.berkeley.icsi.framenet.LexUnitDocument;
 
 /*
@@ -24,7 +27,7 @@ lexunits.no-fk3=ALTER TABLE %Fn_lexunits.table% DROP CONSTRAINT fk_%Fn_lexunits.
 lexunits.insert=INSERT INTO %Fn_lexunits.table% (luid,frameid,lexunit,posid,ludefinition,ludict,status,incorporatedfetype,totalannotated) VALUES(?,?,?,?,?,?,?,?,?);
 lexunits.insert2=INSERT INTO %Fn_lexunits.table% (luid,frameid,lexunit,posid,ludefinition,ludict,status,incorporatedfetype,totalannotated) VALUES(?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE noccurs=noccurs+1;
  */
-public class LexUnit extends LexUnitBase implements HasID, Insertable<LexUnit>
+public class LexUnit implements HasID, Insertable<LexUnit>
 {
 	public static final Set<LexUnit> SET = new HashSet<>();
 
@@ -34,12 +37,17 @@ public class LexUnit extends LexUnitBase implements HasID, Insertable<LexUnit>
 	{
 		super();
 		this.lu = lu;
+		boolean isNew = SET.add(this);
+		if (!isNew)
+		{
+			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "lu-duplicate", null, -1, null, toString());
+		}
 	}
 
 	@Override
 	public String dataRow()
 	{
-		final Definition definition = LexUnitBase.getDefinition(this.lu.getDefinition());
+		final Definition definition = Definition.getDefinition(this.lu.getDefinition());
 
 		return String.format("%d,'%s',%d,%s,%s,'%s',%s,%d,%d", //
 				lu.getID(), //

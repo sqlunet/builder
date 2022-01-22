@@ -1,5 +1,11 @@
 package org.sqlbuilder.fn.objects;
 
+import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.types.FeType;
+import org.sqlbuilder.fn.types.GfType;
+import org.sqlbuilder.fn.types.PtType;
+
 import java.util.*;
 
 import edu.berkeley.icsi.framenet.ValenceUnitType;
@@ -17,11 +23,11 @@ valenceunits.no-fk2=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_v
 valenceunits.no-fk3=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_valenceunits.table%_ptid CASCADE;
 valenceunits.insert=INSERT INTO %Fn_valenceunits.table% (vuid,ferid,pt,gf) VALUES(?,?,?,?);
  */
-public class ValenceUnit implements Comparable<ValenceUnit>
+public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<ValenceUnit>
 {
 	public static final SortedSet<ValenceUnit> SET = new TreeSet<>();
 
-	public static Map<ValenceUnit, Long> MAP = new HashMap<>();
+	public static Map<ValenceUnit, Integer> MAP = new HashMap<>();
 
 	public final ValenceUnitType vu;
 
@@ -30,6 +36,22 @@ public class ValenceUnit implements Comparable<ValenceUnit>
 	public ValenceUnit(final ValenceUnitType vu)
 	{
 		this.vu = vu;
+		String fe = vu.getFE();
+		if (fe.isEmpty())
+		{
+			FeType.add(vu.getFE());
+		}
+		String pt = vu.getPT();
+		if (pt.isEmpty())
+		{
+			PtType.add(vu.getPT());
+		}
+		String gf = vu.getGF();
+		if (gf.isEmpty())
+		{
+			GfType.add(vu.getGF());
+		}
+		SET.add(this);
 	}
 
 	// A C C E S S
@@ -50,6 +72,17 @@ public class ValenceUnit implements Comparable<ValenceUnit>
 	}
 
 	// I D E N T I T Y
+
+	@Override
+	public Object getId()
+	{
+		Integer id = MAP.get(this);
+		if (id != null)
+		{
+			return id;
+		}
+		return "NULL";
+	}
 
 	@Override
 	public boolean equals(final Object o)
@@ -80,6 +113,41 @@ public class ValenceUnit implements Comparable<ValenceUnit>
 	public int compareTo(final ValenceUnit that)
 	{
 		return COMPARATOR.compare(this, that);
+	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		String fe = vu.getFE();
+		if (fe.isEmpty())
+		{
+			fe = null;
+		}
+		String pt = vu.getPT();
+		if (pt.isEmpty())
+		{
+			pt = null;
+		}
+		String gf = vu.getGF();
+		if (gf.isEmpty())
+		{
+			gf = null;
+		}
+
+		//TODO ferid
+		return String.format("%s,%s,%s,%s",
+				getId(),
+				FeType.getId(fe), //
+				PtType.getId(pt), //
+				GfType.getId(gf));
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s,%s", vu.getFE(), vu.getPT(), vu.getGF());
 	}
 
 	// T O S T R I N G

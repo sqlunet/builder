@@ -13,7 +13,7 @@ public class Cxns
 
 	public static Map<String, Integer> MAP;
 
-	public static void record(String type)
+	public static void add(String type)
 	{
 		SET.add(type);
 	}

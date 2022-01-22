@@ -21,6 +21,7 @@ public class FE_FERequired extends Pair<Long, InternalFrameRelationFEType>
 	public FE_FERequired(final long fe, final InternalFrameRelationFEType fe2)
 	{
 		super(fe, fe2);
+		SET.add(this);
 	}
 
 	@Override

@@ -103,6 +103,11 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 		this.luid = luid;
 		this.frameid = frameid;
 		this.hasNullLuid = luid == null;
+		final boolean isNew = SET.add(this);
+		if (!isNew)
+		{
+			throw new RuntimeException(this.toString());
+		}
 	}
 
 	public long getId()

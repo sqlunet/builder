@@ -27,6 +27,7 @@ public class Governor implements Insertable<Governor>
 	{
 		this.governor = governor;
 		this.word = new Word(governor.getLemma());
+		SET.add(this);
 	}
 
 	@Override

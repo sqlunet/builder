@@ -10,6 +10,8 @@ import java.util.Set;
 
 public class Insert
 {
+	// M A P
+
 	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
@@ -30,11 +32,14 @@ public class Insert
 				ps.print(",\n");
 			}
 			String values = key.dataRow();
-			String row = String.format("(%d,%s)", value, values);
+			String comment = key.comment();
+			String row = comment != null ? String.format("(%d,%s) /* %s */", value, values, comment) : String.format("(%d,%s)", value, values);
 			ps.print(row);
 			i[0]++;
 		});
 	}
+
+	// S E T
 
 	public static <T extends Insertable<T>> void insert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
 	{
@@ -61,7 +66,35 @@ public class Insert
 				ps.print(",\n");
 			}
 			String values = e.dataRow();
-			String row = String.format("(%s)", values);
+			String comment = e.comment();
+			String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
+			ps.print(row);
+			i[0]++;
+		});
+	}
+
+	// S T R I N G   M A P
+
+	public static void insertStringMap(final Map<String, Integer> map, final File file, String table, String columns) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+			insertStringMap(map, ps);
+			ps.println(";");
+		}
+	}
+
+	public static void insertStringMap(final Map<String, Integer> map, final PrintStream ps)
+	{
+		int[] i = {0};
+		map.forEach((key, value) -> {
+
+			if (i[0] != 0)
+			{
+				ps.print(",\n");
+			}
+			String row = String.format("(%d,%s)", value, key);
 			ps.print(row);
 			i[0]++;
 		});

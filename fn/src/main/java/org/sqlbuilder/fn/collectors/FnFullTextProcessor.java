@@ -60,16 +60,10 @@ public class FnFullTextProcessor extends FnProcessor
 			for (var _corpus : _header.getCorpusArray())
 			{
 				final Corpus fnCorpus = new Corpus(_corpus, null);
-				final boolean isNew = Corpus.SET.add(fnCorpus);
-				if (!isNew)
-				{
-					Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "corpus-duplicate", fileName, -1, null, fnCorpus.toString());
-				}
 
 				for (var _doc : _corpus.getDocumentArray())
 				{
 					final Doc fnDocument = new Doc(_doc, _corpus);
-					Doc.SET.add(fnDocument);
 				}
 			}
 
@@ -80,11 +74,6 @@ public class FnFullTextProcessor extends FnProcessor
 				long sentenceid = _sentence.getID();
 
 				final Sentence fnSentence = new Sentence(_sentence, true);
-				final boolean isNew = Sentence.SET.add(fnSentence);
-				if (!isNew)
-				{
-					Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "sentence-duplicate", fileName, -1, null, fnSentence.toString());
-				}
 
 				// annotation sets
 				for (var _annoset : _sentence.getAnnotationSetArray())
@@ -100,13 +89,11 @@ public class FnFullTextProcessor extends FnProcessor
 					for (var _layer : _annoset.getLayerArray())
 					{
 						final Layer layer = new Layer(_layer, _annoset.getID());
-						Layer.SET.add(layer);
 
 						// labels
 						for (var _label : _layer.getLabelArray())
 						{
 							final Label label = new Label(_label, layer);
-							Label.SET.add(label);
 						}
 					}
 				}

@@ -13,7 +13,7 @@ public class Status
 
 	public static Map<String, Integer> MAP;
 
-	public static void record(String value)
+	public static void add(String value)
 	{
 		SET.add(value);
 	}

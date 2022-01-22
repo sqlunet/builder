@@ -23,6 +23,7 @@ public class Pattern_AnnoSet extends Pair<Pattern, AnnoSetType>
 	public Pattern_AnnoSet(final Pattern pattern, final AnnoSetType annoset)
 	{
 		super(pattern, annoset);
+		SET.add(this);
 	}
 
 	@Override

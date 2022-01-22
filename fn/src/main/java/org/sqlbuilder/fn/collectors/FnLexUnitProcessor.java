@@ -3,7 +3,7 @@ package org.sqlbuilder.fn.collectors;
 import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.fn.*;
+import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.*;
 
@@ -48,23 +48,16 @@ public class FnLexUnitProcessor extends FnProcessor
 			final LexUnitDocument.LexUnit _lexunit = _document.getLexUnit();
 			final int luid = _lexunit.getID();
 			final LexUnit lexunit = new LexUnit(_lexunit);
-			final boolean isNew = LexUnit.SET.add(lexunit);
-			if (!isNew)
-			{
-				Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "lu-duplicate", fileName, -1, null, lexunit.toString());
-			}
 
 			// H E A D E R
 
 			for (var _corpus : _lexunit.getHeader().getCorpusArray())
 			{
 				final Corpus corpus = new Corpus(_corpus, luid);
-				Corpus.SET.add(corpus);
 
 				for (var _doc : _corpus.getDocumentArray())
 				{
 					final Doc doc = new Doc(_doc, _corpus);
-					Doc.SET.add(doc);
 				}
 			}
 
@@ -76,8 +69,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 				final Word word = new Word(lemma);
 
-				final FnLexeme lexeme = new FnLexeme( _lexeme, word, luid);
-				FnLexeme.SET.add(lexeme);
+				final FnLexeme lexeme = new FnLexeme(_lexeme, word, luid);
 			}
 
 			// S E M T Y P E S
@@ -85,7 +77,6 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _semtype : _lexunit.getSemTypeArray())
 			{
 				final LexUnit_SemType lexunit_semtype = new LexUnit_SemType(luid, _semtype);
-				LexUnit_SemType.SET.add(lexunit_semtype);
 			}
 
 			// V A L E N C E S
@@ -97,15 +88,12 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _governor : _valences.getGovernorArray())
 			{
 				final Governor governor = new Governor(_governor);
-				Governor.SET.add(governor);
 
 				final LexUnit_Governor lexunit_governor = new LexUnit_Governor(luid, governor);
-				LexUnit_Governor.SET.add(lexunit_governor);
 
 				for (var _annoset : _governor.getAnnoSetArray())
 				{
-					final FnGovernor_AnnoSet governor_annoset = new FnGovernor_AnnoSet(governor, _annoset);
-					FnGovernor_AnnoSet.SET.add(governor_annoset);
+					final Governor_AnnoSet governor_annoset = new Governor_AnnoSet(governor, _annoset);
 				}
 			}
 
@@ -114,7 +102,7 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _fer : _valences.getFERealizationArray())
 			{
 				final FERealization fer = new FERealization(_fer, luid);
-				FERealization.SET.add(fer);
+				final FE_FERealization fe_fer = new FE_FERealization(_fer.getFE(), fer);
 
 				// p a t t e r n s
 				for (var _pattern : _fer.getPatternArray())
@@ -122,16 +110,13 @@ public class FnLexUnitProcessor extends FnProcessor
 					// v a l e n c e u n i t
 					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
 					final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
-					ValenceUnit.SET.add(valenceunit);
 
 					final ValenceUnit_FERealization valenceunit_fer = new ValenceUnit_FERealization(valenceunit, fer);
-					ValenceUnit_FERealization.SET.add(valenceunit_fer);
 
 					// a n n o s e t s
 					for (var _annoset : _pattern.getAnnoSetArray())
 					{
 						final ValenceUnit_AnnoSet valenceunit_annoset = new ValenceUnit_AnnoSet(valenceunit, _annoset);
-						ValenceUnit_AnnoSet.SET.add(valenceunit_annoset);
 					}
 				}
 			}
@@ -141,36 +126,30 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _fegr : _valences.getFEGroupRealizationArray())
 			{
 				final FEGroupRealization fegr = new FEGroupRealization(_fegr, luid);
-				FEGroupRealization.SET.add(fegr);
 
 				// f e s
 				for (var _fe : _fegr.getFEArray())
 				{
-					final FEGroupRealization_FE fegr_fe = new FEGroupRealization_FE(fegr, _fe);
-					FEGroupRealization_FE.SET.add(fegr_fe);
+					final FE_FEGroupRealization fe_fegr = new FE_FEGroupRealization(_fe, fegr);
 				}
 
 				// p a t t e r n s
 				for (var _grouppattern : _fegr.getPatternArray())
 				{
 					final Pattern grouppattern = new Pattern(_grouppattern, fegr);
-					Pattern.SET.add(grouppattern);
 
 					// v a l e n c e u n i t s
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
 						final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
-						ValenceUnit.SET.add(valenceunit);
 
 						final Pattern_ValenceUnit pattern_valenceunit = new Pattern_ValenceUnit(grouppattern, valenceunit);
-						Pattern_ValenceUnit.SET.add(pattern_valenceunit);
 					}
 
 					// a n n o s e t s
 					for (var _annoset : _grouppattern.getAnnoSetArray())
 					{
 						final Pattern_AnnoSet pattern_annoset = new Pattern_AnnoSet(grouppattern, _annoset);
-						Pattern_AnnoSet.SET.add(pattern_annoset);
 					}
 				}
 			}
@@ -180,25 +159,24 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _subcorpus : _lexunit.getSubCorpusArray())
 			{
 				final SubCorpus subcorpus = new SubCorpus(_subcorpus, luid);
-				SubCorpus.SET.add(subcorpus);
 
 				for (var _sentence : _subcorpus.getSentenceArray())
 				{
 					final Sentence sentence = new Sentence(_sentence, false);
-					final boolean isNew2 = Sentence.SET.add(sentence);
-					if (!isNew2)
-					{
-						Logger.instance.logWarn(FnModule.MODULE_ID, this.tag, "sentence-duplicate", fileName, -1, null, sentence.toString());
-					}
 
 					final SubCorpus_Sentence subcorpus_sentence = new SubCorpus_Sentence(subcorpus, sentence);
-					SubCorpus_Sentence.SET.add(subcorpus_sentence);
 
 					for (final AnnotationSetType _annoset : _sentence.getAnnotationSetArray())
 					{
-						final AnnotationSet annoset = new AnnotationSet(_annoset, _sentence.getID(), luid, _lexunit.getFrameID());
-						final boolean isNew3 = AnnotationSet.SET.add(annoset);
-						if (!isNew3 || this.skipLayers)
+						try
+						{
+							final AnnotationSet annoset = new AnnotationSet(_annoset, _sentence.getID(), luid, _lexunit.getFrameID());
+						}
+						catch (RuntimeException re)
+						{
+							continue;
+						}
+						if (this.skipLayers)
 						{
 							continue;
 						}
@@ -207,13 +185,11 @@ public class FnLexUnitProcessor extends FnProcessor
 						for (var _layer : _annoset.getLayerArray())
 						{
 							final Layer layer = new Layer(_layer, _annoset.getID());
-							Layer.SET.add(layer);
 
 							// labels
 							for (var _label : _layer.getLabelArray())
 							{
 								final Label label = new Label(_label, layer);
-								Label.SET.add(label);
 							}
 						}
 					}

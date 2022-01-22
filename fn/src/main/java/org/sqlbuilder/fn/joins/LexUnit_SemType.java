@@ -22,6 +22,7 @@ public class LexUnit_SemType extends Pair<Long, SemTypeRefType>
 	public LexUnit_SemType(final long luid, final SemTypeRefType semtype)
 	{
 		super(luid, semtype);
+		SET.add(this);
 	}
 
 	@Override

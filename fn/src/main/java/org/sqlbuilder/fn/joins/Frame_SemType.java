@@ -21,6 +21,7 @@ public class Frame_SemType extends Pair<Long, SemTypeRef>
 	public Frame_SemType(final long frameid, final SemTypeRef semtype)
 	{
 		super(frameid, semtype);
+		SET.add(this);
 	}
 
 	@Override

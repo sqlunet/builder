@@ -21,6 +21,7 @@ public class LexUnit_Governor extends Pair<Long, Governor>
 	public LexUnit_Governor(final long luid, final Governor governor)
 	{
 		super(luid, governor);
+		SET.add(this);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
 import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
+import org.sqlbuilder.fn.types.FeType;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -58,6 +59,8 @@ public class FE implements HasID, Insertable<FE>
 			throw e;
 		}
 		this.frameid = frameid;
+		FeType.add(fe.getName());
+		SET.add(this);
 	}
 
 	public long getID()
@@ -68,9 +71,17 @@ public class FE implements HasID, Insertable<FE>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,'%s','%s','%s',%d,%s,%d", //
+		// feid INTEGER NOT NULL,
+		// frameid INTEGER,
+		// fetypeid INTEGER DEFAULT NULL,
+		// feabbrev VARCHAR(24),
+		// fedefinition TEXT,
+		// coretypeid INTEGER DEFAULT NULL,
+		// coreset INTEGER DEFAULT NULL,
+		// fgcolor VARCHAR(6),bgcolor VARCHAR(6),cdate VARCHAR(27),cby VARCHAR(5)
+		return String.format("%d,%s,'%s','%s',%d,%s,%d", //
 				fe.getID(), //
-				Utils.escape(fe.getName()), //
+				FeType.getId(fe.getName()), //
 				Utils.escape(fe.getAbbrev()), //
 				Utils.escape(definition), //
 				fe.getCoreType().intValue(), //
@@ -80,6 +91,12 @@ public class FE implements HasID, Insertable<FE>
 		//String(9, this.fe.getBgColor());
 		//String(10, this.fe.getCDate());
 		//String(11, this.fe.getCBy());
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s", fe.getName());
 	}
 
 	@Override

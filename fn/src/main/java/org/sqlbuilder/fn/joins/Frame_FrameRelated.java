@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.types.FrameRelation;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,15 +33,23 @@ public class Frame_FrameRelated extends Pair<Long, FrameIDNameType> implements I
 	{
 		super(frameid, frame2);
 		this.relation = relation;
+		FrameRelation.add(relation);
+		SET.add(this);
 	}
 
 	@Override
 	public String dataRow()
 	{
-		// Long(1, this.frameid);
-		// String(2, this.frame2);
-		// String(3, this.relation);
-		return null;
+		return String.format("%d,%d,%s", //
+				first, //
+				second.getID(), //
+				FrameRelation.getId(relation));
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s",relation);
 	}
 
 	@Override

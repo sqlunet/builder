@@ -33,6 +33,7 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	{
 		this.fegr = fegr;
 		this.luid = luid;
+		SET.add(this);
 	}
 
 	@Override
@@ -49,11 +50,20 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	@Override
 	public String dataRow()
 	{
+		// fegrid INTEGER NOT NULL,
+		// total INTEGER,
+		// luid INTEGER,
 		return String.format("%s,'%s',%s,%d", //
 				getId(), //
-				Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(Collectors.joining(",")), //
 				fegr.getTotal(), //
 				luid);
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s", //
+				Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(Collectors.joining(",")));
 	}
 
 	@Override

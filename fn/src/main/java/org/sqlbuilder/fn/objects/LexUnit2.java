@@ -1,14 +1,16 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.FnModule;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FrameLUType;
 
-public class LexUnit2 extends LexUnitBase implements Insertable<LexUnitBase>
+public class LexUnit2 implements Insertable<LexUnit>
 {
 	public static final Set<LexUnit2> SET = new HashSet<>();
 
@@ -20,12 +22,17 @@ public class LexUnit2 extends LexUnitBase implements Insertable<LexUnitBase>
 	{
 		this.lu = lu;
 		this.frameid = frameid;
+		final boolean isNew = SET.add(this);
+		if (!isNew)
+		{
+			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit2", "frame-lu-duplicate", null, -1, null, toString());
+		}
 	}
 
 	@Override
 	public String dataRow()
 	{
-		final Definition definition = LexUnitBase.getDefinition(this.lu.getDefinition());
+		final Definition definition = Definition.getDefinition(this.lu.getDefinition());
 
 		return String.format("%d,%d,'%s',%d,%s,%s,%s,%d", //
 				lu.getID(), //

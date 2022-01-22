@@ -1,7 +1,9 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
 
 import java.util.HashSet;
@@ -31,6 +33,11 @@ public class Sentence implements HasID, Insertable<Sentence>
 		super();
 		this.sentence = sentence;
 		this.fromFullText = fromFullText;
+		final boolean isNew = Sentence.SET.add(this);
+		if (!isNew)
+		{
+			Logger.instance.logWarn(FnModule.MODULE_ID, "Sentence", "sentence-duplicate", null, -1, null, sentence.toString());
+		}
 	}
 
 	public long getId()

@@ -15,17 +15,20 @@ public class PtType
 
 	public static Map<String, Integer> MAP;
 
-	public static void record(String type)
+	public static void add(String type)
 	{
 		SET.add(type);
 	}
 
 	public static Object getId(String value)
 	{
-		Integer id = MAP.get(value);
-		if (id != null)
+		if (value != null)
 		{
-			return id;
+			Integer id = MAP.get(value);
+			if (id != null)
+			{
+				return id;
+			}
 		}
 		return "NULL";
 	}

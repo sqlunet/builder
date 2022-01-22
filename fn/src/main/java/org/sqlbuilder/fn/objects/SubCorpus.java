@@ -26,6 +26,7 @@ public class SubCorpus implements Insertable<SubCorpus>
 	{
 		this.subcorpus = subcorpus;
 		this.luid = luid;
+		SET.add(this);
 	}
 
 	@Override

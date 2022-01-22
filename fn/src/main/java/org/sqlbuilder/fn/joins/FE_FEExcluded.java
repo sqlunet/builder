@@ -21,6 +21,7 @@ public class FE_FEExcluded extends Pair<Long, InternalFrameRelationFEType>
 	public FE_FEExcluded(final long feid, final InternalFrameRelationFEType fe2)
 	{
 		super(feid, fe2);
+		SET.add(this);
 	}
 
 	@Override

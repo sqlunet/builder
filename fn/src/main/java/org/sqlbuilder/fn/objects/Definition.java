@@ -1,25 +1,16 @@
 package org.sqlbuilder.fn.objects;
 
-public abstract class LexUnitBase
+public class Definition
 {
-	public static class Definition
+	public final Character dict;
+
+	public final String def;
+
+	public Definition(final Character dict, final String definition)
 	{
-		public final Character dict;
-
-		public final String def;
-
-		public Definition(final Character dict, final String definition)
-		{
-			super();
-			this.dict = dict;
-			this.def = definition;
-		}
-
-		@Override
-		public String toString()
-		{
-			return this.dict + "|<" + this.def + ">";
-		}
+		super();
+		this.dict = dict;
+		this.def = definition;
 	}
 
 	public static Definition getDefinition(final String definition0)
@@ -44,12 +35,9 @@ public abstract class LexUnitBase
 		return new Definition(dict, definition);
 	}
 
-	public static void main(final String[] args)
+	@Override
+	public String toString()
 	{
-		for (final String arg : args)
-		{
-			final Definition definition = LexUnitBase.getDefinition(arg);
-			System.out.println("<" + definition.def + ">");
-		}
+		return this.dict + "|<" + this.def + ">";
 	}
 }

@@ -22,6 +22,7 @@ public class SubCorpus_Sentence extends Pair<SubCorpus, Sentence>
 	public SubCorpus_Sentence(final SubCorpus subcorpus, final Sentence sentence)
 	{
 		super(subcorpus, sentence);
+		SET.add(this);
 	}
 
 	@Override

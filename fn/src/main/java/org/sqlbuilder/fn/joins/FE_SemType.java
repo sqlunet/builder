@@ -21,6 +21,7 @@ public class FE_SemType extends Pair<Long, SemTypeRef>
 	public FE_SemType(final long feid, final SemTypeRef semtype)
 	{
 		super(feid, semtype);
+		SET.add(this);
 	}
 
 	@Override
