@@ -4,7 +4,7 @@ import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.fn.objects.LexUnit2;
-import org.sqlbuilder.fn.objects.FnLexeme;
+import org.sqlbuilder.fn.objects.Lexeme;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.FE;
@@ -87,7 +87,7 @@ public class FnFrameProcessor extends FnProcessor
 				// s e m t y p e s
 				for (var _semtype : _fe.getSemTypeArray())
 				{
-					SemTypeRef semtype = new SemTypeRef(_semtype);
+					final SemTypeRef semtype = new SemTypeRef(_semtype);
 					final FE_SemType fe_semtype = new FE_SemType(feid, semtype);
 				}
 
@@ -127,11 +127,7 @@ public class FnFrameProcessor extends FnProcessor
 					// lexemes
 					for (var _lexeme : _lexunit.getLexemeArray())
 					{
-						final String lemma = FnLexeme.makeWord(_lexeme.getName());
-
-						final Word word = new Word(lemma);
-
-						final FnLexeme lexeme = new FnLexeme(_lexeme, word, luid);
+						final Lexeme lexeme = new Lexeme(_lexeme, luid);
 					}
 
 					// semtypes

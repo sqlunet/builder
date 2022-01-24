@@ -1,12 +1,10 @@
 package org.sqlbuilder.pb;
 
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PbTheta implements Comparable<PbTheta>
 {
-	protected static final SortedSet<PbTheta> SET = new TreeSet<>();
+	protected static final Set<PbTheta> SET = new HashSet<>();
 
 	public static Map<PbTheta,Integer> MAP;
 

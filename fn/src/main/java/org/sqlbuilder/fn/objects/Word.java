@@ -4,10 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasId;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /*
 words.table=fnwords
@@ -40,8 +37,6 @@ public class Word implements HasId, Insertable<Word>
 		return word;
 	}
 
-	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
-
 	@Override
 	public Object getId()
 	{
@@ -53,14 +48,50 @@ public class Word implements HasId, Insertable<Word>
 		return "NULL";
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Word word1 = (Word) o;
+		return word.equals(word1.word);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(word);
+	}
+
+	// O R D E R
+
+	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s,'%s'", //
-				"NULL", //
+		return String.format("%s,'%s'", //
 				"NULL", //
 				Utils.escape(word));
 	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("id=%s", getId());
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

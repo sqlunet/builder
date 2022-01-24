@@ -25,7 +25,7 @@ valenceunits.insert=INSERT INTO %Fn_valenceunits.table% (vuid,ferid,pt,gf) VALUE
  */
 public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<ValenceUnit>
 {
-	public static final SortedSet<ValenceUnit> SET = new TreeSet<>();
+	public static final Set<ValenceUnit> SET = new HashSet<>();
 
 	public static Map<ValenceUnit, Integer> MAP = new HashMap<>();
 

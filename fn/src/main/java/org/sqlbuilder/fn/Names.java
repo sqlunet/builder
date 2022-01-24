@@ -44,10 +44,10 @@ public class Names
 		public static final String COLUMNS = "fegrid,luid,total";
 	}
 
-	static public class FEGROUPREALIZATIONS_FES
+	static public class FES_FEGROUPREALIZATIONS
 	{
-		public static final String FILE = "fegrouprealizations_fes.sql";
-		public static final String TABLE = "fn_fegrouprealizations_fes";
+		public static final String FILE = "fes_fegrouprealizations.sql";
+		public static final String TABLE = "fn_fes_fegrouprealizations";
 		public static final String COLUMNS = "rfeid,fegrid,feid,fetypeid";
 	}
 
@@ -55,7 +55,7 @@ public class Names
 	{
 		public static final String FILE = "ferealizations.sql";
 		public static final String TABLE = "fn_ferealizations";
-		public static final String COLUMNS = "ferid,luid,fetypeid,feid,total";
+		public static final String COLUMNS = "ferid,fetypeid,feid,total,luid";
 	}
 
 	static public class FES
@@ -181,7 +181,7 @@ public class Names
 	{
 		public static final String FILE = "lexemes.sql";
 		public static final String TABLE = "fn_lexemes";
-		public static final String COLUMNS = "lexemeid,luid,fnwordid,posid,breakbefore,headword,lexemeidx";
+		public static final String COLUMNS = "lexemeid,fnwordid,posid,breakbefore,headword,lexemeidx,luid";
 	}
 
 	static public class LEXUNITS

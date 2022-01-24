@@ -10,8 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import edu.berkeley.icsi.framenet.*;
+import edu.berkeley.icsi.framenet.FullTextAnnotationDocument;
 import edu.berkeley.icsi.framenet.FullTextAnnotationDocument.FullTextAnnotation;
+import edu.berkeley.icsi.framenet.HeaderType;
 import edu.berkeley.icsi.framenet.HeaderType.Frame;
 
 public class FnFullTextProcessor extends FnProcessor
@@ -59,11 +60,10 @@ public class FnFullTextProcessor extends FnProcessor
 
 			for (var _corpus : _header.getCorpusArray())
 			{
-				final Corpus fnCorpus = new Corpus(_corpus, null);
-
+				final Corpus corpus = new Corpus(_corpus, null);
 				for (var _doc : _corpus.getDocumentArray())
 				{
-					final Doc fnDocument = new Doc(_doc, _corpus);
+					final Doc doc = new Doc(_doc, _corpus);
 				}
 			}
 
@@ -72,15 +72,16 @@ public class FnFullTextProcessor extends FnProcessor
 			for (var _sentence : _fulltextannotation.getSentenceArray())
 			{
 				long sentenceid = _sentence.getID();
-
-				final Sentence fnSentence = new Sentence(_sentence, true);
+				final Sentence sentence = new Sentence(_sentence, true);
 
 				// annotation sets
 				for (var _annoset : _sentence.getAnnotationSetArray())
 				{
-					final AnnotationSet annoset = new AnnotationSet(_annoset, sentenceid);
-					final boolean isNew2 = AnnotationSet.SET.add(annoset);
-					if (!isNew2)
+					try
+					{
+						final AnnotationSet annoset = new AnnotationSet(_annoset, sentenceid);
+					}
+					catch (RuntimeException re)
 					{
 						continue;
 					}

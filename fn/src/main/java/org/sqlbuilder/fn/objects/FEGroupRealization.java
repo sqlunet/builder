@@ -3,14 +3,13 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.HasId;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 import edu.berkeley.icsi.framenet.FEValenceType;
+
+import static java.util.stream.Collectors.joining;
 
 /*
 fegrouprealizations.table=fnfegrouprealizations
@@ -36,6 +35,18 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 		SET.add(this);
 	}
 
+	// A C C E S S
+
+	public String getFENames()
+	{
+		return Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(joining(","));
+	}
+
+	public int getLuid()
+	{
+		return luid;
+	}
+
 	@Override
 	public Object getId()
 	{
@@ -47,14 +58,42 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 		return "NULL";
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		FEGroupRealization that = (FEGroupRealization) o;
+		return luid == that.luid && fegr.equals(that.fegr);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(fegr, luid);
+	}
+
+	// O R D E R
+
+	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator.comparing(FEGroupRealization::getLuid).thenComparing(FEGroupRealization::getFENames);
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
 		// fegrid INTEGER NOT NULL,
 		// total INTEGER,
 		// luid INTEGER,
-		return String.format("%s,'%s',%s,%d", //
-				getId(), //
+		return String.format("%s,%d", //
 				fegr.getTotal(), //
 				luid);
 	}
@@ -63,8 +102,10 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	public String comment()
 	{
 		return String.format("%s", //
-				Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(Collectors.joining(",")));
+				Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(joining(",")));
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

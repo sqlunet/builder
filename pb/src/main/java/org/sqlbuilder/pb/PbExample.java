@@ -6,21 +6,21 @@ import java.util.*;
 
 public class PbExample implements Insertable<PbExample>, Comparable<PbExample>
 {
-	protected static final Set<PbExample> SET = new TreeSet<>();
+	protected static final Set<PbExample> SET = new HashSet<>();
 
-	protected static final SortedSet<String> aspectSet = new TreeSet<>();
+	protected static final Set<String> aspectSet = new HashSet<>();
 	protected static Map<String, Integer> aspectMap;
 
-	protected static final SortedSet<String> formSet = new TreeSet<>();
+	protected static final Set<String> formSet = new HashSet<>();
 	protected static Map<String, Integer> formMap;
 
-	protected static final SortedSet<String> personSet = new TreeSet<>();
+	protected static final Set<String> personSet = new HashSet<>();
 	protected static Map<String, Integer> personMap;
 
-	protected static final SortedSet<String> tenseSet = new TreeSet<>();
+	protected static final Set<String> tenseSet = new HashSet<>();
 	protected static Map<String, Integer> tenseMap;
 
-	protected static final SortedSet<String> voiceSet = new TreeSet<>();
+	protected static final Set<String> voiceSet = new HashSet<>();
 	protected static Map<String, Integer> voiceMap;
 
 	private final PbRoleSet roleSet;

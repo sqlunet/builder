@@ -17,6 +17,7 @@
 		<module>sn</module>
 		<module>legacy</module>
 		<module>legacymaps</module>
+		<module>fn2</module>
 	</modules>
 
 	<properties>

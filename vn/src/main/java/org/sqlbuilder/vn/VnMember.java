@@ -3,12 +3,12 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Insertable;
 
 import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VnMember implements Insertable<VnMember>, Comparable<VnMember>
 {
-	protected static final SortedSet<VnMember> SET = new TreeSet<>();
+	protected static final Set<VnMember> SET = new HashSet<>();
 
 	protected final VnWord word;
 

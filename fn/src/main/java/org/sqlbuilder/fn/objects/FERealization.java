@@ -4,9 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.types.FeType;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import edu.berkeley.icsi.framenet.FERealizationType;
 
@@ -37,6 +35,18 @@ public class FERealization implements HasId, Insertable<FERealization>
 		SET.add(this);
 	}
 
+	// A C C E S S
+
+    public String getFEName()
+	{
+		return fer.getFE().getName();
+	}
+
+	public int getLuid()
+	{
+		return luid;
+	}
+
 	@Override
 	public Object getId()
 	{
@@ -48,16 +58,45 @@ public class FERealization implements HasId, Insertable<FERealization>
 		return "NULL";
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		FERealization that = (FERealization) o;
+		return luid == that.luid && fer.equals(that.fer);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(fer, luid);
+	}
+
+	// O R D E R
+
+	public static final Comparator<FERealization> COMPARATOR = Comparator.comparing(FERealization::getLuid).thenComparing(FERealization::getFEName);
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
+		// ferid,fetypeid,feid,total,luid;
 		// ferid INTEGER NOT NULL
 		// fetypeid INTEGER DEFAULT NULL
 		// feid INTEGER DEFAULT NULL
 		// total INTEGER
 		// luid INTEGER
-		return String.format("%s,'%s',%s,%d", //
-				getId(), //
+		return String.format("%s,%s,NULL,%d", //
 				FeType.getId(fer.getFE().getName()), //
 				// feid INTEGER DEFAULT NULL
 				fer.getTotal(), //
@@ -69,6 +108,8 @@ public class FERealization implements HasId, Insertable<FERealization>
 	{
 		return String.format("%s", fer.getFE().getName());
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

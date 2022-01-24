@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 import org.sqlbuilder.fn.types.FeType;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +32,27 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 		SET.add(this);
 	}
 
+	// A C C E S S
+
+	String getFEName()
+	{
+		return first.getName();
+	}
+
+	String getFENames()
+	{
+		return second.getFENames();
+	}
+
+	// I D E N T I T Y
+	// pair
+
+	// O R D E R
+
+	public static final Comparator<FE_FEGroupRealization> COMPARATOR = Comparator.comparing(FE_FEGroupRealization::getFEName).thenComparing(FE_FEGroupRealization::getFENames);
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
@@ -38,6 +60,14 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 				FeType.getId(first.getName()), //
 				second.getId());
 	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,{%s}", getFEName(), getFENames());
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

@@ -4,16 +4,16 @@ import org.sqlbuilder.common.Insertable;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 public class VnRestrs implements Insertable<VnRestrs>, Comparable<VnRestrs>
 {
-	protected static final SortedSet<VnRestrs> SET = new TreeSet<>();
+	protected static final Set<VnRestrs> SET = new HashSet<>();
 
 	public static Map<VnRestrs, Integer> MAP;
 

@@ -5,8 +5,11 @@ import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.fn.types.FeType;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.LexUnitDocument;
@@ -44,6 +47,57 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 		}
 	}
 
+	// A C C E S S
+
+	public int getID()
+	{
+		return lu.getID();
+	}
+
+	public String getName()
+	{
+		return lu.getName();
+	}
+
+	public String getFrameName()
+	{
+		return lu.getFrame();
+	}
+
+	public int getFrameID()
+	{
+		return lu.getFrameID();
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		LexUnit lexUnit = (LexUnit) o;
+		return lu.equals(lexUnit.lu);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(lu);
+	}
+
+	// O R D E R
+
+	public static Comparator<LexUnit> COMPARATOR = Comparator.comparing(LexUnit::getName).thenComparing(LexUnit::getID);
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
@@ -56,7 +110,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 				Utils.nullableString(definition.def), //
 				Utils.nullableChar(definition.dict), //
 				lu.getStatus(), //
-				Utils.nullableString(lu.getIncorporatedFE()), //
+				FeType.getId(Utils.nullableString(lu.getIncorporatedFE())), //
 				lu.getTotalAnnotated(), //
 				lu.getFrameID()); //
 	}

@@ -3,12 +3,12 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Insertable;
 
 import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VnMemberSense implements Insertable<VnMemberSense>, Comparable<VnMemberSense>
 {
-	protected static final SortedSet<VnMemberSense> SET = new TreeSet<>();
+	protected static final Set<VnMemberSense> SET = new HashSet<>();
 
 	private final VnMember member;
 
@@ -68,7 +68,7 @@ public class VnMemberSense implements Insertable<VnMemberSense>, Comparable<VnMe
 				VnWord.MAP.get(member.word), //
 				sensenum, //
 				synsetid != null ? synsetid : "NULL", //
-				sensekey != null ? "'"+sensekey.getSensekey()+"'" : "NULL", //
+				sensekey != null ? "'" + sensekey.getSensekey() + "'" : "NULL", //
 				quality != null ? quality : "NULL");
 	}
 }

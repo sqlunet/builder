@@ -6,7 +6,8 @@ import java.util.*;
 
 public class PbRoleSet implements Insertable<PbRoleSet>, Comparable<PbRoleSet>
 {
-	public static final SortedSet<PbRoleSet> SET = new TreeSet<>();
+	public static final Set<PbRoleSet> SET = new HashSet<>();
+
 	protected static Map<PbRoleSet, Integer> MAP;
 
 	private final PbPredicate predicate;

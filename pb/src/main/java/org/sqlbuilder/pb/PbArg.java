@@ -2,16 +2,13 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Insertable;
 
-import java.util.Comparator;
-import java.util.Properties;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PbArg implements Insertable<PbArg>, Comparable<PbArg>
 {
-	public static final SortedSet<PbArg> SET = new TreeSet<>();
+	public static final Set<PbArg> SET = new HashSet<>();
 
-	public static final SortedSet<String> nSet = new TreeSet<>();
+	public static final Set<String> nSet = new HashSet<>();
 
 	public static final Properties nNames = new Properties();
 

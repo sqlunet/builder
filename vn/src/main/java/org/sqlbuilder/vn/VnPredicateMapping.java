@@ -2,11 +2,14 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insertable;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class VnPredicateMapping implements Insertable<VnPredicateMapping>, Comparable<VnPredicateMapping>
 {
-	protected static final SortedSet<VnPredicateMapping> SET = new TreeSet<>();
+	protected static final Set<VnPredicateMapping> SET = new HashSet<>();
 
 	private final VnSemantics semantics;
 

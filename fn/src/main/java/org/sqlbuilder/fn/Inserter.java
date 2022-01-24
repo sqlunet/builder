@@ -2,6 +2,7 @@ package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.MapFactory;
+import org.sqlbuilder.fn.joins.FE_FEGroupRealization;
 import org.sqlbuilder.fn.objects.*;
 import org.sqlbuilder.fn.types.FeType;
 
@@ -42,8 +43,6 @@ public class Inserter
 
 	public void insertLexUnits() throws FileNotFoundException
 	{
-		Insert.insert(LexUnit.SET, null, new File(outDir, Names.LEXUNITS.FILE), Names.LEXUNITS.TABLE, Names.LEXUNITS.COLUMNS);
-		LexUnit.SET.clear();
 	}
 
 	public void insertFullText() throws FileNotFoundException
@@ -55,11 +54,28 @@ public class Inserter
 		Word.MAP = MapFactory.makeSortedMap(Word.SET, Word.COMPARATOR);
 		Insert.insert(Word.MAP, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
 
-		FeType.MAP = MapFactory.makeSortedMap(FeType.SET,Comparator.naturalOrder());
+		Lexeme.MAP = MapFactory.makeSortedMap(Lexeme.SET, Lexeme.COMPARATOR);
+		Insert.insert(Lexeme.MAP, new File(outDir, Names.LEXEMES.FILE), Names.LEXEMES.TABLE, Names.LEXEMES.COLUMNS);
+
+		FeType.MAP = MapFactory.makeSortedMap(FeType.SET, Comparator.naturalOrder());
 		Insert.insertStringMap(FeType.MAP, new File(outDir, Names.FETYPES.FILE), Names.FETYPES.TABLE, Names.FETYPES.COLUMNS);
 
-		Insert.insert(FE.SET, Comparator.comparing(FE::getID), new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
+		FERealization.MAP = MapFactory.makeSortedMap(FERealization.SET, FERealization.COMPARATOR);
+		Insert.insert(FERealization.MAP, new File(outDir, Names.FEREALIZATIONS.FILE), Names.FEREALIZATIONS.TABLE, Names.FEREALIZATIONS.COLUMNS);
+		FERealization.MAP = null;
+
+		FEGroupRealization.MAP = MapFactory.makeSortedMap(FEGroupRealization.SET, FEGroupRealization.COMPARATOR);
+		Insert.insert(FEGroupRealization.MAP, new File(outDir, Names.FEGROUPREALIZATIONS.FILE), Names.FEGROUPREALIZATIONS.TABLE, Names.FEGROUPREALIZATIONS.COLUMNS);
+
+		Insert.insert(FE_FEGroupRealization.SET, FE_FEGroupRealization.COMPARATOR, new File(outDir, Names.FES_FEGROUPREALIZATIONS.FILE), Names.FES_FEGROUPREALIZATIONS.TABLE, Names.FES_FEGROUPREALIZATIONS.COLUMNS);
+		FEGroupRealization.SET.clear();
+		FEGroupRealization.MAP = null;
+
+		Insert.insert(FE.SET, FE.COMPARATOR, new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
 		FE.SET.clear();
+
+		Insert.insert(LexUnit.SET, LexUnit.COMPARATOR, new File(outDir, Names.LEXUNITS.FILE), Names.LEXUNITS.TABLE, Names.LEXUNITS.COLUMNS);
+		LexUnit.SET.clear();
 	}
 
 	public void insertSemTypes() throws FileNotFoundException

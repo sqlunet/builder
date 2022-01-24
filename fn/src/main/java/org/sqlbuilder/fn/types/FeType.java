@@ -12,7 +12,7 @@ public class FeType
 	// fetypes.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_fetypes.table%_fetype ON %Fn_fetypes.table% (fetype);
 	// fetypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_fetypes.table%_fetype;
 
-	public static final Set<String> SET = new TreeSet<>();
+	public static final Set<String> SET = new HashSet<>();
 
 	public static Map<String, Integer> MAP;
 

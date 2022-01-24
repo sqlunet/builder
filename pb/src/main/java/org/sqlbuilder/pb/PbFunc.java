@@ -1,13 +1,10 @@
 package org.sqlbuilder.pb;
 
-import java.util.Map;
-import java.util.Properties;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PbFunc implements Comparable<PbFunc>
 {
-	protected static final SortedSet<PbFunc> SET = new TreeSet<>();
+	protected static final Set<PbFunc> SET = new HashSet<>();
 
 	public static Map<PbFunc, Integer> MAP;
 

@@ -3,8 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import edu.berkeley.icsi.framenet.LexemeType;
 
@@ -23,9 +22,11 @@ lexemes.no-fk2=ALTER TABLE %Fn_lexemes.table% DROP CONSTRAINT fk_%Fn_lexemes.tab
 lexemes.no-fk3=ALTER TABLE %Fn_lexemes.table% DROP CONSTRAINT fk_%Fn_lexemes.table%_fnwordid CASCADE;
 lexemes.insert=INSERT INTO %Fn_lexemes.table% (lexemeid,luid,fnwordid,posid,breakbefore,headword,lexemeidx) VALUES(?,?,?,?,?,?,?);
  */
-public class FnLexeme implements Insertable<FnLexeme>
+public class Lexeme implements Insertable<Lexeme>
 {
-	public static final Set<FnLexeme> SET = new HashSet<>();
+	public static final Set<Lexeme> SET = new HashSet<>();
+
+	public static Map<Lexeme, Integer> MAP;
 
 	public final LexemeType lexeme;
 
@@ -33,43 +34,113 @@ public class FnLexeme implements Insertable<FnLexeme>
 
 	public final long luid;
 
-	public FnLexeme(final LexemeType type, final Word fnword, final long luid)
+	public Lexeme(final LexemeType lexeme, final long luid)
 	{
-		this.lexeme = type;
-		this.word = fnword;
+		this.lexeme = lexeme;
 		this.luid = luid;
+		this.word = new Word(trim(lexeme.getName()));
 		SET.add(this);
 	}
 
-	@Override
-	public String dataRow()
-	{
-		final int idx = this.lexeme.getOrder();
+	// A C C E S S
 
-		return String.format("%s,'%s',%s,%d,%b,%b,%s,%d", //
-				"NULL", // getId()
-				Utils.escape(getWord()), //
-				"NULL", // fnwordid
-				lexeme.getPOS().intValue(), //
-				lexeme.getBreakBefore(), //
-				lexeme.getHeadword(), //
-				Utils.zeroableInt(idx), //
-				luid);
+	public LexemeType getLexeme()
+	{
+		return lexeme;
+	}
+
+	public String getLexemeName()
+	{
+		return lexeme.getName();
 	}
 
 	public String getWord()
 	{
-		return FnLexeme.makeWord(this.lexeme.getName());
+		return this.word.getWord();
 	}
 
-	public static String makeWord(final String string)
+	public long getLuid()
 	{
-		return string.replaceAll("_*\\(.*$", "");
+		return luid;
 	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Lexeme lexeme1 = (Lexeme) o;
+		return luid == lexeme1.luid && lexeme.equals(lexeme1.lexeme) && word.equals(lexeme1.word);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(lexeme, word, luid);
+	}
+
+	// O R D E R
+
+	public static Comparator<Lexeme> COMPARATOR = Comparator.comparing(Lexeme::getWord).thenComparing(Lexeme::getLexemeName).thenComparing(Lexeme::getLuid);
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		//fnwordid,posid,breakbefore,headword,lexemeidx,luid
+		return String.format("%s,%d,%b,%b,%s,%d", //
+				word.getId(), // fnwordid
+				lexeme.getPOS().intValue(), //
+				lexeme.getBreakBefore(), //
+				lexeme.getHeadword(), //
+				Utils.zeroableInt(lexeme.getOrder()), //
+				luid);
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s", lexeme.getName(), getWord());
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
 		return String.format("[LEX word=%s luid=%s]", getWord(), luid);
+	}
+
+	// W O R D
+	/* frame
+	name="construction(entity)"
+	name="power_((statistical))"
+	name="talk_(to)"
+	name="Indian((American))"
+	name="practice_((mass))"
+	name="rehearsal_((mass))"
+	name="late_((at_night))"
+	*/
+	/* lexunit
+	name="practice_((mass))"
+	name="rehearsal_((mass))"
+	name="Indian((American))"
+	name="construction(entity)"
+	name="talk_(to)"
+	name="power_((statistical))"
+	name="late_((at_night))"
+	*/
+	private static String trim(final String string)
+	{
+		return string.replaceAll("_*\\(.*$", "");
 	}
 }

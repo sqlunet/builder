@@ -3,13 +3,11 @@ package org.sqlbuilder.pb;
 import org.sqlbuilder.common.Insertable;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PbRole implements Insertable<PbRole>, Comparable<PbRole>, Serializable
 {
-	public static final SortedSet<PbRole> SET = new TreeSet<>();
+	public static final Set<PbRole> SET = new HashSet<>();
 
 	public static Map<PbRole, Integer> MAP;
 

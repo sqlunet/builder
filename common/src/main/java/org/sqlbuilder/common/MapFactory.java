@@ -27,6 +27,7 @@ public class MapFactory
 	{
 		int[] i = {0};
 		return items.stream() //
+				.sorted() //
 				.peek(item -> ++i[0]) //
 				.map(item -> new SimpleEntry<>(item, i[0])) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (o1, o2) -> o1, TreeMap::new));
@@ -36,9 +37,10 @@ public class MapFactory
 	{
 		int[] i = {0};
 		return items.stream() //
+				.sorted(comparator) //
 				.peek(item -> ++i[0]) //
 				.map(item -> new SimpleEntry<>(item, i[0])) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (o1, o2) -> o1, ()->new TreeMap<>(comparator)));
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (o1, o2) -> o1, () -> new TreeMap<>(comparator)));
 	}
 
 	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
@@ -82,14 +84,14 @@ public class MapFactory
 		int[] i = {0};
 		set.forEach(e -> {
 
-					if (i[0] != 0)
-					{
-						ps.print(",\n");
-					}
-					String values = e.dataRow();
-					String row = String.format("(%s)", values);
-					ps.print(row);
-					i[0]++;
-				});
+			if (i[0] != 0)
+			{
+				ps.print(",\n");
+			}
+			String values = e.dataRow();
+			String row = String.format("(%s)", values);
+			ps.print(row);
+			i[0]++;
+		});
 	}
 }

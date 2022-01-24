@@ -2,13 +2,13 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insertable;
 
+import java.util.HashSet;
 import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 public class VnFrameExampleMapping implements Insertable<VnFrameExampleMapping>, Comparable<VnFrameExampleMapping>
 {
-	protected static final SortedSet<VnFrameExampleMapping> SET = new TreeSet<>();
+	protected static final Set<VnFrameExampleMapping> SET = new HashSet<>();
 
 	private final VnFrame frame;
 

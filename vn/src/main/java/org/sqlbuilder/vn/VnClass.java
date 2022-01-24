@@ -2,14 +2,11 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insertable;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class VnClass implements Insertable<VnClass>, Comparable<VnClass>
 {
-	protected static final SortedSet<VnClass> SET = new TreeSet<>();
+	protected static final Set<VnClass> SET = new HashSet<>();
 
 	public static Map<VnClass, Integer> MAP;
 

@@ -3,12 +3,12 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Insertable;
 
 import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VnGroupingMapping implements Insertable<VnGroupingMapping>, Comparable<VnGroupingMapping>
 {
-	protected static final SortedSet<VnGroupingMapping> SET = new TreeSet<>();
+	protected static final Set<VnGroupingMapping> SET = new HashSet<>();
 
 	private final VnWord word;
 

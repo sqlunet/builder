@@ -13,6 +13,7 @@
         <module name="fn" />
         <module name="vn" />
         <module name="sn" />
+        <module name="fn2" />
         <module name="legacymaps" />
       </profile>
     </annotationProcessing>

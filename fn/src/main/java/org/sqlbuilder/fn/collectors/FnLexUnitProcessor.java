@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import edu.berkeley.icsi.framenet.AnnotationSetType;
 import edu.berkeley.icsi.framenet.LexUnitDocument;
 import edu.berkeley.icsi.framenet.ValenceUnitType;
 import edu.berkeley.icsi.framenet.ValencesType;
@@ -54,7 +53,6 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _corpus : _lexunit.getHeader().getCorpusArray())
 			{
 				final Corpus corpus = new Corpus(_corpus, luid);
-
 				for (var _doc : _corpus.getDocumentArray())
 				{
 					final Doc doc = new Doc(_doc, _corpus);
@@ -65,11 +63,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _lexeme : _lexunit.getLexemeArray())
 			{
-				final String lemma = FnLexeme.makeWord(_lexeme.getName());
-
-				final Word word = new Word(lemma);
-
-				final FnLexeme lexeme = new FnLexeme(_lexeme, word, luid);
+				final Lexeme lexeme = new Lexeme(_lexeme, luid);
 			}
 
 			// S E M T Y P E S
@@ -88,7 +82,6 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _governor : _valences.getGovernorArray())
 			{
 				final Governor governor = new Governor(_governor);
-
 				final LexUnit_Governor lexunit_governor = new LexUnit_Governor(luid, governor);
 
 				for (var _annoset : _governor.getAnnoSetArray())
@@ -102,7 +95,6 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _fer : _valences.getFERealizationArray())
 			{
 				final FERealization fer = new FERealization(_fer, luid);
-				final FE_FERealization fe_fer = new FE_FERealization(_fer.getFE(), fer);
 
 				// p a t t e r n s
 				for (var _pattern : _fer.getPatternArray())
@@ -142,7 +134,6 @@ public class FnLexUnitProcessor extends FnProcessor
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
 						final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
-
 						final Pattern_ValenceUnit pattern_valenceunit = new Pattern_ValenceUnit(grouppattern, valenceunit);
 					}
 
@@ -163,10 +154,9 @@ public class FnLexUnitProcessor extends FnProcessor
 				for (var _sentence : _subcorpus.getSentenceArray())
 				{
 					final Sentence sentence = new Sentence(_sentence, false);
-
 					final SubCorpus_Sentence subcorpus_sentence = new SubCorpus_Sentence(subcorpus, sentence);
 
-					for (final AnnotationSetType _annoset : _sentence.getAnnotationSetArray())
+					for (var _annoset : _sentence.getAnnotationSetArray())
 					{
 						try
 						{

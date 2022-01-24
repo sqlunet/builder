@@ -3,14 +3,14 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 public class VnWord implements Insertable<VnWord>, Comparable<VnWord>
 {
-	protected static final SortedSet<VnWord> SET = new TreeSet<>();
+	protected static final Set<VnWord> SET = new HashSet<>();
 
 	public static Map<VnWord, Integer> MAP;
 

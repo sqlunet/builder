@@ -8,7 +8,9 @@ import org.sqlbuilder.fn.types.FeType;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -62,30 +64,66 @@ public class FE implements HasID, Insertable<FE>
 		FeType.add(fe.getName());
 		SET.add(this);
 	}
+	// A C C E S S
 
 	public long getID()
 	{
 		return fe.getID();
 	}
 
+	public String getName()
+	{
+		return fe.getName();
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		FE fe1 = (FE) o;
+		return fe.equals(fe1.fe) && frameid == fe1.frameid && Objects.equals(coreset, fe1.coreset) && definition.equals(fe1.definition);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(fe, frameid, coreset, definition);
+	}
+
+	// O R D E R
+
+	public static Comparator<FE> COMPARATOR = Comparator.comparing(FE::getName).thenComparing(FE::getID);
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
+		// (feid,fetypeid,feabbrev,fedefinition,coretypeid,coreset,frameid)
 		// feid INTEGER NOT NULL,
-		// frameid INTEGER,
 		// fetypeid INTEGER DEFAULT NULL,
 		// feabbrev VARCHAR(24),
 		// fedefinition TEXT,
 		// coretypeid INTEGER DEFAULT NULL,
 		// coreset INTEGER DEFAULT NULL,
 		// fgcolor VARCHAR(6),bgcolor VARCHAR(6),cdate VARCHAR(27),cby VARCHAR(5)
+		// frameid INTEGER,
 		return String.format("%d,%s,'%s','%s',%d,%s,%d", //
 				fe.getID(), //
 				FeType.getId(fe.getName()), //
 				Utils.escape(fe.getAbbrev()), //
 				Utils.escape(definition), //
 				fe.getCoreType().intValue(), //
-				coreset == null ? "NULL" : coreset, //
+				Utils.nullableInt(coreset), //
 				frameid); //
 		//String(8, this.fe.getFgColor());
 		//String(9, this.fe.getBgColor());
