@@ -3,13 +3,18 @@ package org.sqlbuilder.fn;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.MapFactory;
 import org.sqlbuilder.fn.joins.FE_FEGroupRealization;
+import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.objects.*;
 import org.sqlbuilder.fn.types.FeType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Properties;
+
+import static java.util.stream.Collectors.toMap;
 
 public class Inserter
 {
@@ -49,6 +54,13 @@ public class Inserter
 	{
 	}
 
+	private Map<Pair<Integer,Integer>, FE> makeFEByFETypeIdAndFrameIdMap()
+	{
+		return FE.SET.stream() //
+				.map(fe->new SimpleEntry<>(new Pair<>(FeType.MAP.get(fe.getName()), fe.getFrameID()), fe)) //
+				.collect(toMap(SimpleEntry::getKey,SimpleEntry::getValue));
+	}
+
 	public void insertFinal() throws FileNotFoundException
 	{
 		Word.MAP = MapFactory.makeSortedMap(Word.SET, Word.COMPARATOR);
@@ -60,6 +72,11 @@ public class Inserter
 		FeType.MAP = MapFactory.makeSortedMap(FeType.SET, Comparator.naturalOrder());
 		Insert.insertStringMap(FeType.MAP, new File(outDir, Names.FETYPES.FILE), Names.FETYPES.TABLE, Names.FETYPES.COLUMNS);
 
+		FE.BY_FETYPEID_AND_FRAMEID = makeFEByFETypeIdAndFrameIdMap();
+
+		Insert.insert(FE.SET, FE.COMPARATOR, new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
+		FE.SET.clear();
+
 		FERealization.MAP = MapFactory.makeSortedMap(FERealization.SET, FERealization.COMPARATOR);
 		Insert.insert(FERealization.MAP, new File(outDir, Names.FEREALIZATIONS.FILE), Names.FEREALIZATIONS.TABLE, Names.FEREALIZATIONS.COLUMNS);
 		FERealization.MAP = null;
@@ -70,9 +87,6 @@ public class Inserter
 		Insert.insert(FE_FEGroupRealization.SET, FE_FEGroupRealization.COMPARATOR, new File(outDir, Names.FES_FEGROUPREALIZATIONS.FILE), Names.FES_FEGROUPREALIZATIONS.TABLE, Names.FES_FEGROUPREALIZATIONS.COLUMNS);
 		FEGroupRealization.SET.clear();
 		FEGroupRealization.MAP = null;
-
-		Insert.insert(FE.SET, FE.COMPARATOR, new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
-		FE.SET.clear();
 
 		Insert.insert(LexUnit.SET, LexUnit.COMPARATOR, new File(outDir, Names.LEXUNITS.FILE), Names.LEXUNITS.TABLE, Names.LEXUNITS.COLUMNS);
 		LexUnit.SET.clear();

@@ -21,6 +21,19 @@ public class FeType
 		SET.add(type);
 	}
 
+	public static int getIntId(String value)
+	{
+		if (value != null)
+		{
+			Integer id = MAP.get(value);
+			if (id != null)
+			{
+				return id;
+			}
+		}
+		throw new IllegalArgumentException(value);
+	}
+
 	public static Object getId(String value)
 	{
 		if (value != null)

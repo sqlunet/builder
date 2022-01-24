@@ -4,7 +4,6 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.HasId;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 import edu.berkeley.icsi.framenet.FEValenceType;
@@ -26,12 +25,15 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 
 	final FEGroupRealizationType fegr;
 
-	final int luid;
+	public final int luid;
 
-	public FEGroupRealization(final FEGroupRealizationType fegr, final int luid)
+	public final int frameid;
+
+	public FEGroupRealization(final FEGroupRealizationType fegr, final int luid, final int frameid)
 	{
 		this.fegr = fegr;
 		this.luid = luid;
+		this.frameid = frameid;
 		SET.add(this);
 	}
 
@@ -45,6 +47,11 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	public int getLuid()
 	{
 		return luid;
+	}
+
+	public int getFrameId()
+	{
+		return frameid;
 	}
 
 	@Override
@@ -72,18 +79,21 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 			return false;
 		}
 		FEGroupRealization that = (FEGroupRealization) o;
-		return luid == that.luid && fegr.equals(that.fegr);
+		return fegr.equals(that.fegr) && luid == that.luid && frameid == that.frameid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(fegr, luid);
+		return Objects.hash(fegr, luid, frameid);
 	}
 
 	// O R D E R
 
-	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator.comparing(FEGroupRealization::getLuid).thenComparing(FEGroupRealization::getFENames);
+	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator
+			.comparing(FEGroupRealization::getFENames) //
+			.thenComparing(FEGroupRealization::getLuid) //
+			.thenComparing(FEGroupRealization::getFrameId);
 
 	// I N S E R T
 
@@ -91,8 +101,8 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	public String dataRow()
 	{
 		// fegrid INTEGER NOT NULL,
-		// total INTEGER,
-		// luid INTEGER,
+		// total INTEGER NOT NULL,
+		// luid INTEGER NOT NULL,
 		return String.format("%s,%d", //
 				fegr.getTotal(), //
 				luid);

@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 import org.sqlbuilder.fn.types.FeType;
 
@@ -56,15 +57,22 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s", //
-				FeType.getId(first.getName()), //
-				second.getId());
+		// (rfeid),fegrid,feid,fetypeid
+		String feName = first.getName();
+		int fetypeid = FeType.getIntId(feName);
+		var key = new Pair<>(fetypeid, second.frameid);
+		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
+
+		return String.format("%s,%s,%s", //
+				second.getId(), //
+				feid, //
+				fetypeid);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s,{%s}", getFEName(), getFENames());
+		return String.format("%s,{%s},%d,%d", getFEName(), getFENames(),second.luid, second.frameid);
 	}
 
 	// T O S T R I N G

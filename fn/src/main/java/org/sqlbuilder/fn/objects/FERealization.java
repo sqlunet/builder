@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
 
 import java.util.*;
@@ -28,23 +29,31 @@ public class FERealization implements HasId, Insertable<FERealization>
 
 	private final int luid;
 
-	public FERealization(final FERealizationType fer, final int luid)
+	private final int frameid;
+
+	public FERealization(final FERealizationType fer, final int luid, final int frameid)
 	{
 		this.fer = fer;
 		this.luid = luid;
+		this.frameid = frameid;
 		SET.add(this);
 	}
 
 	// A C C E S S
 
-    public String getFEName()
+	public String getFEName()
 	{
 		return fer.getFE().getName();
 	}
 
-	public int getLuid()
+	public int getLuId()
 	{
 		return luid;
+	}
+
+	public int getFrameId()
+	{
+		return frameid;
 	}
 
 	@Override
@@ -72,33 +81,40 @@ public class FERealization implements HasId, Insertable<FERealization>
 			return false;
 		}
 		FERealization that = (FERealization) o;
-		return luid == that.luid && fer.equals(that.fer);
+		return fer.equals(that.fer) && luid == that.luid && frameid == that.frameid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(fer, luid);
+		return Objects.hash(fer, luid, frameid);
 	}
 
 	// O R D E R
 
-	public static final Comparator<FERealization> COMPARATOR = Comparator.comparing(FERealization::getLuid).thenComparing(FERealization::getFEName);
+	public static final Comparator<FERealization> COMPARATOR = Comparator.comparing(FERealization::getFEName) //
+			.thenComparing(FERealization::getLuId) //
+			.thenComparing(FERealization::getFrameId);
 
 	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
-		// ferid,fetypeid,feid,total,luid;
 		// ferid INTEGER NOT NULL
-		// fetypeid INTEGER DEFAULT NULL
-		// feid INTEGER DEFAULT NULL
+		// fetypeid INTEGER NOT NULL
+		// feid INTEGER NOT NULL
 		// total INTEGER
-		// luid INTEGER
-		return String.format("%s,%s,NULL,%d", //
-				FeType.getId(fer.getFE().getName()), //
-				// feid INTEGER DEFAULT NULL
+		// luid INTEGER NOT NULL
+
+		String feName = fer.getFE().getName();
+		int fetypeid = FeType.getIntId(feName);
+		var key = new Pair<>(fetypeid, frameid);
+		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
+
+		return String.format("%s,%s,%s,%d", //
+				fetypeid, //
+				feid,
 				fer.getTotal(), //
 				luid);
 	}

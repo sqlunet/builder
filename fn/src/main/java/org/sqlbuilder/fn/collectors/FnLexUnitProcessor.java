@@ -46,6 +46,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			final LexUnitDocument.LexUnit _lexunit = _document.getLexUnit();
 			final int luid = _lexunit.getID();
+			final int frameid = _lexunit.getFrameID();
 			final LexUnit lexunit = new LexUnit(_lexunit);
 
 			// H E A D E R
@@ -94,7 +95,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _fer : _valences.getFERealizationArray())
 			{
-				final FERealization fer = new FERealization(_fer, luid);
+				final FERealization fer = new FERealization(_fer, luid, frameid);
 
 				// p a t t e r n s
 				for (var _pattern : _fer.getPatternArray())
@@ -117,7 +118,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _fegr : _valences.getFEGroupRealizationArray())
 			{
-				final FEGroupRealization fegr = new FEGroupRealization(_fegr, luid);
+				final FEGroupRealization fegr = new FEGroupRealization(_fegr, luid, frameid);
 
 				// f e s
 				for (var _fe : _fegr.getFEArray())

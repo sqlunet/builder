@@ -4,14 +4,12 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
 import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
+import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -36,6 +34,8 @@ fes.insert=INSERT INTO %Fn_fes.table% (feid,frameid,fetype,feabbrev,fedefinition
 public class FE implements HasID, Insertable<FE>
 {
 	public static final Set<FE> SET = new HashSet<>();
+
+	public static Map<Pair<Integer,Integer>, FE> BY_FETYPEID_AND_FRAMEID;
 
 	private static final FnFEXmlProcessor definitionProcessor = new FnFEXmlProcessor();
 
@@ -74,6 +74,11 @@ public class FE implements HasID, Insertable<FE>
 	public String getName()
 	{
 		return fe.getName();
+	}
+
+	public int getFrameID()
+	{
+		return frameid;
 	}
 
 	// I D E N T I T Y
