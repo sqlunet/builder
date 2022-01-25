@@ -2,8 +2,10 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.HasId;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.GovernorType;
@@ -15,9 +17,11 @@ governors.fk1=ALTER TABLE %Fn_governors.table% ADD CONSTRAINT fk_%Fn_governors.t
 governors.no-fk1=ALTER TABLE %Fn_governors.table% DROP CONSTRAINT fk_%Fn_governors.table%_fnwordid CASCADE;
 governors.insert=INSERT INTO %Fn_governors.table% (governorid,fnwordid,governortype) VALUES(?,?,?);
  */
-public class Governor implements Insertable<Governor>
+public class Governor implements HasId, Insertable<Governor>
 {
 	public static final Set<Governor> SET = new HashSet<>();
+
+	public static Map<Governor, Integer> MAP;
 
 	private final String type;
 
@@ -31,12 +35,24 @@ public class Governor implements Insertable<Governor>
 	}
 
 	@Override
+	public Object getId()
+	{
+		return MAP.get(this);
+	}
+
+	@Override
 	public String dataRow()
 	{
 		return String.format("'%s','%s',%s", //
 				Utils.escape(type), //
 				Utils.escape(word.getWord()), //
 				word.getId());
+	}
+
+	@Override
+	public String comment()
+	{
+		return Insertable.super.comment();
 	}
 
 	@Override

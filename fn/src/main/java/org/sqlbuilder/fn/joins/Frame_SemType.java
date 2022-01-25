@@ -1,5 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.common.Insertable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,15 +14,33 @@ frames_semtypes.no-fk1=ALTER TABLE %Fn_frames_semtypes.table% DROP CONSTRAINT fk
 frames_semtypes.no-fk2=ALTER TABLE %Fn_frames_semtypes.table% DROP CONSTRAINT fk_%Fn_frames_semtypes.table%_semtypeid CASCADE;
 frames_semtypes.insert=INSERT INTO %Fn_frames_semtypes.table% (frameid,semtypeid) VALUES(?,?);
  */
-public class Frame_SemType extends Pair<Integer, Integer>
+public class Frame_SemType extends Pair<Integer, Integer> implements Insertable<Frame_SemType>
 {
 	public static final Set<Frame_SemType> SET = new HashSet<>();
 
-	public Frame_SemType(final int frameid, final int semtypeid)
+	// C O N S T R U C T O R
+
+	public static Frame_SemType make(final int frameid, final int semtypeid)
+	{
+		var ft = new Frame_SemType(frameid, semtypeid);
+		SET.add(ft);
+		return ft;
+	}
+
+	private Frame_SemType(final int frameid, final int semtypeid)
 	{
 		super(frameid, semtypeid);
-		SET.add(this);
 	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%d,%d", first, second);
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

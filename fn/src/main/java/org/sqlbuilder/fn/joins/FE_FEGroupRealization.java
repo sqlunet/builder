@@ -23,30 +23,35 @@ fegrouprealizations_fes.no-fk2=ALTER TABLE %Fn_fegrouprealizations_fes.table% DR
 fegrouprealizations_fes.no-fk3=ALTER TABLE %Fn_fegrouprealizations_fes.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_feid CASCADE;
 fegrouprealizations_fes.insert=INSERT INTO %Fn_fegrouprealizations_fes.table% (rfeid,fegrid,fetype) VALUES(?,?,?);
  */
-public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealization> implements Insertable<FE_FEGroupRealization>
+public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> implements Insertable<FE_FEGroupRealization>
 {
 	public static final Set<FE_FEGroupRealization> SET = new HashSet<>();
 
-	public FE_FEGroupRealization(final FEValenceType fe, final FEGroupRealization fegr)
+	// C O N S T R U C T O R
+
+	public static FE_FEGroupRealization make(final FEValenceType fe, final FEGroupRealization fegr)
 	{
-		super(fe, fegr);
-		SET.add(this);
+		var fr = new FE_FEGroupRealization(fe.getName(), fegr);
+		SET.add(fr);
+		return fr;
+	}
+
+	private FE_FEGroupRealization(final String feName, final FEGroupRealization fegr)
+	{
+		super(feName, fegr);
 	}
 
 	// A C C E S S
 
 	String getFEName()
 	{
-		return first.getName();
+		return first;
 	}
 
 	String getFENames()
 	{
 		return second.getFENames();
 	}
-
-	// I D E N T I T Y
-	// pair
 
 	// O R D E R
 
@@ -58,8 +63,7 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 	public String dataRow()
 	{
 		// (rfeid),fegrid,feid,fetypeid
-		String feName = first.getName();
-		int fetypeid = FeType.getIntId(feName);
+		int fetypeid = FeType.getIntId(first);
 		var key = new Pair<>(fetypeid, second.getFrameID());
 		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
 
@@ -72,7 +76,7 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 	@Override
 	public String comment()
 	{
-		return String.format("%s,{%s},%d,%d", getFEName(), getFENames(),second.getLuID(), second.getFrameID());
+		return String.format("%s,{%s},%d,%d", first, getFENames(), second.getLuID(), second.getFrameID());
 	}
 
 	// T O S T R I N G
@@ -80,6 +84,6 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-FEGR fe=%s fegr=%s]", this.first.getName(), this.second);
+		return String.format("[FE-FEGR fe=%s fegr={%s}]", first, this.second.getFENames());
 	}
 }

@@ -1,11 +1,11 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.objects.AnnotationSet;
 import org.sqlbuilder.fn.objects.ValenceUnit;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import edu.berkeley.icsi.framenet.AnnoSetType;
 
 /*
 valenceunits_annosets.table=fnvalenceunits_annosets
@@ -16,15 +16,36 @@ valenceunits_annosets.no-fk1=ALTER TABLE %Fn_valenceunits_annosets.table% DROP C
 valenceunits_annosets.no-fk2=ALTER TABLE %Fn_valenceunits_annosets.table% DROP CONSTRAINT fk_%Fn_valenceunits_annosets.table%_vuid CASCADE;
 valenceunits_annosets.insert=INSERT INTO %Fn_valenceunits_annosets.table% (vuid,annosetid) VALUES(?,?);
  */
-public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, AnnoSetType>
+public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements Insertable<ValenceUnit_AnnoSet>
 {
 	public static final Set<ValenceUnit_AnnoSet> SET = new HashSet<>();
 
-	public ValenceUnit_AnnoSet(final ValenceUnit vu, final AnnoSetType annoset)
+	// C O N S T R U C T O R
+
+	public static ValenceUnit_AnnoSet make(final ValenceUnit vu, final AnnotationSet annoset)
 	{
-		super(vu, annoset);
+		var va = new ValenceUnit_AnnoSet(vu, annoset.getID());
+		SET.add(va);
+		return va;
+	}
+
+	private ValenceUnit_AnnoSet(final ValenceUnit vu, final int annosetid)
+	{
+		super(vu, annosetid);
 		SET.add(this);
 	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%s,%s", //
+				first.dataRow(), //
+				second);
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

@@ -1,5 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.common.Insertable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,19 +16,37 @@ fes_required.no-fk1=ALTER TABLE %Fn_fes_required.table% DROP CONSTRAINT fk_%Fn_f
 fes_required.no-fk2=ALTER TABLE %Fn_fes_required.table% DROP CONSTRAINT fk_%Fn_fes_required.table%_feid CASCADE;
 fes_required.insert=INSERT INTO %Fn_fes_required.table% (feid,fe2id) VALUES(?,?);
  */
-public class FE_FERequired extends Pair<Long, InternalFrameRelationFEType>
+public class FE_FERequired extends Pair<Integer, Integer> implements Insertable<FE_FERequired>
 {
 	public static final Set<FE_FERequired> SET = new HashSet<>();
 
-	public FE_FERequired(final long fe, final InternalFrameRelationFEType fe2)
+	// C O N S T R U C T O R
+
+	public static FE_FERequired make(final int fe, final InternalFrameRelationFEType fe2)
 	{
-		super(fe, fe2);
-		SET.add(this);
+		var ff = new FE_FERequired(fe, fe2.getID());
+		SET.add(ff);
+		return ff;
 	}
+
+	private FE_FERequired(final int feid, final int feid2)
+	{
+		super(feid, feid2);
+	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%d,%d", first, second);
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-FEreq feid=%s fe2=%s]", this.first, this.second);
+		return String.format("[FE-FEreq feid=%s feid2=%s]", this.first, this.second);
 	}
 }

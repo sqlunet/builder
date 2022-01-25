@@ -1,8 +1,10 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.HasId;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SubCorpusType;
@@ -14,9 +16,11 @@ subcorpuses.fk1=ALTER TABLE %Fn_subcorpuses.table% ADD CONSTRAINT fk_%Fn_subcorp
 subcorpuses.no-fk1=ALTER TABLE %Fn_subcorpuses.table% DROP CONSTRAINT fk_%Fn_subcorpuses.table%_luid CASCADE;
 subcorpuses.insert=INSERT INTO %Fn_subcorpuses.table% (subcorpusid,luid,subcorpus) VALUES(?,?,?);
  */
-public class SubCorpus implements Insertable<SubCorpus>
+public class SubCorpus implements HasId, Insertable<SubCorpus>
 {
 	public static final Set<SubCorpus> SET = new HashSet<>();
+
+	public static Map<SubCorpus, Integer> MAP;
 
 	private final SubCorpusType subcorpus;
 
@@ -29,6 +33,16 @@ public class SubCorpus implements Insertable<SubCorpus>
 		SET.add(this);
 	}
 
+	// I D
+
+	@Override
+	public Object getId()
+	{
+		return MAP.get(this);
+	}
+
+	// I N S E R T
+
 	@Override
 	public String dataRow()
 	{
@@ -37,6 +51,8 @@ public class SubCorpus implements Insertable<SubCorpus>
 				subcorpus.getName(), //
 				luid);
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

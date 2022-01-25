@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.HashSet;
@@ -16,19 +17,37 @@ governors_annosets.no-fk1=ALTER TABLE %Fn_governors_annosets.table% DROP CONSTRA
 governors_annosets.no-fk2=ALTER TABLE %Fn_governors_annosets.table% DROP CONSTRAINT fk_%Fn_governors_annosets.table%_governorid CASCADE;
 governors_annosets.insert=INSERT INTO %Fn_governors_annosets.table% (governorid,annosetid) VALUES(?,?);
  */
-public class Governor_AnnoSet extends Pair<Governor, AnnoSetType>
+public class Governor_AnnoSet extends Pair<Governor, Integer> implements Insertable<Governor_AnnoSet>
 {
 	public static final Set<Governor_AnnoSet> SET = new HashSet<>();
 
-	public Governor_AnnoSet(final Governor governor, final AnnoSetType annoset)
+	// C O N S T R U C T O R
+
+	public static Governor_AnnoSet make(final Governor governor, final AnnoSetType annoset)
 	{
-		super(governor, annoset);
-		SET.add(this);
+		var ga = new Governor_AnnoSet(governor, annoset.getID());
+		SET.add(ga);
+		return ga;
 	}
+
+	private Governor_AnnoSet(final Governor governor, final int annosetid)
+	{
+		super(governor, annosetid);
+	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%s,%d", first.getId(), second);
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GOV-AS governor=%s annoset=%s]", this.first, this.second);
+		return String.format("[GOV-AS governor=%s annosetid=%s]", this.first, this.second);
 	}
 }

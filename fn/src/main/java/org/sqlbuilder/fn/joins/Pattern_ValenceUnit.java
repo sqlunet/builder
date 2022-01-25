@@ -27,21 +27,30 @@ public class Pattern_ValenceUnit extends Pair<Pattern, ValenceUnit> implements I
 
 	//public final FnFE fe;
 
-	public Pattern_ValenceUnit(final Pattern pattern, final ValenceUnit vu /*, final FnFE fe*/)
+	// C O N S T R U C T O R
+
+	public static Pattern_ValenceUnit make(final Pattern pattern, final ValenceUnit vu /*, final FnFE fe*/)
+	{
+		var pv = new Pattern_ValenceUnit(pattern, vu);
+		//this.fe = fe;
+		SET.add(pv);
+		return pv;
+	}
+
+	private Pattern_ValenceUnit(final Pattern pattern, final ValenceUnit vu /*, final FnFE fe*/)
 	{
 		super(pattern, vu);
-		//this.fe = fe;
-		SET.add(this);
 	}
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
-		// Long(1, this.patternid);
-		// Long(2, this.vuid);
-		// String(3, this.fe);
-		return null;
+		return String.format("%s,%s", first.getId(), second.dataRow());
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

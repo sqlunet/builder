@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import edu.berkeley.icsi.framenet.AnnoSetType;
 import edu.berkeley.icsi.framenet.AnnotationSetType;
 
 /*
@@ -94,6 +95,16 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 
 	public final String cxnName;
 
+	public static AnnotationSet make(final AnnoSetType annoset)
+	{
+		var as = new AnnotationSet(annoset);
+		if (!SET.contains(as))
+		{
+			throw new IllegalArgumentException("no reference for " + as);
+		}
+		return as;
+	}
+
 	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid)
 	{
 		var a = new AnnotationSet(annoset, sentenceid);
@@ -133,9 +144,19 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 		this.cxnName = annoset.getCxnName();
 	}
 
+	private AnnotationSet(final AnnoSetType annoset)
+	{
+		this.annosetid = annoset.getID();
+		this.sentenceid = 0;
+		this.luid = 0;
+		this.frameid = 0;
+		this.cxnid = 0;
+		this.cxnName = null;
+	}
+
 	// A C C E S S
 
-	public long getID()
+	public int getID()
 	{
 		return annosetid;
 	}

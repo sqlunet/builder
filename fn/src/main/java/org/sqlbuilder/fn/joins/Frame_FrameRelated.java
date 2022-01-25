@@ -23,38 +23,50 @@ frames_related.no-fk2=ALTER TABLE %Fn_frames_related.table% DROP CONSTRAINT fk_%
 frames_related.no-fk3=ALTER TABLE %Fn_frames_related.table% DROP CONSTRAINT fk_%Fn_frames_related.table%_relationid CASCADE;
 frames_related.insert=INSERT INTO %Fn_frames_related.table% (frameid,frame2id,frame2,relationid,relation) VALUES(?,-1,?,-1,?);
  */
-public class Frame_FrameRelated extends Pair<Long, FrameIDNameType> implements Insertable<Frame_FrameRelated>
+public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insertable<Frame_FrameRelated>
 {
 	public static final Set<Frame_FrameRelated> SET = new HashSet<>();
 
 	private final String relation;
 
-	public Frame_FrameRelated(final long frameid, final FrameIDNameType frame2, final String relation)
+	// C O N S T R U C T O R
+
+	public static Frame_FrameRelated make(final int frameid, final FrameIDNameType frame2, final String relation)
 	{
-		super(frameid, frame2);
-		this.relation = relation;
+		var ff = new Frame_FrameRelated(frameid, frame2.getID(), relation);
 		FrameRelation.add(relation);
-		SET.add(this);
+		SET.add(ff);
+		return ff;
 	}
+
+	private Frame_FrameRelated(final int frameid, final int frame2id, final String relation)
+	{
+		super(frameid, frame2id);
+		this.relation = relation;
+	}
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
 		return String.format("%d,%d,%s", //
 				first, //
-				second.getID(), //
+				second, //
 				FrameRelation.getId(relation));
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s",relation);
+		return String.format("%s", relation);
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FRrel frameid=%s frame2=%s type=%s]", this.first, this.second, this.relation);
+		return String.format("[FRrel frameid=%s frame2id=%s type=%s]", this.first, this.second, this.relation);
 	}
 }

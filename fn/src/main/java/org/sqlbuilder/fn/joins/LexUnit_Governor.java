@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.HashSet;
@@ -14,15 +15,33 @@ lexunits_governors.no-fk1=ALTER TABLE %Fn_lexunits_governors.table% DROP FOREIGN
 lexunits_governors.no-fk2=ALTER TABLE %Fn_lexunits_governors.table% DROP FOREIGN KEY fk_%Fn_lexunits_governors.table%_luid;
 lexunits_governors.insert=INSERT INTO %Fn_lexunits_governors.table% (luid,governorid) VALUES(?,?);
  */
-public class LexUnit_Governor extends Pair<Long, Governor>
+public class LexUnit_Governor extends Pair<Integer, Governor> implements Insertable<LexUnit_Governor>
 {
 	public static final Set<LexUnit_Governor> SET = new HashSet<>();
 
-	public LexUnit_Governor(final long luid, final Governor governor)
+	// C O N S T R U C T O R
+
+	public static LexUnit_Governor make(final int luid, final Governor governor)
+	{
+		var ug = new LexUnit_Governor(luid, governor);
+		SET.add(ug);
+		return ug;
+	}
+
+	private LexUnit_Governor(final int luid, final Governor governor)
 	{
 		super(luid, governor);
-		SET.add(this);
 	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%d,%s", first, second.getId());
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

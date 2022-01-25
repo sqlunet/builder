@@ -53,7 +53,7 @@ public class FnFrameProcessor extends FnProcessor
 
 			for (var _semtype : _frame.getSemTypeArray())
 			{
-				final Frame_SemType frame_semtype = new Frame_SemType(frameid, _semtype.getID());
+				Frame_SemType.make(frameid, _semtype.getID());
 			}
 
 			// F E C O R E S E T S
@@ -84,19 +84,19 @@ public class FnFrameProcessor extends FnProcessor
 				// s e m t y p e s
 				for (var _semtype : _fe.getSemTypeArray())
 				{
-					final FE_SemType fe_semtype = new FE_SemType(feid, _semtype.getID());
+					FE_SemType.make(feid, _semtype.getID());
 				}
 
 				// r e q u i r e s
 				for (var _requiredfe : _fe.getRequiresFEArray())
 				{
-					final FE_FERequired requiredfe = new FE_FERequired(feid, _requiredfe);
+					FE_FERequired.make(feid, _requiredfe);
 				}
 
 				// e x c l u d e s / r e q u i r e s
 				for (var _excludedfe : _fe.getExcludesFEArray())
 				{
-					final FE_FEExcluded excludedfe = new FE_FEExcluded(feid, _excludedfe);
+					FE_FEExcluded.make(feid, _excludedfe);
 				}
 			}
 
@@ -104,10 +104,10 @@ public class FnFrameProcessor extends FnProcessor
 
 			for (var _framerelations : _frame.getFrameRelationArray())
 			{
-				final String t = _framerelations.getType();
+				final String relation = _framerelations.getType();
 				for (var _relatedframe : _framerelations.getRelatedFrameArray())
 				{
-					final Frame_FrameRelated relatedframe = new Frame_FrameRelated(frameid, _relatedframe, t);
+					Frame_FrameRelated.make(frameid, _relatedframe, relation);
 				}
 			}
 
@@ -129,7 +129,7 @@ public class FnFrameProcessor extends FnProcessor
 					// semtypes
 					for (var _semtype : _lexunit.getSemTypeArray())
 					{
-						final LexUnit_SemType lexunit_semtype = new LexUnit_SemType(luid, _semtype);
+						LexUnit_SemType.make(luid, _semtype);
 					}
 				}
 			}

@@ -13,10 +13,16 @@ public class ValenceUnit_FERealization extends Pair<ValenceUnit, FERealization> 
 
 	// C O N S T R U C T O R
 
-	public ValenceUnit_FERealization(final ValenceUnit vu, final FERealization fer)
+	public static ValenceUnit_FERealization make(final ValenceUnit vu, final FERealization fer)
+	{
+		var vr = new ValenceUnit_FERealization(vu,fer);
+		SET.add(vr);
+		return vr;
+	}
+
+	private ValenceUnit_FERealization(final ValenceUnit vu, final FERealization fer)
 	{
 		super(vu, fer);
-		SET.add(this);
 	}
 
 	// A C C E S S

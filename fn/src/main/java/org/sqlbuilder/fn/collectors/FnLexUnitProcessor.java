@@ -71,7 +71,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _semtype : _lexunit.getSemTypeArray())
 			{
-				final LexUnit_SemType lexunit_semtype = new LexUnit_SemType(luid, _semtype);
+				LexUnit_SemType.make(luid, _semtype);
 			}
 
 			// V A L E N C E S
@@ -83,11 +83,11 @@ public class FnLexUnitProcessor extends FnProcessor
 			for (var _governor : _valences.getGovernorArray())
 			{
 				final Governor governor = new Governor(_governor);
-				final LexUnit_Governor lexunit_governor = new LexUnit_Governor(luid, governor);
+				LexUnit_Governor.make(luid, governor);
 
 				for (var _annoset : _governor.getAnnoSetArray())
 				{
-					final Governor_AnnoSet governor_annoset = new Governor_AnnoSet(governor, _annoset);
+					Governor_AnnoSet.make(governor, _annoset);
 				}
 			}
 
@@ -103,13 +103,13 @@ public class FnLexUnitProcessor extends FnProcessor
 					// v a l e n c e u n i t
 					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
 					final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
-
-					final ValenceUnit_FERealization valenceunit_fer = new ValenceUnit_FERealization(valenceunit, fer);
+					ValenceUnit_FERealization.make(valenceunit, fer);
 
 					// a n n o s e t s
 					for (var _annoset : _pattern.getAnnoSetArray())
 					{
-						final ValenceUnit_AnnoSet valenceunit_annoset = new ValenceUnit_AnnoSet(valenceunit, _annoset);
+						final AnnotationSet annoset = AnnotationSet.make(_annoset);
+						ValenceUnit_AnnoSet.make(valenceunit, annoset);
 					}
 				}
 			}
@@ -123,7 +123,7 @@ public class FnLexUnitProcessor extends FnProcessor
 				// f e s
 				for (var _fe : _fegr.getFEArray())
 				{
-					final FE_FEGroupRealization fe_fegr = new FE_FEGroupRealization(_fe, fegr);
+					FE_FEGroupRealization.make(_fe, fegr);
 				}
 
 				// p a t t e r n s
@@ -135,13 +135,13 @@ public class FnLexUnitProcessor extends FnProcessor
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
 						final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
-						final Pattern_ValenceUnit pattern_valenceunit = new Pattern_ValenceUnit(grouppattern, valenceunit);
+						Pattern_ValenceUnit.make(grouppattern, valenceunit);
 					}
 
 					// a n n o s e t s
 					for (var _annoset : _grouppattern.getAnnoSetArray())
 					{
-						final Pattern_AnnoSet pattern_annoset = new Pattern_AnnoSet(grouppattern, _annoset);
+						Pattern_AnnoSet.make(grouppattern, _annoset);
 					}
 				}
 			}
@@ -155,7 +155,7 @@ public class FnLexUnitProcessor extends FnProcessor
 				for (var _sentence : _subcorpus.getSentenceArray())
 				{
 					final Sentence sentence = Sentence.make(_sentence, false);
-					final SubCorpus_Sentence subcorpus_sentence = new SubCorpus_Sentence(subcorpus, sentence);
+					SubCorpus_Sentence.make(subcorpus, sentence);
 
 					for (var _annoset : _sentence.getAnnotationSetArray())
 					{
@@ -175,7 +175,7 @@ public class FnLexUnitProcessor extends FnProcessor
 						// layers
 						for (var _layer : _annoset.getLayerArray())
 						{
-							final Layer layer = Layer .make(_layer, _annoset.getID());
+							final Layer layer = Layer.make(_layer, _annoset.getID());
 
 							// labels
 							for (var _label : _layer.getLabelArray())

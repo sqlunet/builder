@@ -38,8 +38,7 @@ public class FnSemTypeProcessor extends FnProcessor1
 
 				for (var _supertype : _semtype.getSuperTypeArray())
 				{
-					final SemType_SemTypeSuper semsupertype = new SemType_SemTypeSuper(semtype, _supertype);
-					SemType_SemTypeSuper.SET.add(semsupertype);
+					SemType_SemTypeSuper.make(semtype, _supertype);
 				}
 			}
 		}

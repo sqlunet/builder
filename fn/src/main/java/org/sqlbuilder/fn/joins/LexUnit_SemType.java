@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.common.Insertable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,19 +16,37 @@ lexunits_semtypes.no-fk1=ALTER TABLE %Fn_lexunits_semtypes.table% DROP CONSTRAIN
 lexunits_semtypes.no-fk2=ALTER TABLE %Fn_lexunits_semtypes.table% DROP CONSTRAINT fk_%Fn_lexunits_semtypes.table%_semtypeid CASCADE;
 lexunits_semtypes.insert=INSERT INTO %Fn_lexunits_semtypes.table% (luid,semtypeid) VALUES(?,?);
  */
-public class LexUnit_SemType extends Pair<Long, SemTypeRefType>
+public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertable<LexUnit_SemType>
 {
 	public static final Set<LexUnit_SemType> SET = new HashSet<>();
 
-	public LexUnit_SemType(final long luid, final SemTypeRefType semtype)
+	// C O N S T R U C T O R
+
+	public static LexUnit_SemType make(final int luid, final SemTypeRefType semtype)
 	{
-		super(luid, semtype);
-		SET.add(this);
+		var ut = new LexUnit_SemType(luid, semtype.getID());
+		SET.add(ut);
+		return ut;
 	}
+
+	private LexUnit_SemType(final int luid, final int semtypeid)
+	{
+		super(luid, semtypeid);
+	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%d,%d", first, second);
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LU-SEM luid=%s semtype=%s]", this.first, this.second);
+		return String.format("[LU-SEM luid=%s semtypeid=%s]", this.first, this.second);
 	}
 }
