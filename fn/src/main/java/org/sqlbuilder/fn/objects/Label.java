@@ -46,7 +46,7 @@ public class Label implements Insertable<Label>
 		return l;
 	}
 
-	public Label(final LabelType label, final Layer layer)
+	private Label(final LabelType label, final Layer layer)
 	{
 		this.name = label.getName();
 		this.itype = label.getItype() == null ? null : label.getItype().toString();
@@ -54,7 +54,6 @@ public class Label implements Insertable<Label>
 		this.start = label.getStart();
 		this.end = label.getEnd();
 		this.layer = layer;
-		SET.add(this);
 	}
 
 	public static final Comparator<Label> COMPARATOR = Comparator.comparing(l -> l.name);

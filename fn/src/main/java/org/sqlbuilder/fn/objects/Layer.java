@@ -31,12 +31,18 @@ public class Layer implements Insertable<Layer>
 
 	public final long annosetid;
 
-	public Layer(final LayerType layer, final long annosetid)
+	public static Layer make(final LayerType layer, final long annosetid)
+	{
+		var l = new Layer(layer, annosetid);
+		SET.add(l);
+		return l;
+	}
+
+	private Layer(final LayerType layer, final long annosetid)
 	{
 		this.name = layer.getName();
 		this.rank = layer.getRank();
 		this.annosetid = annosetid;
-		SET.add(this);
 	}
 
 	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l -> l.name);

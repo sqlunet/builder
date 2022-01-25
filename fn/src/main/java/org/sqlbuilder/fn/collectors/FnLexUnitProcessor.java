@@ -175,12 +175,12 @@ public class FnLexUnitProcessor extends FnProcessor
 						// layers
 						for (var _layer : _annoset.getLayerArray())
 						{
-							final Layer layer = new Layer(_layer, _annoset.getID());
+							final Layer layer = Layer .make(_layer, _annoset.getID());
 
 							// labels
 							for (var _label : _layer.getLabelArray())
 							{
-								final Label label = new Label(_label, layer);
+								Label.make(_label, layer);
 							}
 						}
 					}
