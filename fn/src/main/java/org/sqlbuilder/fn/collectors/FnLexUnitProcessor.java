@@ -64,7 +64,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _lexeme : _lexunit.getLexemeArray())
 			{
-				final Lexeme lexeme = new Lexeme(_lexeme, luid);
+				Lexeme.make(_lexeme, luid);
 			}
 
 			// S E M T Y P E S
@@ -95,7 +95,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _fer : _valences.getFERealizationArray())
 			{
-				final FERealization fer = new FERealization(_fer, luid, frameid);
+				final FERealization fer = FERealization.make(_fer, luid, frameid);
 
 				// p a t t e r n s
 				for (var _pattern : _fer.getPatternArray())
@@ -118,7 +118,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _fegr : _valences.getFEGroupRealizationArray())
 			{
-				final FEGroupRealization fegr = new FEGroupRealization(_fegr, luid, frameid);
+				final FEGroupRealization fegr = FEGroupRealization.make(_fegr, luid, frameid);
 
 				// f e s
 				for (var _fe : _fegr.getFEArray())

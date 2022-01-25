@@ -28,31 +28,36 @@ public class Lexeme implements Insertable<Lexeme>
 
 	public static Map<Lexeme, Integer> MAP;
 
-	public final LexemeType lexeme;
+	private final int pos;
 
-	public final Word word;
+	private final boolean breakBefore;
 
-	public final long luid;
+	private final boolean headWord;
 
-	public Lexeme(final LexemeType lexeme, final long luid)
+	private final int order;
+
+	private final Word word;
+
+	private final long luid;
+
+	public static Lexeme make(final LexemeType lexeme, final long luid)
 	{
-		this.lexeme = lexeme;
+		var l = new Lexeme(lexeme, luid);
+		SET.add(l);
+		return l;
+	}
+
+	private Lexeme(final LexemeType lexeme, final long luid)
+	{
+		this.word = Word.make(trim(lexeme.getName()));
+		this.pos = lexeme.getPOS().intValue();
+		this.breakBefore = lexeme.getBreakBefore();
+		this.headWord = lexeme.getHeadword();
+		this.order = lexeme.getOrder();
 		this.luid = luid;
-		this.word = new Word(trim(lexeme.getName()));
-		SET.add(this);
 	}
 
 	// A C C E S S
-
-	public LexemeType getLexeme()
-	{
-		return lexeme;
-	}
-
-	public String getLexemeName()
-	{
-		return lexeme.getName();
-	}
 
 	public String getWord()
 	{
@@ -77,19 +82,19 @@ public class Lexeme implements Insertable<Lexeme>
 		{
 			return false;
 		}
-		Lexeme lexeme1 = (Lexeme) o;
-		return luid == lexeme1.luid && lexeme.equals(lexeme1.lexeme) && word.equals(lexeme1.word);
+		Lexeme that = (Lexeme) o;
+		return word.equals(that.word) && luid == that.luid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(lexeme, word, luid);
+		return Objects.hash(word, luid);
 	}
 
 	// O R D E R
 
-	public static Comparator<Lexeme> COMPARATOR = Comparator.comparing(Lexeme::getWord).thenComparing(Lexeme::getLexemeName).thenComparing(Lexeme::getLuid);
+	public static Comparator<Lexeme> COMPARATOR = Comparator.comparing(Lexeme::getWord).thenComparing(Lexeme::getLuid);
 
 	// I N S E R T
 
@@ -97,19 +102,19 @@ public class Lexeme implements Insertable<Lexeme>
 	public String dataRow()
 	{
 		//fnwordid,posid,breakbefore,headword,lexemeidx,luid
-		return String.format("%s,%d,%b,%b,%s,%d", //
+		return String.format("%s,%d,%d,%d,%s,%d", //
 				word.getId(), // fnwordid
-				lexeme.getPOS().intValue(), //
-				lexeme.getBreakBefore(), //
-				lexeme.getHeadword(), //
-				Utils.zeroableInt(lexeme.getOrder()), //
+				pos, //
+				breakBefore ? 1 : 0, //
+				headWord ? 1 : 0, //
+				Utils.zeroableInt(order), //
 				luid);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", lexeme.getName(), getWord());
+		return String.format("%s", getWord());
 	}
 
 	// T O S T R I N G

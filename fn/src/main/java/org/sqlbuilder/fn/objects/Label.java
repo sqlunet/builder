@@ -27,32 +27,50 @@ public class Label implements Insertable<Label>
 {
 	public static final Set<Label> SET = new HashSet<>();
 
-	public final LabelType label;
+	private final String name;
+
+	private final String itype;
+
+	private final int feid;
+
+	private final int start;
+
+	private final int end;
 
 	public final Layer layer;
 
+	public static Label make(final LabelType label, final Layer layer)
+	{
+		var l = new Label(label, layer);
+		SET.add(l);
+		return l;
+	}
+
 	public Label(final LabelType label, final Layer layer)
 	{
-		this.label = label;
+		this.name = label.getName();
+		this.itype = label.getItype() == null ? null : label.getItype().toString();
+		this.feid = label.getFeID();
+		this.start = label.getStart();
+		this.end = label.getEnd();
 		this.layer = layer;
 		SET.add(this);
 	}
 
-	public static final Comparator<Label> COMPARATOR = Comparator.comparing(l->l.label.getName());
+	public static final Comparator<Label> COMPARATOR = Comparator.comparing(l -> l.name);
 
 	@Override
 	public String dataRow()
 	{
 		// labelid,labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
-		return String.format("NULL,'%s',%s,%s,%s,%s,NULL",
+		return String.format("NULL,'%s',%s,%s,%s,%s,%s",
 				// getId(), //
-				label.getName(), //
-				Utils.nullableString(label.getItype()), //
-				Utils.zeroableInt(label.getFeID()), //
-				Utils.zeroableInt(label.getStart()), //
-				Utils.zeroableInt(label.getEnd()), //
-				Layer.MAP.get(layer)
-		);
+				name, //
+				Utils.nullableString(itype), //
+				Utils.zeroableInt(feid), //
+				Utils.zeroableInt(start), //
+				Utils.zeroableInt(end), //
+				Layer.MAP.get(layer));
 		// String(8, this.label.getBgColor());
 		// String(9, this.label.getFgColor());
 		// String(10, this.label.getCBy());
@@ -61,6 +79,6 @@ public class Label implements Insertable<Label>
 	@Override
 	public String toString()
 	{
-		return String.format("[LAB label=%s layer=%s]", this.label.getName(), this.layer);
+		return String.format("[LAB label=%s layer=%s]", this.name, this.layer);
 	}
 }

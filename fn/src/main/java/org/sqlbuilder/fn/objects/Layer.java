@@ -25,32 +25,35 @@ public class Layer implements Insertable<Layer>
 
 	public static Map<Layer, Integer> MAP;
 
-	public final LayerType layer;
+	private final String name;
+
+	private final int rank;
 
 	public final long annosetid;
 
 	public Layer(final LayerType layer, final long annosetid)
 	{
-		this.layer = layer;
+		this.name = layer.getName();
+		this.rank = layer.getRank();
 		this.annosetid = annosetid;
 		SET.add(this);
 	}
 
-	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l->l.layer.getName());
+	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l -> l.name);
 
 	@Override
 	public String dataRow()
 	{
 		return String.format("NULL,'%s',%d,%d", //
 				//layer.getId(), //
-				layer.getName(), //
-				layer.getRank(), //
+				name, //
+				rank, //
 				annosetid);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LAY name=%s annosetid=%s]", this.layer.getName(), this.annosetid);
+		return String.format("[LAY name=%s annosetid=%s]", this.name, this.annosetid);
 	}
 }

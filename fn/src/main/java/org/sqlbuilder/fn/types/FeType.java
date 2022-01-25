@@ -12,7 +12,6 @@ fetypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_fetypes.table%_fetype;
  */
 public class FeType
 {
-
 	public static final Set<String> SET = new HashSet<>();
 
 	public static Map<String, Integer> MAP;

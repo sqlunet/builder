@@ -24,12 +24,18 @@ public class Word implements HasId, Insertable<Word>
 
 	public static Map<Word, Integer> MAP;
 
-	public final String word;
+	private final String word;
 
-	public Word(final String lemma)
+	public static Word make(final String lemma)
+	{
+		var w = new Word(lemma);
+		Word.SET.add(w);
+		return w;
+	}
+
+	private Word(final String lemma)
 	{
 		this.word = lemma;
-		Word.SET.add(this);
 	}
 
 	public String getWord()

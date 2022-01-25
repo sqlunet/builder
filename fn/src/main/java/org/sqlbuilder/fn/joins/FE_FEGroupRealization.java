@@ -60,7 +60,7 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 		// (rfeid),fegrid,feid,fetypeid
 		String feName = first.getName();
 		int fetypeid = FeType.getIntId(feName);
-		var key = new Pair<>(fetypeid, second.frameid);
+		var key = new Pair<>(fetypeid, second.getFrameID());
 		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
 
 		return String.format("%s,%s,%s", //
@@ -72,7 +72,7 @@ public class FE_FEGroupRealization extends Pair<FEValenceType, FEGroupRealizatio
 	@Override
 	public String comment()
 	{
-		return String.format("%s,{%s},%d,%d", getFEName(), getFENames(),second.luid, second.frameid);
+		return String.format("%s,{%s},%d,%d", getFEName(), getFENames(),second.getLuID(), second.getFrameID());
 	}
 
 	// T O S T R I N G

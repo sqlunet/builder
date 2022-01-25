@@ -23,35 +23,44 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 
 	public static Map<FEGroupRealization, Integer> MAP;
 
-	final FEGroupRealizationType fegr;
+	private final int luid;
 
-	public final int luid;
+	private final int frameid;
 
-	public final int frameid;
+	private final int total;
 
-	public FEGroupRealization(final FEGroupRealizationType fegr, final int luid, final int frameid)
+	private final String feNames;
+
+	public static FEGroupRealization make(final FEGroupRealizationType fegr, final int luid, final int frameid)
 	{
-		this.fegr = fegr;
+		var r = new FEGroupRealization(fegr, luid, frameid);
+		SET.add(r);
+		return r;
+	}
+
+	private FEGroupRealization(final FEGroupRealizationType fegr, final int luid, final int frameid)
+	{
 		this.luid = luid;
 		this.frameid = frameid;
-		SET.add(this);
+		this.total = fegr.getTotal();
+		this.feNames = Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(joining(","));
 	}
 
 	// A C C E S S
 
-	public String getFENames()
-	{
-		return Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(joining(","));
-	}
-
-	public int getLuid()
+	public int getLuID()
 	{
 		return luid;
 	}
 
-	public int getFrameId()
+	public int getFrameID()
 	{
 		return frameid;
+	}
+
+	public String getFENames()
+	{
+		return feNames;
 	}
 
 	@Override
@@ -79,21 +88,20 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 			return false;
 		}
 		FEGroupRealization that = (FEGroupRealization) o;
-		return fegr.equals(that.fegr) && luid == that.luid && frameid == that.frameid;
+		return feNames.equals(that.feNames) && luid == that.luid && frameid == that.frameid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(fegr, luid, frameid);
+		return Objects.hash(feNames, luid, frameid);
 	}
 
 	// O R D E R
 
-	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator
+	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
 			.comparing(FEGroupRealization::getFENames) //
-			.thenComparing(FEGroupRealization::getLuid) //
-			.thenComparing(FEGroupRealization::getFrameId);
+			.thenComparing(FEGroupRealization::getLuID);
 
 	// I N S E R T
 
@@ -104,15 +112,14 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 		// total INTEGER NOT NULL,
 		// luid INTEGER NOT NULL,
 		return String.format("%s,%d", //
-				fegr.getTotal(), //
+				total, //
 				luid);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s", //
-				Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(joining(",")));
+		return String.format("%s", feNames);
 	}
 
 	// T O S T R I N G
@@ -120,6 +127,6 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	@Override
 	public String toString()
 	{
-		return String.format("[FEGR fegr=%s luid=%s]", fegr, luid);
+		return String.format("[FEGR fes={%s} luid=%s]", feNames, luid);
 	}
 }

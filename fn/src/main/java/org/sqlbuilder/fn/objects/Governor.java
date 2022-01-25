@@ -19,14 +19,14 @@ public class Governor implements Insertable<Governor>
 {
 	public static final Set<Governor> SET = new HashSet<>();
 
-	public final GovernorType governor;
+	private final String type;
 
-	public final Word word;
+	private final Word word;
 
 	public Governor(final GovernorType governor)
 	{
-		this.governor = governor;
-		this.word = new Word(governor.getLemma());
+		this.type = governor.getType();
+		this.word = Word.make(governor.getLemma());
 		SET.add(this);
 	}
 
@@ -34,14 +34,14 @@ public class Governor implements Insertable<Governor>
 	public String dataRow()
 	{
 		return String.format("'%s','%s',%s", //
-				Utils.escape(governor.getType()), //
-				Utils.escape(word.word), //
+				Utils.escape(type), //
+				Utils.escape(word.getWord()), //
 				word.getId());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GOV type=%s word=%s]", governor.getType(), word);
+		return String.format("[GOV type=%s word=%s]", type, word);
 	}
 }

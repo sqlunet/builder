@@ -123,7 +123,7 @@ public class FnFrameProcessor extends FnProcessor
 					// lexemes
 					for (var _lexeme : _lexunit.getLexemeArray())
 					{
-						final Lexeme lexeme = new Lexeme(_lexeme, luid);
+						Lexeme.make(_lexeme, luid);
 					}
 
 					// semtypes

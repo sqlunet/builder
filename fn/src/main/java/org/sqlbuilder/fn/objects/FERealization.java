@@ -25,15 +25,25 @@ public class FERealization implements HasId, Insertable<FERealization>
 
 	public static Map<FERealization, Integer> MAP;
 
-	private final FERealizationType fer;
+	private final String feName;
+
+	private final int total;
 
 	private final int luid;
 
 	private final int frameid;
 
-	public FERealization(final FERealizationType fer, final int luid, final int frameid)
+	public static FERealization make(final FERealizationType fer, final int luid, final int frameid)
 	{
-		this.fer = fer;
+		var r = new FERealization(fer, luid, frameid);
+		SET.add(r);
+		return r;
+	}
+
+	private FERealization(final FERealizationType fer, final int luid, final int frameid)
+	{
+		this.feName = fer.getFE().getName();
+		this.total = fer.getTotal();
 		this.luid = luid;
 		this.frameid = frameid;
 		SET.add(this);
@@ -43,7 +53,7 @@ public class FERealization implements HasId, Insertable<FERealization>
 
 	public String getFEName()
 	{
-		return fer.getFE().getName();
+		return feName;
 	}
 
 	public int getLuId()
@@ -81,18 +91,19 @@ public class FERealization implements HasId, Insertable<FERealization>
 			return false;
 		}
 		FERealization that = (FERealization) o;
-		return fer.equals(that.fer) && luid == that.luid && frameid == that.frameid;
+		return feName.equals(that.feName) && luid == that.luid && frameid == that.frameid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(fer, luid, frameid);
+		return Objects.hash(feName, luid, frameid);
 	}
 
 	// O R D E R
 
-	public static final Comparator<FERealization> COMPARATOR = Comparator.comparing(FERealization::getFEName) //
+	public static final Comparator<FERealization> COMPARATOR = Comparator //
+			.comparing(FERealization::getFEName) //
 			.thenComparing(FERealization::getLuId) //
 			.thenComparing(FERealization::getFrameId);
 
@@ -107,22 +118,20 @@ public class FERealization implements HasId, Insertable<FERealization>
 		// total INTEGER
 		// luid INTEGER NOT NULL
 
-		String feName = fer.getFE().getName();
 		int fetypeid = FeType.getIntId(feName);
 		var key = new Pair<>(fetypeid, frameid);
 		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
 
 		return String.format("%s,%s,%s,%d", //
 				fetypeid, //
-				feid,
-				fer.getTotal(), //
+				feid, total, //
 				luid);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s", fer.getFE().getName());
+		return String.format("%s", feName);
 	}
 
 	// T O S T R I N G
@@ -130,6 +139,6 @@ public class FERealization implements HasId, Insertable<FERealization>
 	@Override
 	public String toString()
 	{
-		return String.format("[FER fe=%s luid=%s]", fer.getFE(), luid);
+		return String.format("[FER fe=%s luid=%s]", feName, luid);
 	}
 }
