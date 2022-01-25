@@ -6,7 +6,9 @@ import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SentenceType;
@@ -24,43 +26,114 @@ public class Sentence implements HasID, Insertable<Sentence>
 {
 	public static final Set<Sentence> SET = new HashSet<>();
 
-	public final SentenceType sentence;
+	private final int sentenceid;
 
-	private final boolean fromFullText;
+	private final Integer corpusid;
 
-	public Sentence(final SentenceType sentence, final boolean fromFullText)
+	private final Integer docid;
+
+	private final int paragno;
+
+	private final int sentno;
+
+	private final int apos;
+
+	private final String text;
+
+	public static Sentence make(final SentenceType sentence, final boolean fromFullText)
 	{
-		super();
-		this.sentence = sentence;
-		this.fromFullText = fromFullText;
-		final boolean isNew = Sentence.SET.add(this);
+		var s = new Sentence(sentence, fromFullText);
+
+		final boolean isNew = Sentence.SET.add(s);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "Sentence", "sentence-duplicate", null, -1, null, sentence.toString());
+			Logger.instance.logWarn(FnModule.MODULE_ID, "Sentence", fromFullText ? "sentence-duplicate (from fullText)" : "sentence-duplicate", null, -1, null, s.toString());
 		}
+		return s;
 	}
 
-	public long getId()
+	private Sentence(final SentenceType sentence, final boolean fromFullText)
 	{
-		return this.sentence.getID() + (this.fromFullText ? 100000000L : 0L);
+		this.sentenceid = sentence.getID();
+		this.corpusid = sentence.getCorpID();
+		this.docid = sentence.getDocID();
+		this.paragno = sentence.getParagNo();
+		this.sentno = sentence.getSentNo();
+		this.text = sentence.getText();
+		this.apos = sentence.getAPos();
 	}
+
+	// I D E N T I T Y
+
+	public int getID()
+	{
+		return sentenceid;
+	}
+
+	public Integer getCorpusID()
+	{
+		return corpusid;
+	}
+
+	public Integer getDocID()
+	{
+		return docid;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Sentence sentence = (Sentence) o;
+		return sentenceid == sentence.sentenceid && Objects.equals(corpusid, sentence.corpusid) && Objects.equals(docid, sentence.docid);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(sentenceid, corpusid, docid);
+	}
+
+	// O R D E R
+
+	public static Comparator<Sentence> COMPARATOR = Comparator.comparing(Sentence::getID).thenComparing(Sentence::getDocID).thenComparing(Sentence::getCorpusID);
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%s,%s,", //
-				sentence.getID(), //
-				Utils.zeroableLong(sentence.getCorpID()), //
-				Utils.zeroableLong(sentence.getDocID()), //
-				sentence.getParagNo(), //
-				sentence.getSentNo(), //
-				sentence.getText(), //
-				sentence.getAPos());
+		return String.format("%d,%s,%s,%d,%d,%s,%d", //
+				sentenceid, //
+				Utils.zeroableInt(corpusid), //
+				Utils.zeroableInt(docid), //
+				paragno, //
+				sentno, //
+				Utils.escape(text), //
+				apos);
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[SENT id=%s id=%s corpusid=%s docid=%s]", getId(), this.sentence.getID(), this.sentence.getCorpID(), this.sentence.getDocID());
+		return String.format("[SENT id=%s text=%s]", sentenceid, ellipsis(text));
+	}
+
+	private String ellipsis(String text)
+	{
+		int max = 32;
+		int len = text.length();
+		return text.substring(0, Math.min(max, len));
 	}
 }

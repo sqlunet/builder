@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import edu.berkeley.icsi.framenet.FrameLUType;
 import edu.berkeley.icsi.framenet.LexUnitDocument;
 
 /*
@@ -34,16 +35,66 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 {
 	public static final Set<LexUnit> SET = new HashSet<>();
 
-	public final LexUnitDocument.LexUnit lu;
+	private final int luid;
 
-	public LexUnit(final LexUnitDocument.LexUnit lu)
+	private final String name;
+
+	private final int pos;
+
+	private final int frameid;
+
+	private final String frameName;
+
+	private final String definition;
+
+	private final Character dict;
+
+	private final String incorporatedFE;
+
+	private final int totalAnnotated;
+
+	public static void make(final LexUnitDocument.LexUnit lu)
 	{
-		super();
-		this.lu = lu;
+		var u = new LexUnit(lu);
+
+		boolean isNew = SET.add(u);
+		if (!isNew)
+		{
+			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "lu-duplicate", null, -1, null, u.toString());
+		}
+	}
+
+	private LexUnit(final LexUnitDocument.LexUnit lu)
+	{
+		this.luid = lu.getID();
+		this.name = lu.getName();
+		this.pos = lu.getPOS().intValue();
+		final Definition def = Definition.getDefinition(lu.getDefinition());
+		this.definition = def.def;
+		this.dict = def.dict;
+		this.incorporatedFE = lu.getIncorporatedFE();
+		this.totalAnnotated = lu.getTotalAnnotated();
+		this.frameid = lu.getFrameID();
+		this.frameName = lu.getFrame();
+	}
+
+	public LexUnit(final FrameLUType lu, final int frameid, final String frameName)
+	{
+		this.luid = lu.getID();
+		this.name = lu.getName();
+		this.pos = lu.getPOS().intValue();
+		final Definition def = Definition.getDefinition(lu.getDefinition());
+		this.definition = def.def;
+		this.dict = def.dict;
+		this.incorporatedFE = lu.getIncorporatedFE();
+		this.totalAnnotated = 0;
+		this.frameid = frameid;
+		this.frameName = frameName;
+
 		boolean isNew = SET.add(this);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "lu-duplicate", null, -1, null, toString());
+			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "frame_lu-duplicate", null, -1, null, toString());
 		}
 	}
 
@@ -51,22 +102,22 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 
 	public int getID()
 	{
-		return lu.getID();
+		return luid;
 	}
 
 	public String getName()
 	{
-		return lu.getName();
+		return name;
 	}
 
 	public String getFrameName()
 	{
-		return lu.getFrame();
+		return frameName;
 	}
 
 	public int getFrameID()
 	{
-		return lu.getFrameID();
+		return frameid;
 	}
 
 	// I D E N T I T Y
@@ -82,14 +133,14 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 		{
 			return false;
 		}
-		LexUnit lexUnit = (LexUnit) o;
-		return lu.equals(lexUnit.lu);
+		LexUnit that = (LexUnit) o;
+		return luid == that.luid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(lu);
+		return Objects.hash(luid);
 	}
 
 	// O R D E R
@@ -101,23 +152,72 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 	@Override
 	public String dataRow()
 	{
-		final Definition definition = Definition.getDefinition(this.lu.getDefinition());
-
-		return String.format("%d,'%s',%d,%s,%s,'%s',%s,%d,%d", //
-				lu.getID(), //
-				Utils.escape(lu.getName()), //
-				lu.getPOS().intValue(), //
-				Utils.nullableString(definition.def), //
-				Utils.nullableChar(definition.dict), //
-				lu.getStatus(), //
-				FeType.getId(Utils.nullableString(lu.getIncorporatedFE())), //
-				lu.getTotalAnnotated(), //
-				lu.getFrameID()); //
+		return String.format("%d,'%s',%d,%s,%s,%s,%d,%d", //
+				luid, //
+				Utils.escape(name), //
+				pos, //
+				Utils.nullableString(definition), //
+				Utils.nullableChar(dict), //
+				FeType.getId(incorporatedFE), //
+				totalAnnotated, //
+				frameid); //
 	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%d,%s,%d,%s", luid, name, frameid, frameName);
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[LU luid=%d lu=%s frame=%s frameid=%d]", lu.getID(), lu.getName(), lu.getFrame(), lu.getFrameID());
+		return String.format("[LU luid=%d lu=%s frameid=%d frame=%s]", luid, name, frameid, frameName);
+	}
+
+	// D E F I N I T I O N
+
+	public static class Definition
+	{
+		public final Character dict;
+
+		public final String def;
+
+		public Definition(final Character dict, final String definition)
+		{
+			super();
+			this.dict = dict;
+			this.def = definition;
+		}
+
+		public static Definition getDefinition(final String definition0)
+		{
+			Character dict = null;
+			String definition = definition0;
+			if (definition0.startsWith("COD"))
+			{
+				dict = 'O';
+				definition = definition0.substring(3);
+			}
+			if (definition0.startsWith("FN"))
+			{
+				dict = 'F';
+				definition = definition0.substring(2);
+			}
+			// noinspection ConstantConditions
+			if (definition != null)
+			{
+				definition = definition.replaceAll("[ \t\n.:]*$|^[ \t\n.:]*", "");
+			}
+			return new Definition(dict, definition);
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.dict + "|<" + this.def + ">";
+		}
 	}
 }

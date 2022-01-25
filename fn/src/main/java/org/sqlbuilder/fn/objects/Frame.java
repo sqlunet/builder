@@ -7,7 +7,9 @@ import org.sqlbuilder.fn.collectors.FnFrameXmlProcessor;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,14 +27,22 @@ public class Frame implements HasID, Insertable<Frame>
 
 	private static final FnFrameXmlProcessor definitionProcessor = new FnFrameXmlProcessor();
 
-	public final FrameDocument.Frame frame;
+	public final int frameid;
+
+	public final String name;
 
 	public final String definition;
 
-	public Frame(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
+	public static void make(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
 	{
-		super();
-		this.frame = frame;
+		var f = new Frame(frame);
+		SET.add(f);
+	}
+
+	private Frame(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
+	{
+		this.frameid = frame.getID();
+		this.name = frame.getName();
 		try
 		{
 			this.definition = Frame.definitionProcessor.process(frame.getDefinition());
@@ -42,28 +52,70 @@ public class Frame implements HasID, Insertable<Frame>
 			System.err.println(frame.getDefinition());
 			throw e;
 		}
-		SET.add(this);
 	}
+
+	// A C C E S S
 
 	public long getID()
 	{
-		return frame.getID();
+		return frameid;
 	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public String getDefinition()
+	{
+		return definition;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Frame that = (Frame) o;
+		return frameid == that.frameid;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(frameid);
+	}
+
+	// O R D E R
+
+	public static final Comparator<Frame> COMPARATOR = Comparator.comparing(Frame::getName).thenComparing(Frame::getID);
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
 		return String.format("%d,'%s','%s'", //
-				frame.getID(), //
-				Utils.escape(frame.getName()), //
+				frameid, //
+				Utils.escape(name), //
 				Utils.escape(definition));
-		// String(4, this.frame.getCDate());
-		// String(5, this.frame.getCBy());
+		// frame.getCDate()
+		// frame.getCBy()
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FRAME id=%s name=%s]", frame.getID(), frame.getName());
+		return String.format("[FRAME id=%s name=%s]", frameid, name);
 	}
 }

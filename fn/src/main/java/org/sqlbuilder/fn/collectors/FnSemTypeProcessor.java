@@ -21,7 +21,7 @@ public class FnSemTypeProcessor extends FnProcessor1
 	}
 
 	@Override
-	protected int processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName, final String name)
 	{
 		if (Logger.verbose)
 		{
@@ -34,8 +34,7 @@ public class FnSemTypeProcessor extends FnProcessor1
 
 			for (var _semtype : _document.getSemTypes().getSemTypeArray())
 			{
-				final SemType semtype = new SemType(_semtype);
-				SemType.SET.add(semtype);
+				final SemType semtype = SemType.make(_semtype);
 
 				for (var _supertype : _semtype.getSuperTypeArray())
 				{
@@ -52,6 +51,5 @@ public class FnSemTypeProcessor extends FnProcessor1
 		{
 			Progress.traceTailer("framenet (semtype)", name);
 		}
-		return 1;
 	}
 }

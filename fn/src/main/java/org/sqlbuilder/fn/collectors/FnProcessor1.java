@@ -30,5 +30,5 @@ public abstract class FnProcessor1 extends Processor
 	}
 
 	@SuppressWarnings({ "SameReturnValue", "UnusedReturnValue" })
-	protected abstract int processFrameNetFile(final String fileName, final String name);
+	protected abstract void processFrameNetFile(final String fileName, final String name);
 }

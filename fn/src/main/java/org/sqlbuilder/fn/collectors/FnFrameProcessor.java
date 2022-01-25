@@ -3,14 +3,12 @@ package org.sqlbuilder.fn.collectors;
 import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.fn.objects.LexUnit2;
-import org.sqlbuilder.fn.objects.Lexeme;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
-import org.sqlbuilder.fn.objects.Word;
-import org.sqlbuilder.fn.refs.SemTypeRef;
+import org.sqlbuilder.fn.objects.LexUnit;
+import org.sqlbuilder.fn.objects.Lexeme;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -49,26 +47,25 @@ public class FnFrameProcessor extends FnProcessor
 
 			final FrameDocument.Frame _frame = _document.getFrame();
 			final int frameid = _frame.getID();
-			final Frame frame = new Frame(_frame);
+			Frame.make(_frame);
 
 			// S E M T Y P E
 
 			for (var _semtype : _frame.getSemTypeArray())
 			{
-				final SemTypeRef semtype = new SemTypeRef(_semtype);
-				final Frame_SemType frame_semtype = new Frame_SemType(frameid, semtype);
+				final Frame_SemType frame_semtype = new Frame_SemType(frameid, _semtype.getID());
 			}
 
 			// F E C O R E S E T S
 
-			final Map<Long, Integer> feToCoresetMap = new HashMap<>();
+			final Map<Integer, Integer> feToCoresetMap = new HashMap<>();
 			int setid = 0;
 			for (var _fecoreset : _frame.getFEcoreSetArray())
 			{
 				++setid;
 				for (var _corefe : _fecoreset.getMemberFEArray())
 				{
-					final long feid = _corefe.getID();
+					final int feid = _corefe.getID();
 					final Integer prev = feToCoresetMap.put(feid, setid);
 					if (prev != null)
 					{
@@ -81,14 +78,13 @@ public class FnFrameProcessor extends FnProcessor
 
 			for (var _fe : _frame.getFEArray())
 			{
-				final long feid = _fe.getID();
-				final FE fe = new FE(_fe, feToCoresetMap.get(feid), frameid);
+				final int feid = _fe.getID();
+				FE.make(_fe, feToCoresetMap.get(feid), frameid);
 
 				// s e m t y p e s
 				for (var _semtype : _fe.getSemTypeArray())
 				{
-					final SemTypeRef semtype = new SemTypeRef(_semtype);
-					final FE_SemType fe_semtype = new FE_SemType(feid, semtype);
+					final FE_SemType fe_semtype = new FE_SemType(feid, _semtype.getID());
 				}
 
 				// r e q u i r e s
@@ -111,7 +107,7 @@ public class FnFrameProcessor extends FnProcessor
 				final String t = _framerelations.getType();
 				for (var _relatedframe : _framerelations.getRelatedFrameArray())
 				{
-					final Frame_FrameRelated relatedframe = new Frame_FrameRelated(frame.frame.getID(), _relatedframe, t);
+					final Frame_FrameRelated relatedframe = new Frame_FrameRelated(frameid, _relatedframe, t);
 				}
 			}
 
@@ -122,7 +118,7 @@ public class FnFrameProcessor extends FnProcessor
 				for (var _lexunit : _frame.getLexUnitArray())
 				{
 					final int luid = _lexunit.getID();
-					final LexUnit2 frame_lexunit = new LexUnit2(frameid, _lexunit);
+					final LexUnit frame_lexunit = new LexUnit(_lexunit, frameid, _frame.getName());
 
 					// lexemes
 					for (var _lexeme : _lexunit.getLexemeArray())

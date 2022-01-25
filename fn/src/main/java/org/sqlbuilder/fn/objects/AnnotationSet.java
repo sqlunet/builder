@@ -4,7 +4,9 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnotationSetType;
@@ -80,69 +82,123 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 {
 	public static final Set<AnnotationSet> SET = new HashSet<>();
 
-	public final AnnotationSetType annoset;
+	public final int annosetid;
 
-	public final long sentenceid;
+	public final int sentenceid;
 
 	public final Integer luid;
 
 	public final Integer frameid;
 
-	private final boolean hasNullLuid;
+	public final Integer cxnid;
 
-	public AnnotationSet(final AnnotationSetType annoset, final long sentenceid)
+	public final String cxnName;
+
+	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid)
+	{
+		var a = new AnnotationSet(annoset, sentenceid);
+
+		final boolean isNew = SET.add(a);
+		if (!isNew)
+		{
+			throw new RuntimeException(a.toString());
+		}
+		return a;
+	}
+
+	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid, final Integer luid, final Integer frameid)
+	{
+		var a = new AnnotationSet(annoset, sentenceid, luid, frameid);
+
+		final boolean isNew = SET.add(a);
+		if (!isNew)
+		{
+			throw new RuntimeException(a.toString());
+		}
+		return a;
+	}
+
+	private AnnotationSet(final AnnotationSetType annoset, final int sentenceid)
 	{
 		this(annoset, sentenceid, null, null);
 	}
 
-	public AnnotationSet(final AnnotationSetType annoset, final long sentenceid, final Integer luid, final Integer frameid)
+	private AnnotationSet(final AnnotationSetType annoset, final int sentenceid, final Integer luid, final Integer frameid)
 	{
-		super();
-		this.annoset = annoset;
+		this.annosetid = annoset.getID();
 		this.sentenceid = sentenceid;
 		this.luid = luid;
 		this.frameid = frameid;
-		this.hasNullLuid = luid == null;
-		final boolean isNew = SET.add(this);
-		if (!isNew)
-		{
-			throw new RuntimeException(this.toString());
-		}
+		this.cxnid = annoset.getCxnID();
+		this.cxnName = annoset.getCxnName();
 	}
 
-	public long getId()
+	// A C C E S S
+
+	public long getID()
 	{
-		return annoset.getID() + (hasNullLuid ? 100000000L : 0L);
+		return annosetid;
 	}
 
 	public long getLuId()
 	{
-		return this.hasNullLuid ? annoset.getLuID() : luid;
+		return luid;
 	}
 
 	public long getFrameId()
 	{
-		return hasNullLuid ? annoset.getFrameID() : frameid;
+		return frameid;
 	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		AnnotationSet that = (AnnotationSet) o;
+		return annosetid == that.annosetid;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(annosetid);
+	}
+
+	// O R D E R
+
+	public static final Comparator<AnnotationSet> COMPARATOR = Comparator.comparing(AnnotationSet::getID);
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
 		return String.format("%d,%d,%s,%s,%s,'%s'", //
-				getId(), //
+				annosetid, //
 				sentenceid, //
-				Utils.zeroableLong(getLuId()), //
-				Utils.zeroableLong(getFrameId()), //
-				Utils.zeroableLong(annoset.getCxnID()), //
-				Utils.escape(annoset.getCxnName()) //
-				);
+				Utils.zeroableInt(luid), //
+				Utils.zeroableInt(frameid), //
+				Utils.zeroableInt(cxnid), //
+				Utils.escape(cxnName) //
+		);
 		// String(7, this.annoset.getStatus());
 		// String(8, this.annoset.getCDate());
 	}
 
+	// T O S T R I N G
+
 	@Override
 	public String toString()
 	{
-		return String.format("[AS id=%s frameid=%s luid=%s]", getId(), getFrameId(), getLuId());
+		return String.format("[AS id=%s luid=%s frameid=%s]", annosetid, luid, frameid);
 	}
 }

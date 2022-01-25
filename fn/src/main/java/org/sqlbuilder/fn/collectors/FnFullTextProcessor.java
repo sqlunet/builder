@@ -60,10 +60,10 @@ public class FnFullTextProcessor extends FnProcessor
 
 			for (var _corpus : _header.getCorpusArray())
 			{
-				final Corpus corpus = new Corpus(_corpus, null);
+				Corpus.make(_corpus, null);
 				for (var _doc : _corpus.getDocumentArray())
 				{
-					final Doc doc = new Doc(_doc, _corpus);
+					Doc.make(_doc, _corpus);
 				}
 			}
 
@@ -71,15 +71,15 @@ public class FnFullTextProcessor extends FnProcessor
 
 			for (var _sentence : _fulltextannotation.getSentenceArray())
 			{
-				long sentenceid = _sentence.getID();
-				final Sentence sentence = new Sentence(_sentence, true);
+				int sentenceid = _sentence.getID();
+				Sentence.make(_sentence, true);
 
 				// annotation sets
 				for (var _annoset : _sentence.getAnnotationSetArray())
 				{
 					try
 					{
-						final AnnotationSet annoset = new AnnotationSet(_annoset, sentenceid);
+						AnnotationSet.make(_annoset, sentenceid);
 					}
 					catch (RuntimeException re)
 					{

@@ -1,7 +1,5 @@
 package org.sqlbuilder.fn.joins;
 
-import org.sqlbuilder.fn.refs.SemTypeRef;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,19 +12,19 @@ frames_semtypes.no-fk1=ALTER TABLE %Fn_frames_semtypes.table% DROP CONSTRAINT fk
 frames_semtypes.no-fk2=ALTER TABLE %Fn_frames_semtypes.table% DROP CONSTRAINT fk_%Fn_frames_semtypes.table%_semtypeid CASCADE;
 frames_semtypes.insert=INSERT INTO %Fn_frames_semtypes.table% (frameid,semtypeid) VALUES(?,?);
  */
-public class Frame_SemType extends Pair<Long, SemTypeRef>
+public class Frame_SemType extends Pair<Integer, Integer>
 {
 	public static final Set<Frame_SemType> SET = new HashSet<>();
 
-	public Frame_SemType(final long frameid, final SemTypeRef semtype)
+	public Frame_SemType(final int frameid, final int semtypeid)
 	{
-		super(frameid, semtype);
+		super(frameid, semtypeid);
 		SET.add(this);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FR-SEM frameid=%s semtype=%s]", this.first, this.second);
+		return String.format("[FR-SEM frameid=%s semtypeid=%s]", this.first, this.second);
 	}
 }

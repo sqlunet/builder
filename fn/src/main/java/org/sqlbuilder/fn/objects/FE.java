@@ -35,11 +35,17 @@ public class FE implements HasID, Insertable<FE>
 {
 	public static final Set<FE> SET = new HashSet<>();
 
-	public static Map<Pair<Integer,Integer>, FE> BY_FETYPEID_AND_FRAMEID;
+	public static Map<Pair<Integer, Integer>, FE> BY_FETYPEID_AND_FRAMEID;
 
 	private static final FnFEXmlProcessor definitionProcessor = new FnFEXmlProcessor();
 
-	private final FEType fe;
+	private final int feid;
+
+	public final String name;
+
+	public final String abbrev;
+
+	private final int coretype;
 
 	private final Integer coreset;
 
@@ -47,33 +53,47 @@ public class FE implements HasID, Insertable<FE>
 
 	private final int frameid;
 
-	public FE(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
+	public static void make(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
 	{
-		this.fe = fe;
+		var e = new FE(fe, coreset, frameid);
+		SET.add(e);
+	}
+
+	private FE(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
+	{
+		this.feid = fe.getID();
+		this.name = fe.getName();
+		this.abbrev = fe.getAbbrev();
+		this.coretype = fe.getCoreType().intValue();
 		this.coreset = coreset;
+		this.frameid = frameid;
 		try
 		{
-			this.definition = FE.definitionProcessor.process(this.fe.getDefinition());
+			this.definition = FE.definitionProcessor.process(fe.getDefinition());
 		}
 		catch (ParserConfigurationException | SAXException | IOException e)
 		{
-			System.err.println(this.fe.getDefinition());
+			System.err.println(fe.getDefinition());
 			throw e;
 		}
-		this.frameid = frameid;
 		FeType.add(fe.getName());
-		SET.add(this);
 	}
+
 	// A C C E S S
 
 	public long getID()
 	{
-		return fe.getID();
+		return feid;
 	}
 
 	public String getName()
 	{
-		return fe.getName();
+		return name;
+	}
+
+	public String getAbbrev()
+	{
+		return abbrev;
 	}
 
 	public int getFrameID()
@@ -94,14 +114,14 @@ public class FE implements HasID, Insertable<FE>
 		{
 			return false;
 		}
-		FE fe1 = (FE) o;
-		return fe.equals(fe1.fe) && frameid == fe1.frameid && Objects.equals(coreset, fe1.coreset) && definition.equals(fe1.definition);
+		FE that = (FE) o;
+		return feid == that.feid;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(fe, frameid, coreset, definition);
+		return Objects.hash(feid);
 	}
 
 	// O R D E R
@@ -114,37 +134,29 @@ public class FE implements HasID, Insertable<FE>
 	public String dataRow()
 	{
 		// (feid,fetypeid,feabbrev,fedefinition,coretypeid,coreset,frameid)
-		// feid INTEGER NOT NULL,
-		// fetypeid INTEGER DEFAULT NULL,
-		// feabbrev VARCHAR(24),
-		// fedefinition TEXT,
-		// coretypeid INTEGER DEFAULT NULL,
-		// coreset INTEGER DEFAULT NULL,
-		// fgcolor VARCHAR(6),bgcolor VARCHAR(6),cdate VARCHAR(27),cby VARCHAR(5)
-		// frameid INTEGER,
 		return String.format("%d,%s,'%s','%s',%d,%s,%d", //
-				fe.getID(), //
-				FeType.getId(fe.getName()), //
-				Utils.escape(fe.getAbbrev()), //
+				feid, //
+				FeType.getId(name), //
+				Utils.escape(abbrev), //
 				Utils.escape(definition), //
-				fe.getCoreType().intValue(), //
+				coretype, //
 				Utils.nullableInt(coreset), //
 				frameid); //
-		//String(8, this.fe.getFgColor());
-		//String(9, this.fe.getBgColor());
-		//String(10, this.fe.getCDate());
-		//String(11, this.fe.getCBy());
+		// String(8, this.fe.getFgColor());
+		// String(9, this.fe.getBgColor());
+		// String(10, this.fe.getCDate());
+		// String(11, this.fe.getCBy());
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s", fe.getName());
+		return String.format("%s", name);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[FE feid=%s name=%s frameid=%s]", fe.getID(), fe.getName(), frameid);
+		return String.format("[FE feid=%s name=%s frameid=%s]", feid, name, frameid);
 	}
 }

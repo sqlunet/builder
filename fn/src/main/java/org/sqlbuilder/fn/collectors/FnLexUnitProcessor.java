@@ -47,16 +47,16 @@ public class FnLexUnitProcessor extends FnProcessor
 			final LexUnitDocument.LexUnit _lexunit = _document.getLexUnit();
 			final int luid = _lexunit.getID();
 			final int frameid = _lexunit.getFrameID();
-			final LexUnit lexunit = new LexUnit(_lexunit);
+			LexUnit.make(_lexunit);
 
 			// H E A D E R
 
 			for (var _corpus : _lexunit.getHeader().getCorpusArray())
 			{
-				final Corpus corpus = new Corpus(_corpus, luid);
+				Corpus.make(_corpus, luid);
 				for (var _doc : _corpus.getDocumentArray())
 				{
-					final Doc doc = new Doc(_doc, _corpus);
+					Doc.make(_doc, _corpus);
 				}
 			}
 
@@ -154,14 +154,14 @@ public class FnLexUnitProcessor extends FnProcessor
 
 				for (var _sentence : _subcorpus.getSentenceArray())
 				{
-					final Sentence sentence = new Sentence(_sentence, false);
+					final Sentence sentence = Sentence.make(_sentence, false);
 					final SubCorpus_Sentence subcorpus_sentence = new SubCorpus_Sentence(subcorpus, sentence);
 
 					for (var _annoset : _sentence.getAnnotationSetArray())
 					{
 						try
 						{
-							final AnnotationSet annoset = new AnnotationSet(_annoset, _sentence.getID(), luid, _lexunit.getFrameID());
+							AnnotationSet.make(_annoset, _sentence.getID(), luid, _lexunit.getFrameID());
 						}
 						catch (RuntimeException re)
 						{
