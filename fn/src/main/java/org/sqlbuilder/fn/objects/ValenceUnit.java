@@ -23,55 +23,65 @@ valenceunits.no-fk2=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_v
 valenceunits.no-fk3=ALTER TABLE %Fn_valenceunits.table% DROP CONSTRAINT fk_%Fn_valenceunits.table%_ptid CASCADE;
 valenceunits.insert=INSERT INTO %Fn_valenceunits.table% (vuid,ferid,pt,gf) VALUES(?,?,?,?);
  */
-public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<ValenceUnit>
+public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<ValenceUnit>
 {
 	public static final Set<ValenceUnit> SET = new HashSet<>();
 
 	public static Map<ValenceUnit, Integer> MAP = new HashMap<>();
 
-	public final ValenceUnitType vu;
+	public final String fe;
+
+	public final String pt;
+
+	public final String gf;
 
 	// C O N S T R U C T O R
 
-	public ValenceUnit(final ValenceUnitType vu)
+	public static ValenceUnit make(final ValenceUnitType vu)
 	{
-		this.vu = vu;
+		var v = new ValenceUnit(vu);
+		if (v.fe != null)
+		{
+			FeType.add(v.fe);
+		}
+		if (v.pt != null)
+		{
+			PtType.add(v.pt);
+		}
+		if (v.gf != null)
+		{
+			GfType.add(v.gf);
+		}
+		SET.add(v);
+		return v;
+	}
+
+	private ValenceUnit(final ValenceUnitType vu)
+	{
 		String fe = vu.getFE();
-		if (fe.isEmpty())
-		{
-			FeType.add(vu.getFE());
-		}
+		this.fe = fe == null || fe.isEmpty() ? null : fe;
 		String pt = vu.getPT();
-		if (pt.isEmpty())
-		{
-			PtType.add(vu.getPT());
-		}
+		this.pt = pt == null || pt.isEmpty() ? null : pt;
 		String gf = vu.getGF();
-		if (gf.isEmpty())
-		{
-			GfType.add(vu.getGF());
-		}
-		SET.add(this);
+		this.gf = gf == null || gf.isEmpty() ? null : gf;
 	}
 
 	// A C C E S S
 
 	public String getFE()
 	{
-		return vu.getFE();
+		return fe;
 	}
 
 	public String getPT()
 	{
-		return vu.getPT();
+		return pt;
 	}
 
 	public String getGF()
 	{
-		return vu.getGF();
+		return gf;
 	}
-
-	// I D E N T I T Y
 
 	@Override
 	public Object getId()
@@ -83,6 +93,8 @@ public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<Va
 		}
 		return "NULL";
 	}
+
+	// I D E N T I T Y
 
 	@Override
 	public boolean equals(final Object o)
@@ -96,13 +108,13 @@ public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<Va
 			return false;
 		}
 		ValenceUnit that = (ValenceUnit) o;
-		return getFE().equals(that.getFE()) && getPT().equals(that.getPT()) && getGF().equals(that.getGF());
+		return Objects.equals(fe, that.fe) && Objects.equals(pt, that.pt) && Objects.equals(gf, that.gf);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(vu.getFE(), vu.getPT(), vu.getGF());
+		return Objects.hash(fe, pt, gf);
 	}
 
 	// O R D E R
@@ -120,25 +132,7 @@ public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<Va
 	@Override
 	public String dataRow()
 	{
-		String fe = vu.getFE();
-		if (fe.isEmpty())
-		{
-			fe = null;
-		}
-		String pt = vu.getPT();
-		if (pt.isEmpty())
-		{
-			pt = null;
-		}
-		String gf = vu.getGF();
-		if (gf.isEmpty())
-		{
-			gf = null;
-		}
-
-		//TODO ferid
-		return String.format("%s,%s,%s,%s",
-				getId(),
+		return String.format("%s,%s,%s,%s", getId(),  //
 				FeType.getId(fe), //
 				PtType.getId(pt), //
 				GfType.getId(gf));
@@ -147,7 +141,7 @@ public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<Va
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", vu.getFE(), vu.getPT(), vu.getGF());
+		return String.format("%s,%s,%s", fe, pt, gf);
 	}
 
 	// T O S T R I N G
@@ -155,6 +149,6 @@ public class ValenceUnit implements HasId,Comparable<ValenceUnit>, Insertable<Va
 	@Override
 	public String toString()
 	{
-		return String.format("VU fe=%s pt=%s gf=%s", this.vu.getFE(), this.vu.getPT(), this.vu.getGF());
+		return String.format("VU fe=%s pt=%s gf=%s", fe, pt, gf);
 	}
 }

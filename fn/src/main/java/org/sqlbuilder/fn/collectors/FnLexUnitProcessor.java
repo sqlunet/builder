@@ -102,7 +102,7 @@ public class FnLexUnitProcessor extends FnProcessor
 				{
 					// v a l e n c e u n i t
 					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
-					final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
+					final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
 
 					final ValenceUnit_FERealization valenceunit_fer = new ValenceUnit_FERealization(valenceunit, fer);
 
@@ -129,12 +129,12 @@ public class FnLexUnitProcessor extends FnProcessor
 				// p a t t e r n s
 				for (var _grouppattern : _fegr.getPatternArray())
 				{
-					final Pattern grouppattern = new Pattern(_grouppattern, fegr);
+					final Pattern grouppattern = Pattern.make(_grouppattern, fegr);
 
 					// v a l e n c e u n i t s
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
-						final ValenceUnit valenceunit = new ValenceUnit(_valenceunit);
+						final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
 						final Pattern_ValenceUnit pattern_valenceunit = new Pattern_ValenceUnit(grouppattern, valenceunit);
 					}
 
