@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,6 +38,8 @@ public class Label implements Insertable<Label>
 		SET.add(this);
 	}
 
+	public static final Comparator<Label> COMPARATOR = Comparator.comparing(l->l.label.getName());
+
 	@Override
 	public String dataRow()
 	{
@@ -44,11 +47,11 @@ public class Label implements Insertable<Label>
 		return String.format("NULL,'%s',%s,%s,%s,%s,NULL",
 				// getId(), //
 				label.getName(), //
-				Utils.nullableString(label.getItype().toString()), //
+				Utils.nullableString(label.getItype()), //
 				Utils.zeroableInt(label.getFeID()), //
 				Utils.zeroableInt(label.getStart()), //
-				Utils.zeroableInt(label.getEnd())
-				// ,layer.getId()
+				Utils.zeroableInt(label.getEnd()), //
+				Layer.MAP.get(layer)
 		);
 		// String(8, this.label.getBgColor());
 		// String(9, this.label.getFgColor());

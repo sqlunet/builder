@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +32,8 @@ public class Doc implements HasID, Insertable<Doc>
 		this.corpus = corpus;
 		SET.add(this);
 	}
+
+	public static final Comparator<Doc> COMPARATOR = Comparator.comparing(d -> d.doc.getID());
 
 	@Override
 	public String dataRow()

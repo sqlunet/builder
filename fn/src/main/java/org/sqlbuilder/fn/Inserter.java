@@ -63,6 +63,12 @@ public class Inserter
 
 	public void insertFinal() throws FileNotFoundException
 	{
+		Insert.insert(Corpus.SET, Corpus.COMPARATOR, new File(outDir, Names.CORPUSES.FILE), Names.CORPUSES.TABLE, Names.CORPUSES.COLUMNS);
+		Corpus.SET.clear();
+
+		Insert.insert(Doc.SET, Doc.COMPARATOR, new File(outDir, Names.DOCUMENTS.FILE), Names.DOCUMENTS.TABLE, Names.DOCUMENTS.COLUMNS);
+		Doc.SET.clear();
+
 		Word.MAP = MapFactory.makeSortedMap(Word.SET, Word.COMPARATOR);
 		Insert.insert(Word.MAP, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
 
@@ -90,6 +96,11 @@ public class Inserter
 
 		Insert.insert(LexUnit.SET, LexUnit.COMPARATOR, new File(outDir, Names.LEXUNITS.FILE), Names.LEXUNITS.TABLE, Names.LEXUNITS.COLUMNS);
 		LexUnit.SET.clear();
+
+		Layer.MAP = MapFactory.makeSortedMap(Layer.SET, Layer.COMPARATOR);
+		Insert.insert(Layer.MAP, new File(outDir, Names.LAYERS.FILE), Names.LAYERS.TABLE, Names.LAYERS.COLUMNS);
+
+		Insert.insert(Label.SET, Label.COMPARATOR, new File(outDir, Names.LABELS.FILE), Names.LABELS.TABLE, Names.LABELS.COLUMNS);
 	}
 
 	public void insertSemTypes() throws FileNotFoundException

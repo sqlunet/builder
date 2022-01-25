@@ -6,6 +6,7 @@ import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +37,8 @@ public class Corpus implements HasID, Insertable<Corpus>
 			Logger.instance.logWarn(FnModule.MODULE_ID, "Corpus", "corpus-duplicate", null, -1, null, toString());
 		}
 	}
+
+	public static final Comparator<Corpus> COMPARATOR = Comparator.comparing(c -> c.corpus.getID());
 
 	@Override
 	public String dataRow()

@@ -27,12 +27,12 @@ public class Utils
 	/**
 	 * Escape nullable string for it to be handled by SQL
 	 *
-	 * @param str string
+	 * @param object string
 	 * @return SQL escaped string or "NULL"
 	 */
-	public static String nullableString(final String str)
+	public static String nullableString(final Object object)
 	{
-		return str == null ? "NULL" : "'" + escape(str) + "'";
+		return object == null ? "NULL" : "'" + escape(object.toString()) + "'";
 	}
 
 	/**

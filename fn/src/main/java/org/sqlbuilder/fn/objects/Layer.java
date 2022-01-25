@@ -2,7 +2,9 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.LayerType;
@@ -21,6 +23,8 @@ public class Layer implements Insertable<Layer>
 {
 	public static final Set<Layer> SET = new HashSet<>();
 
+	public static Map<Layer, Integer> MAP;
+
 	public final LayerType layer;
 
 	public final long annosetid;
@@ -31,6 +35,8 @@ public class Layer implements Insertable<Layer>
 		this.annosetid = annosetid;
 		SET.add(this);
 	}
+
+	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l->l.layer.getName());
 
 	@Override
 	public String dataRow()
