@@ -33,10 +33,11 @@ public class Frame implements HasID, Insertable<Frame>
 
 	public final String definition;
 
-	public static void make(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
+	public static Frame make(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
 	{
 		var f = new Frame(frame);
 		SET.add(f);
+		return f;
 	}
 
 	private Frame(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException

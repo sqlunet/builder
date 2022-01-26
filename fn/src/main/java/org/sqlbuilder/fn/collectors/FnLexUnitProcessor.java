@@ -82,7 +82,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _governor : _valences.getGovernorArray())
 			{
-				final Governor governor = new Governor(_governor);
+				final Governor governor = Governor.make(_governor);
 				LexUnit_Governor.make(luid, governor);
 
 				for (var _annoset : _governor.getAnnoSetArray())
@@ -108,8 +108,7 @@ public class FnLexUnitProcessor extends FnProcessor
 					// a n n o s e t s
 					for (var _annoset : _pattern.getAnnoSetArray())
 					{
-						final AnnotationSet annoset = AnnotationSet.make(_annoset);
-						ValenceUnit_AnnoSet.make(valenceunit, annoset);
+						ValenceUnit_AnnoSet.make(valenceunit, _annoset.getID());
 					}
 				}
 			}
@@ -150,7 +149,7 @@ public class FnLexUnitProcessor extends FnProcessor
 
 			for (var _subcorpus : _lexunit.getSubCorpusArray())
 			{
-				final SubCorpus subcorpus = new SubCorpus(_subcorpus, luid);
+				final SubCorpus subcorpus = SubCorpus.make(_subcorpus, luid);
 
 				for (var _sentence : _subcorpus.getSentenceArray())
 				{

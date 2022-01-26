@@ -23,19 +23,19 @@ public class FnPresetProcessor extends Processor
 		// pos
 		for (var pos : getPoses())
 		{
-			new Values.Pos(pos);
+			Values.Pos.make(pos);
 		}
 
 		// coretypes
 		for (var coretype : getCoreTypes())
 		{
-			new Values.CoreType(coretype);
+			Values.CoreType.make(coretype);
 		}
 
 		// labelitypes
 		for (var labelitype : getLabelITypes())
 		{
-			new Values.LabelIType(labelitype);
+			Values.LabelIType.make(labelitype);
 		}
 
 		Progress.traceTailer("preset framenet tables", "done");

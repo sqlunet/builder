@@ -28,10 +28,16 @@ public class Values
 
 		private final String pos;
 
-		public Pos(final String pos)
+		public static Pos make(final String pos)
+		{
+			var p = new Pos(pos);
+			SET.add(p);
+			return p;
+		}
+
+		private Pos(final String pos)
 		{
 			this.pos = pos;
-			SET.add(this);
 		}
 
 		@Override
@@ -69,10 +75,16 @@ public class Values
 
 		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
 
-		public CoreType(final String coretype)
+		public static CoreType make(final String coretype)
+		{
+			var t = new CoreType(coretype);
+			SET.add(t);
+			return t;
+		}
+
+		private CoreType(final String coretype)
 		{
 			this.coretype = coretype;
-			SET.add(this);
 		}
 
 		@Override
@@ -108,10 +120,16 @@ public class Values
 
 		private final String labelitype;
 
-		public LabelIType(final String labelitype)
+		public static LabelIType make(final String labelitype)
+		{
+			var l = new LabelIType(labelitype);
+			SET.add(l);
+			return l;
+		}
+
+		private LabelIType(final String labelitype)
 		{
 			this.labelitype = labelitype;
-			SET.add(this);
 		}
 
 		@Override

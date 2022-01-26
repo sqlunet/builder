@@ -46,7 +46,6 @@ public class FERealization implements HasId, Insertable<FERealization>
 		this.total = fer.getTotal();
 		this.luid = luid;
 		this.frameid = frameid;
-		SET.add(this);
 	}
 
 	// A C C E S S

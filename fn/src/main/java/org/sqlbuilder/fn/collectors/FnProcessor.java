@@ -55,7 +55,7 @@ public abstract class FnProcessor extends Processor
 			}
 			catch (Exception e)
 			{
-				throw new RuntimeException("File:" + this.filename);
+				throw new RuntimeException("File:" + this.filename, e);
 			}
 			Progress.trace(fileCount);
 		}

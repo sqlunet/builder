@@ -53,7 +53,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 
 	private final int totalAnnotated;
 
-	public static void make(final LexUnitDocument.LexUnit lu)
+	public static LexUnit make(final LexUnitDocument.LexUnit lu)
 	{
 		var u = new LexUnit(lu);
 
@@ -62,6 +62,19 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 		{
 			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "lu-duplicate", null, -1, null, u.toString());
 		}
+		return u;
+	}
+
+	public static LexUnit make(final FrameLUType lu, final int frameid, final String frameName)
+	{
+		var u = new LexUnit(lu, frameid, frameName);
+
+		boolean isNew = SET.add(u);
+		if (!isNew)
+		{
+			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "frame_lu-duplicate", null, -1, null, u.toString());
+		}
+		return u;
 	}
 
 	private LexUnit(final LexUnitDocument.LexUnit lu)
@@ -78,7 +91,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 		this.frameName = lu.getFrame();
 	}
 
-	public LexUnit(final FrameLUType lu, final int frameid, final String frameName)
+	private LexUnit(final FrameLUType lu, final int frameid, final String frameName)
 	{
 		this.luid = lu.getID();
 		this.name = lu.getName();
@@ -90,12 +103,6 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 		this.totalAnnotated = 0;
 		this.frameid = frameid;
 		this.frameName = frameName;
-
-		boolean isNew = SET.add(this);
-		if (!isNew)
-		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "frame_lu-duplicate", null, -1, null, toString());
-		}
 	}
 
 	// A C C E S S

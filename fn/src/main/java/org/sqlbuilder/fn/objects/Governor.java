@@ -27,11 +27,17 @@ public class Governor implements HasId, Insertable<Governor>
 
 	private final Word word;
 
-	public Governor(final GovernorType governor)
+	public static Governor make(final GovernorType governor)
+	{
+		var g = new Governor(governor);
+		SET.add(g);
+		return g;
+	}
+
+	private Governor(final GovernorType governor)
 	{
 		this.type = governor.getType();
 		this.word = Word.make(governor.getLemma());
-		SET.add(this);
 	}
 
 	@Override

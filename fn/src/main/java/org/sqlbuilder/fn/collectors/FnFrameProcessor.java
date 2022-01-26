@@ -118,7 +118,7 @@ public class FnFrameProcessor extends FnProcessor
 				for (var _lexunit : _frame.getLexUnitArray())
 				{
 					final int luid = _lexunit.getID();
-					final LexUnit frame_lexunit = new LexUnit(_lexunit, frameid, _frame.getName());
+					LexUnit.make(_lexunit, frameid, _frame.getName());
 
 					// lexemes
 					for (var _lexeme : _lexunit.getLexemeArray())

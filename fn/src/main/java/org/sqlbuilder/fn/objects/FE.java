@@ -53,10 +53,11 @@ public class FE implements HasID, Insertable<FE>
 
 	private final int frameid;
 
-	public static void make(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
+	public static FE make(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
 	{
 		var e = new FE(fe, coreset, frameid);
 		SET.add(e);
+		return e;
 	}
 
 	private FE(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException

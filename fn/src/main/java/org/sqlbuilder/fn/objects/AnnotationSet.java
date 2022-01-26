@@ -95,16 +95,6 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 
 	public final String cxnName;
 
-	public static AnnotationSet make(final AnnoSetType annoset)
-	{
-		var as = new AnnotationSet(annoset);
-		if (!SET.contains(as))
-		{
-			throw new IllegalArgumentException("no reference for " + as);
-		}
-		return as;
-	}
-
 	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid)
 	{
 		var a = new AnnotationSet(annoset, sentenceid);

@@ -26,11 +26,17 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 
 	private final int luid;
 
-	public SubCorpus(final SubCorpusType subcorpus, final int luid)
+	public static SubCorpus make(final SubCorpusType subcorpus, final int luid)
+	{
+		var c = new SubCorpus(subcorpus, luid);
+		SET.add(c);
+		return c;
+	}
+
+	private SubCorpus(final SubCorpusType subcorpus, final int luid)
 	{
 		this.subcorpus = subcorpus;
 		this.luid = luid;
-		SET.add(this);
 	}
 
 	// I D

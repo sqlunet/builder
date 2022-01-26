@@ -22,9 +22,9 @@ public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements I
 
 	// C O N S T R U C T O R
 
-	public static ValenceUnit_AnnoSet make(final ValenceUnit vu, final AnnotationSet annoset)
+	public static ValenceUnit_AnnoSet make(final ValenceUnit vu, final int annosetid)
 	{
-		var va = new ValenceUnit_AnnoSet(vu, annoset.getID());
+		var va = new ValenceUnit_AnnoSet(vu, annosetid);
 		SET.add(va);
 		return va;
 	}
@@ -32,7 +32,6 @@ public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements I
 	private ValenceUnit_AnnoSet(final ValenceUnit vu, final int annosetid)
 	{
 		super(vu, annosetid);
-		SET.add(this);
 	}
 
 	// I N S E R T
