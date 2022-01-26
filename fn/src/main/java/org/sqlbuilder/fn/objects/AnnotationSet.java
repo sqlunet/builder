@@ -199,7 +199,7 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 				Utils.zeroableInt(luid), //
 				Utils.zeroableInt(frameid), //
 				Utils.zeroableInt(cxnid), //
-				Utils.escape(cxnName) //
+				Utils.nullableEscapedString(cxnName) //
 		);
 		// String(7, this.annoset.getStatus());
 		// String(8, this.annoset.getCDate());

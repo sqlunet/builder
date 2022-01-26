@@ -73,6 +73,38 @@ public class Insert
 		});
 	}
 
+	public static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+			insertAndIncrement(set, comparator, ps);
+			ps.println(";");
+		}
+	}
+
+	public static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
+	{
+		int[] i = {1};
+		var stream = set.stream();
+		if (comparator != null)
+		{
+			stream = stream.sorted(comparator);
+		}
+		stream.forEach(e -> {
+
+			if (i[0] != 1)
+			{
+				ps.print(",\n");
+			}
+			String values = e.dataRow();
+			String comment = e.comment();
+			String row = comment != null ? String.format("(%d,%s) /* %s */", i[0], values, comment) : String.format("(%s)", values);
+			ps.print(row);
+			i[0]++;
+		});
+	}
+
 	// S T R I N G   M A P
 
 	public static void insertStringMap(final Map<String, Integer> map, final File file, String table, String columns) throws FileNotFoundException
@@ -94,7 +126,7 @@ public class Insert
 			{
 				ps.print(",\n");
 			}
-			String row = String.format("(%d,%s)", value, key);
+			String row = String.format("(%d,'%s')", value, key);
 			ps.print(row);
 			i[0]++;
 		});

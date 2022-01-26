@@ -3,17 +3,6 @@ package org.sqlbuilder.common;
 public class Utils
 {
 	/**
-	 * Escape nullable string for it to be handled by SQL
-	 *
-	 * @param o object
-	 * @return string or "NULL"
-	 */
-	public static String nullableObject(final Object o)
-	{
-		return o == null ? "NULL" : o.toString();
-	}
-
-	/**
 	 * Escape string for it to be handled by SQL
 	 *
 	 * @param str string
@@ -30,9 +19,20 @@ public class Utils
 	 * @param object string
 	 * @return SQL escaped string or "NULL"
 	 */
-	public static String nullableString(final Object object)
+	public static String nullableEscapedString(final Object object)
 	{
 		return object == null ? "NULL" : "'" + escape(object.toString()) + "'";
+	}
+
+	/**
+	 * Escape nullable string for it to be handled by SQL
+	 *
+	 * @param object string
+	 * @return SQL non-escaped string or "NULL"
+	 */
+	public static String nullableString(final Object object)
+	{
+		return object == null ? "NULL" : "'" + object.toString() + "'";
 	}
 
 	/**
@@ -55,28 +55,6 @@ public class Utils
 	public static String nullableInt(final Integer i)
 	{
 		return i == null ? "NULL" : String.valueOf(i);
-	}
-
-	/**
-	 * Escape nullable int for it to be handled by SQL
-	 *
-	 * @param l long
-	 * @return SQL long or "NULL"
-	 */
-	public static String nullableLong(final Long l)
-	{
-		return l == null ? "NULL" : String.valueOf(l);
-	}
-
-	/**
-	 * Escape zeroable long for it to be handled by SQL
-	 *
-	 * @param i long
-	 * @return SQL escaped string or "NULL"
-	 */
-	public static String zeroableLong(final long i)
-	{
-		return i == 0 ? "NULL" : String.valueOf(i);
 	}
 
 	/**

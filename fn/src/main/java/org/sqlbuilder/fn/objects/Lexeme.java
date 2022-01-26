@@ -26,8 +26,6 @@ public class Lexeme implements Insertable<Lexeme>
 {
 	public static final Set<Lexeme> SET = new HashSet<>();
 
-	public static Map<Lexeme, Integer> MAP;
-
 	private final int pos;
 
 	private final boolean breakBefore;

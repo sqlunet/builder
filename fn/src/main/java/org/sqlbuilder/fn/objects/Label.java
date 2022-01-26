@@ -61,11 +61,10 @@ public class Label implements Insertable<Label>
 	@Override
 	public String dataRow()
 	{
-		// labelid,labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
-		return String.format("NULL,'%s',%s,%s,%s,%s,%s",
-				// getId(), //
+		// (labelid),labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
+		return String.format("'%s',%s,%s,%s,%s,%s",
 				name, //
-				Utils.nullableString(itype), //
+				Utils.nullableEscapedString(itype), //
 				Utils.zeroableInt(feid), //
 				Utils.zeroableInt(start), //
 				Utils.zeroableInt(end), //

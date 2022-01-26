@@ -163,7 +163,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 				luid, //
 				Utils.escape(name), //
 				pos, //
-				Utils.nullableString(definition), //
+				Utils.nullableEscapedString(definition), //
 				Utils.nullableChar(dict), //
 				FeType.getId(incorporatedFE), //
 				totalAnnotated, //

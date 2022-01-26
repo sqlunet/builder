@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasId;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -40,11 +41,29 @@ public class Governor implements HasId, Insertable<Governor>
 		this.word = Word.make(governor.getLemma());
 	}
 
+	//A C C E S S
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public String getWord()
+	{
+		return word.getWord();
+	}
+
 	@Override
 	public Object getId()
 	{
 		return MAP.get(this);
 	}
+
+	// O R D E R
+
+	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()

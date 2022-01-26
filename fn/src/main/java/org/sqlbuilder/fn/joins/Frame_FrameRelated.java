@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.joins;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.types.FrameRelation;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +45,17 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 		super(frameid, frame2id);
 		this.relation = relation;
 	}
+
+	// A C C E S S
+
+	public String getRelation()
+	{
+		return relation;
+	}
+
+	// O R D E R
+
+	public static Comparator<Frame_FrameRelated> COMPARATOR = Comparator.comparing(Frame_FrameRelated::getRelation).thenComparing(Pair::getFirst).thenComparing(Pair::getSecond);
 
 	// I N S E R T
 

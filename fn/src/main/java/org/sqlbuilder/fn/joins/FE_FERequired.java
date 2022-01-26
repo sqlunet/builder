@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,10 @@ public class FE_FERequired extends Pair<Integer, Integer> implements Insertable<
 	{
 		super(feid, feid2);
 	}
+
+	// O R D E R
+
+	public static final Comparator<FE_FERequired> COMPARATOR = Comparator.comparing(FE_FERequired::getFirst).thenComparing(FE_FERequired::getSecond);
 
 	// I N S E R T
 
