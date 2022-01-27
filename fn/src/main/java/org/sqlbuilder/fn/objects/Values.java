@@ -2,12 +2,10 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class Values
 {
@@ -20,18 +18,16 @@ public class Values
 	 */
 	public static class Pos implements HasId, Insertable<Pos>
 	{
-		public static final Set<Pos> SET = new HashSet<>();
-
-		public static Map<Pos, Integer> MAP;
-
 		public static final Comparator<Pos> COMPARATOR = Comparator.comparing(t -> t.pos);
+
+		public static final Collector<Pos> COLLECTOR = new Collector<>(COMPARATOR);
 
 		private final String pos;
 
 		public static Pos make(final String pos)
 		{
 			var p = new Pos(pos);
-			SET.add(p);
+			COLLECTOR.add(p);
 			return p;
 		}
 
@@ -43,7 +39,7 @@ public class Values
 		@Override
 		public Object getId()
 		{
-			Integer id = MAP.get(this);
+			Integer id = COLLECTOR.get(this);
 			if (id != null)
 			{
 				return id;
@@ -67,18 +63,16 @@ public class Values
 	 */
 	public static class CoreType implements HasId, Insertable<CoreType>
 	{
-		public static final Set<CoreType> SET = new HashSet<>();
+		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
 
-		public static Map<CoreType, Integer> MAP;
+		public static final Collector<CoreType> COLLECTOR = new Collector<>(COMPARATOR);
 
 		private final String coretype;
-
-		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
 
 		public static CoreType make(final String coretype)
 		{
 			var t = new CoreType(coretype);
-			SET.add(t);
+			COLLECTOR.add(t);
 			return t;
 		}
 
@@ -90,7 +84,7 @@ public class Values
 		@Override
 		public Object getId()
 		{
-			Integer id = MAP.get(this);
+			Integer id = COLLECTOR.get(this);
 			if (id != null)
 			{
 				return id;
@@ -112,18 +106,16 @@ public class Values
 	 */
 	public static class LabelIType implements HasId, Insertable<LabelIType>
 	{
-		public static final Set<LabelIType> SET = new HashSet<>();
-
-		public static Map<LabelIType, Integer> MAP;
-
 		public static final Comparator<LabelIType> COMPARATOR = Comparator.comparing(t -> t.labelitype);
+
+		public static final Collector<LabelIType> COLLECTOR = new Collector<>(COMPARATOR);
 
 		private final String labelitype;
 
 		public static LabelIType make(final String labelitype)
 		{
 			var l = new LabelIType(labelitype);
-			SET.add(l);
+			COLLECTOR.add(l);
 			return l;
 		}
 
@@ -135,7 +127,7 @@ public class Values
 		@Override
 		public Object getId()
 		{
-			Integer id = MAP.get(this);
+			Integer id = COLLECTOR.get(this);
 			if (id != null)
 			{
 				return id;

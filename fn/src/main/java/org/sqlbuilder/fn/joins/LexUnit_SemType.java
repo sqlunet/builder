@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,10 @@ public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertabl
 	{
 		super(luid, semtypeid);
 	}
+
+	// O R D E R
+
+	public static final Comparator<LexUnit_SemType> COMPARATOR = Comparator.comparing(LexUnit_SemType::getFirst).thenComparing(LexUnit_SemType::getSecond);
 
 	// I N S E R T
 

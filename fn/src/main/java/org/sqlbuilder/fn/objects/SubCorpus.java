@@ -22,20 +22,20 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 
 	public static Map<SubCorpus, Integer> MAP;
 
-	private final SubCorpusType subcorpus;
+	private final String name;
 
 	private final int luid;
 
 	public static SubCorpus make(final SubCorpusType subcorpus, final int luid)
 	{
-		var c = new SubCorpus(subcorpus, luid);
+		var c = new SubCorpus(subcorpus.getName(), luid);
 		SET.add(c);
 		return c;
 	}
 
-	private SubCorpus(final SubCorpusType subcorpus, final int luid)
+	private SubCorpus(final String name, final int luid)
 	{
-		this.subcorpus = subcorpus;
+		this.name = name;
 		this.luid = luid;
 	}
 
@@ -52,9 +52,9 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 	@Override
 	public String dataRow()
 	{
-		return String.format("NULL,'%s',%d",
-				// getId(),
-				subcorpus.getName(), //
+		return String.format("%s,'%s',%d",
+				getId(),
+				name, //
 				luid);
 	}
 
@@ -63,6 +63,6 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 	@Override
 	public String toString()
 	{
-		return String.format("[SUBCORPUS name=%s]", subcorpus.getName());
+		return String.format("[SUBCORPUS name=%s]", name);
 	}
 }

@@ -77,7 +77,7 @@ public class FE implements HasID, Insertable<FE>
 			System.err.println(fe.getDefinition());
 			throw e;
 		}
-		FeType.add(fe.getName());
+		FeType.COLLECTOR.add(fe.getName());
 	}
 
 	// A C C E S S

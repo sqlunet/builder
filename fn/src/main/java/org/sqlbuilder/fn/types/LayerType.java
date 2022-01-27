@@ -1,5 +1,8 @@
 package org.sqlbuilder.fn.types;
 
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,18 +12,15 @@ public class LayerType
 	// layertypes.table=fnlayertypes
 	// layertypes.create=CREATE TABLE IF NOT EXISTS %Fn_layertypes.table% ( layertypeid INTEGER NOT NULL AUTO_INCREMENT,layertype VARCHAR(6),PRIMARY KEY (layertypeid) );
 
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
+
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
+
 	public static final Set<String> SET = new HashSet<>();
-
-	public static Map<String, Integer> MAP;
-
-	public static void add(String type)
-	{
-		SET.add(type);
-	}
 
 	public static Object getId(String value)
 	{
-		Integer id = MAP.get(value);
+		Integer id = COLLECTOR.get(value);
 		if (id != null)
 		{
 			return id;
@@ -28,7 +28,7 @@ public class LayerType
 		return "NULL";
 	}
 
-	/*
+/*
 # layertypeid, layertype
 1, Adj
 2, Adv
@@ -51,6 +51,5 @@ public class LayerType
 19, Target
 20, Verb
 21, WSL
-
  */
 }

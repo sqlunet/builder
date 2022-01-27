@@ -1,8 +1,8 @@
 package org.sqlbuilder.fn.types;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 
 /*
 fetypes.table=fnfetypes
@@ -12,20 +12,15 @@ fetypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_fetypes.table%_fetype;
  */
 public class FeType
 {
-	public static final Set<String> SET = new HashSet<>();
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static Map<String, Integer> MAP;
-
-	public static void add(String type)
-	{
-		SET.add(type);
-	}
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public static int getIntId(String value)
 	{
 		if (value != null)
 		{
-			Integer id = MAP.get(value);
+			Integer id = COLLECTOR.get(value);
 			if (id != null)
 			{
 				return id;
@@ -38,7 +33,7 @@ public class FeType
 	{
 		if (value != null)
 		{
-			Integer id = MAP.get(value);
+			Integer id = COLLECTOR.get(value);
 			if (id != null)
 			{
 				return id;

@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 
 import java.util.*;
@@ -20,16 +21,16 @@ words.select=SELECT fnwordid FROM %Fn_words.table% WHERE word = ?;
  */
 public class Word implements HasId, Insertable<Word>
 {
-	public static final Set<Word> SET = new HashSet<>();
+	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
-	public static Map<Word, Integer> MAP;
+	public static final Collector<Word> COLLECTOR = new Collector<>(COMPARATOR);
 
 	private final String word;
 
 	public static Word make(final String lemma)
 	{
 		var w = new Word(lemma);
-		Word.SET.add(w);
+		Word.COLLECTOR.add(w);
 		return w;
 	}
 
@@ -46,7 +47,7 @@ public class Word implements HasId, Insertable<Word>
 	@Override
 	public Object getId()
 	{
-		Integer id = MAP.get(this);
+		Integer id = COLLECTOR.get(this);
 		if (id != null)
 		{
 			return id;
@@ -76,10 +77,6 @@ public class Word implements HasId, Insertable<Word>
 	{
 		return Objects.hash(word);
 	}
-
-	// O R D E R
-
-	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
 	// I N S E R T
 

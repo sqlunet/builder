@@ -2,12 +2,10 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import edu.berkeley.icsi.framenet.GovernorType;
 
@@ -20,9 +18,9 @@ governors.insert=INSERT INTO %Fn_governors.table% (governorid,fnwordid,governort
  */
 public class Governor implements HasId, Insertable<Governor>
 {
-	public static final Set<Governor> SET = new HashSet<>();
+	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
 
-	public static Map<Governor, Integer> MAP;
+	public static final Collector<Governor> COLLECTOR = new Collector<>(COMPARATOR);
 
 	private final String type;
 
@@ -31,7 +29,7 @@ public class Governor implements HasId, Insertable<Governor>
 	public static Governor make(final GovernorType governor)
 	{
 		var g = new Governor(governor);
-		SET.add(g);
+		COLLECTOR.add(g);
 		return g;
 	}
 
@@ -56,12 +54,8 @@ public class Governor implements HasId, Insertable<Governor>
 	@Override
 	public Object getId()
 	{
-		return MAP.get(this);
+		return COLLECTOR.get(this);
 	}
-
-	// O R D E R
-
-	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
 
 	// I N S E R T
 

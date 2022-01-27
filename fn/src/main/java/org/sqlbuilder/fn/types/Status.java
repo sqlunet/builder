@@ -1,5 +1,8 @@
 package org.sqlbuilder.fn.types;
 
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,18 +12,18 @@ public class Status
 	// statuses.table=fnstatuses
 	// statuses.create=CREATE TABLE IF NOT EXISTS %Fn_statuses.table% ( statusid INTEGER NOT NULL,status VARCHAR(32),PRIMARY KEY (statusid) );
 
-	public static final Set<String> SET = new HashSet<>();
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static Map<String, Integer> MAP;
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public static void add(String value)
 	{
-		SET.add(value);
+		COLLECTOR.add(value);
 	}
 
 	public static Object getId(String value)
 	{
-		Integer id = MAP.get(value);
+		Integer id = COLLECTOR.get(value);
 		if (id != null)
 		{
 			return id;

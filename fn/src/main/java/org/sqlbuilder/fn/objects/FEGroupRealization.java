@@ -1,9 +1,12 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Objects;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 import edu.berkeley.icsi.framenet.FEValenceType;
@@ -19,9 +22,13 @@ fegrouprealizations.insert=INSERT INTO %Fn_fegrouprealizations.table% (fegrid,lu
  */
 public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 {
-	public static final Set<FEGroupRealization> SET = new HashSet<>();
+	// O R D E R
 
-	public static Map<FEGroupRealization, Integer> MAP;
+	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
+			.comparing(FEGroupRealization::getFENames) //
+			.thenComparing(FEGroupRealization::getLuID);
+
+	public static final Collector<FEGroupRealization> COLLECTOR = new Collector<>(COMPARATOR);
 
 	private final int luid;
 
@@ -34,7 +41,7 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	public static FEGroupRealization make(final FEGroupRealizationType fegr, final int luid, final int frameid)
 	{
 		var r = new FEGroupRealization(fegr, luid, frameid);
-		SET.add(r);
+		COLLECTOR.add(r);
 		return r;
 	}
 
@@ -66,7 +73,7 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	@Override
 	public Object getId()
 	{
-		Integer id = MAP.get(this);
+		Integer id = COLLECTOR.get(this);
 		if (id != null)
 		{
 			return id;
@@ -96,12 +103,6 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	{
 		return Objects.hash(feNames, luid, frameid);
 	}
-
-	// O R D E R
-
-	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
-			.comparing(FEGroupRealization::getFENames) //
-			.thenComparing(FEGroupRealization::getLuID);
 
 	// I N S E R T
 

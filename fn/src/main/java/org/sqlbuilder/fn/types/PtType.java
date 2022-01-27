@@ -1,5 +1,8 @@
 package org.sqlbuilder.fn.types;
 
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -11,20 +14,15 @@ public class PtType
 	// pttypes.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_pttypes.table%_pt ON %Fn_pttypes.table% (pt);
 	// pttypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_pttypes.table%_pt;
 
-	public static final Set<String> SET = new HashSet<>();
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static Map<String, Integer> MAP;
-
-	public static void add(String type)
-	{
-		SET.add(type);
-	}
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public static Object getId(String value)
 	{
 		if (value != null)
 		{
-			Integer id = MAP.get(value);
+			Integer id = COLLECTOR.get(value);
 			if (id != null)
 			{
 				return id;

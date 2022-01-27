@@ -1,8 +1,8 @@
 package org.sqlbuilder.fn.types;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 
 public class LabelType
 {
@@ -10,18 +10,13 @@ public class LabelType
 	// labeltypes.create=CREATE TABLE IF NOT EXISTS %Fn_labeltypes.table% ( labeltypeid INTEGER NOT NULL AUTO_INCREMENT,labeltype VARCHAR(26),PRIMARY KEY (labeltypeid) );
 	// labeltypes.insert=INSERT INTO %Fn_labeltypes.table% (labeltypeid,labeltype) VALUES(?);
 
-	public static final Set<String> SET = new HashSet<>();
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static Map<String, Integer> MAP;
-
-	public static void add(String value)
-	{
-		SET.add(value);
-	}
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public static Object getId(String value)
 	{
-		Integer id = MAP.get(value);
+		Integer id = COLLECTOR.get(value);
 		if (id != null)
 		{
 			return id;

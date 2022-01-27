@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.joins;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.objects.SemType;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +35,10 @@ public class SemType_SemTypeSuper extends Pair<Integer, Integer> implements Inse
 	{
 		super(semtypeid, supersemtypeid);
 	}
+
+	// O R D E R
+
+	public static final Comparator<SemType_SemTypeSuper> COMPARATOR = Comparator.comparing(SemType_SemTypeSuper::getFirst).thenComparing(SemType_SemTypeSuper::getSecond);
 
 	// I N S E R T
 

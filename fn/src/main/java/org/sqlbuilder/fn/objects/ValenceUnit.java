@@ -42,15 +42,15 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 		var v = new ValenceUnit(vu);
 		if (v.fe != null)
 		{
-			FeType.add(v.fe);
+			FeType.COLLECTOR.add(v.fe);
 		}
 		if (v.pt != null)
 		{
-			PtType.add(v.pt);
+			PtType.COLLECTOR.add(v.pt);
 		}
 		if (v.gf != null)
 		{
-			GfType.add(v.gf);
+			GfType.COLLECTOR.add(v.gf);
 		}
 		SET.add(v);
 		return v;

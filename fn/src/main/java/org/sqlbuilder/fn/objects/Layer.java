@@ -1,13 +1,11 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.types.LayerType;
 
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
-import edu.berkeley.icsi.framenet.LayerType;
 
 /*
 layers.table=fnlayers
@@ -21,9 +19,9 @@ layers.insert=INSERT INTO %Fn_layers.table% (layerid,annosetid,layertype,`rank`)
  */
 public class Layer implements Insertable<Layer>
 {
-	public static final Set<Layer> SET = new HashSet<>();
+	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l -> l.name);
 
-	public static Map<Layer, Integer> MAP;
+	public static final Collector<Layer> COLLECTOR = new Collector<>(COMPARATOR);
 
 	private final String name;
 
@@ -31,21 +29,20 @@ public class Layer implements Insertable<Layer>
 
 	public final long annosetid;
 
-	public static Layer make(final LayerType layer, final long annosetid)
+	public static Layer make(final edu.berkeley.icsi.framenet.LayerType layer, final long annosetid)
 	{
 		var l = new Layer(layer, annosetid);
-		SET.add(l);
+		LayerType.COLLECTOR.add(layer.getName());
+		COLLECTOR.add(l);
 		return l;
 	}
 
-	private Layer(final LayerType layer, final long annosetid)
+	private Layer(final edu.berkeley.icsi.framenet.LayerType layer, final long annosetid)
 	{
 		this.name = layer.getName();
 		this.rank = layer.getRank();
 		this.annosetid = annosetid;
 	}
-
-	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l -> l.name);
 
 	@Override
 	public String dataRow()

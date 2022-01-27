@@ -68,7 +68,7 @@ public class Label implements Insertable<Label>
 				Utils.zeroableInt(feid), //
 				Utils.zeroableInt(start), //
 				Utils.zeroableInt(end), //
-				Layer.MAP.get(layer));
+				Layer.COLLECTOR.get(layer));
 		// String(8, this.label.getBgColor());
 		// String(9, this.label.getFgColor());
 		// String(10, this.label.getCBy());

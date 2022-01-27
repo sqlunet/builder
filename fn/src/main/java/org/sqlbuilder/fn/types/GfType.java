@@ -1,8 +1,8 @@
 package org.sqlbuilder.fn.types;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 
 public class GfType
 {
@@ -11,20 +11,15 @@ public class GfType
 	// gftypes.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_gftypes.table%_gf ON %Fn_gftypes.table% (gf);
 	// gftypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_gftypes.table%_gf;
 
-	public static final Set<String> SET = new HashSet<>();
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static Map<String, Integer> MAP;
-
-	public static void add(String type)
-	{
-		SET.add(type);
-	}
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public static Object getId(String value)
 	{
 		if (value != null)
 		{
-			Integer id = MAP.get(value);
+			Integer id = COLLECTOR.get(value);
 			if (id != null)
 			{
 				return id;

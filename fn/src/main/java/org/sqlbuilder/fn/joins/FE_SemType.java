@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +32,10 @@ public class FE_SemType extends Pair<Integer, Integer> implements Insertable<FE_
 	{
 		super(feid, semtypeid);
 	}
+
+	// O R D E R
+
+	public static final Comparator<FE_SemType> COMPARATOR = Comparator.comparing(FE_SemType::getFirst).thenComparing(FE_SemType::getSecond);
 
 	// I N S E R T
 

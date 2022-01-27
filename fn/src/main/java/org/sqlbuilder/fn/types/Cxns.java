@@ -1,26 +1,26 @@
 package org.sqlbuilder.fn.types;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.sqlbuilder.fn.Collector;
+
+import java.util.Comparator;
 
 public class Cxns
 {
 	// cxns.table=fncxns
 	// cxns.create=CREATE TABLE IF NOT EXISTS %Fn_cxns.table% ( cxnid INTEGER NOT NULL,cxn VARCHAR(32),PRIMARY KEY (cxnid) );
 
-	public static final Set<String> SET = new HashSet<>();
+	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static Map<String, Integer> MAP;
+	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public static void add(String type)
 	{
-		SET.add(type);
+		COLLECTOR.add(type);
 	}
 
 	public static Object getId(String value)
 	{
-		Integer id = MAP.get(value);
+		Integer id = COLLECTOR.get(value);
 		if (id != null)
 		{
 			return id;

@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
@@ -21,9 +22,12 @@ ferealizations.insert=INSERT INTO %Fn_ferealizations.table% (ferid,luid,fetype,t
  */
 public class FERealization implements HasId, Insertable<FERealization>
 {
-	public static final Set<FERealization> SET = new HashSet<>();
+	public static final Comparator<FERealization> COMPARATOR = Comparator //
+			.comparing(FERealization::getFEName) //
+			.thenComparing(FERealization::getLuId) //
+			.thenComparing(FERealization::getFrameId);
 
-	public static Map<FERealization, Integer> MAP;
+	public static final Collector<FERealization> COLLECTOR = new Collector<>(COMPARATOR);
 
 	private final String feName;
 
@@ -36,7 +40,7 @@ public class FERealization implements HasId, Insertable<FERealization>
 	public static FERealization make(final FERealizationType fer, final int luid, final int frameid)
 	{
 		var r = new FERealization(fer, luid, frameid);
-		SET.add(r);
+		COLLECTOR.add(r);
 		return r;
 	}
 
@@ -68,7 +72,7 @@ public class FERealization implements HasId, Insertable<FERealization>
 	@Override
 	public Object getId()
 	{
-		Integer id = MAP.get(this);
+		Integer id = COLLECTOR.get(this);
 		if (id != null)
 		{
 			return id;
@@ -98,13 +102,6 @@ public class FERealization implements HasId, Insertable<FERealization>
 	{
 		return Objects.hash(feName, luid, frameid);
 	}
-
-	// O R D E R
-
-	public static final Comparator<FERealization> COMPARATOR = Comparator //
-			.comparing(FERealization::getFEName) //
-			.thenComparing(FERealization::getLuId) //
-			.thenComparing(FERealization::getFrameId);
 
 	// I N S E R T
 
