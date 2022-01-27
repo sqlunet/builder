@@ -192,15 +192,13 @@ public class Inserter
 						FE.SET.clear();
 						Progress.traceDone(null);
 
-						try (var ignored40 = FERealization.COLLECTOR.open()) // vu_fer
+						try (var ignored40 = FERealization.COLLECTOR.open(); // vu_fer
+						     var ignored41 = FEGroupRealization.COLLECTOR.open())
 						{
 							Progress.tracePending("collector", "fer");
 							Insert.insert(FERealization.COLLECTOR, new File(outDir, Names.FEREALIZATIONS.FILE), Names.FEREALIZATIONS.TABLE, Names.FEREALIZATIONS.COLUMNS);
 							Progress.traceDone(null);
-						}
 
-						try (var ignored41 = FEGroupRealization.COLLECTOR.open())
-						{
 							Progress.tracePending("collector", "fegr");
 							Insert.insert(FEGroupRealization.COLLECTOR, new File(outDir, Names.FEGROUPREALIZATIONS.FILE), Names.FEGROUPREALIZATIONS.TABLE, Names.FEGROUPREALIZATIONS.COLUMNS);
 							Progress.traceDone(null);
@@ -209,6 +207,35 @@ public class Inserter
 							Insert.insert(FE_FEGroupRealization.SET, FE_FEGroupRealization.COMPARATOR, new File(outDir, Names.FES_FEGROUPREALIZATIONS.FILE), Names.FES_FEGROUPREALIZATIONS.TABLE, Names.FES_FEGROUPREALIZATIONS.COLUMNS);
 							FE_FEGroupRealization.SET.clear();
 							Progress.traceDone(null);
+
+							try ( //
+							      var ignored44 = Pattern.COLLECTOR.open(); //
+							      var ignored43 = ValenceUnit.COLLECTOR.open(); //
+							)
+							{
+								Progress.tracePending("collector", "valenceunit");
+								Insert.insert(ValenceUnit.COLLECTOR, new File(outDir, Names.VALENCEUNITS.FILE), Names.VALENCEUNITS.TABLE, Names.VALENCEUNITS.COLUMNS);
+								Progress.traceDone(null);
+
+								Progress.tracePending("collector", "pattern");
+								Insert.insert(Pattern.COLLECTOR, new File(outDir, Names.PATTERNS.FILE), Names.PATTERNS.TABLE, Names.VALENCEUNITS.COLUMNS);
+								Progress.traceDone(null);
+
+								Progress.tracePending("collector", "pattern_annoset");
+								Insert.insert(Pattern_AnnoSet.SET, null, new File(outDir, Names.PATTERNS_ANNOSETS.FILE), Names.PATTERNS_ANNOSETS.TABLE, Names.PATTERNS_ANNOSETS.COLUMNS);
+								Pattern_AnnoSet.SET.clear();
+								Progress.traceDone(null);
+
+								Progress.tracePending("collector", "pattern_valenceunit");
+								Insert.insert(Pattern_ValenceUnit.SET, null, new File(outDir, Names.PATTERNS_VALENCEUNITS.FILE), Names.PATTERNS_VALENCEUNITS.TABLE, Names.PATTERNS_VALENCEUNITS.COLUMNS);
+								Pattern_ValenceUnit.SET.clear();
+								Progress.traceDone(null);
+
+								Progress.tracePending("collector", "valenceunit_annoset");
+								Insert.insert(ValenceUnit_AnnoSet.SET, null, new File(outDir, Names.VALENCEUNITS_ANNOSETS.FILE), Names.VALENCEUNITS_ANNOSETS.TABLE, Names.VALENCEUNITS_ANNOSETS.COLUMNS);
+								ValenceUnit_AnnoSet.SET.clear();
+								Progress.traceDone(null);
+							}
 						}
 
 						try (var ignored42 = Governor.COLLECTOR.open())
@@ -217,14 +244,31 @@ public class Inserter
 							Insert.insert(Governor.COLLECTOR, new File(outDir, Names.GOVERNORS.FILE), Names.GOVERNORS.TABLE, Names.GOVERNORS.COLUMNS);
 							Progress.traceDone(null);
 
-							Progress.tracePending("insert", "lexunits_governors");
+							Progress.tracePending("insert", "lexunit_governor");
 							Insert.insert(LexUnit_Governor.SET, null, new File(outDir, Names.LEXUNITS_GOVERNORS.FILE), Names.LEXUNITS_GOVERNORS.TABLE, Names.LEXUNITS_GOVERNORS.COLUMNS);
 							LexUnit_Governor.SET.clear();
 							Progress.traceDone(null);
 
-							Progress.tracePending("insert", "governors_annosets");
+							Progress.tracePending("insert", "governor_annoset");
 							Insert.insert(Governor_AnnoSet.SET, null, new File(outDir, Names.GOVERNORS_ANNOSETS.FILE), Names.GOVERNORS_ANNOSETS.TABLE, Names.GOVERNORS_ANNOSETS.COLUMNS);
 							Governor_AnnoSet.SET.clear();
+							Progress.traceDone(null);
+						}
+
+						Progress.tracePending("insert", "sentence");
+						Insert.insert(Sentence.SET, Sentence.COMPARATOR, new File(outDir, Names.SENTENCES.FILE), Names.SENTENCES.TABLE, Names.SENTENCES.COLUMNS);
+						Sentence.SET.clear();
+						Progress.traceDone(null);
+
+						try (var ignored50 = SubCorpus.COLLECTOR.open())
+						{
+							Progress.tracePending("insert", "subcorpus_sentence");
+							Insert.insert(SubCorpus.COLLECTOR, new File(outDir, Names.SUBCORPUSES.FILE), Names.SUBCORPUSES.TABLE, Names.SUBCORPUSES.COLUMNS);
+							Progress.traceDone(null);
+
+							Progress.tracePending("insert", "subcorpus_sentence");
+							Insert.insert(SubCorpus_Sentence.SET, SubCorpus_Sentence.COMPARATOR, new File(outDir, Names.SUBCORPUSES_SENTENCES.FILE), Names.SUBCORPUSES_SENTENCES.TABLE, Names.SUBCORPUSES_SENTENCES.COLUMNS);
+							SubCorpus_Sentence.SET.clear();
 							Progress.traceDone(null);
 						}
 					}

@@ -34,7 +34,7 @@ public class FnLexUnitProcessor extends FnProcessor
 		}
 
 		// clear map
-		ValenceUnit.MAP.clear();
+		ValenceUnit.COLLECTOR.clear();
 
 		final int count = 0;
 		final File file = new File(fileName);

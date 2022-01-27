@@ -1,11 +1,10 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.Comparator;
 
 import edu.berkeley.icsi.framenet.SubCorpusType;
 
@@ -18,9 +17,9 @@ subcorpuses.insert=INSERT INTO %Fn_subcorpuses.table% (subcorpusid,luid,subcorpu
  */
 public class SubCorpus implements HasId, Insertable<SubCorpus>
 {
-	public static final Set<SubCorpus> SET = new HashSet<>();
+	public static final Comparator<SubCorpus> COMPARATOR = Comparator.comparing(SubCorpus::getName).thenComparing(SubCorpus::getLuid);
 
-	public static Map<SubCorpus, Integer> MAP;
+	public static final Collector<SubCorpus> COLLECTOR = new Collector<>(COMPARATOR);
 
 	private final String name;
 
@@ -29,7 +28,7 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 	public static SubCorpus make(final SubCorpusType subcorpus, final int luid)
 	{
 		var c = new SubCorpus(subcorpus.getName(), luid);
-		SET.add(c);
+		COLLECTOR.add(c);
 		return c;
 	}
 
@@ -41,10 +40,20 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 
 	// I D
 
+	public String getName()
+	{
+		return name;
+	}
+
+	public int getLuid()
+	{
+		return luid;
+	}
+
 	@Override
 	public Object getId()
 	{
-		return MAP.get(this);
+		return COLLECTOR.get(this);
 	}
 
 	// I N S E R T

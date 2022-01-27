@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.objects.Sentence;
 import org.sqlbuilder.fn.objects.SubCorpus;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ subcorpuses_sentences.insert=INSERT INTO %Fn_subcorpuses_sentences.table% (subco
  */
 public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Insertable<SubCorpus_Sentence>
 {
+	public static final Comparator<SubCorpus_Sentence> COMPARATOR = Comparator.comparing(SubCorpus_Sentence::getFirst, SubCorpus.COMPARATOR).thenComparing(SubCorpus_Sentence::getSecond);
+
 	public static final Set<SubCorpus_Sentence> SET = new HashSet<>();
 
 	// C O N S T R U C T O R

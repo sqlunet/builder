@@ -1,14 +1,16 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import edu.berkeley.icsi.framenet.AnnoSetType;
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
-
-import static java.util.stream.Collectors.joining;
 
 /*
 patterns.table=fnpatterns
@@ -19,36 +21,46 @@ patterns.insert=INSERT INTO %Fn_patterns.table% (patternid,fegrid,total) VALUES(
  */
 public class Pattern implements HasId, Insertable<Pattern>
 {
-	public static final Set<Pattern> SET = new HashSet<>();
+	public static final Comparator<Pattern> COMPARATOR = Comparator.comparing(Pattern::getAnnosetIDs).thenComparing(Pattern::getFegr, FEGroupRealization.COMPARATOR);
 
-	public static Map<Pattern, Integer> MAP;
+	public static final Collector<Pattern> COLLECTOR = new Collector<>(COMPARATOR);
 
-	public final int[] annosetIDs;
-
-	public final int total;
+	public final String annosetIDs;
 
 	public final FEGroupRealization fegr;
+
+	public final int total;
 
 	public static Pattern make(final FEGroupRealizationType.Pattern pattern, final FEGroupRealization fegr)
 	{
 		var p = new Pattern(pattern, fegr);
-		SET.add(p);
+		COLLECTOR.add(p);
 		return p;
 	}
 
 	private Pattern(final FEGroupRealizationType.Pattern pattern, final FEGroupRealization fegr)
 	{
-		this.annosetIDs = Arrays.stream(pattern.getAnnoSetArray()).mapToInt(AnnoSetType::getID).toArray();
+		this.annosetIDs = Arrays.stream(pattern.getAnnoSetArray()).mapToInt(AnnoSetType::getID).mapToObj(Integer::toString).collect(Collectors.joining(","));
 		this.fegr = fegr;
 		this.total = pattern.getTotal();
 	}
 
 	// A C C E S S
 
+	public String getAnnosetIDs()
+	{
+		return annosetIDs;
+	}
+
+	public FEGroupRealization getFegr()
+	{
+		return fegr;
+	}
+
 	@Override
 	public Object getId()
 	{
-		Integer id = MAP.get(this);
+		Integer id = COLLECTOR.get(this);
 		if (id != null)
 		{
 			return id;
@@ -70,15 +82,13 @@ public class Pattern implements HasId, Insertable<Pattern>
 			return false;
 		}
 		Pattern pattern = (Pattern) o;
-		return Arrays.equals(annosetIDs, pattern.annosetIDs) && fegr.equals(pattern.fegr);
+		return annosetIDs.equals(pattern.annosetIDs) && fegr.equals(pattern.fegr);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int result = Objects.hash(fegr);
-		result = 31 * result + Arrays.hashCode(annosetIDs);
-		return result;
+		return Objects.hash(annosetIDs, fegr);
 	}
 
 	// I N S E R T
@@ -94,12 +104,12 @@ public class Pattern implements HasId, Insertable<Pattern>
 	@Override
 	public String comment()
 	{
-		return String.format("{%s},{%s}}", Arrays.stream(annosetIDs).mapToObj(Integer::toString).collect(joining()), this.fegr.getFENames());
+		return String.format("{%s},{%s}}", annosetIDs, fegr.getFENames());
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GPAT pattern=%s fegr=%s]", Arrays.stream(annosetIDs).mapToObj(Integer::toString).collect(joining()), this.fegr.getFENames());
+		return String.format("[GPAT pattern=%s fegr=%s]", annosetIDs, fegr.getFENames());
 	}
 }

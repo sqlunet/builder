@@ -1,14 +1,18 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.types.FeType;
 import org.sqlbuilder.fn.types.GfType;
 import org.sqlbuilder.fn.types.PtType;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
 
 import edu.berkeley.icsi.framenet.ValenceUnitType;
+
+import static java.util.Comparator.*;
 
 /*
 valenceunits.table=fnvalenceunits
@@ -25,9 +29,11 @@ valenceunits.insert=INSERT INTO %Fn_valenceunits.table% (vuid,ferid,pt,gf) VALUE
  */
 public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<ValenceUnit>
 {
-	public static final Set<ValenceUnit> SET = new HashSet<>();
+	public static final Comparator<ValenceUnit> COMPARATOR = comparing(ValenceUnit::getFE, nullsFirst(naturalOrder())) //
+			.thenComparing(ValenceUnit::getPT, nullsFirst(naturalOrder())) //
+			.thenComparing(ValenceUnit::getGF, nullsFirst(naturalOrder()));
 
-	public static Map<ValenceUnit, Integer> MAP = new HashMap<>();
+	public static final Collector<ValenceUnit> COLLECTOR = new Collector<>(COMPARATOR);
 
 	public final String fe;
 
@@ -52,7 +58,7 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 		{
 			GfType.COLLECTOR.add(v.gf);
 		}
-		SET.add(v);
+		COLLECTOR.add(v);
 		return v;
 	}
 
@@ -86,7 +92,7 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 	@Override
 	public Object getId()
 	{
-		Integer id = MAP.get(this);
+		Integer id = COLLECTOR.get(this);
 		if (id != null)
 		{
 			return id;
@@ -119,8 +125,6 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 
 	// O R D E R
 
-	public static final Comparator<ValenceUnit> COMPARATOR = Comparator.comparing(ValenceUnit::getFE).thenComparing(ValenceUnit::getPT).thenComparing(ValenceUnit::getGF);
-
 	@Override
 	public int compareTo(final ValenceUnit that)
 	{
@@ -132,7 +136,8 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s,%s,%s", getId(),  //
+		return String.format("%s,%s,%s,%s", //
+				getId(), //
 				FeType.getId(fe), //
 				PtType.getId(pt), //
 				GfType.getId(gf));
