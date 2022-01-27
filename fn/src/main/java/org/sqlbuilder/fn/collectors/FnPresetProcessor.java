@@ -38,7 +38,7 @@ public class FnPresetProcessor extends Processor
 			Values.LabelIType.make(labelitype);
 		}
 
-		Progress.traceTailer("preset framenet tables", "done");
+		Progress.traceTailer(3);
 	}
 
 	private static String[] getValues(final Table types)

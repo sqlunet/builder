@@ -4,6 +4,17 @@ public class Progress
 {
 	public static boolean hyperverbose = false;
 
+	public static void tracePending(final String tag, final String message)
+	{
+		System.err.print(tag + " " + message);
+	}
+
+	public static void traceDone(final String message)
+	{
+		// ✅✓✔✖✕✗✘
+		System.err.println(message == null ? " ✓" : " ✘ " + message);
+	}
+
 	public static void traceHeader(final String tag, final String message)
 	{
 		System.err.println(">" + tag + " " + message);
@@ -31,12 +42,15 @@ public class Progress
 	public static void trace(final long count)
 	{
 		if (count % GRANULARITY == 0)
-		System.err.print('.');
+		{
+			System.err.print('.');
+		}
 		if (count % (GRANULARITY * PERLINE) == 0)
 		{
 			System.err.print('\n');
 		}
 	}
+
 	public static void traceTailer(final long count)
 	{
 		System.err.println("<" + count);
