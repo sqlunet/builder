@@ -22,7 +22,7 @@ public class Cxns
 	@RequiresIdFrom(type = Cxns.class)
 	public static Integer getIntId(String value)
 	{
-		return COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.get(value);
 	}
 
 	@RequiresIdFrom(type = Cxns.class)

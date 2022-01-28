@@ -25,7 +25,7 @@ public class Status
 	@RequiresIdFrom(type=Status.class)
 	public static Integer getIntId(String value)
 	{
-		return COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.get(value);
 	}
 
 	@RequiresIdFrom(type=Status.class)

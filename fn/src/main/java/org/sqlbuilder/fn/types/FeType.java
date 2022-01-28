@@ -20,7 +20,7 @@ public class FeType
 	@RequiresIdFrom(type=FeType.class)
 	public static Integer getIntId(String value)
 	{
-		return COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.get(value);
 	}
 
 	@RequiresIdFrom(type=FeType.class)

@@ -19,7 +19,7 @@ public class GfType
 	@RequiresIdFrom(type=GfType.class)
 	public static Integer getIntId(String value)
 	{
-		return COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.get(value);
 	}
 
 	@RequiresIdFrom(type=GfType.class)

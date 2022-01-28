@@ -25,7 +25,7 @@ public class LayerType
 	@RequiresIdFrom(type=LayerType.class)
 	public static Integer getIntId(String value)
 	{
-		return COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.get(value);
 	}
 
 	@RequiresIdFrom(type=LayerType.class)

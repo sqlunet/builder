@@ -2,7 +2,6 @@ package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.Frame;
 
 import java.util.Comparator;
 
@@ -22,13 +21,13 @@ public class FrameRelation
 		COLLECTOR.add(type);
 	}
 
-	@RequiresIdFrom(type= FrameRelation.class)
+	@RequiresIdFrom(type = FrameRelation.class)
 	public static Integer getIntId(String value)
 	{
-		return COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.get(value);
 	}
 
-	@RequiresIdFrom(type= FrameRelation.class)
+	@RequiresIdFrom(type = FrameRelation.class)
 	public static Object getSqlId(String value)
 	{
 		return Util.getSqlId(getIntId(value));
