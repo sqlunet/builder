@@ -201,8 +201,8 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 		return String.format("%d,%d,%s,%s,%s", //
 				annosetid, //
 				sentenceid, //
-				Utils.zeroableInt(luid), //
-				Utils.zeroableInt(frameid), //
+				Utils.nullableInt(luid), //
+				Utils.nullableInt(frameid), //
 				Utils.zeroableInt(cxnid) //
 		);
 		// String(7, this.annoset.getStatus());
@@ -212,7 +212,7 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", cxnName);
+		return cxnName == null ? null : String.format("%s", cxnName);
 	}
 
 	// T O S T R I N G

@@ -1,10 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.fn.collectors.FnFrameProcessor;
-import org.sqlbuilder.fn.collectors.FnLexUnitProcessor;
-import org.sqlbuilder.fn.collectors.FnPresetProcessor;
-import org.sqlbuilder.fn.collectors.FnSemTypeProcessor;
+import org.sqlbuilder.fn.collectors.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,7 +59,7 @@ public class FnModule extends Module
 			e.printStackTrace();
 		}
 
-		//new FnFullTextProcessor(props).run();
+		new FnFullTextProcessor(props).run();
 		try
 		{
 			inserter.insertFullText();

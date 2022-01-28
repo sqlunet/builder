@@ -20,7 +20,7 @@ public class Names
 	{
 		public static final String FILE = "corpuses.sql";
 		public static final String TABLE = "fn_corpuses";
-		public static final String COLUMNS = "corpusid,corpus,corpusdesc,luid,noccurs";
+		public static final String COLUMNS = "corpusid,corpus,corpusdesc,luid";
 	}
 
 	static public class CXNS
@@ -34,7 +34,7 @@ public class Names
 	{
 		public static final String FILE = "documents.sql";
 		public static final String TABLE = "fn_documents";
-		public static final String COLUMNS = "documentid,corpusid,documentdesc,noccurs";
+		public static final String COLUMNS = "documentid,corpusid,documentdesc";
 	}
 
 	static public class FEGROUPREALIZATIONS
@@ -188,7 +188,7 @@ public class Names
 	{
 		public static final String FILE = "lexunits.sql";
 		public static final String TABLE = "fn_lexunits";
-		public static final String COLUMNS = "luid,lexunit,posid,ludefinition,ludict,statusid,totalannotated,incorporatedfeid,incorporatedfetypeid,noccurs,frameid";
+		public static final String COLUMNS = "luid,lexunit,posid,ludefinition,ludict,statusid,totalannotated,incorporatedfeid,incorporatedfetypeid,frameid";
 	}
 
 	static public class LEXUNITS_GOVERNORS
@@ -258,7 +258,7 @@ public class Names
 	{
 		public static final String FILE = "sentences.sql";
 		public static final String TABLE = "fn_sentences";
-		public static final String COLUMNS = "sentenceid,documentid,corpusid,paragno,sentno,text,apos,noccurs";
+		public static final String COLUMNS = "sentenceid,documentid,corpusid,paragno,sentno,text,apos";
 	}
 
 	static public class STATUSES
