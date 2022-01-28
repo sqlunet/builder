@@ -64,7 +64,7 @@ public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> impl
 	@Override
 	public String dataRow()
 	{
-		// (rfeid),fegrid,feid,fetypeid
+		// fegrid,feid,fetypeid
 		int fetypeid = FeType.getIntId(first);
 		var key = new Pair<>(fetypeid, second.getFrameID());
 		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();

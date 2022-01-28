@@ -34,12 +34,12 @@ public class Inserter
 
 	public void insertSemTypes() throws FileNotFoundException
 	{
-		Progress.tracePending("insert", "semtype");
+		Progress.tracePending("set", "semtype");
 		Insert.insert(SemType.SET, SemType.COMPARATOR, new File(outDir, Names.SEMTYPES.FILE), Names.SEMTYPES.TABLE, Names.SEMTYPES.COLUMNS);
 		SemType.SET.clear();
 		Progress.traceDone(null);
 
-		Progress.tracePending("insert", "semtype_super");
+		Progress.tracePending("set", "semtype_super");
 		Insert.insert(SemType_SemTypeSuper.SET, SemType_SemTypeSuper.COMPARATOR, new File(outDir, Names.SEMTYPES_SUPERS.FILE), Names.SEMTYPES_SUPERS.TABLE, Names.SEMTYPES_SUPERS.COLUMNS);
 		SemType_SemTypeSuper.SET.clear();
 		Progress.traceDone(null);
@@ -47,34 +47,34 @@ public class Inserter
 
 	public void insertFrames() throws FileNotFoundException
 	{
-		Progress.tracePending("insert", "frame");
+		Progress.tracePending("set", "frame");
 		Insert.insert(Frame.SET, Comparator.comparing(Frame::getID), new File(outDir, Names.FRAMES.FILE), Names.FRAMES.TABLE, Names.FRAMES.COLUMNS);
 		Frame.SET.clear();
 		Progress.traceDone(null);
 
 		try (@ProvidesIdTo(type = FrameRelation.class) var ignored = FrameRelation.COLLECTOR.open())
 		{
-			Progress.tracePending("map+insert", "frame_relations");
+			Progress.tracePending("collector", "frame_relations");
 			Insert.insertStringMap(FrameRelation.COLLECTOR, new File(outDir, Names.FRAMERELATIONS.FILE), Names.FRAMERELATIONS.TABLE, Names.FRAMERELATIONS.COLUMNS);
 			Progress.traceDone(null);
 
-			Progress.tracePending("insert", "frame_related");
+			Progress.tracePending("set", "frame_related");
 			Insert.insert(Frame_FrameRelated.SET, Frame_FrameRelated.COMPARATOR, new File(outDir, Names.FRAMES_RELATED.FILE), Names.FRAMES_RELATED.TABLE, Names.FRAMES_RELATED.COLUMNS);
 			Frame_FrameRelated.SET.clear();
 			Progress.traceDone(null);
 		}
 
-		Progress.tracePending("insert", "fe_required");
+		Progress.tracePending("set", "fe_required");
 		Insert.insert(FE_FERequired.SET, FE_FERequired.COMPARATOR, new File(outDir, Names.FES_REQUIRED.FILE), Names.FES_REQUIRED.TABLE, Names.FES_REQUIRED.COLUMNS);
 		FE_FERequired.SET.clear();
 		Progress.traceDone(null);
 
-		Progress.tracePending("insert", "fe_excluded");
+		Progress.tracePending("set", "fe_excluded");
 		Insert.insert(FE_FEExcluded.SET, FE_FEExcluded.COMPARATOR, new File(outDir, Names.FES_EXCLUDED.FILE), Names.FES_EXCLUDED.TABLE, Names.FES_EXCLUDED.COLUMNS);
 		FE_FEExcluded.SET.clear();
 		Progress.traceDone(null);
 
-		Progress.tracePending("insert", "frame_semtype");
+		Progress.tracePending("set", "frame_semtype");
 		Insert.insert(Frame_SemType.SET, Frame_SemType.COMPARATOR, new File(outDir, Names.FRAMES_SEMTYPES.FILE), Names.FRAMES_SEMTYPES.TABLE, Names.FRAMES_SEMTYPES.COLUMNS);
 		Frame_SemType.SET.clear();
 		Progress.traceDone(null);
@@ -99,7 +99,7 @@ public class Inserter
 		     @ProvidesIdTo(type = LayerType.class) var ignored13 = LayerType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = LabelType.class) var ignored14 = LabelType.COLLECTOR.open())
 		{
-			Progress.tracePending("insert", "pos,coretype,labelitype");
+			Progress.tracePending("collectors", "pos,coretype,labelitype");
 			Insert.insertNoNumber(Values.Pos.COLLECTOR, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
 			Insert.insertNoNumber(Values.CoreType.COLLECTOR, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
 			Insert.insertNoNumber(Values.LabelIType.COLLECTOR, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
@@ -121,22 +121,22 @@ public class Inserter
 			Insert.insertStringMap(LabelType.COLLECTOR, new File(outDir, Names.LABELTYPES.FILE), Names.LABELTYPES.TABLE, Names.LABELTYPES.COLUMNS);
 			Progress.traceDone(null);
 
-			Progress.tracePending("insert", "annoset");
+			Progress.tracePending("set", "annoset");
 			Insert.insert(AnnotationSet.SET, AnnotationSet.COMPARATOR, new File(outDir, Names.ANNOSETS.FILE), Names.ANNOSETS.TABLE, Names.ANNOSETS.COLUMNS);
 			AnnotationSet.SET.clear();
 			Progress.traceDone(null);
 
-			Progress.tracePending("insert", "cxns");
+			Progress.tracePending("set", "cxns");
 			Insert.insert(Cxns.SET, Cxns.COMPARATOR, new File(outDir, Names.CXNS.FILE), Names.CXNS.TABLE, Names.CXNS.COLUMNS);
 			Cxns.SET.clear();
 			Progress.traceDone(null);
 
-			Progress.tracePending("insert", "corpus");
+			Progress.tracePending("set", "corpus");
 			Insert.insert(Corpus.SET, Corpus.COMPARATOR, new File(outDir, Names.CORPUSES.FILE), Names.CORPUSES.TABLE, Names.CORPUSES.COLUMNS);
 			Corpus.SET.clear();
 			Progress.traceDone(null);
 
-			Progress.tracePending("insert", "doc");
+			Progress.tracePending("set", "doc");
 			Insert.insert(Doc.SET, Doc.COMPARATOR, new File(outDir, Names.DOCUMENTS.FILE), Names.DOCUMENTS.TABLE, Names.DOCUMENTS.COLUMNS);
 			Doc.SET.clear();
 			Progress.traceDone(null);
@@ -144,10 +144,10 @@ public class Inserter
 			try (@ProvidesIdTo(type = Layer.class) var ignored = Layer.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "layer");
-				Insert.insert(Layer.COLLECTOR, new File(outDir, Names.LAYERS.FILE), Names.LAYERS.TABLE, Names.LAYERS.COLUMNS);
+				Insert.insertNoNumber(Layer.COLLECTOR, new File(outDir, Names.LAYERS.FILE), Names.LAYERS.TABLE, Names.LAYERS.COLUMNS);
 				Progress.traceDone(null);
 
-				Progress.tracePending("insert", "label");
+				Progress.tracePending("set", "label");
 				Insert.insert(Label.SET, Label.COMPARATOR, new File(outDir, Names.LABELS.FILE), Names.LABELS.TABLE, Names.LABELS.COLUMNS);
 				Label.SET.clear();
 				Progress.traceDone(null);
@@ -159,17 +159,17 @@ public class Inserter
 				Insert.insertStringMap(FeType.COLLECTOR, new File(outDir, Names.FETYPES.FILE), Names.FETYPES.TABLE, Names.FETYPES.COLUMNS);
 				Progress.traceDone(null);
 
-				Progress.tracePending("insert", "lexunit");
+				Progress.tracePending("set", "lexunit");
 				Insert.insert(LexUnit.SET, LexUnit.COMPARATOR, new File(outDir, Names.LEXUNITS.FILE), Names.LEXUNITS.TABLE, Names.LEXUNITS.COLUMNS);
 				LexUnit.SET.clear();
 				Progress.traceDone(null);
 
-				Progress.tracePending("insert", "lexunit_semtype");
+				Progress.tracePending("set", "lexunit_semtype");
 				Insert.insert(LexUnit_SemType.SET, LexUnit_SemType.COMPARATOR, new File(outDir, Names.LEXUNITS_SEMTYPES.FILE), Names.LEXUNITS_SEMTYPES.TABLE, Names.LEXUNITS_SEMTYPES.COLUMNS);
 				LexUnit_SemType.SET.clear();
 				Progress.traceDone(null);
 
-				Progress.tracePending("insert", "fe_semtype");
+				Progress.tracePending("set", "fe_semtype");
 				Insert.insert(FE_SemType.SET, FE_SemType.COMPARATOR, new File(outDir, Names.FES_SEMTYPES.FILE), Names.FES_SEMTYPES.TABLE, Names.FES_SEMTYPES.COLUMNS);
 				FE_SemType.SET.clear();
 				Progress.traceDone(null);
@@ -180,7 +180,7 @@ public class Inserter
 					Insert.insert(Word.COLLECTOR, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
 					Progress.traceDone(null);
 
-					Progress.tracePending("insert", "lexeme");
+					Progress.tracePending("set", "lexeme");
 					Insert.insertAndIncrement(Lexeme.SET, Lexeme.COMPARATOR, new File(outDir, Names.LEXEMES.FILE), Names.LEXEMES.TABLE, Names.LEXEMES.COLUMNS);
 					Lexeme.SET.clear();
 					Progress.traceDone(null);
@@ -188,7 +188,7 @@ public class Inserter
 					FE.BY_FETYPEID_AND_FRAMEID = makeFEByFETypeIdAndFrameIdMap();
 					try
 					{
-						Progress.tracePending("insert", "fe");
+						Progress.tracePending("set", "fe");
 						Insert.insert(FE.SET, FE.COMPARATOR, new File(outDir, Names.FES.FILE), Names.FES.TABLE, Names.FES.COLUMNS);
 						FE.SET.clear();
 						Progress.traceDone(null);
@@ -204,7 +204,7 @@ public class Inserter
 							Insert.insert(FEGroupRealization.COLLECTOR, new File(outDir, Names.FEGROUPREALIZATIONS.FILE), Names.FEGROUPREALIZATIONS.TABLE, Names.FEGROUPREALIZATIONS.COLUMNS);
 							Progress.traceDone(null);
 
-							Progress.tracePending("insert", "fe_fegr");
+							Progress.tracePending("set", "fe_fegr");
 							Insert.insert(FE_FEGroupRealization.SET, FE_FEGroupRealization.COMPARATOR, new File(outDir, Names.FES_FEGROUPREALIZATIONS.FILE), Names.FES_FEGROUPREALIZATIONS.TABLE, Names.FES_FEGROUPREALIZATIONS.COLUMNS);
 							FE_FEGroupRealization.SET.clear();
 							Progress.traceDone(null);
@@ -217,7 +217,7 @@ public class Inserter
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "pattern");
-								Insert.insert(Pattern.COLLECTOR, new File(outDir, Names.PATTERNS.FILE), Names.PATTERNS.TABLE, Names.VALENCEUNITS.COLUMNS);
+								Insert.insert(Pattern.COLLECTOR, new File(outDir, Names.PATTERNS.FILE), Names.PATTERNS.TABLE, Names.PATTERNS.COLUMNS);
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "pattern_annoset");
@@ -243,29 +243,29 @@ public class Inserter
 							Insert.insert(Governor.COLLECTOR, new File(outDir, Names.GOVERNORS.FILE), Names.GOVERNORS.TABLE, Names.GOVERNORS.COLUMNS);
 							Progress.traceDone(null);
 
-							Progress.tracePending("insert", "lexunit_governor");
+							Progress.tracePending("set", "lexunit_governor");
 							Insert.insert(LexUnit_Governor.SET, null, new File(outDir, Names.LEXUNITS_GOVERNORS.FILE), Names.LEXUNITS_GOVERNORS.TABLE, Names.LEXUNITS_GOVERNORS.COLUMNS);
 							LexUnit_Governor.SET.clear();
 							Progress.traceDone(null);
 
-							Progress.tracePending("insert", "governor_annoset");
+							Progress.tracePending("set", "governor_annoset");
 							Insert.insert(Governor_AnnoSet.SET, null, new File(outDir, Names.GOVERNORS_ANNOSETS.FILE), Names.GOVERNORS_ANNOSETS.TABLE, Names.GOVERNORS_ANNOSETS.COLUMNS);
 							Governor_AnnoSet.SET.clear();
 							Progress.traceDone(null);
 						}
 
-						Progress.tracePending("insert", "sentence");
+						Progress.tracePending("set", "sentence");
 						Insert.insert(Sentence.SET, Sentence.COMPARATOR, new File(outDir, Names.SENTENCES.FILE), Names.SENTENCES.TABLE, Names.SENTENCES.COLUMNS);
 						Sentence.SET.clear();
 						Progress.traceDone(null);
 
 						try (@ProvidesIdTo(type = SubCorpus.class) var ignored50 = SubCorpus.COLLECTOR.open())
 						{
-							Progress.tracePending("insert", "subcorpus_sentence");
+							Progress.tracePending("set", "subcorpus_sentence");
 							Insert.insert(SubCorpus.COLLECTOR, new File(outDir, Names.SUBCORPUSES.FILE), Names.SUBCORPUSES.TABLE, Names.SUBCORPUSES.COLUMNS);
 							Progress.traceDone(null);
 
-							Progress.tracePending("insert", "subcorpus_sentence");
+							Progress.tracePending("set", "subcorpus_sentence");
 							Insert.insert(SubCorpus_Sentence.SET, SubCorpus_Sentence.COMPARATOR, new File(outDir, Names.SUBCORPUSES_SENTENCES.FILE), Names.SUBCORPUSES_SENTENCES.TABLE, Names.SUBCORPUSES_SENTENCES.COLUMNS);
 							SubCorpus_Sentence.SET.clear();
 							Progress.traceDone(null);

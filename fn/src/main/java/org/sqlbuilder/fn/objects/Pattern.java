@@ -95,15 +95,16 @@ public class Pattern implements HasId, Insertable<Pattern>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%d,%s", getSqlId(), //
-				total, //
-				fegr.getSqlId());
+		// patternid,fegrid,total
+		return String.format("%s,%d",  //
+				fegr.getSqlId(), //
+				total);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("{%s},{%s}}", annosetIDs, fegr.getFENames());
+		return String.format("{%s},{%s}", annosetIDs, fegr.getFENames());
 	}
 
 	@Override

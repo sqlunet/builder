@@ -52,7 +52,7 @@ public class Governor implements HasId, Insertable<Governor>
 		return word.getWord();
 	}
 
-	@RequiresIdFrom(type= Governor.class)
+	@RequiresIdFrom(type = Governor.class)
 	@Override
 	public Integer getIntId()
 	{
@@ -65,16 +65,16 @@ public class Governor implements HasId, Insertable<Governor>
 	@Override
 	public String dataRow()
 	{
-		return String.format("'%s','%s',%s", //
+		// governorid,governortype,fnwordid
+		return String.format("'%s',%s", //
 				Utils.escape(type), //
-				Utils.escape(word.getWord()), //
 				word.getSqlId());
 	}
 
 	@Override
 	public String comment()
 	{
-		return Insertable.super.comment();
+		return String.format("%s", word.getWord());
 	}
 
 	@Override

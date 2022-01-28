@@ -65,8 +65,7 @@ public class Label implements Insertable<Label>
 	public String dataRow()
 	{
 		// (labelid),labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
-		return String.format("'%s',%d,%s,%s,%s,%s,%s", //
-				name, //
+		return String.format("%d,%s,%s,%s,%s,%s", //
 				LabelType.getIntId(name), //
 				Utils.nullableEscapedString(itype), //
 				Utils.zeroableInt(feid), //
@@ -76,6 +75,12 @@ public class Label implements Insertable<Label>
 		// String(8, this.label.getBgColor());
 		// String(9, this.label.getFgColor());
 		// String(10, this.label.getCBy());
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s", name);
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class Names
 	{
 		public static final String FILE = "fes_fegrouprealizations.sql";
 		public static final String TABLE = "fn_fes_fegrouprealizations";
-		public static final String COLUMNS = "rfeid,fegrid,feid,fetypeid";
+		public static final String COLUMNS = "fegrid,feid,fetypeid";
 	}
 
 	static public class FEREALIZATIONS
@@ -132,7 +132,7 @@ public class Names
 	{
 		public static final String FILE = "governors.sql";
 		public static final String TABLE = "fn_governors";
-		public static final String COLUMNS = "governorid,fnwordid,governortype";
+		public static final String COLUMNS = "governorid,governortype,fnwordid";
 	}
 
 	static public class GOVERNORS_ANNOSETS
@@ -153,7 +153,7 @@ public class Names
 	{
 		public static final String FILE = "labels.sql";
 		public static final String TABLE = "fn_labels";
-		public static final String COLUMNS = "labelid,labeltypeid,labelitypeid,feid,start,end,layerid"; // ,fgcolor,bgcolor,cby
+		public static final String COLUMNS = "labeltypeid,labelitypeid,feid,start,end,layerid"; // ,fgcolor,bgcolor,cby
 	}
 
 	static public class LABELTYPES
@@ -188,7 +188,7 @@ public class Names
 	{
 		public static final String FILE = "lexunits.sql";
 		public static final String TABLE = "fn_lexunits";
-		public static final String COLUMNS = "luid,lexunit,posid,ludefinition,ludict,statusid,totalannotated,incorporatedfeid,incorporatedfetypeid,frameid";
+		public static final String COLUMNS = "luid,lexunit,posid,ludefinition,ludict,incorporatedfeid,totalannotated,frameid";
 	}
 
 	static public class LEXUNITS_GOVERNORS

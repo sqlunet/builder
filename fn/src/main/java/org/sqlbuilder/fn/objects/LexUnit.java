@@ -161,6 +161,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 	@Override
 	public String dataRow()
 	{
+		// luid,lexunit,posid,ludefinition,ludict,incorporatedfeid,totalannotated,frameid
 		return String.format("%d,'%s',%d,%s,%s,%s,%d,%d", //
 				luid, //
 				Utils.escape(name), //
@@ -175,7 +176,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 	@Override
 	public String comment()
 	{
-		return String.format("%d,%s,%d,%s", luid, name, frameid, frameName);
+		return String.format("%s,%s", frameName, incorporatedFE);
 	}
 
 	// T O S T R I N G
