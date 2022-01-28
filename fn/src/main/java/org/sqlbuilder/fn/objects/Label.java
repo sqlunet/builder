@@ -2,12 +2,12 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.types.LabelType;
 
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
-
-import edu.berkeley.icsi.framenet.LabelType;
 
 /*
 labels.table=fnlabels
@@ -39,14 +39,15 @@ public class Label implements Insertable<Label>
 
 	public final Layer layer;
 
-	public static Label make(final LabelType label, final Layer layer)
+	public static Label make(final edu.berkeley.icsi.framenet.LabelType label, final Layer layer)
 	{
 		var l = new Label(label, layer);
+		LabelType.add(l.name);
 		SET.add(l);
 		return l;
 	}
 
-	private Label(final LabelType label, final Layer layer)
+	private Label(final edu.berkeley.icsi.framenet.LabelType label, final Layer layer)
 	{
 		this.name = label.getName();
 		this.itype = label.getItype() == null ? null : label.getItype().toString();
@@ -58,17 +59,20 @@ public class Label implements Insertable<Label>
 
 	public static final Comparator<Label> COMPARATOR = Comparator.comparing(l -> l.name);
 
+	@RequiresIdFrom(type = Layer.class)
+	@RequiresIdFrom(type = LabelType.class)
 	@Override
 	public String dataRow()
 	{
 		// (labelid),labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
-		return String.format("'%s',%s,%s,%s,%s,%s",
+		return String.format("'%s',%d,%s,%s,%s,%s,%s", //
 				name, //
+				LabelType.getIntId(name), //
 				Utils.nullableEscapedString(itype), //
 				Utils.zeroableInt(feid), //
 				Utils.zeroableInt(start), //
 				Utils.zeroableInt(end), //
-				Layer.COLLECTOR.get(layer));
+				layer.getSqlId());
 		// String(8, this.label.getBgColor());
 		// String(9, this.label.getFgColor());
 		// String(10, this.label.getCBy());

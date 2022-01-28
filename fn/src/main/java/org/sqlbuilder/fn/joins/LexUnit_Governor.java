@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.HashSet;
@@ -35,10 +36,11 @@ public class LexUnit_Governor extends Pair<Integer, Governor> implements Inserta
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Governor.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%s", first, second.getId());
+		return String.format("%d,%s", first, second.getSqlId());
 	}
 
 	// T O S T R I N G

@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 
@@ -50,19 +51,21 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 		return luid;
 	}
 
+	@RequiresIdFrom(type = SubCorpus.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
 		return COLLECTOR.get(this);
 	}
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = SubCorpus.class)
 	@Override
 	public String dataRow()
 	{
 		return String.format("%s,'%s',%d",
-				getId(),
+				getSqlId(),
 				name, //
 				luid);
 	}

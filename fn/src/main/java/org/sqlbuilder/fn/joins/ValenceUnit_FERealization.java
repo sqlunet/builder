@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.FERealization;
 import org.sqlbuilder.fn.objects.ValenceUnit;
 
@@ -34,12 +35,13 @@ public class ValenceUnit_FERealization extends Pair<ValenceUnit, FERealization> 
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = FERealization.class)
 	@Override
 	public String dataRow()
 	{
 		return String.format("%s,%s", //
 				first.dataRow(), //
-				second.getId());
+				second.getSqlId());
 	}
 
 	// T O S T R I N G

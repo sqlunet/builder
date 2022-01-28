@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 import org.sqlbuilder.fn.types.FeType;
@@ -59,6 +60,7 @@ public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> impl
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = FEGroupRealization.class)
 	@Override
 	public String dataRow()
 	{
@@ -68,7 +70,7 @@ public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> impl
 		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
 
 		return String.format("%s,%s,%s", //
-				second.getId(), //
+				second.getSqlId(), //
 				feid, //
 				fetypeid);
 	}

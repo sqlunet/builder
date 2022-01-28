@@ -2,6 +2,8 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.types.LayerType;
 
 import java.util.Comparator;
@@ -17,7 +19,7 @@ layers.no-fk1=ALTER TABLE %Fn_layers.table% DROP CONSTRAINT fk_%Fn_layers.table%
 layers.no-fk2=ALTER TABLE %Fn_layers.table% DROP CONSTRAINT fk_%Fn_layers.table%_layertypeid CASCADE;
 layers.insert=INSERT INTO %Fn_layers.table% (layerid,annosetid,layertype,`rank`) VALUES(?,?,?,?);
  */
-public class Layer implements Insertable<Layer>
+public class Layer implements HasId, Insertable<Layer>
 {
 	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l -> l.name);
 
@@ -32,7 +34,7 @@ public class Layer implements Insertable<Layer>
 	public static Layer make(final edu.berkeley.icsi.framenet.LayerType layer, final long annosetid)
 	{
 		var l = new Layer(layer, annosetid);
-		LayerType.COLLECTOR.add(layer.getName());
+		LayerType.add(l.name);
 		COLLECTOR.add(l);
 		return l;
 	}
@@ -44,11 +46,19 @@ public class Layer implements Insertable<Layer>
 		this.annosetid = annosetid;
 	}
 
+	@RequiresIdFrom(type = Layer.class)
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
+
+	@RequiresIdFrom(type = Layer.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("NULL,'%s',%d,%d", //
-				//layer.getId(), //
+		return String.format("%d,'%s',%d,%d", //
+				getIntId(), //
 				name, //
 				rank, //
 				annosetid);

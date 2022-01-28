@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.types.FeType;
 import org.sqlbuilder.fn.types.GfType;
 import org.sqlbuilder.fn.types.PtType;
@@ -89,15 +90,11 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 		return gf;
 	}
 
+	@RequiresIdFrom(type = ValenceUnit.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
-		Integer id = COLLECTOR.get(this);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y
@@ -133,14 +130,18 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = ValenceUnit.class)
+	@RequiresIdFrom(type = FeType.class)
+	@RequiresIdFrom(type = PtType.class)
+	@RequiresIdFrom(type = GfType.class)
 	@Override
 	public String dataRow()
 	{
 		return String.format("%s,%s,%s,%s", //
-				getId(), //
-				FeType.getId(fe), //
-				PtType.getId(pt), //
-				GfType.getId(gf));
+				getSqlId(), //
+				FeType.getSqlId(fe), //
+				PtType.getSqlId(pt), //
+				GfType.getSqlId(gf));
 	}
 
 	@Override

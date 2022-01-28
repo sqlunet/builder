@@ -2,5 +2,15 @@ package org.sqlbuilder.fn;
 
 public interface HasId
 {
-	Object getId();
+	default Object getSqlId()
+	{
+		Integer id = getIntId();
+		if (id != null)
+		{
+			return id;
+		}
+		return "NULL";
+	}
+
+	Integer getIntId();
 }

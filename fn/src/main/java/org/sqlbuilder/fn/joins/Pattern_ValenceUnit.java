@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Pattern;
 import org.sqlbuilder.fn.objects.ValenceUnit;
 
@@ -44,10 +45,11 @@ public class Pattern_ValenceUnit extends Pair<Pattern, ValenceUnit> implements I
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Pattern.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s", first.getId(), second.dataRow());
+		return String.format("%s,%s", first.getSqlId(), second.dataRow());
 	}
 
 	// T O S T R I N G

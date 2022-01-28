@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -57,15 +58,11 @@ public class Pattern implements HasId, Insertable<Pattern>
 		return fegr;
 	}
 
+	@RequiresIdFrom(type = Pattern.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
-		Integer id = COLLECTOR.get(this);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y
@@ -93,12 +90,14 @@ public class Pattern implements HasId, Insertable<Pattern>
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Pattern.class)
+	@RequiresIdFrom(type = FEGroupRealization.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%d,%s", getId(), //
+		return String.format("%s,%d,%s", getSqlId(), //
 				total, //
-				fegr.getId());
+				fegr.getSqlId());
 	}
 
 	@Override

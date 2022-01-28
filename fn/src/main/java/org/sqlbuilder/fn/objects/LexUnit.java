@@ -5,6 +5,7 @@ import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.types.FeType;
 
 import java.util.Comparator;
@@ -156,6 +157,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = FeType.class)
 	@Override
 	public String dataRow()
 	{
@@ -165,7 +167,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 				pos, //
 				Utils.nullableEscapedString(definition), //
 				Utils.nullableChar(dict), //
-				FeType.getId(incorporatedFE), //
+				FeType.getSqlId(incorporatedFE), //
 				totalAnnotated, //
 				frameid); //
 	}

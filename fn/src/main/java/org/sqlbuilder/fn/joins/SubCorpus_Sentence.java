@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Sentence;
 import org.sqlbuilder.fn.objects.SubCorpus;
 
@@ -39,10 +40,11 @@ public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Inse
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = SubCorpus.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%d", first.getId(), second);
+		return String.format("%s,%d", first.getSqlId(), second);
 	}
 
 	// T O S T R I N G

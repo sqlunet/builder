@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 
@@ -18,14 +19,16 @@ public class Cxns
 		COLLECTOR.add(type);
 	}
 
-	public static Object getId(String value)
+	@RequiresIdFrom(type = Cxns.class)
+	public static Integer getIntId(String value)
 	{
-		Integer id = COLLECTOR.get(value);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		return COLLECTOR.get(value);
+	}
+
+	@RequiresIdFrom(type = Cxns.class)
+	public static Object getSqlId(String value)
+	{
+		return Util.getSqlId(getIntId(value));
 	}
 
 	/*

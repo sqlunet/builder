@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 
@@ -36,15 +37,11 @@ public class Values
 			this.pos = pos;
 		}
 
+		@RequiresIdFrom(type = Pos.class)
 		@Override
-		public Object getId()
+		public Integer getIntId()
 		{
-			Integer id = COLLECTOR.get(this);
-			if (id != null)
-			{
-				return id;
-			}
-			return "NULL";
+			return COLLECTOR.get(this);
 		}
 
 		@Override
@@ -81,15 +78,11 @@ public class Values
 			this.coretype = coretype;
 		}
 
+		@RequiresIdFrom(type = CoreType.class)
 		@Override
-		public Object getId()
+		public Integer getIntId()
 		{
-			Integer id = COLLECTOR.get(this);
-			if (id != null)
-			{
-				return id;
-			}
-			return "NULL";
+			return COLLECTOR.get(this);
 		}
 
 		@Override
@@ -124,15 +117,11 @@ public class Values
 			this.labelitype = labelitype;
 		}
 
+		@RequiresIdFrom(type = LabelIType.class)
 		@Override
-		public Object getId()
+		public Integer getIntId()
 		{
-			Integer id = COLLECTOR.get(this);
-			if (id != null)
-			{
-				return id;
-			}
-			return "NULL";
+			return COLLECTOR.get(this);
 		}
 
 		@Override

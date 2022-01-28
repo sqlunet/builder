@@ -34,17 +34,15 @@ public class Inserter
 
 	public void insertSemTypes() throws FileNotFoundException
 	{
-		{
-			Progress.tracePending("insert", "semtype");
-			Insert.insert(SemType.SET, SemType.COMPARATOR, new File(outDir, Names.SEMTYPES.FILE), Names.SEMTYPES.TABLE, Names.SEMTYPES.COLUMNS);
-			SemType.SET.clear();
-			Progress.traceDone(null);
+		Progress.tracePending("insert", "semtype");
+		Insert.insert(SemType.SET, SemType.COMPARATOR, new File(outDir, Names.SEMTYPES.FILE), Names.SEMTYPES.TABLE, Names.SEMTYPES.COLUMNS);
+		SemType.SET.clear();
+		Progress.traceDone(null);
 
-			Progress.tracePending("insert", "semtype_super");
-			Insert.insert(SemType_SemTypeSuper.SET, SemType_SemTypeSuper.COMPARATOR, new File(outDir, Names.SEMTYPES_SUPERS.FILE), Names.SEMTYPES_SUPERS.TABLE, Names.SEMTYPES_SUPERS.COLUMNS);
-			SemType_SemTypeSuper.SET.clear();
-			Progress.traceDone(null);
-		}
+		Progress.tracePending("insert", "semtype_super");
+		Insert.insert(SemType_SemTypeSuper.SET, SemType_SemTypeSuper.COMPARATOR, new File(outDir, Names.SEMTYPES_SUPERS.FILE), Names.SEMTYPES_SUPERS.TABLE, Names.SEMTYPES_SUPERS.COLUMNS);
+		SemType_SemTypeSuper.SET.clear();
+		Progress.traceDone(null);
 	}
 
 	public void insertFrames() throws FileNotFoundException
@@ -54,7 +52,7 @@ public class Inserter
 		Frame.SET.clear();
 		Progress.traceDone(null);
 
-		try (var ignored = FrameRelation.COLLECTOR.open())
+		try (@ProvidesIdTo(type = FrameRelation.class) var ignored = FrameRelation.COLLECTOR.open())
 		{
 			Progress.tracePending("map+insert", "frame_relations");
 			Insert.insertStringMap(FrameRelation.COLLECTOR, new File(outDir, Names.FRAMERELATIONS.FILE), Names.FRAMERELATIONS.TABLE, Names.FRAMERELATIONS.COLUMNS);
@@ -93,15 +91,13 @@ public class Inserter
 	public void insertFinal() throws FileNotFoundException
 	{
 
-		try ( //
-		      var ignored01 = Values.Pos.COLLECTOR.open(); //
-		      var ignored02 = Values.CoreType.COLLECTOR.open(); //
-		      var ignored03 = Values.LabelIType.COLLECTOR.open(); //
-		      var ignored11 = GfType.COLLECTOR.open(); //
-		      var ignored12 = PtType.COLLECTOR.open(); //
-		      var ignored13 = LayerType.COLLECTOR.open(); //
-		      var ignored14 = LabelType.COLLECTOR.open() //
-		)
+		try (@ProvidesIdTo(type = Values.Pos.class) var ignored01 = Values.Pos.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = Values.CoreType.class) var ignored02 = Values.CoreType.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = Values.LabelIType.class) var ignored03 = Values.LabelIType.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = GfType.class) var ignored11 = GfType.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = PtType.class) var ignored12 = PtType.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = LayerType.class) var ignored13 = LayerType.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = LabelType.class) var ignored14 = LabelType.COLLECTOR.open())
 		{
 			Progress.tracePending("insert", "pos,coretype,labelitype");
 			Insert.insert(Values.Pos.COLLECTOR, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
@@ -140,7 +136,7 @@ public class Inserter
 			Doc.SET.clear();
 			Progress.traceDone(null);
 
-			try (var ignored = Layer.COLLECTOR.open())
+			try (@ProvidesIdTo(type = Layer.class) var ignored = Layer.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "layer");
 				Insert.insert(Layer.COLLECTOR, new File(outDir, Names.LAYERS.FILE), Names.LAYERS.TABLE, Names.LAYERS.COLUMNS);
@@ -152,7 +148,7 @@ public class Inserter
 				Progress.traceDone(null);
 			}
 
-			try (var ignored = FeType.COLLECTOR.open())
+			try (@ProvidesIdTo(type = FeType.class) var ignored = FeType.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "fetype");
 				Insert.insertStringMap(FeType.COLLECTOR, new File(outDir, Names.FETYPES.FILE), Names.FETYPES.TABLE, Names.FETYPES.COLUMNS);
@@ -168,12 +164,12 @@ public class Inserter
 				LexUnit_SemType.SET.clear();
 				Progress.traceDone(null);
 
-				Progress.tracePending("insert", "lexunit_semtype");
+				Progress.tracePending("insert", "fe_semtype");
 				Insert.insert(FE_SemType.SET, FE_SemType.COMPARATOR, new File(outDir, Names.FES_SEMTYPES.FILE), Names.FES_SEMTYPES.TABLE, Names.FES_SEMTYPES.COLUMNS);
 				FE_SemType.SET.clear();
 				Progress.traceDone(null);
 
-				try (var ignored30 = Word.COLLECTOR.open())
+				try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
 				{
 					Progress.tracePending("collector", "word");
 					Insert.insert(Word.COLLECTOR, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
@@ -192,8 +188,8 @@ public class Inserter
 						FE.SET.clear();
 						Progress.traceDone(null);
 
-						try (var ignored40 = FERealization.COLLECTOR.open(); // vu_fer
-						     var ignored41 = FEGroupRealization.COLLECTOR.open())
+						try (@ProvidesIdTo(type = FERealization.class) var ignored40 = FERealization.COLLECTOR.open(); // vu_fer
+						     @ProvidesIdTo(type = FEGroupRealization.class) var ignored41 = FEGroupRealization.COLLECTOR.open())
 						{
 							Progress.tracePending("collector", "fer");
 							Insert.insert(FERealization.COLLECTOR, new File(outDir, Names.FEREALIZATIONS.FILE), Names.FEREALIZATIONS.TABLE, Names.FEREALIZATIONS.COLUMNS);
@@ -208,10 +204,8 @@ public class Inserter
 							FE_FEGroupRealization.SET.clear();
 							Progress.traceDone(null);
 
-							try ( //
-							      var ignored44 = Pattern.COLLECTOR.open(); //
-							      var ignored43 = ValenceUnit.COLLECTOR.open(); //
-							)
+							try (@ProvidesIdTo(type = Pattern.class) var ignored44 = Pattern.COLLECTOR.open(); //
+							     @ProvidesIdTo(type = ValenceUnit.class) var ignored43 = ValenceUnit.COLLECTOR.open())
 							{
 								Progress.tracePending("collector", "valenceunit");
 								Insert.insert(ValenceUnit.COLLECTOR, new File(outDir, Names.VALENCEUNITS.FILE), Names.VALENCEUNITS.TABLE, Names.VALENCEUNITS.COLUMNS);
@@ -238,7 +232,7 @@ public class Inserter
 							}
 						}
 
-						try (var ignored42 = Governor.COLLECTOR.open())
+						try (@ProvidesIdTo(type = Governor.class) var ignored42 = Governor.COLLECTOR.open())
 						{
 							Progress.tracePending("collector", "governor");
 							Insert.insert(Governor.COLLECTOR, new File(outDir, Names.GOVERNORS.FILE), Names.GOVERNORS.TABLE, Names.GOVERNORS.COLUMNS);
@@ -260,7 +254,7 @@ public class Inserter
 						Sentence.SET.clear();
 						Progress.traceDone(null);
 
-						try (var ignored50 = SubCorpus.COLLECTOR.open())
+						try (@ProvidesIdTo(type = SubCorpus.class) var ignored50 = SubCorpus.COLLECTOR.open())
 						{
 							Progress.tracePending("insert", "subcorpus_sentence");
 							Insert.insert(SubCorpus.COLLECTOR, new File(outDir, Names.SUBCORPUSES.FILE), Names.SUBCORPUSES.TABLE, Names.SUBCORPUSES.COLUMNS);
@@ -281,10 +275,11 @@ public class Inserter
 		}
 	}
 
+	@RequiresIdFrom(type=FeType.class)
 	private Map<Pair<Integer, Integer>, FE> makeFEByFETypeIdAndFrameIdMap()
 	{
 		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(FeType.COLLECTOR.get(fe.getName()), fe.getFrameID()), fe)) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(FeType.getIntId(fe.getName()), fe.getFrameID()), fe)) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 }

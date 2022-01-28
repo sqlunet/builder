@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 
@@ -51,21 +52,23 @@ public class Governor implements HasId, Insertable<Governor>
 		return word.getWord();
 	}
 
+	@RequiresIdFrom(type= Governor.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
 		return COLLECTOR.get(this);
 	}
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String dataRow()
 	{
 		return String.format("'%s','%s',%s", //
 				Utils.escape(type), //
 				Utils.escape(word.getWord()), //
-				word.getId());
+				word.getSqlId());
 	}
 
 	@Override

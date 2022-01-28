@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.*;
 
@@ -96,12 +97,13 @@ public class Lexeme implements Insertable<Lexeme>
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String dataRow()
 	{
 		//fnwordid,posid,breakbefore,headword,lexemeidx,luid
 		return String.format("%s,%d,%d,%d,%s,%d", //
-				word.getId(), // fnwordid
+				word.getSqlId(), // fnwordid
 				pos, //
 				breakBefore ? 1 : 0, //
 				headWord ? 1 : 0, //

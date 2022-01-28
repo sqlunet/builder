@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.*;
 
@@ -44,15 +45,11 @@ public class Word implements HasId, Insertable<Word>
 		return word;
 	}
 
+	@RequiresIdFrom(type = Word.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
-		Integer id = COLLECTOR.get(this);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y
@@ -88,10 +85,11 @@ public class Word implements HasId, Insertable<Word>
 				Utils.escape(word));
 	}
 
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String comment()
 	{
-		return String.format("id=%s", getId());
+		return String.format("id=%s", getSqlId());
 	}
 
 	// T O S T R I N G

@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
 
@@ -69,15 +70,11 @@ public class FERealization implements HasId, Insertable<FERealization>
 		return frameid;
 	}
 
+	@RequiresIdFrom(type= FERealization.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
-		Integer id = COLLECTOR.get(this);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

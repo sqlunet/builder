@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Pattern;
 
 import java.util.HashSet;
@@ -37,10 +38,11 @@ public class Pattern_AnnoSet extends Pair<Pattern, Integer> implements Insertabl
 
 	// I N S E R T A B L E
 
+	@RequiresIdFrom(type = Pattern.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%d", first.getId(), second);
+		return String.format("%s,%d", first.getSqlId(), second);
 	}
 
 	// T O S T R I N G

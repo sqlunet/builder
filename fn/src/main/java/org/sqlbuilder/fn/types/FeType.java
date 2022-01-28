@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 
@@ -16,30 +17,16 @@ public class FeType
 
 	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
-	public static int getIntId(String value)
+	@RequiresIdFrom(type=FeType.class)
+	public static Integer getIntId(String value)
 	{
-		if (value != null)
-		{
-			Integer id = COLLECTOR.get(value);
-			if (id != null)
-			{
-				return id;
-			}
-		}
-		throw new IllegalArgumentException(value);
+		return COLLECTOR.get(value);
 	}
 
-	public static Object getId(String value)
+	@RequiresIdFrom(type=FeType.class)
+	public static Object getSqlId(String value)
 	{
-		if (value != null)
-		{
-			Integer id = COLLECTOR.get(value);
-			if (id != null)
-			{
-				return id;
-			}
-		}
-		return "NULL";
+		return Util.getSqlId(getIntId(value));
 	}
 
 /*

@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 
@@ -14,18 +15,25 @@ public class LabelType
 
 	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
-	public static Object getId(String value)
+	public static void add(String type)
 	{
-		Integer id = COLLECTOR.get(value);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		COLLECTOR.add(type);
+	}
+
+	@RequiresIdFrom(type=LabelType.class)
+	public static Integer getIntId(String value)
+	{
+		return COLLECTOR.get(value);
+	}
+
+	@RequiresIdFrom(type=LabelType.class)
+	public static Object getSqlId(String value)
+	{
+		return Util.getSqlId(getIntId(value));
 	}
 
 	/*
-	# labeltypeid, labeltype
+# labeltypeid, labeltype
 1, #
 2, $
 3, ''

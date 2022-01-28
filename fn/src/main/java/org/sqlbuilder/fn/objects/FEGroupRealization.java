@@ -3,6 +3,8 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.types.FeType;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -70,15 +72,11 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 		return feNames;
 	}
 
+	@RequiresIdFrom(type= FEGroupRealization.class)
 	@Override
-	public Object getId()
+	public Integer getIntId()
 	{
-		Integer id = COLLECTOR.get(this);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

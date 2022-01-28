@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
@@ -131,13 +132,14 @@ public class FE implements HasID, Insertable<FE>
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = FeType.class)
 	@Override
 	public String dataRow()
 	{
 		// (feid,fetypeid,feabbrev,fedefinition,coretypeid,coreset,frameid)
 		return String.format("%d,%s,'%s','%s',%d,%s,%d", //
 				feid, //
-				FeType.getId(name), //
+				FeType.getSqlId(name), //
 				Utils.escape(abbrev), //
 				Utils.escape(definition), //
 				coretype, //

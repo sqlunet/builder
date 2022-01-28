@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -16,16 +17,21 @@ public class LayerType
 
 	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
 
-	public static final Set<String> SET = new HashSet<>();
-
-	public static Object getId(String value)
+	public static void add(String type)
 	{
-		Integer id = COLLECTOR.get(value);
-		if (id != null)
-		{
-			return id;
-		}
-		return "NULL";
+		COLLECTOR.add(type);
+	}
+
+	@RequiresIdFrom(type=LayerType.class)
+	public static Integer getIntId(String value)
+	{
+		return COLLECTOR.get(value);
+	}
+
+	@RequiresIdFrom(type=LayerType.class)
+	public static Object getSqlId(String value)
+	{
+		return Util.getSqlId(getIntId(value));
 	}
 
 /*

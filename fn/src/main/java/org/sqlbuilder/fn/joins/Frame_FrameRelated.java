@@ -1,6 +1,8 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.objects.ValenceUnit;
 import org.sqlbuilder.fn.types.FrameRelation;
 
 import java.util.Comparator;
@@ -59,13 +61,14 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = FrameRelation.class)
 	@Override
 	public String dataRow()
 	{
 		return String.format("%d,%d,%s", //
 				first, //
 				second, //
-				FrameRelation.getId(relation));
+				FrameRelation.getSqlId(relation));
 	}
 
 	@Override
