@@ -1,37 +1,63 @@
 package org.sqlbuilder.fn.types;
 
+import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.Collector;
-import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.HasID;
 
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Cxns
+public class Cxns implements HasID, Insertable<Cxns>
 {
 	// cxns.table=fncxns
 	// cxns.create=CREATE TABLE IF NOT EXISTS %Fn_cxns.table% ( cxnid INTEGER NOT NULL,cxn VARCHAR(32),PRIMARY KEY (cxnid) );
 
-	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
+	public static final Comparator<Cxns> COMPARATOR = Comparator.comparing(Cxns::getName).thenComparing(Cxns::getId);
 
-	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final Set<Cxns> SET = new HashSet<>();
 
-	public static void add(String type)
+	private final int id;
+
+	private final String name;
+
+	// C O N S T R U C T O R
+
+	public static Cxns make(final int id, final String name)
 	{
-		COLLECTOR.add(type);
+		var c = new Cxns(id, name);
+		SET.add(c);
+		return c;
 	}
 
-	@RequiresIdFrom(type = Cxns.class)
-	public static Integer getIntId(String value)
+	private Cxns(final int id, final String name)
 	{
-		return value == null ? null : COLLECTOR.get(value);
+		this.id = id;
+		this.name = name;
 	}
 
-	@RequiresIdFrom(type = Cxns.class)
-	public static Object getSqlId(String value)
+	// A C C E S S
+
+	public int getId()
 	{
-		return Util.getSqlId(getIntId(value));
+		return id;
 	}
 
-	/*
+	public String getName()
+	{
+		return name;
+	}
+
+	// I N S E R T
+
+	@Override
+	public String dataRow()
+	{
+		return String.format("%d,%s", id, Utils.escape(name));
+	}
+
+/*
 # cxnid, cxn
 78, Ones_very_eyes
 80, As.role

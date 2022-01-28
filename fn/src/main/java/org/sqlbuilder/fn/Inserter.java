@@ -100,9 +100,9 @@ public class Inserter
 		     @ProvidesIdTo(type = LabelType.class) var ignored14 = LabelType.COLLECTOR.open())
 		{
 			Progress.tracePending("insert", "pos,coretype,labelitype");
-			Insert.insert(Values.Pos.COLLECTOR, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
-			Insert.insert(Values.CoreType.COLLECTOR, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
-			Insert.insert(Values.LabelIType.COLLECTOR, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
+			Insert.insertNoNumber(Values.Pos.COLLECTOR, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
+			Insert.insertNoNumber(Values.CoreType.COLLECTOR, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
+			Insert.insertNoNumber(Values.LabelIType.COLLECTOR, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
 			Progress.traceDone(null);
 
 			Progress.tracePending("collector", "gf");
@@ -124,6 +124,11 @@ public class Inserter
 			Progress.tracePending("insert", "annoset");
 			Insert.insert(AnnotationSet.SET, AnnotationSet.COMPARATOR, new File(outDir, Names.ANNOSETS.FILE), Names.ANNOSETS.TABLE, Names.ANNOSETS.COLUMNS);
 			AnnotationSet.SET.clear();
+			Progress.traceDone(null);
+
+			Progress.tracePending("insert", "cxns");
+			Insert.insert(Cxns.SET, Cxns.COMPARATOR, new File(outDir, Names.CXNS.FILE), Names.CXNS.TABLE, Names.CXNS.COLUMNS);
+			Cxns.SET.clear();
 			Progress.traceDone(null);
 
 			Progress.tracePending("insert", "corpus");

@@ -3,6 +3,7 @@ package org.sqlbuilder.fn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.fn.types.Cxns;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -111,6 +112,10 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 	{
 		var a = new AnnotationSet(annoset, sentenceid, luid, frameid);
 
+		if (a.cxnid != null && a.cxnName != null)
+		{
+			Cxns.make(a.cxnid, a.cxnName);
+		}
 		final boolean isNew = SET.add(a);
 		if (!isNew)
 		{
@@ -193,16 +198,21 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%d,%s,%s,%s,'%s'", //
+		return String.format("%d,%d,%s,%s,%s", //
 				annosetid, //
 				sentenceid, //
 				Utils.zeroableInt(luid), //
 				Utils.zeroableInt(frameid), //
-				Utils.zeroableInt(cxnid), //
-				Utils.nullableEscapedString(cxnName) //
+				Utils.zeroableInt(cxnid) //
 		);
 		// String(7, this.annoset.getStatus());
 		// String(8, this.annoset.getCDate());
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s", cxnName);
 	}
 
 	// T O S T R I N G

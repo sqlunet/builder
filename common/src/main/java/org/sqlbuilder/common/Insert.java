@@ -22,7 +22,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final PrintStream ps)
+	private static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final PrintStream ps)
 	{
 		int[] i = {0};
 		map.forEach((key, value) -> {
@@ -34,6 +34,33 @@ public class Insert
 			String values = key.dataRow();
 			String comment = key.comment();
 			String row = comment != null ? String.format("(%d,%s) /* %s */", value, values, comment) : String.format("(%d,%s)", value, values);
+			ps.print(row);
+			i[0]++;
+		});
+	}
+
+	public static <T extends Insertable<T>> void insertNoNumber(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+			insertNoNumber(map, ps);
+			ps.println(";");
+		}
+	}
+
+	private static <T extends Insertable<T>> void insertNoNumber(final Map<T, Integer> map, final PrintStream ps)
+	{
+		int[] i = {0};
+		map.forEach((key, value) -> {
+
+			if (i[0] != 0)
+			{
+				ps.print(",\n");
+			}
+			String values = key.dataRow();
+			String comment = key.comment();
+			String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
 			ps.print(row);
 			i[0]++;
 		});
@@ -51,7 +78,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable<T>> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
+	private static <T extends Insertable<T>> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
 	{
 		int[] i = {0};
 		var stream = set.stream();
@@ -83,7 +110,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
+	private static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
 	{
 		int[] i = {1};
 		var stream = set.stream();

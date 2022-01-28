@@ -6,7 +6,7 @@ public class Names
 	{
 		public static final String FILE = "annosets.sql";
 		public static final String TABLE = "fn_annosets";
-		public static final String COLUMNS = "annosetid,sentenceid,luid,frameid,cxnid,statusid,cdate,noccurs";
+		public static final String COLUMNS = "annosetid,sentenceid,luid,frameid,cxnid"; //,statusid,cdate
 	}
 
 	static public class CORETYPES
