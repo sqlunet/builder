@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -19,6 +20,8 @@ lexunits_semtypes.insert=INSERT INTO %Fn_lexunits_semtypes.table% (luid,semtypei
  */
 public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertable<LexUnit_SemType>
 {
+	public static final Comparator<LexUnit_SemType> COMPARATOR = Comparator.comparing(LexUnit_SemType::getFirst).thenComparing(LexUnit_SemType::getSecond);
+
 	public static final Set<LexUnit_SemType> SET = new HashSet<>();
 
 	// C O N S T R U C T O R
@@ -34,10 +37,6 @@ public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertabl
 	{
 		super(luid, semtypeid);
 	}
-
-	// O R D E R
-
-	public static final Comparator<LexUnit_SemType> COMPARATOR = Comparator.comparing(LexUnit_SemType::getFirst).thenComparing(LexUnit_SemType::getSecond);
 
 	// I N S E R T
 

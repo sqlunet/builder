@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Governor;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ lexunits_governors.insert=INSERT INTO %Fn_lexunits_governors.table% (luid,govern
  */
 public class LexUnit_Governor extends Pair<Integer, Governor> implements Insertable<LexUnit_Governor>
 {
+	public static final Comparator<LexUnit_Governor> COMPARATOR = Comparator.comparing(LexUnit_Governor::getFirst).thenComparing(LexUnit_Governor::getSecond, Governor.COMPARATOR);
+
 	public static final Set<LexUnit_Governor> SET = new HashSet<>();
 
 	// C O N S T R U C T O R

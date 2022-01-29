@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Governor;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ governors_annosets.insert=INSERT INTO %Fn_governors_annosets.table% (governorid,
  */
 public class Governor_AnnoSet extends Pair<Governor, Integer> implements Insertable<Governor_AnnoSet>
 {
+	public static final Comparator<Governor_AnnoSet> COMPARATOR = Comparator.comparing(Governor_AnnoSet::getFirst, Governor.COMPARATOR).thenComparing(Governor_AnnoSet::getSecond);
+
 	public static final Set<Governor_AnnoSet> SET = new HashSet<>();
 
 	// C O N S T R U C T O R

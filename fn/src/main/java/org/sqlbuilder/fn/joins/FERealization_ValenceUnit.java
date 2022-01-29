@@ -8,20 +8,20 @@ import org.sqlbuilder.fn.objects.ValenceUnit;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ValenceUnit_FERealization extends Pair<ValenceUnit, FERealization> implements Insertable<ValenceUnit_FERealization>
+public class FERealization_ValenceUnit extends Pair<ValenceUnit, FERealization> implements Insertable<FERealization_ValenceUnit>
 {
-	public static final Set<ValenceUnit_FERealization> SET = new HashSet<>();
+	public static final Set<FERealization_ValenceUnit> SET = new HashSet<>();
 
 	// C O N S T R U C T O R
 
-	public static ValenceUnit_FERealization make(final ValenceUnit vu, final FERealization fer)
+	public static FERealization_ValenceUnit make(final FERealization fer, final ValenceUnit vu)
 	{
-		var vr = new ValenceUnit_FERealization(vu,fer);
+		var vr = new FERealization_ValenceUnit(vu,fer);
 		SET.add(vr);
 		return vr;
 	}
 
-	private ValenceUnit_FERealization(final ValenceUnit vu, final FERealization fer)
+	private FERealization_ValenceUnit(final ValenceUnit vu, final FERealization fer)
 	{
 		super(vu, fer);
 	}

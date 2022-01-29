@@ -24,8 +24,8 @@ ferealizations.insert=INSERT INTO %Fn_ferealizations.table% (ferid,luid,fetype,t
 public class FERealization implements HasId, Insertable<FERealization>
 {
 	public static final Comparator<FERealization> COMPARATOR = Comparator //
-			.comparing(FERealization::getFEName) //
-			.thenComparing(FERealization::getLuId) //
+			.comparing(FERealization::getLuId) //
+			.thenComparing(FERealization::getFEName) //
 			.thenComparing(FERealization::getFrameId);
 
 	public static final Collector<FERealization> COLLECTOR = new Collector<>(COMPARATOR);

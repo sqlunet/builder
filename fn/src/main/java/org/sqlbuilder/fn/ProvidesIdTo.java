@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.LOCAL_VARIABLE })
+@Target({ElementType.LOCAL_VARIABLE, ElementType.METHOD})
 @Retention(RetentionPolicy.CLASS)
 public @interface ProvidesIdTo
 {

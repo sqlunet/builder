@@ -27,8 +27,8 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	// O R D E R
 
 	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
-			.comparing(FEGroupRealization::getFENames) //
-			.thenComparing(FEGroupRealization::getLuID);
+			.comparing(FEGroupRealization::getLuID) //
+			.thenComparing(FEGroupRealization::getFENames); //
 
 	public static final Collector<FEGroupRealization> COLLECTOR = new Collector<>(COMPARATOR);
 

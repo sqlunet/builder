@@ -19,7 +19,7 @@ public class FnModule extends Module
 	protected void run()
 	{
 		Inserter inserter = new Inserter(props);
-		new FnPresetProcessor().run();
+		new FnEnumProcessor().run();
 		try
 		{
 			inserter.insertPreset();

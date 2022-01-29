@@ -90,19 +90,16 @@ public class Inserter
 
 	public void insertFinal() throws FileNotFoundException
 	{
-
-		try (@ProvidesIdTo(type = Values.Pos.class) var ignored01 = Values.Pos.COLLECTOR.open(); //
-		     @ProvidesIdTo(type = Values.CoreType.class) var ignored02 = Values.CoreType.COLLECTOR.open(); //
-		     @ProvidesIdTo(type = Values.LabelIType.class) var ignored03 = Values.LabelIType.COLLECTOR.open(); //
+		try (
 		     @ProvidesIdTo(type = GfType.class) var ignored11 = GfType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = PtType.class) var ignored12 = PtType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = LayerType.class) var ignored13 = LayerType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = LabelType.class) var ignored14 = LabelType.COLLECTOR.open())
 		{
 			Progress.tracePending("collectors", "pos,coretype,labelitype");
-			Insert.insertNoNumber(Values.Pos.COLLECTOR, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
-			Insert.insertNoNumber(Values.CoreType.COLLECTOR, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
-			Insert.insertNoNumber(Values.LabelIType.COLLECTOR, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
+			Insert.insert(Values.Pos.MAP, new File(outDir, Names.POSES.FILE), Names.POSES.TABLE, Names.POSES.COLUMNS);
+			Insert.insert(Values.CoreType.MAP, new File(outDir, Names.CORETYPES.FILE), Names.CORETYPES.TABLE, Names.CORETYPES.COLUMNS);
+			Insert.insert(Values.LabelIType.MAP, new File(outDir, Names.LABELITYPES.FILE), Names.LABELITYPES.TABLE, Names.LABELITYPES.COLUMNS);
 			Progress.traceDone(null);
 
 			Progress.tracePending("collector", "gf");
@@ -244,12 +241,12 @@ public class Inserter
 							Progress.traceDone(null);
 
 							Progress.tracePending("set", "lexunit_governor");
-							Insert.insert(LexUnit_Governor.SET, null, new File(outDir, Names.LEXUNITS_GOVERNORS.FILE), Names.LEXUNITS_GOVERNORS.TABLE, Names.LEXUNITS_GOVERNORS.COLUMNS);
+							Insert.insert(LexUnit_Governor.SET, LexUnit_Governor.COMPARATOR, new File(outDir, Names.LEXUNITS_GOVERNORS.FILE), Names.LEXUNITS_GOVERNORS.TABLE, Names.LEXUNITS_GOVERNORS.COLUMNS);
 							LexUnit_Governor.SET.clear();
 							Progress.traceDone(null);
 
 							Progress.tracePending("set", "governor_annoset");
-							Insert.insert(Governor_AnnoSet.SET, null, new File(outDir, Names.GOVERNORS_ANNOSETS.FILE), Names.GOVERNORS_ANNOSETS.TABLE, Names.GOVERNORS_ANNOSETS.COLUMNS);
+							Insert.insert(Governor_AnnoSet.SET, Governor_AnnoSet.COMPARATOR, new File(outDir, Names.GOVERNORS_ANNOSETS.FILE), Names.GOVERNORS_ANNOSETS.TABLE, Names.GOVERNORS_ANNOSETS.COLUMNS);
 							Governor_AnnoSet.SET.clear();
 							Progress.traceDone(null);
 						}

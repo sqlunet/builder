@@ -7,6 +7,8 @@ import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Values
 {
@@ -21,14 +23,14 @@ public class Values
 	{
 		public static final Comparator<Pos> COMPARATOR = Comparator.comparing(t -> t.pos);
 
-		public static final Collector<Pos> COLLECTOR = new Collector<>(COMPARATOR);
+		public static final Map<Pos, Integer> MAP = new TreeMap<>(COMPARATOR);
 
 		private final String pos;
 
-		public static Pos make(final String pos)
+		public static Pos make(final String pos, final int idx)
 		{
 			var p = new Pos(pos);
-			COLLECTOR.add(p);
+			MAP.put(p, idx);
 			return p;
 		}
 
@@ -41,7 +43,7 @@ public class Values
 		@Override
 		public Integer getIntId()
 		{
-			return COLLECTOR.get(this);
+			return MAP.get(this);
 		}
 
 		@Override
@@ -62,14 +64,14 @@ public class Values
 	{
 		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
 
-		public static final Collector<CoreType> COLLECTOR = new Collector<>(COMPARATOR);
+		public static final Map<CoreType, Integer> MAP = new TreeMap<>(COMPARATOR);
 
 		private final String coretype;
 
-		public static CoreType make(final String coretype)
+		public static CoreType make(final String coretype, final int idx)
 		{
 			var t = new CoreType(coretype);
-			COLLECTOR.add(t);
+			MAP.put(t, idx);
 			return t;
 		}
 
@@ -82,13 +84,13 @@ public class Values
 		@Override
 		public Integer getIntId()
 		{
-			return COLLECTOR.get(this);
+			return MAP.get(this);
 		}
 
 		@Override
 		public String dataRow()
 		{
-			return String.format("'%s'", Utils.escape(coretype));
+			return String.format("'%s'", coretype);
 		}
 	}
 
@@ -101,14 +103,14 @@ public class Values
 	{
 		public static final Comparator<LabelIType> COMPARATOR = Comparator.comparing(t -> t.labelitype);
 
-		public static final Collector<LabelIType> COLLECTOR = new Collector<>(COMPARATOR);
+		public static final Map<LabelIType, Integer> MAP = new TreeMap<>(COMPARATOR);
 
 		private final String labelitype;
 
-		public static LabelIType make(final String labelitype)
+		public static LabelIType make(final String labelitype, final int idx)
 		{
 			var l = new LabelIType(labelitype);
-			COLLECTOR.add(l);
+			MAP.put(l, idx);
 			return l;
 		}
 
@@ -121,7 +123,7 @@ public class Values
 		@Override
 		public Integer getIntId()
 		{
-			return COLLECTOR.get(this);
+			return MAP.get(this);
 		}
 
 		@Override

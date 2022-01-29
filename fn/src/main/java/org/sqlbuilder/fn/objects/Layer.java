@@ -21,7 +21,7 @@ layers.insert=INSERT INTO %Fn_layers.table% (layerid,annosetid,layertype,`rank`)
  */
 public class Layer implements HasId, Insertable<Layer>
 {
-	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(l -> l.name);
+	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(Layer::getName).thenComparing(Layer::getAnnosetid);
 
 	public static final Collector<Layer> COLLECTOR = new Collector<>(COMPARATOR);
 
@@ -31,7 +31,7 @@ public class Layer implements HasId, Insertable<Layer>
 
 	public final long annosetid;
 
-	public static Layer make(final edu.berkeley.icsi.framenet.LayerType layer, final long annosetid)
+	public static Layer make(final edu.berkeley.icsi.framenet.LayerType layer, final int annosetid)
 	{
 		var l = new Layer(layer, annosetid);
 		LayerType.add(l.name);
@@ -39,11 +39,21 @@ public class Layer implements HasId, Insertable<Layer>
 		return l;
 	}
 
-	private Layer(final edu.berkeley.icsi.framenet.LayerType layer, final long annosetid)
+	private Layer(final edu.berkeley.icsi.framenet.LayerType layer, final int annosetid)
 	{
 		this.name = layer.getName();
 		this.rank = layer.getRank();
 		this.annosetid = annosetid;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public long getAnnosetid()
+	{
+		return annosetid;
 	}
 
 	@RequiresIdFrom(type = Layer.class)
@@ -57,11 +67,17 @@ public class Layer implements HasId, Insertable<Layer>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,'%s',%d,%d", //
+		return String.format("%d,%s,%d,%d", //
 				getIntId(), //
-				name, //
+				LayerType.getIntId(name), //
 				rank, //
 				annosetid);
+	}
+
+	@Override
+	public String comment()
+	{
+		return  String.format("type=%s", name);
 	}
 
 	@Override

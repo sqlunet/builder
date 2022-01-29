@@ -89,8 +89,9 @@ public class Doc implements HasID, Insertable<Doc>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,'%s',%d", //
+		return String.format("%d,'%s','%s',%d", //
 				docid, //
+				name, //
 				Utils.escape(description), //
 				corpusid);
 	}

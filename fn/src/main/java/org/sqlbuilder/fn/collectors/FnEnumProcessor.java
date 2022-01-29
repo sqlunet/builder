@@ -3,14 +3,15 @@ package org.sqlbuilder.fn.collectors;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.fn.ProvidesIdTo;
 import org.sqlbuilder.fn.objects.Values;
 
 import edu.berkeley.icsi.framenet.LabelType;
 import edu.berkeley.icsi.framenet.POSType;
 
-public class FnPresetProcessor extends Processor
+public class FnEnumProcessor extends Processor
 {
-	public FnPresetProcessor()
+	public FnEnumProcessor()
 	{
 		super("preset");
 	}
@@ -19,26 +20,40 @@ public class FnPresetProcessor extends Processor
 	public void run()
 	{
 		Progress.traceHeader("preset framenet tables", "poses coretypes labelitypes");
+		makePoses();
+		makeCoreTypes();
+		makeLabelITypes();
+		Progress.traceTailer(3);
+	}
 
-		// pos
+	@ProvidesIdTo(type = Values.Pos.class)
+	private void makePoses()
+	{
+		int i = 1;
 		for (var pos : getPoses())
 		{
-			Values.Pos.make(pos);
+			Values.Pos.make(pos, i++);
 		}
+	}
 
-		// coretypes
+	@ProvidesIdTo(type = Values.CoreType.class)
+	private void makeCoreTypes()
+	{
+		int i = 1;
 		for (var coretype : getCoreTypes())
 		{
-			Values.CoreType.make(coretype);
+			Values.CoreType.make(coretype, i++);
 		}
+	}
 
-		// labelitypes
+	@ProvidesIdTo(type = Values.LabelIType.class)
+	private void makeLabelITypes()
+	{
+		int i = 1;
 		for (var labelitype : getLabelITypes())
 		{
-			Values.LabelIType.make(labelitype);
+			Values.LabelIType.make(labelitype, i++);
 		}
-
-		Progress.traceTailer(3);
 	}
 
 	private static String[] getValues(final Table types)
@@ -47,7 +62,7 @@ public class FnPresetProcessor extends Processor
 		for (int i = 1; i <= types.lastInt(); i++)
 		{
 			final var e = types.forInt(i);
-			values[i - 1] = String.format("%d,%s", i, e.toString());
+			values[i - 1] = e.toString();
 		}
 		return values;
 	}

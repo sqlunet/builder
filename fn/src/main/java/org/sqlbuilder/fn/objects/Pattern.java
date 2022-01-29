@@ -32,7 +32,7 @@ public class Pattern implements HasId, Insertable<Pattern>
 
 	public final int total;
 
-	public static Pattern make(final FEGroupRealizationType.Pattern pattern, final FEGroupRealization fegr)
+	public static Pattern make(final FEGroupRealization fegr, final FEGroupRealizationType.Pattern pattern)
 	{
 		var p = new Pattern(pattern, fegr);
 		COLLECTOR.add(p);
@@ -104,12 +104,12 @@ public class Pattern implements HasId, Insertable<Pattern>
 	@Override
 	public String comment()
 	{
-		return String.format("{%s},{%s}", annosetIDs, fegr.getFENames());
+		return String.format("fe{%s},as{%s}", fegr.getFENames(), annosetIDs);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("[GPAT pattern=%s fegr=%s]", annosetIDs, fegr.getFENames());
+		return String.format("[GPAT fegr={%s} annosets={%s} ]", fegr.getFENames(), annosetIDs);
 	}
 }

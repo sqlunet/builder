@@ -34,7 +34,7 @@ public class Names
 	{
 		public static final String FILE = "documents.sql";
 		public static final String TABLE = "fn_documents";
-		public static final String COLUMNS = "documentid,corpusid,documentdesc";
+		public static final String COLUMNS = "documentid,documentname,documentdesc,corpusid";
 	}
 
 	static public class FEGROUPREALIZATIONS
@@ -146,7 +146,7 @@ public class Names
 	{
 		public static final String FILE = "labelitypes.sql";
 		public static final String TABLE = "fn_labelitypes";
-		public static final String COLUMNS = "labelitypeid,labelitype,labelitypedescr";
+		public static final String COLUMNS = "labelitypeid,labelitype";
 	}
 
 	static public class LABELS
@@ -167,7 +167,7 @@ public class Names
 	{
 		public static final String FILE = "layers.sql";
 		public static final String TABLE = "fn_layers";
-		public static final String COLUMNS = "layerid,annosetid,layertypeid,rank";
+		public static final String COLUMNS = "layerid,layertypeid,rank,annosetid";
 	}
 
 	static public class LAYERTYPES
