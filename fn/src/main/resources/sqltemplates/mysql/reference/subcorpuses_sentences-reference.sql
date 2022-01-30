@@ -1,0 +1,2 @@
+${subcorpuses_sentences}.fk1=ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT fk_${subcorpuses_sentences.table}_${subcorpusid} FOREIGN KEY (${subcorpusid}) REFERENCES ${subcorpuses.table} (${subcorpusid});
+${subcorpuses_sentences}.fk2=ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT fk_${subcorpuses_sentences.table}_${sentenceid} FOREIGN KEY (${sentenceid}) REFERENCES ${sentences.table} (${sentenceid});

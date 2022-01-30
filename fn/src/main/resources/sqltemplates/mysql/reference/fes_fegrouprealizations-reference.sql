@@ -1,0 +1,3 @@
+${fes_fegrouprealizations}.fk1=ALTER TABLE ${fes_fegrouprealizations.table} ADD CONSTRAINT fk_${fes_fegrouprealizations.table}_${fegrid} FOREIGN KEY (${fegrid}) REFERENCES ${fegrouprealizations.table} (${fegrid});
+${fes_fegrouprealizations}.fk2=ALTER TABLE ${fes_fegrouprealizations.table} ADD CONSTRAINT fk_${fes_fegrouprealizations.table}_${fetypeid} FOREIGN KEY (${fetypeid}) REFERENCES ${fetypes.table} (${fetypeid});
+${fes_fegrouprealizations}.fk3=ALTER TABLE ${fes_fegrouprealizations.table} ADD CONSTRAINT fk_${fes_fegrouprealizations.table}_${feid} FOREIGN KEY (${feid}) REFERENCES ${fes.table} (${feid});

@@ -12,6 +12,7 @@ cxns
 documents
 fegrouprealizations
 ferealizations
+ferealizations_valenceunits
 fes_excluded
 fes_fegrouprealizations
 fes_required
