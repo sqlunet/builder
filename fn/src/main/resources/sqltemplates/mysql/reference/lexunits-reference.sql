@@ -1,3 +1,3 @@
-${lexunits}.fk1=ALTER TABLE ${lexunits.table} ADD CONSTRAINT fk_${lexunits.table}_${frameid} FOREIGN KEY (${frameid}) REFERENCES ${frames.table} (${frameid});
-${lexunits}.fk2=ALTER TABLE ${lexunits.table} ADD CONSTRAINT fk_${lexunits.table}_${posid} FOREIGN KEY (${posid}) REFERENCES ${poses.table} (${posid});
-${lexunits}.fk3=ALTER TABLE ${lexunits.table} ADD CONSTRAINT fk_${lexunits.table}_${incorporatedfeid} FOREIGN KEY (${incorporatedfeid}) REFERENCES ${fes.table} (${feid});
+ALTER TABLE ${lexunits.table} ADD CONSTRAINT fk_${lexunits.table}_${lexunits.frameid} FOREIGN KEY (${lexunits.frameid}) REFERENCES ${frames.table} (${frames.frameid});
+ALTER TABLE ${lexunits.table} ADD CONSTRAINT fk_${lexunits.table}_${lexunits.posid} FOREIGN KEY (${lexunits.posid}) REFERENCES ${poses.table} (${poses.posid});
+ALTER TABLE ${lexunits.table} ADD CONSTRAINT fk_${lexunits.table}_${lexunits.incorporatedfeid} FOREIGN KEY (${lexunits.incorporatedfeid}) REFERENCES ${fes.table} (${fes.feid});

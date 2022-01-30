@@ -1,2 +1,2 @@
-${fes_semtypes}.fk1=ALTER TABLE ${fes_semtypes.table} ADD CONSTRAINT fk_${fes_semtypes.table}_${feid} FOREIGN KEY (${feid}) REFERENCES ${fes.table} (${feid});
-${fes_semtypes}.fk2=ALTER TABLE ${fes_semtypes.table} ADD CONSTRAINT fk_${fes_semtypes.table}_${semtypeid} FOREIGN KEY (${semtypeid}) REFERENCES ${semtypes.table} (${semtypeid});
+ALTER TABLE ${fes_semtypes.table} ADD CONSTRAINT fk_${fes_semtypes.table}_${fes_semtypes.feid} FOREIGN KEY (${fes_semtypes.feid}) REFERENCES ${fes.table} (${fes.feid});
+ALTER TABLE ${fes_semtypes.table} ADD CONSTRAINT fk_${fes_semtypes.table}_${fes_semtypes.semtypeid} FOREIGN KEY (${fes_semtypes.semtypeid}) REFERENCES ${semtypes.table} (${semtypes.semtypeid});

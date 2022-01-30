@@ -1,3 +1,3 @@
-${frames_related}.fk1=ALTER TABLE ${frames_related.table} ADD CONSTRAINT fk_${frames_related.table}_${frameid} FOREIGN KEY (${frameid}) REFERENCES ${frames.table} (${frameid});
-${frames_related}.fk2=ALTER TABLE ${frames_related.table} ADD CONSTRAINT fk_${frames_related.table}_${frame}2id FOREIGN KEY (${frame}2id) REFERENCES ${frames.table} (${frameid});
-${frames_related}.fk3=ALTER TABLE ${frames_related.table} ADD CONSTRAINT fk_${frames_related.table}_${relationid} FOREIGN KEY (${relationid}) REFERENCES ${framerelations.table} (${relationid});
+ALTER TABLE ${frames_related.table} ADD CONSTRAINT fk_${frames_related.table}_${frames_related.frameid} FOREIGN KEY (${frames_related.frameid}) REFERENCES ${frames.table} (${frames.frameid});
+ALTER TABLE ${frames_related.table} ADD CONSTRAINT fk_${frames_related.table}_${frames_related.frame2id} FOREIGN KEY (${frames_related.frame2id}) REFERENCES ${frames.table} (${frames.frameid});
+ALTER TABLE ${frames_related.table} ADD CONSTRAINT fk_${frames_related.table}_${frames_related.relationid} FOREIGN KEY (${frames_related.relationid}) REFERENCES ${framerelations.table} (${framerelations.relationid});

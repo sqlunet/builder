@@ -1,1 +1,1 @@
-${governors}.fk1=ALTER TABLE ${governors.table} ADD CONSTRAINT fk_${governors.table}_${fnwordid} FOREIGN KEY (${fnwordid}) REFERENCES ${words.table} (${fnwordid});
+ALTER TABLE ${governors.table} ADD CONSTRAINT fk_${governors.table}_${governors.fnwordid} FOREIGN KEY (${governors.fnwordid}) REFERENCES ${fnwords.table} (${fnwords.fnwordid});

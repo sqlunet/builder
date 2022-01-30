@@ -1,2 +1,2 @@
-${layers}.fk1=ALTER TABLE ${layers.table} ADD CONSTRAINT fk_${layers.table}_${annosetid} FOREIGN KEY (${annosetid}) REFERENCES ${annosets.table} (${annosetid});
-${layers}.fk2=ALTER TABLE ${layers.table} ADD CONSTRAINT fk_${layers.table}_${layertypeid} FOREIGN KEY (${layertypeid}) REFERENCES ${layertypes.table} (${layertypeid});
+ALTER TABLE ${layers.table} ADD CONSTRAINT fk_${layers.table}_${layers.annosetid} FOREIGN KEY (${layers.annosetid}) REFERENCES ${annosets.table} (${annosets.annosetid});
+ALTER TABLE ${layers.table} ADD CONSTRAINT fk_${layers.table}_${layers.layertypeid} FOREIGN KEY (${layers.layertypeid}) REFERENCES ${layertypes.table} (${layertypes.layertypeid});

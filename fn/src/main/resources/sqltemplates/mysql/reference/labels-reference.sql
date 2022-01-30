@@ -1,4 +1,4 @@
-${labels}.fk1=ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${layerid} FOREIGN KEY (${layerid}) REFERENCES ${layers.table} (${layerid});
-${labels}.fk2=ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${feid} FOREIGN KEY (${feid}) REFERENCES ${fes.table} (${feid});
-${labels}.fk3=ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${labeltypeid} FOREIGN KEY (${labeltypeid}) REFERENCES ${labeltypes.table} (${labeltypeid});
-${labels}.fk4=ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${labelitypeid} FOREIGN KEY (${labelitypeid}) REFERENCES ${labelitypes.table} (${labelitypeid});
+ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${labels.layerid} FOREIGN KEY (${labels.layerid}) REFERENCES ${layers.table} (${layers.layerid});
+ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${labels.feid} FOREIGN KEY (${labels.feid}) REFERENCES ${fes.table} (${fes.feid});
+ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${labels.labeltypeid} FOREIGN KEY (${labels.labeltypeid}) REFERENCES ${labeltypes.table} (${labeltypes.labeltypeid});
+ALTER TABLE ${labels.table} ADD CONSTRAINT fk_${labels.table}_${labels.labelitypeid} FOREIGN KEY (${labels.labelitypeid}) REFERENCES ${labelitypes.table} (${labelitypes.labelitypeid});

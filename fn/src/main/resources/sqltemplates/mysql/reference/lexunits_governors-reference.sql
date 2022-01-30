@@ -1,2 +1,2 @@
-${lexunits_governors}.fk1=ALTER TABLE ${lexunits_governors.table} ADD CONSTRAINT fk_${lexunits_governors.table}_${luid} FOREIGN KEY k_${lexunits_governors.table}_${luid} (${luid}) REFERENCES ${lexunits.table} (${luid});
-${lexunits_governors}.fk2=ALTER TABLE ${lexunits_governors.table} ADD CONSTRAINT fk_${lexunits_governors.table}_${governorid} FOREIGN KEY k_${lexunits_governors.table}_${governorid} (${governorid}) REFERENCES ${governors.table} (${governorid});
+ALTER TABLE ${lexunits_governors.table} ADD CONSTRAINT fk_${lexunits_governors.table}_${lexunits_governors.luid} FOREIGN KEY (${lexunits_governors.luid}) REFERENCES ${lexunits.table} (${lexunits.luid});
+ALTER TABLE ${lexunits_governors.table} ADD CONSTRAINT fk_${lexunits_governors.table}_${lexunits_governors.governorid} FOREIGN KEY (${lexunits_governors.governorid}) REFERENCES ${governors.table} (${governors.governorid});

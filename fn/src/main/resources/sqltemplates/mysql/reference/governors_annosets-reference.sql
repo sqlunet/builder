@@ -1,2 +1,2 @@
-${governors_annosets}.fk1=ALTER TABLE ${governors_annosets.table} ADD CONSTRAINT fk_${governors_annosets.table}_${governorid} FOREIGN KEY (${governorid}) REFERENCES ${governors.table} (${governorid});
-${governors_annosets}.fk2=ALTER TABLE ${governors_annosets.table} ADD CONSTRAINT fk_${governors_annosets.table}_${annosetid} FOREIGN KEY (${annosetid}) REFERENCES ${annosets.table} (${annosetid});
+ALTER TABLE ${governors_annosets.table} ADD CONSTRAINT fk_${governors_annosets.table}_${governors_annosets.governorid} FOREIGN KEY (${governors_annosets.governorid}) REFERENCES ${governors.table} (${governors.governorid});
+ALTER TABLE ${governors_annosets.table} ADD CONSTRAINT fk_${governors_annosets.table}_${governors_annosets.annosetid} FOREIGN KEY (${governors_annosets.annosetid}) REFERENCES ${annosets.table} (${annosets.annosetid});
