@@ -9,6 +9,8 @@ import org.sqlbuilder.fn.objects.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import edu.berkeley.icsi.framenet.LexUnitDocument;
@@ -25,6 +27,8 @@ public class FnLexUnitProcessor extends FnProcessor
 		this.skipLayers = props.getProperty("fnskiplayers", "").compareToIgnoreCase("true") == 0;
 	}
 
+	private final Map<ValenceUnit, FERealization> vuToFer = new HashMap<>();
+
 	@Override
 	protected void processFrameNetFile(final String fileName, final String name)
 	{
@@ -33,8 +37,7 @@ public class FnLexUnitProcessor extends FnProcessor
 			Progress.traceHeader("framenet (lu)", name);
 		}
 
-		// clear map
-		ValenceUnit.COLLECTOR.clear();
+		vuToFer.clear();
 
 		final int count = 0;
 		final File file = new File(fileName);
@@ -104,6 +107,7 @@ public class FnLexUnitProcessor extends FnProcessor
 					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
 					final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
 					FERealization_ValenceUnit.make(fer, valenceunit);
+					vuToFer.put(valenceunit, fer);
 
 					// a n n o s e t s
 					for (var _annoset : _pattern.getAnnoSetArray())
@@ -114,6 +118,19 @@ public class FnLexUnitProcessor extends FnProcessor
 			}
 
 			// F E g r o u p r e a l i z a t i o n s
+			//  <FEGroupRealization>
+			//      <FR name="fe1"/>
+			//      <FR name="fe2"/>
+			//      <FR name="fe3"/>
+			//      <pattern total="count(*)">
+			//		    <valenceUnit FE="fe1" PT="pt" GF="gf"/>
+			//			<valenceUnit FE="fe2" PT="pt" GF="gf"/>
+			//			<valenceUnit FE="fe3" PT="pt" GF="gf"/>
+            //          <annoSet ID="n"/> *
+ 			//      </pattern>
+			//  </FEGroupRealization>
+			// The following assumes the patterns reuse the valence units declared in FEREalization
+			// so we simply point to them through the vuToFer map
 
 			for (var _fegr : _valences.getFEGroupRealizationArray())
 			{
@@ -134,8 +151,9 @@ public class FnLexUnitProcessor extends FnProcessor
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
 						final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
-						Pattern_ValenceUnit.make(grouppattern, valenceunit);
-					}
+						FERealization fer = vuToFer.get(valenceunit);
+						Pattern_ValenceUnit.make(grouppattern, fer, valenceunit);
+				}
 
 					// a n n o s e t s
 					for (var _annoset : _grouppattern.getAnnoSetArray())

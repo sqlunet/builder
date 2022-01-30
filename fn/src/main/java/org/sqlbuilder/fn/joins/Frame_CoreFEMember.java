@@ -48,6 +48,6 @@ public class Frame_CoreFEMember extends Pair<Integer, Integer> implements Insert
 	@Override
 	public String toString()
 	{
-		return String.format("[FR-coreFE frameid=%s feid=%s]", this.first, this.second);
+		return String.format("[FR-coreFE frameid=%s feid=%s]", first, second);
 	}
 }

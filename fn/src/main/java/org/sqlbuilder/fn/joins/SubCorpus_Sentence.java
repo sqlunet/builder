@@ -52,6 +52,6 @@ public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Inse
 	@Override
 	public String toString()
 	{
-		return String.format("[SUBCORPUS-SENT subcorpusid=%s sentenceid=%s]", this.first, this.second);
+		return String.format("[SUBCORPUS-SENT subcorpusid=%s sentenceid=%s]", first, second);
 	}
 }

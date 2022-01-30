@@ -49,6 +49,6 @@ public class Pair<T, U>
 	@Override
 	public String toString()
 	{
-		return String.format("[VU-AS first=%s second=%s]", this.first, this.second);
+		return String.format("[VU-AS first=%s second=%s]", first, second);
 	}
 }

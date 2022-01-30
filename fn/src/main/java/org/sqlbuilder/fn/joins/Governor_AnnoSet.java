@@ -53,6 +53,6 @@ public class Governor_AnnoSet extends Pair<Governor, Integer> implements Inserta
 	@Override
 	public String toString()
 	{
-		return String.format("[GOV-AS governor=%s annosetid=%s]", this.first, this.second);
+		return String.format("[GOV-AS governor=%s annosetid=%s]", first, second);
 	}
 }

@@ -209,6 +209,11 @@ public class Inserter
 							try (@ProvidesIdTo(type = Pattern.class) var ignored44 = Pattern.COLLECTOR.open(); //
 							     @ProvidesIdTo(type = ValenceUnit.class) var ignored43 = ValenceUnit.COLLECTOR.open())
 							{
+								Progress.tracePending("set", "fe_fegr");
+								Insert.insert(FERealization_ValenceUnit.SET, FERealization_ValenceUnit.COMPARATOR, new File(outDir, Names.FEREALIZATIONS_VALENCEUNITS.FILE), Names.FEREALIZATIONS_VALENCEUNITS.TABLE, Names.FEREALIZATIONS_VALENCEUNITS.COLUMNS);
+								FERealization_ValenceUnit.SET.clear();
+								Progress.traceDone(null);
+
 								Progress.tracePending("collector", "valenceunit");
 								Insert.insert(ValenceUnit.COLLECTOR, new File(outDir, Names.VALENCEUNITS.FILE), Names.VALENCEUNITS.TABLE, Names.VALENCEUNITS.COLUMNS);
 								Progress.traceDone(null);

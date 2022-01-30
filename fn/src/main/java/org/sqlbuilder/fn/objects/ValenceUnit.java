@@ -147,7 +147,7 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", fe, pt, gf);
+		return String.format("fe=%s,pt=%s,gf=%s", fe, pt, gf);
 	}
 
 	// T O S T R I N G

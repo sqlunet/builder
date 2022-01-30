@@ -50,6 +50,6 @@ public class Frame_SemType extends Pair<Integer, Integer> implements Insertable<
 	@Override
 	public String toString()
 	{
-		return String.format("[FR-SEM frameid=%s semtypeid=%s]", this.first, this.second);
+		return String.format("[FR-SEM frameid=%s semtypeid=%s]", first, second);
 	}
 }

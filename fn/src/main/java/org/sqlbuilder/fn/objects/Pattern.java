@@ -104,7 +104,7 @@ public class Pattern implements HasId, Insertable<Pattern>
 	@Override
 	public String comment()
 	{
-		return String.format("fe{%s},as{%s}", fegr.getFENames(), annosetIDs);
+		return String.format("fes={%s},as={%s}", fegr.getFENames(), annosetIDs);
 	}
 
 	@Override

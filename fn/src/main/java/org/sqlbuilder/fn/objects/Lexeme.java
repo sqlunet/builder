@@ -114,7 +114,7 @@ public class Lexeme implements Insertable<Lexeme>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", getWord());
+		return String.format("word=%s", getWord());
 	}
 
 	// T O S T R I N G

@@ -74,7 +74,7 @@ public class Governor implements HasId, Insertable<Governor>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", word.getWord());
+		return String.format("word=%s", word.getWord());
 	}
 
 	@Override

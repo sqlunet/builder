@@ -51,6 +51,6 @@ public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertabl
 	@Override
 	public String toString()
 	{
-		return String.format("[LU-SEM luid=%s semtypeid=%s]", this.first, this.second);
+		return String.format("[LU-SEM luid=%s semtypeid=%s]", first, second);
 	}
 }

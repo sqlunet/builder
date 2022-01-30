@@ -53,6 +53,6 @@ public class SemType_SemTypeSuper extends Pair<Integer, Integer> implements Inse
 	@Override
 	public String toString()
 	{
-		return String.format("[SEMsuper semtypeid=%s supersemtypeid=%s]", this.first, this.second);
+		return String.format("[SEMsuper semtypeid=%s supersemtypeid=%s]", first, second);
 	}
 }

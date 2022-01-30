@@ -2,7 +2,6 @@ package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.ValenceUnit;
 import org.sqlbuilder.fn.types.FrameRelation;
 
 import java.util.Comparator;
@@ -74,7 +73,7 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 	@Override
 	public String comment()
 	{
-		return String.format("%s", relation);
+		return String.format("rel=%s", relation);
 	}
 
 	// T O S T R I N G
@@ -82,6 +81,6 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 	@Override
 	public String toString()
 	{
-		return String.format("[FRrel frameid=%s frame2id=%s type=%s]", this.first, this.second, this.relation);
+		return String.format("[FRrel frameid=%s frame2id=%s type=%s]", first, second, relation);
 	}
 }

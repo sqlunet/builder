@@ -49,6 +49,6 @@ public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements I
 	@Override
 	public String toString()
 	{
-		return String.format("[VU-AS vu=%s annoset=%s]", this.first, this.second);
+		return String.format("[VU-AS vu=%s annoset=%s]", first, second);
 	}
 }

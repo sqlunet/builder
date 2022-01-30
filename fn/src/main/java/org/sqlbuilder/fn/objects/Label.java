@@ -80,7 +80,7 @@ public class Label implements Insertable<Label>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", name);
+		return String.format("type=%s", name);
 	}
 
 	@Override

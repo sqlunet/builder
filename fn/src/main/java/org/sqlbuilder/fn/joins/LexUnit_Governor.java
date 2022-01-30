@@ -51,6 +51,6 @@ public class LexUnit_Governor extends Pair<Integer, Governor> implements Inserta
 	@Override
 	public String toString()
 	{
-		return String.format("[LU-GOV lu=%s governor=%s]", this.first, this.second);
+		return String.format("[LU-GOV lu=%s governor=%s]", first, second);
 	}
 }

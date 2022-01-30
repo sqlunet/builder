@@ -202,7 +202,7 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 	@Override
 	public String comment()
 	{
-		return cxnName == null ? null : String.format("%s", cxnName);
+		return cxnName == null ? null : String.format("cxns=%s", cxnName);
 	}
 
 	// T O S T R I N G

@@ -58,6 +58,13 @@ public class Names
 		public static final String COLUMNS = "ferid,fetypeid,feid,total,luid";
 	}
 
+	static public class FEREALIZATIONS_VALENCEUNITS
+	{
+		public static final String FILE = "ferealizations_valenceunits.sql";
+		public static final String TABLE = "fn_ferealizations_valenceunits";
+		public static final String COLUMNS = "ferid,vuid";
+	}
+
 	static public class FES
 	{
 		public static final String FILE = "fes.sql";
@@ -286,7 +293,7 @@ public class Names
 	{
 		public static final String FILE = "valenceunits.sql";
 		public static final String TABLE = "fn_valenceunits";
-		public static final String COLUMNS = "vuid,ferid,ptid,gfid";
+		public static final String COLUMNS = "vuid,fetypeid,ptid,gfid";
 	}
 
 	static public class VALENCEUNITS_ANNOSETS

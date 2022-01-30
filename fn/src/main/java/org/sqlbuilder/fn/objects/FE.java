@@ -154,7 +154,7 @@ public class FE implements HasID, Insertable<FE>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", name);
+		return String.format("type=%s", name);
 	}
 
 	@Override

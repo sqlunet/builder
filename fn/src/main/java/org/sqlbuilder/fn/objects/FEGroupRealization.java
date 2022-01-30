@@ -118,7 +118,7 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", feNames);
+		return String.format("fes={%s}", feNames);
 	}
 
 	// T O S T R I N G

@@ -50,6 +50,6 @@ public class Pattern_AnnoSet extends Pair<Pattern, Integer> implements Insertabl
 	@Override
 	public String toString()
 	{
-		return String.format("[PAT-AS pattern=%s annosetid=%s]", this.first, this.second);
+		return String.format("[PAT-AS pattern=%s annosetid=%s]", first, second);
 	}
 }

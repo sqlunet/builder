@@ -78,7 +78,7 @@ public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> impl
 	@Override
 	public String comment()
 	{
-		return String.format("%s,{%s},%d,%d", first, getFENames(), second.getLuID(), second.getFrameID());
+		return String.format("fe=%s,fes={%s},luid=%d,frid=%d", first, getFENames(), second.getLuID(), second.getFrameID());
 	}
 
 	// T O S T R I N G
@@ -86,6 +86,6 @@ public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> impl
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-FEGR fe=%s fegr={%s}]", first, this.second.getFENames());
+		return String.format("[FE-FEGR fe=%s fegr={%s}]", first, second.getFENames());
 	}
 }

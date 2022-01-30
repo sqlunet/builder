@@ -104,6 +104,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 		this.totalAnnotated = 0;
 		this.frameid = frameid;
 		this.frameName = frameName;
+		// this.lemmaId = lu.getLemmaID();
 	}
 
 	// A C C E S S
@@ -176,7 +177,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", frameName, incorporatedFE);
+		return String.format("frame=%s,incfe=%s", frameName, incorporatedFE);
 	}
 
 	// T O S T R I N G

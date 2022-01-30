@@ -124,7 +124,7 @@ public class FERealization implements HasId, Insertable<FERealization>
 	@Override
 	public String comment()
 	{
-		return String.format("%s", feName);
+		return String.format("fe=%s", feName);
 	}
 
 	// T O S T R I N G

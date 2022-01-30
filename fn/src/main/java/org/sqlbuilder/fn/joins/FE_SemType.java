@@ -50,6 +50,6 @@ public class FE_SemType extends Pair<Integer, Integer> implements Insertable<FE_
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-SEM feid=%s semtypeid=%s]", this.first, this.second);
+		return String.format("[FE-SEM feid=%s semtypeid=%s]", first, second);
 	}
 }

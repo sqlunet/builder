@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.objects.FERealization;
 import org.sqlbuilder.fn.objects.Pattern;
 import org.sqlbuilder.fn.objects.ValenceUnit;
 
@@ -22,34 +23,41 @@ patterns_valenceunits.no-fk3=ALTER TABLE %Fn_patterns_valenceunits.table% DROP C
 patterns_valenceunits.no-fk4=ALTER TABLE %Fn_patterns_valenceunits.table% DROP CONSTRAINT fk_%Fn_patterns_valenceunits.table%_vuid CASCADE;
 patterns_valenceunits.insert=INSERT INTO %Fn_patterns_valenceunits.table% (patternid,vuid,fetype) VALUES(?,?,?);
  */
-public class Pattern_ValenceUnit extends Pair<Pattern, ValenceUnit> implements Insertable<Pattern_ValenceUnit>
+public class Pattern_ValenceUnit extends Pair<Pattern, FERealization> implements Insertable<Pattern_ValenceUnit>
 {
 	public static final Set<Pattern_ValenceUnit> SET = new HashSet<>();
 
-	//public final FnFE fe;
+	public final ValenceUnit vu;
 
 	// C O N S T R U C T O R
 
-	public static Pattern_ValenceUnit make(final Pattern pattern, final ValenceUnit vu /*, final FnFE fe*/)
+	public static Pattern_ValenceUnit make(final Pattern pattern, final FERealization fer, final ValenceUnit vu)
 	{
-		var pv = new Pattern_ValenceUnit(pattern, vu);
-		//this.fe = fe;
+		var pv = new Pattern_ValenceUnit(pattern, fer, vu);
 		SET.add(pv);
 		return pv;
 	}
 
-	private Pattern_ValenceUnit(final Pattern pattern, final ValenceUnit vu /*, final FnFE fe*/)
+	private Pattern_ValenceUnit(final Pattern pattern, final FERealization fer, final ValenceUnit vu)
 	{
-		super(pattern, vu);
+		super(pattern, fer);
+		this.vu = vu;
 	}
 
 	// I N S E R T
 
 	@RequiresIdFrom(type = Pattern.class)
+	@RequiresIdFrom(type = FERealization.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s", first.getSqlId(), second.dataRow());
+		return String.format("%s,%s", first.getSqlId(), second.getSqlId());
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("vu={%s}", vu.comment());
 	}
 
 	// T O S T R I N G
@@ -57,6 +65,6 @@ public class Pattern_ValenceUnit extends Pair<Pattern, ValenceUnit> implements I
 	@Override
 	public String toString()
 	{
-		return String.format("[PAT-VU pattern=%s vu=%s fe=%s]", this.first, this.second, null /*this.fe*/);
+		return String.format("[PAT-VU pattern=%s fer=%s, vu=%s]", first, second, vu);
 	}
 }
