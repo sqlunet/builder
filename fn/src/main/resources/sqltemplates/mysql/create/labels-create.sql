@@ -10,5 +10,3 @@ CREATE TABLE IF NOT EXISTS ${labels.table} (
     ${labels.bgcolor} VARCHAR(6),
     ${labels.cby} VARCHAR(27),
 PRIMARY KEY (${labels.labelid}) );
-
--- ALTER TABLE ${labels.table} ADD COLUMN ${labels.labeltype} VARCHAR(32) AFTER ${labels.labeltypeid};

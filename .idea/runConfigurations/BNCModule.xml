@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="BNCModule" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="BNCModule" type="Application" factoryName="Application" folderName="Modules" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.bnc.BNCModule" />
     <module name="bnc" />
     <option name="PROGRAM_PARAMETERS" value="bnc.properties" />

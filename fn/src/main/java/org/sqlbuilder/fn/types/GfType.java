@@ -1,6 +1,6 @@
 package org.sqlbuilder.fn.types;
 
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
@@ -14,7 +14,7 @@ public class GfType
 
 	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	@RequiresIdFrom(type=GfType.class)
 	public static Integer getIntId(String value)

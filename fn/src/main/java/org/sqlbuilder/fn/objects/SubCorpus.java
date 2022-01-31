@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
 
@@ -20,7 +20,7 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 {
 	public static final Comparator<SubCorpus> COMPARATOR = Comparator.comparing(SubCorpus::getName).thenComparing(SubCorpus::getLuid);
 
-	public static final Collector<SubCorpus> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<SubCorpus> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String name;
 
@@ -64,8 +64,7 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s',%d",
-				getSqlId(),
+		return String.format("'%s',%d",
 				name, //
 				luid);
 	}

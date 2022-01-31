@@ -40,7 +40,7 @@ public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements I
 	public String dataRow()
 	{
 		return String.format("%s,%s", //
-				first.dataRow(), //
+				first.getIntId(), //
 				second);
 	}
 

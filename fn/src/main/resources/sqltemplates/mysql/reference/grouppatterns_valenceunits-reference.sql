@@ -1,0 +1,4 @@
+ALTER TABLE ${grouppatterns_patterns.table} ADD CONSTRAINT fk_${grouppatterns_patterns.table}_${grouppatterns_patterns.patternid} FOREIGN KEY (${grouppatterns_patterns.patternid}) REFERENCES ${grouppatterns.table} (${grouppatterns.patternid});
+ALTER TABLE ${grouppatterns_patterns.table} ADD CONSTRAINT fk_${grouppatterns_patterns.table}_${grouppatterns_patterns.vuid} FOREIGN KEY (${grouppatterns_patterns.vuid}) REFERENCES ${valenceunits.table} (${valenceunits.vuid});
+ALTER TABLE ${grouppatterns_patterns.table} ADD CONSTRAINT fk_${grouppatterns_patterns.table}_${grouppatterns_patterns.feid} FOREIGN KEY (${patterns_valenceunits.feid}) REFERENCES ${fes.table} (${fes.feid});
+ALTER TABLE ${patterns_valenceunits.table} ADD CONSTRAINT fk_${patterns_valenceunits.table}_${patterns_valenceunits.fetypeid} FOREIGN KEY (${patterns_valenceunits.fetypeid}) REFERENCES ${fetypes.table} (${fetypes.fetypeid});

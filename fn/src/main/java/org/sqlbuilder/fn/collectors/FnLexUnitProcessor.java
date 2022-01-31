@@ -106,7 +106,7 @@ public class FnLexUnitProcessor extends FnProcessor
 					// v a l e n c e u n i t
 					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
 					final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
-					FERealization_ValenceUnit.make(fer, valenceunit);
+					FEPattern.make(fer, valenceunit);
 					vuToFer.put(valenceunit, fer);
 
 					// a n n o s e t s
@@ -129,7 +129,7 @@ public class FnLexUnitProcessor extends FnProcessor
             //          <annoSet ID="n"/> *
  			//      </pattern>
 			//  </FEGroupRealization>
-			// The following assumes the patterns reuse the valence units declared in FEREalization
+			// The following assumes the grouppatterns reuse the valence units declared in FEREalization
 			// so we simply point to them through the vuToFer map
 
 			for (var _fegr : _valences.getFEGroupRealizationArray())
@@ -145,20 +145,20 @@ public class FnLexUnitProcessor extends FnProcessor
 				// p a t t e r n s
 				for (var _grouppattern : _fegr.getPatternArray())
 				{
-					final Pattern grouppattern = Pattern.make(fegr, _grouppattern);
+					final FEGroupPattern grouppattern = FEGroupPattern.make(fegr, _grouppattern);
 
 					// v a l e n c e u n i t s
 					for (var _valenceunit : _grouppattern.getValenceUnitArray())
 					{
 						final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
 						FERealization fer = vuToFer.get(valenceunit);
-						Pattern_ValenceUnit.make(grouppattern, fer, valenceunit);
+						FEGroupPattern_FEPattern.make(grouppattern, fer, valenceunit);
 				}
 
 					// a n n o s e t s
 					for (var _annoset : _grouppattern.getAnnoSetArray())
 					{
-						Pattern_AnnoSet.make(grouppattern, _annoset);
+						FEGroupPattern_AnnoSet.make(grouppattern, _annoset);
 					}
 				}
 			}

@@ -1,12 +1,9 @@
 package org.sqlbuilder.fn.types;
 
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class PtType
 {
@@ -17,7 +14,7 @@ public class PtType
 
 	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static final Collector<String> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	@RequiresIdFrom(type=PtType.class)
 	public static Integer getIntId(String value)

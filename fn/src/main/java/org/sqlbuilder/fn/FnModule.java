@@ -124,7 +124,7 @@ public class FnModule extends Module
 				.targets("Fn_lexunits", "incorporatedfetype", "incorporatedfetypeid") //
 				.reference() //
 				.cleanup() //
-				.targets("Fn_patterns_valenceunits", "fetype", "fetypeid") //
+				.targets("Fn_grouppatterns_patterns", "fetype", "fetypeid") //
 				.reference() //
 				.cleanup() //
 				.targets("Fn_fegrouprealizations_fes", "fetype", "fetypeid") //
@@ -226,9 +226,9 @@ public class FnModule extends Module
 				.referenceThrough("Fn_frames", "frameid") //
 				.exec(execute);
 
-		System.out.println("\n-- normalize patterns_valenceunits (feid)");
+		System.out.println("\n-- normalize grouppatterns_patterns (feid)");
 		new Normalizer("Fn_fes", "fetypeid", "feid") //
-				.targets("Fn_patterns_valenceunits", "fetypeid", "feid") //
+				.targets("Fn_grouppatterns_patterns", "fetypeid", "feid") //
 				.referenceThrough("Fn_patterns", "patternid", "Fn_fegrouprealizations", "fegrid", "Fn_lexunits", "luid") //
 				.exec(execute);
 	}

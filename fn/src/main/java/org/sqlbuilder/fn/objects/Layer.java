@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.types.LayerType;
@@ -23,7 +23,7 @@ public class Layer implements HasId, Insertable<Layer>
 {
 	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(Layer::getName).thenComparing(Layer::getAnnosetid);
 
-	public static final Collector<Layer> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<Layer> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String name;
 

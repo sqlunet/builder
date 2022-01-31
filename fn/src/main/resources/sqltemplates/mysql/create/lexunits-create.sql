@@ -11,6 +11,3 @@ CREATE TABLE IF NOT EXISTS ${lexunits.table} (
     ${lexunits.incorporatedfetypeid} INTEGER DEFAULT NULL,
     -- ${lexunits.noccurs} INTEGER DEFAULT 1,
 PRIMARY KEY (${lexunits.luid}) );
-
--- ALTER TABLE ${lexunits.table} ADD COLUMN ${lexunits.incorporatedfetypeid} VARCHAR(30) AFTER ${lexunits.incorporatedfeid};
--- ALTER TABLE ${lexunits.table} ADD COLUMN ${lexunits.status} VARCHAR(32) AFTER ${lexunits.statusid};

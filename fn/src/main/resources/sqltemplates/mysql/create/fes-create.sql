@@ -8,8 +8,6 @@ CREATE TABLE IF NOT EXISTS ${fes.table} (
     ${fes.coreset} INTEGER DEFAULT NULL,
     -- ${fes.fgcolor} VARCHAR(6),
     -- ${fes.bgcolor} VARCHAR(6),
-    -- -${fes.cdate} VARCHAR(27),
+    -- ${fes.cdate} VARCHAR(27),
     -- ${fes.cby} VARCHAR(5),
 PRIMARY KEY (${fes.feid}) );
-
--- ALTER TABLE ${fes.table} ADD COLUMN ${fes.fetype} VARCHAR(30) AFTER ${fes.fetypeid};

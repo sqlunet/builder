@@ -1,13 +1,14 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.Collector;
 import org.sqlbuilder.fn.HasId;
+import org.sqlbuilder.fn.ListCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
 
 import edu.berkeley.icsi.framenet.FERealizationType;
 
@@ -28,7 +29,7 @@ public class FERealization implements HasId, Insertable<FERealization>
 			.thenComparing(FERealization::getFEName) //
 			.thenComparing(FERealization::getFrameId);
 
-	public static final Collector<FERealization> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final ListCollector<FERealization> LIST = new ListCollector<>();
 
 	private final String feName;
 
@@ -41,7 +42,7 @@ public class FERealization implements HasId, Insertable<FERealization>
 	public static FERealization make(final FERealizationType fer, final int luid, final int frameid)
 	{
 		var r = new FERealization(fer, luid, frameid);
-		COLLECTOR.add(r);
+		LIST.add(r);
 		return r;
 	}
 
@@ -70,11 +71,11 @@ public class FERealization implements HasId, Insertable<FERealization>
 		return frameid;
 	}
 
-	@RequiresIdFrom(type= FERealization.class)
+	@RequiresIdFrom(type = FERealization.class)
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return LIST.get(this);
 	}
 
 	// I D E N T I T Y

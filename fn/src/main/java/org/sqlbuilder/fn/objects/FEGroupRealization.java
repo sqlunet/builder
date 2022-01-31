@@ -1,10 +1,9 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.ListCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
-import org.sqlbuilder.fn.types.FeType;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -24,26 +23,24 @@ fegrouprealizations.insert=INSERT INTO %Fn_fegrouprealizations.table% (fegrid,lu
  */
 public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 {
-	// O R D E R
-
 	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
 			.comparing(FEGroupRealization::getLuID) //
 			.thenComparing(FEGroupRealization::getFENames); //
 
-	public static final Collector<FEGroupRealization> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final ListCollector<FEGroupRealization> LIST = new ListCollector<>();
+
+	private final String feNames;
+
+	private final int total;
 
 	private final int luid;
 
 	private final int frameid;
 
-	private final int total;
-
-	private final String feNames;
-
 	public static FEGroupRealization make(final FEGroupRealizationType fegr, final int luid, final int frameid)
 	{
 		var r = new FEGroupRealization(fegr, luid, frameid);
-		COLLECTOR.add(r);
+		LIST.add(r);
 		return r;
 	}
 
@@ -76,7 +73,7 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return LIST.get(this);
 	}
 
 	// I D E N T I T Y

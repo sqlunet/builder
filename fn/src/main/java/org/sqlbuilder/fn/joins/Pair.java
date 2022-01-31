@@ -36,8 +36,8 @@ public class Pair<T, U>
 		{
 			return false;
 		}
-		Pair<?, ?> pair = (Pair<?, ?>) o;
-		return Objects.equals(first, pair.first) && Objects.equals(second, pair.second);
+		Pair<?, ?> that = (Pair<?, ?>) o;
+		return Objects.equals(first, that.first) && Objects.equals(second, that.second);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
 import org.sqlbuilder.fn.types.FeType;
@@ -34,7 +34,7 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 			.thenComparing(ValenceUnit::getPT, nullsFirst(naturalOrder())) //
 			.thenComparing(ValenceUnit::getGF, nullsFirst(naturalOrder()));
 
-	public static final Collector<ValenceUnit> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<ValenceUnit> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final String fe;
 
@@ -137,8 +137,7 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<V
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s,%s,%s", //
-				getSqlId(), //
+		return String.format("%s,%s,%s", //
 				FeType.getSqlId(fe), //
 				PtType.getSqlId(pt), //
 				GfType.getSqlId(gf));

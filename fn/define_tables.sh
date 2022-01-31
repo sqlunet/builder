@@ -35,9 +35,9 @@ lexemes
 lexunits_governors
 lexunits_semtypes
 lexunits
-patterns_annosets
-patterns
-patterns_valenceunits
+grouppatterns_annosets
+grouppatterns
+grouppatterns_patterns
 poses
 pttypes
 semtypes

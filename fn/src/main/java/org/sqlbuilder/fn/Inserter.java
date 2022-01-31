@@ -21,7 +21,7 @@ public class Inserter
 
 	public Inserter(final Properties conf)
 	{
-		this.outDir = new File(conf.getProperty("outdir", "fn"));
+		this.outDir = new File(conf.getProperty("fnoutdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -190,15 +190,15 @@ public class Inserter
 						FE.SET.clear();
 						Progress.traceDone(null);
 
-						try (@ProvidesIdTo(type = FERealization.class) var ignored40 = FERealization.COLLECTOR.open(); // vu_fer
-						     @ProvidesIdTo(type = FEGroupRealization.class) var ignored41 = FEGroupRealization.COLLECTOR.open())
+						try (@ProvidesIdTo(type = FERealization.class) var ignored40 = FERealization.LIST.open(); // vu_fer
+						     @ProvidesIdTo(type = FEGroupRealization.class) var ignored41 = FEGroupRealization.LIST.open())
 						{
 							Progress.tracePending("collector", "fer");
-							Insert.insert(FERealization.COLLECTOR, new File(outDir, Names.FEREALIZATIONS.FILE), Names.FEREALIZATIONS.TABLE, Names.FEREALIZATIONS.COLUMNS);
+							Insert.insert(FERealization.LIST, new File(outDir, Names.FEREALIZATIONS.FILE), Names.FEREALIZATIONS.TABLE, Names.FEREALIZATIONS.COLUMNS);
 							Progress.traceDone(null);
 
 							Progress.tracePending("collector", "fegr");
-							Insert.insert(FEGroupRealization.COLLECTOR, new File(outDir, Names.FEGROUPREALIZATIONS.FILE), Names.FEGROUPREALIZATIONS.TABLE, Names.FEGROUPREALIZATIONS.COLUMNS);
+							Insert.insert(FEGroupRealization.LIST, new File(outDir, Names.FEGROUPREALIZATIONS.FILE), Names.FEGROUPREALIZATIONS.TABLE, Names.FEGROUPREALIZATIONS.COLUMNS);
 							Progress.traceDone(null);
 
 							Progress.tracePending("set", "fe_fegr");
@@ -206,12 +206,12 @@ public class Inserter
 							FE_FEGroupRealization.SET.clear();
 							Progress.traceDone(null);
 
-							try (@ProvidesIdTo(type = Pattern.class) var ignored44 = Pattern.COLLECTOR.open(); //
+							try (@ProvidesIdTo(type = FEGroupPattern.class) var ignored44 = FEGroupPattern.COLLECTOR.open(); //
 							     @ProvidesIdTo(type = ValenceUnit.class) var ignored43 = ValenceUnit.COLLECTOR.open())
 							{
 								Progress.tracePending("set", "fe_fegr");
-								Insert.insert(FERealization_ValenceUnit.SET, FERealization_ValenceUnit.COMPARATOR, new File(outDir, Names.FEREALIZATIONS_VALENCEUNITS.FILE), Names.FEREALIZATIONS_VALENCEUNITS.TABLE, Names.FEREALIZATIONS_VALENCEUNITS.COLUMNS);
-								FERealization_ValenceUnit.SET.clear();
+								Insert.insert(FEPattern.SET, FEPattern.COMPARATOR, new File(outDir, Names.FEREALIZATIONS_VALENCEUNITS.FILE), Names.FEREALIZATIONS_VALENCEUNITS.TABLE, Names.FEREALIZATIONS_VALENCEUNITS.COLUMNS);
+								FEPattern.SET.clear();
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "valenceunit");
@@ -219,17 +219,17 @@ public class Inserter
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "pattern");
-								Insert.insert(Pattern.COLLECTOR, new File(outDir, Names.PATTERNS.FILE), Names.PATTERNS.TABLE, Names.PATTERNS.COLUMNS);
+								Insert.insert(FEGroupPattern.COLLECTOR, new File(outDir, Names.GROUPPATTERNS.FILE), Names.GROUPPATTERNS.TABLE, Names.GROUPPATTERNS.COLUMNS);
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "pattern_annoset");
-								Insert.insert(Pattern_AnnoSet.SET, null, new File(outDir, Names.PATTERNS_ANNOSETS.FILE), Names.PATTERNS_ANNOSETS.TABLE, Names.PATTERNS_ANNOSETS.COLUMNS);
-								Pattern_AnnoSet.SET.clear();
+								Insert.insert(FEGroupPattern_AnnoSet.SET, null, new File(outDir, Names.GROUPPATTERNS_ANNOSETS.FILE), Names.GROUPPATTERNS_ANNOSETS.TABLE, Names.GROUPPATTERNS_ANNOSETS.COLUMNS);
+								FEGroupPattern_AnnoSet.SET.clear();
 								Progress.traceDone(null);
 
-								Progress.tracePending("collector", "pattern_valenceunit");
-								Insert.insert(Pattern_ValenceUnit.SET, null, new File(outDir, Names.PATTERNS_VALENCEUNITS.FILE), Names.PATTERNS_VALENCEUNITS.TABLE, Names.PATTERNS_VALENCEUNITS.COLUMNS);
-								Pattern_ValenceUnit.SET.clear();
+								Progress.tracePending("collector", "grouppattern_patterns");
+								Insert.insert(FEGroupPattern_FEPattern.SET, null, new File(outDir, Names.GROUPPATTERNS_PATTERNS.FILE), Names.GROUPPATTERNS_PATTERNS.TABLE, Names.GROUPPATTERNS_PATTERNS.COLUMNS);
+								FEGroupPattern_FEPattern.SET.clear();
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "valenceunit_annoset");

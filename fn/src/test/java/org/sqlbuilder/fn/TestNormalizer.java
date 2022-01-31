@@ -37,9 +37,9 @@ public class TestNormalizer
 	@Test
 	public void normalize4()
 	{
-		System.out.println("\n-- normalize patterns_valenceunits (feid)");
+		System.out.println("\n-- normalize grouppatterns_patterns (feid)");
 		new Normalizer("Fn_fes", "fetypeid", "feid") //
-				.targets("Fn_patterns_valenceunits", "fetypeid", "feid") //
+				.targets("Fn_grouppatterns_patterns", "fetypeid", "feid") //
 				.referenceThrough("Fn_patterns", "patternid", "Fn_fegrouprealizations", "fegrid", "Fn_lexunits", "luid") //
 				.dump();
 	}

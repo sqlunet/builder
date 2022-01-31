@@ -112,7 +112,7 @@ public class Sentence implements HasID, Insertable<Sentence>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%s,%s,%d,%d,%s,%d", //
+		return String.format("%d,%s,%s,%d,%d,'%s',%d", //
 				sentenceid, //
 				Utils.zeroableInt(corpusid), //
 				Utils.zeroableInt(docid), //

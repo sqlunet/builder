@@ -2,7 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
 
@@ -21,7 +21,7 @@ public class Governor implements HasId, Insertable<Governor>
 {
 	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
 
-	public static final Collector<Governor> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<Governor> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String type;
 

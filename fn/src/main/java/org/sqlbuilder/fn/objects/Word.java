@@ -2,7 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.Collector;
+import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
 
@@ -24,7 +24,7 @@ public class Word implements HasId, Insertable<Word>
 {
 	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
-	public static final Collector<Word> COLLECTOR = new Collector<>(COMPARATOR);
+	public static final SetCollector<Word> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String word;
 

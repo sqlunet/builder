@@ -9,25 +9,25 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FERealization_ValenceUnit extends Pair<FERealization, ValenceUnit> implements Insertable<FERealization_ValenceUnit>
+public class FEPattern extends Pair<FERealization, ValenceUnit> implements Insertable<FEPattern>
 {
-	public static final Comparator<FERealization_ValenceUnit> COMPARATOR = Comparator //
-			.comparing(FERealization_ValenceUnit::getLuId) //
-			.thenComparing(FERealization_ValenceUnit::getFeName) //
-			.thenComparing(FERealization_ValenceUnit::getSecond);
+	public static final Comparator<FEPattern> COMPARATOR = Comparator //
+			.comparing(FEPattern::getLuId) //
+			.thenComparing(FEPattern::getFeName) //
+			.thenComparing(FEPattern::getSecond);
 
-	public static final Set<FERealization_ValenceUnit> SET = new HashSet<>();
+	public static final Set<FEPattern> SET = new HashSet<>();
 
 	// C O N S T R U C T O R
 
-	public static FERealization_ValenceUnit make(final FERealization fer, final ValenceUnit vu)
+	public static FEPattern make(final FERealization fer, final ValenceUnit vu)
 	{
-		var vr = new FERealization_ValenceUnit(fer, vu);
+		var vr = new FEPattern(fer, vu);
 		SET.add(vr);
 		return vr;
 	}
 
-	private FERealization_ValenceUnit(final FERealization fer, final ValenceUnit vu)
+	private FEPattern(final FERealization fer, final ValenceUnit vu)
 	{
 		super(fer, vu);
 	}
@@ -52,6 +52,7 @@ public class FERealization_ValenceUnit extends Pair<FERealization, ValenceUnit> 
 	// I N S E R T
 
 	@RequiresIdFrom(type = FERealization.class)
+	@RequiresIdFrom(type = ValenceUnit.class)
 	@Override
 	public String dataRow()
 	{

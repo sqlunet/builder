@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="FnModule" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="FnModule" type="Application" factoryName="Application" folderName="Modules" nameIsGenerated="true">
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.FnModule" />
     <module name="fn" />

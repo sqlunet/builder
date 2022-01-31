@@ -11,9 +11,9 @@ public class TestCollector
 
 	private static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	private static final Collector<String> C = new Collector<>(COMPARATOR);
+	private static final SetCollector<String> C = new SetCollector<>(COMPARATOR);
 
-	private static final Collector<String> D = new Collector<>(COMPARATOR);
+	private static final SetCollector<String> D = new SetCollector<>(COMPARATOR);
 
 	@Test
 	public void test()

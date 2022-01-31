@@ -4,16 +4,16 @@ import java.io.Closeable;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-public class Collector<T> extends TreeMap<T, Integer> implements Closeable
+public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
 {
 	private boolean isOpen = false;
 
-	public Collector(Comparator<T> comparator)
+	public SetCollector(Comparator<T> comparator)
 	{
 		super(comparator);
 	}
 
-	public Collector<T> open()
+	public SetCollector<T> open()
 	{
 		int i = 1;
 		for (var k : keySet())

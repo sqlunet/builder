@@ -29,9 +29,9 @@ public class Variables
 	 */
 	public static void set(final ResourceBundle bundle)
 	{
-		for(String k : bundle.keySet())
+		for (String k : bundle.keySet())
 		{
-			toValue.put(k,bundle.getString(k));
+			toValue.put(k, bundle.getString(k));
 		}
 	}
 
@@ -94,6 +94,8 @@ public class Variables
 		}
 	}
 
+	private static boolean USE_BACKTICKS = true;
+
 	/**
 	 * Substitute values to variables in string
 	 *
@@ -112,7 +114,8 @@ public class Variables
 				{
 					throw new IllegalArgumentException(varName);
 				}
-				return /* "@" + */ toValue.get(varName) /* + "@" */;
+				var val = toValue.get(varName);
+				return USE_BACKTICKS ? "`" + val + '`' : val;
 			});
 			if (output.contains("$") || output.contains("{") || output.contains("}"))
 			{
@@ -123,6 +126,11 @@ public class Variables
 		return input;
 	}
 
+	/**
+	 * Scan input and produces list on stderr with same value
+	 *
+	 * @param input input
+	 */
 	public static void initVars(String input)
 	{
 		Pattern p = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");

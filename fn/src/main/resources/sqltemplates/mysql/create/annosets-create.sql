@@ -8,5 +8,3 @@ CREATE TABLE IF NOT EXISTS ${annosets.table} (
     -- ${annosets.cdate} VARCHAR(27),
     -- ${annosets.noccurs} INTEGER DEFAULT 1,
     PRIMARY KEY (${annosets.annosetid}) );
--- ALTER TABLE ${annosets.table} ADD COLUMN ${annosets.cxn} VARCHAR(32) AFTER ${annosets.cxnid};
--- ALTER TABLE ${annosets.table} ADD COLUMN ${annosets.status} VARCHAR(32) AFTER ${annosets.statusid};

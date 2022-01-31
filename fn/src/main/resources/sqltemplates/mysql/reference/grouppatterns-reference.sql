@@ -1,0 +1,1 @@
+ALTER TABLE ${grouppatterns.table} ADD CONSTRAINT fk_${grouppatterns.table}_${grouppatterns.fegrid} FOREIGN KEY (${grouppatterns.fegrid}) REFERENCES ${fegrouprealizations.table} (${fegrouprealizations.fegrid});
