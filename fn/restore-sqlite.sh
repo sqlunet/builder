@@ -38,8 +38,8 @@ lexemes
 lexunits_governors
 lexunits_semtypes
 lexunits
-grouppatterns_annosets
 grouppatterns
+grouppatterns_annosets
 grouppatterns_patterns
 poses
 pttypes

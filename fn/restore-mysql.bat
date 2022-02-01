@@ -7,7 +7,8 @@ set /P DB=Enter database name:
 set DBTYPE=mysql
 set DBUSER=root
 set /P DBPWD=Enter %DBUSER% password:
-set TABLES=annosets coretypes corpuses cxns documents fegrouprealizations ferealizations ferealizations_valenceunits fes_excluded fes_fegrouprealizations fes_required fes_semtypes fes fetypes framerelations frames_related frames_semtypes frames gftypes governors_annosets governors labelitypes labels labeltypes layers layertypes lexemes lexunits_governors lexunits_semtypes lexunits grouppatterns_annosets grouppatterns grouppatterns_patterns poses pttypes semtypes semtypes_supers sentences subcorpuses_sentences subcorpuses valenceunits_annosets valenceunits words
+set TABLES=annosets coretypes corpuses cxns documents fegrouprealizations ferealizations ferealizations_valenceunits fes_excluded fes_fegrouprealizations fes_required fes_semtypes fes fetypes framerelations frames_related frames_semtypes frames gftypes governors_annosets governors labelitypes labels labeltypes layers layertypes lexemes lexunits_governors lexunits_semtypes lexunits grouppatterns grouppatterns_annosets grouppatterns_patterns poses pttypes semtypes semtypes_supers sentences subcorpuses_sentences subcorpuses valenceunits_annosets valenceunits words
+
 if "%1"=="-d" call :deletedb
 call :dbexists
 if not %DBEXISTS%==0 call :createdb

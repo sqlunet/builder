@@ -160,7 +160,7 @@ public class Names
 	{
 		public static final String FILE = "labels.sql";
 		public static final String TABLE = "fn_labels";
-		public static final String COLUMNS = "``labeltypeid`,`labelitypeid`,`feid`,`start`,`end`,`layerid`"; // `,`fgcolor`,`bgcolor`,`cby
+		public static final String COLUMNS = "`labeltypeid`,`labelitypeid`,`feid`,`start`,`end`,`layerid`"; // `,`fgcolor`,`bgcolor`,`cby
 	}
 
 	static public class LABELTYPES
@@ -307,6 +307,6 @@ public class Names
 	{
 		public static final String FILE = "words.sql";
 		public static final String TABLE = "fn_words";
-		public static final String COLUMNS = "`fnwordid`,`wordid`,`word`";
+		public static final String COLUMNS = "`fnwordid`,`wordid`,`fnword`";
 	}
 }

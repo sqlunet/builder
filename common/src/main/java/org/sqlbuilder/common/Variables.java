@@ -96,6 +96,10 @@ public class Variables
 
 	private static boolean USE_BACKTICKS = true;
 
+	private static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
+
+	private static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
+
 	/**
 	 * Substitute values to variables in string
 	 *
@@ -104,7 +108,19 @@ public class Variables
 	 */
 	public static String varSubstitution(String input)
 	{
-		Pattern p = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
+		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, USE_BACKTICKS);
+	}
+
+	/**
+	 * Substitute values to variables in string
+	 *
+	 * @param input        input string
+	 * @param p            pattern for variable
+	 * @param useBackticks whether to surround substitution result with back ticks
+	 * @return string with values substituted for variable name
+	 */
+	public static String varSubstitution(final String input, final Pattern p, boolean useBackticks)
+	{
 		Matcher m = p.matcher(input);
 		if (m.find())
 		{
@@ -115,11 +131,11 @@ public class Variables
 					throw new IllegalArgumentException(varName);
 				}
 				var val = toValue.get(varName);
-				return USE_BACKTICKS ? "`" + val + '`' : val;
+				return useBackticks ? "`" + val + '`' : val;
 			});
-			if (output.contains("$") || output.contains("{") || output.contains("}"))
+			if (output.contains(p.pattern().substring(0,1)))
 			{
-				throw new IllegalArgumentException("$,{,} used in '" + input + "'");
+				throw new IllegalArgumentException(p.pattern().charAt(0) + ",{,} used in '" + input + "'");
 			}
 			return output;
 		}
@@ -131,7 +147,7 @@ public class Variables
 	 *
 	 * @param input input
 	 */
-	public static void initVars(String input)
+	public static void dumpVars(String input)
 	{
 		Pattern p = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
 		Matcher m = p.matcher(input);

@@ -1,1 +1,1 @@
-ALTER TABLE ${fegrouprealizations.table} ADD CONSTRAINT fk_${fegrouprealizations.table}_${fegrouprealizations.luid} FOREIGN KEY (${fegrouprealizations.luid}) REFERENCES ${lexunits.table} (${lexunits.luid});
+ALTER TABLE ${fegrouprealizations.table} ADD CONSTRAINT `fk_@{fegrouprealizations.table}_@{fegrouprealizations.luid}` FOREIGN KEY (${fegrouprealizations.luid}) REFERENCES ${lexunits.table} (${lexunits.luid});

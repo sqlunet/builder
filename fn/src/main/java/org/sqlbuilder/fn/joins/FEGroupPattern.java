@@ -90,8 +90,8 @@ public class FEGroupPattern implements HasId, Insertable<FEGroupPattern>
 	public String dataRow()
 	{
 		// (patternid),fegrid,total
-		return String.format("%s,%d,%s",  //
-				getSqlId(), // patternid
+		return String.format("%d,%s",  //
+				// getSqlId(), // patternid
 				total,
 				fegr.getSqlId()); // fegrid
 	}

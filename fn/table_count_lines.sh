@@ -4,7 +4,7 @@ source define_tables.sh
 
 outdir="$1"
 if [ "${outdir}" == "" ]; then
-  outdir="fn/"
+  outdir="sql/data/"
 fi
 datadir=""
 

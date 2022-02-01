@@ -145,7 +145,7 @@ public class Inserter
 				Progress.traceDone(null);
 
 				Progress.tracePending("set", "label");
-				Insert.insert(Label.SET, Label.COMPARATOR, new File(outDir, Names.LABELS.FILE), Names.LABELS.TABLE, Names.LABELS.COLUMNS);
+				Insert.insertFragmented(Label.SET, Label.COMPARATOR, new File(outDir, Names.LABELS.FILE), Names.LABELS.TABLE, Names.LABELS.COLUMNS);
 				Label.SET.clear();
 				Progress.traceDone(null);
 			}
@@ -218,11 +218,11 @@ public class Inserter
 								Insert.insert(ValenceUnit.COLLECTOR, new File(outDir, Names.VALENCEUNITS.FILE), Names.VALENCEUNITS.TABLE, Names.VALENCEUNITS.COLUMNS);
 								Progress.traceDone(null);
 
-								Progress.tracePending("collector", "pattern");
+								Progress.tracePending("collector", "grouppattern");
 								Insert.insert(FEGroupPattern.COLLECTOR, new File(outDir, Names.GROUPPATTERNS.FILE), Names.GROUPPATTERNS.TABLE, Names.GROUPPATTERNS.COLUMNS);
 								Progress.traceDone(null);
 
-								Progress.tracePending("collector", "pattern_annoset");
+								Progress.tracePending("collector", "grouppattern_annoset");
 								Insert.insert(FEGroupPattern_AnnoSet.SET, null, new File(outDir, Names.GROUPPATTERNS_ANNOSETS.FILE), Names.GROUPPATTERNS_ANNOSETS.TABLE, Names.GROUPPATTERNS_ANNOSETS.COLUMNS);
 								FEGroupPattern_AnnoSet.SET.clear();
 								Progress.traceDone(null);

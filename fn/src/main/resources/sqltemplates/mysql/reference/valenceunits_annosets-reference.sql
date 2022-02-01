@@ -1,2 +1,2 @@
-LTER TABLE ${valenceunits_annosets.table} ADD CONSTRAINT fk_${valenceunits_annosets.table}_${valenceunits_annosets.vuid} FOREIGN KEY (${valenceunits_annosets.vuid}) REFERENCES ${valenceunits.table} (${valenceunits.vuid});
-LTER TABLE ${valenceunits_annosets.table} ADD CONSTRAINT fk_${valenceunits_annosets.table}_${valenceunits_annosets.annosetid} FOREIGN KEY (${valenceunits_annosets.annosetid}) REFERENCES ${annosets.table} (${annosets.annosetid});
+ALTER TABLE ${valenceunits_annosets.table} ADD CONSTRAINT `fk_@{valenceunits_annosets.table}_@{valenceunits_annosets.vuid}` FOREIGN KEY (${valenceunits_annosets.vuid}) REFERENCES ${valenceunits.table} (${valenceunits.vuid});
+ALTER TABLE ${valenceunits_annosets.table} ADD CONSTRAINT `fk_@{valenceunits_annosets.table}_@{valenceunits_annosets.annosetid}` FOREIGN KEY (${valenceunits_annosets.annosetid}) REFERENCES ${annosets.table} (${annosets.annosetid});

@@ -1,2 +1,2 @@
-ALTER TABLE ${lexunits_semtypes.table} ADD CONSTRAINT fk_${lexunits_semtypes.table}_${lexunits_semtypes.luid} FOREIGN KEY (${lexunits_semtypes.luid}) REFERENCES ${lexunits.table} (${lexunits.luid});
-ALTER TABLE ${lexunits_semtypes.table} ADD CONSTRAINT fk_${lexunits_semtypes.table}_${lexunits_semtypes.semtypeid} FOREIGN KEY (${lexunits_semtypes.semtypeid}) REFERENCES ${semtypes.table} (${semtypes.semtypeid});
+ALTER TABLE ${lexunits_semtypes.table} ADD CONSTRAINT `fk_@{lexunits_semtypes.table}_@{lexunits_semtypes.luid}` FOREIGN KEY (${lexunits_semtypes.luid}) REFERENCES ${lexunits.table} (${lexunits.luid});
+ALTER TABLE ${lexunits_semtypes.table} ADD CONSTRAINT `fk_@{lexunits_semtypes.table}_@{lexunits_semtypes.semtypeid}` FOREIGN KEY (${lexunits_semtypes.semtypeid}) REFERENCES ${semtypes.table} (${semtypes.semtypeid});

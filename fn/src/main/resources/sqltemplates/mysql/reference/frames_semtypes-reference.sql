@@ -1,2 +1,2 @@
-ALTER TABLE ${frames_semtypes.table} ADD CONSTRAINT fk_${frames_semtypes.table}_${frames_semtypes.frameid} FOREIGN KEY (${frames_semtypes.frameid}) REFERENCES ${frames.table} (${frames.frameid});
-ALTER TABLE ${frames_semtypes.table} ADD CONSTRAINT fk_${frames_semtypes.table}_${frames_semtypes.semtypeid} FOREIGN KEY (${frames_semtypes.semtypeid}) REFERENCES ${semtypes.table} (${semtypes.semtypeid});
+ALTER TABLE ${frames_semtypes.table} ADD CONSTRAINT `fk_@{frames_semtypes.table}_@{frames_semtypes.frameid}` FOREIGN KEY (${frames_semtypes.frameid}) REFERENCES ${frames.table} (${frames.frameid});
+ALTER TABLE ${frames_semtypes.table} ADD CONSTRAINT `fk_@{frames_semtypes.table}_@{frames_semtypes.semtypeid}` FOREIGN KEY (${frames_semtypes.semtypeid}) REFERENCES ${semtypes.table} (${semtypes.semtypeid});

@@ -38,8 +38,8 @@ lexemes
 lexunits_governors
 lexunits_semtypes
 lexunits
-grouppatterns_annosets
 grouppatterns
+grouppatterns_annosets
 grouppatterns_patterns
 poses
 pttypes
@@ -99,7 +99,8 @@ function process()
 	fi
 	local base="$(basename "${sqlfile}")"
 	#echo "${base}"
-	mysql --max_allowed_packet=100M ${creds} "${db}" < "${sqlfile}"
+	#echo "mysql ${creds} --max_allowed_packet=100M \"${db}\" < \"${sqlfile}\""
+	mysql ${creds} --max_allowed_packet=100M "${db}" < "${sqlfile}"
 }
 
 function dbexists()

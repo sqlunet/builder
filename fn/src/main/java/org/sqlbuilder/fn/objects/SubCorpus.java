@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
@@ -64,8 +65,8 @@ public class SubCorpus implements HasId, Insertable<SubCorpus>
 	@Override
 	public String dataRow()
 	{
-		return String.format("'%s',%d",
-				name, //
+		return String.format("'%s',%d", //
+				Utils.escape(name), //
 				luid);
 	}
 

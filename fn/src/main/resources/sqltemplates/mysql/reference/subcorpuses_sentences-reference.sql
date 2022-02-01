@@ -1,2 +1,2 @@
-ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT fk_${subcorpuses_sentences.table}_${subcorpuses_sentences.subcorpusid} FOREIGN KEY (${subcorpuses_sentences.subcorpusid}) REFERENCES ${subcorpuses.table} (${subcorpuses.subcorpusid});
-ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT fk_${subcorpuses_sentences.table}_${subcorpuses_sentences.sentenceid} FOREIGN KEY (${subcorpuses_sentences.sentenceid}) REFERENCES ${sentences.table} (${sentences.sentenceid});
+ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT `fk_@{subcorpuses_sentences.table}_@{subcorpuses_sentences.subcorpusid}` FOREIGN KEY (${subcorpuses_sentences.subcorpusid}) REFERENCES ${subcorpuses.table} (${subcorpuses.subcorpusid});
+ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT `fk_@{subcorpuses_sentences.table}_@{subcorpuses_sentences.sentenceid}` FOREIGN KEY (${subcorpuses_sentences.sentenceid}) REFERENCES ${sentences.table} (${sentences.sentenceid});

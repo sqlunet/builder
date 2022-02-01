@@ -172,6 +172,42 @@ public class Insert
 		});
 	}
 
+	public static <T extends Insertable<T>> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			if (set.size() > 0)
+			{
+				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+				int[] i = {0};
+				var stream = set.stream();
+				if (comparator != null)
+				{
+					stream = stream.sorted(comparator);
+				}
+				stream.forEach(e -> {
+
+					if (i[0] == 100000)
+					{
+						ps.println(";");
+						ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+						i[0] = 0;
+					}
+					if (i[0] != 0)
+					{
+						ps.print(",\n");
+					}
+					String values = e.dataRow();
+					String comment = e.comment();
+					String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
+					ps.print(row);
+					i[0]++;
+				});
+				ps.println(";");
+			}
+		}
+	}
+
 	public static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
