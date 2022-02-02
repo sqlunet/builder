@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS ${lexunits.table} (
     ${lexunits.ludict} CHARACTER,
     ${lexunits.statusid} INTEGER DEFAULT NULL,
     ${lexunits.totalannotated} INTEGER,
-    ${lexunits.incorporatedfeid} INTEGER DEFAULT NULL,
+    -- ${lexunits.incorporatedfeid} INTEGER DEFAULT NULL,
     ${lexunits.incorporatedfetypeid} INTEGER DEFAULT NULL,
     -- ${lexunits.noccurs} INTEGER DEFAULT 1,
 PRIMARY KEY (${lexunits.luid}) );

@@ -41,7 +41,7 @@ public class Names
 	{
 		public static final String FILE = "fegrouprealizations.sql";
 		public static final String TABLE = "fn_fegrouprealizations";
-		public static final String COLUMNS = "`fegrid`,`luid`,`total`";
+		public static final String COLUMNS = "`fegrid`,`total`,`luid`";
 	}
 
 	static public class FES_FEGROUPREALIZATIONS
@@ -195,7 +195,7 @@ public class Names
 	{
 		public static final String FILE = "lexunits.sql";
 		public static final String TABLE = "fn_lexunits";
-		public static final String COLUMNS = "`luid`,`lexunit`,`posid`,`ludefinition`,`ludict`,`incorporatedfeid`,`totalannotated`,`frameid`";
+		public static final String COLUMNS = "`luid`,`lexunit`,`posid`,`ludefinition`,`ludict`,`incorporatedfetypeid`,`totalannotated`,`frameid`";
 	}
 
 	static public class LEXUNITS_GOVERNORS

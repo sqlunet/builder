@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.fn.AlreadyFoundException;
 import org.sqlbuilder.fn.HasID;
 import org.sqlbuilder.fn.types.Cxns;
 
@@ -103,7 +104,7 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 		final boolean isNew = SET.add(a);
 		if (!isNew)
 		{
-			throw new RuntimeException(a.toString());
+			throw new AlreadyFoundException(a.toString());
 		}
 		return a;
 	}
@@ -119,7 +120,7 @@ public class AnnotationSet implements HasID, Insertable<AnnotationSet>
 		final boolean isNew = SET.add(a);
 		if (!isNew)
 		{
-			throw new RuntimeException(a.toString());
+			throw new AlreadyFoundException(a.toString());
 		}
 		return a;
 	}

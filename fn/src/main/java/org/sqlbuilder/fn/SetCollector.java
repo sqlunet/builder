@@ -35,7 +35,7 @@ public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
 	{
 		if (!isOpen)
 		{
-			throw new IllegalThreadStateException(this + " not open");
+			throw new IllegalStateException(this + " not open");
 		}
 		return super.get(key);
 	}

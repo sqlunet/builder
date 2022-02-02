@@ -33,7 +33,7 @@ public class SemType implements HasID, Insertable<SemType>
 	public static SemType make(final SemTypeType type)
 	{
 		var t = new SemType(type);
-		SemType.SET.add(t);
+		SET.add(t);
 		return t;
 	}
 

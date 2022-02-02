@@ -47,7 +47,7 @@ public class Sentence implements HasID, Insertable<Sentence>
 		final boolean isNew = Sentence.SET.add(s);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "Sentence", fromFullText ? "sentence-duplicate (from fullText)" : "sentence-duplicate", null, -1, null, s.toString());
+			// Logger.instance.logWarn(FnModule.MODULE_ID, "Sentence", fromFullText ? "sentence-duplicate (from fullText)" : "sentence-duplicate", null, -1, null, s.toString());
 		}
 		return s;
 	}

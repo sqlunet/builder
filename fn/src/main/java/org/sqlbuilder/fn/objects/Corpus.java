@@ -38,7 +38,7 @@ public class Corpus implements HasID, Insertable<Corpus>
 		final boolean isNew = SET.add(c);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "Corpus", "corpus-duplicate", null, -1, null, c.toString());
+			// Logger.instance.logWarn(FnModule.MODULE_ID, "Corpus", "corpus-duplicate", null, -1, null, c.toString());
 		}
 	}
 

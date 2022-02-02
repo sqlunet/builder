@@ -69,7 +69,7 @@ public class FnFrameProcessor extends FnProcessor
 					final Integer prev = feToCoresetMap.put(feid, setid);
 					if (prev != null)
 					{
-						throw new RuntimeException(String.format("FECoreSets are not disjoint %s %s", prev, feid));
+						throw new IllegalArgumentException(String.format("FECoreSets are not disjoint %s %s", prev, feid));
 					}
 				}
 			}

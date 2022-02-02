@@ -37,7 +37,7 @@ public class Word implements HasId, Insertable<Word>
 
 	private Word(final String lemma)
 	{
-		this.word = lemma;
+		this.word = lemma.toLowerCase(Locale.ENGLISH);
 	}
 
 	public String getWord()

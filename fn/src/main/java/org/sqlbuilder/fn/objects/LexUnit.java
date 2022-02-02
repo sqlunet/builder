@@ -162,7 +162,7 @@ public class LexUnit implements HasID, Insertable<LexUnit>
 	@Override
 	public String dataRow()
 	{
-		// luid,lexunit,posid,ludefinition,ludict,incorporatedfeid,totalannotated,frameid
+		// luid,lexunit,posid,ludefinition,ludict,incorporatedfetypeid,totalannotated,frameid
 		return String.format("%d,'%s',%d,%s,%s,%s,%d,%d", //
 				luid, //
 				Utils.escape(name), //
