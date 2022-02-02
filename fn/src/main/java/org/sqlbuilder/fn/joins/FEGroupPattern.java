@@ -1,18 +1,12 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.ListCollector;
-import org.sqlbuilder.fn.SetCollector;
-import org.sqlbuilder.fn.HasId;
-import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.*;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-import edu.berkeley.icsi.framenet.AnnoSetType;
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 
 /*
@@ -22,11 +16,13 @@ grouppatterns.fk1=ALTER TABLE %Fn_patterns.table% ADD CONSTRAINT fk_%Fn_patterns
 grouppatterns.no-fk1=ALTER TABLE %Fn_patterns.table% DROP CONSTRAINT fk_%Fn_patterns.table%_fegrid CASCADE;
 grouppatterns.insert=INSERT INTO %Fn_patterns.table% (patternid,fegrid,total) VALUES(?,?,?);
  */
-public class FEGroupPattern implements HasId, Insertable<FEGroupPattern>
+public class FEGroupPattern implements HasId, SetId, Insertable<FEGroupPattern>
 {
 	public static final Comparator<FEGroupPattern> COMPARATOR = Comparator.comparing(FEGroupPattern::getFegr, FEGroupRealization.COMPARATOR);
 
-	public static final ListCollector<FEGroupPattern> COLLECTOR = new ListCollector<>();
+	public static final ListCollector<FEGroupPattern> LIST = new ListCollector<>();
+
+	private int id;
 
 	public final FEGroupRealization fegr;
 
@@ -35,7 +31,7 @@ public class FEGroupPattern implements HasId, Insertable<FEGroupPattern>
 	public static FEGroupPattern make(final FEGroupRealization fegr, final FEGroupRealizationType.Pattern pattern)
 	{
 		var p = new FEGroupPattern(pattern, fegr);
-		COLLECTOR.add(p);
+		LIST.add(p);
 		return p;
 	}
 
@@ -56,7 +52,13 @@ public class FEGroupPattern implements HasId, Insertable<FEGroupPattern>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return id;
+	}
+
+	@Override
+	public void setId(final int id)
+	{
+		this.id = id;
 	}
 
 	// I D E N T I T Y
@@ -90,8 +92,8 @@ public class FEGroupPattern implements HasId, Insertable<FEGroupPattern>
 	public String dataRow()
 	{
 		// (patternid),fegrid,total
-		return String.format("%d,%s",  //
-				// getSqlId(), // patternid
+		return String.format("%d,%d,%s",  //
+				getIntId(), // patternid
 				total,
 				fegr.getSqlId()); // fegrid
 	}

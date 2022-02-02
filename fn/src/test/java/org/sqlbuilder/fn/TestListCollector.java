@@ -4,8 +4,10 @@ import org.junit.Test;
 
 public class TestListCollector
 {
-	static class W<T>
+	static class W<T> implements HasId, SetId
 	{
+		private int id;
+
 		final T wrapped;
 
 		W(T wrapped)
@@ -23,6 +25,18 @@ public class TestListCollector
 		{
 			return wrapped.toString();
 		}
+
+		@Override
+		public Integer getIntId()
+		{
+			return id;
+		}
+
+		@Override
+		public void setId(final int id)
+		{
+			this.id = id;
+		}
 	}
 
 	@Test
@@ -38,7 +52,7 @@ public class TestListCollector
 		{
 			// System.out.printf("%s%n", item);
 			// System.out.printf("%s %d%n", item, collector.indexOf(item) + 1);
-			System.out.printf("%s %d%n", item, collector.get(item));
+			System.out.printf("%s %d%n", item, item.getIntId());
 		}
 	}
 }

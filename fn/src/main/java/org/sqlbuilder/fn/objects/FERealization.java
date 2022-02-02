@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.ListCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.SetId;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
 
@@ -22,7 +23,7 @@ ferealizations.no-fk1=ALTER TABLE %Fn_ferealizations.table% DROP CONSTRAINT fk_%
 ferealizations.no-fk2=ALTER TABLE %Fn_ferealizations.table% DROP CONSTRAINT fk_%Fn_ferealizations.table%_luid CASCADE;
 ferealizations.insert=INSERT INTO %Fn_ferealizations.table% (ferid,luid,fetype,total) VALUES(?,?,?,?);
  */
-public class FERealization implements HasId, Insertable<FERealization>
+public class FERealization implements HasId, SetId, Insertable<FERealization>
 {
 	public static final Comparator<FERealization> COMPARATOR = Comparator //
 			.comparing(FERealization::getLuId) //
@@ -30,6 +31,8 @@ public class FERealization implements HasId, Insertable<FERealization>
 			.thenComparing(FERealization::getFrameId);
 
 	public static final ListCollector<FERealization> LIST = new ListCollector<>();
+
+	private int id;
 
 	private final String feName;
 
@@ -75,7 +78,13 @@ public class FERealization implements HasId, Insertable<FERealization>
 	@Override
 	public Integer getIntId()
 	{
-		return LIST.get(this);
+		return id;
+	}
+
+	@Override
+	public void setId(final int id)
+	{
+		this.id = id;
 	}
 
 	// I D E N T I T Y
@@ -116,7 +125,8 @@ public class FERealization implements HasId, Insertable<FERealization>
 		var key = new Pair<>(fetypeid, frameid);
 		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
 
-		return String.format("%s,%s,%s,%d", //
+		return String.format("%d,%s,%s,%s,%d", //
+				getIntId(), //
 				fetypeid, //
 				feid, total, //
 				luid);

@@ -37,7 +37,7 @@ public class Insert
 			}
 			String values = item.dataRow();
 			String comment = item.comment();
-			String row = comment != null ? String.format("(%d,%s) /* %s */", list.indexOf(item), values, comment) : String.format("(%d,%s)", list.indexOf(item), values);
+			String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
 			ps.print(row);
 			i[0]++;
 		});
@@ -179,7 +179,7 @@ public class Insert
 			if (set.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				int[] i = {0};
+				int[] i = {0,0};
 				var stream = set.stream();
 				if (comparator != null)
 				{
@@ -187,21 +187,22 @@ public class Insert
 				}
 				stream.forEach(e -> {
 
-					if (i[0] == 100000)
+					if (i[1] == 100000)
 					{
 						ps.println(";");
 						ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-						i[0] = 0;
+						i[1] = 0;
 					}
-					if (i[0] != 0)
+					if (i[1] != 0)
 					{
 						ps.print(",\n");
 					}
 					String values = e.dataRow();
 					String comment = e.comment();
-					String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
+					String row = comment != null ? String.format("(%d,%s) /* %s */", i[0], values, comment) : String.format("(%s)", values);
 					ps.print(row);
 					i[0]++;
+					i[1]++;
 				});
 				ps.println(";");
 			}

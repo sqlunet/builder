@@ -29,7 +29,7 @@ public class Label implements Insertable<Label>
 
 	private final String name;
 
-	private final String itype;
+	private final Integer itypeid;
 
 	private final int feid;
 
@@ -50,7 +50,7 @@ public class Label implements Insertable<Label>
 	private Label(final edu.berkeley.icsi.framenet.LabelType label, final Layer layer)
 	{
 		this.name = label.getName();
-		this.itype = label.getItype() == null ? null : label.getItype().toString();
+		this.itypeid = label.getItype() == null ? null : label.getItype().intValue();
 		this.feid = label.getFeID();
 		this.start = label.getStart();
 		this.end = label.getEnd();
@@ -67,7 +67,7 @@ public class Label implements Insertable<Label>
 		// (labelid),labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
 		return String.format("%d,%s,%s,%s,%s,%s", //
 				LabelType.getIntId(name), //
-				Utils.nullableEscapedString(itype), //
+				Utils.nullableInt(itypeid), //
 				Utils.zeroableInt(feid), //
 				Utils.zeroableInt(start), //
 				Utils.zeroableInt(end), //

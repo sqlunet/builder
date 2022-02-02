@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.fn.ListCollector;
 import org.sqlbuilder.fn.HasId;
 import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.SetId;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -21,13 +22,15 @@ fegrouprealizations.fk1=ALTER TABLE %Fn_fegrouprealizations.table% ADD CONSTRAIN
 fegrouprealizations.no-fk1=ALTER TABLE %Fn_fegrouprealizations.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations.table%_luid CASCADE;
 fegrouprealizations.insert=INSERT INTO %Fn_fegrouprealizations.table% (fegrid,luid,total) VALUES(?,?,?);
  */
-public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
+public class FEGroupRealization implements HasId, SetId, Insertable<FEGroupRealization>
 {
 	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
 			.comparing(FEGroupRealization::getLuID) //
 			.thenComparing(FEGroupRealization::getFENames); //
 
 	public static final ListCollector<FEGroupRealization> LIST = new ListCollector<>();
+
+	private int id;
 
 	private final String feNames;
 
@@ -73,7 +76,13 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 	@Override
 	public Integer getIntId()
 	{
-		return LIST.get(this);
+		return id;
+	}
+
+	@Override
+	public void setId(final int id)
+	{
+		this.id = id;
 	}
 
 	// I D E N T I T Y
@@ -107,7 +116,8 @@ public class FEGroupRealization implements HasId, Insertable<FEGroupRealization>
 		// fegrid INTEGER NOT NULL,
 		// total INTEGER NOT NULL,
 		// luid INTEGER NOT NULL,
-		return String.format("%s,%d", //
+		return String.format("%d,%s,%d", //
+				getIntId(), //
 				total, //
 				luid);
 	}

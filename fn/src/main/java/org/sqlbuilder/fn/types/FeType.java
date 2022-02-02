@@ -13,7 +13,7 @@ fetypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_fetypes.table%_fetype;
  */
 public class FeType
 {
-	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
+	public static final Comparator<String> COMPARATOR = String::compareToIgnoreCase;
 
 	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
 

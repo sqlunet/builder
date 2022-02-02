@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS ${labels.table} (
     ${labels.feid} INTEGER DEFAULT NULL,
     ${labels.start} INTEGER DEFAULT NULL,
     ${labels.end} INTEGER DEFAULT NULL,
-    ${labels.fgcolor} VARCHAR(6),
-    ${labels.bgcolor} VARCHAR(6),
-    ${labels.cby} VARCHAR(27),
+    -- ${labels.fgcolor} VARCHAR(6),
+    -- ${labels.bgcolor} VARCHAR(6),
+    -- ${labels.cby} VARCHAR(27),
 PRIMARY KEY (${labels.labelid}) );

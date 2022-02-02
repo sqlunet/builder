@@ -206,7 +206,7 @@ public class Inserter
 							FE_FEGroupRealization.SET.clear();
 							Progress.traceDone(null);
 
-							try (@ProvidesIdTo(type = FEGroupPattern.class) var ignored44 = FEGroupPattern.COLLECTOR.open(); //
+							try (@ProvidesIdTo(type = FEGroupPattern.class) var ignored44 = FEGroupPattern.LIST.open(); //
 							     @ProvidesIdTo(type = ValenceUnit.class) var ignored43 = ValenceUnit.COLLECTOR.open())
 							{
 								Progress.tracePending("set", "fe_fegr");
@@ -219,7 +219,7 @@ public class Inserter
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "grouppattern");
-								Insert.insert(FEGroupPattern.COLLECTOR, new File(outDir, Names.GROUPPATTERNS.FILE), Names.GROUPPATTERNS.TABLE, Names.GROUPPATTERNS.COLUMNS);
+								Insert.insert(FEGroupPattern.LIST, new File(outDir, Names.GROUPPATTERNS.FILE), Names.GROUPPATTERNS.TABLE, Names.GROUPPATTERNS.COLUMNS);
 								Progress.traceDone(null);
 
 								Progress.tracePending("collector", "grouppattern_annoset");

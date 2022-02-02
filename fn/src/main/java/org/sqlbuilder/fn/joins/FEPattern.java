@@ -57,7 +57,8 @@ public class FEPattern extends Pair<FERealization, ValenceUnit> implements Inser
 	public String dataRow()
 	{
 		return String.format("%s,%s", //
-				first.getSqlId(), second.getSqlId()); //
+				first.getSqlId(), //
+				second.getSqlId()); //
 	}
 
 	@Override
