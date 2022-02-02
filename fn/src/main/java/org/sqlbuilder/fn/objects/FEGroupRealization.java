@@ -15,13 +15,6 @@ import edu.berkeley.icsi.framenet.FEValenceType;
 
 import static java.util.stream.Collectors.joining;
 
-/*
-fegrouprealizations.table=fnfegrouprealizations
-fegrouprealizations.create=CREATE TABLE IF NOT EXISTS %Fn_fegrouprealizations.table% ( fegrid INTEGER NOT NULL,luid INTEGER,total INTEGER,PRIMARY KEY (fegrid) );
-fegrouprealizations.fk1=ALTER TABLE %Fn_fegrouprealizations.table% ADD CONSTRAINT fk_%Fn_fegrouprealizations.table%_luid FOREIGN KEY (luid) REFERENCES %Fn_lexunits.table% (luid);
-fegrouprealizations.no-fk1=ALTER TABLE %Fn_fegrouprealizations.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations.table%_luid CASCADE;
-fegrouprealizations.insert=INSERT INTO %Fn_fegrouprealizations.table% (fegrid,luid,total) VALUES(?,?,?);
- */
 public class FEGroupRealization implements HasId, SetId, Insertable<FEGroupRealization>
 {
 	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //

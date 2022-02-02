@@ -10,13 +10,6 @@ import java.util.TreeMap;
 
 public class Values
 {
-	/*
-	poses.table=fnposes
-	poses.create=CREATE TABLE IF NOT EXISTS %Fn_poses.table% ( posid INTEGER NOT NULL AUTO_INCREMENT,pos VARCHAR(8),PRIMARY KEY (posid) );
-	poses.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_poses.table%_pos ON %Fn_poses.table% (pos);
-	poses.no-unq1=DROP INDEX IF EXISTS unq_%Fn_poses.table%_pos;
-	poses.insert=INSERT INTO %Fn_poses.table% (pos) VALUES(?);
-	 */
 	public static class Pos implements HasId, Insertable<Pos>
 	{
 		public static final Comparator<Pos> COMPARATOR = Comparator.comparing(t -> t.pos);
@@ -51,13 +44,6 @@ public class Values
 		}
 	}
 
-	/*
-	coretypes.table=fncoretypes
-	coretypes.create=CREATE TABLE IF NOT EXISTS %Fn_coretypes.table% ( coretypeid INTEGER NOT NULL AUTO_INCREMENT,coretype VARCHAR(16),PRIMARY KEY (coretypeid) );
-	coretypes.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_coretypes.table%_coretype ON %Fn_coretypes.table% (coretype);
-	coretypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_coretypes.table%_coretype;
-	coretypes.insert=INSERT INTO %Fn_coretypes.table% (coretype) VALUES(?);
-	 */
 	public static class CoreType implements HasId, Insertable<CoreType>
 	{
 		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
@@ -92,11 +78,6 @@ public class Values
 		}
 	}
 
-	/*
-	labelitypes.table=fnlabelitypes
-	labelitypes.create=CREATE TABLE IF NOT EXISTS %Fn_labelitypes.table% ( labelitypeid INTEGER NOT NULL AUTO_INCREMENT,labelitype VARCHAR(4),labelitypedescr VARCHAR(16) DEFAULT NULL,PRIMARY KEY (labelitypeid) );
-	labelitypes.insert=INSERT INTO %Fn_labelitypes.table% (labelitype) VALUES(?);
-	 */
 	public static class LabelIType implements HasId, Insertable<LabelIType>
 	{
 		public static final Comparator<LabelIType> COMPARATOR = Comparator.comparing(t -> t.labelitype);

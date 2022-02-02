@@ -10,9 +10,6 @@ import java.util.Set;
 
 public class Cxns implements HasID, Insertable<Cxns>
 {
-	// cxns.table=fncxns
-	// cxns.create=CREATE TABLE IF NOT EXISTS %Fn_cxns.table% ( cxnid INTEGER NOT NULL,cxn VARCHAR(32),PRIMARY KEY (cxnid) );
-
 	public static final Comparator<Cxns> COMPARATOR = Comparator.comparing(Cxns::getName).thenComparing(Cxns::getId);
 
 	public static final Set<Cxns> SET = new HashSet<>();
@@ -55,6 +52,7 @@ public class Cxns implements HasID, Insertable<Cxns>
 	{
 		return String.format("%d,%s", id, Utils.escape(name));
 	}
+}
 
 /*
 # cxnid, cxn
@@ -80,5 +78,4 @@ public class Cxns implements HasID, Insertable<Cxns>
 82, Determined_noun_phrase
 111, TEMP_The_ubiquitous_noun
 81, Modifier-head
-	 */
-}
+*/

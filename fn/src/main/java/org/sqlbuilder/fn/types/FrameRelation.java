@@ -2,16 +2,12 @@ package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.Util;
 
 import java.util.Comparator;
 
 public class FrameRelation
 {
-	// framerelations.table=fnframerelations
-	// framerelations.create=CREATE TABLE IF NOT EXISTS %Fn_framerelations.table% ( relationid INTEGER NOT NULL AUTO_INCREMENT,relation VARCHAR(20) DEFAULT NULL,PRIMARY KEY (relationid) );
-	// framerelations.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_framerelations.table%_relation ON %Fn_framerelations.table% (relation);
-	// framerelations.no-unq1=DROP INDEX IF EXISTS unq_%Fn_framerelations.table%_relation;
-
 	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
 	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
@@ -32,8 +28,9 @@ public class FrameRelation
 	{
 		return Util.getSqlId(getIntId(value));
 	}
+}
 
-	/*
+/*
 # relationid, relation
 1, Has Subframe(s)
 2, Inherits from
@@ -48,5 +45,4 @@ public class FrameRelation
 11, See also
 12, Subframe of
 13, Uses
-	 */
-}
+*/

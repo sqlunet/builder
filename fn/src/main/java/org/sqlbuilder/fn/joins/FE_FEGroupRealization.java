@@ -12,18 +12,6 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FEValenceType;
 
-/*
-fegrouprealizations_fes.table=fnfegrouprealizations_fes
-fegrouprealizations_fes.create=CREATE TABLE IF NOT EXISTS %Fn_fegrouprealizations_fes.table% ( rfeid INTEGER,fegrid INTEGER NOT NULL,feid INTEGER DEFAULT NULL,fetypeid INTEGER DEFAULT NULL,PRIMARY KEY (rfeid) );
-fegrouprealizations_fes.altcreate1=ALTER TABLE %Fn_fegrouprealizations_fes.table% ADD COLUMN fetype VARCHAR(30) AFTER fetypeid;
-fegrouprealizations_fes.fk1=ALTER TABLE %Fn_fegrouprealizations_fes.table% ADD CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_fegrid FOREIGN KEY (fegrid) REFERENCES %Fn_fegrouprealizations.table% (fegrid);
-fegrouprealizations_fes.fk2=ALTER TABLE %Fn_fegrouprealizations_fes.table% ADD CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_fetypeid FOREIGN KEY (fetypeid) REFERENCES %Fn_fetypes.table% (fetypeid);
-fegrouprealizations_fes.fk3=ALTER TABLE %Fn_fegrouprealizations_fes.table% ADD CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_feid FOREIGN KEY (feid) REFERENCES %Fn_fes.table% (feid);
-fegrouprealizations_fes.no-fk1=ALTER TABLE %Fn_fegrouprealizations_fes.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_fegrid CASCADE;
-fegrouprealizations_fes.no-fk2=ALTER TABLE %Fn_fegrouprealizations_fes.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_fetypeid CASCADE;
-fegrouprealizations_fes.no-fk3=ALTER TABLE %Fn_fegrouprealizations_fes.table% DROP CONSTRAINT fk_%Fn_fegrouprealizations_fes.table%_feid CASCADE;
-fegrouprealizations_fes.insert=INSERT INTO %Fn_fegrouprealizations_fes.table% (rfeid,fegrid,fetype) VALUES(?,?,?);
- */
 public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> implements Insertable<FE_FEGroupRealization>
 {
 	public static final Set<FE_FEGroupRealization> SET = new HashSet<>();

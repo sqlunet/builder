@@ -2,14 +2,12 @@ package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.Util;
 
 import java.util.Comparator;
 
 public class LayerType
 {
-	// layertypes.table=fnlayertypes
-	// layertypes.create=CREATE TABLE IF NOT EXISTS %Fn_layertypes.table% ( layertypeid INTEGER NOT NULL AUTO_INCREMENT,layertype VARCHAR(6),PRIMARY KEY (layertypeid) );
-
 	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
 	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
@@ -19,17 +17,18 @@ public class LayerType
 		COLLECTOR.add(type);
 	}
 
-	@RequiresIdFrom(type=LayerType.class)
+	@RequiresIdFrom(type = LayerType.class)
 	public static Integer getIntId(String value)
 	{
 		return value == null ? null : COLLECTOR.get(value);
 	}
 
-	@RequiresIdFrom(type=LayerType.class)
+	@RequiresIdFrom(type = LayerType.class)
 	public static Object getSqlId(String value)
 	{
 		return Util.getSqlId(getIntId(value));
 	}
+}
 
 /*
 # layertypeid, layertype
@@ -55,4 +54,4 @@ public class LayerType
 20, Verb
 21, WSL
  */
-}
+

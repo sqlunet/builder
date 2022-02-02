@@ -8,15 +8,6 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnoSetType;
 
-/*
-grouppatterns_annosets.table=fnpatterns_annosets
-grouppatterns_annosets.create=CREATE TABLE IF NOT EXISTS %Fn_patterns_annosets.table% ( patternid INTEGER NOT NULL,annosetid INTEGER NOT NULL,PRIMARY KEY (patternid,annosetid) );
-grouppatterns_annosets.fk1=ALTER TABLE %Fn_patterns_annosets.table% ADD CONSTRAINT fk_%Fn_patterns_annosets.table%_patternid FOREIGN KEY (patternid) REFERENCES %Fn_patterns.table% (patternid);
-grouppatterns_annosets.fk2=ALTER TABLE %Fn_patterns_annosets.table% ADD CONSTRAINT fk_%Fn_patterns_annosets.table%_annosetid FOREIGN KEY (annosetid) REFERENCES %Fn_annosets.table% (annosetid);
-grouppatterns_annosets.no-fk1=ALTER TABLE %Fn_patterns_annosets.table% DROP CONSTRAINT fk_%Fn_patterns_annosets.table%_annosetid CASCADE;
-grouppatterns_annosets.no-fk2=ALTER TABLE %Fn_patterns_annosets.table% DROP CONSTRAINT fk_%Fn_patterns_annosets.table%_patternid CASCADE;
-grouppatterns_annosets.insert=INSERT INTO %Fn_patterns_annosets.table% (patternid,annosetid) VALUES(?,?);
- */
 public class FEGroupPattern_AnnoSet extends Pair<FEGroupPattern, Integer> implements Insertable<FEGroupPattern_AnnoSet>
 {
 	public static final Set<FEGroupPattern_AnnoSet> SET = new HashSet<>();

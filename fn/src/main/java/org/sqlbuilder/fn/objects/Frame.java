@@ -16,11 +16,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FrameDocument;
 
-/*
-frames.table=fnframes
-frames.create=CREATE TABLE IF NOT EXISTS %Fn_frames.table% ( frameid INTEGER NOT NULL,frame VARCHAR(40),framedefinition TEXT,cdate VARCHAR(27),cby VARCHAR(5),PRIMARY KEY (frameid) );
-frames.insert=INSERT INTO %Fn_frames.table% (frameid,frame,framedefinition,cdate,cby) VALUES(?,?,?,?,?);
- */
 public class Frame implements HasID, Insertable<Frame>
 {
 	public static final Set<Frame> SET = new HashSet<>();

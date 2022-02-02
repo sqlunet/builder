@@ -8,15 +8,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-/*
-lexunits_governors.table=fnlexunits_governors
-lexunits_governors.create=CREATE TABLE IF NOT EXISTS %Fn_lexunits_governors.table% ( luid INTEGER NOT NULL,governorid INTEGER NOT NULL,PRIMARY KEY (luid,governorid) );
-lexunits_governors.fk1=ALTER TABLE %Fn_lexunits_governors.table% ADD CONSTRAINT fk_%Fn_lexunits_governors.table%_luid FOREIGN KEY k_%Fn_lexunits_governors.table%_luid (luid) REFERENCES %Fn_lexunits.table% (luid);
-lexunits_governors.fk2=ALTER TABLE %Fn_lexunits_governors.table% ADD CONSTRAINT fk_%Fn_lexunits_governors.table%_governorid FOREIGN KEY k_%Fn_lexunits_governors.table%_governorid (governorid) REFERENCES %Fn_governors.table% (governorid);
-lexunits_governors.no-fk1=ALTER TABLE %Fn_lexunits_governors.table% DROP FOREIGN KEY fk_%Fn_lexunits_governors.table%_governorid;
-lexunits_governors.no-fk2=ALTER TABLE %Fn_lexunits_governors.table% DROP FOREIGN KEY fk_%Fn_lexunits_governors.table%_luid;
-lexunits_governors.insert=INSERT INTO %Fn_lexunits_governors.table% (luid,governorid) VALUES(?,?);
- */
 public class LexUnit_Governor extends Pair<Integer, Governor> implements Insertable<LexUnit_Governor>
 {
 	public static final Comparator<LexUnit_Governor> COMPARATOR = Comparator.comparing(LexUnit_Governor::getFirst).thenComparing(LexUnit_Governor::getSecond, Governor.COMPARATOR);

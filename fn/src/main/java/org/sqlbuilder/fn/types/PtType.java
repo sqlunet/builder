@@ -2,31 +2,28 @@ package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.fn.SetCollector;
 import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.fn.Util;
 
 import java.util.Comparator;
 
 public class PtType
 {
-	// pttypes.table=fnpttypes
-	// pttypes.create=CREATE TABLE IF NOT EXISTS %Fn_pttypes.table% ( ptid INTEGER NOT NULL AUTO_INCREMENT,pt VARCHAR(20),PRIMARY KEY (ptid) );
-	// pttypes.unq1=CREATE UNIQUE INDEX IF NOT EXISTS unq_%Fn_pttypes.table%_pt ON %Fn_pttypes.table% (pt);
-	// pttypes.no-unq1=DROP INDEX IF EXISTS unq_%Fn_pttypes.table%_pt;
-
 	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
 	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	@RequiresIdFrom(type=PtType.class)
+	@RequiresIdFrom(type = PtType.class)
 	public static Integer getIntId(String value)
 	{
 		return value == null ? null : COLLECTOR.get(value);
 	}
 
-	@RequiresIdFrom(type=PtType.class)
+	@RequiresIdFrom(type = PtType.class)
 	public static Object getSqlId(String value)
 	{
 		return Util.getSqlId(getIntId(value));
 	}
+}
 
 /*
 # ptid, pt
@@ -193,4 +190,4 @@ public class PtType
 161, VPto
 162, VPtorel
  */
-}
+

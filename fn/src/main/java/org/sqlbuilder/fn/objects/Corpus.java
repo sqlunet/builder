@@ -12,13 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import edu.berkeley.icsi.framenet.CorpDocType;
-/*
-corpuses.table=fncorpuses
-corpuses.create=CREATE TABLE IF NOT EXISTS %Fn_corpuses.table% ( corpusid INTEGER NOT NULL,corpus VARCHAR(80),corpusdesc VARCHAR(96),luid INTEGER DEFAULT NULL,noccurs INTEGER DEFAULT 1,PRIMARY KEY (corpusid) );
-corpuses.fk1=ALTER TABLE %Fn_corpuses.table% ADD CONSTRAINT fk_%Fn_corpuses.table%_luid FOREIGN KEY (luid) REFERENCES %Fn_lexunits.table% (luid);
-corpuses.no-fk1=ALTER TABLE %Fn_corpuses.table% DROP CONSTRAINT fk_%Fn_corpuses.table%_luid CASCADE;
-corpuses.insert=INSERT INTO %Fn_corpuses.table% (corpusid,corpus,corpusdesc,luid) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE noccurs=noccurs+1;
-*/
 
 public class Corpus implements HasID, Insertable<Corpus>
 {

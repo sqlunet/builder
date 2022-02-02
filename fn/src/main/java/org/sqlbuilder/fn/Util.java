@@ -1,4 +1,4 @@
-package org.sqlbuilder.fn.types;
+package org.sqlbuilder.fn;
 
 public class Util
 {
