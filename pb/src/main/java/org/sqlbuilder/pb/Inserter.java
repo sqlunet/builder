@@ -3,12 +3,24 @@ package org.sqlbuilder.pb;
 import org.sqlbuilder.common.MapFactory;
 import org.sqlbuilder.common.Progress;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 public class Inserter
 {
+	private final File outDir;
+
+	public Inserter(final Properties conf)
+	{
+		this.outDir = new File(conf.getProperty("vnoutdir", "sql/data"));
+		if (!this.outDir.exists())
+		{
+			this.outDir.mkdirs();
+		}
+	}
+
 	private static void makeMaps()
 	{
 		// roles

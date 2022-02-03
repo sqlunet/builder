@@ -24,7 +24,7 @@ public class Semlink0Processor extends Processor
 	}
 
 	@Override
-	protected void run()
+	public void run()
 	{
 		if (Logger.verbose)
 		{

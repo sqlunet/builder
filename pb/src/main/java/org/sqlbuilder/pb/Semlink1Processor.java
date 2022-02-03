@@ -14,7 +14,7 @@ public class Semlink1Processor extends Processor
 	}
 
 	@Override
-	protected void run()
+	public void run()
 	{
 		Progress.traceHeader("semlink1", "processing");
 		Semlink1Processor.processSemlinks();

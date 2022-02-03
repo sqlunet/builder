@@ -11,5 +11,5 @@ public abstract class Processor
 		this.tag = tag;
 	}
 
-	protected abstract void run() throws IOException;
+	public abstract void run() throws IOException;
 }

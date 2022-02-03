@@ -7,7 +7,7 @@ import java.util.*;
 
 public class PbRoleSetMember implements Insertable, Comparable<PbRoleSetMember>
 {
-	protected static final Set<PbRoleSetMember> SET = new HashSet<>();
+	public static final Set<PbRoleSetMember> SET = new HashSet<>();
 
 	public static Map<PbRoleSetMember, Integer> MAP;
 

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class PbRel implements Insertable, Comparable<PbRel>
 {
-	protected static final Set<PbRel> SET = new HashSet<>();
+	public static final Set<PbRel> SET = new HashSet<>();
 
 	public static Map<PbRel, Integer> MAP;
 

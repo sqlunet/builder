@@ -4,7 +4,7 @@ import java.util.*;
 
 public class PbTheta implements Comparable<PbTheta>
 {
-	protected static final Set<PbTheta> SET = new HashSet<>();
+	public static final Set<PbTheta> SET = new HashSet<>();
 
 	public static Map<PbTheta,Integer> MAP;
 

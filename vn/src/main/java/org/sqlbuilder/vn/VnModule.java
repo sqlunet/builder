@@ -1,6 +1,10 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Module;
+import org.sqlbuilder.vn.collector.Vn1Processor;
+import org.sqlbuilder.vn.collector.Vn2Processor;
+import org.sqlbuilder.vn.collector.Vn3Processor;
+import org.sqlbuilder.vn.collector.Vn4Processor;
 
 import java.io.IOException;
 

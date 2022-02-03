@@ -41,7 +41,7 @@ public class SnProcessor extends Processor
 		super("sn");
 		this.conf = conf;
 		this.snHome = new File(conf.getProperty("snhome", System.getenv().get("SNHOME")));
-		this.outDir = new File(conf.getProperty("outdir", "sn"));
+		this.outDir = new File(conf.getProperty("snoutdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -56,7 +56,7 @@ public class SnProcessor extends Processor
 	}
 
 	@Override
-	protected void run() throws IOException
+	public void run() throws IOException
 	{
 		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.SN.FILE)), true, StandardCharsets.UTF_8))

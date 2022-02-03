@@ -31,7 +31,7 @@ public class PbProcessor extends Processor
 	}
 
 	@Override
-	protected void run()
+	public void run()
 	{
 		final File folder = new File(this.propBankHome);
 		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");

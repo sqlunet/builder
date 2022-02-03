@@ -32,7 +32,7 @@ public class BNCProcessor extends Processor
 		super("bnc");
 		this.conf = conf;
 		this.bncHome = new File(conf.getProperty("bnchome", System.getenv().get("BNCHOME")));
-		this.outDir = new File(conf.getProperty("outdir", "bnc"));
+		this.outDir = new File(conf.getProperty("bncoutdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -44,7 +44,7 @@ public class BNCProcessor extends Processor
 	}
 
 	@Override
-	protected void run() throws IOException
+	public void run() throws IOException
 	{
 		// main
 		String bNCMain = conf.getProperty("bncmain", "bnc.txt");

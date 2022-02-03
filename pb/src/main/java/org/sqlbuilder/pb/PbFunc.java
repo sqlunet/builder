@@ -4,7 +4,7 @@ import java.util.*;
 
 public class PbFunc implements Comparable<PbFunc>
 {
-	protected static final Set<PbFunc> SET = new HashSet<>();
+	public static final Set<PbFunc> SET = new HashSet<>();
 
 	public static Map<PbFunc, Integer> MAP;
 

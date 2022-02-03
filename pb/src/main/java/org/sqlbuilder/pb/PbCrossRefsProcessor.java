@@ -16,7 +16,7 @@ public class PbCrossRefsProcessor extends Processor
 	}
 
 	@Override
-	protected void run()
+	public void run()
 	{
 		Progress.traceHeader("pbxref", "inserting");
 		try
