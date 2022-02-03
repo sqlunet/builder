@@ -1,6 +1,9 @@
 package org.sqlbuilder.fn;
 
 import org.junit.Test;
+import org.sqlbuilder.common.HasId;
+import org.sqlbuilder.common.ListCollector;
+import org.sqlbuilder.common.SetId;
 
 public class TestListCollector
 {

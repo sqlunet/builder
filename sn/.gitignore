@@ -1,4 +1,5 @@
 /target/
-/sn/
 /sers/
-/syntagnet/
+/data/
+/sql/
+/sqltemplates

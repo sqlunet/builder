@@ -1,6 +1,6 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.common;
 
-public class Util
+public class SqlId
 {
 	public static Object getSqlId(Integer id)
 	{

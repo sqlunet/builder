@@ -2,6 +2,8 @@ package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.*;
 import org.sqlbuilder.fn.types.*;

@@ -1,2 +1,4 @@
 /target/
-/pb/
+/data/
+/sql/
+/sqltemplates

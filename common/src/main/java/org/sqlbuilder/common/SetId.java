@@ -1,4 +1,4 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.common;
 
 public interface SetId
 {

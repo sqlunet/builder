@@ -1,7 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.*;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 
 import java.util.Comparator;

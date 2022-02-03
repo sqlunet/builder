@@ -4,8 +4,8 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.HasID;
-import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.common.HasID;
+import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.fn.types.FeType;
 
 import java.util.Comparator;

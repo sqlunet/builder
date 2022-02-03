@@ -2,9 +2,9 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.SetCollector;
-import org.sqlbuilder.fn.HasId;
-import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.HasId;
+import org.sqlbuilder.common.RequiresIdFrom;
 
 import java.util.Comparator;
 

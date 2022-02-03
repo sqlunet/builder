@@ -1,8 +1,8 @@
 package org.sqlbuilder.fn.types;
 
-import org.sqlbuilder.fn.SetCollector;
-import org.sqlbuilder.fn.RequiresIdFrom;
-import org.sqlbuilder.fn.Util;
+import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SqlId;
 
 import java.util.Comparator;
 
@@ -26,7 +26,7 @@ public class LabelType
 	@RequiresIdFrom(type=LabelType.class)
 	public static Object getSqlId(String value)
 	{
-		return Util.getSqlId(getIntId(value));
+		return SqlId.getSqlId(getIntId(value));
 	}
 
 }

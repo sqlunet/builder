@@ -1,10 +1,8 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.common.HasID;
 
 import java.util.Comparator;
 import java.util.HashSet;

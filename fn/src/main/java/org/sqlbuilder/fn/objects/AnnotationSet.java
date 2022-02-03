@@ -2,8 +2,8 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.AlreadyFoundException;
-import org.sqlbuilder.fn.HasID;
+import org.sqlbuilder.common.AlreadyFoundException;
+import org.sqlbuilder.common.HasID;
 import org.sqlbuilder.fn.types.Cxns;
 
 import java.util.Comparator;
@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import edu.berkeley.icsi.framenet.AnnoSetType;
 import edu.berkeley.icsi.framenet.AnnotationSetType;
 
 /*

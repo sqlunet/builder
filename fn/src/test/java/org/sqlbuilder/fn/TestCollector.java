@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.junit.Test;
+import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 import java.util.Set;

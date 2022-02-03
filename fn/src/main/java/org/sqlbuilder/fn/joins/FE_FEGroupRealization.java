@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 import org.sqlbuilder.fn.types.FeType;

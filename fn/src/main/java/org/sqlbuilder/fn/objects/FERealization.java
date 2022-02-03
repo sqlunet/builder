@@ -1,10 +1,10 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.HasId;
-import org.sqlbuilder.fn.ListCollector;
-import org.sqlbuilder.fn.RequiresIdFrom;
-import org.sqlbuilder.fn.SetId;
+import org.sqlbuilder.common.HasId;
+import org.sqlbuilder.common.ListCollector;
+import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SetId;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;
 

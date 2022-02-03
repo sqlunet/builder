@@ -2,8 +2,8 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.HasID;
-import org.sqlbuilder.fn.RequiresIdFrom;
+import org.sqlbuilder.common.HasID;
+import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
 import org.sqlbuilder.fn.joins.Pair;
 import org.sqlbuilder.fn.types.FeType;

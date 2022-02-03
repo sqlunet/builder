@@ -3,7 +3,7 @@ package org.sqlbuilder.fn.collectors;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.fn.ProvidesIdTo;
+import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.fn.objects.Values;
 
 import edu.berkeley.icsi.framenet.LabelType;
