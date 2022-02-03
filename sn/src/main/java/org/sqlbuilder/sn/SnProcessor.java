@@ -3,6 +3,7 @@ package org.sqlbuilder.sn;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.ParseException;
 import org.sqlbuilder.common.Processor;
+import org.sqlbuilder.sn.objects.Collocation;
 import org.sqlbuilder2.legacy.DeSerialize;
 import org.sqlbuilder2.legacy.Triplet;
 
@@ -77,7 +78,7 @@ public class SnProcessor extends Processor
 					.map(line -> {
 						try
 						{
-							return SnCollocation.parse(line);
+							return Collocation.parse(line);
 						}
 						catch (ParseException pe)
 						{
@@ -86,9 +87,9 @@ public class SnProcessor extends Processor
 						return null;
 					}) //
 					.filter(Objects::nonNull) //
-					.sorted(Comparator.comparing(SnCollocation::getWord1).thenComparing(SnCollocation::getWord2)) //
+					.sorted(Comparator.comparing(Collocation::getWord1).thenComparing(Collocation::getWord2)) //
 					.filter(collocation -> collocation.resolve(sensekeyResolver, senseResolver)) //
-					.sorted(Comparator.comparing(SnCollocation::getSensekey1).thenComparing(SnCollocation::getSensekey2)) //
+					.sorted(Comparator.comparing(Collocation::getSensekey1).thenComparing(Collocation::getSensekey2)) //
 					.forEach(sp -> {
 						String values = sp.dataRow();
 						insertRow(ps, count[0], values);

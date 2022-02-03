@@ -7,15 +7,15 @@ public class VnItem
 {
 	public final String lemma;
 
-	public final List<VnSensekey> senseKeys;
+	public final List<Sensekey> senseKeys;
 
-	public final List<VnGrouping> groupings;
+	public final List<Grouping> groupings;
 
 	private final boolean isDefinite;
 
 	// C O N S T R U C T
 
-	private VnItem(final String lemma, final List<VnSensekey> senseKeys, final List<VnGrouping> groupings, final boolean definiteFlag)
+	private VnItem(final String lemma, final List<Sensekey> senseKeys, final List<Grouping> groupings, final boolean definiteFlag)
 	{
 		this.lemma = lemma;
 		this.senseKeys = senseKeys;
@@ -36,7 +36,7 @@ public class VnItem
 		}
 		final String lemma = lemmaString.replace('_', ' ');
 
-		List<VnSensekey> senseKeys = null;
+		List<Sensekey> senseKeys = null;
 		if (wnSenses != null && !wnSenses.trim().isEmpty())
 		{
 			String wnSenses2 = wnSenses.trim();
@@ -52,7 +52,7 @@ public class VnItem
 			for (final String senseKeyName : senseKeyNames)
 			{
 				// get sensekey
-				final VnSensekey sensekey = VnSensekey.parse(senseKeyName);
+				final Sensekey sensekey = Sensekey.parse(senseKeyName);
 				if (senseKeys == null)
 				{
 					senseKeys = new ArrayList<>();
@@ -61,7 +61,7 @@ public class VnItem
 			}
 		}
 
-		List<VnGrouping> groupings = null;
+		List<Grouping> groupings = null;
 		if (groupingAttribute != null && !groupingAttribute.trim().isEmpty())
 		{
 			final String groupingAttribute2 = groupingAttribute.trim();
@@ -69,7 +69,7 @@ public class VnItem
 			for (final String groupingName : groupingNames)
 			{
 				// get sensekey
-				final VnGrouping grouping = VnGrouping.make(groupingName);
+				final Grouping grouping = Grouping.make(groupingName);
 				if (groupings == null)
 				{
 					groupings = new ArrayList<>();

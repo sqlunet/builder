@@ -2,9 +2,8 @@ package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnPredicate;
-import org.sqlbuilder.vn.objects.VnSemantics;
+import org.sqlbuilder.vn.objects.Predicate;
+import org.sqlbuilder.vn.objects.Semantics;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -15,13 +14,13 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 {
 	public static final Set<VnPredicateMapping> SET = new HashSet<>();
 
-	private final VnSemantics semantics;
+	private final Semantics semantics;
 
-	private final VnPredicate predicate;
+	private final Predicate predicate;
 
 	// C O N S T R U C T
 
-	public VnPredicateMapping(final VnSemantics semantics, final VnPredicate predicate)
+	public VnPredicateMapping(final Semantics semantics, final Predicate predicate)
 	{
 		this.semantics = semantics;
 		this.predicate = predicate;
@@ -62,25 +61,25 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 
 	// A C C E S S
 
-	public VnSemantics getSemantics()
+	public Semantics getSemantics()
 	{
 		return semantics;
 	}
 
-	public VnPredicate getPredicate()
+	public Predicate getPredicate()
 	{
 		return predicate;
 	}
 
 	// I N S E R T
 
-	@RequiresIdFrom(type = VnSemantics.class)
-	@RequiresIdFrom(type = VnPredicate.class)
+	@RequiresIdFrom(type = Semantics.class)
+	@RequiresIdFrom(type = Predicate.class)
 	@Override
 	public String dataRow()
 	{
 		// semantics.id
 		// predicate.id
-		return String.format("%d,%d", VnSemantics.COLLECTOR.get(semantics), VnPredicate.COLLECTOR.get(predicate));
+		return String.format("%d,%d", Semantics.COLLECTOR.get(semantics), Predicate.COLLECTOR.get(predicate));
 	}
 }

@@ -1,5 +1,6 @@
 package org.sqlbuilder.pb;
 
+import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -19,15 +20,15 @@ public class SemlinkDocument extends PbDocument
 		super(filePath);
 	}
 
-	public static Map<PbRole, PbVnRole> getMappings(final Node start) throws XPathExpressionException
+	public static Map<Role, PbVnRole> getMappings(final Node start) throws XPathExpressionException
 	{
-		final Map<PbRole, PbVnRole> map = new TreeMap<>();
+		final Map<Role, PbVnRole> map = new TreeMap<>();
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final PbPredicate predicate = PbPredicate.make(lemmaAttribute, lemmaAttribute);
+			final Predicate predicate = Predicate.make(lemmaAttribute, lemmaAttribute);
 
 			final NodeList argmapNodes = PbDocument.getXPaths(predicateElement, "./argmap");
 			for (int j = 0; j < argmapNodes.getLength(); j++)
@@ -35,7 +36,7 @@ public class SemlinkDocument extends PbDocument
 				final Element argmapElement = (Element) argmapNodes.item(j);
 
 				final String roleSetIdAttribute = argmapElement.getAttribute("pb-roleset");
-				final PbRoleSet roleSet = PbRoleSet.make(predicate, roleSetIdAttribute, null, null);
+				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, null, null);
 
 				final String vnClassAttribute = argmapElement.getAttribute("vn-class");
 				final PbVnClass vnClass = PbVnClass.make(predicate.getHead(), vnClassAttribute);
@@ -48,7 +49,7 @@ public class SemlinkDocument extends PbDocument
 					final String argAttribute = roleElement.getAttribute("pb-arg");
 					final String fAttribute = roleElement.getAttribute("pb-f");
 					final String thetaAttribute = roleElement.getAttribute("vn-theta");
-					final PbRole role = PbRole.make(roleSet, argAttribute, fAttribute, thetaAttribute, null);
+					final Role role = Role.make(roleSet, argAttribute, fAttribute, thetaAttribute, null);
 
 					final PbVnRole vnRole = PbVnRole.make(vnClass, thetaAttribute);
 

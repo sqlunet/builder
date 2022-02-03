@@ -13,15 +13,15 @@ public class VnMemberSense implements Insertable, Comparable<VnMemberSense>
 
 	public static final Set<VnMemberSense> SET = new HashSet<>();
 
-	private final VnMember member;
+	private final ClassMember member;
 
 	private final int sensenum;
 
-	private final VnSensekey sensekey;
+	private final Sensekey sensekey;
 
 	private final Float quality;
 
-	public VnMemberSense(final VnMember member, final int sensenum, final VnSensekey sensekey, final Float quality)
+	public VnMemberSense(final ClassMember member, final int sensenum, final Sensekey sensekey, final Float quality)
 	{
 		this.member = member;
 		this.sensenum = sensenum;
@@ -29,12 +29,12 @@ public class VnMemberSense implements Insertable, Comparable<VnMemberSense>
 		this.quality = quality;
 	}
 
-	public VnMember getMember()
+	public ClassMember getMember()
 	{
 		return member;
 	}
 
-	public VnSensekey getSensekey()
+	public Sensekey getSensekey()
 	{
 		return sensekey;
 	}

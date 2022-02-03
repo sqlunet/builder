@@ -1,6 +1,8 @@
 package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.NotFoundException;
+import org.sqlbuilder.pb.objects.PbVnClass;
+import org.sqlbuilder.pb.objects.PbVnRole;
 
 import java.util.Collection;
 import java.util.Set;

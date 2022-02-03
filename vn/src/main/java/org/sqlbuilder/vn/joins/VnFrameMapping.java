@@ -3,17 +3,17 @@ package org.sqlbuilder.vn.joins;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnFrame;
+import org.sqlbuilder.vn.objects.Frame;
 
 public class VnFrameMapping implements Insertable
 {
-	private final VnFrame frame;
+	private final Frame frame;
 
 	private final VnClass clazz;
 
 	// C O N S T R U C T
 
-	public VnFrameMapping(final VnFrame frame, final VnClass clazz)
+	public VnFrameMapping(final Frame frame, final VnClass clazz)
 	{
 		this.frame = frame;
 		this.clazz = clazz;
@@ -21,7 +21,7 @@ public class VnFrameMapping implements Insertable
 
 	// I N S E R T
 
-	@RequiresIdFrom(type = VnFrame.class)
+	@RequiresIdFrom(type = Frame.class)
 	@Override
 	public String dataRow()
 	{

@@ -75,7 +75,7 @@ public class Insert
 
 	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns) throws FileNotFoundException
 	{
-		insert(map, file, table, columns, false);
+		insert(map, file, table, columns, true);
 	}
 
 	// S T R I N G   M A P

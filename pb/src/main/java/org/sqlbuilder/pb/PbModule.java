@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Module;
+import org.sqlbuilder.pb.collectors.*;
 
 import java.io.IOException;
 import java.util.Properties;

@@ -1,5 +1,7 @@
 package org.sqlbuilder.pb;
 
+import org.sqlbuilder.pb.joins.PbVnRoleMapping;
+import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,15 +23,15 @@ public class PbVerbDocument extends PbDocument
 		super(filePath);
 	}
 
-	public static Collection<PbPredicate> getPredicates(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Predicate> getPredicates(final String head, final Node start) throws XPathExpressionException
 	{
-		List<PbPredicate> result = null;
+		List<Predicate> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final PbPredicate predicate = PbPredicate.make(head, lemmaAttribute);
+			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 			if (result == null)
 			{
 				result = new ArrayList<>();
@@ -39,15 +41,15 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<PbLexItem> getAliasPredicates(final Node start) throws XPathExpressionException
+	public static Collection<LexItem> getAliasPredicates(final Node start) throws XPathExpressionException
 	{
-		List<PbLexItem> result = null;
+		List<LexItem> result = null;
 		final NodeList aliasNodes = PbDocument.getXPaths(start, ".//alias");
 		for (int i = 0; i < aliasNodes.getLength(); i++)
 		{
 			final Element aliasElement = (Element) aliasNodes.item(i);
 			final String lemma = aliasElement.getTextContent(); // $NON-NLS-1$
-			final PbLexItem predicate = PbLexItem.make(lemma);
+			final LexItem predicate = LexItem.make(lemma);
 			if (result == null)
 			{
 				result = new ArrayList<>();
@@ -57,15 +59,15 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<PbRoleSet> getRoleSets(final String head, final Node start) throws XPathExpressionException
+	public static Collection<RoleSet> getRoleSets(final String head, final Node start) throws XPathExpressionException
 	{
-		List<PbRoleSet> result = null;
+		List<RoleSet> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final PbPredicate predicate = PbPredicate.make(head, lemmaAttribute);
+			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 
 			final NodeList roleSetNodes = PbDocument.getXPaths(predicateElement, "./roleset");
 			for (int j = 0; j < roleSetNodes.getLength(); j++)
@@ -76,7 +78,7 @@ public class PbVerbDocument extends PbDocument
 				final String roleSetNameAttribute = roleSetElement.getAttribute("name");
 
 				// roleset aliases
-				final List<PbAlias> aliases = new ArrayList<>();
+				final List<Alias> aliases = new ArrayList<>();
 				final NodeList aliasRoleNodes = PbDocument.getXPaths(roleSetElement, "./aliases/alias");
 				if (aliasRoleNodes != null && aliasRoleNodes.getLength() > 0)
 				{
@@ -98,7 +100,7 @@ public class PbVerbDocument extends PbDocument
 								{
 									continue;
 								}
-								final PbAlias alias = new PbAlias(PbAlias.Db.VERBNET, clazz, pos, lemma, null, null);
+								final Alias alias = new Alias(Alias.Db.VERBNET, clazz, pos, lemma, null, null);
 								aliases.add(alias);
 							}
 						}
@@ -114,14 +116,14 @@ public class PbVerbDocument extends PbDocument
 								{
 									continue;
 								}
-								final PbAlias alias = new PbAlias(PbAlias.Db.FRAMENET, frame, pos, lemma, null, null);
+								final Alias alias = new Alias(Alias.Db.FRAMENET, frame, pos, lemma, null, null);
 								aliases.add(alias);
 							}
 						}
 					}
 				}
 
-				final PbRoleSet roleSet = PbRoleSet.make(predicate, roleSetIdAttribute, roleSetNameAttribute, aliases);
+				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, roleSetNameAttribute, aliases);
 				if (result == null)
 				{
 					result = new ArrayList<>();
@@ -132,15 +134,15 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<PbRole> getRoles(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Role> getRoles(final String head, final Node start) throws XPathExpressionException
 	{
-		List<PbRole> result = null;
+		List<Role> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final PbPredicate predicate = PbPredicate.make(head, lemmaAttribute);
+			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 
 			final NodeList roleSetNodes = PbDocument.getXPaths(predicateElement, "./roleset");
 			for (int j = 0; j < roleSetNodes.getLength(); j++)
@@ -151,7 +153,7 @@ public class PbVerbDocument extends PbDocument
 				final String nameAttribute = roleSetElement.getAttribute("name");
 
 				// roleset
-				final PbRoleSet roleSet = PbRoleSet.make(predicate, roleSetIdAttribute, nameAttribute, null);
+				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute, null);
 
 				final NodeList roleNodes = PbDocument.getXPaths(roleSetElement, "./roles/role");
 				for (int k = 0; k < roleNodes.getLength(); k++)
@@ -173,7 +175,7 @@ public class PbVerbDocument extends PbDocument
 					}
 
 					// role
-					final PbRole role = PbRole.make(roleSet, nAttribute, fAttribute, theta, descriptorAttribute);
+					final Role role = Role.make(roleSet, nAttribute, fAttribute, theta, descriptorAttribute);
 					if (result == null)
 					{
 						result = new ArrayList<>();
@@ -188,7 +190,7 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	private static void makeVnRoleMaps(final String head, final PbRole role, final Element roleElement) throws XPathExpressionException
+	private static void makeVnRoleMaps(final String head, final Role role, final Element roleElement) throws XPathExpressionException
 	{
 		final NodeList vnRoleNodes = PbDocument.getXPaths(roleElement, "./vnrole");
 		for (int l = 0; l < vnRoleNodes.getLength(); l++)
@@ -208,15 +210,15 @@ public class PbVerbDocument extends PbDocument
 		}
 	}
 
-	public static Collection<PbExample> getExamples(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Example> getExamples(final String head, final Node start) throws XPathExpressionException
 	{
-		List<PbExample> result = null;
+		List<Example> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final PbPredicate predicate = PbPredicate.make(head, lemmaAttribute);
+			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 
 			final NodeList roleSetNodes = PbDocument.getXPaths(predicateElement, "./roleset");
 			for (int j = 0; j < roleSetNodes.getLength(); j++)
@@ -224,7 +226,7 @@ public class PbVerbDocument extends PbDocument
 				final Element roleSetElement = (Element) roleSetNodes.item(j);
 				final String roleSetIdAttribute = roleSetElement.getAttribute("id");
 				final String nameAttribute = roleSetElement.getAttribute("name");
-				final PbRoleSet roleSet = PbRoleSet.make(predicate, roleSetIdAttribute, nameAttribute, null);
+				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute, null);
 
 				final NodeList exampleNodes = PbDocument.getXPaths(roleSetElement, "./example");
 				for (int k = 0; k < exampleNodes.getLength(); k++)
@@ -239,7 +241,7 @@ public class PbVerbDocument extends PbDocument
 					String person = null;
 					String tense = null;
 					String voice = null;
-					PbExample example;
+					Example example;
 					final Node inflectionNode = PbDocument.getXPath(exampleElement, "./inflection");
 					if (inflectionNode != null)
 					{
@@ -250,7 +252,7 @@ public class PbVerbDocument extends PbDocument
 						tense = inflectionElement.getAttribute("tense");
 						voice = inflectionElement.getAttribute("voice");
 					}
-					example = PbExample.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice);
+					example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice);
 
 					// relations
 					final NodeList relNodes = PbDocument.getXPaths(exampleElement, "./rel");
@@ -260,7 +262,7 @@ public class PbVerbDocument extends PbDocument
 
 						final String f = relElement.getAttribute("f");
 						final String relText = relElement.getTextContent().trim();
-						final PbRel rel = PbRel.make(example, relText, f);
+						final Rel rel = Rel.make(example, relText, f);
 						example.rels.add(rel);
 					}
 
@@ -273,7 +275,7 @@ public class PbVerbDocument extends PbDocument
 						final String f = argElement.getAttribute("f");
 						final String n = argElement.getAttribute("n");
 						final String argText = argElement.getTextContent().trim();
-						final PbArg arg = PbArg.make(example, argText, n, f);
+						final Arg arg = Arg.make(example, argText, n, f);
 						example.args.add(arg);
 					}
 
@@ -288,15 +290,15 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<PbArg> getExampleArgs(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Arg> getExampleArgs(final String head, final Node start) throws XPathExpressionException
 	{
-		List<PbArg> result = null;
+		List<Arg> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final PbPredicate predicate = PbPredicate.make(head, lemmaAttribute);
+			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 
 			final NodeList roleSetNodes = PbDocument.getXPaths(predicateElement, "./roleset");
 			for (int j = 0; j < roleSetNodes.getLength(); j++)
@@ -304,7 +306,7 @@ public class PbVerbDocument extends PbDocument
 				final Element roleSetElement = (Element) roleSetNodes.item(j);
 				final String roleSetIdAttribute = roleSetElement.getAttribute("id");
 				final String nameAttribute = roleSetElement.getAttribute("name");
-				final PbRoleSet roleSet = PbRoleSet.make(predicate, roleSetIdAttribute, nameAttribute, null);
+				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute, null);
 
 				final NodeList exampleNodes = PbDocument.getXPaths(roleSetElement, "./example");
 				for (int k = 0; k < exampleNodes.getLength(); k++)
@@ -319,7 +321,7 @@ public class PbVerbDocument extends PbDocument
 					String person = null;
 					String tense = null;
 					String voice = null;
-					PbExample example;
+					Example example;
 					final Node inflectionNode = PbDocument.getXPath(exampleElement, "./inflection");
 					if (inflectionNode != null)
 					{
@@ -330,7 +332,7 @@ public class PbVerbDocument extends PbDocument
 						tense = inflectionElement.getAttribute("tense");
 						voice = inflectionElement.getAttribute("voice");
 					}
-					example = PbExample.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice);
+					example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice);
 
 					// args
 					final NodeList argNodes = PbDocument.getXPaths(exampleElement, "./arg");
@@ -341,7 +343,7 @@ public class PbVerbDocument extends PbDocument
 						final String f = argElement.getAttribute("f");
 						final String n = argElement.getAttribute("n");
 						final String argText = argElement.getTextContent().trim();
-						final PbArg arg = PbArg.make(example, argText, n, f);
+						final Arg arg = Arg.make(example, argText, n, f);
 						if (result == null)
 						{
 							result = new ArrayList<>();

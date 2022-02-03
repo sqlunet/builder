@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.joins;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnGrouping;
+import org.sqlbuilder.vn.objects.Grouping;
 import org.sqlbuilder.vn.objects.VnWord;
 
 import java.util.Comparator;
@@ -18,9 +18,9 @@ public class VnGroupingMapping implements Insertable, Comparable<VnGroupingMappi
 
 	private final VnClass clazz;
 
-	private final VnGrouping grouping;
+	private final Grouping grouping;
 
-	public VnGroupingMapping(final VnWord word, final VnClass clazz, final VnGrouping grouping)
+	public VnGroupingMapping(final VnWord word, final VnClass clazz, final Grouping grouping)
 	{
 		this.word = word;
 		this.clazz = clazz;
@@ -37,7 +37,7 @@ public class VnGroupingMapping implements Insertable, Comparable<VnGroupingMappi
 		return clazz;
 	}
 
-	public VnGrouping getGrouping()
+	public Grouping getGrouping()
 	{
 		return grouping;
 	}
@@ -64,13 +64,13 @@ public class VnGroupingMapping implements Insertable, Comparable<VnGroupingMappi
 
 	@RequiresIdFrom(type = VnClass.class)
 	@RequiresIdFrom(type = VnWord.class)
-	@RequiresIdFrom(type = VnGrouping.class)
+	@RequiresIdFrom(type = Grouping.class)
 	@Override
 	public String dataRow()
 	{
 		//	clazz.id
 		//	word.id
 		//	grouping.id
-		return String.format("%d,%d,%d", VnClass.COLLECTOR.get(clazz), VnWord.COLLECTOR.get(word), VnGrouping.COLLECTOR.get(grouping));
+		return String.format("%d,%d,%d", VnClass.COLLECTOR.get(clazz), VnWord.COLLECTOR.get(word), Grouping.COLLECTOR.get(grouping));
 	}
 }

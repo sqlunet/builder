@@ -2,6 +2,7 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.MapFactory;
 import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
 import java.util.Map;
@@ -24,33 +25,33 @@ public class Inserter
 	private static void makeMaps()
 	{
 		// roles
-		PbRole.MAP = MapFactory.makeMap(PbRole.SET);
-		Progress.traceTailer("roles",  Long.toString(PbRole.MAP.size()));
+		Role.MAP = MapFactory.makeMap(Role.SET);
+		Progress.traceTailer("roles",  Long.toString(Role.MAP.size()));
 
 		// rolesets
-		PbRoleSet.MAP = MapFactory.makeMap(PbRoleSet.SET);
-		Progress.traceTailer("rolesets",  Long.toString(PbRoleSet.MAP.size()));
+		RoleSet.MAP = MapFactory.makeMap(RoleSet.SET);
+		Progress.traceTailer("rolesets",  Long.toString(RoleSet.MAP.size()));
 
-		PbFunc.MAP = MapFactory.makeMap(PbFunc.SET);
-		Progress.traceTailer("func",  Long.toString(PbFunc.MAP .size()));
+		Func.MAP = MapFactory.makeMap(Func.SET);
+		Progress.traceTailer("func",  Long.toString(Func.MAP .size()));
 
 		PbTheta.MAP = MapFactory.makeMap(PbTheta.SET);
 		Progress.traceTailer("theta", Long.toString(PbTheta.MAP .size()));
 
-		PbExample.aspectMap = MapFactory.makeMap(PbExample.aspectSet);
-		Progress.traceTailer("aspect",  Long.toString(PbExample.aspectMap.size()));
+		Example.aspectMap = MapFactory.makeMap(Example.aspectSet);
+		Progress.traceTailer("aspect",  Long.toString(Example.aspectMap.size()));
 
-		PbExample.formMap = MapFactory.makeMap(PbExample.formSet);
-		Progress.traceTailer("form",  Long.toString(PbExample.formMap.size()));
+		Example.formMap = MapFactory.makeMap(Example.formSet);
+		Progress.traceTailer("form",  Long.toString(Example.formMap.size()));
 
-		PbExample.personMap = MapFactory.makeMap(PbExample.personSet);
-		Progress.traceTailer("person",  Long.toString(PbExample.personMap.size()));
+		Example.personMap = MapFactory.makeMap(Example.personSet);
+		Progress.traceTailer("person",  Long.toString(Example.personMap.size()));
 
-		PbExample.tenseMap = MapFactory.makeMap(PbExample.tenseSet);
-		Progress.traceTailer("tense", Long.toString(PbExample.tenseMap.size()));
+		Example.tenseMap = MapFactory.makeMap(Example.tenseSet);
+		Progress.traceTailer("tense", Long.toString(Example.tenseMap.size()));
 
-		PbExample.voiceMap = MapFactory.makeMap(PbExample.voiceSet);
-		Progress.traceTailer("voice",  Long.toString(PbExample.voiceMap.size()));
+		Example.voiceMap = MapFactory.makeMap(Example.voiceSet);
+		Progress.traceTailer("voice",  Long.toString(Example.voiceMap.size()));
 
 		// examples
 		//Progress.traceHeader("examples", "map");
@@ -64,21 +65,21 @@ public class Inserter
 		makeMaps();
 		Progress.traceTailer("maps", "done");
 
-		insertMap(PbRoleSet.MAP, "pb_rolesets");
-		insertMap(PbRole.MAP, "pb_roles");
-		insertSet(PbExample.SET, "pb_examples");
-		insertSet(PbArg.SET, "pb_args");
-		insertSet(PbRel.SET, "pb_rels");
-		insertSet(PbRoleSetMember.SET, "pb_members");
+		insertMap(RoleSet.MAP, "pb_rolesets");
+		insertMap(Role.MAP, "pb_roles");
+		insertSet(Example.SET, "pb_examples");
+		insertSet(Arg.SET, "pb_args");
+		insertSet(Rel.SET, "pb_rels");
+		insertSet(RoleSetMember.SET, "pb_members");
 
-		insertSet(PbArg.nSet, PbArg.nNames, "pb_argntype");
-		insertMap(PbExample.aspectMap, "pb_aspecttype");
-		insertMap(PbExample.formMap, "pb_formtype");
-		insertMap(PbExample.personMap, "pb_persontype");
-		insertMap(PbExample.tenseMap, "pb_tensetype");
-		insertMap(PbExample.voiceMap, "pb_voicetype");
+		insertSet(Arg.nSet, Arg.nNames, "pb_argntype");
+		insertMap(Example.aspectMap, "pb_aspecttype");
+		insertMap(Example.formMap, "pb_formtype");
+		insertMap(Example.personMap, "pb_persontype");
+		insertMap(Example.tenseMap, "pb_tensetype");
+		insertMap(Example.voiceMap, "pb_voicetype");
 
-		insertMap(PbFunc.MAP, PbFunc.funcNames, "pb_functype");
+		insertMap(Func.MAP, Func.funcNames, "pb_functype");
 		insertMap(PbTheta.MAP, "pbvn_theta");
 	}
 

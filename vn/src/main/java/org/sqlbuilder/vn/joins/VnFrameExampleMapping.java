@@ -2,9 +2,8 @@ package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnFrame;
-import org.sqlbuilder.vn.objects.VnFrameExample;
+import org.sqlbuilder.vn.objects.Frame;
+import org.sqlbuilder.vn.objects.FrameExample;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,13 +13,13 @@ public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExam
 {
 	public static final Set<VnFrameExampleMapping> SET = new HashSet<>();
 
-	private final VnFrame frame;
+	private final Frame frame;
 
-	private final VnFrameExample example;
+	private final FrameExample example;
 
 	// C O N S T R U C T
 
-	public VnFrameExampleMapping(final VnFrame frame, final VnFrameExample example)
+	public VnFrameExampleMapping(final Frame frame, final FrameExample example)
 	{
 		this.frame = frame;
 		this.example = example;
@@ -64,13 +63,13 @@ public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExam
 
 	// I N S E R T
 
-	@RequiresIdFrom(type = VnFrame.class)
-	@RequiresIdFrom(type = VnFrameExample.class)
+	@RequiresIdFrom(type = Frame.class)
+	@RequiresIdFrom(type = FrameExample.class)
 	@Override
 	public String dataRow()
 	{
 		// frame.id
 		// example.id
-		return String.format("%d,%d", VnFrame.COLLECTOR.get(frame), VnFrameExample.COLLECTOR.get(example));
+		return String.format("%d,%d", Frame.COLLECTOR.get(frame), FrameExample.COLLECTOR.get(example));
 	}
 }

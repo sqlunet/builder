@@ -41,7 +41,7 @@ public class Vn4Processor extends VnProcessor
 		processVerbNetClass(document, start, head, null);
 	}
 
-	private void processVerbNetClass(final VnDocument document, final Node start, final String head, final VnClassData inheritedData)
+	private void processVerbNetClass(final VnDocument document, final Node start, final String head, final ClassData inheritedData)
 	{
 		try
 		{
@@ -50,7 +50,7 @@ public class Vn4Processor extends VnProcessor
 			final VnClass vnclass = VnClass.make(className);
 
 			// get class data and merge with inherited data
-			final VnClassData data = VnDocument.getClassData(start, vnclass);
+			final ClassData data = VnDocument.getClassData(start, vnclass);
 			if (inheritedData != null)
 			{
 				data.merge(inheritedData);
@@ -72,8 +72,8 @@ public class Vn4Processor extends VnProcessor
 				VnWord.COLLECTOR.add(vnWord);
 
 				// class member
-				final VnMember member = new VnMember(vnclass, vnWord);
-				VnMember.SET.add(member);
+				final ClassMember member = new ClassMember(vnclass, vnWord);
+				ClassMember.SET.add(member);
 
 				// if sensekeys are null, data apply to all senses
 				if (item.senseKeys == null)
@@ -96,7 +96,7 @@ public class Vn4Processor extends VnProcessor
 
 				// else if sensekeys are not null, data apply only to senses pointed at by sensekeys
 				int i = 1;
-				for (final VnSensekey sensekey : item.senseKeys)
+				for (final Sensekey sensekey : item.senseKeys)
 				{
 					// sense mapping quality as indicated by verbnet ('?' prefix to sense key)
 					final float senseQuality = sensekey.getQuality();
@@ -121,7 +121,7 @@ public class Vn4Processor extends VnProcessor
 				// groupings
 				if (item.groupings != null)
 				{
-					for (final VnGrouping grouping : item.groupings)
+					for (final Grouping grouping : item.groupings)
 					{
 						final VnGroupingMapping vnGroupingMapping = new VnGroupingMapping(vnWord, vnclass, grouping);
 

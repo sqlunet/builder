@@ -2,17 +2,17 @@ package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnRole;
+import org.sqlbuilder.vn.objects.Role;
 
 public class VnRoleMapping implements Insertable
 {
-	private final VnRole role;
+	private final Role role;
 
 	private final VnClass clazz;
 
 	// C O N S T R U C T
 
-	public VnRoleMapping(final VnRole role, final VnClass clazz)
+	public VnRoleMapping(final Role role, final VnClass clazz)
 	{
 		this.role = role;
 		this.clazz = clazz;

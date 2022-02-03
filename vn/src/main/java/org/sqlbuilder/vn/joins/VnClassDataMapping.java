@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.vn.objects.VnClassData;
+import org.sqlbuilder.vn.objects.ClassData;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,9 +10,9 @@ public class VnClassDataMapping implements Insertable
 {
 	public static final Set<VnClassDataMapping> SET = new HashSet<>();
 
-	final VnClassData classData;
+	final ClassData classData;
 
-	public VnClassDataMapping(final VnClassData classData)
+	public VnClassDataMapping(final ClassData classData)
 	{
 		this.classData = classData;
 	}

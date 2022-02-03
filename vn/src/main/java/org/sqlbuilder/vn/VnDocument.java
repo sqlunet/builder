@@ -91,18 +91,18 @@ public class VnDocument
 		return classElement.getAttribute("ID");
 	}
 
-	public static VnClassData getClassData(final Node start, final VnClass vnclass) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
+	public static ClassData getClassData(final Node start, final VnClass vnclass) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{
-		final Set<VnRole> roles = VnDocument.makeRoles(start);
-		final List<VnFrame> frames = VnDocument.makeFrames(start);
-		return new VnClassData(vnclass, roles, frames);
+		final Set<Role> roles = VnDocument.makeRoles(start);
+		final List<Frame> frames = VnDocument.makeFrames(start);
+		return new ClassData(vnclass, roles, frames);
 	}
 
 	// G R O U P I N G S
 
-	public static Set<VnGrouping> makeGroupings(final Node start) throws XPathExpressionException
+	public static Set<Grouping> makeGroupings(final Node start) throws XPathExpressionException
 	{
-		final Set<VnGrouping> result = new HashSet<>();
+		final Set<Grouping> result = new HashSet<>();
 		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
 		for (int i = 0; i < memberNodes.getLength(); i++)
 		{
@@ -115,7 +115,7 @@ public class VnDocument
 			final String[] groupingNames = groupingAttribute.split("\\s");
 			for (final String groupingName : groupingNames)
 			{
-				final VnGrouping grouping = VnGrouping.make(groupingName);
+				final Grouping grouping = Grouping.make(groupingName);
 				result.add(grouping);
 			}
 		}
@@ -124,9 +124,9 @@ public class VnDocument
 
 	// R O L E
 
-	public static Set<VnRole> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
+	public static Set<Role> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
-		final Set<VnRole> result = new HashSet<>();
+		final Set<Role> result = new HashSet<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./THEMROLES/THEMROLE");
 		if (nodes != null)
 		{
@@ -138,15 +138,15 @@ public class VnDocument
 				final Element restrsElement = (Element) restrsNodes.item(0);
 				final String selStrsXML = XPathUtils.getXML(restrsElement);
 				// String logic = restrsElement.getAttribute("logic");
-				result.add(VnRole.make(type, selStrsXML));
+				result.add(Role.make(type, selStrsXML));
 			}
 		}
 		return result;
 	}
 
-	public static Collection<VnRoleType> makeRoleTypes(final Node start) throws XPathExpressionException
+	public static Collection<RoleType> makeRoleTypes(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnRoleType> result = new ArrayList<>();
+		final Collection<RoleType> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./THEMROLES/THEMROLE");
 		if (nodes != null)
 		{
@@ -154,15 +154,15 @@ public class VnDocument
 			{
 				final Element roleElement = (Element) nodes.item(i);
 				final String type = roleElement.getAttribute("type");
-				result.add(VnRoleType.make(type));
+				result.add(RoleType.make(type));
 			}
 		}
 		return result;
 	}
 
-	public static Collection<VnRestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
+	public static Collection<RestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnRestrType> result = new ArrayList<>();
+		final Collection<RestrType> result = new ArrayList<>();
 		final NodeList selNodes = XPathUtils.getXPaths(start, "//SELRESTR");
 		if (selNodes != null)
 		{
@@ -171,16 +171,16 @@ public class VnDocument
 				final Element element = (Element) selNodes.item(i);
 				final String restrValue = element.getAttribute("Value");
 				final String restrType = element.getAttribute("type");
-				final VnRestrType restr = VnRestrType.make(restrValue, restrType, false);
+				final RestrType restr = RestrType.make(restrValue, restrType, false);
 				result.add(restr);
 			}
 		}
 		return result;
 	}
 
-	public static Collection<VnRestrType> makeSynRestrTypes(final Node start) throws XPathExpressionException
+	public static Collection<RestrType> makeSynRestrTypes(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnRestrType> result = new ArrayList<>();
+		final Collection<RestrType> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "//SYNRESTR");
 		if (nodes != null)
 		{
@@ -189,16 +189,16 @@ public class VnDocument
 				final Element element = (Element) nodes.item(i);
 				final String restrValue = element.getAttribute("Value");
 				final String restrType = element.getAttribute("type");
-				final VnRestrType restr = VnRestrType.make(restrValue, restrType, true);
+				final RestrType restr = RestrType.make(restrValue, restrType, true);
 				result.add(restr);
 			}
 		}
 		return result;
 	}
 
-	public static Collection<VnRestrs> makeSelRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
+	public static Collection<Restrs> makeSelRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
-		final Collection<VnRestrs> result = new ArrayList<>();
+		final Collection<Restrs> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "//SELRESTRS");
 		if (nodes != null)
 		{
@@ -208,7 +208,7 @@ public class VnDocument
 				final String xML = XPathUtils.getXML(element);
 				if (!xML.isEmpty() && !xML.equals("<SELRESTRS/>"))
 				{
-					final VnRestrs restrs = VnRestrs.make(xML, false);
+					final Restrs restrs = Restrs.make(xML, false);
 					result.add(restrs);
 				}
 			}
@@ -216,9 +216,9 @@ public class VnDocument
 		return result;
 	}
 
-	public static Collection<VnRestrs> makeSynRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
+	public static Collection<Restrs> makeSynRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
-		final Collection<VnRestrs> result = new ArrayList<>();
+		final Collection<Restrs> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "//SYNRESTRS");
 		if (nodes != null)
 		{
@@ -228,7 +228,7 @@ public class VnDocument
 				final String xML = XPathUtils.getXML(element);
 				if (!xML.isEmpty() && !xML.equals("<SYNRESTRS/>"))
 				{
-					final VnRestrs restrs = VnRestrs.make(xML, true);
+					final Restrs restrs = Restrs.make(xML, true);
 					result.add(restrs);
 				}
 			}
@@ -238,9 +238,9 @@ public class VnDocument
 
 	// F R A M E
 
-	public static List<VnFrame> makeFrames(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
+	public static List<Frame> makeFrames(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
-		final List<VnFrame> result = new ArrayList<>();
+		final List<Frame> result = new ArrayList<>();
 		final NodeList frameNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME");
 		for (int i = 0; i < frameNodes.getLength(); i++)
 		{
@@ -253,15 +253,15 @@ public class VnDocument
 			final String syntax = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SYNTAX"));
 			final String semantics = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SEMANTICS"));
 
-			final VnFrame frame = VnFrame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
+			final Frame frame = Frame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
 			result.add(frame);
 		}
 		return result;
 	}
 
-	public static Collection<VnFrameName> makeFrameNames(final Node start) throws XPathExpressionException
+	public static Collection<FrameName> makeFrameNames(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnFrameName> result = new ArrayList<>();
+		final Collection<FrameName> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/DESCRIPTION");
 		if (nodes != null)
 		{
@@ -269,15 +269,15 @@ public class VnDocument
 			{
 				final Element element = (Element) nodes.item(i);
 				final String name = element.getAttribute("primary");
-				result.add(VnFrameName.make(name));
+				result.add(FrameName.make(name));
 			}
 		}
 		return result;
 	}
 
-	public static Collection<VnFrameSubName> makeFrameSubNames(final Node start) throws XPathExpressionException
+	public static Collection<FrameSubName> makeFrameSubNames(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnFrameSubName> result = new ArrayList<>();
+		final Collection<FrameSubName> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/DESCRIPTION");
 		if (nodes != null)
 		{
@@ -288,22 +288,22 @@ public class VnDocument
 				if (subName != null && !subName.isEmpty())
 				{
 					subName = subName.replaceAll("\\s+", " ");
-					result.add(VnFrameSubName.make(subName));
+					result.add(FrameSubName.make(subName));
 				}
 			}
 		}
 		return result;
 	}
 
-	public static Collection<VnFrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
+	public static Collection<FrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnFrameExample> result = new ArrayList<>();
+		final Collection<FrameExample> result = new ArrayList<>();
 		final List<String> examples = XPathUtils.getXPathTexts(start, "./FRAMES/FRAME/EXAMPLES/EXAMPLE");
 		if (examples != null)
 		{
 			for (final String example : examples)
 			{
-				result.add(VnFrameExample.make(example));
+				result.add(FrameExample.make(example));
 			}
 		}
 		return result;
@@ -324,14 +324,14 @@ public class VnDocument
 			final String syntax = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SYNTAX"));
 			final String semantics = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SEMANTICS"));
 
-			final VnFrame frame = VnFrame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
+			final Frame frame = Frame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
 
 			final List<String> examples = XPathUtils.getXPathTexts(frameElement, "./EXAMPLES/EXAMPLE");
 			if (examples != null)
 			{
 				for (final String example : examples)
 				{
-					final VnFrameExample vnExample = VnFrameExample.make(example);
+					final FrameExample vnExample = FrameExample.make(example);
 					result.add(new VnFrameExampleMapping(frame, vnExample));
 				}
 			}
@@ -339,37 +339,37 @@ public class VnDocument
 		return result;
 	}
 
-	public static Collection<VnSyntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
+	public static Collection<Syntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
-		final Collection<VnSyntax> result = new ArrayList<>();
+		final Collection<Syntax> result = new ArrayList<>();
 		final List<String> syntaxes = XPathUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SYNTAX"));
 		// if (syntaxes != null)
 		// {
 		for (final String syntax : syntaxes)
 		{
-			result.add(VnSyntax.make(syntax));
+			result.add(Syntax.make(syntax));
 		}
 		// }
 		return result;
 	}
 
-	public static Collection<VnSemantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
+	public static Collection<Semantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
-		final Collection<VnSemantics> result = new ArrayList<>();
+		final Collection<Semantics> result = new ArrayList<>();
 		final List<String> semanticss = XPathUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS"));
 		// if (semanticss != null)
 		// {
 		for (final String semantics : semanticss)
 		{
-			result.add(VnSemantics.make(semantics));
+			result.add(Semantics.make(semantics));
 		}
 		// }
 		return result;
 	}
 
-	public static Collection<VnPredicate> makePredicates(final Node start) throws XPathExpressionException
+	public static Collection<Predicate> makePredicates(final Node start) throws XPathExpressionException
 	{
-		final Collection<VnPredicate> result = new ArrayList<>();
+		final Collection<Predicate> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS/PRED");
 		if (nodes != null)
 		{
@@ -377,7 +377,7 @@ public class VnDocument
 			{
 				final Element element = (Element) nodes.item(i);
 				final String predicate = element.getAttribute("value");
-				result.add(VnPredicate.make(predicate));
+				result.add(Predicate.make(predicate));
 			}
 		}
 		return result;
@@ -391,7 +391,7 @@ public class VnDocument
 		{
 			final Node semanticNode = semanticsNodes.item(i);
 			final String semanticsXml = XPathUtils.getXML(semanticNode);
-			final VnSemantics semantics = VnSemantics.make(semanticsXml);
+			final Semantics semantics = Semantics.make(semanticsXml);
 
 			final NodeList predNodes = XPathUtils.getXPaths(semanticNode, "./PRED");
 			if (predNodes != null)
@@ -399,7 +399,7 @@ public class VnDocument
 				for (int j = 0; j < predNodes.getLength(); j++)
 				{
 					final Element predicateElement = (Element) predNodes.item(j);
-					final VnPredicate predicate = VnPredicate.make(predicateElement.getAttribute("value"));
+					final Predicate predicate = Predicate.make(predicateElement.getAttribute("value"));
 					result.add(new VnPredicateMapping(semantics, predicate));
 				}
 			}
