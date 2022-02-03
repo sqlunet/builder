@@ -141,7 +141,7 @@ public class Inserter
 			try (@ProvidesIdTo(type = Layer.class) var ignored = Layer.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "layer");
-				Insert.insertNoNumber(Layer.COLLECTOR, new File(outDir, Names.LAYERS.FILE), Names.LAYERS.TABLE, Names.LAYERS.COLUMNS);
+				Insert.insert(Layer.COLLECTOR, new File(outDir, Names.LAYERS.FILE), Names.LAYERS.TABLE, Names.LAYERS.COLUMNS, false);
 				Progress.traceDone(null);
 
 				Progress.tracePending("set", "label");
