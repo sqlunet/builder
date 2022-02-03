@@ -68,8 +68,8 @@ public class Vn4Processor extends VnProcessor
 			for (final VnItem item : words)
 			{
 				// word
-				final VnWord vnWord = new VnWord(item.lemma);
-				VnWord.SET.add(vnWord);
+				final VnWord vnWord = VnWord.make(item.lemma);
+				VnWord.COLLECTOR.add(vnWord);
 
 				// class member
 				final VnMember member = new VnMember(vnclass, vnWord);

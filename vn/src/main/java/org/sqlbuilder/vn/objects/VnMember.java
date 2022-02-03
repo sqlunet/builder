@@ -55,6 +55,6 @@ public class VnMember implements Insertable, Comparable<VnMember>
 	{
 		// class.id
 		// word.id
-		return String.format("%d,%d", VnClass.COLLECTOR.get(clazz), VnWord.MAP.get(word));
+		return String.format("%d,%d", VnClass.COLLECTOR.get(clazz), VnWord.COLLECTOR.get(word));
 	}
 }

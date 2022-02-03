@@ -1,7 +1,6 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.MapFactory;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.vn.joins.VnFrameExampleMapping;
 import org.sqlbuilder.vn.joins.VnGroupingMapping;
@@ -25,21 +24,9 @@ public class Inserter
 		}
 	}
 
-	private static void makeMaps()
-	{
-		// from pass1
-		VnPredicate.MAP = MapFactory.makeSortedMap(VnPredicate.SET);
-
-		// from pass2
-
-		//TODO external map
-		VnWord.MAP = MapFactory.makeSortedMap(VnWord.SET);
-	}
-
+	//TODO external word map
 	public void insert() throws FileNotFoundException
 	{
-		makeMaps();
-
 		try ( //
 		      @ProvidesIdTo(type = VnClass.class) var ignored1 = VnClass.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = VnGrouping.class) var ignored2 = VnGrouping.COLLECTOR.open(); //
@@ -52,7 +39,10 @@ public class Inserter
 		      @ProvidesIdTo(type = VnFrameSubName.class) var ignored9 = VnFrameSubName.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = VnFrameExample.class) var ignored10 = VnFrameExample.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = VnFrameExample.class) var ignored11 = VnSyntax.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = VnFrameExample.class) var ignored12 = VnSemantics.COLLECTOR.open())
+		      @ProvidesIdTo(type = VnFrameExample.class) var ignored12 = VnSemantics.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = VnPredicate.class) var ignored13 = VnPredicate.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = VnWord.class) var ignored14 = VnWord.COLLECTOR.open() //
+		)
 		{
 			// from pass1
 			Insert.insert(VnClass.COLLECTOR, new File(outDir, Names.CLASSES.FILE), Names.CLASSES.TABLE, Names.CLASSES.COLUMNS);
@@ -66,7 +56,7 @@ public class Inserter
 			Insert.insert(VnFrameExample.COLLECTOR, new File(outDir, Names.EXAMPLES.FILE), Names.EXAMPLES.TABLE, Names.EXAMPLES.COLUMNS);
 			Insert.insert(VnSyntax.COLLECTOR, new File(outDir, Names.SYNTAXES.FILE), Names.SYNTAXES.TABLE, Names.SYNTAXES.COLUMNS);
 			Insert.insert(VnSemantics.COLLECTOR, new File(outDir, Names.SEMANTICS.FILE), Names.SEMANTICS.TABLE, Names.SEMANTICS.COLUMNS);
-			Insert.insert(VnPredicate.MAP, new File(outDir, Names.PREDICATES.FILE), Names.PREDICATES.TABLE, Names.PREDICATES.COLUMNS);
+			Insert.insert(VnPredicate.COLLECTOR, new File(outDir, Names.PREDICATES.FILE), Names.PREDICATES.TABLE, Names.PREDICATES.COLUMNS);
 
 			// from pass2
 			Insert.insert(VnRole.COLLECTOR, new File(outDir, Names.ROLES.FILE), Names.ROLES.TABLE, Names.ROLES.COLUMNS);
@@ -80,7 +70,7 @@ public class Inserter
 			Insert.insert(VnMember.SET, null, new File(outDir, Names.MEMBERS.FILE), Names.MEMBERS.TABLE, Names.MEMBERS.COLUMNS);
 			Insert.insert(VnGroupingMapping.SET, null, new File(outDir, Names.MEMBERS_GROUPINGS.FILE), Names.MEMBERS_GROUPINGS.TABLE, Names.MEMBERS_GROUPINGS.COLUMNS);
 
-			Insert.insert(VnWord.MAP, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
+			Insert.insert(VnWord.COLLECTOR, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
 			Insert.insert(VnMemberSense.SET, null, new File(outDir, Names.MEMBERS_SENSES.FILE), Names.MEMBERS_SENSES.TABLE, Names.MEMBERS_SENSES.COLUMNS);
 		}
 	}

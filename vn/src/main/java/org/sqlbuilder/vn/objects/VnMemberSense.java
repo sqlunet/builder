@@ -68,7 +68,7 @@ public class VnMemberSense implements Insertable, Comparable<VnMemberSense>
 		Long synsetid = null;
 		return String.format("%d,%d,%d,%s,%s,%s", //
 				VnClass.COLLECTOR.get(member.clazz), //
-				VnWord.MAP.get(member.word), //
+				VnWord.COLLECTOR.get(member.word), //
 				sensenum, //
 				synsetid != null ? synsetid : "NULL", //
 				sensekey != null ? "'" + sensekey.getSensekey() + "'" : "NULL", //

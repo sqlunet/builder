@@ -81,6 +81,6 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 	{
 		// semantics.id
 		// predicate.id
-		return String.format("%d,%d", VnSemantics.COLLECTOR.get(semantics), VnPredicate.MAP.get(predicate));
+		return String.format("%d,%d", VnSemantics.COLLECTOR.get(semantics), VnPredicate.COLLECTOR.get(predicate));
 	}
 }

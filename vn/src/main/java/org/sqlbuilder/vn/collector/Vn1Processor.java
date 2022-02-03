@@ -11,7 +11,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -69,14 +68,13 @@ public class Vn1Processor extends VnProcessor
 			VnDocument.makeFrameExamples(start);
 
 			// get syntaxes
-			final Collection<VnSyntax> syntaxes = VnDocument.makeSyntaxes(start);
+			VnDocument.makeSyntaxes(start);
 
 			// get semantics
-			final Collection<VnSemantics> semanticss = VnDocument.makeSemantics(start);
+			VnDocument.makeSemantics(start);
 
 			// get predicates
-			final Collection<VnPredicate> predicates = VnDocument.getPredicates(start);
-			VnPredicate.SET.addAll(predicates);
+			VnDocument.makePredicates(start);
 
 			// recurse
 			final NodeList subclasses = XPathUtils.getXPaths(start, "./SUBCLASSES/VNSUBCLASS");

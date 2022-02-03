@@ -1,25 +1,37 @@
 package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.SetCollector;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class VnPredicate implements Insertable, Comparable<VnPredicate>
 {
-	public static final Set<VnPredicate> SET = new HashSet<>();
+	public static final Comparator<VnPredicate> COMPARATOR = Comparator.comparing(VnPredicate::getName);
 
-	public static Map<VnPredicate, Integer> MAP;
+	public static final SetCollector<VnPredicate> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String name;
 
 	// C O N S T R U C T
 
-	public VnPredicate(final String name)
+	public static VnPredicate make(final String name)
+	{
+		var p = new VnPredicate(name);
+		COLLECTOR.add(p);
+		return p;
+	}
+
+	private VnPredicate(final String name)
 	{
 		this.name = name;
+	}
+
+	// A C C E S S
+
+	public String getName()
+	{
+		return name;
 	}
 
 	// I D E N T I T Y
@@ -50,7 +62,7 @@ public class VnPredicate implements Insertable, Comparable<VnPredicate>
 	@Override
 	public int compareTo(final VnPredicate that)
 	{
-		return this.name.compareTo(that.name);
+		return COMPARATOR.compare(this, that);
 	}
 
 	// I N S E R T

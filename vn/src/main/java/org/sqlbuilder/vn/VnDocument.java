@@ -367,7 +367,7 @@ public class VnDocument
 		return result;
 	}
 
-	public static Collection<VnPredicate> getPredicates(final Node start) throws XPathExpressionException
+	public static Collection<VnPredicate> makePredicates(final Node start) throws XPathExpressionException
 	{
 		final Collection<VnPredicate> result = new ArrayList<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS/PRED");
@@ -377,7 +377,7 @@ public class VnDocument
 			{
 				final Element element = (Element) nodes.item(i);
 				final String predicate = element.getAttribute("value");
-				result.add(new VnPredicate(predicate));
+				result.add(VnPredicate.make(predicate));
 			}
 		}
 		return result;
@@ -399,7 +399,7 @@ public class VnDocument
 				for (int j = 0; j < predNodes.getLength(); j++)
 				{
 					final Element predicateElement = (Element) predNodes.item(j);
-					final VnPredicate predicate = new VnPredicate(predicateElement.getAttribute("value"));
+					final VnPredicate predicate = VnPredicate.make(predicateElement.getAttribute("value"));
 					result.add(new VnPredicateMapping(semantics, predicate));
 				}
 			}

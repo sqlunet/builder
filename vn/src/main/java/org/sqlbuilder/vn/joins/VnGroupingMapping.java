@@ -71,6 +71,6 @@ public class VnGroupingMapping implements Insertable, Comparable<VnGroupingMappi
 		//	clazz.id
 		//	word.id
 		//	grouping.id
-		return String.format("%d,%d,%d", VnClass.COLLECTOR.get(clazz), VnWord.MAP.get(word), VnGrouping.COLLECTOR.get(grouping));
+		return String.format("%d,%d,%d", VnClass.COLLECTOR.get(clazz), VnWord.COLLECTOR.get(word), VnGrouping.COLLECTOR.get(grouping));
 	}
 }
