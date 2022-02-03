@@ -13,7 +13,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.CorpDocType;
 
-public class Corpus implements HasID, Insertable<Corpus>
+public class Corpus implements HasID, Insertable
 {
 	public static final Set<Corpus> SET = new HashSet<>();
 

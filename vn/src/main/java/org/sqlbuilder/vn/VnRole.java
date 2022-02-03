@@ -11,7 +11,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class VnRole implements Insertable<VnRole>, Comparable<VnRole>
+public class VnRole implements Insertable, Comparable<VnRole>
 {
 	protected static final Set<VnRole> SET = new HashSet<>();
 

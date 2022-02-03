@@ -13,7 +13,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SentenceType;
 
-public class Sentence implements HasID, Insertable<Sentence>
+public class Sentence implements HasID, Insertable
 {
 	public static final Set<Sentence> SET = new HashSet<>();
 

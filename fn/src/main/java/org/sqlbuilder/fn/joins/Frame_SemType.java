@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Frame_SemType extends Pair<Integer, Integer> implements Insertable<Frame_SemType>
+public class Frame_SemType extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<Frame_SemType> SET = new HashSet<>();
 

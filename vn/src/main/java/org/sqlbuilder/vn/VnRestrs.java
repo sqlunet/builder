@@ -11,7 +11,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class VnRestrs implements Insertable<VnRestrs>, Comparable<VnRestrs>
+public class VnRestrs implements Insertable, Comparable<VnRestrs>
 {
 	protected static final Set<VnRestrs> SET = new HashSet<>();
 

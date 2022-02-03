@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 import edu.berkeley.icsi.framenet.SubCorpusType;
 
-public class SubCorpus implements HasId, Insertable<SubCorpus>
+public class SubCorpus implements HasId, Insertable
 {
 	public static final Comparator<SubCorpus> COMPARATOR = Comparator.comparing(SubCorpus::getName).thenComparing(SubCorpus::getLuid);
 

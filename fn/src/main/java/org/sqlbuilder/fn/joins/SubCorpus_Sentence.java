@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Insertable<SubCorpus_Sentence>
+public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Insertable
 {
 	public static final Comparator<SubCorpus_Sentence> COMPARATOR = Comparator.comparing(SubCorpus_Sentence::getFirst, SubCorpus.COMPARATOR).thenComparing(SubCorpus_Sentence::getSecond);
 

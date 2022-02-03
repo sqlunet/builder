@@ -2,7 +2,7 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Insertable;
 
-public class PbWord implements Insertable<PbWord>, Comparable<PbWord>
+public class PbWord implements Insertable, Comparable<PbWord>
 {
 	public final String word;
 

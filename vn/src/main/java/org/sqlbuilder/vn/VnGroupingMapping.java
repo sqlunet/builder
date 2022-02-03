@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VnGroupingMapping implements Insertable<VnGroupingMapping>, Comparable<VnGroupingMapping>
+public class VnGroupingMapping implements Insertable, Comparable<VnGroupingMapping>
 {
 	protected static final Set<VnGroupingMapping> SET = new HashSet<>();
 

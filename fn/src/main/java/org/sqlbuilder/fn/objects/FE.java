@@ -16,7 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FEType;
 
-public class FE implements HasID, Insertable<FE>
+public class FE implements HasID, Insertable
 {
 	public static final Set<FE> SET = new HashSet<>();
 

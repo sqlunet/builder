@@ -9,7 +9,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SemTypeRefType;
 
-public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertable<LexUnit_SemType>
+public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Comparator<LexUnit_SemType> COMPARATOR = Comparator.comparing(LexUnit_SemType::getFirst).thenComparing(LexUnit_SemType::getSecond);
 

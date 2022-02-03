@@ -12,7 +12,7 @@ import java.util.Set;
 import edu.berkeley.icsi.framenet.CorpDocType;
 import edu.berkeley.icsi.framenet.CorpDocType.Document;
 
-public class Doc implements HasID, Insertable<Doc>
+public class Doc implements HasID, Insertable
 {
 	public static final Set<Doc> SET = new HashSet<>();
 

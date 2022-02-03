@@ -8,7 +8,7 @@ import org.sqlbuilder.fn.types.LayerType;
 
 import java.util.Comparator;
 
-public class Layer implements HasId, Insertable<Layer>
+public class Layer implements HasId, Insertable
 {
 	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(Layer::getName).thenComparing(Layer::getAnnosetid);
 

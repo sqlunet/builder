@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insertable;
 
 import java.util.*;
 
-public class PbRoleSet implements Insertable<PbRoleSet>, Comparable<PbRoleSet>
+public class PbRoleSet implements Insertable, Comparable<PbRoleSet>
 {
 	public static final Set<PbRoleSet> SET = new HashSet<>();
 

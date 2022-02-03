@@ -8,7 +8,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.InternalFrameRelationFEType;
 
-public class FE_FERequired extends Pair<Integer, Integer> implements Insertable<FE_FERequired>
+public class FE_FERequired extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<FE_FERequired> SET = new HashSet<>();
 

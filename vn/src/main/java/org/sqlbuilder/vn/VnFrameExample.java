@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnFrameExample implements Insertable<VnFrameExample>, Comparable<VnFrameExample>
+public class VnFrameExample implements Insertable, Comparable<VnFrameExample>
 {
 	protected static final Set<VnFrameExample> SET = new HashSet<>();
 

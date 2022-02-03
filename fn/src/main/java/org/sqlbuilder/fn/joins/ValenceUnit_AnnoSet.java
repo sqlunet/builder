@@ -7,7 +7,7 @@ import org.sqlbuilder.fn.objects.ValenceUnit;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements Insertable<ValenceUnit_AnnoSet>
+public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements Insertable
 {
 	public static final Set<ValenceUnit_AnnoSet> SET = new HashSet<>();
 

@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Cxns implements HasID, Insertable<Cxns>
+public class Cxns implements HasID, Insertable
 {
 	public static final Comparator<Cxns> COMPARATOR = Comparator.comparing(Cxns::getName).thenComparing(Cxns::getId);
 

@@ -62,7 +62,7 @@ FROM LEXUNIT
 </lexUnit>
 */
 
-public class AnnotationSet implements HasID, Insertable<AnnotationSet>
+public class AnnotationSet implements HasID, Insertable
 {
 	public static final Set<AnnotationSet> SET = new HashSet<>();
 

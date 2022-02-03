@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class VnFrameSubName implements Insertable<VnFrameSubName>, Comparable<VnFrameSubName>
+public class VnFrameSubName implements Insertable, Comparable<VnFrameSubName>
 {
 	protected static final Set<VnFrameSubName> SET = new HashSet<>();
 

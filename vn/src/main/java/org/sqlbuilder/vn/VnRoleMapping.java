@@ -2,7 +2,7 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insertable;
 
-public class VnRoleMapping implements Insertable<VnRoleMapping>
+public class VnRoleMapping implements Insertable
 {
 	private final VnRole role;
 

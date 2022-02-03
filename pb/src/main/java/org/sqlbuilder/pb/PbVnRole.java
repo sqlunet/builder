@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class PbVnRole implements Insertable<PbVnRole>, Comparable<PbVnRole>, Serializable
+public class PbVnRole implements Insertable, Comparable<PbVnRole>, Serializable
 {
 	protected static final Map<PbVnRole,Integer> MAP = new TreeMap<>();
 

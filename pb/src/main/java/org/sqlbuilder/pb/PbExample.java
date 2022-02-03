@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insertable;
 
 import java.util.*;
 
-public class PbExample implements Insertable<PbExample>, Comparable<PbExample>
+public class PbExample implements Insertable, Comparable<PbExample>
 {
 	protected static final Set<PbExample> SET = new HashSet<>();
 

@@ -15,7 +15,7 @@ import edu.berkeley.icsi.framenet.ValenceUnitType;
 
 import static java.util.Comparator.*;
 
-public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable<ValenceUnit>
+public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable
 {
 	public static final Comparator<ValenceUnit> COMPARATOR = comparing(ValenceUnit::getFE, nullsFirst(naturalOrder())) //
 			.thenComparing(ValenceUnit::getPT, nullsFirst(naturalOrder())) //

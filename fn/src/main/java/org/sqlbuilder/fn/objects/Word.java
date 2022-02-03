@@ -8,7 +8,7 @@ import org.sqlbuilder.fn.RequiresIdFrom;
 
 import java.util.*;
 
-public class Word implements HasId, Insertable<Word>
+public class Word implements HasId, Insertable
 {
 	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 

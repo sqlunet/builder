@@ -15,7 +15,7 @@ import edu.berkeley.icsi.framenet.FEValenceType;
 
 import static java.util.stream.Collectors.joining;
 
-public class FEGroupRealization implements HasId, SetId, Insertable<FEGroupRealization>
+public class FEGroupRealization implements HasId, SetId, Insertable
 {
 	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
 			.comparing(FEGroupRealization::getLuID) //

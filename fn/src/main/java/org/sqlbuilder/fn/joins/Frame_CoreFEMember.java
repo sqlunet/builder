@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 // TODO remove
-public class Frame_CoreFEMember extends Pair<Integer, Integer> implements Insertable<Frame_CoreFEMember>
+public class Frame_CoreFEMember extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<Frame_CoreFEMember> SET = new HashSet<>();
 

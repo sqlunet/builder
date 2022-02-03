@@ -11,7 +11,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class VnSemantics implements Insertable<VnSemantics>, Comparable<VnSemantics>
+public class VnSemantics implements Insertable, Comparable<VnSemantics>
 {
 	protected static final Set<VnSemantics> SET = new HashSet<>();
 

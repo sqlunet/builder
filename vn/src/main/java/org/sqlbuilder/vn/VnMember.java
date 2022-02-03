@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VnMember implements Insertable<VnMember>, Comparable<VnMember>
+public class VnMember implements Insertable, Comparable<VnMember>
 {
 	protected static final Set<VnMember> SET = new HashSet<>();
 

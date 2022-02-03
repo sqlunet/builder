@@ -8,7 +8,7 @@ import java.util.*;
 
 import edu.berkeley.icsi.framenet.LexemeType;
 
-public class Lexeme implements Insertable<Lexeme>
+public class Lexeme implements Insertable
 {
 	public static final Set<Lexeme> SET = new HashSet<>();
 

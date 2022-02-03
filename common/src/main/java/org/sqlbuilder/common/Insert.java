@@ -13,7 +13,7 @@ public class Insert
 {
 	// L I S T
 
-	public static <T extends Insertable<T>> void insert(final List<T> list, final File file, String table, String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final List<T> list, final File file, String table, String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -26,7 +26,7 @@ public class Insert
 		}
 	}
 
-	private static <T extends Insertable<T>> void insert(final List<T> list, final PrintStream ps)
+	private static <T extends Insertable> void insert(final List<T> list, final PrintStream ps)
 	{
 		int[] i = {0};
 		list.forEach(item -> {
@@ -45,7 +45,7 @@ public class Insert
 
 	// M A P
 
-	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -58,7 +58,7 @@ public class Insert
 		}
 	}
 
-	private static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final PrintStream ps)
+	private static <T extends Insertable> void insert(final Map<T, Integer> map, final PrintStream ps)
 	{
 		int[] i = {0};
 		map.forEach((key, value) -> {
@@ -75,7 +75,7 @@ public class Insert
 		});
 	}
 
-	public static <T extends Insertable<T>> void insertNoNumber(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insertNoNumber(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -88,7 +88,7 @@ public class Insert
 		}
 	}
 
-	private static <T extends Insertable<T>> void insertNoNumber(final Map<T, Integer> map, final PrintStream ps)
+	private static <T extends Insertable> void insertNoNumber(final Map<T, Integer> map, final PrintStream ps)
 	{
 		int[] i = {0};
 		map.forEach((key, value) -> {
@@ -137,7 +137,7 @@ public class Insert
 
 	// S E T
 
-	public static <T extends Insertable<T>> void insert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -150,7 +150,7 @@ public class Insert
 		}
 	}
 
-	private static <T extends Insertable<T>> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
+	private static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
 	{
 		int[] i = {0};
 		var stream = set.stream();
@@ -172,7 +172,7 @@ public class Insert
 		});
 	}
 
-	public static <T extends Insertable<T>> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -209,7 +209,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -222,7 +222,7 @@ public class Insert
 		}
 	}
 
-	private static <T extends Insertable<T>> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
+	private static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
 	{
 		int[] i = {1};
 		var stream = set.stream();

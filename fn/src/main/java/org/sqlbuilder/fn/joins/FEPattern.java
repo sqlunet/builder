@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FEPattern extends Pair<FERealization, ValenceUnit> implements Insertable<FEPattern>
+public class FEPattern extends Pair<FERealization, ValenceUnit> implements Insertable
 {
 	public static final Comparator<FEPattern> COMPARATOR = Comparator //
 			.comparing(FEPattern::getLuId) //

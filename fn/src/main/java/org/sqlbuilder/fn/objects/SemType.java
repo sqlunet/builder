@@ -11,7 +11,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SemTypeType;
 
-public class SemType implements HasID, Insertable<SemType>
+public class SemType implements HasID, Insertable
 {
 	public static final Set<SemType> SET = new HashSet<>();
 

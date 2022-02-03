@@ -8,7 +8,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.InternalFrameRelationFEType;
 
-public class FE_FEExcluded extends Pair<Integer, Integer> implements Insertable<FE_FEExcluded>
+public class FE_FEExcluded extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<FE_FEExcluded> SET = new HashSet<>();
 

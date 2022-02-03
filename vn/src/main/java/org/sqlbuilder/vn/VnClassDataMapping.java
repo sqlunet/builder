@@ -5,7 +5,7 @@ import org.sqlbuilder.common.Insertable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VnClassDataMapping implements Insertable<VnClassDataMapping>
+public class VnClassDataMapping implements Insertable
 {
 	protected static final Set<VnClassDataMapping> SET = new HashSet<>();
 

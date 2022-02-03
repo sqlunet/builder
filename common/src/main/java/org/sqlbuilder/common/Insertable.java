@@ -1,6 +1,6 @@
 package org.sqlbuilder.common;
 
-public interface Insertable<T>
+public interface Insertable
 {
 	String dataRow();
 

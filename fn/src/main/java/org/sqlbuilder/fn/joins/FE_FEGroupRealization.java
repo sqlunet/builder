@@ -12,7 +12,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FEValenceType;
 
-public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> implements Insertable<FE_FEGroupRealization>
+public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> implements Insertable
 {
 	public static final Set<FE_FEGroupRealization> SET = new HashSet<>();
 

@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insertable;
 
 import java.util.*;
 
-public class VnClass implements Insertable<VnClass>, Comparable<VnClass>
+public class VnClass implements Insertable, Comparable<VnClass>
 {
 	protected static final Set<VnClass> SET = new HashSet<>();
 

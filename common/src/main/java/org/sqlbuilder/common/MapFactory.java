@@ -43,7 +43,7 @@ public class MapFactory
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (o1, o2) -> o1, () -> new TreeMap<>(comparator)));
 	}
 
-	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, String table, String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -53,7 +53,7 @@ public class MapFactory
 		}
 	}
 
-	public static <T extends Insertable<T>> void insert(final Map<T, Integer> map, final PrintStream ps)
+	public static <T extends Insertable> void insert(final Map<T, Integer> map, final PrintStream ps)
 	{
 		int[] i = {0};
 		map.forEach((key, value) -> {
@@ -69,7 +69,7 @@ public class MapFactory
 		});
 	}
 
-	public static <T extends Insertable<T>> void insert(final Set<T> set, final File file, String table, String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Set<T> set, final File file, String table, String columns) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -79,7 +79,7 @@ public class MapFactory
 		}
 	}
 
-	public static <T extends Insertable<T>> void insert(final Set<T> set, final PrintStream ps)
+	public static <T extends Insertable> void insert(final Set<T> set, final PrintStream ps)
 	{
 		int[] i = {0};
 		set.forEach(e -> {

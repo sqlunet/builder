@@ -5,7 +5,7 @@ import org.sqlbuilder.common.Insertable;
 import java.util.List;
 import java.util.Map;
 
-public class PbVnRoleMapping implements Insertable<PbVnRoleMapping>
+public class PbVnRoleMapping implements Insertable
 {
 	public static Map<PbRole, List<PbVnRole>> map;
 

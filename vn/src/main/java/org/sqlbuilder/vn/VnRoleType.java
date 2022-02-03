@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnRoleType implements Insertable<VnRoleType>, Comparable<VnRoleType>
+public class VnRoleType implements Insertable, Comparable<VnRoleType>
 {
 	protected static final Set<VnRoleType> SET = new HashSet<>();
 

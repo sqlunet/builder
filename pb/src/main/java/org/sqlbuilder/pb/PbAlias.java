@@ -2,7 +2,7 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Insertable;
 
-public class PbAlias implements Insertable<PbAlias>
+public class PbAlias implements Insertable
 {
 	enum Db
 	{

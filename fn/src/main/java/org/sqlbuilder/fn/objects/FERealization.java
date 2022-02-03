@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import edu.berkeley.icsi.framenet.FERealizationType;
 
-public class FERealization implements HasId, SetId, Insertable<FERealization>
+public class FERealization implements HasId, SetId, Insertable
 {
 	public static final Comparator<FERealization> COMPARATOR = Comparator //
 			.comparing(FERealization::getLuId) //

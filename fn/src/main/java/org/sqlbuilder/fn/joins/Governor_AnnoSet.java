@@ -10,7 +10,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnoSetType;
 
-public class Governor_AnnoSet extends Pair<Governor, Integer> implements Insertable<Governor_AnnoSet>
+public class Governor_AnnoSet extends Pair<Governor, Integer> implements Insertable
 {
 	public static final Comparator<Governor_AnnoSet> COMPARATOR = Comparator.comparing(Governor_AnnoSet::getFirst, Governor.COMPARATOR).thenComparing(Governor_AnnoSet::getSecond);
 

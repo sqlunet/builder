@@ -9,7 +9,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.SemTypeType.SuperType;
 
-public class SemType_SemTypeSuper extends Pair<Integer, Integer> implements Insertable<SemType_SemTypeSuper>
+public class SemType_SemTypeSuper extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<SemType_SemTypeSuper> SET = new HashSet<>();
 

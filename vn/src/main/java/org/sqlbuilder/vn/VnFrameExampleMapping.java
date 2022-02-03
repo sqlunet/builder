@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnFrameExampleMapping implements Insertable<VnFrameExampleMapping>, Comparable<VnFrameExampleMapping>
+public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExampleMapping>
 {
 	protected static final Set<VnFrameExampleMapping> SET = new HashSet<>();
 

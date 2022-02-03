@@ -16,7 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FrameDocument;
 
-public class Frame implements HasID, Insertable<Frame>
+public class Frame implements HasID, Insertable
 {
 	public static final Set<Frame> SET = new HashSet<>();
 

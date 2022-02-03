@@ -9,7 +9,7 @@ import java.util.Objects;
 
 import edu.berkeley.icsi.framenet.FEGroupRealizationType;
 
-public class FEGroupPattern implements HasId, SetId, Insertable<FEGroupPattern>
+public class FEGroupPattern implements HasId, SetId, Insertable
 {
 	public static final Comparator<FEGroupPattern> COMPARATOR = Comparator.comparing(FEGroupPattern::getFegr, FEGroupRealization.COMPARATOR);
 

@@ -8,7 +8,7 @@ import org.sqlbuilder.fn.objects.ValenceUnit;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FEGroupPattern_FEPattern extends Triple<FEGroupPattern, FERealization, ValenceUnit> implements Insertable<FEGroupPattern_FEPattern>
+public class FEGroupPattern_FEPattern extends Triple<FEGroupPattern, FERealization, ValenceUnit> implements Insertable
 {
 	public static final Set<FEGroupPattern_FEPattern> SET = new HashSet<>();
 

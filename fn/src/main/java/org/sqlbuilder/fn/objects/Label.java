@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Label implements Insertable<Label>
+public class Label implements Insertable
 {
 	public static final Set<Label> SET = new HashSet<>();
 

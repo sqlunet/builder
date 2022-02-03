@@ -10,7 +10,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.FrameIDNameType;
 
-public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insertable<Frame_FrameRelated>
+public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<Frame_FrameRelated> SET = new HashSet<>();
 

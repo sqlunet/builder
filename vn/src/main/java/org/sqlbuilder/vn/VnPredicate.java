@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnPredicate implements Insertable<VnPredicate>, Comparable<VnPredicate>
+public class VnPredicate implements Insertable, Comparable<VnPredicate>
 {
 	protected static final Set<VnPredicate> SET = new HashSet<>();
 

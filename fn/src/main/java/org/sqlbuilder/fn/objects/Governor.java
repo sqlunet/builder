@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 import edu.berkeley.icsi.framenet.GovernorType;
 
-public class Governor implements HasId, Insertable<Governor>
+public class Governor implements HasId, Insertable
 {
 	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
 

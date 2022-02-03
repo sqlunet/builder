@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 public class Values
 {
-	public static class Pos implements HasId, Insertable<Pos>
+	public static class Pos implements HasId, Insertable
 	{
 		public static final Comparator<Pos> COMPARATOR = Comparator.comparing(t -> t.pos);
 
@@ -44,7 +44,7 @@ public class Values
 		}
 	}
 
-	public static class CoreType implements HasId, Insertable<CoreType>
+	public static class CoreType implements HasId, Insertable
 	{
 		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
 
@@ -78,7 +78,7 @@ public class Values
 		}
 	}
 
-	public static class LabelIType implements HasId, Insertable<LabelIType>
+	public static class LabelIType implements HasId, Insertable
 	{
 		public static final Comparator<LabelIType> COMPARATOR = Comparator.comparing(t -> t.labelitype);
 

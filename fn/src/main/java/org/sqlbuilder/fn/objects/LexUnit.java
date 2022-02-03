@@ -16,7 +16,7 @@ import java.util.Set;
 import edu.berkeley.icsi.framenet.FrameLUType;
 import edu.berkeley.icsi.framenet.LexUnitDocument;
 
-public class LexUnit implements HasID, Insertable<LexUnit>
+public class LexUnit implements HasID, Insertable
 {
 	public static final Set<LexUnit> SET = new HashSet<>();
 

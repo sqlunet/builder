@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnGrouping implements Insertable<VnGrouping>, Comparable<VnGrouping>
+public class VnGrouping implements Insertable, Comparable<VnGrouping>
 {
 	protected static final Set<VnGrouping> SET = new HashSet<>();
 

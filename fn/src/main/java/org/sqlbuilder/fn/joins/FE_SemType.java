@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FE_SemType extends Pair<Integer, Integer> implements Insertable<FE_SemType>
+public class FE_SemType extends Pair<Integer, Integer> implements Insertable
 {
 	public static final Set<FE_SemType> SET = new HashSet<>();
 

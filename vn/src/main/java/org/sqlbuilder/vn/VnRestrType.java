@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnRestrType implements Insertable<VnRestrType>, Comparable<VnRestrType>
+public class VnRestrType implements Insertable, Comparable<VnRestrType>
 {
 	protected static final Set<VnRestrType> SET = new HashSet<>();
 

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnWord implements Insertable<VnWord>, Comparable<VnWord>
+public class VnWord implements Insertable, Comparable<VnWord>
 {
 	protected static final Set<VnWord> SET = new HashSet<>();
 

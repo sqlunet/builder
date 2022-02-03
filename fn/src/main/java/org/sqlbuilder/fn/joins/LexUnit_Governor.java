@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LexUnit_Governor extends Pair<Integer, Governor> implements Insertable<LexUnit_Governor>
+public class LexUnit_Governor extends Pair<Integer, Governor> implements Insertable
 {
 	public static final Comparator<LexUnit_Governor> COMPARATOR = Comparator.comparing(LexUnit_Governor::getFirst).thenComparing(LexUnit_Governor::getSecond, Governor.COMPARATOR);
 

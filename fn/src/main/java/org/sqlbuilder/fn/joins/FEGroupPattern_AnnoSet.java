@@ -8,7 +8,7 @@ import java.util.Set;
 
 import edu.berkeley.icsi.framenet.AnnoSetType;
 
-public class FEGroupPattern_AnnoSet extends Pair<FEGroupPattern, Integer> implements Insertable<FEGroupPattern_AnnoSet>
+public class FEGroupPattern_AnnoSet extends Pair<FEGroupPattern, Integer> implements Insertable
 {
 	public static final Set<FEGroupPattern_AnnoSet> SET = new HashSet<>();
 
