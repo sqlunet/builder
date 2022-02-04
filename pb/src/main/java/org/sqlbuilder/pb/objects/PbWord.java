@@ -1,29 +1,62 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.*;
 
-public class PbWord implements Insertable, Comparable<PbWord>
+import java.util.Comparator;
+
+public class PbWord implements HasId, Insertable, Comparable<PbWord>
 {
+	public static final Comparator<PbWord> COMPARATOR = Comparator.comparing(PbWord::getWord);
+
+	public static final SetCollector<PbWord> COLLECTOR = new SetCollector<>(COMPARATOR);
+
 	public final String word;
 
-	public PbWord(final String lemma)
+	// C O N S T R U C T O R
+
+	public static PbWord make(final String word)
 	{
-		this.word = lemma;
+		var w = new PbWord(word);
+		COLLECTOR.add(w);
+		return w;
 	}
+
+	private PbWord(final String word)
+	{
+		this.word = word;
+	}
+
+	// A C C E S S
+
+	public String getWord()
+	{
+		return word;
+	}
+
+	@RequiresIdFrom(type = PbWord.class)
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
+
+	// O R D E R
 
 	@Override
 	public int compareTo(final PbWord that)
 	{
-		return word.compareTo(that.word);
+		return COMPARATOR.compare(this, that);
 	}
 
+	// I N S E R T
+
+	@RequiresIdFrom(type = PbWord.class)
 	@Override
 	public String dataRow()
 	{
-		//		Long(1, getId());
-		//		Long(2, this.wordid.toLong());
-		//		Null(2, Types.INTEGER);
-		//		String(3, this.word);
-		return null;
+		return String.format("%d,%s,'%s'", //
+				COLLECTOR.get(this), //
+				"NULL", //
+				Utils.escape(word));
 	}
 }

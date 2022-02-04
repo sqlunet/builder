@@ -114,18 +114,10 @@ public class PbProcessor extends Processor
 			}
 
 			// rolesets
-			final Collection<RoleSet> roleSets = PbVerbDocument.getRoleSets(head, start);
-			if (roleSets != null)
-			{
-				RoleSet.SET.addAll(roleSets);
-			}
+			PbVerbDocument.makeRoleSets(head, start);
 
 			// roles
-			final Collection<Role> roles = PbVerbDocument.getRoles(head, start);
-			if (roles != null)
-			{
-				Role.SET.addAll(roles);
-			}
+			PbVerbDocument.makeRoles(head, start);
 
 			// examples
 			final Collection<Example> examples = PbVerbDocument.getExamples(head, start);

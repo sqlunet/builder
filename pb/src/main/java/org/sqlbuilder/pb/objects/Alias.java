@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insertable;
 
 public class Alias implements Insertable
 {
-	enum Db
+	public enum Db
 	{
 		VERBNET, FRAMENET
 	}

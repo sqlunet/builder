@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.pb.PbNormalizer;
 
 import java.util.*;
@@ -9,20 +10,15 @@ public class Example implements Insertable, Comparable<Example>
 {
 	public static final Set<Example> SET = new HashSet<>();
 
-	public static final Set<String> aspectSet = new HashSet<>();
-	protected static Map<String, Integer> aspectMap;
+	public static final SetCollector<String> ASPECT_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
-	public static final Set<String> formSet = new HashSet<>();
-	protected static Map<String, Integer> formMap;
+	public static final SetCollector<String> FORM_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
-	public static final Set<String> personSet = new HashSet<>();
-	protected static Map<String, Integer> personMap;
+	public static final SetCollector<String> PERSON_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
-	public static final Set<String> tenseSet = new HashSet<>();
-	protected static Map<String, Integer> tenseMap;
+	public static final SetCollector<String> TENSE_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
-	public static final Set<String> voiceSet = new HashSet<>();
-	protected static Map<String, Integer> voiceMap;
+	public static final SetCollector<String> VOICE_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
 	private final RoleSet roleSet;
 
@@ -44,7 +40,37 @@ public class Example implements Insertable, Comparable<Example>
 
 	public final List<Arg> args;
 
-	public Example(final RoleSet roleSet, final String name, final String text, final String aspect, final String form, final String person, final String tense, final String voice)
+	// C O N S T R U C T O R
+
+	public static Example make(final RoleSet roleSet, final String name, final String text, final String aspect, final String form, final String person, final String tense, final String voice)
+	{
+		var e = new Example(roleSet, name, text, aspect, form, person, tense, voice);
+
+		SET.add(e);
+		if (e.aspect != null && !e.aspect.isEmpty() && !e.aspect.equals("ns"))
+		{
+			Example.ASPECT_COLLECTOR.add(e.aspect);
+		}
+		if (e.form != null && !e.form.isEmpty() && !e.form.equals("ns"))
+		{
+			Example.FORM_COLLECTOR.add(e.form);
+		}
+		if (e.person != null && !e.person.isEmpty() && !e.person.equals("ns"))
+		{
+			Example.PERSON_COLLECTOR.add(e.person);
+		}
+		if (e.tense != null && !e.tense.isEmpty() && !e.tense.equals("ns"))
+		{
+			Example.TENSE_COLLECTOR.add(e.tense);
+		}
+		if (e.voice != null && !e.voice.isEmpty() && !e.voice.equals("ns"))
+		{
+			Example.VOICE_COLLECTOR.add(e.voice);
+		}
+		return e;
+	}
+
+	private Example(final RoleSet roleSet, final String name, final String text, final String aspect, final String form, final String person, final String tense, final String voice)
 	{
 		this.roleSet = roleSet;
 		this.name = name;
@@ -56,34 +82,9 @@ public class Example implements Insertable, Comparable<Example>
 		this.voice = voice;
 		this.rels = new ArrayList<>();
 		this.args = new ArrayList<>();
-
-		SET.add(this);
-		if (this.aspect != null && !this.aspect.isEmpty() && !this.aspect.equals("ns"))
-		{
-			Example.aspectSet.add(this.aspect);
-		}
-		if (this.form != null && !this.form.isEmpty() && !this.form.equals("ns"))
-		{
-			Example.formSet.add(this.form);
-		}
-		if (this.person != null && !this.person.isEmpty() && !this.person.equals("ns"))
-		{
-			Example.personSet.add(this.person);
-		}
-		if (this.tense != null && !this.tense.isEmpty() && !this.tense.equals("ns"))
-		{
-			Example.tenseSet.add(this.tense);
-		}
-		if (this.voice != null && !this.voice.isEmpty() && !this.voice.equals("ns"))
-		{
-			Example.voiceSet.add(this.voice);
-		}
 	}
 
-	public static Example make(final RoleSet roleSet, final String name, final String text, final String aspect, final String form, final String person, final String tense, final String voice)
-	{
-		return new Example(roleSet, name, text, aspect, form, person, tense, voice);
-	}
+	// A C C E S S
 
 	public RoleSet getRoleSet()
 	{

@@ -59,7 +59,7 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<RoleSet> getRoleSets(final String head, final Node start) throws XPathExpressionException
+	public static Collection<RoleSet> makeRoleSets(final String head, final Node start) throws XPathExpressionException
 	{
 		List<RoleSet> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
@@ -87,7 +87,7 @@ public class PbVerbDocument extends PbDocument
 						final Element aliasElement = (Element) aliasRoleNodes.item(l);
 						final String pos = aliasElement.getAttribute("pos").trim();
 						final String lemma = aliasElement.getTextContent().trim();
-						final PbWord pbWord = new PbWord(lemma);
+						PbWord.make(lemma);
 
 						final String verbNet = aliasElement.getAttribute("verbnet").trim();
 						if (!verbNet.isEmpty())
@@ -134,7 +134,7 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<Role> getRoles(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Role> makeRoles(final String head, final Node start) throws XPathExpressionException
 	{
 		List<Role> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");

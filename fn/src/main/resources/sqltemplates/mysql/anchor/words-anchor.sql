@@ -1,4 +1,4 @@
 UPDATE
-    ${fnwords.table} AS f
-    INNER JOIN ${words.table} AS w ON f.${fnwords.word} = w.${words.word}
-SET f.${fnwords.wordid} = w.${words.wordid};
+    ${words.table} AS f
+    INNER JOIN ${wnwords.table} AS w ON f.${words.word} = w.${wnwords.word}
+SET f.${words.wordid} = w.${wnwords.wordid};

@@ -1,12 +1,16 @@
 package org.sqlbuilder.pb.objects;
 
+import org.sqlbuilder.common.HasId;
+import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SetCollector;
+
 import java.util.*;
 
-public class Func implements Comparable<Func>
+public class Func implements HasId, Comparable<Func>
 {
-	public static final Set<Func> SET = new HashSet<>();
+	public static final Comparator<Func> COMPARATOR = Comparator.comparing(Func::getFunc);
 
-	public static Map<Func, Integer> MAP;
+	public static final SetCollector<Func> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	// A secondary agent
 	// ADV adverbial modification
@@ -30,7 +34,7 @@ public class Func implements Comparable<Func>
 	// TMP temporal
 	private static final String[] cats = new String[]{"ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP"};
 
-	protected static final Properties funcNames = new Properties();
+	public static final Properties funcNames = new Properties();
 
 	static
 	{
@@ -51,6 +55,44 @@ public class Func implements Comparable<Func>
 		Func.funcNames.setProperty("TMP", "temporal");
 	}
 
+	private final String func;
+
+	// C O N S T R U C T O R
+
+	public static Func make(final String funcName)
+	{
+		var f = new Func(funcName);
+		COLLECTOR.add(f);
+		return f;
+	}
+
+	private Func(final String funcName)
+	{
+		this.func = normalize(funcName);
+	}
+
+	// A C C E S S
+
+	public String getFunc()
+	{
+		return func;
+	}
+
+	@RequiresIdFrom(type = Func.class)
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
+
+	// O R D E R
+
+	@Override
+	public int compareTo(final Func that)
+	{
+		return COMPARATOR.compare(this, that);
+	}
+
 	private static String normalize(final String funcName)
 	{
 		for (final String cat : Func.cats)
@@ -61,23 +103,5 @@ public class Func implements Comparable<Func>
 			}
 		}
 		return funcName.toLowerCase();
-	}
-
-	private final String pbfunc;
-
-	// C O N S T R U C T O R
-
-	public Func(final String funcName)
-	{
-		this.pbfunc = normalize(funcName);
-		SET.add(this);
-	}
-
-	// O R D E R
-
-	@Override
-	public int compareTo(final Func that)
-	{
-		return pbfunc.compareTo(that.pbfunc);
 	}
 }

@@ -3,6 +3,7 @@ package org.sqlbuilder.pb;
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.pb.collectors.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -21,6 +22,7 @@ public class PbModule extends Module
 		try
 		{
 			buildPropBank(props);
+			new Inserter(props).insert();
 		}
 		catch (IOException e)
 		{
@@ -43,7 +45,7 @@ public class PbModule extends Module
 		new Semlink0Processor(props).run();
 	}
 
-	private static void buildSemLink(final Properties props)
+	private static void buildSemLink(final Properties props) throws FileNotFoundException
 	{
 		// semlink and propbank data
 		PbModule.initSemLink(props);
@@ -85,6 +87,5 @@ public class PbModule extends Module
 	public static void main(final String[] args)
 	{
 		new PbModule(args[0]).run();
-		Inserter.insert();
 	}
 }

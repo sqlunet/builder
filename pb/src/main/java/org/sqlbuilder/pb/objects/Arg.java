@@ -35,7 +35,7 @@ public class Arg implements Insertable, Comparable<Arg>
 		this.example = example;
 		this.text = PbNormalizer.normalize(text);
 		this.n = n;
-		this.f = f == null ? null : new Func(f.toLowerCase());
+		this.f = f == null ? null : Func.make(f.toLowerCase());
 		SET.add(this);
 		if (this.n != null && !this.n.isEmpty())
 		{

@@ -2,7 +2,6 @@ package org.sqlbuilder.bnc;
 
 import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
 import org.sqlbuilder.bnc.objects.BNCRecord;
-import org.sqlbuilder.bnc.objects.BNCRecord.IgnoreException;
 import org.sqlbuilder.common.*;
 
 import java.io.File;

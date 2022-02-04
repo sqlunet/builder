@@ -1,10 +1,13 @@
 package org.sqlbuilder.pb;
 
-import org.sqlbuilder.common.MapFactory;
+import org.sqlbuilder.common.Insert;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -24,63 +27,48 @@ public class Inserter
 
 	private static void makeMaps()
 	{
-		// roles
-		Role.MAP = MapFactory.makeMap(Role.SET);
-		Progress.traceTailer("roles",  Long.toString(Role.MAP.size()));
-
-		// rolesets
-		RoleSet.MAP = MapFactory.makeMap(RoleSet.SET);
-		Progress.traceTailer("rolesets",  Long.toString(RoleSet.MAP.size()));
-
-		Func.MAP = MapFactory.makeMap(Func.SET);
-		Progress.traceTailer("func",  Long.toString(Func.MAP .size()));
-
-		PbTheta.MAP = MapFactory.makeMap(PbTheta.SET);
-		Progress.traceTailer("theta", Long.toString(PbTheta.MAP .size()));
-
-		Example.aspectMap = MapFactory.makeMap(Example.aspectSet);
-		Progress.traceTailer("aspect",  Long.toString(Example.aspectMap.size()));
-
-		Example.formMap = MapFactory.makeMap(Example.formSet);
-		Progress.traceTailer("form",  Long.toString(Example.formMap.size()));
-
-		Example.personMap = MapFactory.makeMap(Example.personSet);
-		Progress.traceTailer("person",  Long.toString(Example.personMap.size()));
-
-		Example.tenseMap = MapFactory.makeMap(Example.tenseSet);
-		Progress.traceTailer("tense", Long.toString(Example.tenseMap.size()));
-
-		Example.voiceMap = MapFactory.makeMap(Example.voiceSet);
-		Progress.traceTailer("voice",  Long.toString(Example.voiceMap.size()));
-
 		// examples
 		//Progress.traceHeader("examples", "map");
 		//PbExample.MAP = MapFactory.makeMap(PbExample.SET);
 		//Progress.traceTailer("examples", PbExample.MAP.size());
 	}
 
-	public static void insert()
+	public void insert() throws FileNotFoundException
 	{
 		Progress.traceHeader("maps", "making");
 		makeMaps();
 		Progress.traceTailer("maps", "done");
 
-		insertMap(RoleSet.MAP, "pb_rolesets");
-		insertMap(Role.MAP, "pb_roles");
-		insertSet(Example.SET, "pb_examples");
-		insertSet(Arg.SET, "pb_args");
-		insertSet(Rel.SET, "pb_rels");
-		insertSet(RoleSetMember.SET, "pb_members");
+		try ( //
+		      @ProvidesIdTo(type = RoleSet.class) var ignored1 = RoleSet.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Role.class) var ignored2 = Role.COLLECTOR.open(); //
+		      var ignored3 = Example.ASPECT_COLLECTOR.open(); //
+		      var ignored4 = Example.FORM_COLLECTOR.open(); //
+		      var ignored5 = Example.PERSON_COLLECTOR.open(); //
+		      var ignored6 = Example.TENSE_COLLECTOR.open(); //
+		      var ignored7 = Example.VOICE_COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Func.class) var ignored8 = Func.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Theta.class) var ignored9 = Theta.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = PbWord.class) var ignored10 = PbWord.COLLECTOR.open() //
+		)
+		{
+			Insert.insert(RoleSet.COLLECTOR, new File(outDir, Names.file("rolesets")), Names.table("rolesets"), Names.columns("rolesets"));
+			Insert.insert(Role.COLLECTOR,  new File(outDir, Names.file("roles")), Names.table("roles"), Names.columns("roles"));
+			Insert.insert(Example.SET, null, new File(outDir, Names.file("examples")), Names.table("examples"), Names.columns("examples"));
+			Insert.insert(Arg.SET, null, new File(outDir, Names.file("args")), Names.table("args"), Names.columns("args"));
+			Insert.insert(Rel.SET, null, new File(outDir, Names.file("rels")), Names.table("rels"), Names.columns("rels"));
+			Insert.insert(RoleSetMember.SET, null, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
 
-		insertSet(Arg.nSet, Arg.nNames, "pb_argntype");
-		insertMap(Example.aspectMap, "pb_aspecttype");
-		insertMap(Example.formMap, "pb_formtype");
-		insertMap(Example.personMap, "pb_persontype");
-		insertMap(Example.tenseMap, "pb_tensetype");
-		insertMap(Example.voiceMap, "pb_voicetype");
+			insertSet(Arg.nSet, Arg.nNames, new File(outDir, Names.file("argns")), Names.table("argns"), Names.columns("argns"));
+			insertMap(Func.COLLECTOR, Func.funcNames, new File(outDir, Names.file("funcs")), Names.table("funcs"), Names.columns("funcs"));
+			Insert.insert(Theta.COLLECTOR, new File(outDir, Names.file("thetas")), Names.table("thetas"), Names.columns("thetas"));
 
-		insertMap(Func.MAP, Func.funcNames, "pb_functype");
-		insertMap(PbTheta.MAP, "pbvn_theta");
+			Insert.insertStringMap(Example.ASPECT_COLLECTOR, new File(outDir, Names.file("aspects")), Names.table("aspects"), Names.columns("aspects"));
+			Insert.insertStringMap(Example.FORM_COLLECTOR, new File(outDir, Names.file("forms")), Names.table("forms"), Names.columns("forms"));
+			Insert.insertStringMap(Example.PERSON_COLLECTOR, new File(outDir, Names.file("persons")), Names.table("persons"), Names.columns("persons"));
+			Insert.insertStringMap(Example.TENSE_COLLECTOR, new File(outDir, Names.file("tenses")), Names.table("tenses"), Names.columns("tenses"));
+			Insert.insertStringMap(Example.VOICE_COLLECTOR, new File(outDir, Names.file("voices")), Names.table("voices"), Names.columns("voices"));
+		}
 	}
 
 	protected static <T> void insertSet(final Set<T> set, final String table)
@@ -88,9 +76,9 @@ public class Inserter
 		Progress.traceTailer(table, "set: " + Long.toString(set.size()));
 	}
 
-	protected static <T> void insertSet(final Set<T> set, final Properties props, final String table)
+	protected static <T> void insertSet(final Set<T> set, final Properties props, final File file, final String... other)
 	{
-		Progress.traceTailer(table, "set: " + Long.toString(set.size()));
+		Progress.traceTailer(other[0], "set: " + Long.toString(set.size()));
 	}
 
 	protected static <T> void insertMap(final Map<T, Integer> map, final String table)
@@ -98,9 +86,9 @@ public class Inserter
 		Progress.traceTailer(table, "map: " + Long.toString(map.size()));
 	}
 
-	protected static <T> void insertMap(final Map<T, Integer> map, final Properties props, final String table)
+	protected static <T> void insertMap(final Map<T, Integer> map, final Properties props, final File file, final String... table)
 	{
-		Progress.traceTailer(table, "map: " + Long.toString(map.size()));
+		Progress.traceTailer(table[0], "map: " + Long.toString(map.size()));
 	}
 }
 

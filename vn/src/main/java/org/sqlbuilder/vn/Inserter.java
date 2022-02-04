@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insert;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.vn.joins.VnFrameExampleMapping;
 import org.sqlbuilder.vn.joins.VnGroupingMapping;
@@ -45,33 +46,33 @@ public class Inserter
 		)
 		{
 			// from pass1
-			Insert.insert(VnClass.COLLECTOR, new File(outDir, Names.CLASSES.FILE), Names.CLASSES.TABLE, Names.CLASSES.COLUMNS);
-			Insert.insert(Grouping.COLLECTOR, new File(outDir, Names.GROUPINGS.FILE), Names.GROUPINGS.TABLE, Names.GROUPINGS.COLUMNS);
-			Insert.insert(RoleType.COLLECTOR, new File(outDir, Names.ROLETYPES.FILE), Names.ROLETYPES.TABLE, Names.ROLETYPES.COLUMNS);
-			Insert.insert(RestrType.COLLECTOR, new File(outDir, Names.RESTRTYPES.FILE), Names.RESTRTYPES.TABLE, Names.RESTRTYPES.COLUMNS);
-			Insert.insert(Restrs.COLLECTOR, new File(outDir, Names.RESTRS.FILE), Names.RESTRS.TABLE, Names.RESTRS.COLUMNS);
+			Insert.insert(VnClass.COLLECTOR, new File(outDir, Names.file("classes")), Names.table("classes"), Names.columns("classes"));
+			Insert.insert(Grouping.COLLECTOR, new File(outDir, Names.file("groupings")), Names.table("groupings"), Names.columns("groupings"));
+			Insert.insert(RoleType.COLLECTOR, new File(outDir, Names.file("roletypes")), Names.table("roletypes"), Names.columns("roletypes"));
+			Insert.insert(RestrType.COLLECTOR, new File(outDir, Names.file("restrtypes")), Names.table("restrtypes"), Names.columns("restrtypes"));
+			Insert.insert(Restrs.COLLECTOR, new File(outDir, Names.file("restrs")), Names.table("restrs"), Names.columns("restrs"));
 
-			Insert.insert(FrameName.COLLECTOR, new File(outDir, Names.FRAMENAMES.FILE), Names.FRAMENAMES.TABLE, Names.FRAMENAMES.COLUMNS);
-			Insert.insert(FrameSubName.COLLECTOR, new File(outDir, Names.FRAMESUBNAMES.FILE), Names.FRAMESUBNAMES.TABLE, Names.FRAMESUBNAMES.COLUMNS);
-			Insert.insert(FrameExample.COLLECTOR, new File(outDir, Names.EXAMPLES.FILE), Names.EXAMPLES.TABLE, Names.EXAMPLES.COLUMNS);
-			Insert.insert(Syntax.COLLECTOR, new File(outDir, Names.SYNTAXES.FILE), Names.SYNTAXES.TABLE, Names.SYNTAXES.COLUMNS);
-			Insert.insert(Semantics.COLLECTOR, new File(outDir, Names.SEMANTICS.FILE), Names.SEMANTICS.TABLE, Names.SEMANTICS.COLUMNS);
-			Insert.insert(Predicate.COLLECTOR, new File(outDir, Names.PREDICATES.FILE), Names.PREDICATES.TABLE, Names.PREDICATES.COLUMNS);
+			Insert.insert(FrameName.COLLECTOR, new File(outDir, Names.file("framenames")), Names.table("framenames"), Names.columns("framenames"));
+			Insert.insert(FrameSubName.COLLECTOR, new File(outDir, Names.file("framesubnames")), Names.table("framesubnames"), Names.columns("framesubnames"));
+			Insert.insert(FrameExample.COLLECTOR, new File(outDir, Names.file("examples")), Names.table("examples"), Names.columns("examples"));
+			Insert.insert(Syntax.COLLECTOR, new File(outDir, Names.file("syntaxes")), Names.table("syntaxes"), Names.columns("syntaxes"));
+			Insert.insert(Semantics.COLLECTOR, new File(outDir, Names.file("semantics")), Names.table("semantics"), Names.columns("semantics"));
+			Insert.insert(Predicate.COLLECTOR, new File(outDir, Names.file("predicates")), Names.table("predicates"), Names.columns("predicates"));
 
 			// from pass2
-			Insert.insert(Role.COLLECTOR, new File(outDir, Names.ROLES.FILE), Names.ROLES.TABLE, Names.ROLES.COLUMNS);
-			Insert.insert(Frame.COLLECTOR, new File(outDir, Names.FRAMES.FILE), Names.FRAMES.TABLE, Names.FRAMES.COLUMNS);
+			Insert.insert(Role.COLLECTOR, new File(outDir, Names.file("roles")), Names.table("roles"), Names.columns("roles"));
+			Insert.insert(Frame.COLLECTOR, new File(outDir, Names.file("frames")), Names.table("frames"), Names.columns("frames"));
 
 			// from pass3
-			Insert.insert(VnFrameExampleMapping.SET, null, new File(outDir, Names.FRAMES_EXAMPLES.FILE), Names.FRAMES_EXAMPLES.TABLE, Names.FRAMES_EXAMPLES.COLUMNS);
-			Insert.insert(VnPredicateMapping.SET, null, new File(outDir, Names.SEMANTICS_PREDICATES.FILE), Names.SEMANTICS_PREDICATES.TABLE, Names.SEMANTICS_PREDICATES.COLUMNS);
+			Insert.insert(VnFrameExampleMapping.SET, null, new File(outDir, Names.file("frames_examples")), Names.table("frames_examples"), Names.columns("frames_examples"));
+			Insert.insert(VnPredicateMapping.SET, null, new File(outDir, Names.file("semantics_predicates")), Names.table("semantics_predicates"), Names.columns("semantics_predicates"));
 
 			// from pass4
-			Insert.insert(ClassMember.SET, null, new File(outDir, Names.MEMBERS.FILE), Names.MEMBERS.TABLE, Names.MEMBERS.COLUMNS);
-			Insert.insert(VnGroupingMapping.SET, null, new File(outDir, Names.MEMBERS_GROUPINGS.FILE), Names.MEMBERS_GROUPINGS.TABLE, Names.MEMBERS_GROUPINGS.COLUMNS);
+			Insert.insert(ClassMember.SET, null, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
+			Insert.insert(VnGroupingMapping.SET, null, new File(outDir, Names.file("members_groupings")), Names.table("members_groupings"), Names.columns("members_groupings"));
 
-			Insert.insert(VnWord.COLLECTOR, new File(outDir, Names.WORDS.FILE), Names.WORDS.TABLE, Names.WORDS.COLUMNS);
-			Insert.insert(VnMemberSense.SET, null, new File(outDir, Names.MEMBERS_SENSES.FILE), Names.MEMBERS_SENSES.TABLE, Names.MEMBERS_SENSES.COLUMNS);
+			Insert.insert(VnWord.COLLECTOR, new File(outDir, Names.file("words")), Names.table("words"), Names.columns("words"));
+			Insert.insert(VnMemberSense.SET, null, new File(outDir, Names.file("members_senses")), Names.table("members_senses"), Names.columns("members_senses"));
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class PbCrossRefsProcessor extends Processor
 		Progress.traceHeader("pbxref", "inserting");
 		try
 		{
-			insertAliases(RoleSet.SET);
+			insertAliases(RoleSet.COLLECTOR.keySet());
 		}
 		catch (NotFoundException e)
 		{
@@ -41,7 +41,7 @@ public class PbCrossRefsProcessor extends Processor
 				final Predicate pbPredicate = roleSet.getPredicate();
 
 				// pb word
-				PbWord pbword = new PbWord(pbPredicate.getLemma());
+				PbWord pbword = PbWord.make(pbPredicate.getLemma());
 
 				// predicate as roleset member
 				final RoleSetMember predicateMember = new RoleSetMember(roleSet, pbword);

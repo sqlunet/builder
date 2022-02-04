@@ -1,15 +1,23 @@
 package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.Utils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
 
 public class Role implements Insertable, Comparable<Role>, Serializable
 {
-	public static final Set<Role> SET = new HashSet<>();
+	public static final Comparator<Role> COMPARATOR = Comparator //
+			.comparing(Role::getRoleSet) //
+			.thenComparing(Role::getArgN) //
+			.thenComparing(Role::getF, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Role::getTheta, Comparator.nullsFirst(Comparator.naturalOrder()));
 
-	public static Map<Role, Integer> MAP;
+	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final RoleSet roleSet;
 
@@ -17,60 +25,26 @@ public class Role implements Insertable, Comparable<Role>, Serializable
 
 	private final Func f;
 
-	private final PbTheta theta;
+	private final Theta theta;
 
 	private final String descr;
 
 	// C O N S T R U C T O R
 
-	public Role(final RoleSet roleSet, final String n, final String f, final String theta, final String descriptor)
+	public static Role make(final RoleSet roleSet, final String n, final String f, final String theta, final String descriptor)
+	{
+		var r = new Role(roleSet, n, f, theta, descriptor);
+		COLLECTOR.add(r);
+		return r;
+	}
+
+	private Role(final RoleSet roleSet, final String n, final String f, final String theta, final String descriptor)
 	{
 		this.roleSet = roleSet;
 		this.argN = n;
-		this.f = f == null || f.isEmpty() ? null : new Func(f);
-		this.theta = theta == null || theta.isEmpty() ? null : new PbTheta(theta);
+		this.f = f == null || f.isEmpty() ? null : Func.make(f);
+		this.theta = theta == null || theta.isEmpty() ? null : Theta.make(theta);
 		this.descr = descriptor;
-	}
-
-	public static Role make(final RoleSet roleSet, final String n, final String f, final String theta, final String descriptor)
-	{
-		return new Role(roleSet, n, f, theta, descriptor);
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public int hashCode()
-	{
-		return 13 * this.roleSet.hashCode() + 19 * this.argN.hashCode() + (this.f == null ? 0 : this.f.hashCode());
-	}
-
-	@Override
-	public boolean equals(final Object r)
-	{
-		if (!(r instanceof Role))
-		{
-			return false;
-		}
-		return compareTo((Role) r) == 0;
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(final Role r)
-	{
-		final int c = this.roleSet.compareTo(r.roleSet);
-		if (c != 0)
-		{
-			return c;
-		}
-		final int c2 = this.argN.compareTo(r.argN);
-		if (c2 != 0 || this.f == null || r.f == null)
-		{
-			return c2;
-		}
-		return this.f.compareTo(r.f);
 	}
 
 	// A C C E S S
@@ -80,34 +54,80 @@ public class Role implements Insertable, Comparable<Role>, Serializable
 		return this.roleSet;
 	}
 
-	public String getArg()
+	public String getArgN()
 	{
 		return this.argN;
 	}
 
-	public String getDesc()
+	public Func getF()
+	{
+		return f;
+	}
+
+	public Theta getTheta()
+	{
+		return theta;
+	}
+
+	public String getDescr()
 	{
 		return this.descr;
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Role that = (Role) o;
+		return roleSet.equals(that.roleSet) && argN.equals(that.argN) && Objects.equals(f, that.f) && Objects.equals(theta, that.theta);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(roleSet, argN, f, theta);
+	}
+
+	// O R D E R I N G
+
+	@Override
+	public int compareTo(final Role that)
+	{
+		return COMPARATOR.compare(this, that);
+	}
+
 	// I N S E R T
 
+	@RequiresIdFrom(type=RoleSet.class)
+	@RequiresIdFrom(type=Func.class)
+	@RequiresIdFrom(type=Theta.class)
 	@Override
 	public String dataRow()
 	{
-		// final long roleId = PbRole.map.getId(this);
-		// final Long fId = this.f == null ? null : PbFunc.funcMap.get(this.f);
-		// final Long thetaId = this.theta == null ? null : PbTheta.thetaMap.get(this.theta);
+		// (roleid),narg,func,theta,roledescr,rolesetid
+		// final long roleId = Role.COLLECTOR.get(this);
+		return String.format("'%s',%s,%s,'%s',%d", //
+				argN, //
+				f == null ? "NULL" : f.getSqlId(), //
+				theta == null ? "NULL" : theta.getSqlId(), //
+				descr, //
+				roleSet.getIntId() //
+		);
+	}
 
-		// Long(1, roleId);
-		// String(2, this.argN);
-		// Null(3, Types.INTEGER);
-		// Long(3, fId);
-		// Null(4, Types.VARCHAR);
-		// Long(4, thetaId);
-		// String(5, this.descr);
-		// Long(6, PbRoleSet.map.getId(this.roleSet));
-		return null;
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s", f, theta);
 	}
 
 	// T O S T R I N G

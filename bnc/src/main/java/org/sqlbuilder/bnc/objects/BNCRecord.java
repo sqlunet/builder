@@ -8,15 +8,6 @@ import java.util.function.Function;
 
 public class BNCRecord implements Insertable
 {
-	protected static class IgnoreException extends Exception
-	{
-		private static final long serialVersionUID = 1L;
-
-		public IgnoreException(String message)
-		{
-			super(message);
-		}
-	}
 
 	protected static final Map<String, Character> posMap = new HashMap<>();
 

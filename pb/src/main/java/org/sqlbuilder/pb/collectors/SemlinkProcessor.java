@@ -1,15 +1,14 @@
 package org.sqlbuilder.pb.collectors;
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.pb.*;
+import org.sqlbuilder.common.*;
+import org.sqlbuilder.pb.PbModule;
+import org.sqlbuilder.pb.PbVnFinder;
+import org.sqlbuilder.pb.RoleIds;
 import org.sqlbuilder.pb.joins.PbVnRoleMapping;
-import org.sqlbuilder.pb.objects.Role;
-import org.sqlbuilder.pb.objects.RoleSet;
 import org.sqlbuilder.pb.objects.PbVnClass;
 import org.sqlbuilder.pb.objects.PbVnRole;
+import org.sqlbuilder.pb.objects.Role;
+import org.sqlbuilder.pb.objects.RoleSet;
 
 import java.util.Collection;
 import java.util.Map.Entry;
@@ -30,6 +29,8 @@ public class SemlinkProcessor extends Processor
 		Progress.traceTailer("semlink3", "");
 	}
 
+	@RequiresIdFrom(type = RoleSet.class)
+	@RequiresIdFrom(type = Role.class)
 	@SuppressWarnings("UnusedReturnValue")
 	protected int processSemlinks()
 	{
@@ -44,7 +45,7 @@ public class SemlinkProcessor extends Processor
 
 			// pb
 			final Role role = entry.getKey();
-			RoleIds pbRoleIds = new RoleIds(RoleSet.MAP.get(role.getRoleSet()), Role.MAP.get(role));
+			RoleIds pbRoleIds = new RoleIds(RoleSet.COLLECTOR.get(role.getRoleSet()), Role.COLLECTOR.get(role));
 
 			// vn
 			final PbVnRole vnRole = entry.getValue();
