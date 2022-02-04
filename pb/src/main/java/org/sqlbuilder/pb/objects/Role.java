@@ -1,15 +1,12 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.*;
 
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Role implements Insertable, Comparable<Role>, Serializable
+public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 {
 	public static final Comparator<Role> COMPARATOR = Comparator //
 			.comparing(Role::getRoleSet) //
@@ -74,6 +71,19 @@ public class Role implements Insertable, Comparable<Role>, Serializable
 		return this.descr;
 	}
 
+	@RequiresIdFrom(type = Theta.class)
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
+
+	@RequiresIdFrom(type=Theta.class)
+	public static Integer getIntId(final Role role)
+	{
+		return role == null ? null : COLLECTOR.get(role);
+	}
+
 	// I D E N T I T Y
 
 	@Override
@@ -127,7 +137,7 @@ public class Role implements Insertable, Comparable<Role>, Serializable
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", f, theta);
+		return String.format("%s,%s,%s", roleSet.getName(), f, theta);
 	}
 
 	// T O S T R I N G

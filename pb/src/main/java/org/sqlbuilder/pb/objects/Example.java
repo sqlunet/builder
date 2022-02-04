@@ -1,14 +1,25 @@
 package org.sqlbuilder.pb.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.pb.PbNormalizer;
 
 import java.util.*;
 
-public class Example implements Insertable, Comparable<Example>
+public class Example implements HasId, Insertable, Comparable<Example>
 {
-	public static final Set<Example> SET = new HashSet<>();
+	private static final Comparator<Example> COMPARATOR = Comparator.comparing(Example::getRoleSet) //
+			.thenComparing(Example::getName) //
+			.thenComparing(Example::getAspect, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Example::getForm, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Example::getPerson, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Example::getTense, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Example::getVoice, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Example::getText);
+
+	public static final SetCollector<Example> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public static final SetCollector<String> ASPECT_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
@@ -46,7 +57,7 @@ public class Example implements Insertable, Comparable<Example>
 	{
 		var e = new Example(roleSet, name, text, aspect, form, person, tense, voice);
 
-		SET.add(e);
+		COLLECTOR.add(e);
 		if (e.aspect != null && !e.aspect.isEmpty() && !e.aspect.equals("ns"))
 		{
 			Example.ASPECT_COLLECTOR.add(e.aspect);
@@ -126,16 +137,20 @@ public class Example implements Insertable, Comparable<Example>
 		return this.voice;
 	}
 
-	// O R D E R
+	@RequiresIdFrom(type = Func.class)
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
 
-	private static final Comparator<Example> COMPARATOR = Comparator.comparing(Example::getRoleSet) //
-			.thenComparing(Example::getName) //
-			.thenComparing(Example::getAspect, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Example::getForm, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Example::getPerson, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Example::getTense, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Example::getVoice, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Example::getText);
+	@RequiresIdFrom(type=Func.class)
+	public static Integer getIntId(final Example example)
+	{
+		return example == null ? null : COLLECTOR.get(example);
+	}
+
+	// O R D E R
 
 	@Override
 	public int compareTo(final Example that)

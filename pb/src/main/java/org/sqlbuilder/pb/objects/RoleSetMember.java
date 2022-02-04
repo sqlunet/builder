@@ -1,23 +1,37 @@
 package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.RequiresIdFrom;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RoleSetMember implements Insertable, Comparable<RoleSetMember>
 {
-	public static final Set<RoleSetMember> SET = new HashSet<>();
+	public static final Comparator<RoleSetMember> COMPARATOR = Comparator //
+			.comparing(RoleSetMember::getWord) //
+			.thenComparing(RoleSetMember::getRoleSet);
 
-	public static Map<RoleSetMember, Integer> MAP;
+	public static final Set<RoleSetMember> SET = new HashSet<>();
 
 	final RoleSet roleSet;
 
-	final PbWord pbWord;
+	final PbWord word;
 
-	public RoleSetMember(final RoleSet roleSet, final PbWord pbWord)
+	// C O N S T R U C T O R
+
+	public static RoleSetMember make(final RoleSet roleSet, final PbWord pbWord)
+	{
+		var m = new RoleSetMember(roleSet, pbWord);
+		SET.add(m);
+		return m;
+	}
+
+	private RoleSetMember(final RoleSet roleSet, final PbWord word)
 	{
 		this.roleSet = roleSet;
-		this.pbWord = pbWord;
+		this.word = word;
 		SET.add(this);
 	}
 
@@ -28,16 +42,12 @@ public class RoleSetMember implements Insertable, Comparable<RoleSetMember>
 		return roleSet;
 	}
 
-	public PbWord getPbWord()
+	public PbWord getWord()
 	{
-		return pbWord;
+		return word;
 	}
 
 	// O R D E R
-
-	private static final Comparator<RoleSetMember> COMPARATOR = Comparator //
-			.comparing(RoleSetMember::getPbWord) //
-			.thenComparing(RoleSetMember::getRoleSet);
 
 	@Override
 	public int compareTo(final RoleSetMember that)
@@ -45,11 +55,19 @@ public class RoleSetMember implements Insertable, Comparable<RoleSetMember>
 		return COMPARATOR.compare(this, that);
 	}
 
+	// I N S E R T
+
+	@RequiresIdFrom(type = RoleSet.class)
+	@RequiresIdFrom(type = PbWord.class)
 	@Override
 	public String dataRow()
 	{
-		// Long(1, this.roleSetId);
-		// Long(2, this.pbWordId);
-		return null;
+		return String.format("%s,%s", roleSet.getIntId(), word.getIntId());
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s", roleSet.getName(), word.getWord());
 	}
 }

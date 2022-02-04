@@ -85,6 +85,12 @@ public class Func implements HasId, Comparable<Func>
 		return COLLECTOR.get(this);
 	}
 
+	@RequiresIdFrom(type=Func.class)
+	public static Integer getIntId(final Func func)
+	{
+		return func == null ? null : COLLECTOR.get(func);
+	}
+
 	// O R D E R
 
 	@Override

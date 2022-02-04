@@ -1,15 +1,25 @@
 package org.sqlbuilder.pb.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.pb.PbIdSet;
 import org.sqlbuilder.pb.PbNormalizer;
 
 import java.util.*;
 
-public class Arg implements Insertable, Comparable<Arg>
+public class Arg implements HasId, Insertable, Comparable<Arg>
 {
-	public static final Set<Arg> SET = new HashSet<>();
+	private static final Comparator<Arg> COMPARATOR = Comparator //
+			.comparing(Arg::getExample) //
+			.thenComparing(Arg::getText) //
+			.thenComparing(Arg::getN) //
+			.thenComparing(Arg::getF);
 
-	public static final Set<String> nSet = new HashSet<>();
+	public static final SetCollector<Arg> COLLECTOR = new SetCollector<>(COMPARATOR);
+
+	public static final SetCollector<String> N_COLLECTOR = new SetCollector<>(CharSequence::compare);
 
 	public static final Properties nNames = new Properties();
 
@@ -30,22 +40,23 @@ public class Arg implements Insertable, Comparable<Arg>
 
 	// C O N S T R U C T O R
 
-	public Arg(final Example example, final String text, final String n, final String f)
+	public static Arg make(final Example example, final String text, final String n, final String f)
+	{
+		var a =  new Arg(example, text, n, f);
+		if (a.n != null)
+		{
+			N_COLLECTOR.add(a.n);
+		}
+		COLLECTOR.add(a);
+		return a;
+	}
+
+	private Arg(final Example example, final String text, final String n, final String f)
 	{
 		this.example = example;
 		this.text = PbNormalizer.normalize(text);
-		this.n = n;
+		this.n = n != null && n.isEmpty() ? null : n;
 		this.f = f == null ? null : Func.make(f.toLowerCase());
-		SET.add(this);
-		if (this.n != null && !this.n.isEmpty())
-		{
-			Arg.nSet.add(this.n);
-		}
-	}
-
-	public static Arg make(final Example example, final String text, final String n, final String f)
-	{
-		return new Arg(example, text, n, f);
 	}
 
 	// A C C E S S
@@ -70,13 +81,13 @@ public class Arg implements Insertable, Comparable<Arg>
 		return this.n;
 	}
 
-	// O R D E R
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
 
-	private static final Comparator<Arg> COMPARATOR = Comparator //
-			.comparing(Arg::getExample) //
-			.thenComparing(Arg::getText) //
-			.thenComparing(Arg::getN) //
-			.thenComparing(Arg::getF);
+	// O R D E R
 
 	@Override
 	public int compareTo(final Arg that)
@@ -89,7 +100,7 @@ public class Arg implements Insertable, Comparable<Arg>
 	@Override
 	public String toString()
 	{
-		return String.format("arg %s[%s][%s]", this.example, this.n, this.f);
+		return String.format("arg %s[%s][%s]", example, n, f);
 	}
 
 	// I N S E R T
@@ -97,8 +108,7 @@ public class Arg implements Insertable, Comparable<Arg>
 	@Override
 	public String dataRow()
 	{
-		//final Long fId = PbFunc.funcMap.get(this.f);
-		//final String nId = PbIdSet.toElement(this.n);
+		final String nId = PbIdSet.toElement(n);
 
 		// argid,text,n,f,exampleid
 		// Long(1, this.id);
@@ -108,6 +118,17 @@ public class Arg implements Insertable, Comparable<Arg>
 		// Null(4, Types.INTEGER);
 		// Long(4, fId);
 		// Long(5, this.example.getId());
-		return null;
+		return String.format("'%s',%s,%s,%s", //
+				Utils.escape(text), //
+				nId,
+				f.getIntId(),
+				example.getIntId()
+		);
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s", n, f.getFunc());
 	}
 }

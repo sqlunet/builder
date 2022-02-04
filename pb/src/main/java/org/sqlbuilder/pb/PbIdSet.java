@@ -4,8 +4,6 @@ import java.util.TreeSet;
 
 public class PbIdSet extends TreeSet<String>
 {
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public boolean add(final String element0)
 	{
@@ -13,7 +11,7 @@ public class PbIdSet extends TreeSet<String>
 		return super.add(element);
 	}
 
-	static String toElement(final String element)
+	public static String toElement(final String element)
 	{
 		if (element == null)
 			return null;

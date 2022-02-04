@@ -44,7 +44,7 @@ public class PbCrossRefsProcessor extends Processor
 				PbWord pbword = PbWord.make(pbPredicate.getLemma());
 
 				// predicate as roleset member
-				final RoleSetMember predicateMember = new RoleSetMember(roleSet, pbword);
+				RoleSetMember.make(roleSet, pbword);
 
 				// aliases
 				final List<Alias> aliases = roleSet.getAliases();
@@ -56,7 +56,7 @@ public class PbCrossRefsProcessor extends Processor
 						// alias.setRoleSet(roleSet);
 
 						// roleset member
-						final RoleSetMember member = new RoleSetMember(roleSet, pbword);
+						RoleSetMember.make(roleSet, pbword);
 					}
 				}
 			}

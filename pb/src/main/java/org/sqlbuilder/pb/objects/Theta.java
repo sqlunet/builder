@@ -43,6 +43,12 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 		return COLLECTOR.get(this);
 	}
 
+	@RequiresIdFrom(type=Theta.class)
+	public static Integer getIntId(final Theta theta)
+	{
+		return theta == null ? null : COLLECTOR.get(theta);
+	}
+
 	// O R D E R
 
 	@Override

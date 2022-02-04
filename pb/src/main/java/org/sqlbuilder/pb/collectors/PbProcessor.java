@@ -4,7 +4,6 @@ import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.pb.PbDocument;
-import org.sqlbuilder.pb.objects.Example;
 import org.sqlbuilder.pb.PbModule;
 import org.sqlbuilder.pb.PbVerbDocument;
 import org.sqlbuilder.pb.objects.*;
@@ -120,18 +119,10 @@ public class PbProcessor extends Processor
 			PbVerbDocument.makeRoles(head, start);
 
 			// examples
-			final Collection<Example> examples = PbVerbDocument.getExamples(head, start);
-			if (examples != null)
-			{
-				Example.SET.addAll(examples);
-			}
+			PbVerbDocument.makeExamples(head, start);
 
 			// args
-			final Collection<Arg> args = PbVerbDocument.getExampleArgs(head, start);
-			if (args != null)
-			{
-				Arg.SET.addAll(args);
-			}
+			PbVerbDocument.makeExampleArgs(head, start);
 		}
 		catch (XPathExpressionException e)
 		{

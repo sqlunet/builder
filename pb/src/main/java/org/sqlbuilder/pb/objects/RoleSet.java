@@ -68,10 +68,17 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 		return this.aliases;
 	}
 
+	@RequiresIdFrom(type = RoleSet.class)
 	@Override
 	public Integer getIntId()
 	{
-		return null;
+		return COLLECTOR.get(this);
+	}
+
+	@RequiresIdFrom(type=RoleSet.class)
+	public static Integer getIntId(final RoleSet roleset)
+	{
+		return roleset == null ? null : COLLECTOR.get(roleset);
 	}
 
 	// I D E N T I T Y
@@ -115,16 +122,10 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 		final Predicate predicate2 = getPredicate();
 		final PbWord word = LexItem.map.get(predicate2);
 
-		// Long(1, roleSetId);
-		// String(2, getHead());
-		// String(3, getName());
-		// String(4, getDescr());
-		// Long(5, word.getId());
-
 		// (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
 		final int roleSetId = RoleSet.COLLECTOR.get(this);
-		return String.format("%s,'%s','%s',%s", //
-				predicate.getHead(), //
+		return String.format("'%s','%s','%s',%s", //
+				Utils.escape(predicate.getHead()), //
 				name, //
 				Utils.escape(descr), //
 				word == null ? "NULL" : word.getSqlId() //

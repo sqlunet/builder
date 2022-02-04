@@ -210,7 +210,7 @@ public class PbVerbDocument extends PbDocument
 		}
 	}
 
-	public static Collection<Example> getExamples(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Example> makeExamples(final String head, final Node start) throws XPathExpressionException
 	{
 		List<Example> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
@@ -262,7 +262,8 @@ public class PbVerbDocument extends PbDocument
 
 						final String f = relElement.getAttribute("f");
 						final String relText = relElement.getTextContent().trim();
-						final Rel rel = Rel.make(example, relText, f);
+						final Func func = Func.make(f);
+						final Rel rel = Rel.make(example, relText, func);
 						example.rels.add(rel);
 					}
 
@@ -290,7 +291,7 @@ public class PbVerbDocument extends PbDocument
 		return result;
 	}
 
-	public static Collection<Arg> getExampleArgs(final String head, final Node start) throws XPathExpressionException
+	public static Collection<Arg> makeExampleArgs(final String head, final Node start) throws XPathExpressionException
 	{
 		List<Arg> result = null;
 		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");

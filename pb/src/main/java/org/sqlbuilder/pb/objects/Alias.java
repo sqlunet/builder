@@ -21,6 +21,14 @@ public class Alias implements Insertable
 
 	private PbWord pbWord;
 
+	// C O N S T R U C T
+
+	public static Alias make(final Db db, final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	{
+		var a = new Alias(db ,clazz, pos, lemma, pbRoleSet, pbWord);
+		return a;
+	}
+
 	public Alias(final Db db, final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
 		this.ref = clazz;
@@ -30,6 +38,8 @@ public class Alias implements Insertable
 		this.pbRoleSet = pbRoleSet;
 		this.pbWord = pbWord;
 	}
+
+	// A C C E S S
 
 	public RoleSet getPbRoleSet()
 	{
@@ -50,6 +60,8 @@ public class Alias implements Insertable
 	{
 		this.pbWord = pbWord;
 	}
+
+	// I N S E R T
 
 	@Override
 	public String dataRow()
