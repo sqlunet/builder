@@ -1,12 +1,11 @@
-package org.sqlbuilder.pb.collectors;
+package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.pb.PbDocument;
+import org.sqlbuilder.XmlDocument;
 import org.sqlbuilder.pb.PbModule;
-import org.sqlbuilder.pb.joins.PbVnRoleMapping;
-import org.sqlbuilder.pb.SemlinkDocument;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -37,7 +36,7 @@ public class Semlink0Processor extends Processor
 		try
 		{
 			final SemlinkDocument document = new SemlinkDocument(this.semlinkFile);
-			Semlink0Processor.processSemlinks(PbDocument.getXPath(document.getDocument(), "./pbvn-typemap"));
+			Semlink0Processor.processSemlinks(XmlDocument.getXPath(document.getDocument(), "./pbvn-typemap"));
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
@@ -54,8 +53,8 @@ public class Semlink0Processor extends Processor
 	protected static int processSemlinks(final Node start) throws XPathExpressionException
 	{
 		Progress.traceHeader("semlink file", "reading");
-		PbVnRoleMapping.semlinkMap = SemlinkDocument.getMappings(start);
+		PbRole_VnRole.semlinkMap = SemlinkDocument.getMappings(start);
 		Progress.traceTailer("semlink files", "");
-		return PbVnRoleMapping.semlinkMap.size();
+		return PbRole_VnRole.semlinkMap.size();
 	}
 }

@@ -1,4 +1,4 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb.foreign;
 
 public class RoleIds
 {

@@ -1,13 +1,9 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.pb.PbIdSet;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.pb.PbNormalizer;
 
-import java.util.*;
+import java.util.Comparator;
 
 public class Arg implements HasId, Insertable, Comparable<Arg>
 {
@@ -15,38 +11,25 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 			.comparing(Arg::getExample) //
 			.thenComparing(Arg::getText) //
 			.thenComparing(Arg::getN) //
-			.thenComparing(Arg::getF);
+			.thenComparing(Arg::getF, Comparator.nullsFirst(Comparator.naturalOrder()));
 
 	public static final SetCollector<Arg> COLLECTOR = new SetCollector<>(COMPARATOR);
-
-	public static final SetCollector<String> N_COLLECTOR = new SetCollector<>(CharSequence::compare);
-
-	public static final Properties nNames = new Properties();
-
-	static
-	{
-		Arg.nNames.setProperty("M", "modifier");
-		Arg.nNames.setProperty("A", "agent");
-		Arg.nNames.setProperty("@", "?");
-	}
 
 	private final Example example;
 
 	private final String text;
 
-	private final String n;
+	@NonNull
+	private final ArgN n;
 
+	@Nullable
 	private final Func f;
 
 	// C O N S T R U C T O R
 
 	public static Arg make(final Example example, final String text, final String n, final String f)
 	{
-		var a =  new Arg(example, text, n, f);
-		if (a.n != null)
-		{
-			N_COLLECTOR.add(a.n);
-		}
+		var a = new Arg(example, text, n, f);
 		COLLECTOR.add(a);
 		return a;
 	}
@@ -55,8 +38,8 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 	{
 		this.example = example;
 		this.text = PbNormalizer.normalize(text);
-		this.n = n != null && n.isEmpty() ? null : n;
-		this.f = f == null ? null : Func.make(f.toLowerCase());
+		this.n = n == null || n.isEmpty() ? null : ArgN.make(n);
+		this.f = f == null || f.isEmpty() ? null : Func.make(f.toLowerCase());
 	}
 
 	// A C C E S S
@@ -71,12 +54,14 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 		return this.text;
 	}
 
+	@Nullable
 	public Func getF()
 	{
 		return this.f;
 	}
 
-	public String getN()
+	@Nullable
+	public ArgN getN()
 	{
 		return this.n;
 	}
@@ -105,30 +90,22 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Func.class)
+	@RequiresIdFrom(type = Example.class)
 	@Override
 	public String dataRow()
 	{
-		final String nId = PbIdSet.toElement(n);
-
-		// argid,text,n,f,exampleid
-		// Long(1, this.id);
-		// String(2, this.text);
-		// Null(3, Types.INTEGER);
-		// String(3, nId);
-		// Null(4, Types.INTEGER);
-		// Long(4, fId);
-		// Long(5, this.example.getId());
-		return String.format("'%s',%s,%s,%s", //
+		// (argid),text,n,f,exampleid
+		return String.format("'%s','%s',%s,%s", //
 				Utils.escape(text), //
-				nId,
-				f.getIntId(),
-				example.getIntId()
-		);
+				n.getArgn(), //
+				Func.getIntId(f), //
+				example.getIntId());
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", n, f.getFunc());
+		return String.format("%s,%s",  n.getArgn(), f == null ? null : f.getFunc());
 	}
 }

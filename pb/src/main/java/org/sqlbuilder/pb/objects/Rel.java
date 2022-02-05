@@ -10,7 +10,7 @@ public class Rel implements HasId, Insertable, Comparable<Rel>
 	private static final Comparator<Rel> COMPARATOR = Comparator //
 			.comparing(Rel::getExample) //
 			.thenComparing(Rel::getText) //
-			.thenComparing(Rel::getF);
+			.thenComparing(Rel::getF, Comparator.nullsFirst(Comparator.naturalOrder()));
 
 	public static final SetCollector<Rel> COLLECTOR = new SetCollector<>(COMPARATOR);
 
@@ -72,20 +72,16 @@ public class Rel implements HasId, Insertable, Comparable<Rel>
 	public String dataRow()
 	{
 		// (relid),rel,func,exampleid
-		//			String(2, this.text);
-		//			Null(3, Types.INTEGER);
-		//			Long(3, fId);
-		//			Long(4, this.example.getId());
-		return String.format("%s,%s,%s", //
-				Utils.escape(text),
-				Func.getIntId(f),
-				SqlId.getSqlId(Example.getIntId(example))
-				);
+		return String.format("'%s',%s,%s", //
+				Utils.escape(text), //
+				Utils.nullable(f, Func::getSqlId), //
+				example.getSqlId() //
+		);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("rel %s[%s][%s]", this.text, this.example, this.f);
+		return String.format("rel %s[%s][%s]", text, example, f);
 	}
 }

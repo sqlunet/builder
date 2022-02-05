@@ -12,9 +12,10 @@
         <module name="bnc" />
         <module name="fn" />
         <module name="vn" />
+        <module name="fn-jaxb" />
         <module name="sn" />
-        <module name="fn2" />
         <module name="legacymaps" />
+        <module name="fn-beans" />
       </profile>
     </annotationProcessing>
   </component>

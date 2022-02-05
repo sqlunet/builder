@@ -1,10 +1,10 @@
-package org.sqlbuilder.pb.collectors;
+package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.common.NotFoundException;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.pb.objects.PbVnRole;
-import org.sqlbuilder.pb.joins.PbVnRoleMapping;
+import org.sqlbuilder.pb.foreign.PbVnRoleMapping;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -31,8 +31,8 @@ public class Semlink2Processor extends Processor
 		int nRoleNotFound = 0;
 		int nFound = 0;
 
-		final Set<PbVnRole> pbVnRoles = new TreeSet<>(PbVnRoleMapping.semlinkMap.values());
-		for (final PbVnRole vnRole : pbVnRoles)
+		final Set<PbVnRoleMapping> pbVnRoleMappings = new TreeSet<>(PbRole_VnRole.semlinkMap.values());
+		for (final PbVnRoleMapping vnRole : pbVnRoleMappings)
 		{
 			nTotal++;
 
@@ -64,6 +64,6 @@ public class Semlink2Processor extends Processor
 		System.out.printf("total %s%n", nTotal);
 		System.out.printf("vnrole found %s%n", nFound);
 		System.out.printf("vnrole not found %s%n", nRoleNotFound);
-		return PbVnRoleMapping.semlinkMap.size();
+		return PbRole_VnRole.semlinkMap.size();
 	}
 }

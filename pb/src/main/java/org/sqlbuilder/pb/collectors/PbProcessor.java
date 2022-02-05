@@ -1,11 +1,11 @@
 package org.sqlbuilder.pb.collectors;
 
+import org.sqlbuilder.XmlDocument;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.pb.PbDocument;
 import org.sqlbuilder.pb.PbModule;
-import org.sqlbuilder.pb.PbVerbDocument;
+import org.sqlbuilder.pb.objects.Predicate;
 import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -63,8 +63,8 @@ public class PbProcessor extends Processor
 		int count = 0;
 		try
 		{
-			final PbVerbDocument document = new PbVerbDocument(fileName);
-			count = processFrameset(document, PbDocument.getXPath(document.getDocument(), "./frameset"), head);
+			final PbDocument document = new PbDocument(fileName);
+			count = processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head);
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
@@ -73,13 +73,13 @@ public class PbProcessor extends Processor
 		return count;
 	}
 
-	protected int processFrameset(final PbVerbDocument document, final Node start, final String head)
+	protected int processFrameset(final PbDocument document, final Node start, final String head)
 	{
 		long count = 0;
 		try
 		{
 			// predicates
-			final Collection<Predicate> predicates = PbVerbDocument.getPredicates(head, start);
+			final Collection<Predicate> predicates = PbDocument.getPredicates(head, start);
 			if (predicates != null)
 			{
 				for (final Predicate predicate : predicates)
@@ -95,7 +95,7 @@ public class PbProcessor extends Processor
 				}
 				count += predicates.size();
 			}
-			final Collection<LexItem> aliasLexItems = PbVerbDocument.getAliasPredicates(start);
+			final Collection<LexItem> aliasLexItems = PbDocument.getAliasPredicates(start);
 			if (aliasLexItems != null)
 			{
 				for (final LexItem lexItem : aliasLexItems)
@@ -113,16 +113,16 @@ public class PbProcessor extends Processor
 			}
 
 			// rolesets
-			PbVerbDocument.makeRoleSets(head, start);
+			PbDocument.makeRoleSets(head, start);
 
 			// roles
-			PbVerbDocument.makeRoles(head, start);
+			PbDocument.makeRoles(head, start);
 
 			// examples
-			PbVerbDocument.makeExamples(head, start);
+			PbDocument.makeExamples(head, start);
 
 			// args
-			PbVerbDocument.makeExampleArgs(head, start);
+			PbDocument.makeExampleArgs(head, start);
 		}
 		catch (XPathExpressionException e)
 		{

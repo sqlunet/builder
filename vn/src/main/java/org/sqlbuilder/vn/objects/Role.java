@@ -1,8 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -104,6 +102,8 @@ public class Role implements Insertable, Comparable<Role>
 		// id
 		// roleType.id
 		// restrs.id (or null)
-		return String.format("%d,%s", RoleType.COLLECTOR.get(roleType), restrs == null ? "NULL" : Restrs.COLLECTOR.get(restrs));
+		return String.format("%d,%s", //
+				RoleType.COLLECTOR.get(roleType), //
+				Utils.nullable(restrs, HasId::getSqlId));
 	}
 }

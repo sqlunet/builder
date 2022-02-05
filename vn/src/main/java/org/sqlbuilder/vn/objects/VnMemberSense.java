@@ -2,6 +2,7 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.Utils;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -65,13 +66,13 @@ public class VnMemberSense implements Insertable, Comparable<VnMemberSense>
 		// synsetId (or NULL)
 		// sensekey (or NULL)
 		// quality (or NULL)
-		Long synsetid = null;
+		Integer synsetid = null;
 		return String.format("%d,%d,%d,%s,%s,%s", //
 				VnClass.COLLECTOR.get(member.clazz), //
 				VnWord.COLLECTOR.get(member.word), //
 				sensenum, //
-				synsetid != null ? synsetid : "NULL", //
-				sensekey != null ? "'" + sensekey.getSensekey() + "'" : "NULL", //
-				quality != null ? quality : "NULL");
+				Utils.nullableInt(synsetid), //
+				Utils.nullable(sensekey, Sensekey::getSensekey), //
+				Utils.nullableFloat(quality));
 	}
 }

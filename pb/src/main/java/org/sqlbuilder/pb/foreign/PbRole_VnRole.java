@@ -1,24 +1,22 @@
-package org.sqlbuilder.pb.joins;
+package org.sqlbuilder.pb.foreign;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.pb.RoleIds;
 import org.sqlbuilder.pb.objects.Role;
-import org.sqlbuilder.pb.objects.PbVnRole;
 
 import java.util.List;
 import java.util.Map;
 
-public class PbVnRoleMapping implements Insertable
+public class PbRole_VnRole implements Insertable
 {
-	public static Map<Role, List<PbVnRole>> map;
+	public static Map<Role, List<PbVnRoleMapping>> map;
 
-	public static Map<Role, PbVnRole> semlinkMap;
+	public static Map<Role, PbVnRoleMapping> semlinkMap;
 
 	public final RoleIds pbRoleIds;
 
 	public final RoleIds vnRoleIds;
 
-	public PbVnRoleMapping(final RoleIds pbRoleIds, final RoleIds vnRoleIds)
+	public PbRole_VnRole(final RoleIds pbRoleIds, final RoleIds vnRoleIds)
 	{
 		this.pbRoleIds = pbRoleIds;
 		this.vnRoleIds = vnRoleIds;

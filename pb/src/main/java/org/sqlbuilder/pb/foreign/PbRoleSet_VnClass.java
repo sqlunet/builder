@@ -1,9 +1,9 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.foreign;
 
 import java.util.Collection;
 import java.util.Set;
 
-public class PbVnClass implements Comparable<PbVnClass>
+public class PbRoleSet_VnClass implements Comparable<PbRoleSet_VnClass>
 {
 	private final String head;
 
@@ -11,15 +11,15 @@ public class PbVnClass implements Comparable<PbVnClass>
 
 	// C O N S T R U C T O R
 
-	public PbVnClass(final String head, final String className)
+	public static PbRoleSet_VnClass make(final String head, final String className)
+	{
+		return new PbRoleSet_VnClass(head, className);
+	}
+
+	private PbRoleSet_VnClass(final String head, final String className)
 	{
 		this.head = head;
 		this.className = className;
-	}
-
-	public static PbVnClass make(final String head, final String className)
-	{
-		return new PbVnClass(head, className);
 	}
 
 	// A C C E S S
@@ -42,7 +42,7 @@ public class PbVnClass implements Comparable<PbVnClass>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final PbVnClass vnc)
+	public int compareTo(final PbRoleSet_VnClass vnc)
 	{
 		return this.className.compareTo(vnc.className);
 	}
@@ -55,12 +55,12 @@ public class PbVnClass implements Comparable<PbVnClass>
 		return String.format("<%s>", this.className);
 	}
 
-	public static String toString(final Collection<PbVnClass> vnClasses)
+	public static String toString(final Collection<PbRoleSet_VnClass> vnClasses)
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append('{');
 		sb.append(' ');
-		for (final PbVnClass vnClass : vnClasses)
+		for (final PbRoleSet_VnClass vnClass : vnClasses)
 		{
 			sb.append(vnClass);
 			sb.append(' ');

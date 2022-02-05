@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/sn/pom.xml" />
         <option value="$PROJECT_DIR$/vn/pom.xml" />
+        <option value="$PROJECT_DIR$/fn-jaxb/pom.xml" />
+        <option value="$PROJECT_DIR$/fn-beans/pom.xml" />
       </list>
     </option>
   </component>

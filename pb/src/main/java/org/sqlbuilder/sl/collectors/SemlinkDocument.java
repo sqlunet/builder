@@ -1,5 +1,9 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.sl.collectors;
 
+import org.sqlbuilder.XmlDocument;
+import org.sqlbuilder.pb.foreign.PbRoleSet_VnClass;
+import org.sqlbuilder.pb.foreign.PbVnRoleMapping;
+import org.sqlbuilder.pb.objects.Predicate;
 import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,35 +17,35 @@ import java.util.TreeMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class SemlinkDocument extends PbDocument
+public class SemlinkDocument extends XmlDocument
 {
 	public SemlinkDocument(final String filePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		super(filePath);
 	}
 
-	public static Map<Role, PbVnRole> getMappings(final Node start) throws XPathExpressionException
+	public static Map<Role, PbVnRoleMapping> getMappings(final Node start) throws XPathExpressionException
 	{
-		final Map<Role, PbVnRole> map = new TreeMap<>();
-		final NodeList predicateNodes = PbDocument.getXPaths(start, "./predicate");
+		final Map<Role, PbVnRoleMapping> map = new TreeMap<>();
+		final NodeList predicateNodes = XmlDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
 			final Predicate predicate = Predicate.make(lemmaAttribute, lemmaAttribute);
 
-			final NodeList argmapNodes = PbDocument.getXPaths(predicateElement, "./argmap");
+			final NodeList argmapNodes = XmlDocument.getXPaths(predicateElement, "./argmap");
 			for (int j = 0; j < argmapNodes.getLength(); j++)
 			{
 				final Element argmapElement = (Element) argmapNodes.item(j);
 
 				final String roleSetIdAttribute = argmapElement.getAttribute("pb-roleset");
-				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, null, null);
+				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, null);
 
 				final String vnClassAttribute = argmapElement.getAttribute("vn-class");
-				final PbVnClass vnClass = PbVnClass.make(predicate.getHead(), vnClassAttribute);
+				final PbRoleSet_VnClass vnClass = PbRoleSet_VnClass.make(predicate.getHead(), vnClassAttribute);
 
-				final NodeList roleNodes = PbDocument.getXPaths(argmapElement, "./role");
+				final NodeList roleNodes = XmlDocument.getXPaths(argmapElement, "./role");
 				for (int k = 0; k < roleNodes.getLength(); k++)
 				{
 					final Element roleElement = (Element) roleNodes.item(k);
@@ -51,7 +55,7 @@ public class SemlinkDocument extends PbDocument
 					final String thetaAttribute = roleElement.getAttribute("vn-theta");
 					final Role role = Role.make(roleSet, argAttribute, fAttribute, thetaAttribute, null);
 
-					final PbVnRole vnRole = PbVnRole.make(vnClass, thetaAttribute);
+					final PbVnRoleMapping vnRole = PbVnRoleMapping.make(vnClass, thetaAttribute);
 
 					map.put(role, vnRole);
 					// System.out.println(role + " -> " + vnRole);

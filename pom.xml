@@ -11,13 +11,14 @@
 	<modules>
 		<module>common</module>
 		<module>bnc</module>
+		<module>fn-beans</module>
+		<module>fn-jaxb</module>
 		<module>fn</module>
 		<module>vn</module>
 		<module>pb</module>
 		<module>sn</module>
 		<module>legacy</module>
 		<module>legacymaps</module>
-		<module>fn2</module>
 	</modules>
 
 	<properties>

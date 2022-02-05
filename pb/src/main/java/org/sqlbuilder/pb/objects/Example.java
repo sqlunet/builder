@@ -1,12 +1,11 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.pb.PbNormalizer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class Example implements HasId, Insertable, Comparable<Example>
 {
@@ -19,36 +18,46 @@ public class Example implements HasId, Insertable, Comparable<Example>
 			.thenComparing(Example::getVoice, Comparator.nullsFirst(Comparator.naturalOrder())) //
 			.thenComparing(Example::getText);
 
+	private static final Comparator<String> NULLABLE_STRING_COMPARATOR = Comparator.nullsFirst(CharSequence::compare);
+
 	public static final SetCollector<Example> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	public static final SetCollector<String> ASPECT_COLLECTOR = new SetCollector<>(CharSequence::compare);
+	public static final SetCollector<String> ASPECT_COLLECTOR = new SetCollector<>(NULLABLE_STRING_COMPARATOR);
 
-	public static final SetCollector<String> FORM_COLLECTOR = new SetCollector<>(CharSequence::compare);
+	public static final SetCollector<String> FORM_COLLECTOR = new SetCollector<>(NULLABLE_STRING_COMPARATOR);
 
-	public static final SetCollector<String> PERSON_COLLECTOR = new SetCollector<>(CharSequence::compare);
+	public static final SetCollector<String> PERSON_COLLECTOR = new SetCollector<>(NULLABLE_STRING_COMPARATOR);
 
-	public static final SetCollector<String> TENSE_COLLECTOR = new SetCollector<>(CharSequence::compare);
+	public static final SetCollector<String> TENSE_COLLECTOR = new SetCollector<>(NULLABLE_STRING_COMPARATOR);
 
-	public static final SetCollector<String> VOICE_COLLECTOR = new SetCollector<>(CharSequence::compare);
+	public static final SetCollector<String> VOICE_COLLECTOR = new SetCollector<>(NULLABLE_STRING_COMPARATOR);
 
+	@NonNull
 	private final RoleSet roleSet;
 
 	private final String name;
 
 	private final String text;
 
+	@Nullable
 	private final String aspect;
 
+	@Nullable
 	private final String form;
 
+	@Nullable
 	private final String person;
 
+	@Nullable
 	private final String tense;
 
+	@Nullable
 	private final String voice;
 
+	@NonNull
 	public final List<Rel> rels;
 
+	@NonNull
 	public final List<Arg> args;
 
 	// C O N S T R U C T O R
@@ -97,6 +106,7 @@ public class Example implements HasId, Insertable, Comparable<Example>
 
 	// A C C E S S
 
+	@NonNull
 	public RoleSet getRoleSet()
 	{
 		return this.roleSet;
@@ -112,26 +122,31 @@ public class Example implements HasId, Insertable, Comparable<Example>
 		return this.text;
 	}
 
+	@Nullable
 	public String getAspect()
 	{
 		return this.aspect;
 	}
 
+	@Nullable
 	public String getForm()
 	{
 		return this.form;
 	}
 
+	@Nullable
 	public String getPerson()
 	{
 		return this.person;
 	}
 
+	@Nullable
 	public String getTense()
 	{
 		return this.tense;
 	}
 
+	@Nullable
 	public String getVoice()
 	{
 		return this.voice;
@@ -144,7 +159,7 @@ public class Example implements HasId, Insertable, Comparable<Example>
 		return COLLECTOR.get(this);
 	}
 
-	@RequiresIdFrom(type=Func.class)
+	@RequiresIdFrom(type = Func.class)
 	public static Integer getIntId(final Example example)
 	{
 		return example == null ? null : COLLECTOR.get(example);
@@ -160,47 +175,38 @@ public class Example implements HasId, Insertable, Comparable<Example>
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = RoleSet.class)
 	@Override
 	public String dataRow()
 	{
-		// id
-		// final long roleSetId = PbRoleSet.map.getId(this.roleSet);
-		// final Long aspectId = this.aspect == null ? null : PbExample.aspectMap.get(this.aspect);
-		// final Long formId = this.form == null ? null : PbExample.formMap.get(this.form);
-		// final Long tenseId = this.tense == null ? null : PbExample.tenseMap.get(this.tense);
-		// final Long voiceId = this.voice == null ? null : PbExample.voiceMap.get(this.voice);
-		// final Long personId = this.person == null ? null : PbExample.personMap.get(this.person);
-
-		// exampleid, name, text, aspect, form, tense, voice, person, rolesetid
-		// Long(1, this.id);
-		// String(2, this.name);
-		// String(3, this.text);
-		// Null(4, Types.INTEGER);
-		// Long(4, aspectId);
-		// Null(5, Types.INTEGER);
-		// Long(5, formId);
-		// Null(6, Types.INTEGER);
-		// Long(6, tenseId);
-		// Null(7, Types.INTEGER);
-		// Long(7, voiceId);
-		// Null(8, Types.INTEGER);
-		// Long(8, personId);
-		// Long(9, roleSetId);
-
 		// rels
-		//for (final PbRel rel : this.rels)
-		//{
-		//	rel.allocate();
+		for (final Rel rel : rels)
+		{
 		//	rel.insert(connection);
-		//}
-		//
-		//// args
-		//for (final PbArg arg : this.args)
-		//{
-		//	arg.allocate();
+		}
+
+		// args
+		for (final Arg arg : args)
+		{
 		//	arg.insert(connection);
-		//}
-		return null;
+		}
+
+		// (exampleid),examplename,text,aspect,form,tense,voice,person,rolesetid
+		return String.format("'%s','%s',%s,%s,%s,%s,%s,%d", Utils.escape(name), //
+				Utils.escape(text), //
+				SqlId.getSqlId(Example.ASPECT_COLLECTOR.get(aspect)), //
+				SqlId.getSqlId(Example.FORM_COLLECTOR.get(form)), //
+				SqlId.getSqlId(Example.TENSE_COLLECTOR.get(tense)), //
+				SqlId.getSqlId(Example.VOICE_COLLECTOR.get(voice)), //
+				SqlId.getSqlId(Example.PERSON_COLLECTOR.get(person)), //
+				roleSet.getIntId() //
+		);
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s,%s,%s,%s,%s", aspect, form, tense, voice, person, roleSet.getName());
 	}
 
 	@Override

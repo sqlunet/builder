@@ -1,74 +1,69 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Properties;
 
-public class Func implements HasId, Comparable<Func>
+public class Func implements HasId, Comparable<Func>, Insertable
 {
 	public static final Comparator<Func> COMPARATOR = Comparator.comparing(Func::getFunc);
 
 	public static final SetCollector<Func> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	// A secondary agent
-	// ADV adverbial modification
-	// CAU cause
-	// DIR direction
-	// DIS
-	// DSP
-	// EXT extent
-	// LOC location
-	// MNR manner
-	// MOD general modification
-	// NEG negation
-	// PNC purpose no cause
-	// PRD secondary predication
-	// PRP purpose (deprecated)
-	// Q quantity
-	// RCL relative clause
-	// REC reciprocal
-	// SLC
-	// STR
-	// TMP temporal
-	private static final String[] cats = new String[]{"ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP"};
+	private static final String[] PREDEFINED = new String[]{"ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP"};
 
-	public static final Properties funcNames = new Properties();
+	private static final Properties DESCRIPTIONS = new Properties();
 
 	static
 	{
-		Func.funcNames.setProperty("ADV", "adverbial modification");
-		Func.funcNames.setProperty("CAU", "cause");
-		Func.funcNames.setProperty("DIR", "direction");
-		Func.funcNames.setProperty("EXT", "extent");
-		Func.funcNames.setProperty("LOC", "location");
-		Func.funcNames.setProperty("MNR", "manner");
-		Func.funcNames.setProperty("MOD", "general modification");
-		Func.funcNames.setProperty("NEG", "negation");
-		Func.funcNames.setProperty("PNC", "purpose no cause");
-		Func.funcNames.setProperty("PRD", "secondary predication");
-		Func.funcNames.setProperty("PRP", "purpose (deprecated)");
-		Func.funcNames.setProperty("Q", "quantity");
-		Func.funcNames.setProperty("RCL", "relative clause");
-		Func.funcNames.setProperty("REC", "reciprocal");
-		Func.funcNames.setProperty("TMP", "temporal");
+		DESCRIPTIONS.setProperty("ADV", "adverbial modification");
+		DESCRIPTIONS.setProperty("CAU", "cause");
+		DESCRIPTIONS.setProperty("DIR", "direction");
+		DESCRIPTIONS.setProperty("EXT", "extent");
+		DESCRIPTIONS.setProperty("LOC", "location");
+		DESCRIPTIONS.setProperty("MNR", "manner");
+		DESCRIPTIONS.setProperty("MOD", "general modification");
+		DESCRIPTIONS.setProperty("NEG", "negation");
+		DESCRIPTIONS.setProperty("PNC", "purpose no cause");
+		DESCRIPTIONS.setProperty("PRD", "secondary predication");
+		DESCRIPTIONS.setProperty("PRP", "purpose (deprecated)");
+		DESCRIPTIONS.setProperty("Q", "quantity");
+		DESCRIPTIONS.setProperty("RCL", "relative clause");
+		DESCRIPTIONS.setProperty("REC", "reciprocal");
+		DESCRIPTIONS.setProperty("TMP", "temporal");
 	}
 
 	private final String func;
 
 	// C O N S T R U C T O R
 
-	public static Func make(final String funcName)
+	public static Func make(final String f)
 	{
-		var f = new Func(funcName);
-		COLLECTOR.add(f);
-		return f;
+		if (f == null || f.isEmpty())
+		{
+			return null;
+		}
+		var fn = new Func(f);
+		COLLECTOR.add(fn);
+		return fn;
 	}
 
 	private Func(final String funcName)
 	{
 		this.func = normalize(funcName);
+	}
+
+	private static String normalize(final String funcName)
+	{
+		for (final String predefined : Func.PREDEFINED)
+		{
+			if (predefined.equalsIgnoreCase(funcName))
+			{
+				return predefined;
+			}
+		}
+		return funcName.toLowerCase();
 	}
 
 	// A C C E S S
@@ -85,7 +80,7 @@ public class Func implements HasId, Comparable<Func>
 		return COLLECTOR.get(this);
 	}
 
-	@RequiresIdFrom(type=Func.class)
+	@RequiresIdFrom(type = Func.class)
 	public static Integer getIntId(final Func func)
 	{
 		return func == null ? null : COLLECTOR.get(func);
@@ -99,15 +94,11 @@ public class Func implements HasId, Comparable<Func>
 		return COMPARATOR.compare(this, that);
 	}
 
-	private static String normalize(final String funcName)
+	// I N S E R T
+
+	@Override
+	public String dataRow()
 	{
-		for (final String cat : Func.cats)
-		{
-			if (cat.equalsIgnoreCase(funcName))
-			{
-				return cat;
-			}
-		}
-		return funcName.toLowerCase();
+		return String.format("'%s',%s", func, Utils.nullableQuotedString(DESCRIPTIONS.getProperty(func, null)));
 	}
 }

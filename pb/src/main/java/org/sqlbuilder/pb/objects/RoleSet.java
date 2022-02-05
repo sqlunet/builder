@@ -1,7 +1,9 @@
 package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.*;
+import org.sqlbuilder.pb.foreign.Alias;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -26,19 +28,19 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 
 	// C O N S T R U C T O R
 
-	public static RoleSet make(final Predicate predicate, final String roleSetId, final String name, final List<Alias> aliases)
+	public static RoleSet make(final Predicate predicate, final String roleSetId, final String name)
 	{
-		var s = new RoleSet(predicate, roleSetId, name, aliases);
+		var s = new RoleSet(predicate, roleSetId, name);
 		COLLECTOR.add(s);
 		return s;
 	}
 
-	private RoleSet(final Predicate predicate, final String name, final String descr, final List<Alias> aliases)
+	private RoleSet(final Predicate predicate, final String name, final String descr)
 	{
 		this.predicate = predicate;
 		this.name = name;
 		this.descr = descr;
-		this.aliases = aliases;
+		this.aliases = new ArrayList<>();
 	}
 
 	// A C C E S S
@@ -75,7 +77,7 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 		return COLLECTOR.get(this);
 	}
 
-	@RequiresIdFrom(type=RoleSet.class)
+	@RequiresIdFrom(type = RoleSet.class)
 	public static Integer getIntId(final RoleSet roleset)
 	{
 		return roleset == null ? null : COLLECTOR.get(roleset);
@@ -126,9 +128,9 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 		final int roleSetId = RoleSet.COLLECTOR.get(this);
 		return String.format("'%s','%s','%s',%s", //
 				Utils.escape(predicate.getHead()), //
-				name, //
+				Utils.escape(name), //
 				Utils.escape(descr), //
-				word == null ? "NULL" : word.getSqlId() //
+				Utils.nullable(word, HasId::getSqlId) //
 		);
 	}
 

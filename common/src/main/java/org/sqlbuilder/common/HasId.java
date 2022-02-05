@@ -2,12 +2,12 @@ package org.sqlbuilder.common;
 
 public interface HasId
 {
-	default Object getSqlId()
+	default String getSqlId()
 	{
 		Integer id = getIntId();
 		if (id != null)
 		{
-			return id;
+			return id.toString();
 		}
 		return "NULL";
 	}

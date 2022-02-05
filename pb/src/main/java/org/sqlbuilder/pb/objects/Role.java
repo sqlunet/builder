@@ -10,17 +10,17 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 {
 	public static final Comparator<Role> COMPARATOR = Comparator //
 			.comparing(Role::getRoleSet) //
-			.thenComparing(Role::getArgN) //
-			.thenComparing(Role::getF, Comparator.nullsFirst(Comparator.naturalOrder())) //
+			.thenComparing(Role::getArgn) //
+			.thenComparing(Role::getFunc, Comparator.nullsFirst(Comparator.naturalOrder())) //
 			.thenComparing(Role::getTheta, Comparator.nullsFirst(Comparator.naturalOrder()));
 
 	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final RoleSet roleSet;
 
-	private final String argN;
+	private final String argn;
 
-	private final Func f;
+	private final Func func;
 
 	private final Theta theta;
 
@@ -35,11 +35,11 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return r;
 	}
 
-	private Role(final RoleSet roleSet, final String n, final String f, final String theta, final String descriptor)
+	private Role(final RoleSet roleSet, final String n, final String func, final String theta, final String descriptor)
 	{
 		this.roleSet = roleSet;
-		this.argN = n;
-		this.f = f == null || f.isEmpty() ? null : Func.make(f);
+		this.argn = n;
+		this.func = func == null || func.isEmpty() ? null : Func.make(func);
 		this.theta = theta == null || theta.isEmpty() ? null : Theta.make(theta);
 		this.descr = descriptor;
 	}
@@ -51,14 +51,14 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return this.roleSet;
 	}
 
-	public String getArgN()
+	public String getArgn()
 	{
-		return this.argN;
+		return this.argn;
 	}
 
-	public Func getF()
+	public Func getFunc()
 	{
-		return f;
+		return func;
 	}
 
 	public Theta getTheta()
@@ -78,7 +78,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return COLLECTOR.get(this);
 	}
 
-	@RequiresIdFrom(type=Theta.class)
+	@RequiresIdFrom(type = Theta.class)
 	public static Integer getIntId(final Role role)
 	{
 		return role == null ? null : COLLECTOR.get(role);
@@ -98,13 +98,13 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 			return false;
 		}
 		Role that = (Role) o;
-		return roleSet.equals(that.roleSet) && argN.equals(that.argN) && Objects.equals(f, that.f) && Objects.equals(theta, that.theta);
+		return roleSet.equals(that.roleSet) && argn.equals(that.argn) && Objects.equals(func, that.func) && Objects.equals(theta, that.theta);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(roleSet, argN, f, theta);
+		return Objects.hash(roleSet, argn, func, theta);
 	}
 
 	// O R D E R I N G
@@ -117,18 +117,18 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 
 	// I N S E R T
 
-	@RequiresIdFrom(type=RoleSet.class)
-	@RequiresIdFrom(type=Func.class)
-	@RequiresIdFrom(type=Theta.class)
+	@RequiresIdFrom(type = RoleSet.class)
+	@RequiresIdFrom(type = Func.class)
+	@RequiresIdFrom(type = Theta.class)
 	@Override
 	public String dataRow()
 	{
 		// (roleid),narg,func,theta,roledescr,rolesetid
 		// final long roleId = Role.COLLECTOR.get(this);
 		return String.format("'%s',%s,%s,'%s',%d", //
-				argN, //
-				f == null ? "NULL" : f.getSqlId(), //
-				theta == null ? "NULL" : theta.getSqlId(), //
+				argn, //
+				Utils.nullable(func, HasId::getSqlId), //
+				Utils.nullable(theta, HasId::getSqlId), //
 				descr, //
 				roleSet.getIntId() //
 		);
@@ -137,7 +137,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", roleSet.getName(), f, theta);
+		return String.format("%s,%s,%s", roleSet.getName(), func != null ? func.getFunc() : "∅", theta != null ? theta.getTheta() : "∅");
 	}
 
 	// T O S T R I N G
@@ -147,8 +147,8 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	{
 		if (this.descr == null)
 		{
-			return String.format("%s[%s]", this.roleSet, this.argN);
+			return String.format("%s[%s]", roleSet, argn);
 		}
-		return String.format("%s[%s-{%s}]", this.roleSet, this.argN, this.descr);
+		return String.format("%s[%s-{%s}]", roleSet, argn, descr);
 	}
 }

@@ -3,6 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.Utils;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -142,7 +143,7 @@ public class Frame implements Insertable, Comparable<Frame>
 		// syntax.id
 		// semantics.id
 		return String.format("%s,'%s',%d,%d,%d,%d", //
-				descriptionNumber != null ? "'" + descriptionNumber + "'" : "NULL", //
+				Utils.nullableQuotedString(descriptionNumber), //
 				descriptionXTag, //
 				FrameName.COLLECTOR.get(name), //
 				FrameSubName.COLLECTOR.get(subName), //

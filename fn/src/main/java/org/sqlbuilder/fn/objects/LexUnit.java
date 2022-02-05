@@ -151,8 +151,8 @@ public class LexUnit implements HasID, Insertable
 				luid, //
 				Utils.escape(name), //
 				pos, //
-				Utils.nullableEscapedString(definition), //
-				Utils.nullableChar(dict), //
+				Utils.nullableQuotedEscapedString(definition), //
+				Utils.nullableQuotedChar(dict), //
 				FeType.getSqlId(incorporatedFE), //
 				totalAnnotated, //
 				frameid); //

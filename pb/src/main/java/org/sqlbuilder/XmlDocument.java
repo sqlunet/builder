@@ -1,4 +1,4 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder;
 
 import org.sqlbuilder.common.XPathUtils;
 import org.w3c.dom.Document;
@@ -22,11 +22,11 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class PbDocument
+public class XmlDocument
 {
 	protected Document document;
 
-	public PbDocument(final String filePath) throws ParserConfigurationException, SAXException, IOException
+	public XmlDocument(final String filePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		load(filePath);
 	}
@@ -47,7 +47,7 @@ public class PbDocument
 
 	private void load(final String filePath) throws ParserConfigurationException, SAXException, IOException
 	{
-		final DocumentBuilder builder = PbDocument.makeDocumentBuilder();
+		final DocumentBuilder builder = XmlDocument.makeDocumentBuilder();
 		setDocument(builder.parse(filePath));
 	}
 
@@ -76,7 +76,7 @@ public class PbDocument
 	public static List<String> getXPathTexts(final Node start, final String xpathExpr) throws XPathExpressionException
 	{
 		List<String> result = null;
-		final NodeList nodes = PbDocument.getXPaths(start, xpathExpr);
+		final NodeList nodes = XmlDocument.getXPaths(start, xpathExpr);
 		for (int i = 0; i < nodes.getLength(); i++)
 		{
 			if (result == null)

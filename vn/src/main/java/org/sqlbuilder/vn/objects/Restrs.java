@@ -1,5 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.vn.collector.VnRestrsXmlProcessor;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Restrs implements Insertable, Comparable<Restrs>
+public class Restrs implements HasId, Insertable, Comparable<Restrs>
 {
 	public static final Comparator<Restrs> COMPARATOR = Comparator.comparing(Restrs::getValue).thenComparing(Restrs::isSyntactic);
 
@@ -60,6 +61,12 @@ public class Restrs implements Insertable, Comparable<Restrs>
 	public boolean isSyntactic()
 	{
 		return isSyntactic;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

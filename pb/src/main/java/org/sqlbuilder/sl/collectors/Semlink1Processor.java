@@ -1,10 +1,10 @@
-package org.sqlbuilder.pb.collectors;
+package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.pb.objects.Role;
-import org.sqlbuilder.pb.objects.PbVnRole;
-import org.sqlbuilder.pb.joins.PbVnRoleMapping;
+import org.sqlbuilder.pb.foreign.PbVnRoleMapping;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -36,13 +36,13 @@ public class Semlink1Processor extends Processor
 		int nPbClassPartial = 0;
 		int nSlClassPartial = 0;
 
-		for (final Entry<Role, PbVnRole> entry : PbVnRoleMapping.semlinkMap.entrySet())
+		for (final Entry<Role, PbVnRoleMapping> entry : PbRole_VnRole.semlinkMap.entrySet())
 		{
 			nSlTotal++;
 
 			final Role role = entry.getKey();
-			final PbVnRole semlinkVnRole = entry.getValue();
-			final List<PbVnRole> propbankVnRoles = PbVnRoleMapping.map.get(role);
+			final PbVnRoleMapping semlinkVnRole = entry.getValue();
+			final List<PbVnRoleMapping> propbankVnRoles = PbRole_VnRole.map.get(role);
 
 			if (propbankVnRoles != null)
 			{
@@ -53,7 +53,7 @@ public class Semlink1Processor extends Processor
 				int nPbRoleClassPartial = 0;
 				int nSlRoleClassPartial = 0;
 
-				for (final PbVnRole propbankVnRole : propbankVnRoles)
+				for (final PbVnRoleMapping propbankVnRole : propbankVnRoles)
 				{
 					if (semlinkVnRole.compareTo(propbankVnRole) == 0)
 					{
@@ -120,6 +120,6 @@ public class Semlink1Processor extends Processor
 		System.out.printf("partial (-) SL class found %s%n", nSlClassPartial);
 		System.out.printf("partial (+) PB class found %s%n", nPbClassPartial);
 
-		return PbVnRoleMapping.semlinkMap.size();
+		return PbRole_VnRole.semlinkMap.size();
 	}
 }

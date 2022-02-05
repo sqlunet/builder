@@ -1,4 +1,4 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.foreign;
 
 import org.sqlbuilder.common.Insertable;
 
@@ -6,25 +6,25 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class PbVnRole implements Insertable, Comparable<PbVnRole>, Serializable
+public class PbVnRoleMapping implements Insertable, Comparable<PbVnRoleMapping>, Serializable
 {
-	protected static final Map<PbVnRole,Integer> MAP = new TreeMap<>();
+	protected static final Map<PbVnRoleMapping,Integer> MAP = new TreeMap<>();
 
-	private final PbVnClass vnClass;
+	private final PbRoleSet_VnClass vnClass;
 
 	private final String vnTheta;
 
 	// C O N S T R U C T O R
 
-	public PbVnRole(final PbVnClass vnClass, final String vnTheta)
+	public PbVnRoleMapping(final PbRoleSet_VnClass vnClass, final String vnTheta)
 	{
 		this.vnClass = vnClass;
 		this.vnTheta = vnTheta;
 	}
 
-	public static PbVnRole make(final PbVnClass vnClass, final String vnTheta)
+	public static PbVnRoleMapping make(final PbRoleSet_VnClass vnClass, final String vnTheta)
 	{
-		return new PbVnRole(vnClass, vnTheta);
+		return new PbVnRoleMapping(vnClass, vnTheta);
 	}
 
 	// I D E N T I T Y
@@ -44,7 +44,7 @@ public class PbVnRole implements Insertable, Comparable<PbVnRole>, Serializable
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final PbVnRole other = (PbVnRole) obj;
+		final PbVnRoleMapping other = (PbVnRoleMapping) obj;
 		if (this.vnClass == null)
 		{
 			if (other.vnClass != null)
@@ -61,7 +61,7 @@ public class PbVnRole implements Insertable, Comparable<PbVnRole>, Serializable
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final PbVnRole other)
+	public int compareTo(final PbVnRoleMapping other)
 	{
 		final int c = this.vnClass.compareTo(other.vnClass);
 		if (c != 0)
@@ -71,7 +71,7 @@ public class PbVnRole implements Insertable, Comparable<PbVnRole>, Serializable
 
 	// A C C E S S
 
-	public PbVnClass getVnClass()
+	public PbRoleSet_VnClass getVnClass()
 	{
 		return this.vnClass;
 	}

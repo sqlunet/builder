@@ -1,12 +1,12 @@
-package org.sqlbuilder.pb.collectors;
+package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.pb.PbModule;
 import org.sqlbuilder.pb.PbVnFinder;
-import org.sqlbuilder.pb.RoleIds;
-import org.sqlbuilder.pb.joins.PbVnRoleMapping;
-import org.sqlbuilder.pb.objects.PbVnClass;
-import org.sqlbuilder.pb.objects.PbVnRole;
+import org.sqlbuilder.pb.foreign.RoleIds;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.PbRoleSet_VnClass;
+import org.sqlbuilder.pb.foreign.PbVnRoleMapping;
 import org.sqlbuilder.pb.objects.Role;
 import org.sqlbuilder.pb.objects.RoleSet;
 
@@ -39,7 +39,7 @@ public class SemlinkProcessor extends Processor
 		long nVnRolesNotFound = 0;
 		long nMappings = 0;
 
-		for (final Entry<Role, PbVnRole> entry : PbVnRoleMapping.semlinkMap.entrySet())
+		for (final Entry<Role, PbVnRoleMapping> entry : PbRole_VnRole.semlinkMap.entrySet())
 		{
 			nTotal++;
 
@@ -48,7 +48,7 @@ public class SemlinkProcessor extends Processor
 			RoleIds pbRoleIds = new RoleIds(RoleSet.COLLECTOR.get(role.getRoleSet()), Role.COLLECTOR.get(role));
 
 			// vn
-			final PbVnRole vnRole = entry.getValue();
+			final PbVnRoleMapping vnRole = entry.getValue();
 			RoleIds vnRoleIds;
 			try
 			{
@@ -61,7 +61,7 @@ public class SemlinkProcessor extends Processor
 				Logger.instance.logNotFoundExceptionSilently(PbModule.MODULE_ID, this.tag, "vnrole-notfound", null, -1, null, "vnrole=[" + vnRole + "]", nfe);
 				try
 				{
-					final PbVnClass vnClass = PbVnFinder.findVnClass(vnRole.getVnClass().getClassName());
+					final PbRoleSet_VnClass vnClass = PbVnFinder.findVnClass(vnRole.getVnClass().getClassName());
 					Logger.instance.logNotFoundExceptionSilently(PbModule.MODULE_ID, this.tag, "vnrole-notfound-but-vnclass-found", null, -1, null, "vnclass=[" + vnClass + "]", nfe);
 				}
 				catch (Exception e2)
@@ -73,7 +73,7 @@ public class SemlinkProcessor extends Processor
 			}
 
 			// insert
-			final PbVnRoleMapping pbVnRoleMap = new PbVnRoleMapping(pbRoleIds, vnRoleIds);
+			final PbRole_VnRole pbVnRoleMap = new PbRole_VnRole(pbRoleIds, vnRoleIds);
 			pbVnRoleMap.dataRow();
 			nMappings++;
 		}
@@ -81,19 +81,19 @@ public class SemlinkProcessor extends Processor
 		Progress.traceTailer("mappings", Long.toString(nMappings));
 		Progress.traceTailer("pbrole not found", Long.toString(nPbRolesNotFound));
 		Progress.traceTailer("vnrole not found", Long.toString(nVnRolesNotFound));
-		return PbVnRoleMapping.semlinkMap.size();
+		return PbRole_VnRole.semlinkMap.size();
 	}
 
-	public static void exploreVnClass(final PbVnClass vnClass, final String head, final String context)
+	public static void exploreVnClass(final PbRoleSet_VnClass vnClass, final String head, final String context)
 	{
 		try
 		{
-			final Collection<PbVnClass> vnClasses2 = PbVnFinder.findVnClasses(vnClass.getClassName());
+			final Collection<PbRoleSet_VnClass> vnClasses2 = PbVnFinder.findVnClasses(vnClass.getClassName());
 			if (vnClasses2.size() > 1)
 			{
 				// ambiguous
 				System.err.printf("AMBIGUOUS CLASS vnclass=%s, context=<%s>%n", vnClass, context);
-				for (final PbVnClass vnClass2 : vnClasses2)
+				for (final PbRoleSet_VnClass vnClass2 : vnClasses2)
 				{
 					System.err.printf("\t-CLASS %s%n", vnClass2);
 				}
@@ -106,7 +106,7 @@ public class SemlinkProcessor extends Processor
 			else
 			{
 				// one found
-				final PbVnClass vnClass2 = vnClasses2.iterator().next();
+				final PbRoleSet_VnClass vnClass2 = vnClasses2.iterator().next();
 				System.err.printf("FOUND CLASS %s for vnclass=%s, context=<%s>%n", vnClass2, vnClass, context);
 
 				// check
@@ -119,11 +119,11 @@ public class SemlinkProcessor extends Processor
 				{
 					System.err.printf("\tDOES NOT CONTAIN HEAD vnclass=%s head=%s, context=<%s>%n", head, vnClass2, context);
 
-					final Collection<PbVnClass> vnClasses3 = PbVnFinder.findVnClassesForLemma(head);
-					for (final PbVnClass vnClass3 : vnClasses3)
+					final Collection<PbRoleSet_VnClass> vnClasses3 = PbVnFinder.findVnClassesForLemma(head);
+					for (final PbRoleSet_VnClass vnClass3 : vnClasses3)
 					{
 						final Set<String> words3 = PbVnFinder.findLemmasForClass(vnClass3.getClassId());
-						System.err.printf("\tSUGGESTED vnclass=%s contains %s%n", vnClass3.getClassId(), PbVnClass.toString(words3));
+						System.err.printf("\tSUGGESTED vnclass=%s contains %s%n", vnClass3.getClassId(), PbRoleSet_VnClass.toString(words3));
 					}
 				}
 			}
