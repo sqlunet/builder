@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS ${rolesets.table} (
     ${rolesets.rolesetname} VARCHAR (64) NOT NULL,
     ${rolesets.rolesetdescr} TEXT NOT NULL,
     ${rolesets.pbwordid} INTEGER NULL,
-PRIMARY KEY (${rolesetid}));
+PRIMARY KEY (${rolesets.rolesetid}));

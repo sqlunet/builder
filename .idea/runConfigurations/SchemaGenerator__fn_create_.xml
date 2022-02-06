@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SchemaGenerator (create)" type="Application" factoryName="Application" folderName="FN Generate Schema">
+  <configuration default="false" name="SchemaGenerator (fn create)" type="Application" factoryName="Application" folderName="FN Generate Schema">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="fn" />
     <option name="PROGRAM_PARAMETERS" value="sql/mysql/create mysql/create/" />
