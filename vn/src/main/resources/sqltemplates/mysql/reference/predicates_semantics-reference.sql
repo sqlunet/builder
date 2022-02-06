@@ -1,0 +1,2 @@
+ALTER TABLE ${predicates_semantics.table} ADD CONSTRAINT fk_${predicates_semantics.table}_${predicates_semantics.semanticsid} FOREIGN KEY (${predicates_semantics.semanticsid}) REFERENCES ${semantics.table} (${semantics.semanticsid});
+ALTER TABLE ${predicates_semantics.table} ADD CONSTRAINT fk_${predicates_semantics.table}_${predicates_semantics.predicateid} FOREIGN KEY (${predicates_semantics.predicateid}) REFERENCES ${predicates.table} (${predicates.predicateid});
