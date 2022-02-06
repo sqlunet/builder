@@ -1,10 +1,12 @@
 package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.XmlDocument;
-import org.sqlbuilder.pb.foreign.PbRoleSet_VnClass;
-import org.sqlbuilder.pb.foreign.PbVnRoleMapping;
+import org.sqlbuilder.pb.foreign.VnClass;
+import org.sqlbuilder.pb.foreign.VnRole;
+import org.sqlbuilder.pb.joins.PbRole_VnRole;
 import org.sqlbuilder.pb.objects.Predicate;
-import org.sqlbuilder.pb.objects.*;
+import org.sqlbuilder.pb.objects.Role;
+import org.sqlbuilder.pb.objects.RoleSet;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -24,9 +26,16 @@ public class SemlinkDocument extends XmlDocument
 		super(filePath);
 	}
 
-	public static Map<Role, PbVnRoleMapping> getMappings(final Node start) throws XPathExpressionException
+	/*
+	<predicate lemma="abandon">
+		<argmap pb-roleset="abandon.01" vn-class="51.2">
+			<role pb-arg="0" vn-theta="Theme" />
+		</argmap>
+	</predicate>
+	*/
+
+	public static void makeMappings(final Node start) throws XPathExpressionException
 	{
-		final Map<Role, PbVnRoleMapping> map = new TreeMap<>();
 		final NodeList predicateNodes = XmlDocument.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
@@ -39,29 +48,36 @@ public class SemlinkDocument extends XmlDocument
 			{
 				final Element argmapElement = (Element) argmapNodes.item(j);
 
+				// propbank roleset
 				final String roleSetIdAttribute = argmapElement.getAttribute("pb-roleset");
 				final RoleSet roleSet = RoleSet.make(predicate, roleSetIdAttribute, null);
 
+				// verbnet class
 				final String vnClassAttribute = argmapElement.getAttribute("vn-class");
-				final PbRoleSet_VnClass vnClass = PbRoleSet_VnClass.make(predicate.getHead(), vnClassAttribute);
+				final VnClass vnClass = VnClass.make(predicate.getHead(), vnClassAttribute);
 
+				// roles
 				final NodeList roleNodes = XmlDocument.getXPaths(argmapElement, "./role");
 				for (int k = 0; k < roleNodes.getLength(); k++)
 				{
+					// role
 					final Element roleElement = (Element) roleNodes.item(k);
 
+					// pb attributes (arg,f)
 					final String argAttribute = roleElement.getAttribute("pb-arg");
 					final String fAttribute = roleElement.getAttribute("pb-f");
+					// vn attributes (theta)
 					final String thetaAttribute = roleElement.getAttribute("vn-theta");
+
+					// propbank role
 					final Role role = Role.make(roleSet, argAttribute, fAttribute, thetaAttribute, null);
 
-					final PbVnRoleMapping vnRole = PbVnRoleMapping.make(vnClass, thetaAttribute);
+					// vn role
+					final VnRole vnRole = VnRole.make(vnClass, thetaAttribute);
 
-					map.put(role, vnRole);
-					// System.out.println(role + " -> " + vnRole);
+					PbRole_VnRole.make(role, vnRole);
 				}
 			}
 		}
-		return map;
 	}
 }

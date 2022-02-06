@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.XPathUtils;
+import org.sqlbuilder.common.XmlTextUtils;
 import org.sqlbuilder.vn.joins.VnFrameExampleMapping;
 import org.sqlbuilder.vn.joins.VnPredicateMapping;
 import org.sqlbuilder.vn.objects.*;
@@ -159,6 +160,8 @@ public class VnDocument
 		}
 		return result;
 	}
+
+	// R E S T R
 
 	public static Collection<RestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
 	{
@@ -342,7 +345,7 @@ public class VnDocument
 	public static Collection<Syntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Syntax> result = new ArrayList<>();
-		final List<String> syntaxes = XPathUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SYNTAX"));
+		final List<String> syntaxes = XmlTextUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SYNTAX"));
 		// if (syntaxes != null)
 		// {
 		for (final String syntax : syntaxes)
@@ -356,7 +359,7 @@ public class VnDocument
 	public static Collection<Semantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Semantics> result = new ArrayList<>();
-		final List<String> semanticss = XPathUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS"));
+		final List<String> semanticss = XmlTextUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS"));
 		// if (semanticss != null)
 		// {
 		for (final String semantics : semanticss)

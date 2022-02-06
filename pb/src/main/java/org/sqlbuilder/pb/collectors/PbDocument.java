@@ -2,10 +2,9 @@ package org.sqlbuilder.pb.collectors;
 
 import org.sqlbuilder.XmlDocument;
 import org.sqlbuilder.pb.foreign.Alias;
-import org.sqlbuilder.pb.foreign.PbRoleSet_VnClass;
-import org.sqlbuilder.pb.foreign.PbVnRoleMapping;
-import org.sqlbuilder.pb.objects.Predicate;
-import org.sqlbuilder.pb.foreign.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.VnClass;
+import org.sqlbuilder.pb.foreign.VnRole;
+import org.sqlbuilder.pb.joins.PbRole_VnRole;
 import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -215,17 +213,15 @@ public class PbDocument extends XmlDocument
 		for (int l = 0; l < vnRoleNodes.getLength(); l++)
 		{
 			final Element vnRoleElement = (Element) vnRoleNodes.item(l);
-			final String classAttribute = vnRoleElement.getAttribute("vncls");
-			final PbRoleSet_VnClass vnClass = PbRoleSet_VnClass.make(head, classAttribute);
-
+			final String vnClassAttribute = vnRoleElement.getAttribute("vncls");
+			final VnClass vnClass = VnClass.make(head, vnClassAttribute);
 			final String thetaAttribute = vnRoleElement.getAttribute("vntheta");
-			final PbVnRoleMapping vnRole = new PbVnRoleMapping(vnClass, thetaAttribute);
-			if (PbRole_VnRole.map == null)
-			{
-				PbRole_VnRole.map = new TreeMap<>();
-			}
-			final List<PbVnRoleMapping> vnRoles = PbRole_VnRole.map.computeIfAbsent(role, k -> new ArrayList<>());
-			vnRoles.add(vnRole);
+
+			// verbnet role
+			final VnRole vnRole = new VnRole(vnClass, thetaAttribute);
+
+			// propbank role -> verbnet roles
+			PbRole_VnRole.make(role, vnRole);
 		}
 	}
 

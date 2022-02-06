@@ -1,30 +1,34 @@
 package org.sqlbuilder.pb.foreign;
 
-import org.sqlbuilder.common.Insertable;
-
-import java.io.Serializable;
-import java.util.Map;
-import java.util.TreeMap;
-
-public class PbVnRoleMapping implements Insertable, Comparable<PbVnRoleMapping>, Serializable
+public class VnRole implements Comparable<VnRole>
 {
-	protected static final Map<PbVnRoleMapping,Integer> MAP = new TreeMap<>();
-
-	private final PbRoleSet_VnClass vnClass;
+	private final VnClass vnClass;
 
 	private final String vnTheta;
 
 	// C O N S T R U C T O R
 
-	public PbVnRoleMapping(final PbRoleSet_VnClass vnClass, final String vnTheta)
+	public VnRole(final VnClass vnClass, final String vnTheta)
 	{
 		this.vnClass = vnClass;
 		this.vnTheta = vnTheta;
 	}
 
-	public static PbVnRoleMapping make(final PbRoleSet_VnClass vnClass, final String vnTheta)
+	public static VnRole make(final VnClass vnClass, final String vnTheta)
 	{
-		return new PbVnRoleMapping(vnClass, vnTheta);
+		return new VnRole(vnClass, vnTheta);
+	}
+
+	// A C C E S S
+
+	public VnClass getVnClass()
+	{
+		return this.vnClass;
+	}
+
+	public String getVnTheta()
+	{
+		return this.vnTheta;
 	}
 
 	// I D E N T I T Y
@@ -44,7 +48,7 @@ public class PbVnRoleMapping implements Insertable, Comparable<PbVnRoleMapping>,
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final PbVnRoleMapping other = (PbVnRoleMapping) obj;
+		final VnRole other = (VnRole) obj;
 		if (this.vnClass == null)
 		{
 			if (other.vnClass != null)
@@ -61,33 +65,12 @@ public class PbVnRoleMapping implements Insertable, Comparable<PbVnRoleMapping>,
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final PbVnRoleMapping other)
+	public int compareTo(final VnRole other)
 	{
 		final int c = this.vnClass.compareTo(other.vnClass);
 		if (c != 0)
 			return c;
 		return this.vnTheta.compareTo(other.vnTheta);
-	}
-
-	// A C C E S S
-
-	public PbRoleSet_VnClass getVnClass()
-	{
-		return this.vnClass;
-	}
-
-	public String getVnTheta()
-	{
-		return this.vnTheta;
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// System.out.printf("%s %s%n", PbVnRole.MAP.getId(this), toString());
-		return null;
 	}
 
 	// T O S T R I N G

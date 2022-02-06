@@ -17,24 +17,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XPathUtils
+public class XmlTextUtils
 {
-	public static Node getXPath(final Node start, final String xpathExpr) throws XPathExpressionException
-	{
-		final XPath xpath = XPathFactory.newInstance().newXPath();
-		return (Node) xpath.evaluate(xpathExpr, start, XPathConstants.NODE);
-	}
-
-	public static NodeList getXPaths(final Node start, final String xpathExpr) throws XPathExpressionException
-	{
-		final javax.xml.xpath.XPath xpath = XPathFactory.newInstance().newXPath();
-		return (NodeList) xpath.evaluate(xpathExpr, start, XPathConstants.NODESET);
-	}
-
 	public static List<String> getXPathTexts(final Node start, final String xpathExpr) throws XPathExpressionException
 	{
 		List<String> result = null;
-		final NodeList nodes = getXPaths(start, xpathExpr);
+		final NodeList nodes = XPathUtils.getXPaths(start, xpathExpr);
 		for (int i = 0; i < nodes.getLength(); i++)
 		{
 			if (result == null)
