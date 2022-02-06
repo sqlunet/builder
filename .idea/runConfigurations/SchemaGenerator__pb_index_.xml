@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SchemaGenerator (pb index)" type="Application" factoryName="Application" folderName="PB Generate Schema">
+    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
+    <module name="pb" />
+    <option name="PROGRAM_PARAMETERS" value="sql/mysql/index mysql/index/" />
+    <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.sqlbuilder.common.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

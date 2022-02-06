@@ -22,6 +22,6 @@ voices
 words
 pbrolesets_fnframes
 pbrolesets_vnclasses
-pb_roles_vnroles
+pbroles_vnroles
 "
 echo ${tables}
