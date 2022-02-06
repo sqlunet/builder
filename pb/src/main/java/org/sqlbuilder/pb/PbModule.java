@@ -2,6 +2,7 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.pb.collectors.PbProcessor;
+import org.sqlbuilder.sl.collectors.SemlinkProcessor;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -18,9 +19,10 @@ public class PbModule extends Module
 	@Override
 	protected void run()
 	{
+		buildPropBank(props);
+		buildSemLink(props);
 		try
 		{
-			buildPropBank(props);
 			new Inserter(props).insert();
 		}
 		catch (IOException e)
@@ -29,9 +31,14 @@ public class PbModule extends Module
 		}
 	}
 
-	private static void buildPropBank(final Properties props) throws IOException
+	private static void buildPropBank(final Properties props)
 	{
 		new PbProcessor(props).run();
+	}
+
+	private static void buildSemLink(final Properties props)
+	{
+		new SemlinkProcessor(props).run();
 	}
 
 	public static void main(final String[] args)

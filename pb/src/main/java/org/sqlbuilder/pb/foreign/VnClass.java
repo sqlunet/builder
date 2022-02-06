@@ -5,23 +5,23 @@ import java.util.Objects;
 
 public class VnClass implements Comparable<VnClass>
 {
-	static public final Comparator<VnClass> COMPARATOR = Comparator.comparing(VnClass::getClassId);
+	static public final Comparator<VnClass> COMPARATOR = Comparator.comparing(VnClass::getClassName);
 
 	private final String head;
 
-	private final String className;
+	private final String classTag;
 
 	// C O N S T R U C T O R
 
-	public static VnClass make(final String head, final String className)
+	public static VnClass make(final String head, final String classTag)
 	{
-		return new VnClass(head, className);
+		return new VnClass(head, classTag);
 	}
 
 	private VnClass(final String head, final String className)
 	{
 		this.head = head;
-		this.className = className;
+		this.classTag = className;
 	}
 
 	// A C C E S S
@@ -31,14 +31,14 @@ public class VnClass implements Comparable<VnClass>
 		return this.head;
 	}
 
-	public String getClassName()
+	public String getClassTag()
 	{
-		return this.className;
+		return this.classTag;
 	}
 
-	public String getClassId()
+	public String getClassName()
 	{
-		return String.format("%s-%s", this.head == null ? "%" : this.head, this.className);
+		return String.format("%s-%s", this.head == null ? "%" : this.head, this.classTag);
 	}
 
 	// I D E N T I T Y
@@ -55,13 +55,13 @@ public class VnClass implements Comparable<VnClass>
 			return false;
 		}
 		VnClass vnClass = (VnClass) o;
-		return Objects.equals(head, vnClass.head) && className.equals(vnClass.className);
+		return Objects.equals(head, vnClass.head) && classTag.equals(vnClass.classTag);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(head, className);
+		return Objects.hash(head, classTag);
 	}
 
 	// O R D E R I N G
@@ -77,6 +77,6 @@ public class VnClass implements Comparable<VnClass>
 	@Override
 	public String toString()
 	{
-		return String.format("<%s>", this.className);
+		return String.format("<%s>", this.classTag);
 	}
 }

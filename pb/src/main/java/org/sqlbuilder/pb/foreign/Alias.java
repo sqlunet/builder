@@ -82,10 +82,11 @@ public abstract class Alias implements Insertable
 	@Override
 	public String dataRow()
 	{
-		// rolesetid,ref,refid,pos,pbwordid
-		return String.format("%d,%s,'%s',%d", //
+		// rolesetid,refid,ref,pos,pbwordid
+		return String.format("%d,%s,'%s','%s',%d", //
 				pbRoleSet.getIntId(), //
 				"NULL", //
+				ref,
 				pos, //
 				pbWord.getIntId());
 	}
@@ -93,7 +94,7 @@ public abstract class Alias implements Insertable
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", pbRoleSet.getName(), ref, lemma);
+		return String.format("%s,%s", pbRoleSet.getName(), lemma);
 	}
 
 	@Override

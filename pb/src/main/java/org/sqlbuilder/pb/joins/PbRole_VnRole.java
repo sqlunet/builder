@@ -1,8 +1,10 @@
 package org.sqlbuilder.pb.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.pb.foreign.VnRole;
 import org.sqlbuilder.pb.objects.Role;
+import org.sqlbuilder.pb.objects.RoleSet;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -12,7 +14,7 @@ public class PbRole_VnRole implements Insertable
 {
 	static public final Comparator<PbRole_VnRole> COMPARATOR = Comparator.comparing(PbRole_VnRole::getRole).thenComparing(PbRole_VnRole::getVnRole);
 
-	private static Set<PbRole_VnRole> SET = new HashSet<>();
+	public static Set<PbRole_VnRole> SET = new HashSet<>();
 
 	private final Role role;
 
@@ -47,13 +49,18 @@ public class PbRole_VnRole implements Insertable
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = Role.class)
+	@RequiresIdFrom(type = RoleSet.class)
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%d,%s,%s", //
+		// rolesetid,roleid,vnclassid,vnroleid,vnclass,vntheta
+		return String.format("%d,%d,%s,%s,'%s','%s'", //
 				role.getRoleSet().getIntId(), //
 				role.getIntId(), //
-				vnRole.getVnClass().getClassId(), //
+				"NULL", //
+				"NULL", //
+				vnRole.getVnClass().getClassName(), //
 				vnRole.getVnTheta());
 	}
 

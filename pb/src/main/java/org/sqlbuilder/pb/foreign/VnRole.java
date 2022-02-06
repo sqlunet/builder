@@ -8,15 +8,15 @@ public class VnRole implements Comparable<VnRole>
 
 	// C O N S T R U C T O R
 
-	public VnRole(final VnClass vnClass, final String vnTheta)
-	{
-		this.vnClass = vnClass;
-		this.vnTheta = vnTheta;
-	}
-
 	public static VnRole make(final VnClass vnClass, final String vnTheta)
 	{
 		return new VnRole(vnClass, vnTheta);
+	}
+
+	private VnRole(final VnClass vnClass, final String vnTheta)
+	{
+		this.vnClass = vnClass;
+		this.vnTheta = vnTheta;
 	}
 
 	// A C C E S S

@@ -7,6 +7,7 @@ import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.pb.foreign.Alias;
 import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
+import org.sqlbuilder.pb.joins.PbRole_VnRole;
 import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
@@ -72,10 +73,11 @@ public class Inserter
 			Insert.insert(Rel.COLLECTOR, new File(outDir, Names.file("rels")), Names.table("rels"), Names.columns("rels"));
 
 			Insert.insert(RoleSetMember.SET, RoleSetMember.COMPARATOR, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
+
 			Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, Names.file("pbrolesets_vnclasses")), Names.table("pbrolesets_vnclasses"), Names.columns("pbrolesets_vnclasses"));
 			Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, Names.file("pbrolesets_fnframes")), Names.table("pbrolesets_fnframes"), Names.columns("pbrolesets_fnframes"));
+			Insert.insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, Names.file("pbroles_vnroles")), Names.table("pbroles_vnroles"), Names.columns("pbroles_vnroles"));
 		}
 		Progress.traceTailer("inserts", "done");
 	}
 }
-

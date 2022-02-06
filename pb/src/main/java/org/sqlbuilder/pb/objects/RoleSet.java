@@ -126,10 +126,10 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 
 		// (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
 		final int roleSetId = RoleSet.COLLECTOR.get(this);
-		return String.format("'%s','%s','%s',%s", //
+		return String.format("'%s','%s',%s,%s", //
 				Utils.escape(predicate.getHead()), //
 				Utils.escape(name), //
-				Utils.escape(descr), //
+				Utils.nullableQuotedEscapedString(descr), //
 				Utils.nullable(word, HasId::getSqlId) //
 		);
 	}

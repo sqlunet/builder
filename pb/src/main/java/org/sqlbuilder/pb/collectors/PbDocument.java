@@ -218,7 +218,7 @@ public class PbDocument extends XmlDocument
 			final String thetaAttribute = vnRoleElement.getAttribute("vntheta");
 
 			// verbnet role
-			final VnRole vnRole = new VnRole(vnClass, thetaAttribute);
+			final VnRole vnRole = VnRole.make(vnClass, thetaAttribute);
 
 			// propbank role -> verbnet roles
 			PbRole_VnRole.make(role, vnRole);
