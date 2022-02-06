@@ -9,19 +9,19 @@ argns
 args
 aspects
 examples
-fnframemaps
 forms
 funcs
 persons
 rels
 roles
-rolesetmembers
+members
 rolesets
 tenses
-vnclassmaps
-vnrolemaps
 vnthetas
 voices
 words
+pbrolesets_fnframes
+pbrolesets_vnclasses
+pb_roles_vnroles
 "
 echo ${tables}
