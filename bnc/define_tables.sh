@@ -5,9 +5,9 @@
 #
 
 export tables="
+bncs
 convtasks
 imaginfs
-bncs
 spwrs
 "
 echo ${tables}
