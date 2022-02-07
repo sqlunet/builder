@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.ParseException;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.sn.objects.Collocation;
+import org.sqlbuilder.sn.objects.ResolvingCollocation;
 import org.sqlbuilder2.legacy.DeSerialize;
 import org.sqlbuilder2.legacy.Triplet;
 
@@ -21,7 +22,7 @@ import java.util.Properties;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class SnProcessor extends Processor
+public class SnResolvingProcessor extends Processor
 {
 	private final File snHome;
 
@@ -31,9 +32,13 @@ public class SnProcessor extends Processor
 
 	private Map<Triplet<String, Character, Long>, String> toSenseKeys;
 
+	private Map<String, SimpleEntry<Integer, Integer>> senseNIDs;
+
 	private final Function<Triplet<String, Character, Long>, String> sensekeyResolver = lpo -> toSenseKeys.get(lpo);
 
-	public SnProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	private final Function<String, SimpleEntry<Integer, Integer>> senseResolver = sk -> senseNIDs.get(sk);
+
+	public SnResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super("sn");
 		this.conf = conf;
@@ -47,6 +52,9 @@ public class SnProcessor extends Processor
 		// resolve
 		File toSensekeys = new File(conf.getProperty("tosensekeys"));
 		this.toSenseKeys = DeSerialize.deserialize(toSensekeys);
+
+		File senseNIDS = new File(conf.getProperty("sensenids"));
+		this.senseNIDs = DeSerialize.deserialize(senseNIDS);
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class SnProcessor extends Processor
 					.map(line -> {
 						try
 						{
-							return Collocation.parse(line);
+							return ResolvingCollocation.parse(line);
 						}
 						catch (ParseException pe)
 						{
@@ -80,9 +88,9 @@ public class SnProcessor extends Processor
 						return null;
 					}) //
 					.filter(Objects::nonNull) //
-					//.sorted(Comparator.comparing(Collocation::getWord1).thenComparing(Collocation::getWord2)) //
-					.filter(collocation -> collocation.resolve(sensekeyResolver)) //
-					.sorted(Comparator.comparing(Collocation::getSensekey1, Comparator.nullsFirst(Comparator.naturalOrder())).thenComparing(Collocation::getSensekey2, Comparator.nullsFirst(Comparator.naturalOrder()))) //
+					.sorted(Comparator.comparing(ResolvingCollocation::getWord1).thenComparing(ResolvingCollocation::getWord2)) //
+					.filter(collocation -> collocation.resolve(sensekeyResolver, senseResolver)) //
+					.sorted(Comparator.comparing(ResolvingCollocation::getSensekey1).thenComparing(ResolvingCollocation::getSensekey2)) //
 					.forEach(sp -> {
 						String values = sp.dataRow();
 						insertRow(ps, count[0], values);

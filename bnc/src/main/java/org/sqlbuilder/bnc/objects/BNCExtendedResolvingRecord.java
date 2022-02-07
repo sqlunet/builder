@@ -1,8 +1,11 @@
 package org.sqlbuilder.bnc.objects;
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.IgnoreException;
+import org.sqlbuilder.common.NotFoundException;
+import org.sqlbuilder.common.ParseException;
+import org.sqlbuilder.common.Utils;
 
-public class BNCExtendedRecord extends BNCRecord
+public class BNCExtendedResolvingRecord extends BNCResolvingRecord
 {
 	private final int freq2;
 
@@ -12,7 +15,7 @@ public class BNCExtendedRecord extends BNCRecord
 
 	private final float lL;
 
-	protected BNCExtendedRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion, final int freq2, final int range2, final float dispersion2, final float lL)
+	protected BNCExtendedResolvingRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion, final int freq2, final int range2, final float dispersion2, final float lL)
 	{
 		super(lemma, pos, freq, range, dispersion);
 		this.freq2 = freq2;
@@ -21,7 +24,7 @@ public class BNCExtendedRecord extends BNCRecord
 		this.lL = lL;
 	}
 
-	public static BNCExtendedRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
+	public static BNCExtendedResolvingRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
 	{
 		final String[] fields = line.split("\\t+");
 		if (fields.length != 12)
@@ -76,7 +79,7 @@ public class BNCExtendedRecord extends BNCRecord
 		final int range2 = Integer.parseInt(fields[10]);
 		final float dispersion2 = Float.parseFloat(fields[11]);
 
-		return new BNCExtendedRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
+		return new BNCExtendedResolvingRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
 	}
 
 	@Override
@@ -88,6 +91,6 @@ public class BNCExtendedRecord extends BNCRecord
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s','%c',%d,%d,%f,%d,%d,%f,%f", "NULL", Utils.escape(word), pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
+		return String.format("%s,'%s','%c',%d,%d,%f,%d,%d,%f,%f", wordid, Utils.escape(word), pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
 	}
 }

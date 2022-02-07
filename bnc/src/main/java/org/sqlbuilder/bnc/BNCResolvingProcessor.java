@@ -1,7 +1,9 @@
 package org.sqlbuilder.bnc;
 
 import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
+import org.sqlbuilder.bnc.objects.BNCExtendedResolvingRecord;
 import org.sqlbuilder.bnc.objects.BNCRecord;
+import org.sqlbuilder.bnc.objects.BNCResolvingRecord;
 import org.sqlbuilder.common.*;
 
 import java.io.File;
@@ -16,7 +18,7 @@ import java.util.Properties;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class BNCProcessor extends Processor
+public class BNCResolvingProcessor extends Processor
 {
 	private final File bncHome;
 
@@ -28,7 +30,7 @@ public class BNCProcessor extends Processor
 
 	private final Function<String, Integer> resolver = w -> map.get(w);
 
-	public BNCProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	public BNCResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super("bnc");
 		this.conf = conf;
@@ -86,7 +88,7 @@ public class BNCProcessor extends Processor
 					.map(line -> {
 						try
 						{
-							return BNCRecord.parse(line);
+							return BNCResolvingRecord.parse(line);
 						}
 						catch (ParseException pe)
 						{
@@ -102,6 +104,7 @@ public class BNCProcessor extends Processor
 						return null;
 					}) //
 					.filter(Objects::nonNull) //
+					.filter(r -> r.resolve(resolver)) //
 					.forEach(r -> {
 						String values = r.dataRow();
 						insertRow(ps, count[0], values);
@@ -123,7 +126,7 @@ public class BNCProcessor extends Processor
 					.map(line -> {
 						try
 						{
-							return BNCExtendedRecord.parse(line);
+							return BNCExtendedResolvingRecord.parse(line);
 						}
 						catch (ParseException pe)
 						{
@@ -139,6 +142,7 @@ public class BNCProcessor extends Processor
 						return null;
 					}) //
 					.filter(Objects::nonNull) //
+					.filter(r -> r.resolve(resolver)) //
 					.forEach(r -> {
 						String values = r.dataRow();
 						insertRow(ps, count[0], values);
