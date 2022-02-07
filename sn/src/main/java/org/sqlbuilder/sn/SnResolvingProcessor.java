@@ -1,6 +1,7 @@
 package org.sqlbuilder.sn;
 
 import org.sqlbuilder.common.Logger;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ParseException;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.sn.objects.Collocation;
@@ -35,6 +36,16 @@ public class SnResolvingProcessor extends SnProcessor
 		// resolve
 		File senseNIDS = new File(conf.getProperty("sensenids"));
 		this.senseNIDs = DeSerialize.deserialize(senseNIDS);
+	}
+
+	@Override
+	public void run() throws IOException
+	{
+		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagms"))), true, StandardCharsets.UTF_8))
+		{
+			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagms"), Names.columns("syntagms"));
+		}
 	}
 
 	@Override

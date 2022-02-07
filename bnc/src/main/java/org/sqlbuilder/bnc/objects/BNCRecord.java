@@ -8,7 +8,6 @@ import java.util.function.Function;
 
 public class BNCRecord implements Insertable
 {
-
 	protected static final Map<String, Character> posMap = new HashMap<>();
 
 	static
@@ -51,6 +50,8 @@ public class BNCRecord implements Insertable
 	protected final int range;
 
 	protected final float dispersion;
+
+	// C O N S T R U C T O R
 
 	protected BNCRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion)
 	{
@@ -120,15 +121,19 @@ public class BNCRecord implements Insertable
 		return word.replace(' ', '_');
 	}
 
-	@Override
-	public String toString()
-	{
-		return " [" + word + "," + pos + "] " + freq + " " + range + " " + dispersion;
-	}
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
 		return String.format("%s,'%s','%c',%d,%d,%f", "NULL", Utils.escape(word), pos, freq, range, dispersion);
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		return " [" + word + "," + pos + "] " + freq + " " + range + " " + dispersion;
 	}
 }

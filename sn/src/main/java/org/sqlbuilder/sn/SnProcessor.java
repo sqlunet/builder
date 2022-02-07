@@ -1,6 +1,7 @@
 package org.sqlbuilder.sn;
 
 import org.sqlbuilder.common.Logger;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ParseException;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.sn.objects.Collocation;
@@ -53,9 +54,9 @@ public class SnProcessor extends Processor
 	public void run() throws IOException
 	{
 		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.SN.FILE)), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagmsks"))), true, StandardCharsets.UTF_8))
 		{
-			processSyntagNetFile(ps, new File(snHome, snMain), Names.SN.TABLE, Names.SN.COLUMNS);
+			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagmsks"), Names.columns("syntagmsks"));
 		}
 	}
 

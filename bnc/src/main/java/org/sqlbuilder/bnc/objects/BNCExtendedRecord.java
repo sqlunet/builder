@@ -4,13 +4,13 @@ import org.sqlbuilder.common.*;
 
 public class BNCExtendedRecord extends BNCRecord
 {
-	private final int freq2;
+	protected final int freq2;
 
-	private final int range2;
+	protected final int range2;
 
-	private final float dispersion2;
+	protected final float dispersion2;
 
-	private final float lL;
+	protected final float lL;
 
 	protected BNCExtendedRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion, final int freq2, final int range2, final float dispersion2, final float lL)
 	{
@@ -79,15 +79,19 @@ public class BNCExtendedRecord extends BNCRecord
 		return new BNCExtendedRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
 	}
 
-	@Override
-	public String toString()
-	{
-		return super.toString() + " " + freq2 + " " + range2 + " " + dispersion2 + " " + lL;
-	}
+	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
 		return String.format("%s,'%s','%c',%d,%d,%f,%d,%d,%f,%f", "NULL", Utils.escape(word), pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		return super.toString() + " " + freq2 + " " + range2 + " " + dispersion2 + " " + lL;
 	}
 }

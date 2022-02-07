@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class BNCProcessor extends Processor
@@ -23,10 +21,6 @@ public class BNCProcessor extends Processor
 	private final File outDir;
 
 	private final Properties conf;
-
-	private Map<String, Integer> map;
-
-	private final Function<String, Integer> resolver = w -> map.get(w);
 
 	public BNCProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
@@ -38,10 +32,6 @@ public class BNCProcessor extends Processor
 		{
 			this.outDir.mkdirs();
 		}
-
-		// resolve
-		File wordNIDS = new File(conf.getProperty("wordnids"));
-		this.map = DeSerializeNIDs.deserializeNIDs(wordNIDS);
 	}
 
 	@Override
@@ -49,28 +39,28 @@ public class BNCProcessor extends Processor
 	{
 		// main
 		String bNCMain = conf.getProperty("bncmain", "bnc.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.BNC.FILE)), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("bncs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCFile(ps, new File(bncHome, bNCMain), Names.BNC.TABLE, Names.BNC.COLUMNS);
+			processBNCFile(ps, new File(bncHome, bNCMain), Names.table("bncs"), Names.columns("bncs"));
 		}
 
 		// subfiles
 		String bNCSpWr = conf.getProperty("bncspwr", "bnc-spoken-written.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.BNC_SPWR.FILE)), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("spwrs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCSpWr), Names.BNC_SPWR.TABLE, Names.BNC_SPWR.COLUMNS);
+			processBNCSubFile(ps, new File(bncHome, bNCSpWr), Names.table("spwrs"), Names.columns("spwrs"));
 		}
 
 		String bNCConvTask = conf.getProperty("bncconvtask", "bnc-conv-task.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.BNC_CONVTASK.FILE)), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("convtasks"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCConvTask), Names.BNC_CONVTASK.TABLE, Names.BNC_CONVTASK.COLUMNS);
+			processBNCSubFile(ps, new File(bncHome, bNCConvTask), Names.table("convtasks"), Names.columns("convtasks"));
 		}
 
 		String bNCImagInf = conf.getProperty("bncimaginf", "bnc-imag-inf.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.BNC_IMAGINF.FILE)), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("imaginfs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCImagInf), Names.BNC_IMAGINF.TABLE, Names.BNC_IMAGINF.COLUMNS);
+			processBNCSubFile(ps, new File(bncHome, bNCImagInf), Names.table("imaginfs"), Names.columns("imaginfs"));
 		}
 	}
 
@@ -79,7 +69,7 @@ public class BNCProcessor extends Processor
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
-			final int[] count = {0,0};
+			final int[] count = {0, 0};
 			stream //
 					.peek(line -> ++count[1]) //
 					.filter(line -> !line.isEmpty() && line.charAt(0) == '\t') //
@@ -116,7 +106,7 @@ public class BNCProcessor extends Processor
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
-			final int[] count = {0,0};
+			final int[] count = {0, 0};
 			stream //
 					.peek(line -> ++count[1]) //
 					.filter(line -> !line.isEmpty() && line.charAt(0) == '\t') //
@@ -148,7 +138,7 @@ public class BNCProcessor extends Processor
 		ps.print(';');
 	}
 
-	private void insertRow(PrintStream ps, long index, String values)
+	protected void insertRow(PrintStream ps, long index, String values)
 	{
 		if (index != 0)
 		{
