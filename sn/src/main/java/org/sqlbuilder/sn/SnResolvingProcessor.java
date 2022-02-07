@@ -22,52 +22,23 @@ import java.util.Properties;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class SnResolvingProcessor extends Processor
+public class SnResolvingProcessor extends SnProcessor
 {
-	private final File snHome;
-
-	private final File outDir;
-
-	private final Properties conf;
-
-	private Map<Triplet<String, Character, Long>, String> toSenseKeys;
-
 	private Map<String, SimpleEntry<Integer, Integer>> senseNIDs;
-
-	private final Function<Triplet<String, Character, Long>, String> sensekeyResolver = lpo -> toSenseKeys.get(lpo);
 
 	private final Function<String, SimpleEntry<Integer, Integer>> senseResolver = sk -> senseNIDs.get(sk);
 
 	public SnResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
-		super("sn");
-		this.conf = conf;
-		this.snHome = new File(conf.getProperty("snhome", System.getenv().get("SNHOME")));
-		this.outDir = new File(conf.getProperty("snoutdir", "sql/data"));
-		if (!this.outDir.exists())
-		{
-			this.outDir.mkdirs();
-		}
+		super(conf);
 
 		// resolve
-		File toSensekeys = new File(conf.getProperty("tosensekeys"));
-		this.toSenseKeys = DeSerialize.deserialize(toSensekeys);
-
 		File senseNIDS = new File(conf.getProperty("sensenids"));
 		this.senseNIDs = DeSerialize.deserialize(senseNIDS);
 	}
 
 	@Override
-	public void run() throws IOException
-	{
-		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.SN.FILE)), true, StandardCharsets.UTF_8))
-		{
-			processSyntagNetFile(ps, new File(snHome, snMain), Names.SN.TABLE, Names.SN.COLUMNS);
-		}
-	}
-
-	private void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns) throws IOException
+	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		try (Stream<String> stream = Files.lines(file.toPath()))
@@ -98,14 +69,5 @@ public class SnResolvingProcessor extends Processor
 					});
 		}
 		ps.print(';');
-	}
-
-	private void insertRow(PrintStream ps, long index, String values)
-	{
-		if (index != 0)
-		{
-			ps.print(",\n");
-		}
-		ps.printf("(%d,%s)", index + 1, values);
 	}
 }

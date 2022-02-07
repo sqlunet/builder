@@ -23,15 +23,15 @@ import java.util.stream.Stream;
 
 public class SnProcessor extends Processor
 {
-	private final File snHome;
+	protected final File snHome;
 
-	private final File outDir;
+	protected final File outDir;
 
-	private final Properties conf;
+	protected final Properties conf;
 
 	private Map<Triplet<String, Character, Long>, String> toSenseKeys;
 
-	private final Function<Triplet<String, Character, Long>, String> sensekeyResolver = lpo -> toSenseKeys.get(lpo);
+	protected final Function<Triplet<String, Character, Long>, String> sensekeyResolver = lpo -> toSenseKeys.get(lpo);
 
 	public SnProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
@@ -59,7 +59,7 @@ public class SnProcessor extends Processor
 		}
 	}
 
-	private void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns) throws IOException
+	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		try (Stream<String> stream = Files.lines(file.toPath()))
@@ -92,7 +92,7 @@ public class SnProcessor extends Processor
 		ps.print(';');
 	}
 
-	private void insertRow(PrintStream ps, long index, String values)
+	protected void insertRow(PrintStream ps, long index, String values)
 	{
 		if (index != 0)
 		{
