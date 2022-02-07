@@ -1,5 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor;
@@ -10,7 +11,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Semantics implements Insertable, Comparable<Semantics>
+public class Semantics implements HasId, Insertable, Comparable<Semantics>
 {
 	public static final Comparator<Semantics> COMPARATOR = Comparator.comparing(Semantics::getSemantics);
 
@@ -48,6 +49,12 @@ public class Semantics implements Insertable, Comparable<Semantics>
 	public String getSemantics()
 	{
 		return semantics;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

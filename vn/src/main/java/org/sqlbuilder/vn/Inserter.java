@@ -3,9 +3,7 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ProvidesIdTo;
-import org.sqlbuilder.vn.joins.VnFrameExampleMapping;
-import org.sqlbuilder.vn.joins.VnGroupingMapping;
-import org.sqlbuilder.vn.joins.VnPredicateMapping;
+import org.sqlbuilder.vn.joins.*;
 import org.sqlbuilder.vn.objects.*;
 
 import java.io.File;
@@ -64,15 +62,17 @@ public class Inserter
 			Insert.insert(Frame.COLLECTOR, new File(outDir, Names.file("frames")), Names.table("frames"), Names.columns("frames"));
 
 			// from pass3
-			Insert.insert(VnFrameExampleMapping.SET, null, new File(outDir, Names.file("frames_examples")), Names.table("frames_examples"), Names.columns("frames_examples"));
-			Insert.insert(VnPredicateMapping.SET, null, new File(outDir, Names.file("semantics_predicates")), Names.table("semantics_predicates"), Names.columns("semantics_predicates"));
+			Insert.insert(Frame_Example.SET, null, new File(outDir, Names.file("frames_examples")), Names.table("frames_examples"), Names.columns("frames_examples"));
+			Insert.insert(Predicate_Semantics.SET, null, new File(outDir, Names.file("predicates_semantics")), Names.table("predicates_semantics"), Names.columns("predicates_semantics"));
 
 			// from pass4
-			Insert.insert(ClassMember.SET, null, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
-			Insert.insert(VnGroupingMapping.SET, null, new File(outDir, Names.file("members_groupings")), Names.table("members_groupings"), Names.columns("members_groupings"));
-
 			Insert.insert(VnWord.COLLECTOR, new File(outDir, Names.file("words")), Names.table("words"), Names.columns("words"));
-			Insert.insert(VnMemberSense.SET, null, new File(outDir, Names.file("members_senses")), Names.table("members_senses"), Names.columns("members_senses"));
+
+			Insert.insert(Class_Word.SET, null, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
+			Insert.insert(Class_Role.SET, null, new File(outDir, Names.file("classes_roles")), Names.table("classes_roles"), Names.columns("classes_roles"));
+			Insert.insert(Class_Frame.SET, null, new File(outDir, Names.file("classes_frames")), Names.table("classes_frames"), Names.columns("classes_frames"));
+			Insert.insert(Member_Grouping.SET, null, new File(outDir, Names.file("members_groupings")), Names.table("members_groupings"), Names.columns("members_groupings"));
+			Insert.insert(Member_Sense.SET, null, new File(outDir, Names.file("members_senses")), Names.table("members_senses"), Names.columns("members_senses"));
 		}
 	}
 }

@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMapping>
+public class Predicate_Semantics implements Insertable, Comparable<Predicate_Semantics>
 {
-	public static final Set<VnPredicateMapping> SET = new HashSet<>();
+	public static final Set<Predicate_Semantics> SET = new HashSet<>();
 
 	private final Semantics semantics;
 
@@ -20,7 +20,14 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 
 	// C O N S T R U C T
 
-	public VnPredicateMapping(final Semantics semantics, final Predicate predicate)
+	public static Predicate_Semantics make(final Predicate predicate, final Semantics semantics)
+	{
+		var m = new Predicate_Semantics(predicate, semantics);
+		SET.add(m);
+		return m;
+	}
+
+	private Predicate_Semantics(final Predicate predicate, final Semantics semantics)
 	{
 		this.semantics = semantics;
 		this.predicate = predicate;
@@ -39,7 +46,7 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 		{
 			return false;
 		}
-		VnPredicateMapping that = (VnPredicateMapping) o;
+		Predicate_Semantics that = (Predicate_Semantics) o;
 		return semantics.equals(that.semantics) && predicate.equals(that.predicate);
 	}
 
@@ -51,10 +58,10 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 
 	// O R D E R I N G
 
-	static public final Comparator<VnPredicateMapping> COMPARATOR = Comparator.comparing(VnPredicateMapping::getSemantics).thenComparing(VnPredicateMapping::getPredicate);
+	static public final Comparator<Predicate_Semantics> COMPARATOR = Comparator.comparing(Predicate_Semantics::getSemantics).thenComparing(Predicate_Semantics::getPredicate);
 
 	@Override
-	public int compareTo(final VnPredicateMapping that)
+	public int compareTo(final Predicate_Semantics that)
 	{
 		return COMPARATOR.compare(this, that);
 	}
@@ -73,13 +80,15 @@ public class VnPredicateMapping implements Insertable, Comparable<VnPredicateMap
 
 	// I N S E R T
 
-	@RequiresIdFrom(type = Semantics.class)
 	@RequiresIdFrom(type = Predicate.class)
+	@RequiresIdFrom(type = Semantics.class)
 	@Override
 	public String dataRow()
 	{
-		// semantics.id
 		// predicate.id
-		return String.format("%d,%d", Semantics.COLLECTOR.get(semantics), Predicate.COLLECTOR.get(predicate));
+		// semantics.id
+		return String.format("%d,%d", //
+				predicate.getIntId(), //
+				semantics.getIntId());
 	}
 }

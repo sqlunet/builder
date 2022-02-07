@@ -1,11 +1,12 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 
-public class FrameSubName implements Insertable, Comparable<FrameSubName>
+public class FrameSubName implements HasId, Insertable, Comparable<FrameSubName>
 {
 	public static final Comparator<FrameSubName> COMPARATOR = Comparator.comparing(FrameSubName::getSubName);
 
@@ -32,6 +33,12 @@ public class FrameSubName implements Insertable, Comparable<FrameSubName>
 	public String getSubName()
 	{
 		return subName;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

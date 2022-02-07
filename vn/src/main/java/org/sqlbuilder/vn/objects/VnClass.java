@@ -1,12 +1,13 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 import java.util.Objects;
 
-public class VnClass implements Insertable, Comparable<VnClass>
+public class VnClass implements HasId, Insertable, Comparable<VnClass>
 {
 	public static final Comparator<VnClass> COMPARATOR = Comparator.comparing(VnClass::getName);
 
@@ -37,6 +38,12 @@ public class VnClass implements Insertable, Comparable<VnClass>
 	{
 		final int split = this.name.indexOf('-');
 		return this.name.substring(split + 1);
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

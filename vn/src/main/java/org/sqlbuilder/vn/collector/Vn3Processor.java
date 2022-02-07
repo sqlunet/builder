@@ -4,9 +4,9 @@ import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.vn.VnDocument;
-import org.sqlbuilder.vn.joins.VnFrameExampleMapping;
+import org.sqlbuilder.vn.joins.Frame_Example;
 import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.joins.VnPredicateMapping;
+import org.sqlbuilder.vn.joins.Predicate_Semantics;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -39,12 +39,12 @@ public class Vn3Processor extends VnProcessor
 		try
 		{
 			// get frame example mappings
-			final Collection<VnFrameExampleMapping> frameExampleMappings = VnDocument.getFrameExampleMappings(start);
-			VnFrameExampleMapping.SET.addAll(frameExampleMappings);
+			final Collection<Frame_Example> frameExampleMappings = VnDocument.getFrameExampleMappings(start);
+			Frame_Example.SET.addAll(frameExampleMappings);
 
-			// get predicate mappings
-			final Collection<VnPredicateMapping> predicateMappings = VnDocument.getPredicateMappings(start);
-			VnPredicateMapping.SET.addAll(predicateMappings);
+			// get predicate semantics mappings
+			final Collection<Predicate_Semantics> predicateSemanticsMappings = VnDocument.getPredicateMappings(start);
+			Predicate_Semantics.SET.addAll(predicateSemanticsMappings);
 
 			// recurse
 			final NodeList subclasses = XPathUtils.getXPaths(start, "./SUBCLASSES/VNSUBCLASS");

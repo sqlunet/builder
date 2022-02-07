@@ -5,8 +5,7 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.vn.VnDocument;
 import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.joins.VnClassDataMapping;
-import org.sqlbuilder.vn.joins.VnGroupingMapping;
+import org.sqlbuilder.vn.joins.*;
 import org.sqlbuilder.vn.objects.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -41,7 +40,7 @@ public class Vn4Processor extends VnProcessor
 		processVerbNetClass(document, start, head, null);
 	}
 
-	private void processVerbNetClass(final VnDocument document, final Node start, final String head, final ClassData inheritedData)
+	private void processVerbNetClass(final VnDocument document, final Node start, final String head, final Roles_Frames inheritedData)
 	{
 		try
 		{
@@ -50,41 +49,45 @@ public class Vn4Processor extends VnProcessor
 			final VnClass vnclass = VnClass.make(className);
 
 			// get class data and merge with inherited data
-			final ClassData data = VnDocument.getClassData(start, vnclass);
+			final Roles_Frames data = VnDocument.getClassData(start);
 			if (inheritedData != null)
 			{
 				data.merge(inheritedData);
 			}
 
+			// collect roles and frames
+			for (Role role : data.getRoles())
+			{
+				Class_Role.make(vnclass, role);
+			}
+			for (Frame frame : data.getFrames())
+			{
+				Class_Frame.make(vnclass, frame);
+			}
+
 			// members
-			Collection<VnItem> words = VnDocument.getItems(start);
+			Collection<Member> words = VnDocument.getItems(start);
 			if (words == null)
 			{
 				words = new ArrayList<>();
-				words.add(VnItem.make(head, null, null));
+				words.add(Member.make(head, null, null));
 			}
 
 			// ascribe data to each class member
-			for (final VnItem item : words)
+			for (final Member item : words)
 			{
 				// word
 				final VnWord vnWord = VnWord.make(item.lemma);
-				VnWord.COLLECTOR.add(vnWord);
 
 				// class member
-				final ClassMember member = new ClassMember(vnclass, vnWord);
-				ClassMember.SET.add(member);
+				final Class_Word member = Class_Word.make(vnclass, vnWord);
 
 				// if sensekeys are null, data apply to all senses
 				if (item.senseKeys == null)
 				{
 					// class member sense
-					final VnMemberSense memberSense = new VnMemberSense(member, 0, null, 1.F);
-					VnMemberSense.SET.add(memberSense);
-
-					// quality = sense mapping quality as indicated by verbnet ('?' prefix to sense key)
-					final VnClassDataMapping mapping = new VnClassDataMapping(data);
-					VnClassDataMapping.SET.add(mapping);
+					final Member_Sense memberSense = Member_Sense.make(member, 0, null, 1.F);
+					Member_Sense.SET.add(memberSense);
 
 					// trace
 					if (Progress.hyperverbose)
@@ -102,12 +105,8 @@ public class Vn4Processor extends VnProcessor
 					final float senseQuality = sensekey.getQuality();
 
 					// class member sense
-					final VnMemberSense memberSense = new VnMemberSense(member, i, sensekey, senseQuality);
-					VnMemberSense.SET.add(memberSense);
-
-					// collect roles and frames
-					final VnClassDataMapping mapping = new VnClassDataMapping(data);
-					VnClassDataMapping.SET.add(mapping);
+					final Member_Sense memberSense = Member_Sense.make(member, i, sensekey, senseQuality);
+					Member_Sense.SET.add(memberSense);
 
 					i++;
 
@@ -123,10 +122,10 @@ public class Vn4Processor extends VnProcessor
 				{
 					for (final Grouping grouping : item.groupings)
 					{
-						final VnGroupingMapping vnGroupingMapping = new VnGroupingMapping(vnWord, vnclass, grouping);
+						final Member_Grouping vnGroupingMapping = Member_Grouping.make(vnclass, vnWord, grouping);
 
 						// collect
-						VnGroupingMapping.SET.add(vnGroupingMapping);
+						Member_Grouping.SET.add(vnGroupingMapping);
 
 						// trace
 						if (Progress.hyperverbose)

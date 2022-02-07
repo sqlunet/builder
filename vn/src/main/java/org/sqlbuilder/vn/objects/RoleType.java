@@ -1,11 +1,12 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.*;
 
-public class RoleType implements Insertable, Comparable<RoleType>
+public class RoleType implements HasId, Insertable, Comparable<RoleType>
 {
 	public static final Comparator<RoleType> COMPARATOR = Comparator.comparing(RoleType::getType);
 
@@ -32,6 +33,12 @@ public class RoleType implements Insertable, Comparable<RoleType>
 	public String getType()
 	{
 		return this.type;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

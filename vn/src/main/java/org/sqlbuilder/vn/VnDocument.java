@@ -2,8 +2,9 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.common.XmlTextUtils;
-import org.sqlbuilder.vn.joins.VnFrameExampleMapping;
-import org.sqlbuilder.vn.joins.VnPredicateMapping;
+import org.sqlbuilder.vn.objects.Roles_Frames;
+import org.sqlbuilder.vn.joins.Frame_Example;
+import org.sqlbuilder.vn.joins.Predicate_Semantics;
 import org.sqlbuilder.vn.objects.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,9 +67,9 @@ public class VnDocument
 
 	// C L A S S
 
-	public static Collection<VnItem> getItems(final Node start) throws XPathExpressionException
+	public static Collection<Member> getItems(final Node start) throws XPathExpressionException
 	{
-		List<VnItem> result = null;
+		List<Member> result = null;
 		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
 		for (int i = 0; i < memberNodes.getLength(); i++)
 		{
@@ -76,7 +77,7 @@ public class VnDocument
 			final String lemmaAttribute = memberElement.getAttribute("name");
 			final String wnAttribute = memberElement.getAttribute("wn");
 			final String groupingAttribute = memberElement.getAttribute("grouping");
-			VnItem item = VnItem.make(lemmaAttribute, wnAttribute, groupingAttribute);
+			Member item = Member.make(lemmaAttribute, wnAttribute, groupingAttribute);
 			if (result == null)
 			{
 				result = new ArrayList<>();
@@ -92,11 +93,11 @@ public class VnDocument
 		return classElement.getAttribute("ID");
 	}
 
-	public static ClassData getClassData(final Node start, final VnClass vnclass) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
+	public static Roles_Frames getClassData(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{
 		final Set<Role> roles = VnDocument.makeRoles(start);
 		final List<Frame> frames = VnDocument.makeFrames(start);
-		return new ClassData(vnclass, roles, frames);
+		return Roles_Frames.make(roles, frames);
 	}
 
 	// G R O U P I N G S
@@ -312,9 +313,9 @@ public class VnDocument
 		return result;
 	}
 
-	public static List<VnFrameExampleMapping> getFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
+	public static List<Frame_Example> getFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
-		final List<VnFrameExampleMapping> result = new ArrayList<>();
+		final List<Frame_Example> result = new ArrayList<>();
 		final NodeList frameNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME");
 		for (int i = 0; i < frameNodes.getLength(); i++)
 		{
@@ -335,7 +336,7 @@ public class VnDocument
 				for (final String example : examples)
 				{
 					final FrameExample vnExample = FrameExample.make(example);
-					result.add(new VnFrameExampleMapping(frame, vnExample));
+					result.add(Frame_Example.make(frame, vnExample));
 				}
 			}
 		}
@@ -386,9 +387,9 @@ public class VnDocument
 		return result;
 	}
 
-	public static List<VnPredicateMapping> getPredicateMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
+	public static List<Predicate_Semantics> getPredicateMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{
-		final List<VnPredicateMapping> result = new ArrayList<>();
+		final List<Predicate_Semantics> result = new ArrayList<>();
 		final NodeList semanticsNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS");
 		for (int i = 0; i < semanticsNodes.getLength(); i++)
 		{
@@ -403,7 +404,7 @@ public class VnDocument
 				{
 					final Element predicateElement = (Element) predNodes.item(j);
 					final Predicate predicate = Predicate.make(predicateElement.getAttribute("value"));
-					result.add(new VnPredicateMapping(semantics, predicate));
+					result.add(Predicate_Semantics.make(predicate, semantics));
 				}
 			}
 		}

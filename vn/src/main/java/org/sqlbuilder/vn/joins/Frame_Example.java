@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExampleMapping>
+public class Frame_Example implements Insertable, Comparable<Frame_Example>
 {
-	public static final Set<VnFrameExampleMapping> SET = new HashSet<>();
+	public static final Set<Frame_Example> SET = new HashSet<>();
 
 	private final Frame frame;
 
@@ -19,7 +19,14 @@ public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExam
 
 	// C O N S T R U C T
 
-	public VnFrameExampleMapping(final Frame frame, final FrameExample example)
+	public static Frame_Example make(final Frame frame, final FrameExample example)
+	{
+		var m = new Frame_Example(frame, example);
+		SET.add(m);
+		return m;
+	}
+
+	private Frame_Example(final Frame frame, final FrameExample example)
 	{
 		this.frame = frame;
 		this.example = example;
@@ -38,7 +45,7 @@ public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExam
 		{
 			return false;
 		}
-		VnFrameExampleMapping that = (VnFrameExampleMapping) o;
+		Frame_Example that = (Frame_Example) o;
 		return frame.equals(that.frame) && example.equals(that.example);
 	}
 
@@ -51,7 +58,7 @@ public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExam
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final VnFrameExampleMapping that)
+	public int compareTo(final Frame_Example that)
 	{
 		int cmp = this.frame.compareTo(that.frame);
 		if (cmp != 0)
@@ -70,6 +77,8 @@ public class VnFrameExampleMapping implements Insertable, Comparable<VnFrameExam
 	{
 		// frame.id
 		// example.id
-		return String.format("%d,%d", Frame.COLLECTOR.get(frame), FrameExample.COLLECTOR.get(example));
+		return String.format("%d,%d",
+				frame.getIntId(),
+				example.getIntId());
 	}
 }

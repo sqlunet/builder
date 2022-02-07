@@ -1,12 +1,13 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.Utils;
 
 import java.util.*;
 
-public class VnWord implements Insertable, Comparable<VnWord>
+public class VnWord implements HasId, Insertable, Comparable<VnWord>
 {
 	public static final Comparator<VnWord> COMPARATOR = Comparator.comparing(VnWord::getWord);
 
@@ -33,6 +34,12 @@ public class VnWord implements Insertable, Comparable<VnWord>
 	public String getWord()
 	{
 		return word;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

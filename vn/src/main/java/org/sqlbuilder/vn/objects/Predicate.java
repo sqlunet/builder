@@ -1,11 +1,12 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.*;
 
-public class Predicate implements Insertable, Comparable<Predicate>
+public class Predicate implements HasId, Insertable, Comparable<Predicate>
 {
 	public static final Comparator<Predicate> COMPARATOR = Comparator.comparing(Predicate::getName);
 
@@ -32,6 +33,12 @@ public class Predicate implements Insertable, Comparable<Predicate>
 	public String getName()
 	{
 		return name;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

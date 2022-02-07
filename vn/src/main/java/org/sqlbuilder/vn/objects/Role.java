@@ -9,9 +9,10 @@ import java.util.Objects;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Role implements Insertable, Comparable<Role>
+public class Role implements HasId, Insertable, Comparable<Role>
 {
 	public static final Comparator<Role> COMPARATOR = Comparator.comparing(Role::getRoleType).thenComparing(Role::getRestrs, Comparator.nullsFirst(Comparator.naturalOrder()));
+
 	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final RoleType roleType;
@@ -47,6 +48,12 @@ public class Role implements Insertable, Comparable<Role>
 		return this.restrs;
 	}
 
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
+
 	// I D E N T I T Y
 
 	@Override
@@ -69,7 +76,6 @@ public class Role implements Insertable, Comparable<Role>
 	{
 		return Objects.hash(roleType, restrs);
 	}
-
 
 	// O R D E R I N G
 
@@ -103,7 +109,7 @@ public class Role implements Insertable, Comparable<Role>
 		// roleType.id
 		// restrs.id (or null)
 		return String.format("%d,%s", //
-				RoleType.COLLECTOR.get(roleType), //
+				roleType.getIntId(), //
 				Utils.nullable(restrs, HasId::getSqlId));
 	}
 }

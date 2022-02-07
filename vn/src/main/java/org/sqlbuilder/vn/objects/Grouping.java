@@ -1,12 +1,13 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Grouping implements Insertable, Comparable<Grouping>
+public class Grouping implements HasId, Insertable, Comparable<Grouping>
 {
 	public static final Comparator<Grouping> COMPARATOR = Comparator.comparing(Grouping::getName);
 
@@ -31,6 +32,12 @@ public class Grouping implements Insertable, Comparable<Grouping>
 	public String getName()
 	{
 		return name;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

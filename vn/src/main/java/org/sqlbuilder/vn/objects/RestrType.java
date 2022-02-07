@@ -1,12 +1,13 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 import java.util.Objects;
 
-public class RestrType implements Insertable, Comparable<RestrType>
+public class RestrType implements HasId, Insertable, Comparable<RestrType>
 {
 	public static Comparator<RestrType> COMPARATOR = Comparator.comparing(RestrType::getType).thenComparing(RestrType::getValue).thenComparing(RestrType::isSyntactic);
 
@@ -49,6 +50,12 @@ public class RestrType implements Insertable, Comparable<RestrType>
 	public boolean isSyntactic()
 	{
 		return isSyntactic;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.objects;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VnItem
+public class Member
 {
 	public final String lemma;
 
@@ -15,17 +15,7 @@ public class VnItem
 
 	// C O N S T R U C T
 
-	private VnItem(final String lemma, final List<Sensekey> senseKeys, final List<Grouping> groupings, final boolean definiteFlag)
-	{
-		this.lemma = lemma;
-		this.senseKeys = senseKeys;
-		this.groupings = groupings;
-		this.isDefinite = definiteFlag;
-	}
-
-	// F A C T O R Y
-
-	public static VnItem make(final String lemmaString0, final String wnSenses, final String groupingAttribute)
+	public static Member make(final String lemmaString0, final String wnSenses, final String groupingAttribute)
 	{
 		String lemmaString = lemmaString0;
 		boolean isDefiniteFlag = true;
@@ -60,7 +50,6 @@ public class VnItem
 				senseKeys.add(sensekey);
 			}
 		}
-
 		List<Grouping> groupings = null;
 		if (groupingAttribute != null && !groupingAttribute.trim().isEmpty())
 		{
@@ -77,8 +66,15 @@ public class VnItem
 				groupings.add(grouping);
 			}
 		}
+		return new Member(lemma, senseKeys, groupings, isDefiniteFlag);
+	}
 
-		return new VnItem(lemma, senseKeys, groupings, isDefiniteFlag);
+	private Member(final String lemma, final List<Sensekey> senseKeys, final List<Grouping> groupings, final boolean definiteFlag)
+	{
+		this.lemma = lemma;
+		this.senseKeys = senseKeys;
+		this.groupings = groupings;
+		this.isDefinite = definiteFlag;
 	}
 
 	// A C C E S S

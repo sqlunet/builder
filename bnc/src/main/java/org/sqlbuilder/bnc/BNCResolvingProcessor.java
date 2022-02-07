@@ -29,7 +29,10 @@ public class BNCResolvingProcessor extends BNCProcessor
 		super(conf);
 
 		// resolve
-		File wordNIDS = new File(conf.getProperty("wordnids"));
+		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data"));
+
+		// resolve
+		File wordNIDS = new File(conf.getProperty("word_nids"));
 		this.map = DeSerializeNIDs.deserializeNIDs(wordNIDS);
 	}
 

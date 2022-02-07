@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.*;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -12,7 +9,7 @@ import java.util.Objects;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Frame implements Insertable, Comparable<Frame>
+public class Frame implements HasId, Insertable, Comparable<Frame>
 {
 	public static final Comparator<Frame> COMPARATOR = Comparator //
 			.comparing(Frame::getName) //
@@ -87,6 +84,12 @@ public class Frame implements Insertable, Comparable<Frame>
 		return semantics;
 	}
 
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
+	}
+
 	// I D E N T I T Y
 
 	@Override
@@ -145,9 +148,9 @@ public class Frame implements Insertable, Comparable<Frame>
 		return String.format("%s,'%s',%d,%d,%d,%d", //
 				Utils.nullableQuotedString(descriptionNumber), //
 				descriptionXTag, //
-				FrameName.COLLECTOR.get(name), //
-				FrameSubName.COLLECTOR.get(subName), //
-				Syntax.COLLECTOR.get(syntax), //
-				Semantics.COLLECTOR.get(semantics));
+				name.getIntId(), //
+				subName.getIntId(), //
+				syntax.getIntId(), //
+				semantics.getIntId());
 	}
 }

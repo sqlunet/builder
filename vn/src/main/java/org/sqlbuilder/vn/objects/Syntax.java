@@ -1,5 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Syntax implements Insertable, Comparable<Syntax>
+public class Syntax implements HasId, Insertable, Comparable<Syntax>
 {
 	public static final Comparator<Syntax> COMPARATOR = Comparator.comparing(Syntax::getSyntax);
 
@@ -49,6 +50,12 @@ public class Syntax implements Insertable, Comparable<Syntax>
 	public String getSyntax()
 	{
 		return syntax;
+	}
+
+	@Override
+	public Integer getIntId()
+	{
+		return COLLECTOR.get(this);
 	}
 
 	// I D E N T I T Y

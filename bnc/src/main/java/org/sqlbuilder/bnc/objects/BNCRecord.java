@@ -62,6 +62,29 @@ public class BNCRecord implements Insertable
 		this.dispersion = dispersion;
 	}
 
+	/*
+	1:WORD					2:POS   3:INFLECT       4:FREQ  5:RANGE 6:
+
+	%	                    NoC	    %	            6	    53	    0.64
+	@	                    @	    %	            6	    52	    0.64
+	@	                    @	    %s	            0	    1	    0.00
+
+	abandon                 NoC     :               1       53      0.87
+	abandon                 Verb    %               44      99      0.96
+	@                       @       abandon         12      98      0.94
+	@                       @       abandoned       26      97      0.96
+	@                       @       abandoning      5       90      0.93
+	@                       @       abandons        1       47      0.87
+	abandoned               Adj     :               4       88      0.92
+	abandoned-in-transit    Adj     :               0       1       0.00
+	abandoned/ignored       Adj     :               0       1       0.00
+	abandonedl              NoC     :               0       1       0.00
+	abandonemtn             NoC     :               0       1       0.00
+	abandoning              NoC     :               0       12      0.71
+	abandonment             NoC     %               5       89      0.92
+	@                       @       abandonment     5       89      0.92
+	@                       @       abandonments    0       1       0.00
+	*/
 	public static BNCRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
 	{
 		final String[] fields = line.split("\\t+");
