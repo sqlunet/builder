@@ -10,13 +10,13 @@ import java.util.Set;
 public class FnAlias extends Alias
 {
 	public static final Comparator<FnAlias> COMPARATOR = Comparator //
-		.comparing(FnAlias::getPbRoleSet) //
-		.thenComparing(FnAlias::getPbWord) //
-		.thenComparing(FnAlias::getLemma) //
-		.thenComparing(FnAlias::getRef) //
-		.thenComparing(FnAlias::getPos);
+			.comparing(FnAlias::getPbRoleSet) //
+			.thenComparing(FnAlias::getPbWord) //
+			.thenComparing(FnAlias::getLemma) //
+			.thenComparing(FnAlias::getRef) //
+			.thenComparing(FnAlias::getPos);
 
-	 public static final Set<FnAlias> SET = new HashSet<>();
+	public static final Set<FnAlias> SET = new HashSet<>();
 
 	// C O N S T R U C T
 

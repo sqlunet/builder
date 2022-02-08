@@ -45,7 +45,7 @@ public class PbProcessor extends Processor
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
 		this.fileCount = 0;
-		Progress.traceHeader("reading propbank files", "");
+		Progress.traceHeader("propbank", "reading files");
 		for (final File file : files)
 		{
 			this.fileCount += 1;

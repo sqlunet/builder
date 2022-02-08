@@ -1,16 +1,15 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
-public class ArgN implements HasId, Comparable<ArgN>, Insertable
+public class ArgN implements Comparable<ArgN>, Insertable
 {
 	public static final Comparator<ArgN> COMPARATOR = Comparator.comparing(ArgN::getArgn);
 
-	public static final SetCollector<ArgN> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final Set<ArgN> SET = new HashSet<>();
 
 	private static final Properties DESCRIPTIONS = new Properties();
 
@@ -32,7 +31,7 @@ public class ArgN implements HasId, Comparable<ArgN>, Insertable
 			return null;
 		}
 		var a = new ArgN(n);
-		COLLECTOR.add(a);
+		SET.add(a);
 		return a;
 	}
 
@@ -48,19 +47,28 @@ public class ArgN implements HasId, Comparable<ArgN>, Insertable
 		return argn;
 	}
 
-	@RequiresIdFrom(type = ArgN.class)
+	// I D E N T I T Y
+
 	@Override
-	public Integer getIntId()
+	public boolean equals(final Object o)
 	{
-		return COLLECTOR.get(this);
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		ArgN that = (ArgN) o;
+		return argn.equals(that.argn);
 	}
 
-	@RequiresIdFrom(type = ArgN.class)
-	public static Integer getIntId(final ArgN argn)
+	@Override
+	public int hashCode()
 	{
-		return argn == null ? null : COLLECTOR.get(argn);
+		return Objects.hash(argn);
 	}
-
 	// O R D E R
 
 	@Override

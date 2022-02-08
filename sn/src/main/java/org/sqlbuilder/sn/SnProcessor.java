@@ -54,9 +54,9 @@ public class SnProcessor extends Processor
 	public void run() throws IOException
 	{
 		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagmsks"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
-			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagmsks"), Names.columns("syntagmsks"));
+			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagms"), Names.columns("syntagms"));
 		}
 	}
 

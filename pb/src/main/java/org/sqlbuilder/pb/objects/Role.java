@@ -125,11 +125,11 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	{
 		// (roleid),narg,func,theta,roledescr,rolesetid
 		// final long roleId = Role.COLLECTOR.get(this);
-		return String.format("'%s',%s,%s,'%s',%d", //
+		return String.format("'%s',%s,%s,%s,%d", //
 				argn, //
 				Utils.nullable(func, HasId::getSqlId), //
 				Utils.nullable(theta, HasId::getSqlId), //
-				descr, //
+				Utils.nullableQuotedEscapedString(descr), //
 				roleSet.getIntId() //
 		);
 	}

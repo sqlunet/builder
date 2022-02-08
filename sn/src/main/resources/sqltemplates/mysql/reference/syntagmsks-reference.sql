@@ -1,2 +1,0 @@
--- ALTER TABLE ${syntagmsks.table} ADD CONSTRAINT fk_${syntagmsks.table}_${syntagmsks.sensekey1} FOREIGN KEY (${syntagmsks.sensekey1}) REFERENCES ${wnsenses.table} (${wnsenses.sensekey});
--- ALTER TABLE ${syntagmsks.table} ADD CONSTRAINT fk_${syntagmsks.table}_${syntagmsks.sensekey2} FOREIGN KEY (${syntagmsks.sensekey2}) REFERENCES ${wnsenses.table} (${wnsenses.sensekey});

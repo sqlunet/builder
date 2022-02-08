@@ -92,7 +92,7 @@ public class PbDocument extends XmlDocument
 				result.add(roleSet);
 
 				// roleset member
-				RoleSetMember.make(roleSet, pbword);
+				Member.make(roleSet, pbword);
 
 				// roleset aliases
 				final List<Alias> aliases = roleSet.getAliases();
@@ -109,7 +109,7 @@ public class PbDocument extends XmlDocument
 						PbWord pbword2 = PbWord.make(lemma);
 
 						// alias word as roleset member
-						RoleSetMember.make(roleSet, pbword2);
+						Member.make(roleSet, pbword2);
 
 						// v e r b n e t
 						final String verbNet = aliasElement.getAttribute("verbnet").trim();

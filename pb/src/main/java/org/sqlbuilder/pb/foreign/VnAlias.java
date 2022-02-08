@@ -16,6 +16,7 @@ public class VnAlias extends Alias implements Insertable
 			.thenComparing(VnAlias::getLemma) //
 			.thenComparing(VnAlias::getRef) //
 			.thenComparing(VnAlias::getPos);
+
 	static public final Set<VnAlias> SET = new HashSet<>();
 
 	// C O N S T R U C T

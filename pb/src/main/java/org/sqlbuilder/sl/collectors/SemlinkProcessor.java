@@ -28,10 +28,6 @@ public class SemlinkProcessor extends Processor
 	@Override
 	public void run()
 	{
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("semlink " + this.semlinkFile, "");
-		}
 		try
 		{
 			final SemlinkDocument document = new SemlinkDocument(this.semlinkFile);
@@ -41,18 +37,13 @@ public class SemlinkProcessor extends Processor
 		{
 			Logger.instance.logXmlException(PbModule.MODULE_ID, this.tag, "xml-document", this.semlinkFile, -1, null, "document=[" + this.semlinkFile + "]", e);
 		}
-
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("semlink ", "");
-		}
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
 	protected static void processSemlinks(final Node start) throws XPathExpressionException
 	{
-		Progress.traceHeader("semlink file", "reading");
+		Progress.traceHeader("semlink", "reading file");
 		SemlinkDocument.makeMappings(start);
-		Progress.traceTailer("semlink files", "");
+		Progress.traceTailer("semlink", "done");
 	}
 }

@@ -3,6 +3,7 @@ package org.sqlbuilder.pb.objects;
 import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public class PbWord implements HasId, Insertable, Comparable<PbWord>
 {
@@ -40,6 +41,29 @@ public class PbWord implements HasId, Insertable, Comparable<PbWord>
 		return COLLECTOR.get(this);
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		PbWord that = (PbWord) o;
+		return word.equals(that.word);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(word);
+	}
+
 	// O R D E R
 
 	@Override
@@ -54,8 +78,7 @@ public class PbWord implements HasId, Insertable, Comparable<PbWord>
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%s,'%s'", //
-				COLLECTOR.get(this), //
+		return String.format("%s,'%s'", //
 				"NULL", //
 				Utils.escape(word));
 	}

@@ -5,15 +5,16 @@ import org.sqlbuilder.common.RequiresIdFrom;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-public class RoleSetMember implements Insertable, Comparable<RoleSetMember>
+public class Member implements Insertable, Comparable<Member>
 {
-	public static final Comparator<RoleSetMember> COMPARATOR = Comparator //
-			.comparing(RoleSetMember::getWord) //
-			.thenComparing(RoleSetMember::getRoleSet);
+	public static final Comparator<Member> COMPARATOR = Comparator //
+			.comparing(Member::getWord) //
+			.thenComparing(Member::getRoleSet);
 
-	public static final Set<RoleSetMember> SET = new HashSet<>();
+	public static final Set<Member> SET = new HashSet<>();
 
 	final RoleSet roleSet;
 
@@ -21,14 +22,14 @@ public class RoleSetMember implements Insertable, Comparable<RoleSetMember>
 
 	// C O N S T R U C T O R
 
-	public static RoleSetMember make(final RoleSet roleSet, final PbWord pbWord)
+	public static Member make(final RoleSet roleSet, final PbWord pbWord)
 	{
-		var m = new RoleSetMember(roleSet, pbWord);
+		var m = new Member(roleSet, pbWord);
 		SET.add(m);
 		return m;
 	}
 
-	private RoleSetMember(final RoleSet roleSet, final PbWord word)
+	private Member(final RoleSet roleSet, final PbWord word)
 	{
 		this.roleSet = roleSet;
 		this.word = word;
@@ -42,15 +43,38 @@ public class RoleSetMember implements Insertable, Comparable<RoleSetMember>
 		return roleSet;
 	}
 
+	// I D E N T I T Y
+
 	public PbWord getWord()
 	{
 		return word;
 	}
 
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Member that = (Member) o;
+		return roleSet.equals(that.roleSet) && word.equals(that.word);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(roleSet, word);
+	}
+
 	// O R D E R
 
 	@Override
-	public int compareTo(final RoleSetMember that)
+	public int compareTo(final Member that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

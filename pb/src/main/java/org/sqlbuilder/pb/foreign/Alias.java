@@ -6,6 +6,7 @@ import org.sqlbuilder.pb.objects.PbWord;
 import org.sqlbuilder.pb.objects.RoleSet;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public abstract class Alias implements Insertable
 {
@@ -73,6 +74,29 @@ public abstract class Alias implements Insertable
 	public String getPos()
 	{
 		return pos;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Alias alias = (Alias) o;
+		return lemma.equals(alias.lemma) && ref.equals(alias.ref) && pos.equals(alias.pos) && pbRoleSet.equals(alias.pbRoleSet) && pbWord.equals(alias.pbWord);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(lemma, ref, pos, pbRoleSet, pbWord);
 	}
 
 	// I N S E R T

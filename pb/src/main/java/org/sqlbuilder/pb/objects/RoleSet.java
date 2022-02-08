@@ -103,7 +103,7 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(predicate, name, aliases);
+		return Objects.hash(predicate, name);
 	}
 
 	// O R D E R I N G
