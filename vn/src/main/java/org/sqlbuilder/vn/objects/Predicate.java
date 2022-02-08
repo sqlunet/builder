@@ -81,4 +81,6 @@ public class Predicate implements HasId, Insertable, Comparable<Predicate>
 		// name
 		return String.format("'%s'", name);
 	}
+
+
 }

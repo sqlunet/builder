@@ -85,19 +85,6 @@ public class Role implements HasId, Insertable, Comparable<Role>
 		return COMPARATOR.compare(this, that);
 	}
 
-	@Override
-	public String toString()
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(this.roleType.getType());
-		if (this.restrs != null)
-		{
-			sb.append(' ');
-			sb.append(this.restrs);
-		}
-		return sb.toString();
-	}
-
 	// I N S E R T
 
 	@RequiresIdFrom(type = RoleType.class)
@@ -111,5 +98,26 @@ public class Role implements HasId, Insertable, Comparable<Role>
 		return String.format("%d,%s", //
 				roleType.getIntId(), //
 				Utils.nullable(restrs, HasId::getSqlId));
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s", roleType.getType());
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append(this.roleType.getType());
+		if (this.restrs != null)
+		{
+			sb.append(' ');
+			sb.append(this.restrs);
+		}
+		return sb.toString();
 	}
 }

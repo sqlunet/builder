@@ -91,4 +91,10 @@ public class Predicate_Semantics implements Insertable, Comparable<Predicate_Sem
 				predicate.getIntId(), //
 				semantics.getIntId());
 	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s", predicate.getName());
+	}
 }
