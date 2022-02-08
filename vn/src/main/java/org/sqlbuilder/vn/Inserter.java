@@ -68,11 +68,11 @@ public class Inserter
 			// from pass4
 			Insert.insert(VnWord.COLLECTOR, new File(outDir, Names.file("words")), Names.table("words"), Names.columns("words"));
 
-			Insert.insert(Class_Word.SET, null, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
-			Insert.insert(Class_Role.SET, null, new File(outDir, Names.file("classes_roles")), Names.table("classes_roles"), Names.columns("classes_roles"));
-			Insert.insert(Class_Frame.SET, null, new File(outDir, Names.file("classes_frames")), Names.table("classes_frames"), Names.columns("classes_frames"));
-			Insert.insert(Member_Grouping.SET, null, new File(outDir, Names.file("members_groupings")), Names.table("members_groupings"), Names.columns("members_groupings"));
-			Insert.insert(Member_Sense.SET, null, new File(outDir, Names.file("members_senses")), Names.table("members_senses"), Names.columns("members_senses"));
+			Insert.insert(Class_Word.SET, Class_Word.COMPARATOR, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
+			Insert.insert(Class_Role.SET, Class_Role.COMPARATOR, new File(outDir, Names.file("classes_roles")), Names.table("classes_roles"), Names.columns("classes_roles"));
+			Insert.insert(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, Names.file("classes_frames")), Names.table("classes_frames"), Names.columns("classes_frames"));
+			Insert.insert(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, Names.file("members_groupings")), Names.table("members_groupings"), Names.columns("members_groupings"));
+			Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, Names.file("members_senses")), Names.table("members_senses"), Names.columns("members_senses"));
 		}
 	}
 }

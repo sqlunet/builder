@@ -1,5 +1,6 @@
 package org.sqlbuilder.vn;
 
+import org.sqlbuilder.common.NonNull;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.common.XmlTextUtils;
 import org.sqlbuilder.vn.joins.Frame_Example;
@@ -63,6 +64,7 @@ public class VnDocument
 
 	// C L A S S
 
+	@NonNull
 	public static VnClass makeClass(final Node start)
 	{
 		final Element classElement = (Element) start;
@@ -70,9 +72,10 @@ public class VnDocument
 		return VnClass.make(className);
 	}
 
-	public static Collection<Member> getMembers(final Node start) throws XPathExpressionException
+	@NonNull
+	public static Collection<Member> makeMembers(final Node start) throws XPathExpressionException
 	{
-		List<Member> result = null;
+		List<Member> result = new ArrayList<>();
 		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
 		for (int i = 0; i < memberNodes.getLength(); i++)
 		{
@@ -80,18 +83,15 @@ public class VnDocument
 			final String lemmaAttribute = memberElement.getAttribute("name");
 			final String wnAttribute = memberElement.getAttribute("wn");
 			final String groupingAttribute = memberElement.getAttribute("grouping");
-			Member item = Member.make(lemmaAttribute, wnAttribute, groupingAttribute);
-			if (result == null)
-			{
-				result = new ArrayList<>();
-			}
-			result.add(item);
+			Member member = Member.make(lemmaAttribute, wnAttribute, groupingAttribute);
+			result.add(member);
 		}
 		return result;
 	}
 
 	// G R O U P I N G S
 
+	@NonNull
 	public static Set<Grouping> makeGroupings(final Node start) throws XPathExpressionException
 	{
 		final Set<Grouping> result = new HashSet<>();
@@ -100,7 +100,7 @@ public class VnDocument
 		{
 			final Element memberElement = (Element) memberNodes.item(i);
 			final String groupingAttribute = memberElement.getAttribute("grouping");
-			if (groupingAttribute == null || groupingAttribute.isEmpty())
+			if (groupingAttribute.isEmpty())
 			{
 				continue;
 			}
@@ -116,6 +116,7 @@ public class VnDocument
 
 	// R O L E
 
+	@NonNull
 	public static Set<Role> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final Set<Role> result = new HashSet<>();
@@ -136,6 +137,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<RoleType> makeRoleTypes(final Node start) throws XPathExpressionException
 	{
 		final Collection<RoleType> result = new ArrayList<>();
@@ -154,6 +156,7 @@ public class VnDocument
 
 	// R E S T R
 
+	@NonNull
 	public static Collection<RestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
 	{
 		final Collection<RestrType> result = new ArrayList<>();
@@ -172,6 +175,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<RestrType> makeSynRestrTypes(final Node start) throws XPathExpressionException
 	{
 		final Collection<RestrType> result = new ArrayList<>();
@@ -190,6 +194,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<Restrs> makeSelRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Restrs> result = new ArrayList<>();
@@ -210,6 +215,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<Restrs> makeSynRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Restrs> result = new ArrayList<>();
@@ -232,6 +238,7 @@ public class VnDocument
 
 	// F R A M E
 
+	@NonNull
 	public static List<Frame> makeFrames(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final List<Frame> result = new ArrayList<>();
@@ -253,6 +260,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<FrameName> makeFrameNames(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameName> result = new ArrayList<>();
@@ -269,6 +277,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<FrameSubName> makeFrameSubNames(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameSubName> result = new ArrayList<>();
@@ -289,6 +298,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<FrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameExample> result = new ArrayList<>();
@@ -303,6 +313,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static List<Frame_Example> makeFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final List<Frame_Example> result = new ArrayList<>();
@@ -333,6 +344,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<Syntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Syntax> result = new ArrayList<>();
@@ -347,6 +359,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<Semantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Semantics> result = new ArrayList<>();
@@ -361,6 +374,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static Collection<Predicate> makePredicates(final Node start) throws XPathExpressionException
 	{
 		final Collection<Predicate> result = new ArrayList<>();
@@ -377,6 +391,7 @@ public class VnDocument
 		return result;
 	}
 
+	@NonNull
 	public static List<Predicate_Semantics> makePredicateSemanticsMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{
 		final List<Predicate_Semantics> result = new ArrayList<>();

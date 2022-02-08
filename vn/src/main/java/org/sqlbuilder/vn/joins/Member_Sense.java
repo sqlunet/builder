@@ -13,7 +13,10 @@ import java.util.Set;
 
 public class Member_Sense implements Insertable, Comparable<Member_Sense>
 {
-	static public final Comparator<Member_Sense> COMPARATOR = Comparator.comparing(Member_Sense::getMember).thenComparing(Member_Sense::getSensekey);
+	static public final Comparator<Member_Sense> COMPARATOR = Comparator //
+			.comparing(Member_Sense::getMemberClass) //
+			.thenComparing(Member_Sense::getMemberWord) //
+			.thenComparing(Member_Sense::getSensekey, Comparator.nullsFirst(Comparator.naturalOrder()));
 
 	public static final Set<Member_Sense> SET = new HashSet<>();
 
@@ -47,6 +50,16 @@ public class Member_Sense implements Insertable, Comparable<Member_Sense>
 	public Class_Word getMember()
 	{
 		return member;
+	}
+
+	public VnClass getMemberClass()
+	{
+		return member.clazz;
+	}
+
+	public VnWord getMemberWord()
+	{
+		return member.word;
 	}
 
 	public Sensekey getSensekey()

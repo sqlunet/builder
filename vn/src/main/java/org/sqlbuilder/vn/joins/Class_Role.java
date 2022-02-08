@@ -5,11 +5,14 @@ import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.VnClass;
 import org.sqlbuilder.vn.objects.Role;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Class_Role implements Insertable
 {
+	public static final Comparator<Class_Role> COMPARATOR = Comparator.comparing(Class_Role::getClazz).thenComparing(Class_Role::getRole);
+
 	public static final Set<Class_Role> SET = new HashSet<>();
 
 	private final Role role;
@@ -31,12 +34,16 @@ public class Class_Role implements Insertable
 		this.clazz = clazz;
 	}
 
-	@Override
-	public String comment()
+	// A C C E S S
+
+	public Role getRole()
 	{
-		return String.format("%s,%s",
-				clazz.getName(),
-				role.getRoleType());
+		return role;
+	}
+
+	public VnClass getClazz()
+	{
+		return clazz;
 	}
 
 	// I N S E R T
@@ -49,6 +56,14 @@ public class Class_Role implements Insertable
 		return String.format("%d,%d",
 				clazz.getIntId(),
 				role.getIntId());
+	}
+
+	@Override
+	public String comment()
+	{
+		return String.format("%s,%s",
+				clazz.getName(),
+				role.getRoleType());
 	}
 
 	// T O S T R I N G

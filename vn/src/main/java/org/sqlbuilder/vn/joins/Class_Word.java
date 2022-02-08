@@ -7,6 +7,7 @@ import org.sqlbuilder.vn.objects.VnWord;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Class_Word implements Insertable, Comparable<Class_Word>
@@ -44,6 +45,29 @@ public class Class_Word implements Insertable, Comparable<Class_Word>
 	public VnClass getClazz()
 	{
 		return clazz;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Class_Word that = (Class_Word) o;
+		return clazz.equals(that.clazz) && word.equals(that.word);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(clazz, word);
 	}
 
 	// O R D E R I N G

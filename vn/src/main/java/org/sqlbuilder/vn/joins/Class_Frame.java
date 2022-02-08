@@ -5,11 +5,14 @@ import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Frame;
 import org.sqlbuilder.vn.objects.VnClass;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Class_Frame implements Insertable
 {
+	public static final Comparator<Class_Frame> COMPARATOR = Comparator.comparing(Class_Frame::getClazz).thenComparing(Class_Frame::getFrame);
+
 	public static final Set<Class_Frame> SET = new HashSet<>();
 
 	private final VnClass clazz;
@@ -29,6 +32,18 @@ public class Class_Frame implements Insertable
 	{
 		this.frame = frame;
 		this.clazz = clazz;
+	}
+
+	// A C C E S S
+
+	public VnClass getClazz()
+	{
+		return clazz;
+	}
+
+	public Frame getFrame()
+	{
+		return frame;
 	}
 
 	// I N S E R T

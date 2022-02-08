@@ -6,13 +6,19 @@ public class Progress
 
 	public static void tracePending(final String tag, final String message)
 	{
-		System.err.print(tag + " " + message);
+		System.out.print(tag + " " + message);
 	}
 
 	public static void traceDone(final String message)
 	{
-		// ✅✓✔✖✕✗✘
-		System.err.println(message == null ? " ✓" : " ✘ " + message);
+		if (message == null)
+		{
+			System.out.println(" ✓");
+		}
+		else
+		{
+			System.err.println(" ✘ " + message);
+		}
 	}
 
 	public static void traceHeader(final String tag, final String message)

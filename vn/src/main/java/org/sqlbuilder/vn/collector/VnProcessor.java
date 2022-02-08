@@ -1,10 +1,10 @@
 package org.sqlbuilder.vn.collector;
 
-import org.sqlbuilder.vn.Inherit;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XPathUtils;
+import org.sqlbuilder.vn.Inherit;
 import org.sqlbuilder.vn.VnDocument;
 import org.sqlbuilder.vn.VnModule;
 import org.sqlbuilder.vn.joins.*;
@@ -26,13 +26,10 @@ public class VnProcessor extends Processor
 {
 	protected final String verbNetHome;
 
-	protected int fileCount;
-
 	public VnProcessor(final Properties props)
 	{
 		super("vn");
 		this.verbNetHome = props.getProperty("vnhome", System.getenv().get("VNHOME"));
-		this.fileCount = 0;
 	}
 
 	@Override
@@ -51,41 +48,31 @@ public class VnProcessor extends Processor
 
 		// iterate
 
-		this.fileCount = 0;
+		int fileCount = 0;
 		Progress.traceHeader("reading verbnet files", "");
 		for (final File file : files)
 		{
-			this.fileCount++;
+			fileCount++;
 			processVerbNetFile(file.getAbsolutePath(), file.getName());
-
-			// trace
-			Progress.trace(this.fileCount);
 		}
-		Progress.traceTailer(this.fileCount);
+		Progress.traceTailer(fileCount);
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
 	private void processVerbNetFile(final String fileName, final String name)
 	{
 		final String head = name.split("-")[0];
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("verbnet " + head, "");
-		}
-		long count = 0;
+		Progress.tracePending("verbnet",head);
 		try
 		{
 			final VnDocument document = new VnDocument(fileName);
 			processVerbNetClass(XPathUtils.getXPath(document.getDocument(), "./VNCLASS"), head, null, null);
+			Progress.traceDone(null);
 		}
 		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
 		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
-		}
-
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("verbnet " + head, Long.toString(count));
+			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
+			Progress.traceDone(e.toString());
 		}
 	}
 
@@ -211,7 +198,7 @@ public class VnProcessor extends Processor
 	private static void processMembers(final Node start, final String head, final VnClass clazz) throws XPathExpressionException
 	{
 		// members
-		Collection<Member> members = VnDocument.getMembers(start);
+		Collection<Member> members = VnDocument.makeMembers(start);
 		members.add(Member.make(head, null, null));
 
 		// member

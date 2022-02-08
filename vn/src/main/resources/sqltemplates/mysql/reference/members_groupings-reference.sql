@@ -1,3 +1,3 @@
-ALTER TABLE ${members_groupings.table} ADD CONSTRAINT fk_${members_groupings.table}_${members_groupings.classid} FOREIGN KEY (${members_groupings.classid}) REFERENCES ${classes.table} (${classes.classid});
-ALTER TABLE ${members_groupings.table} ADD CONSTRAINT fk_${members_groupings.table}_${members_groupings.vnwordid} FOREIGN KEY (${members_groupings.vnwordid}) REFERENCES ${words.table} (${words.wordid});
-ALTER TABLE ${members_groupings.table} ADD CONSTRAINT fk_${members_groupings.table}_${members_groupings.groupingid} FOREIGN KEY (${members_groupings.groupingid}) REFERENCES ${groupings.table} (${groupings.groupingid});
+ALTER TABLE ${members_groupings.table} ADD CONSTRAINT `fk_@{members_groupings.table}_@{members_groupings.classid}` FOREIGN KEY (${members_groupings.classid}) REFERENCES ${classes.table} (${classes.classid});
+ALTER TABLE ${members_groupings.table} ADD CONSTRAINT `fk_@{members_groupings.table}_@{members_groupings.vnwordid}` FOREIGN KEY (${members_groupings.vnwordid}) REFERENCES ${words.table} (${words.vnwordid});
+ALTER TABLE ${members_groupings.table} ADD CONSTRAINT `fk_@{members_groupings.table}_@{members_groupings.groupingid}` FOREIGN KEY (${members_groupings.groupingid}) REFERENCES ${groupings.table} (${groupings.groupingid});

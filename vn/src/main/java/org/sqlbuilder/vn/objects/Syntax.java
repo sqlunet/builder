@@ -3,6 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor;
 import org.xml.sax.SAXException;
 
@@ -96,6 +97,6 @@ public class Syntax implements HasId, Insertable, Comparable<Syntax>
 	{
 		// id
 		// syntax
-		return String.format("'%s'", syntax);
+		return String.format("'%s'", Utils.escape(syntax));
 	}
 }
