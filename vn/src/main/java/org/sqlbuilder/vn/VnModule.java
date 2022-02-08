@@ -1,10 +1,7 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.vn.collector.Vn1Processor;
-import org.sqlbuilder.vn.collector.Vn2Processor;
-import org.sqlbuilder.vn.collector.Vn3Processor;
-import org.sqlbuilder.vn.collector.Vn4Processor;
+import org.sqlbuilder.vn.collector.VnProcessor;
 
 import java.io.IOException;
 
@@ -22,10 +19,7 @@ public class VnModule extends Module
 	{
 		try
 		{
-			new Vn1Processor(props).run();
-			new Vn2Processor(props).run();
-			new Vn3Processor(props).run();
-			new Vn4Processor(props).run();
+			new VnProcessor(props).run();
 			new Inserter(props).insert();
 		}
 		catch (Exception e)

@@ -2,7 +2,6 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.common.XmlTextUtils;
-import org.sqlbuilder.vn.objects.Roles_Frames;
 import org.sqlbuilder.vn.joins.Frame_Example;
 import org.sqlbuilder.vn.joins.Predicate_Semantics;
 import org.sqlbuilder.vn.objects.*;
@@ -12,10 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -67,7 +63,14 @@ public class VnDocument
 
 	// C L A S S
 
-	public static Collection<Member> getItems(final Node start) throws XPathExpressionException
+	public static VnClass makeClass(final Node start)
+	{
+		final Element classElement = (Element) start;
+		final String className = classElement.getAttribute("ID");
+		return VnClass.make(className);
+	}
+
+	public static Collection<Member> getMembers(final Node start) throws XPathExpressionException
 	{
 		List<Member> result = null;
 		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
@@ -85,19 +88,6 @@ public class VnDocument
 			result.add(item);
 		}
 		return result;
-	}
-
-	public static String getClassName(final Node start)
-	{
-		final Element classElement = (Element) start;
-		return classElement.getAttribute("ID");
-	}
-
-	public static Roles_Frames getClassData(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
-	{
-		final Set<Role> roles = VnDocument.makeRoles(start);
-		final List<Frame> frames = VnDocument.makeFrames(start);
-		return Roles_Frames.make(roles, frames);
 	}
 
 	// G R O U P I N G S
@@ -289,7 +279,7 @@ public class VnDocument
 			{
 				final Element element = (Element) nodes.item(i);
 				String subName = element.getAttribute("secondary");
-				if (subName != null && !subName.isEmpty())
+				if (!subName.isEmpty())
 				{
 					subName = subName.replaceAll("\\s+", " ");
 					result.add(FrameSubName.make(subName));
@@ -313,7 +303,7 @@ public class VnDocument
 		return result;
 	}
 
-	public static List<Frame_Example> getFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
+	public static List<Frame_Example> makeFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final List<Frame_Example> result = new ArrayList<>();
 		final NodeList frameNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME");
@@ -387,7 +377,7 @@ public class VnDocument
 		return result;
 	}
 
-	public static List<Predicate_Semantics> getPredicateMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
+	public static List<Predicate_Semantics> makePredicateSemanticsMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{
 		final List<Predicate_Semantics> result = new ArrayList<>();
 		final NodeList semanticsNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS");
@@ -409,27 +399,5 @@ public class VnDocument
 			}
 		}
 		return result;
-	}
-
-	// URI
-
-	public String getFileName()
-	{
-		final String uriString = getDocument().getDocumentURI();
-		if (uriString != null)
-		{
-			try
-			{
-				final URI uri = new URI(uriString);
-				final String path = uri.getPath();
-				final File file = new File(path);
-				return file.getName();
-			}
-			catch (URISyntaxException e)
-			{
-				//
-			}
-		}
-		return null;
 	}
 }
