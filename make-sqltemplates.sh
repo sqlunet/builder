@@ -19,13 +19,13 @@ for m in ${modules}; do
     b="`basename ${f}`"
     echo -e "${M}${b}${Z}"
     cat ${f} | ./template-mysql-filter.py > "${f2}"
-    rm "${f}"; mv "${f2}" "${f}"
+    mv -f "${f2}" "${f}"
    done
   for f in ${m}/${templates_home}/mysql/reference/*.sql; do
     f2="${f}.tmp"
     b="`basename ${f}`"
     echo -e "${M}${b}${Z}"
     cat ${f} | ./template-mysql-filter.py > "${f2}"
-    rm "${f}"; mv "${f2}" "${f}"
+    mv -f "${f2}" "${f}"
  done
 done

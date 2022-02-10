@@ -37,59 +37,67 @@ public class SchemaGenerator
 			compat = true;
 			args = Arrays.copyOfRange(args, 1, args.length);
 		}
-		ResourceBundle bundle = ResourceBundle.getBundle(compat ? "NamesCompat" : "Names");
+
+		String module = args[0];
+		String output = args[1];
+		String inputSubdir = args[2];
+		String[] inputs = Arrays.copyOfRange(args, 3, args.length);
+
+		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
 		Variables.set(bundle);
-		new SchemaGenerator().generate(args);
+		new SchemaGenerator().generate(module, output, inputSubdir, inputs);
 	}
 
 	/**
 	 * Generate schema
 	 *
-	 * @param args command-line arguments
+	 * @param module      module
+	 * @param output      output
+	 * @param inputSubdir input subdir (from sqltemplates/)
+	 * @param inputs      input files (or null if all)
 	 * @throws IOException io exception
 	 */
-	public void generate(String[] args) throws IOException
+	public void generate(final String module, final String output, final String inputSubdir, final String[] inputs) throws IOException
 	{
-		File output = null;
+		File outputFileOrDir = null;
 
 		// Output
-		String arg1 = args[0];
-		if (!"-".equals(arg1))
+		if (!"-".equals(output))
 		{
-			if (arg1.endsWith(".sql"))
+			// output is not console
+			if (output.endsWith(".sql"))
 			{
-				System.err.println("Output to file " + arg1);
-				output = new File(arg1);
-				if (output.exists())
+				// output is plain sql file
+				System.err.println("Output to file " + output);
+				outputFileOrDir = new File(output);
+				if (outputFileOrDir.exists())
 				{
-					System.err.println("Overwrite " + output.getAbsolutePath());
+					System.err.println("Overwrite " + outputFileOrDir.getAbsolutePath());
 					System.exit(1);
 				}
 				//noinspection ResultOfMethodCallIgnored
-				output.createNewFile();
+				outputFileOrDir.createNewFile();
 			}
 			else
 			{
-				output = new File(arg1);
-				if (!output.exists())
+				// multiple outputs as per inputs
+				outputFileOrDir = new File(output);
+				if (!outputFileOrDir.exists())
 				{
 					// System.err.println("Output to new dir " + arg1);
 					//noinspection ResultOfMethodCallIgnored
-					output.mkdirs();
+					outputFileOrDir.mkdirs();
 				}
 			}
 		}
 
 		// Input
-		String inputSubdir = args[1];
-		String[] inputs = Arrays.copyOfRange(args, 2, args.length);
-
 		// Single output if console or file
-		if (output == null || output.isFile())
+		if (outputFileOrDir == null || outputFileOrDir.isFile())
 		{
-			try (PrintStream ps = output == null ? System.out : new PrintStream(output))
+			try (PrintStream ps = outputFileOrDir == null ? System.out : new PrintStream(outputFileOrDir))
 			{
-				processTemplates(inputSubdir, inputs, (is, name) -> {
+				processTemplates(module, inputSubdir, inputs, (is, name) -> {
 
 					try
 					{
@@ -104,10 +112,10 @@ public class SchemaGenerator
 		}
 
 		// Multiple outputs if output is directory
-		else if (output.isDirectory())
+		else if (outputFileOrDir.isDirectory())
 		{
-			final File dir = output;
-			processTemplates(inputSubdir, inputs, (is, name) -> {
+			final File dir = outputFileOrDir;
+			processTemplates(module, inputSubdir, inputs, (is, name) -> {
 
 				System.err.println(name);
 				File output2 = new File(dir, name);
@@ -130,12 +138,13 @@ public class SchemaGenerator
 	/**
 	 * Process input template files
 	 *
+	 * @param module   module
 	 * @param path     path of inputs
 	 * @param inputs   inputs
 	 * @param consumer string consumer
 	 * @throws IOException io exception
 	 */
-	private void processTemplates(final String path, final String[] inputs, final BiConsumer<InputStream, String> consumer) throws IOException
+	private void processTemplates(final String module, final String path, final String[] inputs, final BiConsumer<InputStream, String> consumer) throws IOException
 	{
 		// external resources
 		if (inputs != null && inputs.length > 0)
@@ -157,7 +166,7 @@ public class SchemaGenerator
 		if (jarFile.isFile())
 		{
 			// Run with JAR file
-			String prefix = "sqltemplates/" + path + "/";
+			String prefix = module + "/sqltemplates/" + path + "/";
 			try (final JarFile jar = new JarFile(jarFile))
 			{
 				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
@@ -185,7 +194,7 @@ public class SchemaGenerator
 		else
 		{
 			// Run with IDE
-			final URL url = SchemaGenerator.class.getResource("/sqltemplates/" + path);
+			final URL url = SchemaGenerator.class.getResource("/" + module + "/sqltemplates/" + path);
 			if (url != null)
 			{
 				try
