@@ -1,3 +1,3 @@
-CREATE INDEX `k_@{rolesets.table}_@{rolesets.rolesethead}` ON ${rolesets.table} (${rolesets.rolesethead});
-CREATE INDEX `k_@{rolesets.table}_@{rolesets.rolesetname}` ON ${rolesets.table} (${rolesets.rolesetname});
-CREATE INDEX `k_@{rolesets.table}_@{rolesets.pbwordid}` ON ${rolesets.table} (${rolesets.pbwordid});
+ALTER TABLE ${rolesets.table} ADD KEY `k_@{rolesets.table}_@{rolesets.rolesethead}` (${rolesets.rolesethead});
+ALTER TABLE ${rolesets.table} ADD KEY `k_@{rolesets.table}_@{rolesets.rolesetname}` (${rolesets.rolesetname});
+ALTER TABLE ${rolesets.table} ADD KEY `k_@{rolesets.table}_@{rolesets.pbwordid}` (${rolesets.pbwordid});

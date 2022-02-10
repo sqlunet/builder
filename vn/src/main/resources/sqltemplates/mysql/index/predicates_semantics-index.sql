@@ -1,2 +1,2 @@
-CREATE INDEX `k_@{predicates_semantics.table}_@{predicates_semantics.semanticsid}` ON ${predicates_semantics.table} (${predicates_semantics.semanticsid});
-CREATE INDEX `k_@{predicates_semantics.table}_@{predicates_semantics.predicateid}` ON ${predicates_semantics.table} (${predicates_semantics.predicateid});
+ALTER TABLE ${predicates_semantics.table} ADD KEY `k_@{predicates_semantics.table}_@{predicates_semantics.semanticsid}` (${predicates_semantics.semanticsid});
+ALTER TABLE ${predicates_semantics.table} ADD KEY `k_@{predicates_semantics.table}_@{predicates_semantics.predicateid}` (${predicates_semantics.predicateid});

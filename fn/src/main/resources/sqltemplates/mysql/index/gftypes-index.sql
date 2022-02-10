@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uk_@{gftypes.table}_@{gftypes.gf}` ON ${gftypes.table} (${gftypes.gf});
+ALTER TABLE ${gftypes.table} ADD CONSTRAINT `uk_@{gftypes.table}_@{gftypes.gf}` UNIQUE KEY (${gftypes.gf});

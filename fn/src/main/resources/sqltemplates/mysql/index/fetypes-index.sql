@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uk_@{fetypes.table}_@{fetypes.fetype}` ON ${fetypes.table} (${fetypes.fetype});
+ALTER TABLE ${fetypes.table} ADD CONSTRAINT `uk_@{fetypes.table}_@{fetypes.fetype}` UNIQUE KEY (${fetypes.fetype});

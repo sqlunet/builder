@@ -1,1 +1,1 @@
-CREATE INDEX `k_@{args.table}_@{args.arg}` ON ${args.table} (${args.arg}(100));
+ALTER TABLE ${args.table} ADD KEY `k_@{args.table}_@{args.arg}` (${args.arg}(100));

@@ -1,2 +1,2 @@
-CREATE INDEX `k_@{annosets.table}_@{annosets.frameid}` ON ${annosets.table} (${annosets.frameid});
-CREATE INDEX `k_@{annosets.table}_@{annosets.luid}` ON ${annosets.table} (${annosets.luid});
+ALTER TABLE ${annosets.table} ADD KEY `k_@{annosets.table}_@{annosets.frameid}` (${annosets.frameid});
+ALTER TABLE ${annosets.table} ADD KEY `k_@{annosets.table}_@{annosets.luid}` (${annosets.luid});

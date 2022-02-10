@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uk_@{poses.table}_@{poses.pos}` ON ${poses.table} (${poses.pos});
+ALTER TABLE ${poses.table} ADD CONSTRAINT `uk_@{poses.table}_@{poses.pos}` UNIQUE KEY (${poses.pos});

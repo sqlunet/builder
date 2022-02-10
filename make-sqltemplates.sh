@@ -13,11 +13,19 @@ modules="bnc vn pb fn sn"
 
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
-  pushd "${m}/${templates_home}" > /dev/null
-  echo -e "mysql -> sqlite/"
-  #cp -Rp "mysql/create" "mysql/index" "sqlite/"
-  for f in mysql/index/*; do
-    cat ${f}
-  done
-  popd > /dev/null
+  #cp -Rp "${m}/${templates_home}/mysql/create" "${m}/${templates_home}/mysql/index" "${m}/${templates_home}/sqlite/"
+  for f in ${m}/${templates_home}/mysql/index/*.sql; do
+    f2="${f}.tmp"
+    b="`basename ${f}`"
+    echo -e "${M}${b}${Z}"
+    cat ${f} | ./template-mysql-filter.py > "${f2}"
+    rm "${f}"; mv "${f2}" "${f}"
+   done
+  for f in ${m}/${templates_home}/mysql/reference/*.sql; do
+    f2="${f}.tmp"
+    b="`basename ${f}`"
+    echo -e "${M}${b}${Z}"
+    cat ${f} | ./template-mysql-filter.py > "${f2}"
+    rm "${f}"; mv "${f2}" "${f}"
+ done
 done

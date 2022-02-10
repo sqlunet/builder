@@ -1,3 +1,3 @@
-CREATE UNIQUE INDEX `uniq_@{classes_frames.table}_@{classes_frames.classid}_@{classes_frames.frameid}` ON ${classes_frames.table} (${classes_frames.classid},${classes_frames.frameid});
-CREATE INDEX `k_@{classes_frames.table}_@{classes_frames.classid}` ON ${classes_frames.table} (${classes_frames.classid});
-CREATE INDEX `k_@{classes_frames.table}_@{classes_frames.frameid}` ON ${classes_frames.table} (${classes_frames.frameid});
+ALTER TABLE ${classes_frames.table} ADD CONSTRAINT `uniq_@{classes_frames.table}_@{classes_frames.classid}_@{classes_frames.frameid}` UNIQUE KEY (${classes_frames.classid},${classes_frames.frameid});
+ALTER TABLE ${classes_frames.table} ADD KEY `k_@{classes_frames.table}_@{classes_frames.classid}` (${classes_frames.classid});
+ALTER TABLE ${classes_frames.table} ADD KEY `k_@{classes_frames.table}_@{classes_frames.frameid}` (${classes_frames.frameid});

@@ -1,2 +1,2 @@
-CREATE UNIQUE INDEX `uniq_@{classes.table}_@{classes.class}` ON ${classes.table} (${classes.class});
-CREATE UNIQUE INDEX `uniq_@{classes.table}_@{classes.classtag}` ON ${classes.table} (${classes.classtag});
+ALTER TABLE ${classes.table} ADD CONSTRAINT `uniq_@{classes.table}_@{classes.class}` UNIQUE KEY (${classes.class});
+ALTER TABLE ${classes.table} ADD CONSTRAINT `uniq_@{classes.table}_@{classes.classtag}` UNIQUE KEY (${classes.classtag});

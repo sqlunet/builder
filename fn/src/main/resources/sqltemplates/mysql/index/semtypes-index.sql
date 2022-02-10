@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uk_@{semtypes.table}_@{semtypes.semtype}` ON ${semtypes.table} (${semtypes.semtype});
+ALTER TABLE ${semtypes.table} ADD CONSTRAINT `uk_@{semtypes.table}_@{semtypes.semtype}` UNIQUE KEY (${semtypes.semtype});

@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uk_@{coretypes.table}_@{coretypes.coretype}` ON ${coretypes.table} (${coretypes.coretype});
+ALTER TABLE ${coretypes.table} ADD CONSTRAINT `uk_@{coretypes.table}_@{coretypes.coretype}` UNIQUE KEY (${coretypes.coretype});

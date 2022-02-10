@@ -1,2 +1,2 @@
-CREATE INDEX `k_@{roles.table}_@{roles.roledescr}` ON ${roles.table} (${roles.roledescr});
-CREATE INDEX `k_@{roles.table}_@{roles.rolesetid}` ON ${roles.table} (${roles.rolesetid});
+ALTER TABLE ${roles.table} ADD KEY `k_@{roles.table}_@{roles.roledescr}` (${roles.roledescr});
+ALTER TABLE ${roles.table} ADD KEY `k_@{roles.table}_@{roles.rolesetid}` (${roles.rolesetid});

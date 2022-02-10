@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uk_@{pttypes.table}_@{pttypes.pt}` ON ${pttypes.table} (${pttypes.pt});
+ALTER TABLE ${pttypes.table} ADD CONSTRAINT `uk_@{pttypes.table}_@{pttypes.pt}` UNIQUE KEY (${pttypes.pt});

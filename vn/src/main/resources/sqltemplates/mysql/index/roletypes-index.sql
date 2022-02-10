@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uniq_@{roletypes.table}_@{roletypes.roletype}` ON ${roletypes.table} (${roletypes.roletype});
+ALTER TABLE ${roletypes.table} ADD CONSTRAINT `uniq_@{roletypes.table}_@{roletypes.roletype}` UNIQUE KEY (${roletypes.roletype});

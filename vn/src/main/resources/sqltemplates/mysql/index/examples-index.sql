@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uniq_@{examples.table}_@{examples.example}` ON ${examples.table} (${examples.example});
+ALTER TABLE ${examples.table} ADD CONSTRAINT `uniq_@{examples.table}_@{examples.example}` UNIQUE KEY (${examples.example});

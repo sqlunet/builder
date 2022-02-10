@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uniq_@{framesubnames.table}_@{framesubnames.framesubname}` ON ${framesubnames.table} (${framesubnames.framesubname});
+ALTER TABLE ${framesubnames.table} ADD CONSTRAINT `uniq_@{framesubnames.table}_@{framesubnames.framesubname}` UNIQUE KEY (${framesubnames.framesubname});

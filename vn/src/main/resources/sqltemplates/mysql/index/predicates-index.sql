@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `uniq_@{predicates.table}_@{predicates.predicate}` ON ${predicates.table} (${predicates.predicate});
+ALTER TABLE ${predicates.table} ADD CONSTRAINT `uniq_@{predicates.table}_@{predicates.predicate}` UNIQUE KEY (${predicates.predicate});

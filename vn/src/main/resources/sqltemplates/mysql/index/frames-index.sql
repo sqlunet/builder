@@ -1,6 +1,6 @@
--- CREATE UNIQUE INDEX `uniq_@{frames.table}_@{frames.number}_@{frames.xtag}_@{frames.framenameid}_@{frames.framesubnameid}_@{frames.syntaxid}_@{frames.semanticsid}` ON ${frames.table} (${frames.number},${frames.xtag},${frames.framenameid},${frames.framesubnameid},${frames.syntaxid},${frames.semanticsid});
-CREATE UNIQUE INDEX `uniq_@{frames.table}_all` ON ${frames.table} (${frames.number},${frames.xtag},${frames.framenameid},${frames.framesubnameid},${frames.syntaxid},${frames.semanticsid});
-CREATE INDEX `k_@{frames.table}_@{frames.framenameid}` ON ${frames.table} (${frames.framenameid});
-CREATE INDEX `k_@{frames.table}_@{frames.framesubnameid}` ON ${frames.table} (${frames.framesubnameid});
-CREATE INDEX `k_@{frames.table}_@{frames.syntaxid}` ON ${frames.table} (${frames.syntaxid});
-CREATE INDEX `k_@{frames.table}_@{frames.semanticsid}` ON ${frames.table} (${frames.semanticsid});
+-- ALTER TABLE ${frames.table} ADD CONSTRAINT `uniq_@{frames.table}_@{frames.number}_@{frames.xtag}_@{frames.framenameid}_@{frames.framesubnameid}_@{frames.syntaxid}_@{frames.semanticsid}` UNIQUE KEY (${frames.number},${frames.xtag},${frames.framenameid},${frames.framesubnameid},${frames.syntaxid},${frames.semanticsid});
+ALTER TABLE ${frames.table} ADD CONSTRAINT `uniq_@{frames.table}_all` UNIQUE KEY (${frames.number},${frames.xtag},${frames.framenameid},${frames.framesubnameid},${frames.syntaxid},${frames.semanticsid});
+ALTER TABLE ${frames.table} ADD KEY `k_@{frames.table}_@{frames.framenameid}` (${frames.framenameid});
+ALTER TABLE ${frames.table} ADD KEY `k_@{frames.table}_@{frames.framesubnameid}` (${frames.framesubnameid});
+ALTER TABLE ${frames.table} ADD KEY `k_@{frames.table}_@{frames.syntaxid}` (${frames.syntaxid});
+ALTER TABLE ${frames.table} ADD KEY `k_@{frames.table}_@{frames.semanticsid}` (${frames.semanticsid});

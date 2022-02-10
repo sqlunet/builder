@@ -1,2 +1,2 @@
-CREATE INDEX `k_@{lexemes.table}_@{lexemes.luid}` ON ${lexemes.table} (${lexemes.luid});
-CREATE INDEX `k_@{lexemes.table}_@{lexemes.fnwordid}` ON ${lexemes.table} (${lexemes.fnwordid});
+ALTER TABLE ${lexemes.table} ADD KEY `k_@{lexemes.table}_@{lexemes.luid}` (${lexemes.luid});
+ALTER TABLE ${lexemes.table} ADD KEY `k_@{lexemes.table}_@{lexemes.fnwordid}` (${lexemes.fnwordid});
