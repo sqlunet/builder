@@ -1,7 +1,12 @@
 package org.sqlbuilder.pb.foreign;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 public class VnRole implements Comparable<VnRole>
 {
+	static public final Comparator<VnRole> COMPARATOR = Comparator.comparing(VnRole::getVnClass).thenComparing(VnRole::getVnTheta);
+
 	private final VnClass vnClass;
 
 	private final String vnTheta;
@@ -34,43 +39,31 @@ public class VnRole implements Comparable<VnRole>
 	// I D E N T I T Y
 
 	@Override
-	public int hashCode()
+	public boolean equals(final Object o)
 	{
-		return 31 * (this.vnClass == null ? 0 : this.vnClass.hashCode()) + 7 * (this.vnTheta == null ? 0 : this.vnTheta.hashCode());
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		VnRole vnRole = (VnRole) o;
+		return vnClass.equals(vnRole.vnClass) && vnTheta.equals(vnRole.vnTheta);
 	}
 
 	@Override
-	public boolean equals(final Object obj)
+	public int hashCode()
 	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final VnRole other = (VnRole) obj;
-		if (this.vnClass == null)
-		{
-			if (other.vnClass != null)
-				return false;
-		}
-		else if (!this.vnClass.equals(other.vnClass))
-			return false;
-		if (this.vnTheta == null)
-			return other.vnTheta == null;
-		else
-			return this.vnTheta.equals(other.vnTheta);
+		return Objects.hash(vnClass, vnTheta);
 	}
 
 	// O R D E R I N G
 
-	@Override
-	public int compareTo(final VnRole other)
+	public int compareTo(final VnRole that)
 	{
-		final int c = this.vnClass.compareTo(other.vnClass);
-		if (c != 0)
-			return c;
-		return this.vnTheta.compareTo(other.vnTheta);
+		return COMPARATOR.compare(this, that);
 	}
 
 	// T O S T R I N G

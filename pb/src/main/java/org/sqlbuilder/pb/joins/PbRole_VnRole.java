@@ -8,6 +8,7 @@ import org.sqlbuilder.pb.objects.RoleSet;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class PbRole_VnRole implements Insertable
@@ -45,6 +46,29 @@ public class PbRole_VnRole implements Insertable
 	public VnRole getVnRole()
 	{
 		return vnRole;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		PbRole_VnRole that = (PbRole_VnRole) o;
+		return role.equals(that.role) && vnRole.equals(that.vnRole);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(role, vnRole);
 	}
 
 	// I N S E R T

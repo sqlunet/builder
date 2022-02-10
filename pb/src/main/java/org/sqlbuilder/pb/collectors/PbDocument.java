@@ -103,10 +103,10 @@ public class PbDocument extends XmlDocument
 					{
 						final Element aliasElement = (Element) aliasRoleNodes.item(l);
 						final String pos = aliasElement.getAttribute("pos").trim();
-						final String lemma = aliasElement.getTextContent().trim();
+						final String word2 = aliasElement.getTextContent().trim();
 
 						// alias word
-						PbWord pbword2 = PbWord.make(lemma);
+						PbWord pbword2 = PbWord.make(word2);
 
 						// alias word as roleset member
 						Member.make(roleSet, pbword2);
@@ -123,7 +123,7 @@ public class PbDocument extends XmlDocument
 								{
 									continue;
 								}
-								final Alias alias = Alias.make(Alias.Db.VERBNET, clazz, pos, lemma, roleSet, pbword);
+								final Alias alias = Alias.make(Alias.Db.VERBNET, clazz, pos, roleSet, pbword2);
 								aliases.add(alias);
 							}
 						}
@@ -140,7 +140,7 @@ public class PbDocument extends XmlDocument
 								{
 									continue;
 								}
-								final Alias alias = Alias.make(Alias.Db.FRAMENET, frame, pos, lemma, roleSet, pbword);
+								final Alias alias = Alias.make(Alias.Db.FRAMENET, frame, pos, roleSet, pbword2);
 								aliases.add(alias);
 							}
 						}

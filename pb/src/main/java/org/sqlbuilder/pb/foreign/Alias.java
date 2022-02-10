@@ -13,7 +13,6 @@ public abstract class Alias implements Insertable
 	public static final Comparator<? extends Alias> COMPARATOR = Comparator //
 			.comparing(Alias::getPbRoleSet) //
 			.thenComparing(Alias::getPbWord) //
-			.thenComparing(Alias::getLemma) //
 			.thenComparing(Alias::getRef) //
 			.thenComparing(Alias::getPos);
 
@@ -22,29 +21,26 @@ public abstract class Alias implements Insertable
 		VERBNET, FRAMENET
 	}
 
-	private final String lemma;
+	protected final String ref;
 
-	private final String ref;
+	protected final String pos;
 
-	private final String pos;
+	protected final RoleSet pbRoleSet;
 
-	private final RoleSet pbRoleSet;
-
-	private final PbWord pbWord;
+	protected final PbWord pbWord;
 
 	// C O N S T R U C T
 
-	public static Alias make(final Db db, final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	public static Alias make(final Db db, final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
-		var a = db.equals(Db.VERBNET) ? VnAlias.make(clazz, pos, lemma, pbRoleSet, pbWord) : (db.equals(Db.FRAMENET) ? FnAlias.make(clazz, pos, lemma, pbRoleSet, pbWord) : null);
+		var a = db.equals(Db.VERBNET) ? VnAlias.make(clazz, pos, pbRoleSet, pbWord) : (db.equals(Db.FRAMENET) ? FnAlias.make(clazz, pos, pbRoleSet, pbWord) : null);
 		return a;
 	}
 
-	protected Alias(final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	protected Alias(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
 		this.ref = clazz;
 		this.pos = "j".equals(pos) ? "a" : pos;
-		this.lemma = lemma;
 		this.pbRoleSet = pbRoleSet;
 		this.pbWord = pbWord;
 	}
@@ -59,11 +55,6 @@ public abstract class Alias implements Insertable
 	public PbWord getPbWord()
 	{
 		return pbWord;
-	}
-
-	public String getLemma()
-	{
-		return lemma;
 	}
 
 	public String getRef()
@@ -89,14 +80,14 @@ public abstract class Alias implements Insertable
 		{
 			return false;
 		}
-		Alias alias = (Alias) o;
-		return lemma.equals(alias.lemma) && ref.equals(alias.ref) && pos.equals(alias.pos) && pbRoleSet.equals(alias.pbRoleSet) && pbWord.equals(alias.pbWord);
+		Alias that = (Alias) o;
+		return ref.equals(that.ref) && pos.equals(that.pos) && pbRoleSet.equals(that.pbRoleSet) && pbWord.equals(that.pbWord);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(lemma, ref, pos, pbRoleSet, pbWord);
+		return Objects.hash(ref, pos, pbRoleSet, pbWord);
 	}
 
 	// I N S E R T
@@ -107,23 +98,23 @@ public abstract class Alias implements Insertable
 	public String dataRow()
 	{
 		// rolesetid,refid,ref,pos,pbwordid
-		return String.format("%d,%s,'%s','%s',%d", //
+		return String.format("%d,'%s',%d,%s,'%s'", //
 				pbRoleSet.getIntId(), //
-				"NULL", //
-				ref,
 				pos, //
-				pbWord.getIntId());
+				pbWord.getIntId(), //
+				"NULL", //
+				ref);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", pbRoleSet.getName(), lemma);
+		return String.format("%s,%s", pbRoleSet.getName(), pbWord.word);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("%s,%s,%s", ref, pos, lemma);
+		return String.format("%s,%s,%s", ref, pos, pbWord.word);
 	}
 }

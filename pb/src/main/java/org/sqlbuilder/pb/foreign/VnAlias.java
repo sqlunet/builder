@@ -13,7 +13,6 @@ public class VnAlias extends Alias implements Insertable
 	public static final Comparator<VnAlias> COMPARATOR = Comparator //
 			.comparing(VnAlias::getPbRoleSet) //
 			.thenComparing(VnAlias::getPbWord) //
-			.thenComparing(VnAlias::getLemma) //
 			.thenComparing(VnAlias::getRef) //
 			.thenComparing(VnAlias::getPos);
 
@@ -21,15 +20,15 @@ public class VnAlias extends Alias implements Insertable
 
 	// C O N S T R U C T
 
-	public static VnAlias make(final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	public static VnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
-		var a = new VnAlias(clazz, pos, lemma, pbRoleSet, pbWord);
+		var a = new VnAlias(clazz, pos, pbRoleSet, pbWord);
 		SET.add(a);
 		return a;
 	}
 
-	protected VnAlias(final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	protected VnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
-		super(clazz, pos, lemma, pbRoleSet, pbWord);
+		super(clazz, pos, pbRoleSet, pbWord);
 	}
 }

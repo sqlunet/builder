@@ -12,7 +12,6 @@ public class FnAlias extends Alias
 	public static final Comparator<FnAlias> COMPARATOR = Comparator //
 			.comparing(FnAlias::getPbRoleSet) //
 			.thenComparing(FnAlias::getPbWord) //
-			.thenComparing(FnAlias::getLemma) //
 			.thenComparing(FnAlias::getRef) //
 			.thenComparing(FnAlias::getPos);
 
@@ -20,15 +19,15 @@ public class FnAlias extends Alias
 
 	// C O N S T R U C T
 
-	public static FnAlias make(final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	public static FnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
-		var a = new FnAlias(clazz, pos, lemma, pbRoleSet, pbWord);
+		var a = new FnAlias(clazz, pos, pbRoleSet, pbWord);
 		SET.add(a);
 		return a;
 	}
 
-	private FnAlias(final String clazz, final String pos, final String lemma, final RoleSet pbRoleSet, final PbWord pbWord)
+	private FnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
-		super(clazz, pos, lemma, pbRoleSet, pbWord);
+		super(clazz, pos, pbRoleSet, pbWord);
 	}
 }

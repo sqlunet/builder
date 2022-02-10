@@ -38,7 +38,7 @@ public class VnClass implements Comparable<VnClass>
 
 	public String getClassName()
 	{
-		return String.format("%s-%s", this.head == null ? "%" : this.head, this.classTag);
+		return String.format("%s-%s", head == null ? "%" : head, classTag);
 	}
 
 	// I D E N T I T Y
@@ -54,8 +54,8 @@ public class VnClass implements Comparable<VnClass>
 		{
 			return false;
 		}
-		VnClass vnClass = (VnClass) o;
-		return Objects.equals(head, vnClass.head) && classTag.equals(vnClass.classTag);
+		VnClass that = (VnClass) o;
+		return Objects.equals(head, that.head) && classTag.equals(that.classTag);
 	}
 
 	@Override
@@ -77,6 +77,6 @@ public class VnClass implements Comparable<VnClass>
 	@Override
 	public String toString()
 	{
-		return String.format("<%s>", this.classTag);
+		return String.format("<%s>", classTag);
 	}
 }

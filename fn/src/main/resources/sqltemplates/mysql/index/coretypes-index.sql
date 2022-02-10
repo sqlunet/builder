@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `unq_@{coretypes.table}_@{coretypes.coretype}` ON ${coretypes.table} (${coretypes.coretype});
+CREATE UNIQUE INDEX `uk_@{coretypes.table}_@{coretypes.coretype}` ON ${coretypes.table} (${coretypes.coretype});
