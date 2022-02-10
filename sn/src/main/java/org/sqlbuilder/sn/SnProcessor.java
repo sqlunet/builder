@@ -26,7 +26,7 @@ public class SnProcessor extends Processor
 {
 	protected final File snHome;
 
-	protected final File outDir;
+	protected File outDir;
 
 	protected final Properties conf;
 
@@ -38,22 +38,22 @@ public class SnProcessor extends Processor
 	{
 		super("sn");
 		this.conf = conf;
-		this.snHome = new File(conf.getProperty("snhome", System.getenv().get("SNHOME")));
-		this.outDir = new File(conf.getProperty("snoutdir", "sql/data"));
+		this.snHome = new File(conf.getProperty("sn_home", System.getenv().get("SNHOME")));
+		this.outDir = new File(conf.getProperty("sn_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
 		}
 
 		// resolve
-		File toSensekeys = new File(conf.getProperty("tosensekeys"));
+		File toSensekeys = new File(conf.getProperty("to_sensekeys"));
 		this.toSenseKeys = DeSerialize.deserialize(toSensekeys);
 	}
 
 	@Override
 	public void run() throws IOException
 	{
-		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
+		final String snMain = conf.getProperty("sn_file", "SYNTAGNET.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
 			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagms"), Names.columns("syntagms"));

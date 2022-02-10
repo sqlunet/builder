@@ -34,14 +34,17 @@ public class SnResolvingProcessor extends SnProcessor
 		super(conf);
 
 		// resolve
-		File senseNIDS = new File(conf.getProperty("sensenids"));
+		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data"));
+
+		// resolve
+		File senseNIDS = new File(conf.getProperty("sense_nids"));
 		this.senseNIDs = DeSerialize.deserialize(senseNIDS);
 	}
 
 	@Override
 	public void run() throws IOException
 	{
-		final String snMain = conf.getProperty("snfile", "SYNTAGNET.txt");
+		final String snMain = conf.getProperty("sn_file", "SYNTAGNET.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
 			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagms"), Names.columns("syntagms"));
