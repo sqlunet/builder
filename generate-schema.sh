@@ -26,30 +26,48 @@ if [ "${module}" == "" ]; then
   echo "No module"
   exit 1
 fi
+modules="${module}"
+if [ "${modules}" == "all" ]; then
+  modules="bnc vn pb fn sn"
+  echo "All modules: ${modules}"
+fi
+shift
 
 # outdir
-outdir="$1"
-shift
-if [ "${outdir}" == "" ]; then
-  outdir="${module}/sql"
+outbase="$1"
+if [ "${outbase}" == "" ]; then
+  outbase="sql"
 fi
+shift
 
 # inputs
-if [ "$*" != "" ]; then
-  # limited
-  indir="$1"
-  shift
-  for sql in $*; do
-    base=$(basename ${sql})
-    java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
-  done
-else
-  # all
-  echo -e "${C}$(readlink -f ${outdir})${Z}"
-  for db in mysql sqlite; do
-    for type in create index reference; do
-      echo -e "${M}${db}/${type}${Z}"
-      java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
+indir="$1"
+shift
+inputs="$*"
+
+for module in ${modules}; do
+  echo -e "${Y}${module}${Z}"
+  if [ "${outbase}" != "" ]; then
+     outdir="${module}/${outbase}"
+  else
+    outdir="${outbase}"
+  fi
+
+  # inputs
+  if [ "${inputs}" != "" ]; then
+    # specified sqls
+    for sql in ${inputs}; do
+      base=$(basename ${sql})
+      java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
     done
-  done
-fi
+  else
+    # all sqls
+    echo -e "${C}$(readlink -f ${outdir})${Z}"
+    for db in mysql sqlite; do
+      for type in create index reference; do
+        echo -e "${M}${db}/${type}${Z}"
+        java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
+      done
+    done
+  fi
+done
