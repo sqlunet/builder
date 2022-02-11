@@ -28,8 +28,6 @@ def replace(s1,s2,line):
 		pass
 	return line2
 
-#print("DIFF", file=sys.stderr)
-
 dump=False
 lines=sys.__stdin__.readlines()
 for i in range(len(lines)):

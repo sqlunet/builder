@@ -1,5 +1,1 @@
-CREATE TABLE IF NOT EXISTS ${fegrouprealizations.table} (
-    ${fegrouprealizations.fegrid} INTEGER NOT NULL,
-    ${fegrouprealizations.luid} INTEGER,
-    ${fegrouprealizations.total} INTEGER,
-PRIMARY KEY (${fegrouprealizations.fegrid}) );
+CREATE TABLE IF NOT EXISTS ${fegrouprealizations.table} ( ${fegrouprealizations.fegrid} INTEGER NOT NULL, ${fegrouprealizations.luid} INTEGER, ${fegrouprealizations.total} INTEGER,PRIMARY KEY (${fegrouprealizations.fegrid}) );

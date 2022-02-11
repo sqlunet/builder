@@ -2,7 +2,7 @@
   <configuration default="false" name="SchemaGenerator (fn anchor)" type="Application" factoryName="Application" folderName="FN Generate Schema">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="fn" />
-    <option name="PROGRAM_PARAMETERS" value="sql/mysql/anchor mysql/anchor/" />
+    <option name="PROGRAM_PARAMETERS" value="fn sql/mysql/anchor mysql/anchor/" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>

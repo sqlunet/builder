@@ -2,7 +2,7 @@
   <configuration default="false" name="SchemaGenerator (sn reference)" type="Application" factoryName="Application" folderName="SN Schema Generator">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="sn" />
-    <option name="PROGRAM_PARAMETERS" value="sql/mysql/reference mysql/reference/" />
+    <option name="PROGRAM_PARAMETERS" value="sn sql/mysql/reference mysql/reference/" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>

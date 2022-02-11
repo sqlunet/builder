@@ -2,7 +2,7 @@
   <configuration default="false" name="SchemaGenerator (pb reference)" type="Application" factoryName="Application" folderName="PB Generate Schema">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="pb" />
-    <option name="PROGRAM_PARAMETERS" value="sql/mysql/reference mysql/reference/" />
+    <option name="PROGRAM_PARAMETERS" value="pb sql/mysql/reference mysql/reference/" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>

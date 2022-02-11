@@ -2,7 +2,7 @@
   <configuration default="false" name="SchemaGenerator (bnc index)" type="Application" factoryName="Application" folderName="BNC Schema Generator">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="bnc" />
-    <option name="PROGRAM_PARAMETERS" value="sql/mysql/index mysql/index/" />
+    <option name="PROGRAM_PARAMETERS" value="bnc sql/mysql/index mysql/index/" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>
