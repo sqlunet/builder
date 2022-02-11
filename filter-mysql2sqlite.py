@@ -37,11 +37,12 @@ def replace(s1,s2,line):
 	line2=re.sub(s1,s2,line)
 	if re.search(s1,line):
 		#print("matches [%s] %s" % (s1,line),file=sys.stderr)
-		if line != line2:
-			#print('\t>%s' % line, file=sys.stderr)
-			#print('\t<%s' % line2, file=sys.stderr)
-			#exit()
-			pass
+		pass
+	if line != line2:
+		#print('\t>%s' % line, file=sys.stderr)
+		#print('\t<%s' % line2, file=sys.stderr)
+		#exit()
+		pass
 	return line2
 
 dump=False
