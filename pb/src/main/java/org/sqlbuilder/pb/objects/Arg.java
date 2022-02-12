@@ -19,7 +19,7 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 
 	private final String text;
 
-	@NonNull
+	@NotNull
 	private final ArgN n;
 
 	@Nullable

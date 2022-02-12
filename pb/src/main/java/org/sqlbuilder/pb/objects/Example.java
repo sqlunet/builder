@@ -32,7 +32,7 @@ public class Example implements HasId, Insertable, Comparable<Example>
 
 	public static final SetCollector<String> VOICE_COLLECTOR = new SetCollector<>(NULLABLE_STRING_COMPARATOR);
 
-	@NonNull
+	@NotNull
 	private final RoleSet roleSet;
 
 	private final String name;
@@ -54,10 +54,10 @@ public class Example implements HasId, Insertable, Comparable<Example>
 	@Nullable
 	private final String voice;
 
-	@NonNull
+	@NotNull
 	public final List<Rel> rels;
 
-	@NonNull
+	@NotNull
 	public final List<Arg> args;
 
 	// C O N S T R U C T O R
@@ -106,7 +106,7 @@ public class Example implements HasId, Insertable, Comparable<Example>
 
 	// A C C E S S
 
-	@NonNull
+	@NotNull
 	public RoleSet getRoleSet()
 	{
 		return this.roleSet;

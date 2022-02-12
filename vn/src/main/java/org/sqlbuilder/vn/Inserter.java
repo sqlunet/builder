@@ -12,10 +12,13 @@ import java.util.Properties;
 
 public class Inserter
 {
+	private final Names names;
+
 	private final File outDir;
 
 	public Inserter(final Properties conf)
 	{
+		this.names = new Names("vn");
 		this.outDir = new File(conf.getProperty("vnoutdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
@@ -44,35 +47,35 @@ public class Inserter
 		)
 		{
 			// from pass1
-			Insert.insert(VnClass.COLLECTOR, new File(outDir, Names.file("classes")), Names.table("classes"), Names.columns("classes"));
-			Insert.insert(Grouping.COLLECTOR, new File(outDir, Names.file("groupings")), Names.table("groupings"), Names.columns("groupings"));
-			Insert.insert(RoleType.COLLECTOR, new File(outDir, Names.file("roletypes")), Names.table("roletypes"), Names.columns("roletypes"));
-			Insert.insert(RestrType.COLLECTOR, new File(outDir, Names.file("restrtypes")), Names.table("restrtypes"), Names.columns("restrtypes"));
-			Insert.insert(Restrs.COLLECTOR, new File(outDir, Names.file("restrs")), Names.table("restrs"), Names.columns("restrs"));
+			Insert.insert(VnClass.COLLECTOR, new File(outDir, names.file("classes")), names.table("classes"), names.columns("classes"));
+			Insert.insert(Grouping.COLLECTOR, new File(outDir, names.file("groupings")), names.table("groupings"), names.columns("groupings"));
+			Insert.insert(RoleType.COLLECTOR, new File(outDir, names.file("roletypes")), names.table("roletypes"), names.columns("roletypes"));
+			Insert.insert(RestrType.COLLECTOR, new File(outDir, names.file("restrtypes")), names.table("restrtypes"), names.columns("restrtypes"));
+			Insert.insert(Restrs.COLLECTOR, new File(outDir, names.file("restrs")), names.table("restrs"), names.columns("restrs"));
 
-			Insert.insert(FrameName.COLLECTOR, new File(outDir, Names.file("framenames")), Names.table("framenames"), Names.columns("framenames"));
-			Insert.insert(FrameSubName.COLLECTOR, new File(outDir, Names.file("framesubnames")), Names.table("framesubnames"), Names.columns("framesubnames"));
-			Insert.insert(FrameExample.COLLECTOR, new File(outDir, Names.file("examples")), Names.table("examples"), Names.columns("examples"));
-			Insert.insert(Syntax.COLLECTOR, new File(outDir, Names.file("syntaxes")), Names.table("syntaxes"), Names.columns("syntaxes"));
-			Insert.insert(Semantics.COLLECTOR, new File(outDir, Names.file("semantics")), Names.table("semantics"), Names.columns("semantics"));
-			Insert.insert(Predicate.COLLECTOR, new File(outDir, Names.file("predicates")), Names.table("predicates"), Names.columns("predicates"));
+			Insert.insert(FrameName.COLLECTOR, new File(outDir, names.file("framenames")), names.table("framenames"), names.columns("framenames"));
+			Insert.insert(FrameSubName.COLLECTOR, new File(outDir, names.file("framesubnames")), names.table("framesubnames"), names.columns("framesubnames"));
+			Insert.insert(FrameExample.COLLECTOR, new File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"));
+			Insert.insert(Syntax.COLLECTOR, new File(outDir, names.file("syntaxes")), names.table("syntaxes"), names.columns("syntaxes"));
+			Insert.insert(Semantics.COLLECTOR, new File(outDir, names.file("semantics")), names.table("semantics"), names.columns("semantics"));
+			Insert.insert(Predicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"));
 
 			// from pass2
-			Insert.insert(Role.COLLECTOR, new File(outDir, Names.file("roles")), Names.table("roles"), Names.columns("roles"));
-			Insert.insert(Frame.COLLECTOR, new File(outDir, Names.file("frames")), Names.table("frames"), Names.columns("frames"));
+			Insert.insert(Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"));
+			Insert.insert(Frame.COLLECTOR, new File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"));
 
 			// from pass3
-			Insert.insert(Frame_Example.SET, null, new File(outDir, Names.file("frames_examples")), Names.table("frames_examples"), Names.columns("frames_examples"));
-			Insert.insert(Predicate_Semantics.SET, null, new File(outDir, Names.file("predicates_semantics")), Names.table("predicates_semantics"), Names.columns("predicates_semantics"));
+			Insert.insert(Frame_Example.SET, null, new File(outDir, names.file("frames_examples")), names.table("frames_examples"), names.columns("frames_examples"));
+			Insert.insert(Predicate_Semantics.SET, null, new File(outDir, names.file("predicates_semantics")), names.table("predicates_semantics"), names.columns("predicates_semantics"));
 
 			// from pass4
-			Insert.insert(VnWord.COLLECTOR, new File(outDir, Names.file("words")), Names.table("words"), Names.columns("words"));
+			Insert.insert(VnWord.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
 
-			Insert.insert(Class_Word.SET, Class_Word.COMPARATOR, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
-			Insert.insert(Class_Role.SET, Class_Role.COMPARATOR, new File(outDir, Names.file("classes_roles")), Names.table("classes_roles"), Names.columns("classes_roles"));
-			Insert.insert(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, Names.file("classes_frames")), Names.table("classes_frames"), Names.columns("classes_frames"));
-			Insert.insert(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, Names.file("members_groupings")), Names.table("members_groupings"), Names.columns("members_groupings"));
-			Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, Names.file("members_senses")), Names.table("members_senses"), Names.columns("members_senses"));
+			Insert.insert(Class_Word.SET, Class_Word.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"));
+			Insert.insert(Class_Role.SET, Class_Role.COMPARATOR, new File(outDir, names.file("classes_roles")), names.table("classes_roles"), names.columns("classes_roles"));
+			Insert.insert(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, names.file("classes_frames")), names.table("classes_frames"), names.columns("classes_frames"));
+			Insert.insert(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, names.file("members_groupings")), names.table("members_groupings"), names.columns("members_groupings"));
+			Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"));
 		}
 	}
 }

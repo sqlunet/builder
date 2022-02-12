@@ -12,11 +12,12 @@ public class TestNames
 	@Test
 	public void testNames()
 	{
+		Names names = new Names("pb");
 		for (var key : tables)
 		{
-			var f = Names.file(key);
-			var t = Names.table(key);
-			var c = Names.columns(key);
+			var f = names.file(key);
+			var t = names.table(key);
+			var c = names.columns(key);
 			System.out.printf("%s - %s %s %s%n", key, f, t, c);
 			assertEquals(key + ".sql", f);
 			assertEquals("pb_" + key, t);

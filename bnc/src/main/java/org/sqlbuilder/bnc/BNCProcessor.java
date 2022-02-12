@@ -18,6 +18,8 @@ public class BNCProcessor extends Processor
 {
 	private final File bncHome;
 
+	private final Names names;
+
 	protected File outDir;
 
 	private final Properties conf;
@@ -25,6 +27,7 @@ public class BNCProcessor extends Processor
 	public BNCProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super("bnc");
+		this.names = new Names("bnc");
 		this.conf = conf;
 		this.bncHome = new File(conf.getProperty("bnc_home", System.getenv().get("BNCHOME")));
 		this.outDir = new File(conf.getProperty("bnc_outdir", "sql/data"));
@@ -39,28 +42,28 @@ public class BNCProcessor extends Processor
 	{
 		// main
 		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("bncs"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCFile(ps, new File(bncHome, bNCMain), Names.table("bncs"), Names.columns("bncs"));
+			processBNCFile(ps, new File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs"));
 		}
 
 		// subfiles
 		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("spwrs"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCSpWr), Names.table("spwrs"), Names.columns("spwrs"));
+			processBNCSubFile(ps, new File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs"));
 		}
 
 		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("convtasks"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCConvTask), Names.table("convtasks"), Names.columns("convtasks"));
+			processBNCSubFile(ps, new File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks"));
 		}
 
 		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("imaginfs"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCImagInf), Names.table("imaginfs"), Names.columns("imaginfs"));
+			processBNCSubFile(ps, new File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs"));
 		}
 	}
 

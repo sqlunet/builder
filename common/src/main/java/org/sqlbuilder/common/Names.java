@@ -9,9 +9,14 @@ import java.util.stream.Collectors;
 
 public class Names
 {
-	private static final Properties props = getProperties("/Names.properties");
+	private final Properties props;
 
-	private static Properties getProperties(final String conf)
+	public Names(final String module)
+	{
+		this.props = getProperties("/" + module + "/Names.properties");
+	}
+
+	private Properties getProperties(final String conf)
 	{
 		Properties props = new Properties();
 		URL url = Names.class.getResource(conf);
@@ -27,22 +32,22 @@ public class Names
 		return props;
 	}
 
-	public static String table(String section)
+	public String table(String section)
 	{
 		return get(section + ".table");
 	}
 
-	public static String file(String section)
+	public String file(String section)
 	{
 		return get(section + ".file");
 	}
 
-	public static String columns(String section)
+	public String columns(String section)
 	{
 		return Arrays.stream(get(section + ".columns").split(",")).map(c -> "`" + c + '`').collect(Collectors.joining(","));
 	}
 
-	private static String get(String key)
+	public String get(String key)
 	{
 		var v = props.getProperty(key);
 		if (v == null)

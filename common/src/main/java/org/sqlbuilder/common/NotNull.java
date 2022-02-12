@@ -1,5 +1,5 @@
 package org.sqlbuilder.common;
 
-public @interface NonNull
+public @interface NotNull
 {
 }

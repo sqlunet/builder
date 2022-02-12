@@ -1,13 +1,9 @@
 package org.sqlbuilder.sn;
 
 import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ParseException;
-import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.sn.objects.Collocation;
 import org.sqlbuilder.sn.objects.ResolvingCollocation;
-import org.sqlbuilder2.legacy.DeSerialize;
-import org.sqlbuilder2.legacy.Triplet;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,44 +11,39 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 public class SnResolvingProcessor extends SnProcessor
 {
-	private Map<String, SimpleEntry<Integer, Integer>> senseNIDs;
-
-	private final Function<String, SimpleEntry<Integer, Integer>> senseResolver = sk -> senseNIDs.get(sk);
+	private final SnResolver senseResolver;
 
 	public SnResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
-		// resolve
+		// outdir
 		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data"));
 
-		// resolve
-		File senseNIDS = new File(conf.getProperty("sense_nids"));
-		this.senseNIDs = DeSerialize.deserialize(senseNIDS);
+		// resolver
+		senseResolver = new SnResolver(conf);
 	}
 
 	@Override
 	public void run() throws IOException
 	{
 		final String snMain = conf.getProperty("sn_file", "SYNTAGNET.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagms"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
-			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagms"), Names.columns("syntagms"));
+			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms"), (collocation, i) -> insertRow(ps, i, collocation.dataRow()));
 		}
 	}
 
 	@Override
-	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns) throws IOException
+	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Long> bc) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		try (Stream<String> stream = Files.lines(file.toPath()))
@@ -76,9 +67,8 @@ public class SnResolvingProcessor extends SnProcessor
 					.sorted(Comparator.comparing(ResolvingCollocation::getWord1).thenComparing(ResolvingCollocation::getWord2)) //
 					.filter(collocation -> collocation.resolve(sensekeyResolver, senseResolver)) //
 					.sorted(Comparator.comparing(ResolvingCollocation::getSensekey1).thenComparing(ResolvingCollocation::getSensekey2)) //
-					.forEach(sp -> {
-						String values = sp.dataRow();
-						insertRow(ps, count[0], values);
+					.forEach(collocation -> {
+						bc.accept(collocation, count[0]);
 						count[0]++;
 					});
 		}

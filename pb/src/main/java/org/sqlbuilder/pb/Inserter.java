@@ -15,10 +15,13 @@ import java.util.Properties;
 
 public class Inserter
 {
+	private final Names names;
+
 	private final File outDir;
 
 	public Inserter(final Properties conf)
 	{
+		this.names = new Names("pb");
 		this.outDir = new File(conf.getProperty("vnoutdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
@@ -55,28 +58,28 @@ public class Inserter
 		      @ProvidesIdTo(type = PbWord.class) var ignored20 = PbWord.COLLECTOR.open() //
 		)
 		{
-			Insert.insertStringMap(Example.ASPECT_COLLECTOR, new File(outDir, Names.file("aspects")), Names.table("aspects"), Names.columns("aspects"));
-			Insert.insertStringMap(Example.FORM_COLLECTOR, new File(outDir, Names.file("forms")), Names.table("forms"), Names.columns("forms"));
-			Insert.insertStringMap(Example.PERSON_COLLECTOR, new File(outDir, Names.file("persons")), Names.table("persons"), Names.columns("persons"));
-			Insert.insertStringMap(Example.TENSE_COLLECTOR, new File(outDir, Names.file("tenses")), Names.table("tenses"), Names.columns("tenses"));
-			Insert.insertStringMap(Example.VOICE_COLLECTOR, new File(outDir, Names.file("voices")), Names.table("voices"), Names.columns("voices"));
-			Insert.insert(Func.COLLECTOR, new File(outDir, Names.file("funcs")), Names.table("funcs"), Names.columns("funcs"));
-			Insert.insert(Theta.COLLECTOR, new File(outDir, Names.file("thetas")), Names.table("thetas"), Names.columns("thetas"));
-			Insert.insert(ArgN.SET, ArgN.COMPARATOR, new File(outDir, Names.file("argns")), Names.table("argns"), Names.columns("argns"));
+			Insert.insertStringMap(Example.ASPECT_COLLECTOR, new File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"));
+			Insert.insertStringMap(Example.FORM_COLLECTOR, new File(outDir, names.file("forms")), names.table("forms"), names.columns("forms"));
+			Insert.insertStringMap(Example.PERSON_COLLECTOR, new File(outDir, names.file("persons")), names.table("persons"), names.columns("persons"));
+			Insert.insertStringMap(Example.TENSE_COLLECTOR, new File(outDir, names.file("tenses")), names.table("tenses"), names.columns("tenses"));
+			Insert.insertStringMap(Example.VOICE_COLLECTOR, new File(outDir, names.file("voices")), names.table("voices"), names.columns("voices"));
+			Insert.insert(Func.COLLECTOR, new File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"));
+			Insert.insert(Theta.COLLECTOR, new File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"));
+			Insert.insert(ArgN.SET, ArgN.COMPARATOR, new File(outDir, names.file("argns")), names.table("argns"), names.columns("argns"));
 
-			Insert.insert(RoleSet.COLLECTOR, new File(outDir, Names.file("rolesets")), Names.table("rolesets"), Names.columns("rolesets"));
-			Insert.insert(Role.COLLECTOR, new File(outDir, Names.file("roles")), Names.table("roles"), Names.columns("roles"));
-			Insert.insert(Example.COLLECTOR, new File(outDir, Names.file("examples")), Names.table("examples"), Names.columns("examples"));
-			Insert.insert(Arg.COLLECTOR, new File(outDir, Names.file("args")), Names.table("args"), Names.columns("args"));
-			Insert.insert(Rel.COLLECTOR, new File(outDir, Names.file("rels")), Names.table("rels"), Names.columns("rels"));
+			Insert.insert(RoleSet.COLLECTOR, new File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"));
+			Insert.insert(Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"));
+			Insert.insert(Example.COLLECTOR, new File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"));
+			Insert.insert(Arg.COLLECTOR, new File(outDir, names.file("args")), names.table("args"), names.columns("args"));
+			Insert.insert(Rel.COLLECTOR, new File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"));
 
-			Insert.insert(Member.SET, Member.COMPARATOR, new File(outDir, Names.file("members")), Names.table("members"), Names.columns("members"));
+			Insert.insert(Member.SET, Member.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"));
 
-			Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, Names.file("pbrolesets_vnclasses")), Names.table("pbrolesets_vnclasses"), Names.columns("pbrolesets_vnclasses"));
-			Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, Names.file("pbrolesets_fnframes")), Names.table("pbrolesets_fnframes"), Names.columns("pbrolesets_fnframes"));
-			Insert.insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, Names.file("pbroles_vnroles")), Names.table("pbroles_vnroles"), Names.columns("pbroles_vnroles"));
+			Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"));
+			Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"));
+			Insert.insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
 
-			Insert.insert(PbWord.COLLECTOR, new File(outDir, Names.file("words")), Names.table("words"), Names.columns("words"));
+			Insert.insert(PbWord.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
 		}
 		Progress.traceTailer("inserts", "done");
 	}

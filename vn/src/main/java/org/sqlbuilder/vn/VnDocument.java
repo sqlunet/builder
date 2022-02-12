@@ -1,6 +1,6 @@
 package org.sqlbuilder.vn;
 
-import org.sqlbuilder.common.NonNull;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.common.XmlTextUtils;
 import org.sqlbuilder.vn.joins.Frame_Example;
@@ -64,7 +64,7 @@ public class VnDocument
 
 	// C L A S S
 
-	@NonNull
+	@NotNull
 	public static VnClass makeClass(final Node start)
 	{
 		final Element classElement = (Element) start;
@@ -72,7 +72,7 @@ public class VnDocument
 		return VnClass.make(className);
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<Member> makeMembers(final Node start) throws XPathExpressionException
 	{
 		List<Member> result = new ArrayList<>();
@@ -91,7 +91,7 @@ public class VnDocument
 
 	// G R O U P I N G S
 
-	@NonNull
+	@NotNull
 	public static Set<Grouping> makeGroupings(final Node start) throws XPathExpressionException
 	{
 		final Set<Grouping> result = new HashSet<>();
@@ -116,7 +116,7 @@ public class VnDocument
 
 	// R O L E
 
-	@NonNull
+	@NotNull
 	public static Set<Role> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final Set<Role> result = new HashSet<>();
@@ -137,7 +137,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<RoleType> makeRoleTypes(final Node start) throws XPathExpressionException
 	{
 		final Collection<RoleType> result = new ArrayList<>();
@@ -156,7 +156,7 @@ public class VnDocument
 
 	// R E S T R
 
-	@NonNull
+	@NotNull
 	public static Collection<RestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
 	{
 		final Collection<RestrType> result = new ArrayList<>();
@@ -175,7 +175,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<RestrType> makeSynRestrTypes(final Node start) throws XPathExpressionException
 	{
 		final Collection<RestrType> result = new ArrayList<>();
@@ -194,7 +194,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<Restrs> makeSelRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Restrs> result = new ArrayList<>();
@@ -215,7 +215,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<Restrs> makeSynRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Restrs> result = new ArrayList<>();
@@ -238,7 +238,7 @@ public class VnDocument
 
 	// F R A M E
 
-	@NonNull
+	@NotNull
 	public static List<Frame> makeFrames(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final List<Frame> result = new ArrayList<>();
@@ -260,7 +260,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<FrameName> makeFrameNames(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameName> result = new ArrayList<>();
@@ -277,7 +277,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<FrameSubName> makeFrameSubNames(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameSubName> result = new ArrayList<>();
@@ -298,7 +298,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<FrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameExample> result = new ArrayList<>();
@@ -313,7 +313,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static List<Frame_Example> makeFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
 		final List<Frame_Example> result = new ArrayList<>();
@@ -344,7 +344,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<Syntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Syntax> result = new ArrayList<>();
@@ -359,7 +359,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<Semantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
 		final Collection<Semantics> result = new ArrayList<>();
@@ -374,7 +374,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static Collection<Predicate> makePredicates(final Node start) throws XPathExpressionException
 	{
 		final Collection<Predicate> result = new ArrayList<>();
@@ -391,7 +391,7 @@ public class VnDocument
 		return result;
 	}
 
-	@NonNull
+	@NotNull
 	public static List<Predicate_Semantics> makePredicateSemanticsMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{
 		final List<Predicate_Semantics> result = new ArrayList<>();

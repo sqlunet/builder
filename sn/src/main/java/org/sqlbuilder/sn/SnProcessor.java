@@ -14,17 +14,19 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class SnProcessor extends Processor
 {
 	protected final File snHome;
+
+	protected final Names names;
 
 	protected File outDir;
 
@@ -38,6 +40,7 @@ public class SnProcessor extends Processor
 	{
 		super("sn");
 		this.conf = conf;
+		this.names = new Names("sn");
 		this.snHome = new File(conf.getProperty("sn_home", System.getenv().get("SNHOME")));
 		this.outDir = new File(conf.getProperty("sn_outdir", "sql/data"));
 		if (!this.outDir.exists())
@@ -54,13 +57,13 @@ public class SnProcessor extends Processor
 	public void run() throws IOException
 	{
 		final String snMain = conf.getProperty("sn_file", "SYNTAGNET.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, Names.file("syntagms"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
-			processSyntagNetFile(ps, new File(snHome, snMain), Names.table("syntagms"), Names.columns("syntagms"));
+			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms"), (collocation, i) -> insertRow(ps, i, collocation.dataRow()));
 		}
 	}
 
-	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns) throws IOException
+	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Long> bc) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		try (Stream<String> stream = Files.lines(file.toPath()))
@@ -84,9 +87,8 @@ public class SnProcessor extends Processor
 					//.sorted(Comparator.comparing(Collocation::getWord1).thenComparing(Collocation::getWord2)) //
 					.filter(collocation -> collocation.resolve(sensekeyResolver)) //
 					.sorted(Comparator.comparing(Collocation::getSensekey1, Comparator.nullsFirst(Comparator.naturalOrder())).thenComparing(Collocation::getSensekey2, Comparator.nullsFirst(Comparator.naturalOrder()))) //
-					.forEach(sp -> {
-						String values = sp.dataRow();
-						insertRow(ps, count[0], values);
+					.forEach(collocation -> {
+						bc.accept(collocation, count[0]);
 						count[0]++;
 					});
 		}
