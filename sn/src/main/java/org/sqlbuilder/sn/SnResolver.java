@@ -7,13 +7,12 @@ import org.sqlbuilder2.legacy.DeSerialize;
 import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Properties;
 
 public class SnResolver extends Resolver<SimpleEntry<Integer, Integer>>
 {
-	public SnResolver(final Properties conf) throws IOException, ClassNotFoundException
+	public SnResolver(final String ser) throws IOException, ClassNotFoundException
 	{
-		super(DeSerialize.deserialize(new File(conf.getProperty("sense_nids"))));
+		super(DeSerialize.deserialize(new File(ser)));
 	}
 
 	@Nullable

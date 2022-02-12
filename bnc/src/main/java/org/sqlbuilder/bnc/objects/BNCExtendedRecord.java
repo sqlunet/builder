@@ -84,7 +84,7 @@ public class BNCExtendedRecord extends BNCRecord
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s','%c',%d,%d,%f,%d,%d,%f,%f", "NULL", Utils.escape(word), pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
+		return String.format("'%s','%c',%d,%d,%f,%d,%d,%f,%f", Utils.escape(word), pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
 	}
 
 	// T O S T R I N G

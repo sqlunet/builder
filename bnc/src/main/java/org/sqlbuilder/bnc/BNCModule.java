@@ -8,9 +8,15 @@ public class BNCModule extends Module
 {
 	public static final String MODULE_ID = "bnc";
 
-	protected BNCModule(final String conf)
+	private enum Type
+	{PLAIN, RESOLVE, UPDATE}
+
+	private final Type type;
+
+	protected BNCModule(final String conf, final Type type)
 	{
 		super(MODULE_ID, conf);
+		this.type = type;
 	}
 
 	@Override
@@ -18,7 +24,18 @@ public class BNCModule extends Module
 	{
 		try
 		{
-			new BNCProcessor(props).run();
+			switch (type)
+			{
+				case PLAIN:
+					new BNCProcessor(props).run();
+					break;
+				case RESOLVE:
+					new BNCResolvingProcessor(props).run();
+					break;
+				case UPDATE:
+					new BNCUpdatingProcessor(props).run();
+					break;
+			}
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
@@ -28,6 +45,23 @@ public class BNCModule extends Module
 
 	public static void main(final String[] args) throws IOException
 	{
-		new BNCModule(args[0]).run();
+		int i = 0;
+		Type type;
+		switch (args[i])
+		{
+			case "-resolve":
+				++i;
+				type = Type.RESOLVE;
+				break;
+			case "-update":
+				++i;
+				type = Type.UPDATE;
+				break;
+			default:
+				type = Type.PLAIN;
+				break;
+		}
+		String conf = args[i];
+		new BNCModule(conf, type).run();
 	}
 }

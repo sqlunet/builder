@@ -8,9 +8,15 @@ public class SnModule extends Module
 {
 	public static final String MODULE_ID = "sn";
 
-	protected SnModule(final String conf)
+	private enum Type
+	{PLAIN, RESOLVE, UPDATE}
+
+	private final Type type;
+
+	protected SnModule(final String conf, final Type type)
 	{
 		super(MODULE_ID, conf);
+		this.type = type;
 	}
 
 	@Override
@@ -18,7 +24,18 @@ public class SnModule extends Module
 	{
 		try
 		{
-			new SnProcessor(props).run();
+			switch (type)
+			{
+				case PLAIN:
+					new SnProcessor(props).run();
+					break;
+				case RESOLVE:
+					new SnResolvingProcessor(props).run();
+					break;
+				case UPDATE:
+					new SnUpdatingProcessor(props).run();
+					break;
+			}
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
@@ -28,6 +45,23 @@ public class SnModule extends Module
 
 	public static void main(final String[] args) throws IOException
 	{
-		new SnModule(args[0]).run();
+		int i = 0;
+		Type type;
+		switch (args[i])
+		{
+			case "-resolve":
+				++i;
+				type = Type.RESOLVE;
+				break;
+			case "-update":
+				++i;
+				type = Type.UPDATE;
+				break;
+			default:
+				type = Type.PLAIN;
+				break;
+		}
+		String conf = args[i];
+		new SnModule(conf, type).run();
 	}
 }

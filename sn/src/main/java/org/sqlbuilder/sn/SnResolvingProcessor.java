@@ -1,7 +1,6 @@
 package org.sqlbuilder.sn;
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.ParseException;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.sn.objects.Collocation;
 import org.sqlbuilder.sn.objects.ResolvingCollocation;
 
@@ -19,6 +18,8 @@ import java.util.stream.Stream;
 
 public class SnResolvingProcessor extends SnProcessor
 {
+	protected final String serFile;
+
 	private final SnResolver senseResolver;
 
 	public SnResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
@@ -26,40 +27,57 @@ public class SnResolvingProcessor extends SnProcessor
 		super(conf);
 
 		// outdir
-		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data"));
+		this.outDir = new File(conf.getProperty("sn_outdir_resolved", "sql/data"));
+		if (!this.outDir.exists())
+		{
+			this.outDir.mkdirs();
+		}
 
 		// resolver
-		senseResolver = new SnResolver(conf);
+		this.resolve = true;
+		this.serFile = conf.getProperty("sense_nids");
+		this.senseResolver = new SnResolver(this.serFile);
 	}
 
 	@Override
 	public void run() throws IOException
 	{
-		final String snMain = conf.getProperty("sn_file", "SYNTAGNET.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
-			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms"), (collocation, i) -> insertRow(ps, i, collocation.dataRow()));
+			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true), (collocation, i) -> insertRow(ps, i, collocation.dataRow()));
 		}
 	}
 
 	@Override
-	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Long> bc) throws IOException
+	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+		process(file, ResolvingCollocation::parse, consumer);
+		ps.print(';');
+	}
+	protected void process(final File file, final ThrowingFunction<String, ResolvingCollocation> producer, final BiConsumer<Collocation, Integer> consumer) throws IOException
+	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
-			final long[] count = new long[2];
+			final int[] count = {0, 0};
 			stream //
 					.peek(line -> ++count[1]) //
 					.filter(line -> !line.isEmpty() && line.charAt(0) != '#') //
 					.map(line -> {
 						try
 						{
-							return ResolvingCollocation.parse(line);
+							return producer.applyThrows(line);
 						}
 						catch (ParseException pe)
 						{
 							Logger.instance.logParseException(SnModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, pe);
+						}
+						catch (NotFoundException nfe)
+						{
+							Logger.instance.logNotFoundException(SnModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, nfe);
+						}
+						catch (IgnoreException ignoreException)
+						{
 						}
 						return null;
 					}) //
@@ -68,10 +86,9 @@ public class SnResolvingProcessor extends SnProcessor
 					.filter(collocation -> collocation.resolve(sensekeyResolver, senseResolver)) //
 					.sorted(Comparator.comparing(ResolvingCollocation::getSensekey1).thenComparing(ResolvingCollocation::getSensekey2)) //
 					.forEach(collocation -> {
-						bc.accept(collocation, count[0]);
+						consumer.accept(collocation, count[0]);
 						count[0]++;
 					});
 		}
-		ps.print(';');
 	}
 }

@@ -42,9 +42,19 @@ public class Names
 		return get(section + ".file");
 	}
 
+	public String updateFile(String section)
+	{
+		return "update_" + get(section + ".file");
+	}
+
 	public String columns(String section)
 	{
-		return Arrays.stream(get(section + ".columns").split(",")).map(c -> "`" + c + '`').collect(Collectors.joining(","));
+		return columns(section, false);
+	}
+
+	public String columns(String section, boolean resolve)
+	{
+		return backtickColumns(get(section + (resolve ? ".columns.resolved" : ".columns")));
 	}
 
 	public String get(String key)
@@ -55,5 +65,10 @@ public class Names
 			throw new IllegalArgumentException(key);
 		}
 		return v;
+	}
+
+	private String backtickColumns(final String columns)
+	{
+		return Arrays.stream(columns.split(",")).map(c -> "`" + c + '`').collect(Collectors.joining(","));
 	}
 }

@@ -4,9 +4,8 @@ import org.sqlbuilder.common.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
-public class BNCRecord implements Insertable
+public class BNCRecord implements Insertable, Updatable
 {
 	protected static final Map<String, Character> posMap = new HashMap<>();
 
@@ -149,7 +148,15 @@ public class BNCRecord implements Insertable
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s','%c',%d,%d,%f", "NULL", Utils.escape(word), pos, freq, range, dispersion);
+		return String.format("'%s','%c',%d,%d,%f", Utils.escape(word), pos, freq, range, dispersion);
+	}
+
+	// U P D A T E
+
+	@Override
+	public String updateRow(String... columns)
+	{
+		return String.format("`%s`=%s WHERE `%s`=%s", columns[0], "NULL", columns[1], Utils.quote(Utils.escape(word)));
 	}
 
 	// T O S T R I N G

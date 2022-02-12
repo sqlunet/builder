@@ -46,6 +46,14 @@ public class ResolvingCollocation extends Collocation implements Insertable
 		return String.format("'%s',%d,%d, '%s',%d,%d", Utils.escape(sensekey1), word1id, synset1id, Utils.escape(sensekey2), word2id, synset2id);
 	}
 
+	// U P D A T E
+
+	@Override
+	public String updateRow(String... columns)
+	{
+		return String.format("`%s`=%s,`%s`=%s,`%s`=%s,`%s`=%s WHERE `%s`=%s AND `%s`= %s", columns[0], word1id, columns[1], synset1id, columns[2], word2id, columns[3], synset2id, columns[4], Utils.quote(Utils.escape(sensekey1)), columns[5], Utils.quote(Utils.escape(sensekey2)));
+	}
+
 	// R E S O L V E
 
 	public boolean resolve(final Function<Triplet<String, Character, Long>, String> skResolver, final Function<String, SimpleEntry<Integer, Integer>> senseResolver)

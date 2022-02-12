@@ -7,15 +7,25 @@ import org.sqlbuilder.common.Utils;
 
 import java.util.function.Function;
 
-public class BNCExtendedResolvingRecord extends BNCExtendedRecord
+public class BNCExtendedResolvingRecord extends BNCResolvingRecord
 {
-	protected int wordid;
+	protected final int freq2;
+
+	protected final int range2;
+
+	protected final float dispersion2;
+
+	protected final float lL;
 
 	// C O N S T R U C T O R
 
 	private BNCExtendedResolvingRecord(final BNCExtendedRecord r)
 	{
-		super(r.word, r.pos, r.freq, r.range, r.dispersion, r.freq2, r.range2, r.dispersion2, r.lL);
+		super(r.word, r.pos, r.freq, r.range, r.dispersion);
+		this.freq2 = r.freq2;
+		this.range2 = r.range2;
+		this.dispersion2 = r.dispersion2;
+		this.lL = r.lL;
 	}
 
 	public static BNCExtendedResolvingRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException

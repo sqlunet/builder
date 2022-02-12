@@ -2,12 +2,13 @@ package org.sqlbuilder.sn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.ParseException;
+import org.sqlbuilder.common.Updatable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder2.legacy.Triplet;
 
 import java.util.function.Function;
 
-public class Collocation implements Insertable
+public class Collocation implements Insertable, Updatable
 {
 	public final long offset1;
 
@@ -102,6 +103,14 @@ public class Collocation implements Insertable
 	public String comment()
 	{
 		return String.format("%s,%c,%d,%s,%c,%d", word1, pos1, offset1, word2, pos2, offset2);
+	}
+
+	// U P D A T E
+
+	@Override
+	public String updateRow(String... columns)
+	{
+		return String.format("`%s`=%s,`%s`=%s,`%s`=%s,`%s`=%s WHERE `%s`=%s AND `%s`= %s", columns[0], "NULL", columns[1], "NULL", columns[2], "NULL", columns[3], "NULL", columns[4], Utils.quote(Utils.escape(sensekey1)), columns[5], Utils.quote(Utils.escape(sensekey2)));
 	}
 
 	// R E S O L V E
