@@ -78,6 +78,36 @@ public class Insert
 		insert(map, file, table, columns, true);
 	}
 
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, final Resolver<U,R> resolver, final String resolvedColumn, boolean withNumber) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			if (map.size() > 0)
+			{
+				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + resolvedColumn);
+
+				int[] i = {0};
+				map.forEach((key, id) -> {
+
+					if (i[0] != 0)
+					{
+						ps.print(",\n");
+					}
+					R resolved = key.resolve(resolver);
+					String sqlResolved = Utils.nullable(resolved, Object::toString);
+					String values = key.dataRow();
+					String comment = key.comment();
+					String row = withNumber ?
+							(comment != null ? String.format("(%d,%s,%s) /* %s */", id, values, sqlResolved, comment) : String.format("(%d,%s,%s)", id, values, sqlResolved)) :
+							(comment != null ? String.format("(%s,%s) /* %s */", values, sqlResolved, comment) : String.format("(%s,%s)", values, sqlResolved));
+					ps.print(row);
+					i[0]++;
+				});
+				ps.println(";");
+			}
+		}
+	}
+
 	// S T R I N G   M A P
 
 	public static void insertStringMap(final Map<String, Integer> map, final File file, final String table, final String columns) throws FileNotFoundException
@@ -105,7 +135,6 @@ public class Insert
 			}
 		}
 	}
-
 
 	// S E T
 

@@ -25,7 +25,7 @@ public class FnLexUnitProcessor extends FnProcessor
 	public FnLexUnitProcessor(final Properties props)
 	{
 		super("lu", props, "lu");
-		this.skipLayers = props.getProperty("fnskiplayers", "").compareToIgnoreCase("true") == 0;
+		this.skipLayers = props.getProperty("fn_skip_layers", "").compareToIgnoreCase("true") == 0;
 	}
 
 	private final Map<ValenceUnit, FERealization> vuToFer = new HashMap<>();

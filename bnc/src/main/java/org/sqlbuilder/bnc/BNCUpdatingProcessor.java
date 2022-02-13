@@ -26,26 +26,26 @@ public class BNCUpdatingProcessor extends BNCResolvingProcessor
 		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("bncs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCFile(ps, new File(bncHome, bNCMain), (record, i) -> updateRow(ps, names.table("bncs"), i, record.updateRow(names.get("bncs.wordid"), names.get("bncs.word"))));
+			processBNCFile(ps, new File(bncHome, bNCMain), (record, i) -> updateRow(ps, names.table("bncs"), i, record.updateRow(names.column("bncs.wordid"), names.column("bncs.word"))));
 		}
 
 		// subfiles
 		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("spwrs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCSpWr), (record, i) -> updateRow(ps, names.table("spwrs"), i, record.updateRow(names.get("spwrs.wordid"), names.get("spwrs.word"))));
+			processBNCSubFile(ps, new File(bncHome, bNCSpWr), (record, i) -> updateRow(ps, names.table("spwrs"), i, record.updateRow(names.column("spwrs.wordid"), names.column("spwrs.word"))));
 		}
 
 		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("convtasks"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCConvTask), (record, i) -> updateRow(ps, names.table("convtasks"), i, record.updateRow(names.get("convtasks.wordid"), names.get("convtasks.word"))));
+			processBNCSubFile(ps, new File(bncHome, bNCConvTask), (record, i) -> updateRow(ps, names.table("convtasks"), i, record.updateRow(names.column("convtasks.wordid"), names.column("convtasks.word"))));
 		}
 
 		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("imaginfs"))), true, StandardCharsets.UTF_8))
 		{
-			processBNCSubFile(ps, new File(bncHome, bNCImagInf), (record, i) -> updateRow(ps, names.table("imaginfs"), i, record.updateRow(names.get("imaginfs.wordid"), names.get("imaginfs.word"))));
+			processBNCSubFile(ps, new File(bncHome, bNCImagInf), (record, i) -> updateRow(ps, names.table("imaginfs"), i, record.updateRow(names.column("imaginfs.wordid"), names.column("imaginfs.word"))));
 		}
 	}
 

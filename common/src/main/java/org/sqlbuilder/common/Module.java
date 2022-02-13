@@ -6,14 +6,35 @@ import java.util.Properties;
 
 public abstract class Module
 {
+	public enum Mode
+	{
+		PLAIN, RESOLVE, UPDATE;
+
+		public static Mode read(final String arg)
+		{
+			switch (arg)
+			{
+				case "-resolve":
+					return Mode.RESOLVE;
+				case "-update":
+					return Mode.UPDATE;
+				default:
+					return Mode.PLAIN;
+			}
+		}
+	}
+
 	public final String id;
 
 	protected final Properties props;
 
-	protected Module(final String id, final String conf)
+	protected final Mode mode;
+
+	protected Module(final String id, final String conf, final Mode mode)
 	{
 		this.id = id;
-		props = getProperties(conf);
+		this.mode = mode;
+		this.props = getProperties(conf);
 	}
 
 	abstract protected void run();

@@ -16,22 +16,27 @@ import static java.util.stream.Collectors.toMap;
 
 public class Inserter
 {
-	private final Names names;
+	protected final Names names;
 
-	private final File outDir;
-	
+	protected final File outDir;
+
+	protected boolean resolve = false;
+
 	public Inserter(final Properties conf)
 	{
 		this.names = new Names("fn");
-		this.outDir = new File(conf.getProperty("fnoutdir", "sql/data"));
+		this.outDir = new File(conf.getProperty("fn_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
 		}
 	}
 
-	public void insertPreset() throws FileNotFoundException
+	public void insert() throws FileNotFoundException
 	{
+		insertSemTypes();
+		insertFrames();
+		insertLexUnitsAndText();
 	}
 
 	public void insertSemTypes() throws FileNotFoundException
@@ -82,18 +87,9 @@ public class Inserter
 		Progress.traceDone(null);
 	}
 
-	public void insertLexUnits() throws FileNotFoundException
+	public void insertLexUnitsAndText() throws FileNotFoundException
 	{
-	}
-
-	public void insertFullText() throws FileNotFoundException
-	{
-	}
-
-	public void insertFinal() throws FileNotFoundException
-	{
-		try (
-		     @ProvidesIdTo(type = GfType.class) var ignored11 = GfType.COLLECTOR.open(); //
+		try (@ProvidesIdTo(type = GfType.class) var ignored11 = GfType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = PtType.class) var ignored12 = PtType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = LayerType.class) var ignored13 = LayerType.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = LabelType.class) var ignored14 = LabelType.COLLECTOR.open())
@@ -140,7 +136,7 @@ public class Inserter
 			Doc.SET.clear();
 			Progress.traceDone(null);
 
-			try (@ProvidesIdTo(type = Layer.class) var ignored = Layer.COLLECTOR.open())
+			try (@ProvidesIdTo(type = Layer.class) var ignored20 = Layer.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "layer");
 				Insert.insert(Layer.COLLECTOR, new File(outDir, names.file("layers")), names.table("layers"), names.columns("layers"), false);
@@ -152,7 +148,7 @@ public class Inserter
 				Progress.traceDone(null);
 			}
 
-			try (@ProvidesIdTo(type = FeType.class) var ignored = FeType.COLLECTOR.open())
+			try (@ProvidesIdTo(type = FeType.class) var ignored21 = FeType.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "fetype");
 				Insert.insertStringMap(FeType.COLLECTOR, new File(outDir, names.file("fetypes")), names.table("fetypes"), names.columns("fetypes"));
@@ -175,10 +171,6 @@ public class Inserter
 
 				try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
 				{
-					Progress.tracePending("collector", "word");
-					Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
-					Progress.traceDone(null);
-
 					Progress.tracePending("set", "lexeme");
 					Insert.insertAndIncrement(Lexeme.SET, Lexeme.COMPARATOR, new File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"));
 					Lexeme.SET.clear();
@@ -279,12 +271,22 @@ public class Inserter
 					{
 						FE.BY_FETYPEID_AND_FRAMEID = null;
 					}
+
+					// R E S O L V A B L E
+					insertWords();
 				}
 			}
 		}
 	}
 
-	@RequiresIdFrom(type=FeType.class)
+	protected void insertWords() throws FileNotFoundException
+	{
+		Progress.tracePending("collector", "word");
+		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
+		Progress.traceDone(null);
+	}
+
+	@RequiresIdFrom(type = FeType.class)
 	private Map<Pair<Integer, Integer>, FE> makeFEByFETypeIdAndFrameIdMap()
 	{
 		return FE.SET.stream() //

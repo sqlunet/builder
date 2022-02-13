@@ -8,15 +8,9 @@ public class SnModule extends Module
 {
 	public static final String MODULE_ID = "sn";
 
-	private enum Type
-	{PLAIN, RESOLVE, UPDATE}
-
-	private final Type type;
-
-	protected SnModule(final String conf, final Type type)
+	protected SnModule(final String conf, final Mode mode)
 	{
-		super(MODULE_ID, conf);
-		this.type = type;
+		super(MODULE_ID, conf, mode);
 	}
 
 	@Override
@@ -24,7 +18,7 @@ public class SnModule extends Module
 	{
 		try
 		{
-			switch (type)
+			switch (mode)
 			{
 				case PLAIN:
 					new SnProcessor(props).run();
@@ -46,22 +40,12 @@ public class SnModule extends Module
 	public static void main(final String[] args) throws IOException
 	{
 		int i = 0;
-		Type type;
-		switch (args[i])
+		Mode mode = Mode.PLAIN;
+		if (args[i].startsWith("-"))
 		{
-			case "-resolve":
-				++i;
-				type = Type.RESOLVE;
-				break;
-			case "-update":
-				++i;
-				type = Type.UPDATE;
-				break;
-			default:
-				type = Type.PLAIN;
-				break;
+			mode = Mode.read(args[i++]);
 		}
 		String conf = args[i];
-		new SnModule(conf, type).run();
+		new SnModule(conf, mode).run();
 	}
 }

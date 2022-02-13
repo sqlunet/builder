@@ -12,9 +12,9 @@ public class SlModule extends Module
 {
 	public static final String MODULE_ID = "sl";
 
-	protected SlModule(final String conf)
+	protected SlModule(final String conf, final Mode mode)
 	{
-		super(MODULE_ID, conf);
+		super(MODULE_ID, conf, mode);
 	}
 
 	@Override
@@ -38,6 +38,13 @@ public class SlModule extends Module
 
 	public static void main(final String[] args)
 	{
-		new SlModule(args[0]).run();
+		int i = 0;
+		Mode mode = Mode.PLAIN;
+		if (args[i].startsWith("-"))
+		{
+			mode = Mode.read(args[i++]);
+		}
+		String conf = args[i];
+		new SlModule(conf, mode).run();
 	}
 }

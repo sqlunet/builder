@@ -32,32 +32,37 @@ public class Names
 		return props;
 	}
 
-	public String table(String section)
+	public String table(String key)
 	{
-		return get(section + ".table");
+		return get(key + ".table");
 	}
 
-	public String file(String section)
+	public String file(String key)
 	{
-		return get(section + ".file");
+		return get(key + ".file");
 	}
 
-	public String updateFile(String section)
+	public String updateFile(String key)
 	{
-		return "update_" + get(section + ".file");
+		return "update_" + get(key + ".file");
 	}
 
-	public String columns(String section)
+	public String columns(String key)
 	{
-		return columns(section, false);
+		return columns(key, false);
 	}
 
-	public String columns(String section, boolean resolve)
+	public String columns(String key, boolean resolve)
 	{
-		return backtickColumns(get(section + (resolve ? ".columns.resolved" : ".columns")));
+		return backtickColumns(get(key + (resolve ? ".columns.resolved" : ".columns")));
 	}
 
-	public String get(String key)
+	public String column(String key)
+	{
+		return backtick(get(key));
+	}
+
+	private String get(String key)
 	{
 		var v = props.getProperty(key);
 		if (v == null)
@@ -67,8 +72,13 @@ public class Names
 		return v;
 	}
 
+	private String backtick(final String value)
+	{
+		return '`' + value + '`';
+	}
+	
 	private String backtickColumns(final String columns)
 	{
-		return Arrays.stream(columns.split(",")).map(c -> "`" + c + '`').collect(Collectors.joining(","));
+		return Arrays.stream(columns.split(",")).map(this::backtick).collect(Collectors.joining(","));
 	}
 }

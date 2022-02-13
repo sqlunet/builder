@@ -24,12 +24,12 @@ public class SnUpdatingProcessor extends SnResolvingProcessor
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("syntagms"))), true, StandardCharsets.UTF_8))
 		{
 			processSyntagNetFile(ps, new File(snHome, snMain), (collocation, i) -> updateRow(ps, names.table("syntagms"), i, collocation.updateRow( //
-					names.get("syntagms.word1id"), //
-					names.get("syntagms.synset1id"), //
-					names.get("syntagms.word2id"), //
-					names.get("syntagms.synset2id"), //
-					names.get("syntagms.sensekey1"), //
-					names.get("syntagms.sensekey2") //
+					names.column("syntagms.word1id"), //
+					names.column("syntagms.synset1id"), //
+					names.column("syntagms.word2id"), //
+					names.column("syntagms.synset2id"), //
+					names.column("syntagms.sensekey1"), //
+					names.column("syntagms.sensekey2") //
 			)));
 		}
 	}

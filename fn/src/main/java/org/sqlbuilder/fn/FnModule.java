@@ -10,70 +10,28 @@ public class FnModule extends Module
 {
 	public static final String MODULE_ID = "fn";
 
-	protected FnModule(final String conf)
+	protected FnModule(final String conf, final Mode mode)
 	{
-		super(MODULE_ID, conf);
+		super(MODULE_ID, conf, mode);
 	}
 
 	@Override
 	protected void run()
 	{
-		Inserter inserter = new Inserter(props);
+		assert props != null;
+
 		new FnEnumProcessor().run();
-		try
-		{
-			inserter.insertPreset();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-
 		new FnSemTypeProcessor("semTypes.xml", props).run();
-		try
-		{
-			inserter.insertSemTypes();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-
 		new FnFrameProcessor(props).run();
-		try
-		{
-			inserter.insertFrames();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-
 		new FnLexUnitProcessor(props).run();
-		try
-		{
-			inserter.insertLexUnits();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-
 		new FnFullTextProcessor(props).run();
-		try
-		{
-			inserter.insertFullText();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
 
 		try
 		{
-			inserter.insertFinal();
+			Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
+			inserter.insert();
 		}
-		catch (FileNotFoundException e)
+		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
@@ -81,6 +39,13 @@ public class FnModule extends Module
 
 	public static void main(final String[] args) throws IOException
 	{
-		new FnModule(args[0]).run();
+		int i = 0;
+		Mode mode = Mode.PLAIN;
+		if (args[i].startsWith("-"))
+		{
+			mode = Mode.read(args[i++]);
+		}
+		String conf = args[i];
+		new FnModule(conf, mode).run();
 	}
 }

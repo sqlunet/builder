@@ -16,7 +16,7 @@ public abstract class FnProcessor1 extends Processor
 	{
 		super(tag);
 		this.filename = filename;
-		this.fnHome = props.getProperty("fnhome", System.getenv().get("FNHOME"));
+		this.fnHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
 	}
 
 	@Override

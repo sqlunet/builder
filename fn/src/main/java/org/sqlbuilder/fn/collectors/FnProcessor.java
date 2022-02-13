@@ -23,7 +23,7 @@ public abstract class FnProcessor extends Processor
 	public FnProcessor(final String subDir, final Properties props, final String tag)
 	{
 		super(tag);
-		this.fnHome = props.getProperty("fnhome", System.getenv().get("FNHOME"));
+		this.fnHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
 		this.fnDir = subDir;
 		this.fileCount = 0;
 	}

@@ -3,18 +3,18 @@ package org.sqlbuilder.common;
 import java.util.Map;
 import java.util.function.Function;
 
-public abstract class Resolver<T> implements Function<String, T>
+public abstract class Resolver<T, R> implements Function<T, R>
 {
-	public final Map<String, T> map;
+	public final Map<T, R> map;
 
-	public Resolver(final Map<String, T> map)
+	public Resolver(final Map<T, R> map)
 	{
 		this.map = map;
 	}
 
 	@Nullable
 	@Override
-	public T apply(final String k)
+	public R apply(final T k)
 	{
 		return map.get(k);
 	}

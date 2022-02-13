@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
 
-public class SnResolver extends Resolver<SimpleEntry<Integer, Integer>>
+public class SnResolver extends Resolver<String, SimpleEntry<Integer, Integer>>
 {
 	public SnResolver(final String ser) throws IOException, ClassNotFoundException
 	{

@@ -9,9 +9,9 @@ public class VnModule extends Module
 {
 	public static final String MODULE_ID = "vn";
 
-	public VnModule(final String conf)
+	public VnModule(final String conf, final Mode mode)
 	{
-		super(MODULE_ID, conf);
+		super(MODULE_ID, conf, mode);
 	}
 
 	@Override
@@ -30,6 +30,13 @@ public class VnModule extends Module
 
 	public static void main(final String[] args) throws IOException
 	{
-		new VnModule(args[0]).run();
+		int i = 0;
+		Mode mode = Mode.PLAIN;
+		if (args[i].startsWith("-"))
+		{
+			mode = Mode.read(args[i++]);
+		}
+		String conf = args[i];
+		new VnModule(conf, mode).run();
 	}
 }
