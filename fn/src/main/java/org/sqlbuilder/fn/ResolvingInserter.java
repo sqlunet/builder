@@ -16,6 +16,13 @@ public class ResolvingInserter extends Inserter
 	{
 		super(conf);
 
+		// output
+		this.outDir = new File(conf.getProperty("fn_outdir_resolved", "sql/data"));
+		if (!this.outDir.exists())
+		{
+			this.outDir.mkdirs();
+		}
+
 		// resolve
 		this.resolve = true;
 		this.serFile = conf.getProperty("word_nids");

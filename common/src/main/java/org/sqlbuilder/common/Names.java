@@ -34,7 +34,7 @@ public class Names
 
 	public String table(String key)
 	{
-		return get(key + ".table");
+		return Utils.backtick(get(key + ".table"));
 	}
 
 	public String file(String key)
@@ -59,7 +59,7 @@ public class Names
 
 	public String column(String key)
 	{
-		return backtick(get(key));
+		return Utils.backtick(get(key));
 	}
 
 	private String get(String key)
@@ -72,13 +72,8 @@ public class Names
 		return v;
 	}
 
-	private String backtick(final String value)
-	{
-		return '`' + value + '`';
-	}
-	
 	private String backtickColumns(final String columns)
 	{
-		return Arrays.stream(columns.split(",")).map(this::backtick).collect(Collectors.joining(","));
+		return Arrays.stream(columns.split(",")).map(Utils::backtick).collect(Collectors.joining(","));
 	}
 }

@@ -2,6 +2,7 @@ package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.fn.collectors.*;
+import org.sqlbuilder.fn.objects.Word;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,20 +21,38 @@ public class FnModule extends Module
 	{
 		assert props != null;
 
-		new FnEnumProcessor().run();
-		new FnSemTypeProcessor("semTypes.xml", props).run();
-		new FnFrameProcessor(props).run();
-		new FnLexUnitProcessor(props).run();
-		new FnFullTextProcessor(props).run();
+		switch(mode)
+		{
+			case PLAIN:
+			case RESOLVE:
+				new FnEnumProcessor().run();
+				new FnSemTypeProcessor("semTypes.xml", props).run();
+				new FnFrameProcessor(props).run();
+				new FnLexUnitProcessor(props).run();
+				new FnFullTextProcessor(props).run();
+				try
+				{
+					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
 
-		try
-		{
-			Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
-			inserter.insert();
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
+			case UPDATE:
+				new FnWordProcessor(props).run();
+				try
+				{
+					Inserter inserter = new ResolvingUpdater(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
 		}
 	}
 

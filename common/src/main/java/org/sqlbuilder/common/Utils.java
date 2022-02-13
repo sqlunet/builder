@@ -10,7 +10,7 @@ public class Utils
 
 	private static final String ESCAPED_QUOTE = "''";
 
-	private static final String BACKTICK = "`";
+	private static final char BACKTICK = '`';
 
 	// Q U O T E
 
@@ -145,5 +145,16 @@ public class Utils
 	public static String zeroableInt(final int i)
 	{
 		return i == 0 ? NULLSTR : String.valueOf(i);
+	}
+
+	/**
+	 * Back tick
+	 *
+	 * @param value value to backtick
+	 * @return bactocked string value
+	 */
+	public static String backtick(final String value)
+	{
+		return BACKTICK + value + BACKTICK;
 	}
 }

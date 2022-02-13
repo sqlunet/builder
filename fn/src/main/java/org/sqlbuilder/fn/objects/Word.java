@@ -91,5 +91,4 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>
 	{
 		return "W'" + word + '\'';
 	}
-
 }

@@ -18,7 +18,7 @@ public class Inserter
 {
 	protected final Names names;
 
-	protected final File outDir;
+	protected File outDir;
 
 	protected boolean resolve = false;
 

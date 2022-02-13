@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Update
 {
-	public static <T extends Resolvable<U,R>, U, R> void update(final Map<T, Integer> map, final File file, final String table, final Resolver<U,R> resolver, final String resolvingColumn, final String resolvedColumn) throws FileNotFoundException
+	public static <T extends Resolvable<U, R>, U, R> void update(final Map<T, Integer> map, final File file, final String table, final Resolver<U, R> resolver, final String resolvingColumn, final String resolvedColumn) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
@@ -17,16 +17,20 @@ public class Update
 			{
 				map.forEach((key, idx) -> {
 
-					U resolving = key.resolving();
 					R resolved = key.resolve(resolver);
-					String sqlResolved = Utils.nullable(resolved, Object::toString);
-					String comment = key.comment();
-					String row = String.format("UPDATE %s SET %s=%s WHERE %s = %s%n", table, resolvedColumn, sqlResolved, resolvingColumn, resolving);
-					if (comment != null)
+					if (resolved != null)
 					{
-						row = String.format("%s /* %s */", row, comment);
+						U resolving = key.resolving();
+						String sqlResolved = Utils.nullable(resolved, Object::toString);
+						String sqlResolving = resolving instanceof String ? Utils.quote(resolving.toString()) : resolving.toString();
+						String comment = key.comment();
+						String row = String.format("UPDATE %s SET %s=%s WHERE %s=%s;", table, resolvedColumn, sqlResolved, resolvingColumn, sqlResolving);
+						if (comment != null)
+						{
+							row = String.format("%s /* %s */", row, comment);
+						}
+						ps.println(row);
 					}
-					ps.println(row);
 				});
 			}
 		}

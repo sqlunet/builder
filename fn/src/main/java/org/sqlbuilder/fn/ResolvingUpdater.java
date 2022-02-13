@@ -1,10 +1,13 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.common.Update;
 import org.sqlbuilder.fn.objects.Word;
 
-import java.io.*;
-import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 public class ResolvingUpdater extends ResolvingInserter
