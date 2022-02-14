@@ -32,7 +32,7 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
-		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), names.table("words"), //
+		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), names.table("words"), //
 				resolver, //
 				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				names.column("words.word"));
