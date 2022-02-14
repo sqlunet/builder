@@ -16,6 +16,7 @@
         <module name="sn" />
         <module name="legacymaps" />
         <module name="fn-beans" />
+        <module name="pm" />
       </profile>
     </annotationProcessing>
   </component>
