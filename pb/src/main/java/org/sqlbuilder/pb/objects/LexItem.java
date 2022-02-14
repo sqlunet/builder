@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class LexItem implements Comparable<LexItem>
 {
-	protected static final Map<LexItem, PbWord> map = new TreeMap<>();
+	protected static final Map<LexItem, Word> map = new TreeMap<>();
 
 	protected final String lemma;
 
@@ -32,7 +32,7 @@ public class LexItem implements Comparable<LexItem>
 			throw new RuntimeException(toString());
 	}
 
-	public void put(final PbWord word)
+	public void put(final Word word)
 	{
 		LexItem.map.put(this, word);
 	}

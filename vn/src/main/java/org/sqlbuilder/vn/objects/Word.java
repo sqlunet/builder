@@ -79,7 +79,7 @@ public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comp
 		return String.format("'%s'", Utils.escape(word));
 	}
 
-	// I N S E R T
+	// R E S O L V E
 
 	@Override
 	public String resolving()

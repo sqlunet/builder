@@ -73,7 +73,7 @@ public class PbDocument extends XmlDocument
 			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 
 			// predicate as roleset member
-			PbWord pbword = PbWord.make(predicate.getLemma());
+			Word pbword = Word.make(predicate.getLemma());
 
 			final NodeList roleSetNodes = XmlDocument.getXPaths(predicateElement, "./roleset");
 			for (int j = 0; j < roleSetNodes.getLength(); j++)
@@ -106,7 +106,7 @@ public class PbDocument extends XmlDocument
 						final String word2 = aliasElement.getTextContent().trim();
 
 						// alias word
-						PbWord pbword2 = PbWord.make(word2);
+						Word pbword2 = Word.make(word2);
 
 						// alias word as roleset member
 						Member.make(roleSet, pbword2);

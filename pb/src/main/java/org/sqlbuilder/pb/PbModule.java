@@ -2,10 +2,11 @@ package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.pb.collectors.PbProcessor;
+import org.sqlbuilder.pb.collectors.PbUpdatingProcessor;
 import org.sqlbuilder.sl.collectors.SemlinkProcessor;
+import org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class PbModule extends Module
 {
@@ -19,8 +20,39 @@ public class PbModule extends Module
 	@Override
 	protected void run()
 	{
-		buildPropBank(props);
-		buildSemLink(props);
+		assert props != null;
+
+		switch (mode)
+		{
+			case PLAIN:
+			case RESOLVE:
+				new PbProcessor(props).run();
+				new SemlinkProcessor(props).run();
+				try
+				{
+					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
+			case UPDATE:
+				new PbUpdatingProcessor(props).run();
+				new SemlinkUpdatingProcessor(props).run();
+				try
+				{
+					Inserter inserter = new ResolvingUpdater(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+		}
 		try
 		{
 			new Inserter(props).insert();
@@ -29,16 +61,6 @@ public class PbModule extends Module
 		{
 			e.printStackTrace();
 		}
-	}
-
-	private static void buildPropBank(final Properties props)
-	{
-		new PbProcessor(props).run();
-	}
-
-	private static void buildSemLink(final Properties props)
-	{
-		new SemlinkProcessor(props).run();
 	}
 
 	public static void main(final String[] args)

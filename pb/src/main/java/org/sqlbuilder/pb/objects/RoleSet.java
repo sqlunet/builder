@@ -117,12 +117,12 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 	// I N S E R T
 
 	@RequiresIdFrom(type = RoleSet.class)
-	@RequiresIdFrom(type = PbWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String dataRow()
 	{
 		final Predicate predicate2 = getPredicate();
-		final PbWord word = LexItem.map.get(predicate2);
+		final Word word = LexItem.map.get(predicate2);
 
 		// (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
 		final int roleSetId = RoleSet.COLLECTOR.get(this);

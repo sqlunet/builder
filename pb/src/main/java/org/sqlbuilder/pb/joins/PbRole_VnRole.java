@@ -2,6 +2,7 @@ package org.sqlbuilder.pb.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.pb.foreign.VnRole;
 import org.sqlbuilder.pb.objects.Role;
 import org.sqlbuilder.pb.objects.RoleSet;
@@ -11,7 +12,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class PbRole_VnRole implements Insertable
+public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 {
 	static public final Comparator<PbRole_VnRole> COMPARATOR = Comparator.comparing(PbRole_VnRole::getRole).thenComparing(PbRole_VnRole::getVnRole);
 
@@ -95,6 +96,16 @@ public class PbRole_VnRole implements Insertable
 				role.getRoleSet().getName(), //
 				role.getArgn());
 	}
+
+	// R E S O L V E
+
+	@Override
+	public String resolving()
+	{
+		return null;
+	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

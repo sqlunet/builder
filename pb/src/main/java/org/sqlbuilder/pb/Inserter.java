@@ -15,9 +15,11 @@ import java.util.Properties;
 
 public class Inserter
 {
-	private final Names names;
+	protected final Names names;
 
-	private final File outDir;
+	protected File outDir;
+
+	protected boolean resolve = false;
 
 	public Inserter(final Properties conf)
 	{
@@ -55,7 +57,7 @@ public class Inserter
 		      @ProvidesIdTo(type = Rel.class) var ignored15 = Rel.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Arg.class) var ignored16 = Arg.COLLECTOR.open(); //
 
-		      @ProvidesIdTo(type = PbWord.class) var ignored20 = PbWord.COLLECTOR.open() //
+		      @ProvidesIdTo(type = Word.class) var ignored20 = Word.COLLECTOR.open() //
 		)
 		{
 			Insert.insertStringMap(Example.ASPECT_COLLECTOR, new File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"));
@@ -75,12 +77,40 @@ public class Inserter
 
 			Insert.insert(Member.SET, Member.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"));
 
-			Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"));
-			Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"));
-			Insert.insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
-
-			Insert.insert(PbWord.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
+			// R E S O L V A B L E
+			insertWords();
+			insertFnAliases();
+			insertVnAliases();
+			insertVnAliasRoles();
 		}
 		Progress.traceTailer("inserts", "done");
+	}
+
+	protected void insertWords() throws FileNotFoundException
+	{
+		Progress.tracePending("collector", "word");
+		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
+		Progress.traceDone(null);
+	}
+
+	protected void insertFnAliases() throws FileNotFoundException
+	{
+		Progress.tracePending("collector", "fnalias");
+		Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"));
+		Progress.traceDone(null);
+	}
+
+	protected void insertVnAliases() throws FileNotFoundException
+	{
+		Progress.tracePending("set", "vnalias");
+		Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"));
+		Progress.traceDone(null);
+	}
+
+	protected void insertVnAliasRoles() throws FileNotFoundException
+	{
+		Progress.tracePending("set", "vnaliasrole");
+		Insert.insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
+		Progress.traceDone(null);
 	}
 }

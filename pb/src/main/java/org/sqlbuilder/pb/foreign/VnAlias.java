@@ -1,7 +1,7 @@
 package org.sqlbuilder.pb.foreign;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.pb.objects.PbWord;
+import org.sqlbuilder.pb.objects.Word;
 import org.sqlbuilder.pb.objects.RoleSet;
 
 import java.util.Comparator;
@@ -19,15 +19,16 @@ public class VnAlias extends Alias implements Insertable
 	static public final Set<VnAlias> SET = new HashSet<>();
 
 	// C O N S T R U C T O R
-	public static VnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
+
+	public static VnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
 	{
-		var a = new VnAlias(clazz, pos, pbRoleSet, pbWord);
+		var a = new VnAlias(clazz, pos, pbRoleSet, word);
 		SET.add(a);
 		return a;
 	}
 
-	protected VnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
+	protected VnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
 	{
-		super(clazz, pos, pbRoleSet, pbWord);
+		super(clazz, pos, pbRoleSet, word);
 	}
 }

@@ -5,24 +5,24 @@ import org.sqlbuilder.common.*;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class PbWord implements HasId, Insertable, Comparable<PbWord>
+public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comparable<Word>
 {
-	public static final Comparator<PbWord> COMPARATOR = Comparator.comparing(PbWord::getWord);
+	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
-	public static final SetCollector<PbWord> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector<Word> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final String word;
 
 	// C O N S T R U C T O R
 
-	public static PbWord make(final String word)
+	public static Word make(final String word)
 	{
-		var w = new PbWord(word);
+		var w = new Word(word);
 		COLLECTOR.add(w);
 		return w;
 	}
 
-	private PbWord(final String word)
+	private Word(final String word)
 	{
 		this.word = word;
 	}
@@ -34,7 +34,7 @@ public class PbWord implements HasId, Insertable, Comparable<PbWord>
 		return word;
 	}
 
-	@RequiresIdFrom(type = PbWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public Integer getIntId()
 	{
@@ -54,7 +54,7 @@ public class PbWord implements HasId, Insertable, Comparable<PbWord>
 		{
 			return false;
 		}
-		PbWord that = (PbWord) o;
+		Word that = (Word) o;
 		return word.equals(that.word);
 	}
 
@@ -67,19 +67,27 @@ public class PbWord implements HasId, Insertable, Comparable<PbWord>
 	// O R D E R
 
 	@Override
-	public int compareTo(final PbWord that)
+	public int compareTo(final Word that)
 	{
 		return COMPARATOR.compare(this, that);
 	}
 
 	// I N S E R T
 
-	@RequiresIdFrom(type = PbWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String dataRow()
 	{
 		return String.format("%s,'%s'", //
 				"NULL", //
 				Utils.escape(word));
+	}
+
+	// R E S O L V E
+
+	@Override
+	public String resolving()
+	{
+		return word;
 	}
 }

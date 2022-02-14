@@ -18,18 +18,18 @@ public class Member implements Insertable, Comparable<Member>
 
 	final RoleSet roleSet;
 
-	final PbWord word;
+	final Word word;
 
 	// C O N S T R U C T O R
 
-	public static Member make(final RoleSet roleSet, final PbWord pbWord)
+	public static Member make(final RoleSet roleSet, final Word word)
 	{
-		var m = new Member(roleSet, pbWord);
+		var m = new Member(roleSet, word);
 		SET.add(m);
 		return m;
 	}
 
-	private Member(final RoleSet roleSet, final PbWord word)
+	private Member(final RoleSet roleSet, final Word word)
 	{
 		this.roleSet = roleSet;
 		this.word = word;
@@ -45,7 +45,7 @@ public class Member implements Insertable, Comparable<Member>
 
 	// I D E N T I T Y
 
-	public PbWord getWord()
+	public Word getWord()
 	{
 		return word;
 	}
@@ -82,7 +82,7 @@ public class Member implements Insertable, Comparable<Member>
 	// I N S E R T
 
 	@RequiresIdFrom(type = RoleSet.class)
-	@RequiresIdFrom(type = PbWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String dataRow()
 	{

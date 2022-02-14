@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb.foreign;
 
-import org.sqlbuilder.pb.objects.PbWord;
+import org.sqlbuilder.common.Resolvable;
+import org.sqlbuilder.pb.objects.Word;
 import org.sqlbuilder.pb.objects.RoleSet;
 
 import java.util.Comparator;
@@ -18,15 +19,22 @@ public class FnAlias extends Alias
 	public static final Set<FnAlias> SET = new HashSet<>();
 
 	// C O N S T R U C T O R
-	public static FnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
+
+	public static FnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
 	{
-		var a = new FnAlias(clazz, pos, pbRoleSet, pbWord);
+		var a = new FnAlias(clazz, pos, pbRoleSet, word);
 		SET.add(a);
 		return a;
 	}
 
-	private FnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
+	@Override
+	public String resolving()
 	{
-		super(clazz, pos, pbRoleSet, pbWord);
+		return null;
+	}
+
+	private FnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
+	{
+		super(clazz, pos, pbRoleSet, word);
 	}
 }
