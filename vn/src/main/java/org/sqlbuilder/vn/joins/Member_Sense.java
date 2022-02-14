@@ -2,16 +2,18 @@ package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.vn.objects.Sensekey;
 import org.sqlbuilder.vn.objects.VnClass;
 import org.sqlbuilder.vn.objects.Word;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Member_Sense implements Insertable, Comparable<Member_Sense>
+public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<Integer,Integer>>, Comparable<Member_Sense>
 {
 	static public final Comparator<Member_Sense> COMPARATOR = Comparator //
 			.comparing(Member_Sense::getMemberClass) //
@@ -75,11 +77,7 @@ public class Member_Sense implements Insertable, Comparable<Member_Sense>
 		return COMPARATOR.compare(this, that);
 	}
 
-	@Override
-	public String toString()
-	{
-		return String.format("%s-%s-%s-%s", super.toString(), this.sensenum, this.sensekey, this.quality);
-	}
+	// I N S E R T
 
 	@RequiresIdFrom(type = VnClass.class)
 	@RequiresIdFrom(type = Word.class)
@@ -107,5 +105,21 @@ public class Member_Sense implements Insertable, Comparable<Member_Sense>
 	public String comment()
 	{
 		return String.format("%s,%s", member.clazz.getName(), member.word.getWord());
+	}
+
+	// R E S O L V E
+
+	@Override
+	public String resolving()
+	{
+		return sensekey == null ? null : sensekey.getSensekey();
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		return String.format("%s-%s-%s-%s", super.toString(), this.sensenum, this.sensekey, this.quality);
 	}
 }

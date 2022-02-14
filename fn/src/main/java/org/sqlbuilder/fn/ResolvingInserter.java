@@ -1,9 +1,14 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.Insert;
+import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.objects.Word;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
 public class ResolvingInserter extends Inserter
@@ -33,7 +38,10 @@ public class ResolvingInserter extends Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), resolver, names.column("words.wordid"), true);
+		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), true, //
+				resolver, //
+				w -> Utils.nullable(w, Objects::toString), //
+				names.column("words.wordid"));
 		Progress.traceDone(null);
 	}
 }

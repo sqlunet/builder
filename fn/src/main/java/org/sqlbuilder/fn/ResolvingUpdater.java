@@ -3,6 +3,7 @@ package org.sqlbuilder.fn;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.common.Update;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.objects.Word;
 
 import java.io.File;
@@ -30,7 +31,11 @@ public class ResolvingUpdater extends ResolvingInserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), names.table("words"), resolver, names.column("words.word"), names.column("words.wordid"));
+		final String wordidCol = names.column("words.wordid");
+		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), names.table("words"), //
+				resolver, //
+				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
+				names.column("words.word"));
 		Progress.traceDone(null);
 	}
 }

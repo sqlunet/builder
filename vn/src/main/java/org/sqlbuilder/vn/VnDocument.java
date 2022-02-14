@@ -100,8 +100,19 @@ public class VnDocument
 			final Element memberElement = (Element) memberNodes.item(i);
 			final String wordAttribute = memberElement.getAttribute("name");
 			final String wnAttribute = memberElement.getAttribute("wn");
-				Member.makeWord(wordAttribute);
-				Member.makeSensekeys(wnAttribute);
+			Member.makeWord(wordAttribute);
+			var sensekeys = Member.makeSensekeys(wnAttribute);
+			if (sensekeys != null)
+			{
+				for (var sensekey : sensekeys)
+				{
+					// sense mapping quality as indicated by verbnet ('?' prefix to sense key)
+					final float senseQuality = sensekey.getQuality();
+
+					// class member sense
+					Sense.make(sensekey);
+				}
+			}
 		}
 	}
 

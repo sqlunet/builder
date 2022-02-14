@@ -70,15 +70,20 @@ public class Inserter
 			Insert.insert(Class_Role.SET, Class_Role.COMPARATOR, new File(outDir, names.file("classes_roles")), names.table("classes_roles"), names.columns("classes_roles"));
 			Insert.insert(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, names.file("classes_frames")), names.table("classes_frames"), names.columns("classes_frames"));
 			Insert.insert(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, names.file("members_groupings")), names.table("members_groupings"), names.columns("members_groupings"));
-			Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"));
 
 			// R E S O L V A B L E
 			insertWords();
+			insertMemberSenses();
 		}
 	}
 
 	protected void insertWords() throws FileNotFoundException
 	{
 		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
+	}
+
+	protected void insertMemberSenses() throws FileNotFoundException
+	{
+		Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"));
 	}
 }

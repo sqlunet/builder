@@ -3,6 +3,8 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.common.Update;
+import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.vn.objects.Sense;
 import org.sqlbuilder.vn.objects.Word;
 
 import java.io.File;
@@ -23,6 +25,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
 		{
 			insertWords();
+			insertMemberSenses();
 		}
 	}
 
@@ -30,7 +33,24 @@ public class ResolvingUpdater extends ResolvingInserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), names.table("words"), wordResolver, names.column("words.word"), names.column("words.wordid"));
+		final String wordidCol = names.column("words.wordid");
+		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), names.table("words"), //
+				wordResolver, //
+				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
+				names.column("words.word"));
+		Progress.traceDone(null);
+	}
+
+	@Override
+	protected void insertMemberSenses() throws FileNotFoundException
+	{
+		Progress.tracePending("set", "members senses");
+		final String wordidCol = names.column("members_senses.wordid");
+		final String synsetidCol = names.column("members_senses.synsetid");
+		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), names.table("members_senses"), //
+				sensekeyResolver, //
+				resolved -> resolved == null ? "NULL,NULL" : (wordidCol + '=' + resolved.getKey() + ',' + synsetidCol + '=' + resolved.getValue()), //
+				names.column("members_senses.sensekey"));
 		Progress.traceDone(null);
 	}
 }
