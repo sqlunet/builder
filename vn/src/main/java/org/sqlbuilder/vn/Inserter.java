@@ -12,9 +12,11 @@ import java.util.Properties;
 
 public class Inserter
 {
-	private final Names names;
+	protected final Names names;
 
-	private final File outDir;
+	protected File outDir;
+
+	protected boolean resolve = false;
 
 	public Inserter(final Properties conf)
 	{
@@ -26,7 +28,6 @@ public class Inserter
 		}
 	}
 
-	//TODO external word map
 	public void insert() throws FileNotFoundException
 	{
 		try ( //
@@ -43,10 +44,9 @@ public class Inserter
 		      @ProvidesIdTo(type = FrameExample.class) var ignored11 = Syntax.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = FrameExample.class) var ignored12 = Semantics.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Predicate.class) var ignored13 = Predicate.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = VnWord.class) var ignored14 = VnWord.COLLECTOR.open() //
+		      @ProvidesIdTo(type = Word.class) var ignored14 = Word.COLLECTOR.open() //
 		)
 		{
-			// from pass1
 			Insert.insert(VnClass.COLLECTOR, new File(outDir, names.file("classes")), names.table("classes"), names.columns("classes"));
 			Insert.insert(Grouping.COLLECTOR, new File(outDir, names.file("groupings")), names.table("groupings"), names.columns("groupings"));
 			Insert.insert(RoleType.COLLECTOR, new File(outDir, names.file("roletypes")), names.table("roletypes"), names.columns("roletypes"));
@@ -60,22 +60,25 @@ public class Inserter
 			Insert.insert(Semantics.COLLECTOR, new File(outDir, names.file("semantics")), names.table("semantics"), names.columns("semantics"));
 			Insert.insert(Predicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"));
 
-			// from pass2
 			Insert.insert(Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"));
 			Insert.insert(Frame.COLLECTOR, new File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"));
 
-			// from pass3
 			Insert.insert(Frame_Example.SET, null, new File(outDir, names.file("frames_examples")), names.table("frames_examples"), names.columns("frames_examples"));
 			Insert.insert(Predicate_Semantics.SET, null, new File(outDir, names.file("predicates_semantics")), names.table("predicates_semantics"), names.columns("predicates_semantics"));
-
-			// from pass4
-			Insert.insert(VnWord.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
 
 			Insert.insert(Class_Word.SET, Class_Word.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"));
 			Insert.insert(Class_Role.SET, Class_Role.COMPARATOR, new File(outDir, names.file("classes_roles")), names.table("classes_roles"), names.columns("classes_roles"));
 			Insert.insert(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, names.file("classes_frames")), names.table("classes_frames"), names.columns("classes_frames"));
 			Insert.insert(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, names.file("members_groupings")), names.table("members_groupings"), names.columns("members_groupings"));
 			Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"));
+
+			// R E S O L V A B L E
+			insertWords();
 		}
+	}
+
+	protected void insertWords() throws FileNotFoundException
+	{
+		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
 	}
 }

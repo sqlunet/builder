@@ -14,8 +14,7 @@ public class RoleType implements HasId, Insertable, Comparable<RoleType>
 
 	private final String type;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static RoleType make(final String type)
 	{
 		var t = new RoleType(type);

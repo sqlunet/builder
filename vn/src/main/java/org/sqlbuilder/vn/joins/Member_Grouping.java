@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Grouping;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnWord;
+import org.sqlbuilder.vn.objects.Word;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 
 	public static final Set<Member_Grouping> SET = new HashSet<>();
 
-	private final VnWord word;
+	private final Word word;
 
 	private final VnClass clazz;
 
@@ -26,14 +26,14 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 
 	// C O N S T R U C T O R
 
-	public static Member_Grouping make(final VnClass clazz, final VnWord word, final Grouping grouping)
+	public static Member_Grouping make(final VnClass clazz, final Word word, final Grouping grouping)
 	{
 		var m = new Member_Grouping(clazz, word, grouping);
 		SET.add(m);
 		return m;
 	}
 
-	private Member_Grouping(final VnClass clazz, final VnWord word, final Grouping grouping)
+	private Member_Grouping(final VnClass clazz, final Word word, final Grouping grouping)
 	{
 		this.clazz = clazz;
 		this.word = word;
@@ -42,7 +42,7 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 
 	// A C C E S S
 
-	public VnWord getWord()
+	public Word getWord()
 	{
 		return word;
 	}
@@ -74,7 +74,7 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 	// I N S E R T
 
 	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = VnWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@RequiresIdFrom(type = Grouping.class)
 	@Override
 	public String dataRow()

@@ -205,7 +205,7 @@ public class VnProcessor extends Processor
 		for (final Member member : members)
 		{
 			// word
-			final VnWord word = VnWord.make(member.lemma);
+			final Word word = Word.make(member.lemma);
 
 			// groupings
 			if (member.groupings != null)

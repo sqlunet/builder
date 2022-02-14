@@ -16,8 +16,7 @@ public class FrameExample implements HasId, Insertable, Comparable<FrameExample>
 
 	private final String example;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static FrameExample make(final String example)
 	{
 		var e = new FrameExample(example);

@@ -49,8 +49,7 @@ public class Normalizer
 
 	private final Collection<String> ignoreExceptionSqls;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public Normalizer(final String newTable, final String newCol, final String newIdCol)
 	{
 		this.sqls = new ArrayList<>();

@@ -18,14 +18,14 @@ public class BNCResolvingProcessor extends BNCProcessor
 {
 	protected final String serFile;
 
-	private final BncResolver resolver;
+	private final BncWordResolver resolver;
 
 	public BNCResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
 		// output
-		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data"));
+		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -34,7 +34,7 @@ public class BNCResolvingProcessor extends BNCProcessor
 		// resolve
 		this.resolve = true;
 		this.serFile = conf.getProperty("word_nids");
-		this.resolver = new BncResolver(this.serFile);
+		this.resolver = new BncWordResolver(this.serFile);
 	}
 
 	@Override

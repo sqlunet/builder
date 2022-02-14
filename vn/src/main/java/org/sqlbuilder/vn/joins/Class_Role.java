@@ -19,8 +19,7 @@ public class Class_Role implements Insertable
 
 	private final VnClass clazz;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Class_Role make(final VnClass clazz, final Role role)
 	{
 		var m = new Class_Role(clazz, role);

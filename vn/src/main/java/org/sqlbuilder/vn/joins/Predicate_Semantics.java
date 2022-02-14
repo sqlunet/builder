@@ -18,8 +18,7 @@ public class Predicate_Semantics implements Insertable, Comparable<Predicate_Sem
 
 	private final Predicate predicate;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Predicate_Semantics make(final Predicate predicate, final Semantics semantics)
 	{
 		var m = new Predicate_Semantics(predicate, semantics);

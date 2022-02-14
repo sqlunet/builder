@@ -20,14 +20,14 @@ public class SnResolvingProcessor extends SnProcessor
 {
 	protected final String serFile;
 
-	private final SnResolver senseResolver;
+	private final SnSensekeyResolver senseResolver;
 
 	public SnResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
 		// outdir
-		this.outDir = new File(conf.getProperty("sn_outdir_resolved", "sql/data"));
+		this.outDir = new File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -36,7 +36,7 @@ public class SnResolvingProcessor extends SnProcessor
 		// resolver
 		this.resolve = true;
 		this.serFile = conf.getProperty("sense_nids");
-		this.senseResolver = new SnResolver(this.serFile);
+		this.senseResolver = new SnSensekeyResolver(this.serFile);
 	}
 
 	@Override

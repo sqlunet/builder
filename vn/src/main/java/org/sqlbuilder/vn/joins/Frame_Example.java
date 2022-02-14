@@ -17,8 +17,7 @@ public class Frame_Example implements Insertable, Comparable<Frame_Example>
 
 	private final FrameExample example;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Frame_Example make(final Frame frame, final FrameExample example)
 	{
 		var m = new Frame_Example(frame, example);

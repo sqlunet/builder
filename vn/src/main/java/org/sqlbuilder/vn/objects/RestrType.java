@@ -19,8 +19,7 @@ public class RestrType implements HasId, Insertable, Comparable<RestrType>
 
 	final boolean isSyntactic;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static RestrType make(final String value, final String type, final boolean isSyntactic)
 	{
 		var r = new RestrType(value, type, isSyntactic);

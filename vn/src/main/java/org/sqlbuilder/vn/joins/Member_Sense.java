@@ -5,7 +5,7 @@ import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.vn.objects.Sensekey;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnWord;
+import org.sqlbuilder.vn.objects.Word;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -57,7 +57,7 @@ public class Member_Sense implements Insertable, Comparable<Member_Sense>
 		return member.clazz;
 	}
 
-	public VnWord getMemberWord()
+	public Word getMemberWord()
 	{
 		return member.word;
 	}
@@ -82,7 +82,7 @@ public class Member_Sense implements Insertable, Comparable<Member_Sense>
 	}
 
 	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = VnWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	// classid,wordid,sensenum,synsetid,sensekey,quality
 	public String dataRow()

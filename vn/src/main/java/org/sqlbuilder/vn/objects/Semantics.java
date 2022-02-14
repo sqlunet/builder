@@ -21,8 +21,7 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 
 	private final String semantics;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Semantics make(final String semantics) throws IOException, SAXException, ParserConfigurationException
 	{
 		var s = new Semantics(semantics);

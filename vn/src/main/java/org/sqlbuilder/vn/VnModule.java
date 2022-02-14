@@ -2,6 +2,7 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.vn.collector.VnProcessor;
+import org.sqlbuilder.vn.collector.VnUpdatingProcessor;
 
 import java.io.IOException;
 
@@ -17,14 +18,36 @@ public class VnModule extends Module
 	@Override
 	protected void run()
 	{
-		try
+		assert props != null;
+
+		switch(mode)
 		{
-			new VnProcessor(props).run();
-			new Inserter(props).insert();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+			case PLAIN:
+			case RESOLVE:
+				new VnProcessor(props).run();
+				try
+				{
+					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
+			case UPDATE:
+				new VnUpdatingProcessor(props).run();
+				try
+				{
+					Inserter inserter = new ResolvingUpdater(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
 		}
 	}
 

@@ -29,8 +29,7 @@ public abstract class Alias implements Insertable
 
 	protected final PbWord pbWord;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Alias make(final Db db, final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
 		var a = db.equals(Db.VERBNET) ? VnAlias.make(clazz, pos, pbRoleSet, pbWord) : (db.equals(Db.FRAMENET) ? FnAlias.make(clazz, pos, pbRoleSet, pbWord) : null);

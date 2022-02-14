@@ -10,14 +10,14 @@ public class ResolvingInserter extends Inserter
 {
 	protected final String serFile;
 
-	protected final FnResolver resolver;
+	protected final FnWordResolver resolver;
 
 	public ResolvingInserter(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
 		// output
-		this.outDir = new File(conf.getProperty("fn_outdir_resolved", "sql/data"));
+		this.outDir = new File(conf.getProperty("fn_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -26,7 +26,7 @@ public class ResolvingInserter extends Inserter
 		// resolve
 		this.resolve = true;
 		this.serFile = conf.getProperty("word_nids");
-		this.resolver = new FnResolver(this.serFile);
+		this.resolver = new FnWordResolver(this.serFile);
 	}
 
 	@Override

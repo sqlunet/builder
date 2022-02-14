@@ -18,8 +18,7 @@ public class VnAlias extends Alias implements Insertable
 
 	static public final Set<VnAlias> SET = new HashSet<>();
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static VnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
 		var a = new VnAlias(clazz, pos, pbRoleSet, pbWord);

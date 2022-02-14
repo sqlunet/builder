@@ -14,8 +14,7 @@ public class Predicate implements HasId, Insertable, Comparable<Predicate>
 
 	private final String name;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Predicate make(final String name)
 	{
 		var p = new Predicate(name);

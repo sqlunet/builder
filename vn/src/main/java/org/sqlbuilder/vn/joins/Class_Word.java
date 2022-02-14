@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.joins;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.VnWord;
+import org.sqlbuilder.vn.objects.Word;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -18,18 +18,18 @@ public class Class_Word implements Insertable, Comparable<Class_Word>
 
 	public final VnClass clazz;
 
-	public final VnWord word;
+	public final Word word;
 
 	// C O N S T R U C T O R
 
-	public static Class_Word make(final VnClass clazz, final VnWord word)
+	public static Class_Word make(final VnClass clazz, final Word word)
 	{
 		var m = new Class_Word(clazz, word);
 		SET.add(m);
 		return m;
 	}
 
-	private Class_Word(final VnClass clazz, final VnWord word)
+	private Class_Word(final VnClass clazz, final Word word)
 	{
 		this.clazz = clazz;
 		this.word = word;
@@ -37,7 +37,7 @@ public class Class_Word implements Insertable, Comparable<Class_Word>
 
 	// A C C E S S
 
-	public VnWord getWord()
+	public Word getWord()
 	{
 		return word;
 	}
@@ -81,7 +81,7 @@ public class Class_Word implements Insertable, Comparable<Class_Word>
 	// I N S E R T
 
 	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = VnWord.class)
+	@RequiresIdFrom(type = Word.class)
 	@Override
 	public String dataRow()
 	{

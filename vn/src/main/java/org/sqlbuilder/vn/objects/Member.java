@@ -13,19 +13,32 @@ public class Member
 
 	private final boolean isDefinite;
 
-	// C O N S T R U C T
+	// C O N S T R U C T O R
 
-	public static Member make(final String lemmaString0, final String wnSenses, final String groupingAttribute)
+	public static Member make(final String wnword, final String wnSenses, final String wnGrouping)
 	{
-		String lemmaString = lemmaString0;
-		boolean isDefiniteFlag = true;
-		if (lemmaString.startsWith("?"))
-		{
-			isDefiniteFlag = false;
-			lemmaString = lemmaString.substring(1);
-		}
-		final String lemma = lemmaString.replace('_', ' ');
+		boolean isDefiniteFlag = wnword.startsWith("?");
+		String word = makeWord(wnword);
+		List<Sensekey> senseKeys = makeSensekeys(wnSenses);
+		List<Grouping> groupings = makeGroupings(wnGrouping);
 
+		return new Member(word, senseKeys, groupings, isDefiniteFlag);
+	}
+
+	public static String makeWord(final String wnword)
+	{
+		// word
+		String word = wnword;
+		if (word.startsWith("?"))
+		{
+			word = word.substring(1);
+		}
+		return word.replace('_', ' ');
+	}
+
+	public static List<Sensekey> makeSensekeys(final String wnSenses)
+	{
+		// senses
 		List<Sensekey> senseKeys = null;
 		if (wnSenses != null && !wnSenses.trim().isEmpty())
 		{
@@ -50,6 +63,11 @@ public class Member
 				senseKeys.add(sensekey);
 			}
 		}
+		return senseKeys;
+	}
+
+	public static List<Grouping> makeGroupings(final String groupingAttribute)
+	{
 		List<Grouping> groupings = null;
 		if (groupingAttribute != null && !groupingAttribute.trim().isEmpty())
 		{
@@ -66,7 +84,7 @@ public class Member
 				groupings.add(grouping);
 			}
 		}
-		return new Member(lemma, senseKeys, groupings, isDefiniteFlag);
+		return groupings;
 	}
 
 	private Member(final String lemma, final List<Sensekey> senseKeys, final List<Grouping> groupings, final boolean definiteFlag)

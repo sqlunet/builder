@@ -7,9 +7,9 @@ import org.sqlbuilder.common.Resolver;
 import java.io.File;
 import java.io.IOException;
 
-public class FnResolver extends Resolver<String,Integer>
+public class FnWordResolver extends Resolver<String,Integer>
 {
-	public FnResolver(final String ser) throws IOException, ClassNotFoundException
+	public FnWordResolver(final String ser) throws IOException, ClassNotFoundException
 	{
 		super(DeSerialize.deserialize(new File(ser)));
 	}

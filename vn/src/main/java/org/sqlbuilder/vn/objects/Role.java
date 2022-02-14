@@ -19,8 +19,7 @@ public class Role implements HasId, Insertable, Comparable<Role>
 
 	private final Restrs restrs;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Role make(final String type, final String restrsXML) throws ParserConfigurationException, SAXException, IOException
 	{
 		final RoleType roleType = RoleType.make(type);

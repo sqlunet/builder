@@ -24,8 +24,7 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 
 	final boolean isSyntactic;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Restrs make(final String value, final boolean isSyntactic) throws IOException, SAXException, ParserConfigurationException
 	{
 		var r = new Restrs(value, isSyntactic);

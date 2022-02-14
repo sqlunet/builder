@@ -72,6 +72,8 @@ public class VnDocument
 		return VnClass.make(className);
 	}
 
+	// M E M B E R S
+
 	@NotNull
 	public static Collection<Member> makeMembers(final Node start) throws XPathExpressionException
 	{
@@ -87,6 +89,20 @@ public class VnDocument
 			result.add(member);
 		}
 		return result;
+	}
+
+	@NotNull
+	public static void makeResolvableMembers(final Node start) throws XPathExpressionException
+	{
+		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
+		for (int i = 0; i < memberNodes.getLength(); i++)
+		{
+			final Element memberElement = (Element) memberNodes.item(i);
+			final String wordAttribute = memberElement.getAttribute("name");
+			final String wnAttribute = memberElement.getAttribute("wn");
+				Member.makeWord(wordAttribute);
+				Member.makeSensekeys(wnAttribute);
+		}
 	}
 
 	// G R O U P I N G S

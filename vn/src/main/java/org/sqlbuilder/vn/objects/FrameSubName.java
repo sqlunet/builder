@@ -14,8 +14,7 @@ public class FrameSubName implements HasId, Insertable, Comparable<FrameSubName>
 
 	private final String subName;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static FrameSubName make(final String subname)
 	{
 		var s = new FrameSubName(subname);

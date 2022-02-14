@@ -19,6 +19,7 @@
 		<module>sn</module>
 		<module>legacy</module>
 		<module>legacymaps</module>
+		<module>pm</module>
 	</modules>
 
 	<properties>

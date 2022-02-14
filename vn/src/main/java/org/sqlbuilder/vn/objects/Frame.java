@@ -33,8 +33,7 @@ public class Frame implements HasId, Insertable, Comparable<Frame>
 
 	private final Semantics semantics;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Frame make(final String descriptionNumber, final String descriptionXTag, final String descriptionPrimary, final String descriptionSecondary, final String syntax, final String semantics) throws ParserConfigurationException, SAXException, IOException
 	{
 		var f = new Frame(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);

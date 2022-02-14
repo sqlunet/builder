@@ -1,31 +1,29 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.*;
 
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
-public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>
+public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comparable<Word>
 {
-	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
+	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
 	public static final SetCollector<Word> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	private final String word;
+	public final String word;
 
 	// C O N S T R U C T O R
 
-	public static Word make(final String lemma)
+	public static Word make(final String word)
 	{
-		var w = new Word(lemma);
-		Word.COLLECTOR.add(w);
+		var w = new Word(word);
+		COLLECTOR.add(w);
 		return w;
 	}
 
-	private Word(final String lemma)
+	private Word(final String word)
 	{
-		this.word = lemma.toLowerCase(Locale.ENGLISH);
+		this.word = word;
 	}
 
 	// A C C E S S
@@ -45,18 +43,18 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 	// I D E N T I T Y
 
 	@Override
-	public boolean equals(final Object o)
+	public boolean equals(final Object that)
 	{
-		if (this == o)
+		if (this == that)
 		{
 			return true;
 		}
-		if (o == null || getClass() != o.getClass())
+		if (that == null || getClass() != that.getClass())
 		{
 			return false;
 		}
-		Word word1 = (Word) o;
-		return word.equals(word1.word);
+		Word vnWord = (Word) that;
+		return word.equals(vnWord.word);
 	}
 
 	@Override
@@ -81,14 +79,7 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 		return String.format("'%s'", Utils.escape(word));
 	}
 
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String comment()
-	{
-		return String.format("id=%s", getSqlId());
-	}
-
-	// R E S O L V E
+	// I N S E R T
 
 	@Override
 	public String resolving()
@@ -101,6 +92,6 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 	@Override
 	public String toString()
 	{
-		return "W'" + word + '\'';
+		return word;
 	}
 }

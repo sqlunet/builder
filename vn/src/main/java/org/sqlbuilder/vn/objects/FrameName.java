@@ -14,8 +14,7 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 
 	private final String name;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static FrameName make(final String name)
 	{
 		var n = new FrameName(name);

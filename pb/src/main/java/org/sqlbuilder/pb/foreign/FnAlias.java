@@ -17,8 +17,7 @@ public class FnAlias extends Alias
 
 	public static final Set<FnAlias> SET = new HashSet<>();
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static FnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final PbWord pbWord)
 	{
 		var a = new FnAlias(clazz, pos, pbRoleSet, pbWord);

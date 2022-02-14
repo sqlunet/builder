@@ -6,7 +6,7 @@ public class Sensekey implements Comparable<Sensekey>
 
 	private final boolean isDefinite;
 
-	protected Sensekey(final String sensekey, final boolean IsDefiniteFlag)
+	private Sensekey(final String sensekey, final boolean IsDefiniteFlag)
 	{
 		this.sensekey = sensekey;
 

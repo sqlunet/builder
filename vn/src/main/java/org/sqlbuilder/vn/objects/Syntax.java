@@ -23,8 +23,7 @@ public class Syntax implements HasId, Insertable, Comparable<Syntax>
 
 	private final String syntax;
 
-	// C O N S T R U C T
-
+	// C O N S T R U C T O R
 	public static Syntax make(final String syntax) throws IOException, SAXException, ParserConfigurationException
 	{
 		var s = new Syntax(syntax);
