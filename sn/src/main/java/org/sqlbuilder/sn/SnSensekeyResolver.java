@@ -2,7 +2,7 @@ package org.sqlbuilder.sn;
 
 import org.sqlbuilder.common.Nullable;
 import org.sqlbuilder.common.Resolver;
-import org.sqlbuilder2.legacy.DeSerialize;
+import org.sqlbuilder2.ser.DeSerialize;
 
 import java.io.File;
 import java.io.IOException;

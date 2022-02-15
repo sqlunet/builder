@@ -1,4 +1,4 @@
-package org.sqlbuilder2.legacy;
+package org.sqlbuilder2.ser;
 
 import java.io.*;
 

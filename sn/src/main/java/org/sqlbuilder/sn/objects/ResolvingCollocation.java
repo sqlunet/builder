@@ -3,7 +3,7 @@ package org.sqlbuilder.sn.objects;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.ParseException;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder2.legacy.Triplet;
+import org.sqlbuilder2.ser.Triplet;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.function.Function;

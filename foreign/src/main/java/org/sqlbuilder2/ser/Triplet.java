@@ -1,4 +1,4 @@
-package org.sqlbuilder2.legacy;
+package org.sqlbuilder2.ser;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -41,13 +41,34 @@ public class Triplet<T, U, V> implements Serializable
 		{
 			return false;
 		}
-		Triplet<?, ?, ?> triplet = (Triplet<?, ?, ?>) o;
-		return first.equals(triplet.first) && second.equals(triplet.second) && third.equals(triplet.third);
+		Triplet<?, ?, ?> that = (Triplet<?, ?, ?>) o;
+		return first.equals(that.first) && second.equals(that.second) && third.equals(that.third);
 	}
 
 	@Override
 	public int hashCode()
 	{
 		return Objects.hash(first, second, third);
+	}
+
+	public T getFirst()
+	{
+		return first;
+	}
+
+	public U getSecond()
+	{
+		return second;
+	}
+
+	public V getThird()
+	{
+		return third;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("(%s,%s,%s)", first, second, third);
 	}
 }

@@ -2,8 +2,8 @@ package org.sqlbuilder.sn;
 
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.sn.objects.Collocation;
-import org.sqlbuilder2.legacy.DeSerialize;
-import org.sqlbuilder2.legacy.Triplet;
+import org.sqlbuilder2.ser.DeSerialize;
+import org.sqlbuilder2.ser.Triplet;
 
 import java.io.File;
 import java.io.FileOutputStream;

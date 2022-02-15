@@ -52,6 +52,10 @@ public class PbModule extends Module
 					e.printStackTrace();
 				}
 				break;
+
+			case EXPORT:
+			default:
+				return;
 		}
 		try
 		{

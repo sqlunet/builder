@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Module;
+import org.sqlbuilder.vn.collector.VnExportingProcessor;
 import org.sqlbuilder.vn.collector.VnProcessor;
 import org.sqlbuilder.vn.collector.VnUpdatingProcessor;
 
@@ -48,6 +49,22 @@ public class VnModule extends Module
 					e.printStackTrace();
 				}
 				break;
+
+			case EXPORT:
+				new VnExportingProcessor(props).run();
+				try
+				{
+					Exporter exporter = new Exporter(props);
+					exporter.export();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
+			default:
+				return;
 		}
 	}
 

@@ -7,6 +7,7 @@ import org.sqlbuilder.vn.objects.Role;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Class_Role implements Insertable
@@ -20,6 +21,7 @@ public class Class_Role implements Insertable
 	private final VnClass clazz;
 
 	// C O N S T R U C T O R
+
 	public static Class_Role make(final VnClass clazz, final Role role)
 	{
 		var m = new Class_Role(clazz, role);
@@ -43,6 +45,29 @@ public class Class_Role implements Insertable
 	public VnClass getClazz()
 	{
 		return clazz;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Class_Role that = (Class_Role) o;
+		return role.equals(that.role) && clazz.equals(that.clazz);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(role, clazz);
 	}
 
 	// I N S E R T

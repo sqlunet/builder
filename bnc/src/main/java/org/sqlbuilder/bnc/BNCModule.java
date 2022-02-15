@@ -30,6 +30,8 @@ public class BNCModule extends Module
 				case UPDATE:
 					new BNCUpdatingProcessor(props).run();
 					break;
+				default:
+					return;
 			}
 		}
 		catch (IOException | ClassNotFoundException e)

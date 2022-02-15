@@ -34,7 +34,7 @@ public class Inserter
 		      @ProvidesIdTo(type = VnClass.class) var ignored1 = VnClass.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Grouping.class) var ignored2 = Grouping.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = RoleType.class) var ignored3 = RoleType.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = Grouping.class) var ignored4 = Role.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Role.class) var ignored4 = Role.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = RestrType.class) var ignored5 = RestrType.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Restrs.class) var ignored6 = Restrs.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Frame.class) var ignored7 = Frame.COLLECTOR.open(); //

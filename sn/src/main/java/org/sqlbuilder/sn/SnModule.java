@@ -16,6 +16,8 @@ public class SnModule extends Module
 	@Override
 	protected void run()
 	{
+		assert props != null;
+
 		try
 		{
 			switch (mode)
@@ -23,12 +25,18 @@ public class SnModule extends Module
 				case PLAIN:
 					new SnProcessor(props).run();
 					break;
+
 				case RESOLVE:
 					new SnResolvingProcessor(props).run();
 					break;
+
 				case UPDATE:
 					new SnUpdatingProcessor(props).run();
 					break;
+
+				case EXPORT:
+				default:
+					return;
 			}
 		}
 		catch (IOException | ClassNotFoundException e)

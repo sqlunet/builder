@@ -53,6 +53,10 @@ public class FnModule extends Module
 					e.printStackTrace();
 				}
 				break;
+
+			case EXPORT:
+			default:
+				return;
 		}
 	}
 

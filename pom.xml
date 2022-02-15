@@ -10,6 +10,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<modules>
 		<module>common</module>
+		<module>foreign</module>
 		<module>bnc</module>
 		<module>fn-beans</module>
 		<module>fn-jaxb</module>
@@ -17,9 +18,8 @@
 		<module>vn</module>
 		<module>pb</module>
 		<module>sn</module>
-		<module>legacy</module>
-		<module>legacymaps</module>
 		<module>pm</module>
+		<module>legacy</module>
 	</modules>
 
 	<properties>

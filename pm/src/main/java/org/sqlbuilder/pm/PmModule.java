@@ -17,6 +17,7 @@ public class PmModule extends Module
 	protected void run()
 	{
 		assert props != null;
+
 		try
 		{
 			switch (mode)
@@ -24,12 +25,18 @@ public class PmModule extends Module
 				case PLAIN:
 					new PmProcessor(props).run();
 					break;
+
 				case RESOLVE:
 					new PmResolvingProcessor(props).run();
 					break;
+
 				case UPDATE:
 					new PmUpdatingProcessor(props).run();
 					break;
+
+				case EXPORT:
+				default:
+					return;
 			}
 		}
 		catch (IOException e)

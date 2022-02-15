@@ -8,7 +8,7 @@ public abstract class Module
 {
 	public enum Mode
 	{
-		PLAIN, RESOLVE, UPDATE;
+		PLAIN, RESOLVE, UPDATE, EXPORT;
 
 		public static Mode read(final String arg)
 		{
@@ -18,6 +18,8 @@ public abstract class Module
 					return Mode.RESOLVE;
 				case "-update":
 					return Mode.UPDATE;
+				case "-export":
+					return Mode.EXPORT;
 				default:
 					return Mode.PLAIN;
 			}

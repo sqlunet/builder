@@ -1,4 +1,4 @@
-package org.sqlbuilder2.legacy;
+package org.sqlbuilder2.ser;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @param <T> type of first
  * @param <U> type of second
  */
-public class Pair<T, U, V> implements Serializable
+public class Pair<T, U> implements Serializable
 {
 	public final T first;
 	public final U second;
@@ -37,13 +37,29 @@ public class Pair<T, U, V> implements Serializable
 		{
 			return false;
 		}
-		Pair<?, ?, ?> triplet = (Pair<?, ?, ?>) o;
-		return first.equals(triplet.first) && second.equals(triplet.second);
+		Pair<?, ?> that = (Pair<?, ?>) o;
+		return first.equals(that.first) && second.equals(that.second);
 	}
 
 	@Override
 	public int hashCode()
 	{
 		return Objects.hash(first, second);
+	}
+
+	public T getFirst()
+	{
+		return first;
+	}
+
+	public U getSecond()
+	{
+		return second;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("(%s,%s)", first, second);
 	}
 }

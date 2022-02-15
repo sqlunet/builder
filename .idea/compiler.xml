@@ -14,9 +14,9 @@
         <module name="vn" />
         <module name="fn-jaxb" />
         <module name="sn" />
-        <module name="legacymaps" />
         <module name="fn-beans" />
         <module name="pm" />
+        <module name="foreign" />
       </profile>
     </annotationProcessing>
   </component>

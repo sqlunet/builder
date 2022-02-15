@@ -58,8 +58,7 @@ public class VnProcessor extends Processor
 		Progress.traceTailer(fileCount);
 	}
 
-	@SuppressWarnings("UnusedReturnValue")
-	private void processVerbNetFile(final String fileName, final String name)
+	protected void processVerbNetFile(final String fileName, final String name)
 	{
 		final String head = name.split("-")[0];
 		Progress.tracePending("verbnet",head);
