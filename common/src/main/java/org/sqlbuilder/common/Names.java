@@ -32,11 +32,6 @@ public class Names
 		return props;
 	}
 
-	public String table(String key)
-	{
-		return Utils.backtick(get(key + ".table"));
-	}
-
 	public String file(String key)
 	{
 		return get(key + ".file");
@@ -45,6 +40,16 @@ public class Names
 	public String updateFile(String key)
 	{
 		return "update_" + get(key + ".file");
+	}
+
+	public String serfile(String key)
+	{
+		return get(key + ".ser");
+	}
+
+	public String table(String key)
+	{
+		return Utils.backtick(get(key + ".table"));
 	}
 
 	public String columns(String key)

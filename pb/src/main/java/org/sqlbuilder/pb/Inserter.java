@@ -24,7 +24,7 @@ public class Inserter
 	public Inserter(final Properties conf)
 	{
 		this.names = new Names("pb");
-		this.outDir = new File(conf.getProperty("vnoutdir", "sql/data"));
+		this.outDir = new File(conf.getProperty("pb_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();

@@ -1,14 +1,18 @@
 package org.sqlbuilder.vn;
 
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.vn.joins.Class_Role;
 import org.sqlbuilder.vn.objects.Role;
 import org.sqlbuilder.vn.objects.RoleType;
 import org.sqlbuilder.vn.objects.VnClass;
 import org.sqlbuilder2.ser.Pair;
+import org.sqlbuilder2.ser.Serialize;
 import org.sqlbuilder2.ser.Triplet;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Properties;
@@ -18,10 +22,23 @@ import static java.util.stream.Collectors.toMap;
 
 public class Exporter
 {
-	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
+	private static final Comparator<Pair<String, String>> NONSERIALIZABLE_COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
 
-	public Exporter(final Properties props)
+	private static final Comparator<Pair<String, String>> COMPARATOR = (Comparator<Pair<String, String>> & Serializable) (p1, p2) -> NONSERIALIZABLE_COMPARATOR.compare(p1, p2);
+
+	protected final Names names;
+
+	protected File outDir;
+
+	public Exporter(final Properties conf)
 	{
+		this.names = new Names("vn");
+		this.outDir = new File(conf.getProperty("vn_serdir", "sers"));
+		if (!this.outDir.exists())
+		{
+			this.outDir.mkdirs();
+		}
+
 	}
 
 	public void export() throws IOException
@@ -32,7 +49,8 @@ public class Exporter
 		System.err.printf("%s %d%n", "classes_roles", Class_Role.SET.size());
 
 		var m = makeMap();
-		m.forEach((strs, nids) -> System.out.printf("%s -> %s%n", strs, nids));
+		//m.forEach((strs, nids) -> System.out.printf("%s -> %s%n", strs, nids));
+		Serialize.serialize(m, new File(outDir, names.serfile("classes_roles.resolve")));
 	}
 
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeMap() throws IOException

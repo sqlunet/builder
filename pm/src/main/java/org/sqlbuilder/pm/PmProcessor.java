@@ -32,7 +32,7 @@ public class PmProcessor extends Processor
 		this.conf = conf;
 		this.pMHome = conf.getProperty("pm_home", System.getenv().get("PMHOME"));
 		this.pMFile = conf.getProperty("pm_file", System.getenv().get("PredicateMatrix.txt"));
-		this.outDir = new File(conf.getProperty("bnc_outdir", "sql/data"));
+		this.outDir = new File(conf.getProperty("pm_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
