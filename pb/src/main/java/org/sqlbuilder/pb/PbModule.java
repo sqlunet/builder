@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Module;
+import org.sqlbuilder.pb.collectors.PbExportingProcessor;
 import org.sqlbuilder.pb.collectors.PbProcessor;
 import org.sqlbuilder.pb.collectors.PbUpdatingProcessor;
 import org.sqlbuilder.sl.collectors.SemlinkProcessor;
@@ -54,16 +55,20 @@ public class PbModule extends Module
 				break;
 
 			case EXPORT:
+				new PbExportingProcessor(props).run();
+				try
+				{
+					Exporter exporter = new Exporter(props);
+					exporter.run();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
 			default:
 				return;
-		}
-		try
-		{
-			new Inserter(props).insert();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
 		}
 	}
 

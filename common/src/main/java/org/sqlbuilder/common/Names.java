@@ -42,9 +42,24 @@ public class Names
 		return "update_" + get(key + ".file");
 	}
 
-	public String serfile(String key)
+	public String serFile(String key)
 	{
-		return get(key + ".ser");
+		return serFile(key, "");
+	}
+
+	public String serFile(String key, String suffix)
+	{
+		return get(key) + suffix + ".ser";
+	}
+
+	public String mapFile(String key)
+	{
+		return mapFile(key, "");
+	}
+
+	public String mapFile(String key, String suffix)
+	{
+		return get(key) + suffix + ".map";
 	}
 
 	public String table(String key)

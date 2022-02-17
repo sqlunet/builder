@@ -21,8 +21,8 @@ public class SemlinkProcessor extends Processor
 
 	public SemlinkProcessor(final Properties props)
 	{
-		super("semlink0");
-		this.semlinkFile = props.getProperty("semlinkhome", System.getenv().get("SEMLINKHOME")) + File.separatorChar + props.getProperty("semlinkfile");
+		super("semlink");
+		this.semlinkFile = props.getProperty("semlink_home", System.getenv().get("SEMLINKHOME")) + File.separatorChar + props.getProperty("semlink_file");
 	}
 
 	@Override

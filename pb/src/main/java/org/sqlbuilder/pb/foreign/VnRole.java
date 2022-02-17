@@ -1,5 +1,8 @@
 package org.sqlbuilder.pb.foreign;
 
+import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.pb.objects.Theta;
+
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -9,16 +12,16 @@ public class VnRole implements Comparable<VnRole>
 
 	private final VnClass vnClass;
 
-	private final String vnTheta;
+	private final Theta vnTheta;
 
 	// C O N S T R U C T O R
 
-	public static VnRole make(final VnClass vnClass, final String vnTheta)
+	public static VnRole make(final VnClass vnClass, final Theta vnTheta)
 	{
 		return new VnRole(vnClass, vnTheta);
 	}
 
-	private VnRole(final VnClass vnClass, final String vnTheta)
+	private VnRole(final VnClass vnClass, final Theta vnTheta)
 	{
 		this.vnClass = vnClass;
 		this.vnTheta = vnTheta;
@@ -31,7 +34,7 @@ public class VnRole implements Comparable<VnRole>
 		return this.vnClass;
 	}
 
-	public String getVnTheta()
+	public Theta getVnTheta()
 	{
 		return this.vnTheta;
 	}

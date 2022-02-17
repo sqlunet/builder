@@ -1,5 +1,6 @@
 package org.sqlbuilder.common;
 
+import java.util.Locale;
 import java.util.function.Function;
 
 public class Utils
@@ -156,5 +157,20 @@ public class Utils
 	public static String backtick(final String value)
 	{
 		return BACKTICK + value + BACKTICK;
+	}
+
+	/**
+	 * Camel-case string
+	 *
+	 * @param str str
+	 * @return camel-cased string
+	 */
+	public static String camelCase(final String str)
+	{
+		if (str != null && !str.isEmpty())
+		{
+			return str.substring(0, 1).toUpperCase(Locale.ENGLISH) + str.substring(1).toLowerCase(Locale.ENGLISH);
+		}
+		return str;
 	}
 }

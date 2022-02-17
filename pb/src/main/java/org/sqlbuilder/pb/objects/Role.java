@@ -12,7 +12,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 			.comparing(Role::getRoleSet) //
 			.thenComparing(Role::getArgn) //
 			.thenComparing(Role::getFunc, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Role::getTheta, Comparator.nullsFirst(Comparator.naturalOrder()));
+			;
 
 	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
 
@@ -22,25 +22,22 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 
 	private final Func func;
 
-	private final Theta theta;
-
 	private final String descr;
 
 	// C O N S T R U C T O R
 
-	public static Role make(final RoleSet roleSet, final String n, final String f, final String theta, final String descriptor)
+	public static Role make(final RoleSet roleSet, final String n, final String f, final String descriptor)
 	{
-		var r = new Role(roleSet, n, f, theta, descriptor);
+		var r = new Role(roleSet, n, f, descriptor);
 		COLLECTOR.add(r);
 		return r;
 	}
 
-	private Role(final RoleSet roleSet, final String n, final String func, final String theta, final String descriptor)
+	private Role(final RoleSet roleSet, final String n, final String func, final String descriptor)
 	{
 		this.roleSet = roleSet;
 		this.argn = n;
 		this.func = func == null || func.isEmpty() ? null : Func.make(func);
-		this.theta = theta == null || theta.isEmpty() ? null : Theta.make(theta);
 		this.descr = descriptor;
 	}
 
@@ -59,11 +56,6 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	public Func getFunc()
 	{
 		return func;
-	}
-
-	public Theta getTheta()
-	{
-		return theta;
 	}
 
 	public String getDescr()
@@ -98,19 +90,19 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 			return false;
 		}
 		Role that = (Role) o;
-		return roleSet.equals(that.roleSet) && argn.equals(that.argn) && Objects.equals(func, that.func) && Objects.equals(theta, that.theta);
+		return roleSet.equals(that.roleSet) && argn.equals(that.argn) && Objects.equals(func, that.func);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(roleSet, argn, func, theta);
+		return Objects.hash(roleSet, argn, func);
 	}
 
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Role that)
+	public int compareTo(@NotNull final Role that)
 	{
 		return COMPARATOR.compare(this, that);
 	}
@@ -124,10 +116,9 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	public String dataRow()
 	{
 		// (roleid),narg,func,theta,roledescr,rolesetid
-		return String.format("'%s',%s,%s,%s,%d", //
+		return String.format("'%s',%s,%s,%d", //
 				argn, //
 				Utils.nullable(func, HasId::getSqlId), //
-				Utils.nullable(theta, HasId::getSqlId), //
 				Utils.nullableQuotedEscapedString(descr), //
 				roleSet.getIntId() //
 		);
@@ -136,7 +127,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", roleSet.getName(), func != null ? func.getFunc() : "∅", theta != null ? theta.getTheta() : "∅");
+		return String.format("%s,%s", roleSet.getName(), func != null ? func.getFunc() : "∅");
 	}
 
 	// T O S T R I N G
@@ -146,8 +137,8 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	{
 		if (this.descr == null)
 		{
-			return String.format("%s[%s]", roleSet, argn);
+			return String.format("%s[%s-%s]", roleSet, argn, func);
 		}
-		return String.format("%s[%s-{%s}]", roleSet, argn, descr);
+		return String.format("%s[%s-%s '%s']", roleSet, argn, func, descr);
 	}
 }

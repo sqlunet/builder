@@ -13,11 +13,4 @@ public class BncWordResolver extends Resolver<String,Integer>
 	{
 		super(DeSerialize.deserialize(new File(ser)));
 	}
-
-	@Nullable
-	@Override
-	public Integer apply(final String sk)
-	{
-		return map.get(sk);
-	}
 }

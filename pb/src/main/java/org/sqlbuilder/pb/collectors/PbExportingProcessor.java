@@ -5,8 +5,8 @@ import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.pb.PbModule;
+import org.sqlbuilder.pb.objects.LexItem;
 import org.sqlbuilder.pb.objects.Predicate;
-import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -18,7 +18,7 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class PbProcessor extends Processor
+public class PbExportingProcessor extends Processor
 {
 	protected final Properties conf;
 
@@ -26,7 +26,7 @@ public class PbProcessor extends Processor
 
 	protected int fileCount;
 
-	public PbProcessor(final Properties conf)
+	public PbExportingProcessor(final Properties conf)
 	{
 		super("pb");
 		this.conf = conf;
@@ -78,51 +78,11 @@ public class PbProcessor extends Processor
 		long count = 0;
 		try
 		{
-			// predicates
-			final Collection<Predicate> predicates = PbDocument.getPredicates(head, start);
-			if (predicates != null)
-			{
-				for (final Predicate predicate : predicates)
-				{
-					try
-					{
-						predicate.put();
-					}
-					catch (RuntimeException e)
-					{
-						// Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
-					}
-				}
-				count += predicates.size();
-			}
-			final Collection<LexItem> aliasLexItems = PbDocument.getAliasPredicates(start);
-			if (aliasLexItems != null)
-			{
-				for (final LexItem lexItem : aliasLexItems)
-				{
-					try
-					{
-						lexItem.put();
-					}
-					catch (RuntimeException e)
-					{
-						// Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
-					}
-				}
-				count += aliasLexItems.size();
-			}
-
 			// rolesets
 			PbDocument.makeRoleSets(head, start);
 
 			// roles
 			PbDocument.makeRoles(head, start);
-
-			// examples
-			PbDocument.makeExamples(head, start);
-
-			// args
-			PbDocument.makeExampleArgs(head, start);
 		}
 		catch (XPathExpressionException e)
 		{

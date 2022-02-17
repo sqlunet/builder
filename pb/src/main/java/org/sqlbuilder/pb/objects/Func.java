@@ -101,4 +101,10 @@ public class Func implements HasId, Comparable<Func>, Insertable
 	{
 		return String.format("'%s',%s", func, Utils.nullableQuotedString(DESCRIPTIONS.getProperty(func, null)));
 	}
+
+	@Override
+	public String toString()
+	{
+		return "f:" + func;
+	}
 }

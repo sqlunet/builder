@@ -1,9 +1,6 @@
 package org.sqlbuilder.pb.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 
@@ -19,7 +16,7 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 
 	public static Theta make(final String thetaName)
 	{
-		var t = new Theta(thetaName);
+		var t = new Theta(Utils.camelCase(thetaName));
 		COLLECTOR.add(t);
 		return t;
 	}

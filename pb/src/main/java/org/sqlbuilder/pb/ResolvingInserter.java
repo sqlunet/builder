@@ -5,8 +5,9 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.joins.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
 import org.sqlbuilder.pb.objects.Word;
+import org.sqlbuilder2.ser.DeSerialize;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +23,8 @@ public class ResolvingInserter extends Inserter
 
 	protected final String vnRoleSerFile;
 
+	protected final String vnClassRoleSerFile;
+
 	protected final String fnFrameSerFile;
 
 	protected final PbWordResolver wordResolver;
@@ -29,6 +32,8 @@ public class ResolvingInserter extends Inserter
 	protected final PbVnClassResolver vnClassResolver;
 
 	protected final PbVnRoleResolver vnRoleResolver;
+
+	protected final PbVnClassRoleResolver vnClassRoleResolver;
 
 	protected final PbFnFrameResolver fnFrameResolver;
 
@@ -48,11 +53,14 @@ public class ResolvingInserter extends Inserter
 		this.wordSerFile = conf.getProperty("word_nids");
 		this.vnClassSerFile = conf.getProperty("vnclass_nids");
 		this.vnRoleSerFile = conf.getProperty("vnrole_nids");
+		this.vnClassRoleSerFile = conf.getProperty("vnclass_vnrole_nids");
 		this.fnFrameSerFile = conf.getProperty("fnframe_nids");
-		this.wordResolver = new PbWordResolver(this.wordSerFile);
-		this.vnClassResolver = new PbVnClassResolver(this.vnClassSerFile);
-		this.vnRoleResolver = new PbVnRoleResolver(this.vnClassSerFile);
-		this.fnFrameResolver = new PbFnFrameResolver(this.vnClassSerFile);
+
+		this.wordResolver = new PbWordResolver(wordSerFile);
+		this.vnClassResolver = new PbVnClassResolver(vnClassSerFile);
+		this.vnRoleResolver = new PbVnRoleResolver(vnClassSerFile);
+		this.vnClassRoleResolver = new PbVnClassRoleResolver(vnClassRoleSerFile);
+		this.fnFrameResolver = null; //new PbFnFrameResolver(this.fnFrameSerFile);
 	}
 
 	@Override
@@ -70,10 +78,12 @@ public class ResolvingInserter extends Inserter
 	protected void insertFnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "fnalias");
-		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("fnaliases")), names.table("fnaliases"), names.columns("fnaliases"), //
-				vnClassResolver, //
+		/*
+		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), //
+				fnFrameResolver, //
 				e -> Utils.nullable(e, Objects::toString), //
-				names.column("fnaliases.frameid"));
+				names.column("pbrolesets_fnframes.fnframeid"));
+		 */
 		Progress.traceDone(null);
 	}
 
@@ -81,10 +91,10 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnalias");
-		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("vnaliases")), names.table("vnaliases"), names.columns("vnaliases"), //
+		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), //
 				vnClassResolver, //
 				e -> Utils.nullable(e, Objects::toString), //
-				names.column("vnaliases.classid"));
+				names.column("pbrolesets_vnclasses.vnclassid"));
 		Progress.traceDone(null);
 	}
 
@@ -95,7 +105,8 @@ public class ResolvingInserter extends Inserter
 		Insert.resolveAndInsert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //
 				vnRoleResolver, //
 				e -> Utils.nullable(e, Objects::toString), //
-				names.column("pbroles_vnroles.roleid"));
+				names.column("pbroles_vnroles.vnclassid"), //
+				names.column("pbroles_vnroles.vnroleid"));
 		Progress.traceDone(null);
 	}
 }

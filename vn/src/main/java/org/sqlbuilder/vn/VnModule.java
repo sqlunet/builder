@@ -55,7 +55,7 @@ public class VnModule extends Module
 				try
 				{
 					Exporter exporter = new Exporter(props);
-					exporter.export();
+					exporter.run();
 				}
 				catch (IOException e)
 				{

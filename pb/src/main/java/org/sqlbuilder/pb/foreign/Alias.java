@@ -99,11 +99,10 @@ public abstract class Alias implements Insertable, Resolvable<String,Integer>
 	public String dataRow()
 	{
 		// rolesetid,refid,ref,pos,pbwordid
-		return String.format("%d,'%s',%d,%s,'%s'", //
+		return String.format("%d,'%s',%d,'%s'", //
 				pbRoleSet.getIntId(), //
 				pos, //
 				word.getIntId(), //
-				"NULL", //
 				ref);
 	}
 

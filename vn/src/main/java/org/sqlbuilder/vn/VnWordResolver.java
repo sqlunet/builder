@@ -13,11 +13,4 @@ public class VnWordResolver extends Resolver<String,Integer>
 	{
 		super(DeSerialize.deserialize(new File(ser)));
 	}
-
-	@Nullable
-	@Override
-	public Integer apply(final String k)
-	{
-		return map.get(k);
-	}
 }

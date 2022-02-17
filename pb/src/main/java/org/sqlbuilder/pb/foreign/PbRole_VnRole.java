@@ -1,9 +1,8 @@
-package org.sqlbuilder.pb.joins;
+package org.sqlbuilder.pb.foreign;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.pb.foreign.VnRole;
 import org.sqlbuilder.pb.objects.Role;
 import org.sqlbuilder.pb.objects.RoleSet;
 
@@ -27,7 +26,12 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 	public static PbRole_VnRole make(final Role role, final VnRole vnRole)
 	{
 		var m = new PbRole_VnRole(role, vnRole);
-		SET.add(m);
+		boolean wasThere = ! SET.add(m);
+		if (wasThere)
+		{
+			System.err.println();
+			System.err.println(m);
+		}
 		return m;
 	}
 
@@ -80,11 +84,9 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 	public String dataRow()
 	{
 		// rolesetid,roleid,vnclassid,vnroleid,vnclass,vntheta
-		return String.format("%d,%d,%s,%s,'%s','%s'", //
+		return String.format("%d,%d,'%s','%s'", //
 				role.getRoleSet().getIntId(), //
 				role.getIntId(), //
-				"NULL", //
-				"NULL", //
 				vnRole.getVnClass().getClassName(), //
 				vnRole.getVnTheta());
 	}
@@ -94,7 +96,7 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 	{
 		return String.format("%s,%s", //
 				role.getRoleSet().getName(), //
-				role.getArgn());
+				role);
 	}
 
 	// R E S O L V E

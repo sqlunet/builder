@@ -4,7 +4,7 @@ import org.sqlbuilder.XmlDocument;
 import org.sqlbuilder.pb.foreign.Alias;
 import org.sqlbuilder.pb.foreign.VnClass;
 import org.sqlbuilder.pb.foreign.VnRole;
-import org.sqlbuilder.pb.joins.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
 import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -123,6 +123,13 @@ public class PbDocument extends XmlDocument
 								{
 									continue;
 								}
+								if (clazz.matches("^[a-z]+-.*$"))
+								{
+									//System.err.print('\n' + clazz);
+									clazz = clazz.replaceFirst("^[a-z]+-", "");
+									//System.err.println('>' + clazz);
+								}
+
 								final Alias alias = Alias.make(Alias.Db.VERBNET, clazz, pos, roleSet, pbword2);
 								aliases.add(alias);
 							}
@@ -182,17 +189,8 @@ public class PbDocument extends XmlDocument
 					final String fAttribute = roleElement.getAttribute("f");
 					final String descriptorAttribute = roleElement.getAttribute("descr");
 
-					// theta
-					String theta = null;
-					final NodeList vnRoleNodes = XmlDocument.getXPaths(roleElement, "./vnrole");
-					if (vnRoleNodes != null && vnRoleNodes.getLength() > 0)
-					{
-						final Element vnRoleElement = (Element) vnRoleNodes.item(0);
-						theta = vnRoleElement.getAttribute("vntheta");
-					}
-
 					// role
-					final Role role = Role.make(roleSet, nAttribute, fAttribute, theta, descriptorAttribute);
+					final Role role = Role.make(roleSet, nAttribute, fAttribute, descriptorAttribute);
 					if (result == null)
 					{
 						result = new ArrayList<>();
@@ -216,9 +214,10 @@ public class PbDocument extends XmlDocument
 			final String vnClassAttribute = vnRoleElement.getAttribute("vncls");
 			final VnClass vnClass = VnClass.make(head, vnClassAttribute);
 			final String thetaAttribute = vnRoleElement.getAttribute("vntheta");
+			final Theta theta = Theta.make(thetaAttribute);
 
 			// verbnet role
-			final VnRole vnRole = VnRole.make(vnClass, thetaAttribute);
+			final VnRole vnRole = VnRole.make(vnClass, theta);
 
 			// propbank role -> verbnet roles
 			PbRole_VnRole.make(role, vnRole);

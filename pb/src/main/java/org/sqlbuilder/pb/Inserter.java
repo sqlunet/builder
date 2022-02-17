@@ -6,7 +6,7 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.joins.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.PbRole_VnRole;
 import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
@@ -31,16 +31,8 @@ public class Inserter
 		}
 	}
 
-	private static void makeMaps()
-	{
-		Progress.traceHeader("maps", "making");
-		Progress.traceTailer("maps", "done");
-	}
-
 	public void insert() throws FileNotFoundException
 	{
-		makeMaps();
-
 		Progress.traceHeader("inserts", "inserting");
 		try ( //
 		      var ignored1 = Example.ASPECT_COLLECTOR.open(); //

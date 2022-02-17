@@ -14,11 +14,4 @@ public class VnSensekeyResolver extends Resolver<String, SimpleEntry<Integer, In
 	{
 		super(DeSerialize.deserialize(new File(ser)));
 	}
-
-	@Nullable
-	@Override
-	public SimpleEntry<Integer, Integer> apply(final String sk)
-	{
-		return map.get(sk);
-	}
 }

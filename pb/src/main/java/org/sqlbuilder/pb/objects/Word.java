@@ -78,8 +78,7 @@ public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comp
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s'", //
-				"NULL", //
+		return String.format("'%s'", //
 				Utils.escape(word));
 	}
 

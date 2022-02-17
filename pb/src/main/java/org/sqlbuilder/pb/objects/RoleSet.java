@@ -3,12 +3,13 @@ package org.sqlbuilder.pb.objects;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.pb.foreign.Alias;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
+public class RoleSet implements HasId, Insertable, Comparable<RoleSet>, Serializable
 {
 	public static final Comparator<RoleSet> COMPARATOR = Comparator //
 			.comparing(RoleSet::getPredicate) //
@@ -126,10 +127,10 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>
 
 		// (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
 		final int roleSetId = RoleSet.COLLECTOR.get(this);
-		return String.format("'%s','%s',%s,%s", //
-				Utils.escape(predicate.getHead()), //
+		return String.format("'%s',%s,'%s',%s", //
 				Utils.escape(name), //
 				Utils.nullableQuotedEscapedString(descr), //
+				Utils.escape(predicate.getHead()), //
 				Utils.nullable(word, HasId::getSqlId) //
 		);
 	}
