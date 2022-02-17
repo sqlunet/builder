@@ -55,6 +55,18 @@ public class FnModule extends Module
 				break;
 
 			case EXPORT:
+				new FnExportingProcessor(props).run();
+				try
+				{
+					Exporter exporter = new Exporter(props);
+					exporter.run();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
 			default:
 				return;
 		}

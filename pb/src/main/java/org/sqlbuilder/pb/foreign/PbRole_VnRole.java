@@ -88,7 +88,7 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 				role.getRoleSet().getIntId(), //
 				role.getIntId(), //
 				vnRole.getVnClass().getClassName(), //
-				vnRole.getVnTheta());
+				vnRole.getVnTheta().getTheta());
 	}
 
 	@Override

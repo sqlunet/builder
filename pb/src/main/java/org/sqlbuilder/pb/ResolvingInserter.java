@@ -60,7 +60,7 @@ public class ResolvingInserter extends Inserter
 		this.vnClassResolver = new PbVnClassResolver(vnClassSerFile);
 		this.vnRoleResolver = new PbVnRoleResolver(vnClassSerFile);
 		this.vnClassRoleResolver = new PbVnClassRoleResolver(vnClassRoleSerFile);
-		this.fnFrameResolver = null; //new PbFnFrameResolver(this.fnFrameSerFile);
+		this.fnFrameResolver = new PbFnFrameResolver(this.fnFrameSerFile);
 	}
 
 	@Override
@@ -78,12 +78,10 @@ public class ResolvingInserter extends Inserter
 	protected void insertFnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "fnalias");
-		/*
 		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), //
 				fnFrameResolver, //
 				e -> Utils.nullable(e, Objects::toString), //
 				names.column("pbrolesets_fnframes.fnframeid"));
-		 */
 		Progress.traceDone(null);
 	}
 
