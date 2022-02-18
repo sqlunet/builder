@@ -2,13 +2,16 @@ package org.sqlbuilder.sl.foreign;
 
 import org.sqlbuilder.common.Insertable;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class VnRoleAlias implements Insertable
 {
-	public static Set<VnRoleAlias> SET = new HashSet<>();
+	public static final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getPbRole).thenComparing(VnRoleAlias::getVnRole);
+
+	public static Set<VnRoleAlias> SET = new TreeSet<>(COMPARATOR);
 
 	private final PbRole pbRole;
 
@@ -76,7 +79,7 @@ public class VnRoleAlias implements Insertable
 	{
 		// rolesetid,roleid,vnclassid,vnroleid,vnclass,vntheta
 		return String.format("'%s','%s','%s','%s'", //
-				pbRole.roleSetName, //
+				pbRole.roleSet, //
 				pbRole.arg, //
 				vnRole.vnClass, //
 				vnRole.theta.getTheta());

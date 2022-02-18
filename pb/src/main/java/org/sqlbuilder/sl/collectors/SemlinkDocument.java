@@ -6,7 +6,7 @@ import org.sqlbuilder.sl.foreign.PbRole;
 import org.sqlbuilder.sl.foreign.VnAlias;
 import org.sqlbuilder.sl.foreign.VnRole;
 import org.sqlbuilder.sl.foreign.VnRoleAlias;
-import org.sqlbuilder.sl.objects.*;
+import org.sqlbuilder.sl.objects.Predicate;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -66,13 +66,13 @@ public class SemlinkDocument extends XmlDocument
 					final String thetaAttribute = roleElement.getAttribute("vn-theta");
 
 					// propbank role
-					final PbRole role = PbRole.make(roleSetAttribute, argAttribute);
+					final PbRole pbRole = PbRole.make(roleSetAttribute, argAttribute);
 
 					// vn role
 					final VnRole vnRole = VnRole.make(vnClassAttribute, Theta.make(thetaAttribute));
 
-					VnAlias.make(vnClassAttribute, roleSetAttribute);
-					VnRoleAlias.make(role, vnRole);
+					VnAlias.make(roleSetAttribute, vnClassAttribute);
+					VnRoleAlias.make(pbRole, vnRole);
 				}
 			}
 		}
