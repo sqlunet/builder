@@ -1,13 +1,12 @@
 package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.XmlDocument;
-import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.foreign.VnClass;
-import org.sqlbuilder.pb.foreign.VnRole;
-import org.sqlbuilder.pb.foreign.PbRole_VnRole;
-import org.sqlbuilder.pb.objects.Predicate;
-import org.sqlbuilder.pb.objects.Role;
-import org.sqlbuilder.pb.objects.RoleSet;
+import org.sqlbuilder.pb.objects.Theta;
+import org.sqlbuilder.sl.foreign.PbRole;
+import org.sqlbuilder.sl.foreign.VnAlias;
+import org.sqlbuilder.sl.foreign.VnRole;
+import org.sqlbuilder.sl.foreign.VnRoleAlias;
+import org.sqlbuilder.sl.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -35,49 +34,47 @@ public class SemlinkDocument extends XmlDocument
 
 	public static void makeMappings(final Node start) throws XPathExpressionException
 	{
-//		final NodeList predicateNodes = XmlDocument.getXPaths(start, "./predicate");
-//		for (int i = 0; i < predicateNodes.getLength(); i++)
-//		{
-//			final Element predicateElement = (Element) predicateNodes.item(i);
-//			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-//			final Predicate predicate = Predicate.make(lemmaAttribute, lemmaAttribute);
-//
-//			final NodeList argmapNodes = XmlDocument.getXPaths(predicateElement, "./argmap");
-//			for (int j = 0; j < argmapNodes.getLength(); j++)
-//			{
-//				final Element argmapElement = (Element) argmapNodes.item(j);
-//
-//				// propbank roleset
-//				final String roleSetIdAttribute = argmapElement.getAttribute("pb-roleset");
-//				final RoleSet roleSet = RoleSet.resolve(roleSetIdAttribute);
-//
-//				// verbnet class
-//				final String vnClassAttribute = argmapElement.getAttribute("vn-class");
-//				final VnClass vnClass = VnClass.make(predicate.getHead(), vnClassAttribute);
-//
-//				// roles
-//				final NodeList roleNodes = XmlDocument.getXPaths(argmapElement, "./role");
-//				for (int k = 0; k < roleNodes.getLength(); k++)
-//				{
-//					// role
-//					final Element roleElement = (Element) roleNodes.item(k);
-//
-//					// pb attributes (arg)
-//					final String argAttribute = roleElement.getAttribute("pb-arg");
-//
-//					// vn attributes (theta)
-//					final String thetaAttribute = roleElement.getAttribute("vn-theta");
-//
-//					// propbank role
-//					final Role role = Role.resolve(roleSetIdAttribute, argAttribute, thetaAttribute);
-//
-//					// vn role
-//					final VnRole vnRole = VnRole.make(vnClass, thetaAttribute);
-//
-//					VnAlias.make(vnClass.getClassName(), "v", roleSet, vnClass.getHead());
-//					PbRole_VnRole.make(role, vnRole);
-//				}
-//			}
-//		}
+		final NodeList predicateNodes = XmlDocument.getXPaths(start, "./predicate");
+		for (int i = 0; i < predicateNodes.getLength(); i++)
+		{
+			final Element predicateElement = (Element) predicateNodes.item(i);
+			final String lemmaAttribute = predicateElement.getAttribute("lemma");
+			final Predicate predicate = Predicate.make(lemmaAttribute, lemmaAttribute);
+
+			final NodeList argmapNodes = XmlDocument.getXPaths(predicateElement, "./argmap");
+			for (int j = 0; j < argmapNodes.getLength(); j++)
+			{
+				final Element argmapElement = (Element) argmapNodes.item(j);
+
+				// propbank roleset
+				final String roleSetAttribute = argmapElement.getAttribute("pb-roleset");
+
+				// verbnet class
+				final String vnClassAttribute = argmapElement.getAttribute("vn-class");
+
+				// roles
+				final NodeList roleNodes = XmlDocument.getXPaths(argmapElement, "./role");
+				for (int k = 0; k < roleNodes.getLength(); k++)
+				{
+					// role element
+					final Element roleElement = (Element) roleNodes.item(k);
+
+					// pb attributes (arg)
+					final String argAttribute = roleElement.getAttribute("pb-arg");
+
+					// vn attributes (theta)
+					final String thetaAttribute = roleElement.getAttribute("vn-theta");
+
+					// propbank role
+					final PbRole role = PbRole.make(roleSetAttribute, argAttribute);
+
+					// vn role
+					final VnRole vnRole = VnRole.make(vnClassAttribute, Theta.make(thetaAttribute));
+
+					VnAlias.make(vnClassAttribute, roleSetAttribute);
+					VnRoleAlias.make(role, vnRole);
+				}
+			}
+		}
 	}
 }

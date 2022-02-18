@@ -13,11 +13,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class PbRole_VnRole implements Insertable, Resolvable<Pair<String, String>, Triplet<Integer,Integer,Integer>>
+public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>, Triplet<Integer,Integer,Integer>>
 {
-	static public final Comparator<PbRole_VnRole> COMPARATOR = Comparator.comparing(PbRole_VnRole::getRole).thenComparing(PbRole_VnRole::getVnRole);
+	static public final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getRole).thenComparing(VnRoleAlias::getVnRole);
 
-	public static Set<PbRole_VnRole> SET = new HashSet<>();
+	public static Set<VnRoleAlias> SET = new HashSet<>();
 
 	private final Role role;
 
@@ -25,9 +25,9 @@ public class PbRole_VnRole implements Insertable, Resolvable<Pair<String, String
 
 	// C O N S T R U C T O R
 
-	public static PbRole_VnRole make(final Role role, final VnRole vnRole)
+	public static VnRoleAlias make(final Role role, final VnRole vnRole)
 	{
-		var m = new PbRole_VnRole(role, vnRole);
+		var m = new VnRoleAlias(role, vnRole);
 		boolean wasThere = !SET.add(m);
 		if (wasThere)
 		{
@@ -37,7 +37,7 @@ public class PbRole_VnRole implements Insertable, Resolvable<Pair<String, String
 		return m;
 	}
 
-	private PbRole_VnRole(final Role role, final VnRole vnRole)
+	private VnRoleAlias(final Role role, final VnRole vnRole)
 	{
 		this.role = role;
 		this.vnRole = vnRole;
@@ -68,7 +68,7 @@ public class PbRole_VnRole implements Insertable, Resolvable<Pair<String, String
 		{
 			return false;
 		}
-		PbRole_VnRole that = (PbRole_VnRole) o;
+		VnRoleAlias that = (VnRoleAlias) o;
 		return role.equals(that.role) && vnRole.equals(that.vnRole);
 	}
 

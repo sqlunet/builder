@@ -6,7 +6,7 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.foreign.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.VnRoleAlias;
 import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
@@ -102,7 +102,7 @@ public class Inserter
 	protected void insertVnAliasRoles() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
+		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
 		Progress.traceDone(null);
 	}
 }

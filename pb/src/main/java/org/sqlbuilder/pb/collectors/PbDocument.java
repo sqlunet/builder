@@ -4,7 +4,7 @@ import org.sqlbuilder.XmlDocument;
 import org.sqlbuilder.pb.foreign.Alias;
 import org.sqlbuilder.pb.foreign.VnClass;
 import org.sqlbuilder.pb.foreign.VnRole;
-import org.sqlbuilder.pb.foreign.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.VnRoleAlias;
 import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -220,7 +220,7 @@ public class PbDocument extends XmlDocument
 			final VnRole vnRole = VnRole.make(vnClass, theta);
 
 			// propbank role -> verbnet roles
-			PbRole_VnRole.make(role, vnRole);
+			VnRoleAlias.make(role, vnRole);
 		}
 	}
 

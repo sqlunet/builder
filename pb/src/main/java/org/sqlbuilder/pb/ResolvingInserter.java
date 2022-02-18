@@ -5,9 +5,8 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.foreign.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.VnRoleAlias;
 import org.sqlbuilder.pb.objects.Word;
-import org.sqlbuilder2.ser.DeSerialize;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,13 +24,13 @@ public class ResolvingInserter extends Inserter
 
 	protected final String fnFrameSerFile;
 
-	protected final PbWordResolver wordResolver;
+	protected final WordResolver wordResolver;
 
-	protected final PbVnClassResolver vnClassResolver;
+	protected final VnClassResolver vnClassResolver;
 
-	protected final PbVnClassRoleResolver vnClassRoleResolver;
+	protected final VnClassRoleResolver vnClassRoleResolver;
 
-	protected final PbFnFrameResolver fnFrameResolver;
+	protected final FnFrameResolver fnFrameResolver;
 
 	public ResolvingInserter(final Properties conf) throws IOException, ClassNotFoundException
 	{
@@ -51,10 +50,10 @@ public class ResolvingInserter extends Inserter
 		this.vnClassRoleSerFile = conf.getProperty("vnclass_vnrole_nids");
 		this.fnFrameSerFile = conf.getProperty("fnframe_nids");
 
-		this.wordResolver = new PbWordResolver(wordSerFile);
-		this.vnClassResolver = new PbVnClassResolver(vnClassSerFile);
-		this.vnClassRoleResolver = new PbVnClassRoleResolver(vnClassRoleSerFile);
-		this.fnFrameResolver = new PbFnFrameResolver(this.fnFrameSerFile);
+		this.wordResolver = new WordResolver(wordSerFile);
+		this.vnClassResolver = new VnClassResolver(vnClassSerFile);
+		this.vnClassRoleResolver = new VnClassRoleResolver(vnClassRoleSerFile);
+		this.fnFrameResolver = new FnFrameResolver(this.fnFrameSerFile);
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnAliasRoles() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.resolveAndInsert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //
+		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //
 				vnClassRoleResolver, //
 				r -> r==null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", r.first, r.second, r.third), //
 				names.column("pbroles_vnroles.vnclassid"), //

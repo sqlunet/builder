@@ -4,9 +4,8 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.common.Update;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.foreign.PbRole_VnRole;
+import org.sqlbuilder.pb.foreign.VnRoleAlias;
 import org.sqlbuilder.pb.objects.Word;
 
 import java.io.File;
@@ -74,7 +73,7 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		final String vnroleidCol = names.column("pbroles_vnroles.roleid");
-		Update.update(PbRole_VnRole.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
+		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
 				vnClassRoleResolver, //
 				resolved -> vnroleidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				names.column("pbroles_vnroles.role"));

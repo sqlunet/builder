@@ -1,12 +1,9 @@
 package org.sqlbuilder.sl;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.pb.Inserter;
 import org.sqlbuilder.sl.collectors.SemlinkProcessor;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
 
 public class SlModule extends Module
 {
@@ -20,20 +17,42 @@ public class SlModule extends Module
 	@Override
 	protected void run()
 	{
-		try
-		{
-			buildSemLink(props);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+		assert props != null;
 
-
-	private static void buildSemLink(final Properties props) throws FileNotFoundException
-	{
 		new SemlinkProcessor(props).run();
+		switch (mode)
+		{
+			case PLAIN:
+			case RESOLVE:
+				try
+				{
+					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
+			case UPDATE:
+				try
+				{
+					Inserter inserter = new ResolvingUpdater(props);
+					inserter.insert();
+				}
+				catch (IOException | ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
+			case EXPORT:
+				break;
+
+			default:
+				return;
+		}
 	}
 
 	public static void main(final String[] args)

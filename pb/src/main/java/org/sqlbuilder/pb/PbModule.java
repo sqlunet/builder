@@ -28,7 +28,6 @@ public class PbModule extends Module
 			case PLAIN:
 			case RESOLVE:
 				new PbProcessor(props).run();
-				new SemlinkProcessor(props).run();
 				try
 				{
 					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
