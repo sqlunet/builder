@@ -5,13 +5,15 @@ import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.pb.objects.Role;
 import org.sqlbuilder.pb.objects.RoleSet;
+import org.sqlbuilder2.ser.Pair;
+import org.sqlbuilder2.ser.Triplet;
 
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
+public class PbRole_VnRole implements Insertable, Resolvable<Pair<String, String>, Triplet<Integer,Integer,Integer>>
 {
 	static public final Comparator<PbRole_VnRole> COMPARATOR = Comparator.comparing(PbRole_VnRole::getRole).thenComparing(PbRole_VnRole::getVnRole);
 
@@ -26,7 +28,7 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 	public static PbRole_VnRole make(final Role role, final VnRole vnRole)
 	{
 		var m = new PbRole_VnRole(role, vnRole);
-		boolean wasThere = ! SET.add(m);
+		boolean wasThere = !SET.add(m);
 		if (wasThere)
 		{
 			System.err.println();
@@ -87,7 +89,7 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 		return String.format("%d,%d,'%s','%s'", //
 				role.getRoleSet().getIntId(), //
 				role.getIntId(), //
-				vnRole.getVnClass().getClassName(), //
+				vnRole.getVnClass().getClassTag(), //
 				vnRole.getVnTheta().getTheta());
 	}
 
@@ -102,9 +104,9 @@ public class PbRole_VnRole implements Insertable, Resolvable<String,Integer>
 	// R E S O L V E
 
 	@Override
-	public String resolving()
+	public Pair<String, String> resolving()
 	{
-		return null;
+		return new Pair<>(vnRole.getVnClass().getClassTag(), vnRole.getVnTheta().getTheta());
 	}
 
 	// T O S T R I N G

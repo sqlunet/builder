@@ -63,7 +63,7 @@ public class Exporter
 	{
 		serializeClasses();
 		serializeClassTags();
-		serializeRoles();
+		//serializeRoles();
 		serializeRoleTypes();
 		serializeClassesRoles();
 		serializeClassTagsRoles();
@@ -73,7 +73,7 @@ public class Exporter
 	{
 		exportClasses();
 		exportClassTags();
-		exportRoles();
+		//exportRoles();
 		exportRoleTypes();
 		exportClassTagsRoles();
 		exportClassesRoles();
@@ -91,11 +91,11 @@ public class Exporter
 		Serialize.serialize(m, new File(outDir,names.serFile("classes.resolve", "_by_name")));
 	}
 
-	public void serializeRoles() throws IOException
-	{
-		var m = makeRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve")));
-	}
+//	public void serializeRoles() throws IOException
+//	{
+//		var m = makeRolesMap();
+//		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve")));
+//	}
 
 	public void serializeRoleTypes() throws IOException
 	{
@@ -127,11 +127,11 @@ public class Exporter
 		export(m, new File(outDir, names.mapFile("classes.resolve", "_by_name")));
 	}
 
-	public void exportRoles() throws IOException
-	{
-		var m = makeRolesMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve")));
-	}
+//	public void exportRoles() throws IOException
+//	{
+//		var m = makeRolesMap();
+//		export(m, new File(outDir, names.mapFile("roles.resolve")));
+//	}
 
 	public void exportRoleTypes() throws IOException
 	{
@@ -161,16 +161,16 @@ public class Exporter
 	public Map<String, Integer> makeClassTagsMap()
 	{
 		return VnClass.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getName(), e.getValue())) //
+				.map(e -> new SimpleEntry<>(e.getKey().getTag(), e.getValue())) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
-	public Map<String, Integer> makeRolesMap()
-	{
-		return Role.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().toString(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+//	public Map<String, Integer> makeRolesMap()
+//	{
+//		return Role.COLLECTOR.entrySet().stream() //
+//				.map(e -> new SimpleEntry<>(e.getKey().toString(), e.getValue())) //
+//				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
+//	}
 
 	public Map<String, Integer> makeRoleTypesMap()
 	{

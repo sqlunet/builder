@@ -27,12 +27,6 @@ public class FnAlias extends Alias
 		return a;
 	}
 
-	@Override
-	public String resolving()
-	{
-		return null;
-	}
-
 	private FnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
 	{
 		super(clazz, pos, pbRoleSet, word);

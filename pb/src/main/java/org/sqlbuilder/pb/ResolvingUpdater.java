@@ -75,7 +75,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("set", "vnaliasrole");
 		final String vnroleidCol = names.column("pbroles_vnroles.roleid");
 		Update.update(PbRole_VnRole.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
-				vnRoleResolver, //
+				vnClassRoleResolver, //
 				resolved -> vnroleidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				names.column("pbroles_vnroles.role"));
 		Progress.traceDone(null);

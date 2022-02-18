@@ -67,7 +67,7 @@ public class FE implements HasID, Insertable
 
 	// A C C E S S
 
-	public long getID()
+	public int getID()
 	{
 		return feid;
 	}

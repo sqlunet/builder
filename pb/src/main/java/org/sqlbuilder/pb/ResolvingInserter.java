@@ -21,8 +21,6 @@ public class ResolvingInserter extends Inserter
 
 	protected final String vnClassSerFile;
 
-	protected final String vnRoleSerFile;
-
 	protected final String vnClassRoleSerFile;
 
 	protected final String fnFrameSerFile;
@@ -30,8 +28,6 @@ public class ResolvingInserter extends Inserter
 	protected final PbWordResolver wordResolver;
 
 	protected final PbVnClassResolver vnClassResolver;
-
-	protected final PbVnRoleResolver vnRoleResolver;
 
 	protected final PbVnClassRoleResolver vnClassRoleResolver;
 
@@ -52,13 +48,11 @@ public class ResolvingInserter extends Inserter
 		this.resolve = true;
 		this.wordSerFile = conf.getProperty("word_nids");
 		this.vnClassSerFile = conf.getProperty("vnclass_nids");
-		this.vnRoleSerFile = conf.getProperty("vnrole_nids");
 		this.vnClassRoleSerFile = conf.getProperty("vnclass_vnrole_nids");
 		this.fnFrameSerFile = conf.getProperty("fnframe_nids");
 
 		this.wordResolver = new PbWordResolver(wordSerFile);
 		this.vnClassResolver = new PbVnClassResolver(vnClassSerFile);
-		this.vnRoleResolver = new PbVnRoleResolver(vnClassSerFile);
 		this.vnClassRoleResolver = new PbVnClassRoleResolver(vnClassRoleSerFile);
 		this.fnFrameResolver = new PbFnFrameResolver(this.fnFrameSerFile);
 	}
@@ -80,7 +74,7 @@ public class ResolvingInserter extends Inserter
 		Progress.tracePending("set", "fnalias");
 		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), //
 				fnFrameResolver, //
-				e -> Utils.nullable(e, Objects::toString), //
+				r -> Utils.nullable(r, Objects::toString), //
 				names.column("pbrolesets_fnframes.fnframeid"));
 		Progress.traceDone(null);
 	}
@@ -91,7 +85,7 @@ public class ResolvingInserter extends Inserter
 		Progress.tracePending("set", "vnalias");
 		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), //
 				vnClassResolver, //
-				e -> Utils.nullable(e, Objects::toString), //
+				r -> Utils.nullable(r, Objects::toString), //
 				names.column("pbrolesets_vnclasses.vnclassid"));
 		Progress.traceDone(null);
 	}
@@ -101,10 +95,11 @@ public class ResolvingInserter extends Inserter
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		Insert.resolveAndInsert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //
-				vnRoleResolver, //
-				e -> Utils.nullable(e, Objects::toString), //
+				vnClassRoleResolver, //
+				r -> r==null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", r.first, r.second, r.third), //
 				names.column("pbroles_vnroles.vnclassid"), //
-				names.column("pbroles_vnroles.vnroleid"));
+				names.column("pbroles_vnroles.vnroleid"), //
+				names.column("pbroles_vnroles.vnroletypeid"));
 		Progress.traceDone(null);
 	}
 }
