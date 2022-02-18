@@ -1,12 +1,14 @@
 package org.sqlbuilder.sl.foreign;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Resolvable;
+import org.sqlbuilder2.ser.Pair;
 
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class VnAlias implements Insertable
+public class VnAlias implements Insertable, Resolvable<Pair<String,String>,Pair<Integer,Integer>>
 {
 	public static final Comparator<VnAlias> COMPARATOR = Comparator.comparing(VnAlias::getPbRoleset).thenComparing(VnAlias::getVnClass);
 
@@ -44,5 +46,13 @@ public class VnAlias implements Insertable
 	public String dataRow()
 	{
 		return String.format("%s,%s", pbRoleset, vnClass);
+	}
+
+	// R E S O L V E
+
+	@Override
+	public Pair<String, String> resolving()
+	{
+		return new Pair<>(vnClass, pbRoleset);
 	}
 }

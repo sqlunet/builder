@@ -1,5 +1,7 @@
 package org.sqlbuilder.common;
 
+import org.sqlbuilder2.ser.Pair;
+
 import java.util.Map;
 import java.util.function.Function;
 

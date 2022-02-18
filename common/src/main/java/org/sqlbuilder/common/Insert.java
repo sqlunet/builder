@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Insert
 {
@@ -77,8 +76,13 @@ public class Insert
 		insert(map, file, table, columns, true);
 	}
 
+	public static  <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber, final ResolveKit<T,U,R> rk) throws FileNotFoundException
+	{
+		resolveAndInsert(map, file, table, columns, withNumber, rk.resolver, rk.stringifier, rk.resolvedColumns);
+	}
+
 	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber,  //
-			final Resolver<U,R> resolver, //
+			final Function<U,R> resolver, //
 			final Function<R, String> stringifier, //
 			final String... resolvedColumns)  //
 			throws FileNotFoundException
@@ -247,8 +251,13 @@ public class Insert
 		}
 	}
 
+	public static  <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final ResolveKit<T,U,R> rk) throws FileNotFoundException
+	{
+		resolveAndInsert(set, comparator, file, table, columns, rk.resolver, rk.stringifier, rk.resolvedColumns);
+	}
+
 	public static  <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, //
-			final Resolver<U,R> resolver, //
+			final Function<U,R> resolver, //
 			final Function<R, String> stringifier, //
 			final String... resolvedColumns) //
 			throws FileNotFoundException
@@ -283,6 +292,20 @@ public class Insert
 				}
 				ps.println(";");
 			}
+		}
+	}
+
+	public static class ResolveKit<T extends Resolvable<U, R>, U, R>
+	{
+		final public Function<U,R> resolver;
+		final public Function<R, String> stringifier;
+		final public String[] resolvedColumns;
+
+		public ResolveKit(final Function<U, R> resolver, final Function<R, String> stringifier, final String... resolvedColumns)
+		{
+			this.resolver = resolver;
+			this.stringifier = stringifier;
+			this.resolvedColumns = resolvedColumns;
 		}
 	}
 }

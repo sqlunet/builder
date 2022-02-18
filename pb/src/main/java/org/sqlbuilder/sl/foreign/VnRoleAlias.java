@@ -1,13 +1,17 @@
 package org.sqlbuilder.sl.foreign;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Resolvable;
+import org.sqlbuilder2.ser.Pair;
+import org.sqlbuilder2.ser.Triplet;
 
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class VnRoleAlias implements Insertable
+//                                                         input
+public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, String>, Pair<String, String>>, Pair<Triplet<Integer, Integer, Integer>, Pair<Integer, Integer>>>
 {
 	public static final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getPbRole).thenComparing(VnRoleAlias::getVnRole);
 
@@ -87,11 +91,11 @@ public class VnRoleAlias implements Insertable
 
 	// R E S O L V E
 
-	//	@Override
-	//	public Pair<String, String> resolving()
-	//	{
-	//		return new Pair<>(vnRole.getVnClass().getClassTag(), vnRole.getVnTheta().getTheta());
-	//	}
+	@Override
+	public Pair<Pair<String, String>, Pair<String, String>> resolving()
+	{
+		return new Pair<>(new Pair<>(pbRole.roleSet, pbRole.arg), new Pair<>(vnRole.vnClass, vnRole.theta.getTheta()));
+	}
 
 	// T O S T R I N G
 
