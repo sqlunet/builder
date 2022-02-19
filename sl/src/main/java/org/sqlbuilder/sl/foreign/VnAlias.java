@@ -2,6 +2,7 @@ package org.sqlbuilder.sl.foreign;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Resolvable;
+import org.sqlbuilder.common.Updatable;
 import org.sqlbuilder2.ser.Pair;
 
 import java.util.Comparator;
@@ -9,7 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
 
-public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pair<Integer, Integer>>
+public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pair<Integer, Integer>>, Updatable
 {
 	public static final Comparator<VnAlias> COMPARATOR = Comparator.comparing(VnAlias::getPbRoleset).thenComparing(VnAlias::getVnClass);
 
@@ -64,6 +65,15 @@ public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pai
 	public Pair<String, String> resolving()
 	{
 		return new Pair<>(vnClass, pbRoleset);
+	}
+
+	// U P D A T E
+
+	@Override
+	public String updateRow(final String... columns)
+	{
+		//TODO
+		return "update";
 	}
 
 	// T O S T R I N G

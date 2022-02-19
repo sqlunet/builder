@@ -3,7 +3,6 @@ package org.sqlbuilder.sl;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.Resolver2;
-import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.sl.foreign.VnAlias;
 import org.sqlbuilder.sl.foreign.VnRoleAlias;
 
@@ -77,7 +76,8 @@ public class ResolvingInserter extends Inserter
 				names.column("pbroles_vnroles.pbrolesetid"), //
 				names.column("pbroles_vnroles.pbroleid"), //
 				names.column("pbroles_vnroles.vnclassid"), //
-				names.column("pbroles_vnroles.vnroleid"));
+				names.column("pbroles_vnroles.vnroleid"), //;
+				names.column("pbroles_vnroles.vnroletypeid"));
 		Progress.traceDone(null);
 	}
 }

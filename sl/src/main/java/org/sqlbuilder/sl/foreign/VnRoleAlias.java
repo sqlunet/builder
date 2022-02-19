@@ -24,7 +24,7 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, Str
 					"NULL,NULL,NULL,NULL" : //
 					String.format("%s,%s", //
 							r.first == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.first.first), Utils.nullableInt(r.first.second)), //
-							r.second == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.second.first), Utils.nullableInt(r.second.second)));
+							r.second == null ? "NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(r.second.first), Utils.nullableInt(r.second.second), Utils.nullableInt(r.second.third)));
 
 	private final PbRole pbRole;
 

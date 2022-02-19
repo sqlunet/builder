@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.common.Update;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
 import org.sqlbuilder.pb.foreign.VnRoleAlias;
 import org.sqlbuilder.pb.objects.Word;
@@ -45,7 +46,6 @@ public class ResolvingUpdater extends ResolvingInserter
 	@Override
 	protected void insertFnAliases() throws FileNotFoundException
 	{
-		/*
 		Progress.tracePending("set", "fnalias");
 		final String fnframeidCol = names.column("pbrolesets_fnframes.fnframeid");
 		Update.update(FnAlias.SET, new File(outDir, names.updateFile("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), //
@@ -53,7 +53,6 @@ public class ResolvingUpdater extends ResolvingInserter
 				resolved -> fnframeidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				names.column("pbrolesets_fnframes.fnframe"));
 		Progress.traceDone(null);
-		 */
 	}
 
 	@Override
