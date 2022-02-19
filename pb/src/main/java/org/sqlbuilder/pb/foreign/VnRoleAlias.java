@@ -12,12 +12,16 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
-public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>, Triplet<Integer,Integer,Integer>>
+public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>, Triplet<Integer, Integer, Integer>>
 {
 	static public final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getRole).thenComparing(VnRoleAlias::getVnRole);
 
 	public static Set<VnRoleAlias> SET = new HashSet<>();
+
+	public static Function<Triplet<Integer, Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+			r == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", r.first, r.second, r.third);
 
 	private final Role role;
 

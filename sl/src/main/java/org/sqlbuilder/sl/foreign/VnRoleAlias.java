@@ -2,6 +2,7 @@ package org.sqlbuilder.sl.foreign;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Resolvable;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Triplet;
 
@@ -9,13 +10,21 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 //                                                         input
-public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, String>, Pair<String, String>>, Pair<Triplet<Integer, Integer, Integer>, Pair<Integer, Integer>>>
+public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, String>, Pair<String, String>>, Pair<Pair<Integer, Integer>, Triplet<Integer, Integer, Integer>>>
 {
 	public static final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getPbRole).thenComparing(VnRoleAlias::getVnRole);
 
 	public static Set<VnRoleAlias> SET = new TreeSet<>(COMPARATOR);
+
+	public static Function<Pair<Pair<Integer, Integer>, Triplet<Integer, Integer, Integer>>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+			r == null ? //
+					"NULL,NULL,NULL,NULL" : //
+					String.format("%s,%s", //
+							r.first == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.first.first), Utils.nullableInt(r.first.second)), //
+							r.second == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.second.first), Utils.nullableInt(r.second.second)));
 
 	private final PbRole pbRole;
 
@@ -25,14 +34,14 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, Str
 
 	public static VnRoleAlias make(final PbRole role, final VnRole vnRole)
 	{
-		var m = new VnRoleAlias(role, vnRole);
-		boolean wasThere = !SET.add(m);
+		var a = new VnRoleAlias(role, vnRole);
+		boolean wasThere = !SET.add(a);
 		if (wasThere)
 		{
 			System.err.println();
-			System.err.println(m);
+			System.err.println(a);
 		}
-		return m;
+		return a;
 	}
 
 	private VnRoleAlias(final PbRole role, final VnRole vnRole)
@@ -102,6 +111,6 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, Str
 	@Override
 	public String toString()
 	{
-		return String.format("%s > %s", pbRole, vnRole);
+		return String.format("%s - %s", pbRole, vnRole);
 	}
 }

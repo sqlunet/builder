@@ -4,7 +4,7 @@
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.FnModule" />
     <module name="fn" />
     <option name="PROGRAM_PARAMETERS" value="-resolve fn.properties" />
-    <option name="VM_PARAMETERS" value="-Xmx9G" />
+    <option name="VM_PARAMETERS" value="-Xmx9G -ea" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>

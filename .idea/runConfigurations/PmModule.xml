@@ -3,6 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.pm.PmModule" />
     <module name="pm" />
     <option name="PROGRAM_PARAMETERS" value="pm.properties" />
+    <option name="VM_PARAMETERS" value="-ea" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>

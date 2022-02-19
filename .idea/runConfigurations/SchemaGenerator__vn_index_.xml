@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SchemaGenerator (vn index)" type="Application" factoryName="Application" folderName="VN Generate Schema">
+  <configuration default="false" name="SchemaGenerator (vn index)" type="Application" factoryName="Application" folderName="Generate Schemas">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="vn" />
     <option name="PROGRAM_PARAMETERS" value="vn sql/mysql/index mysql/index/" />

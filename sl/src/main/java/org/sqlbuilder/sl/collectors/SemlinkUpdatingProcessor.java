@@ -1,10 +1,10 @@
 package org.sqlbuilder.sl.collectors;
 
-import org.sqlbuilder.XmlDocument;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.pb.PbModule;
+import org.sqlbuilder.common.XmlDocument;
+import org.sqlbuilder.sl.SlModule;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -35,7 +35,7 @@ public class SemlinkUpdatingProcessor extends Processor
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, this.tag, "xml-document", this.semlinkFile, -1, null, "document=[" + this.semlinkFile + "]", e);
+			Logger.instance.logXmlException(SlModule.MODULE_ID, this.tag, "xml-document", this.semlinkFile, -1, null, "document=[" + this.semlinkFile + "]", e);
 		}
 	}
 

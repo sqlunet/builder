@@ -12,8 +12,9 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
-public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<Integer,Integer>>, Comparable<Member_Sense>
+public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<Integer, Integer>>, Comparable<Member_Sense>
 {
 	static public final Comparator<Member_Sense> COMPARATOR = Comparator //
 			.comparing(Member_Sense::getMemberClass) //
@@ -21,6 +22,10 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 			.thenComparing(Member_Sense::getSensekey, Comparator.nullsFirst(Comparator.naturalOrder()));
 
 	public static final Set<Member_Sense> SET = new HashSet<>();
+
+	public static Function<SimpleEntry<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+			r == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.getKey()), Utils.nullableInt(r.getValue()));
+	//r == null ? "NULL,NULL" : String.format("%s,%s", r.first, r.second);
 
 	private final Class_Word member;
 

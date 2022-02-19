@@ -1,6 +1,5 @@
-package org.sqlbuilder;
+package org.sqlbuilder.common;
 
-import org.sqlbuilder.common.XPathUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

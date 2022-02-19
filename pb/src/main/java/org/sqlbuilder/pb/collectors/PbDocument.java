@@ -1,6 +1,6 @@
 package org.sqlbuilder.pb.collectors;
 
-import org.sqlbuilder.XmlDocument;
+import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.pb.foreign.Alias;
 import org.sqlbuilder.pb.foreign.VnClass;
 import org.sqlbuilder.pb.foreign.VnRole;

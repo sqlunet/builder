@@ -1,4 +1,4 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.sl.objects;
 
 import org.sqlbuilder.common.*;
 

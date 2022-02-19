@@ -4,6 +4,7 @@
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.sn.SnModule" />
     <module name="sn" />
     <option name="PROGRAM_PARAMETERS" value="-update sn.properties" />
+    <option name="VM_PARAMETERS" value="-ea" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>

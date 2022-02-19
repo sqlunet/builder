@@ -1,6 +1,6 @@
 package org.sqlbuilder.pb.collectors;
 
-import org.sqlbuilder.XmlDocument;
+import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;

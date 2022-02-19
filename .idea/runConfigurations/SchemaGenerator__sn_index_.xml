@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SchemaGenerator (sn index)" type="Application" factoryName="Application" folderName="SN Schema Generator">
+  <configuration default="false" name="SchemaGenerator (sn index)" type="Application" factoryName="Application" folderName="Generate Schemas">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
     <module name="sn" />
     <option name="PROGRAM_PARAMETERS" value="sn sql/mysql/index mysql/index/" />

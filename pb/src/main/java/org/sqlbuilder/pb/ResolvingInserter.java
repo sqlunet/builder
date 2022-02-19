@@ -95,7 +95,7 @@ public class ResolvingInserter extends Inserter
 		Progress.tracePending("set", "vnaliasrole");
 		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //
 				vnClassRoleResolver, //
-				r -> r==null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", r.first, r.second, r.third), //
+				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbroles_vnroles.vnclassid"), //
 				names.column("pbroles_vnroles.vnroleid"), //
 				names.column("pbroles_vnroles.vnroletypeid"));

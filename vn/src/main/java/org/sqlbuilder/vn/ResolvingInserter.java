@@ -58,7 +58,7 @@ public class ResolvingInserter extends Inserter
 		Progress.tracePending("set", "word");
 		Insert.resolveAndInsert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), //
 				sensekeyResolver, //
-				e -> e == null ? "NULL,NULL" : Utils.nullable(e.getKey(), Objects::toString) + "," + Utils.nullable(e.getValue(), Objects::toString), // SimpleEntry::toString, //
+				Member_Sense.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("members_senses.wordid"),  //
 				names.column("members_senses.synsetid"));
 		Progress.traceDone(null);

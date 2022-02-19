@@ -1,12 +1,10 @@
 package org.sqlbuilder.pb.collectors;
 
-import org.sqlbuilder.XmlDocument;
+import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.pb.PbModule;
-import org.sqlbuilder.pb.objects.LexItem;
-import org.sqlbuilder.pb.objects.Predicate;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 

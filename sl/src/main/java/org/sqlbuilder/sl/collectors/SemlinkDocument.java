@@ -1,12 +1,12 @@
 package org.sqlbuilder.sl.collectors;
 
-import org.sqlbuilder.XmlDocument;
-import org.sqlbuilder.pb.objects.Theta;
+import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.sl.foreign.PbRole;
 import org.sqlbuilder.sl.foreign.VnAlias;
 import org.sqlbuilder.sl.foreign.VnRole;
 import org.sqlbuilder.sl.foreign.VnRoleAlias;
 import org.sqlbuilder.sl.objects.Predicate;
+import org.sqlbuilder.sl.objects.Theta;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,6 +52,9 @@ public class SemlinkDocument extends XmlDocument
 				// verbnet class
 				final String vnClassAttribute = argmapElement.getAttribute("vn-class");
 
+				// map
+				VnAlias.make(roleSetAttribute, vnClassAttribute);
+
 				// roles
 				final NodeList roleNodes = XmlDocument.getXPaths(argmapElement, "./role");
 				for (int k = 0; k < roleNodes.getLength(); k++)
@@ -71,7 +74,6 @@ public class SemlinkDocument extends XmlDocument
 					// vn role
 					final VnRole vnRole = VnRole.make(vnClassAttribute, Theta.make(thetaAttribute));
 
-					VnAlias.make(roleSetAttribute, vnClassAttribute);
 					VnRoleAlias.make(pbRole, vnRole);
 				}
 			}

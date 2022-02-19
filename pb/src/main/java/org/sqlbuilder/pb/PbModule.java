@@ -4,8 +4,6 @@ import org.sqlbuilder.common.Module;
 import org.sqlbuilder.pb.collectors.PbExportingProcessor;
 import org.sqlbuilder.pb.collectors.PbProcessor;
 import org.sqlbuilder.pb.collectors.PbUpdatingProcessor;
-import org.sqlbuilder.sl.collectors.SemlinkProcessor;
-import org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor;
 
 import java.io.IOException;
 
@@ -41,8 +39,7 @@ public class PbModule extends Module
 
 			case UPDATE:
 				new PbUpdatingProcessor(props).run();
-				new SemlinkUpdatingProcessor(props).run();
-				try
+					try
 				{
 					Inserter inserter = new ResolvingUpdater(props);
 					inserter.insert();

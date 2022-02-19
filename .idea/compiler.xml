@@ -12,6 +12,7 @@
         <module name="bnc" />
         <module name="fn" />
         <module name="vn" />
+        <module name="sl" />
         <module name="fn-jaxb" />
         <module name="sn" />
         <module name="fn-beans" />

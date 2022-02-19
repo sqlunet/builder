@@ -1,6 +1,6 @@
 package org.sqlbuilder.sl.foreign;
 
-import org.sqlbuilder.pb.objects.Theta;
+import org.sqlbuilder.sl.objects.Theta;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -49,8 +49,8 @@ public class VnRole implements Comparable<VnRole>
 		{
 			return false;
 		}
-		VnRole vnRole = (VnRole) o;
-		return vnClass.equals(vnRole.vnClass) && theta.equals(vnRole.theta);
+		VnRole that = (VnRole) o;
+		return vnClass.equals(that.vnClass) && theta.equals(that.theta);
 	}
 
 	@Override
@@ -65,5 +65,13 @@ public class VnRole implements Comparable<VnRole>
 	public int compareTo(final VnRole that)
 	{
 		return COMPARATOR.compare(this, that);
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		return String.format("(%s,%s)", vnClass, theta);
 	}
 }
