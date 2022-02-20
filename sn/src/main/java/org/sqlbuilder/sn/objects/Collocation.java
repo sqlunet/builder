@@ -2,13 +2,14 @@ package org.sqlbuilder.sn.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.ParseException;
-import org.sqlbuilder.common.Updatable;
+import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Triplet;
 
 import java.util.function.Function;
 
-public class Collocation implements Insertable, Updatable
+public class Collocation implements Insertable, Resolvable<Pair<String, String>, Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>>
 {
 	public final long offset1;
 
@@ -105,17 +106,9 @@ public class Collocation implements Insertable, Updatable
 		return String.format("%s,%c,%d,%s,%c,%d", word1, pos1, offset1, word2, pos2, offset2);
 	}
 
-	// U P D A T E
-
-	@Override
-	public String updateRow(String... columns)
-	{
-		return String.format("`%s`=%s,`%s`=%s,`%s`=%s,`%s`=%s WHERE `%s`=%s AND `%s`= %s", columns[0], "NULL", columns[1], "NULL", columns[2], "NULL", columns[3], "NULL", columns[4], Utils.quote(Utils.escape(sensekey1)), columns[5], Utils.quote(Utils.escape(sensekey2)));
-	}
-
 	// R E S O L V E
 
-	public boolean resolve(final Function<Triplet<String, Character, Long>, String> skResolver)
+	public boolean resolveOffsets(final Function<Triplet<String, Character, Long>, String> skResolver)
 	{
 		String sk1 = skResolver.apply(new Triplet<>(word1, pos1, offset1));
 		boolean resolved1 = sk1 != null;
@@ -138,5 +131,11 @@ public class Collocation implements Insertable, Updatable
 			sensekey2 = sk2;
 		}
 		return resolved1 && resolved2;
+	}
+
+	@Override
+	public Pair<String, String> resolving()
+	{
+		return new Pair<>(sensekey1, sensekey2);
 	}
 }

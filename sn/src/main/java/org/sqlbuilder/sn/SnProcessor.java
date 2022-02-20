@@ -72,7 +72,7 @@ public class SnProcessor extends Processor
 		ps.print(';');
 	}
 
-	private void process(final File file, final ThrowingFunction<String, Collocation> producer, final BiConsumer<Collocation, Integer> consumer) throws IOException
+	protected void process(final File file, final ThrowingFunction<String, Collocation> producer, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
@@ -100,7 +100,7 @@ public class SnProcessor extends Processor
 					}) //
 					.filter(Objects::nonNull) //
 					//.sorted(Comparator.comparing(Collocation::getWord1).thenComparing(Collocation::getWord2)) //
-					.filter(collocation -> collocation.resolve(sensekeyResolver)) //
+					.filter(collocation -> collocation.resolveOffsets(sensekeyResolver)) //
 					.sorted(Comparator.comparing(Collocation::getSensekey1, Comparator.nullsFirst(Comparator.naturalOrder())).thenComparing(Collocation::getSensekey2, Comparator.nullsFirst(Comparator.naturalOrder()))) //
 					.forEach(collocation -> {
 						consumer.accept(collocation, count[0]);

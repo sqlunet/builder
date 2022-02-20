@@ -1,7 +1,7 @@
 package org.sqlbuilder.sn;
 
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.sn.objects.Collocation;
-import org.sqlbuilder.sn.objects.ResolvingCollocation;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,44 +23,37 @@ public class SnUpdatingProcessor extends SnResolvingProcessor
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("syntagms"))), true, StandardCharsets.UTF_8))
 		{
-			processSyntagNetFile(ps, new File(snHome, snMain), (collocation, i) -> updateRow(ps, names.table("syntagms"), i, collocation.updateRow( //
-					names.column("syntagms.word1id"), //
-					names.column("syntagms.synset1id"), //
-					names.column("syntagms.word2id"), //
-					names.column("syntagms.synset2id"), //
-					names.column("syntagms.sensekey1"), //
-					names.column("syntagms.sensekey2") //
-			)));
+			processSyntagNetFile(ps, new File(snHome, snMain), //
+					(collocation, i) -> updateRow(ps, names.table("syntagms"), i, collocation, //
+							names.column("syntagms.word1id"), //
+							names.column("syntagms.synset1id"), //
+							names.column("syntagms.word2id"), //
+							names.column("syntagms.synset2id"), //
+							names.column("syntagms.sensekey1"), //
+							names.column("syntagms.sensekey2") //
+					));
 		}
 	}
 
-	private void updateRow(final PrintStream ps, final String table, final Integer index, final String updateRow)
+	private void updateRow(final PrintStream ps, final String table, final Integer index, final Collocation collocation, final String... columns)
 	{
-		ps.printf("UPDATE `%s` SET %s; -- %d%n", table, updateRow , index + 1);
+		var r1 = senseResolver.apply(collocation.sensekey1);
+		var r2 = senseResolver.apply(collocation.sensekey2);
+		if (r1 != null && r2 != null)
+		{
+			String setClause = String.format("`%s`=%s,`%s`=%s,`%s`=%s,`%s`=%s", //
+					columns[0], Utils.nullableInt(r1.getKey()), //
+					columns[1], Utils.nullableInt(r1.getValue()), //
+					columns[2], Utils.nullableInt(r2.getKey()), //
+					columns[3], Utils.nullableInt(r2.getValue()));
+			String whereClause = String.format("`%s`=%s AND `%s`= %s", columns[4], Utils.quote(Utils.escape(collocation.sensekey1)), columns[5], Utils.quote(Utils.escape(collocation.sensekey2)));
+			ps.printf("UPDATE `%s` SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
+		}
 	}
 
 	protected void processSyntagNetFile(final PrintStream ps, final File file, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), serFile);
-		process(file, ResolvingCollocation::parse, consumer);
+		process(file, Collocation::parse, consumer);
 	}
-
-	/*
-	public void updates()
-	{
-		Names names = new Names("sn");
-		PrintStream ps = System.out;
-		map.forEach((k, v) -> ps.printf("UPDATE `%s` SET `%s`=%d,`%s`=%d WHERE `%s` = '%s';%n", //
-				names.table("syntagms"), //
-				names.get("syntagms.word1id"), v.getKey(), //
-				names.get("syntagms.synset1id"), v.getValue(),  //
-				names.get("syntagms.sensekey1"), k));
-		map.forEach((k, v) -> ps.printf("UPDATE `%s` SET `%s`=%d,`%s`=%d WHERE `%s` = '%s';%n", //
-				names.table("syntagms"), //
-				names.get("syntagms.word2id"), v.getKey(), //
-				names.get("syntagms.synset2id"), v.getValue(),  //
-				names.get("syntagms.sensekey2"), k));
-
-	}
-	 */
 }

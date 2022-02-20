@@ -2,7 +2,6 @@ package org.sqlbuilder.sl.foreign;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.common.Updatable;
 import org.sqlbuilder2.ser.Pair;
 
 import java.util.Comparator;
@@ -10,7 +9,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
 
-public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pair<Integer, Integer>>, Updatable
+public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pair<Integer, Integer>>
 {
 	public static final Comparator<VnAlias> COMPARATOR = Comparator.comparing(VnAlias::getPbRoleset).thenComparing(VnAlias::getVnClass);
 
@@ -19,38 +18,33 @@ public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pai
 	public static Function<Pair<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
 			r == null ? "NULL,NULL" : String.format("%s,%s", r.first, r.second);
 
-	private final String vnClass;
-
 	private final String pbRoleset;
+
+	private final String vnClass;
 
 	// C O N S T R U C T O R
 
-	public static VnAlias make(final String vnClass, final String pbRoleSet)
+	public static VnAlias make(final String pbRoleSet, final String vnClass)
 	{
-		var a = new VnAlias(vnClass, pbRoleSet);
-		boolean wasThere = !SET.add(a);
-		if (wasThere)
-		{
-			System.err.println();
-			System.err.println(a);
-		}
+		var a = new VnAlias(pbRoleSet, vnClass);
+		SET.add(a);
 		return a;
 	}
 
-	protected VnAlias(final String vnClass, final String pbRoleSet)
+	protected VnAlias(final String pbRoleSet, final String vnClass)
 	{
-		this.vnClass = vnClass;
 		this.pbRoleset = pbRoleSet;
-	}
-
-	public String getVnClass()
-	{
-		return vnClass;
+		this.vnClass = vnClass;
 	}
 
 	public String getPbRoleset()
 	{
 		return pbRoleset;
+	}
+
+	public String getVnClass()
+	{
+		return vnClass;
 	}
 
 	@Override
@@ -64,16 +58,7 @@ public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pai
 	@Override
 	public Pair<String, String> resolving()
 	{
-		return new Pair<>(vnClass, pbRoleset);
-	}
-
-	// U P D A T E
-
-	@Override
-	public String updateRow(final String... columns)
-	{
-		//TODO
-		return "update";
+		return new Pair<>(pbRoleset, vnClass);
 	}
 
 	// T O S T R I N G

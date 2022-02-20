@@ -15,7 +15,7 @@ public class ResolvingInserter extends Inserter
 {
 	protected final String vnClassSerFile;
 
-	protected final String vnClassRoleSerFile;
+	protected final String vnRoleSerFile;
 
 	protected final String pbRoleSetSerFile;
 
@@ -23,7 +23,7 @@ public class ResolvingInserter extends Inserter
 
 	protected final VnClassResolver vnClassResolver;
 
-	protected final VnClassRoleResolver vnRoleResolver;
+	protected final VnRoleResolver vnRoleResolver;
 
 	protected final PbRoleSetResolver pbRoleSetResolver;
 
@@ -42,16 +42,15 @@ public class ResolvingInserter extends Inserter
 
 		// resolve
 		this.resolve = true;
-		this.vnClassSerFile = conf.getProperty("vnclass_nids");
-		this.vnClassRoleSerFile = conf.getProperty("vnrole_nids");
 		this.pbRoleSetSerFile = conf.getProperty("pbroleset_nids");
 		this.pbRoleSerFile = conf.getProperty("pbrole_nids");
+		this.vnClassSerFile = conf.getProperty("vnclass_nids");
+		this.vnRoleSerFile = conf.getProperty("vnrole_nids");
 
-		this.vnClassResolver = new VnClassResolver(vnClassSerFile);
 		this.pbRoleSetResolver = new PbRoleSetResolver(this.pbRoleSetSerFile);
-
-		this.vnRoleResolver = new VnClassRoleResolver(vnClassRoleSerFile);
 		this.pbRoleResolver = new PbRoleResolver(this.pbRoleSerFile);
+		this.vnClassResolver = new VnClassResolver(vnClassSerFile);
+		this.vnRoleResolver = new VnRoleResolver(vnRoleSerFile);
 	}
 
 	@Override

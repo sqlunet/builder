@@ -4,7 +4,7 @@ import org.sqlbuilder.common.*;
 
 import java.util.function.Function;
 
-public class BNCResolvingRecord extends BNCRecord implements Insertable,Updatable
+public class BNCResolvingRecord extends BNCRecord implements Insertable
 {
 	protected int wordid;
 
@@ -32,14 +32,6 @@ public class BNCResolvingRecord extends BNCRecord implements Insertable,Updatabl
 	public String dataRow()
 	{
 		return String.format("%d,'%s','%c',%d,%d,%f", wordid, Utils.escape(word), pos, freq, range, dispersion);
-	}
-
-	// U P D A T E
-
-	@Override
-	public String updateRow(String... columns)
-	{
-		return String.format("`%s`=%d WHERE `%s`=%s", columns[0], wordid, columns[1], Utils.quote(Utils.escape(word)));
 	}
 
 	// R E S O L V E

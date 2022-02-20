@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 public class Insert
@@ -76,13 +79,13 @@ public class Insert
 		insert(map, file, table, columns, true);
 	}
 
-	public static  <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber, final ResolveKit<T,U,R> rk) throws FileNotFoundException
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber, final ResolveKit<T, U, R> rk) throws FileNotFoundException
 	{
 		resolveAndInsert(map, file, table, columns, withNumber, rk.resolver, rk.stringifier, rk.resolvedColumns);
 	}
 
 	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber,  //
-			final Function<U,R> resolver, //
+			final Function<U, R> resolver, //
 			final Function<R, String> stringifier, //
 			final String... resolvedColumns)  //
 			throws FileNotFoundException
@@ -138,6 +141,32 @@ public class Insert
 						i[0]++;
 					});
 				}
+				ps.println(";");
+			}
+		}
+	}
+
+	// G E N E R I C   M A P
+
+	public static <K, V> void insert(final Map<K, V> map, final File file, final String table, final String columns, final Function<Map.Entry<K, V>, String> stringifier) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			if (map.size() > 0)
+			{
+				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+				int[] i = {0};
+				map.entrySet().forEach(e -> {
+
+					if (i[0] != 0)
+					{
+						ps.print(",\n");
+					}
+					String values = stringifier.apply(e);
+					String row = String.format("(%s)", values);
+					ps.print(row);
+					i[0]++;
+				});
 				ps.println(";");
 			}
 		}
@@ -251,13 +280,13 @@ public class Insert
 		}
 	}
 
-	public static  <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final ResolveKit<T,U,R> rk) throws FileNotFoundException
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final ResolveKit<T, U, R> rk) throws FileNotFoundException
 	{
 		resolveAndInsert(set, comparator, file, table, columns, rk.resolver, rk.stringifier, rk.resolvedColumns);
 	}
 
-	public static  <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, //
-			final Function<U,R> resolver, //
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, //
+			final Function<U, R> resolver, //
 			final Function<R, String> stringifier, //
 			final String... resolvedColumns) //
 			throws FileNotFoundException
@@ -297,7 +326,7 @@ public class Insert
 
 	public static class ResolveKit<T extends Resolvable<U, R>, U, R>
 	{
-		final public Function<U,R> resolver;
+		final public Function<U, R> resolver;
 		final public Function<R, String> stringifier;
 		final public String[] resolvedColumns;
 

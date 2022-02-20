@@ -18,7 +18,7 @@ public class BNCResolvingProcessor extends BNCProcessor
 {
 	protected final String serFile;
 
-	private final BncWordResolver resolver;
+	protected final BncWordResolver wordResolver;
 
 	public BNCResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
@@ -34,7 +34,7 @@ public class BNCResolvingProcessor extends BNCProcessor
 		// resolve
 		this.resolve = true;
 		this.serFile = conf.getProperty("word_nids");
-		this.resolver = new BncWordResolver(this.serFile);
+		this.wordResolver = new BncWordResolver(this.serFile);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class BNCResolvingProcessor extends BNCProcessor
 						return null;
 					}) //
 					.filter(Objects::nonNull) //
-					.filter(r -> r.resolve(resolver)) //
+					.filter(r -> r.resolve(wordResolver)) //
 					.forEach(r -> {
 						consumer.accept(r, count[0]);
 						count[0]++;

@@ -48,11 +48,11 @@ public class PmEntry implements Insertable
 	static final int ROLE_MAPPING = 0x800;
 	static final int WN_MISSING = 0x1000;
 
+	private PmRole role;
+
 	// wordnet
 
 	private String lemma;
-
-	private PmRole role;
 
 	private String senseKey;
 

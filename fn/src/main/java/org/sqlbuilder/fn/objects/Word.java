@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Word implements HasId, Insertable, Resolvable<String, Integer>, Updatable, Comparable<Word>
+public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>
 {
 	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
@@ -94,15 +94,6 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Upd
 	public String resolving()
 	{
 		return word;
-	}
-
-	// U P D A T E
-
-	@Override
-	public String updateRow(final String... columns)
-	{
-		// TODO
-		return "update";
 	}
 
 	// T O S T R I N G
