@@ -1,18 +1,16 @@
 package org.sqlbuilder.bnc;
 
-import org.sqlbuilder.bnc.objects.BNCExtendedResolvingRecord;
+import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
 import org.sqlbuilder.bnc.objects.BNCRecord;
-import org.sqlbuilder.bnc.objects.BNCResolvingRecord;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.Utils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.function.BiConsumer;
-import java.util.stream.Stream;
 
 public class BNCResolvingProcessor extends BNCProcessor
 {
@@ -32,16 +30,56 @@ public class BNCResolvingProcessor extends BNCProcessor
 		}
 
 		// resolve
-		this.resolve = true;
 		this.serFile = conf.getProperty("word_nids");
 		this.wordResolver = new BncWordResolver(this.serFile);
+	}
+
+	@Override
+	public void run() throws IOException
+	{
+		// main
+		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8))
+		{
+			processBNCFile(ps, new File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs", true), (record, i) -> resolveAndInsert(ps, record, i));
+		}
+
+		// subfiles
+		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8))
+		{
+			processBNCSubFile(ps, new File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs", true), (record, i) -> resolveAndInsert(ps, record, i));
+		}
+
+		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8))
+		{
+			processBNCSubFile(ps, new File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks", true), (record, i) -> resolveAndInsert(ps, record, i));
+		}
+
+		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8))
+		{
+			processBNCSubFile(ps, new File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs", true), (record, i) -> resolveAndInsert(ps, record, i));
+		}
+	}
+
+	private void resolveAndInsert(final PrintStream ps, final BNCRecord record, final int i)
+	{
+		var nr = record.dataRow();
+		var r = wordResolver.apply(record.word);
+		if (r != null)
+		{
+			var values = String.format("%s,%s", nr, Utils.nullableInt(r));
+			insertRow(ps, i, values);
+		}
 	}
 
 	@Override
 	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BNCResolvingRecord::parse, consumer);
+		process(file, BNCRecord::parse, consumer);
 		ps.print(';');
 	}
 
@@ -49,42 +87,7 @@ public class BNCResolvingProcessor extends BNCProcessor
 	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BNCExtendedResolvingRecord::parse, consumer);
+		process(file, BNCExtendedRecord::parse, consumer);
 		ps.print(';');
-	}
-
-	protected void process(final File file, final ThrowingFunction<String, BNCResolvingRecord> producer, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
-	{
-		try (Stream<String> stream = Files.lines(file.toPath()))
-		{
-			final int[] count = {0, 0};
-			stream //
-					.peek(line -> ++count[1]) //
-					.filter(line -> !line.isEmpty() && line.charAt(0) == '\t') //
-					.map(line -> {
-						try
-						{
-							return producer.applyThrows(line);
-						}
-						catch (ParseException pe)
-						{
-							Logger.instance.logParseException(BNCModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, pe);
-						}
-						catch (NotFoundException nfe)
-						{
-							Logger.instance.logNotFoundException(BNCModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, nfe);
-						}
-						catch (IgnoreException ignored)
-						{
-						}
-						return null;
-					}) //
-					.filter(Objects::nonNull) //
-					.filter(r -> r.resolve(wordResolver)) //
-					.forEach(r -> {
-						consumer.accept(r, count[0]);
-						count[0]++;
-					});
-		}
 	}
 }

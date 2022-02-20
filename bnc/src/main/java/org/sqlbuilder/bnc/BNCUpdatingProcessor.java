@@ -1,8 +1,7 @@
 package org.sqlbuilder.bnc;
 
-import org.sqlbuilder.bnc.objects.BNCExtendedResolvingRecord;
+import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
 import org.sqlbuilder.bnc.objects.BNCRecord;
-import org.sqlbuilder.bnc.objects.BNCResolvingRecord;
 import org.sqlbuilder.common.Utils;
 
 import java.io.File;
@@ -53,13 +52,13 @@ public class BNCUpdatingProcessor extends BNCResolvingProcessor
 	private void processBNCFile(final PrintStream ps, final File file, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), this.serFile);
-		process(file, BNCResolvingRecord::parse, consumer);
+		process(file, BNCRecord::parse, consumer);
 	}
 
 	private void processBNCSubFile(final PrintStream ps, final File file, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), this.serFile);
-		process(file, BNCExtendedResolvingRecord::parse, consumer);
+		process(file, BNCExtendedRecord::parse, consumer);
 	}
 
 	private void updateRow(final PrintStream ps, final String table, final int index, final BNCRecord bncRecord, final String... columns)
@@ -67,9 +66,9 @@ public class BNCUpdatingProcessor extends BNCResolvingProcessor
 		Integer wordid = wordResolver.apply(bncRecord.word);
 		if (wordid != null)
 		{
-			var setClause = String.format("`%s`=%d", columns[0], wordid);
-			var whereClause = String.format("`%s`=%s", columns[1], Utils.quote(Utils.escape(bncRecord.word)));
-			ps.printf("UPDATE `%s` SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
+			var setClause = String.format("%s=%d", columns[0], wordid);
+			var whereClause = String.format("%s=%s", columns[1], Utils.quote(Utils.escape(bncRecord.word)));
+			ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
 		}
 	}
 }
