@@ -4,11 +4,12 @@ import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.joins.*;
+import org.sqlbuilder.fn.joins.FE_FEExcluded;
+import org.sqlbuilder.fn.joins.FE_FERequired;
+import org.sqlbuilder.fn.joins.FE_SemType;
+import org.sqlbuilder.fn.joins.Frame_SemType;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
-import org.sqlbuilder.fn.objects.LexUnit;
-import org.sqlbuilder.fn.objects.Lexeme;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -102,7 +103,7 @@ public class FnExportingProcessor extends FnProcessor
 		}
 		catch (XmlException | ParserConfigurationException | SAXException | IOException | RuntimeException e)
 		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
 		}
 		if (Logger.verbose)
 		{

@@ -53,7 +53,7 @@ public class FnWordProcessor extends FnProcessor
 		}
 		catch (XmlException | IOException e)
 		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
 		}
 		if (Logger.verbose)
 		{

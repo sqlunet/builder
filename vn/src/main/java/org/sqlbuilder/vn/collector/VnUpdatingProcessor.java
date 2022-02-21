@@ -69,7 +69,7 @@ public class VnUpdatingProcessor extends Processor
 		}
 		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
 		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e);
 			Progress.traceDone(e.toString());
 		}
 	}
@@ -90,7 +90,7 @@ public class VnUpdatingProcessor extends Processor
 		}
 		catch (XPathExpressionException e)
 		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, this.tag, "read-class", head, -1, null, "xml", e);
+			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getNodeName(), e);
 		}
 	}
 

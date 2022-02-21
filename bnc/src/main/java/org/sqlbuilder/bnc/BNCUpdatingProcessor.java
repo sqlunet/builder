@@ -2,6 +2,7 @@ package org.sqlbuilder.bnc;
 
 import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
 import org.sqlbuilder.bnc.objects.BNCRecord;
+import org.sqlbuilder.common.ThrowingBiConsumer;
 import org.sqlbuilder.common.Utils;
 
 import java.io.File;
@@ -49,13 +50,13 @@ public class BNCUpdatingProcessor extends BNCResolvingProcessor
 		}
 	}
 
-	private void processBNCFile(final PrintStream ps, final File file, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
+	private void processBNCFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), this.serFile);
 		process(file, BNCRecord::parse, consumer);
 	}
 
-	private void processBNCSubFile(final PrintStream ps, final File file, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
+	private void processBNCSubFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), this.serFile);
 		process(file, BNCExtendedRecord::parse, consumer);

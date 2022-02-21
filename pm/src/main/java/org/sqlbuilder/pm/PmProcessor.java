@@ -69,16 +69,21 @@ public class PmProcessor extends Processor
 						{
 							return producer.applyThrows(line);
 						}
-						catch (ParseException pe)
+						catch (CommonException e)
 						{
-							Logger.instance.logParseException(PmModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, pe);
-						}
-						catch (NotFoundException nfe)
-						{
-							Logger.instance.logNotFoundException(PmModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, nfe);
-						}
-						catch (IgnoreException ignored)
-						{
+							var cause = e.getCause();
+							if (cause instanceof ParseException)
+							{
+								Logger.instance.logParseException(PmModule.MODULE_ID, this.tag, file.getName(), count[1], line, (ParseException) cause);
+							}
+							else if (cause instanceof NotFoundException)
+							{
+								Logger.instance.logNotFoundException(PmModule.MODULE_ID, this.tag, file.getName(), count[1], line, (NotFoundException) cause);
+							}
+							else if (cause instanceof IgnoreException)
+							{
+								// ignore
+							}
 						}
 						return null;
 					}) //
@@ -128,7 +133,7 @@ public class PmProcessor extends Processor
 				}
 				catch (ParseException pe)
 				{
-					Logger.instance.logParseException(PmModule.MODULE_ID, tag, "parse", file.getName(), lineCount, line, null, pe);
+					Logger.instance.logParseException(PmModule.MODULE_ID, tag, file.getName(), lineCount, line, pe);
 					unreferencedCount++;
 					continue;
 				}

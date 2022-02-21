@@ -66,7 +66,7 @@ public class PbExportingProcessor extends Processor
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
-			Logger.instance.logXmlException("pb", this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e);
 		}
 		return count;
 	}
@@ -84,7 +84,7 @@ public class PbExportingProcessor extends Processor
 		}
 		catch (XPathExpressionException e)
 		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, this.tag, "read-frameset", document.getFileName(), -1, null, "xpath", e);
+			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e);
 		}
 		return (int) count;
 	}

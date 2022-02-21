@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 public class BNCProcessor extends Processor
@@ -68,21 +67,21 @@ public class BNCProcessor extends Processor
 		}
 	}
 
-	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		process(file, BNCRecord::parse, consumer);
 		ps.print(';');
 	}
 
-	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		process(file, BNCExtendedRecord::parse, consumer);
 		ps.print(';');
 	}
 
-	protected void process(final File file, final ThrowingFunction<String, BNCRecord> producer, final BiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void process(final File file, final ThrowingFunction<String, BNCRecord> producer, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
@@ -95,23 +94,39 @@ public class BNCProcessor extends Processor
 						{
 							return producer.applyThrows(line);
 						}
-						catch (ParseException pe)
+						catch (CommonException e)
 						{
-							Logger.instance.logParseException(BNCModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, pe);
-						}
-						catch (NotFoundException nfe)
-						{
-							Logger.instance.logNotFoundException(BNCModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, nfe);
-						}
-						catch (IgnoreException ignored)
-						{
+							var cause = e.getCause();
+							if (cause instanceof ParseException)
+							{
+								Logger.instance.logParseException(BNCModule.MODULE_ID, tag, file.getName(), count[1], line, (ParseException) cause);
+							}
+							else if (cause instanceof NotFoundException)
+							{
+								Logger.instance.logNotFoundException(BNCModule.MODULE_ID, tag, file.getName(), count[1], line, (NotFoundException) cause);
+							}
+							else if (cause instanceof IgnoreException)
+							{
+								// ignore
+							}
 						}
 						return null;
 					}) //
 					.filter(Objects::nonNull) //
 					.forEach(r -> {
-						consumer.accept(r, count[0]);
-						count[0]++;
+						try
+						{
+							consumer.acceptThrows(r, count[0]);
+							count[0]++;
+						}
+						catch (NotFoundException nfe)
+						{
+							Logger.instance.logNotFoundException(BNCModule.MODULE_ID, tag, file.getName(), count[1], null, nfe);
+						}
+						catch (CommonException other)
+						{
+							System.err.println(other.getCause().getMessage());
+						}
 					});
 		}
 	}

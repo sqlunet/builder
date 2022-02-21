@@ -85,16 +85,21 @@ public class SnProcessor extends Processor
 						{
 							return producer.applyThrows(line);
 						}
-						catch (ParseException pe)
+						catch (CommonException e)
 						{
-							Logger.instance.logParseException(SnModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, pe);
-						}
-						catch (NotFoundException nfe)
-						{
-							Logger.instance.logNotFoundException(SnModule.MODULE_ID, this.tag, "parse", file.getName(), count[1], line, null, nfe);
-						}
-						catch (IgnoreException ignoreException)
-						{
+							var cause = e.getCause();
+							if (cause instanceof ParseException)
+							{
+								Logger.instance.logParseException(SnModule.MODULE_ID, tag, file.getName(), count[1], line, (ParseException) cause);
+							}
+							else if (cause instanceof NotFoundException)
+							{
+								Logger.instance.logNotFoundException(SnModule.MODULE_ID, tag, file.getName(), count[1], line, (NotFoundException) cause);
+							}
+							else if (cause instanceof IgnoreException)
+							{
+								// ignore
+							}
 						}
 						return null;
 					}) //

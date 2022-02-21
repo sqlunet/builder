@@ -35,7 +35,7 @@ public class SemlinkUpdatingProcessor extends Processor
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
-			Logger.instance.logXmlException(SlModule.MODULE_ID, this.tag, "xml-document", this.semlinkFile, -1, null, "document=[" + this.semlinkFile + "]", e);
+			Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e);
 		}
 	}
 

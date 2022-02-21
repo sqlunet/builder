@@ -1,12 +1,12 @@
 package org.sqlbuilder.pb.collectors;
 
-import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.pb.PbModule;
+import org.sqlbuilder.pb.objects.LexItem;
 import org.sqlbuilder.pb.objects.Predicate;
-import org.sqlbuilder.pb.objects.*;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -41,7 +41,9 @@ public class PbProcessor extends Processor
 		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
+		{
 			return;
+		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
 		this.fileCount = 0;
@@ -68,7 +70,7 @@ public class PbProcessor extends Processor
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
-			Logger.instance.logXmlException("pb", this.tag, "xml-document", fileName, -1, null, "document=[" + fileName + "]", e);
+			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e);
 		}
 		return count;
 	}
@@ -126,7 +128,7 @@ public class PbProcessor extends Processor
 		}
 		catch (XPathExpressionException e)
 		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, this.tag, "read-frameset", document.getFileName(), -1, null, "xpath", e);
+			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e);
 		}
 		return (int) count;
 	}

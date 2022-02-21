@@ -48,7 +48,7 @@ public class VnExportingProcessor extends VnProcessor
 		}
 		catch (XPathExpressionException | TransformerException | ParserConfigurationException | SAXException | IOException e)
 		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, this.tag, "read-class", head, -1, null, "xml", e);
+			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getNodeName(), e);
 		}
 	}
 

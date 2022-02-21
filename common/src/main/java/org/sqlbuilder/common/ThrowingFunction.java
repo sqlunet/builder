@@ -12,12 +12,11 @@ public interface ThrowingFunction<T, R> extends Function<T, R>
 		{
 			return applyThrows(t);
 		}
-		catch (final Exception e)
+		catch (final CommonException e)
 		{
-			System.err.println(e.getMessage());
 			throw new RuntimeException(e);
 		}
 	}
 
-	R applyThrows(T t) throws ParseException, NotFoundException, IgnoreException;
+	R applyThrows(T t) throws CommonException;
 }

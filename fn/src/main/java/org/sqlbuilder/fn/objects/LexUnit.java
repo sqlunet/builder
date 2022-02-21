@@ -45,7 +45,7 @@ public class LexUnit implements HasID, Insertable
 		boolean isNew = SET.add(u);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "lu-duplicate", null, -1, null, u.toString());
+			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
 		}
 		return u;
 	}
@@ -57,7 +57,7 @@ public class LexUnit implements HasID, Insertable
 		boolean isNew = SET.add(u);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, "LexUnit", "frame_lu-duplicate", null, -1, null, u.toString());
+			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
 		}
 		return u;
 	}

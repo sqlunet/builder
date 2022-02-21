@@ -1,23 +1,9 @@
 package org.sqlbuilder.common;
 
-public class IgnoreException extends Exception
+public class IgnoreException extends CommonException
 {
-	public IgnoreException()
-	{
-	}
-
 	public IgnoreException(String message)
 	{
 		super(message);
-	}
-
-	public IgnoreException(final String message, final Throwable cause)
-	{
-		super(message, cause);
-	}
-
-	public IgnoreException(final Throwable cause)
-	{
-		super(cause);
 	}
 }
