@@ -39,7 +39,7 @@ public class PmModule extends Module
 					return;
 			}
 		}
-		catch (IOException e)
+		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}

@@ -91,4 +91,11 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 		return thetaName.substring(0, 1).toUpperCase() + thetaName.substring(1).toLowerCase();
 	}
 
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		return theta;
+	}
 }

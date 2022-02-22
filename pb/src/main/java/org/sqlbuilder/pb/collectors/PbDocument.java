@@ -188,9 +188,16 @@ public class PbDocument extends XmlDocument
 					final String nAttribute = roleElement.getAttribute("n");
 					final String fAttribute = roleElement.getAttribute("f");
 					final String descriptorAttribute = roleElement.getAttribute("descr");
+					String thetaAttribute = null;
+					final NodeList vnRoleNodes = PbDocument.getXPaths(roleElement, "./vnrole");
+					if (vnRoleNodes != null && vnRoleNodes.getLength() > 0)
+					{
+						final Element vnRoleElement = (Element) vnRoleNodes.item(0);
+						thetaAttribute = vnRoleElement.getAttribute("vntheta");
+					}
 
 					// role
-					final Role role = Role.make(roleSet, nAttribute, fAttribute, descriptorAttribute);
+					final Role role = Role.make(roleSet, nAttribute, fAttribute, descriptorAttribute, thetaAttribute);
 					if (result == null)
 					{
 						result = new ArrayList<>();

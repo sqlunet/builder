@@ -20,23 +20,28 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 
 	private final String argn;
 
+	@Nullable
+	private final Theta theta;
+
+	@Nullable
 	private final Func func;
 
 	private final String descr;
 
 	// C O N S T R U C T O R
 
-	public static Role make(final RoleSet roleSet, final String n, final String f, final String descriptor)
+	public static Role make(final RoleSet roleSet, final String n, final String f, final String descriptor, final String theta)
 	{
-		var r = new Role(roleSet, n, f, descriptor);
+		var r = new Role(roleSet, n, f, descriptor, theta);
 		COLLECTOR.add(r);
 		return r;
 	}
 
-	private Role(final RoleSet roleSet, final String n, final String func, final String descriptor)
+	private Role(final RoleSet roleSet, final String n, final String func, final String descriptor, final String theta)
 	{
 		this.roleSet = roleSet;
 		this.argn = n;
+		this.theta = theta == null || theta.isEmpty() ? null : Theta.make(theta);
 		this.func = func == null || func.isEmpty() ? null : Func.make(func);
 		this.descr = descriptor;
 	}
@@ -58,19 +63,24 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return func;
 	}
 
+	public Theta getTheta()
+	{
+		return theta;
+	}
+
 	public String getDescr()
 	{
 		return this.descr;
 	}
 
-	@RequiresIdFrom(type = Theta.class)
+	@RequiresIdFrom(type = Role.class)
 	@Override
 	public Integer getIntId()
 	{
 		return COLLECTOR.get(this);
 	}
 
-	@RequiresIdFrom(type = Theta.class)
+	@RequiresIdFrom(type = Role.class)
 	public static Integer getIntId(final Role role)
 	{
 		return role == null ? null : COLLECTOR.get(role);
@@ -115,9 +125,10 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	@Override
 	public String dataRow()
 	{
-		// (roleid),narg,func,theta,roledescr,rolesetid
+		// (roleid),narg,theta,func,roledescr,rolesetid
 		return String.format("'%s',%s,%s,%d", //
 				argn, //
+				Utils.nullable(theta, HasId::getSqlId), //
 				Utils.nullable(func, HasId::getSqlId), //
 				Utils.nullableQuotedEscapedString(descr), //
 				roleSet.getIntId() //

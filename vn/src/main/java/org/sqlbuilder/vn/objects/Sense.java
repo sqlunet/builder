@@ -55,12 +55,6 @@ public class Sense implements Insertable, Resolvable<String, SimpleEntry<Integer
 		return String.format("%s", Utils.nullableQuotedString(sensekey, Sensekey::getSensekey));
 	}
 
-	@Override
-	public String comment()
-	{
-		return String.format("%s", sensekey);
-	}
-
 	// R E S O L V E
 
 	@Override
