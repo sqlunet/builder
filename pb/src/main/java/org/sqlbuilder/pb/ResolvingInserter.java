@@ -37,7 +37,7 @@ public class ResolvingInserter extends Inserter
 		super(conf);
 
 		// output
-		this.outDir = new File(conf.getProperty("vn_outdir_resolved", "sql/data_resolved"));
+		this.outDir = new File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
@@ -47,7 +47,7 @@ public class ResolvingInserter extends Inserter
 		this.resolve = true;
 		this.wordSerFile = conf.getProperty("word_nids");
 		this.vnClassSerFile = conf.getProperty("vnclass_nids");
-		this.vnClassRoleSerFile = conf.getProperty("vnclass_vnrole_nids");
+		this.vnClassRoleSerFile = conf.getProperty("vnrole_nids");
 		this.fnFrameSerFile = conf.getProperty("fnframe_nids");
 
 		this.wordResolver = new WordResolver(wordSerFile);

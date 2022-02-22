@@ -32,12 +32,13 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>,
 	public static VnRoleAlias make(final Role role, final VnRole vnRole)
 	{
 		var m = new VnRoleAlias(role, vnRole);
-		boolean wasThere = !SET.add(m);
+		/* boolean wasThere = ! */ SET.add(m);
+		/*
 		if (wasThere)
 		{
-			System.err.println();
-			System.err.println(m);
+			System.err.printf("%nduplicate %s%n", m);
 		}
+		*/
 		return m;
 	}
 

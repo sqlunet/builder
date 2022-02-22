@@ -126,7 +126,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	public String dataRow()
 	{
 		// (roleid),narg,theta,func,roledescr,rolesetid
-		return String.format("'%s',%s,%s,%d", //
+		return String.format("'%s',%s,%s,%s,%d", //
 				argn, //
 				Utils.nullable(theta, HasId::getSqlId), //
 				Utils.nullable(func, HasId::getSqlId), //
@@ -138,7 +138,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", roleSet.getName(), func != null ? func.getFunc() : "∅");
+		return String.format("%s,%s,%s", roleSet.getName(), theta != null ? theta.getTheta() : "∅", func != null ? func.getFunc() : "∅");
 	}
 
 	// T O S T R I N G

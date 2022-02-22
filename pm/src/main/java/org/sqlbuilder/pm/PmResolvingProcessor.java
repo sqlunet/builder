@@ -1,6 +1,7 @@
 package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.Names;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder2.ser.Pair;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class PmResolvingProcessor extends PmProcessor
 
 	protected final String pbRoleSerFile;
 
-	protected final String fnFrameSerFile;
+	protected final String fnRoleSerFile;
 
 	protected final WordResolver wordResolver;
 
@@ -34,7 +35,7 @@ public class PmResolvingProcessor extends PmProcessor
 
 	protected final PbRoleResolver pbRoleResolver;
 
-	protected final FnFrameResolver fnFrameResolver;
+	protected final FnRoleResolver fnRoleResolver;
 
 	public PmResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
@@ -51,16 +52,16 @@ public class PmResolvingProcessor extends PmProcessor
 
 		// resolve
 		this.wordSerFile = conf.getProperty("word_nids");
-		this.sensekeySerFile = conf.getProperty("sensekey_nids");
-		this.vnRoleSerFile = conf.getProperty("vnclass_vnrole_nids");
-		this.pbRoleSerFile = conf.getProperty("pbroleset_pbrole_nids");
-		this.fnFrameSerFile = conf.getProperty("fnframe_nids");
+		this.sensekeySerFile = conf.getProperty("sense_nids");
+		this.vnRoleSerFile = conf.getProperty("vnrole_nids");
+		this.pbRoleSerFile = conf.getProperty("pbrole_nids");
+		this.fnRoleSerFile = conf.getProperty("fnrole_nids");
 
 		this.wordResolver = new WordResolver(wordSerFile);
 		this.sensekeyResolver = new SensekeyResolver(sensekeySerFile);
 		this.vnRoleResolver = new VnClassRoleResolver(vnRoleSerFile);
 		this.pbRoleResolver = new PbRoleResolver(pbRoleSerFile);
-		this.fnFrameResolver = new FnFrameResolver(this.fnFrameSerFile);
+		this.fnRoleResolver = new FnRoleResolver(this.fnRoleSerFile);
 	}
 
 	@Override
@@ -68,16 +69,20 @@ public class PmResolvingProcessor extends PmProcessor
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 		{
-			processPmFile(ps, new File(pMHome, pMFile), names.table("pms"), names.columns("pms", true), (row, i) -> {
+			processPmFile(ps, new File(pMHome, pMFile), names.table("pms"), names.columns("pms", true), (entry, i) -> {
 
-				var wordid = wordResolver.apply(row.word);
-				var sk = sensekeyResolver.apply(row.word);
-				var vn = vnRoleResolver.apply(new Pair<>(row.vn.clazz, row.vn.theta));
-				var pb = pbRoleResolver.apply(new Pair<>(row.pb.roleset, row.pb.arg));
-				var fn = fnFrameResolver.apply(row.fn.frame);
+				var wordid = wordResolver.apply(entry.word);
+				var sk = sensekeyResolver.apply(entry.sensekey);
+				var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.theta));
+				var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
+				var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
 
-				var resolved = String.format("", wordid, sk.getValue(), vn.first, vn.second, pb.first, pb.second, fn);
-				insertRow(ps, i, row.dataRow() + ',' + resolved);
+				var wordResolved = Utils.nullableInt(wordid);
+				var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
+				var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.first), Utils.nullableInt(vn.second)));
+				var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.first), Utils.nullableInt(pb.second)));
+				var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.first), Utils.nullableInt(fn.second), Utils.nullableInt(fn.third)));
+				insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, senseResolved, vnResolved, pbResolved, fnResolved));
 			});
 		}
 	}

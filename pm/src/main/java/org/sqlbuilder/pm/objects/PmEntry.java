@@ -56,7 +56,7 @@ public class PmEntry implements Insertable
 
 	public String word;
 
-	private String senseKey;
+	public String sensekey;
 
 	// verbnet
 
@@ -129,7 +129,7 @@ public class PmEntry implements Insertable
 		{
 			throw new ParseException("Empty sensekey for " + line);
 		}
-		entry.senseKey = senseKey;
+		entry.sensekey = senseKey + "::";
 
 		// verbnet
 		String vnsubclass = columns[PmEntry.VN_SUBCLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_SUBCLASS]) ? null : columns[PmEntry.VN_SUBCLASS].trim().substring(3);
@@ -204,7 +204,7 @@ public class PmEntry implements Insertable
 	{
 		return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SUMO['%s'], SRC[%s]", //
 				role.dataRow(), // pm
-				word, senseKey,  // wordnet
+				word, sensekey,  // wordnet
 				vn.dataRow(), // verbnet
 				pb.dataRow(), // propbank
 				fn.dataRow(), // framenet
