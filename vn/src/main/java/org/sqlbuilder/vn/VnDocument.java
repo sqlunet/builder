@@ -144,9 +144,9 @@ public class VnDocument
 	// R O L E
 
 	@NotNull
-	public static Set<Role> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
+	public static Set<RestrainedRole> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
-		final Set<Role> result = new HashSet<>();
+		final Set<RestrainedRole> result = new HashSet<>();
 		final NodeList nodes = XPathUtils.getXPaths(start, "./THEMROLES/THEMROLE");
 		if (nodes != null)
 		{
@@ -158,7 +158,7 @@ public class VnDocument
 				final Element restrsElement = (Element) restrsNodes.item(0);
 				final String selStrsXML = XPathUtils.getXML(restrsElement);
 				// String logic = restrsElement.getAttribute("logic");
-				result.add(Role.make(type, selStrsXML));
+				result.add(RestrainedRole.make(type, selStrsXML));
 			}
 		}
 		return result;

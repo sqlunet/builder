@@ -7,7 +7,7 @@ set /P DB=Enter database name:
 set DBTYPE=mysql
 set DBUSER=root
 set /P DBPWD=Enter %DBUSER% password:
-set TABLES=argns args aspects examples forms funcs persons rels roles members rolesets tenses vnthetas voices words pbrolesets_fnframes pbrolesets_vnclasses pbroles_vnroles
+set TABLES=argns args aspects examples forms funcs persons rels restrainedRoles members rolesets tenses vnthetas voices words pbrolesets_fnframes pbrolesets_vnclasses pbroles_vnroles
 
 if "%1"=="-d" call :deletedb
 call :dbexists

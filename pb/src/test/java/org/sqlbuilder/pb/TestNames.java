@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TestNames
 {
-	String[] tables = {"argns", "args", "aspects", "examples", "forms", "funcs", "persons", "rels", "roles", "members", "rolesets", "tenses", "vnthetas", "voices", "words", "pbrolesets_fnframes", "pbrolesets_vnclasses", "pbroles_vnroles"};
+	String[] tables = {"argns", "args", "aspects", "examples", "forms", "funcs", "persons", "rels", "roles", "members", "rolesets", "tenses", "thetas", "voices", "words", "pbrolesets_fnframes", "pbrolesets_vnclasses", "pbroles_vnroles"};
 
 	@Test
 	public void testNames()
@@ -20,7 +20,7 @@ public class TestNames
 			var c = names.columns(key);
 			System.out.printf("%s - %s %s %s%n", key, f, t, c);
 			assertEquals(key + ".sql", f);
-			assertEquals("pb_" + key, t);
+			assertEquals("`pb_" + key + '`', t);
 		}
 	}
 }

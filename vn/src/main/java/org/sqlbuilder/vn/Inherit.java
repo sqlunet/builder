@@ -1,11 +1,9 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.vn.objects.Frame;
-import org.sqlbuilder.vn.objects.Role;
+import org.sqlbuilder.vn.objects.RestrainedRole;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
@@ -13,16 +11,16 @@ import java.util.stream.Collectors;
 
 public class Inherit
 {
-	public static Collection<Role> mergeRoles(final Collection<Role> roles, final Collection<Role> inheritedRoles)
+	public static Collection<RestrainedRole> mergeRoles(final Collection<RestrainedRole> restrainedRoles, final Collection<RestrainedRole> inheritedRestrainedRoles)
 	{
 		// map child roles by type
-		final Map<String, Role> map = roles.stream().collect(Collectors.toMap(r -> r.getRoleType().getType(), Function.identity()));
+		final Map<String, RestrainedRole> map = restrainedRoles.stream().collect(Collectors.toMap(r -> r.getRoleType().getType(), Function.identity()));
 
 		// map parent roles by type
-		final Map<String, Role> inheritedMap = inheritedRoles.stream().collect(Collectors.toMap(r -> r.getRoleType().getType(), Function.identity()));
+		final Map<String, RestrainedRole> inheritedMap = inheritedRestrainedRoles.stream().collect(Collectors.toMap(r -> r.getRoleType().getType(), Function.identity()));
 
 		// merge roles : add role for which there is no overriding value in child
-		for (final Entry<String, Role> inheritedEntry : inheritedMap.entrySet())
+		for (final Entry<String, RestrainedRole> inheritedEntry : inheritedMap.entrySet())
 		{
 			final String inheritedType = inheritedEntry.getKey();
 			if (!map.containsKey(inheritedType))

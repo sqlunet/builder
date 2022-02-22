@@ -1,2 +1,2 @@
-ALTER TABLE ${roles.table} ADD CONSTRAINT `fk_@{roles.table}_@{roles.rolesetid}` FOREIGN KEY (${roles.rolesetid}) REFERENCES ${rolesets.table} (${rolesets.rolesetid});
-ALTER TABLE ${roles.table} ADD CONSTRAINT `fk_@{roles.table}_@{roles.funcid}` FOREIGN KEY (${roles.funcid}) REFERENCES ${funcs.table} (${funcs.funcid});
+ALTER TABLE ${restrainedRoles.table} ADD CONSTRAINT `fk_@{restrainedRoles.table}_@{restrainedRoles.rolesetid}` FOREIGN KEY (${restrainedRoles.rolesetid}) REFERENCES ${rolesets.table} (${rolesets.rolesetid});
+ALTER TABLE ${restrainedRoles.table} ADD CONSTRAINT `fk_@{restrainedRoles.table}_@{restrainedRoles.funcid}` FOREIGN KEY (${restrainedRoles.funcid}) REFERENCES ${funcs.table} (${funcs.funcid});

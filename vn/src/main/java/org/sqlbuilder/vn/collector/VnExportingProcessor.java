@@ -1,20 +1,15 @@
 package org.sqlbuilder.vn.collector;
 
 import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.vn.Inherit;
 import org.sqlbuilder.vn.VnDocument;
 import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.joins.*;
 import org.sqlbuilder.vn.objects.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
 
@@ -30,20 +25,20 @@ public class VnExportingProcessor extends VnProcessor
 	}
 
 	@Override
-	protected void processVerbNetClass(final Node start, final String head, final Collection<Role> inheritedRoles, final Collection<Frame> ignored)
+	protected void processVerbNetClass(final Node start, final String head, final Collection<RestrainedRole> inheritedRestrainedRoles, final Collection<Frame> ignored)
 	{
 		try
 		{
 			final VnClass clazz = processClass(start);
 			processItems(start);
-			Collection<Role> inheritableRoles = processRoles(start, clazz, inheritedRoles);
+			Collection<RestrainedRole> inheritableRestrainedRoles = processRoles(start, clazz, inheritedRestrainedRoles);
 
 			// recurse
 			final NodeList subclasses = XPathUtils.getXPaths(start, "./SUBCLASSES/VNSUBCLASS");
 			for (int i = 0; i < subclasses.getLength(); i++)
 			{
 				final Node subNode = subclasses.item(i);
-				processVerbNetClass(subNode, head, inheritableRoles, ignored);
+				processVerbNetClass(subNode, head, inheritableRestrainedRoles, ignored);
 			}
 		}
 		catch (XPathExpressionException | TransformerException | ParserConfigurationException | SAXException | IOException e)
@@ -66,22 +61,22 @@ public class VnExportingProcessor extends VnProcessor
 		VnDocument.makeRoles(start);
 	}
 
-	private static Collection<Role> processRoles(final Node start, final VnClass clazz, final Collection<Role> inheritedRoles) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
+	private static Collection<RestrainedRole> processRoles(final Node start, final VnClass clazz, final Collection<RestrainedRole> inheritedRestrainedRoles) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
 	{
 		// roles
-		Collection<Role> roles = VnDocument.makeRoles(start);
-		if (inheritedRoles != null)
+		Collection<RestrainedRole> restrainedRoles = VnDocument.makeRoles(start);
+		if (inheritedRestrainedRoles != null)
 		{
-			roles = Inherit.mergeRoles(roles, inheritedRoles);
+			restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles);
 		}
 
 		// collect roles
-		for (Role role : roles)
+		for (RestrainedRole restrainedRole : restrainedRoles)
 		{
-			Class_Role.make(clazz, role);
+			Role.make(clazz, restrainedRole);
 		}
 
 		// return data to be inherited by subclasses
-		return roles;
+		return restrainedRoles;
 	}
 }

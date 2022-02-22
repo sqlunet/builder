@@ -2,16 +2,17 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.ProvidesIdTo;
-import org.sqlbuilder.vn.joins.Class_Role;
 import org.sqlbuilder.vn.objects.Role;
 import org.sqlbuilder.vn.objects.RoleType;
 import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder2.ser.DeSerialize;
 import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Serialize;
 import org.sqlbuilder2.ser.Triplet;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
@@ -44,10 +45,9 @@ public class Exporter
 
 	public void run() throws IOException
 	{
-		System.err.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.size());
-		System.err.printf("%s %d%n", "roles", Role.COLLECTOR.size());
 		System.err.printf("%s %d%n", "classes", VnClass.COLLECTOR.size());
-		System.err.printf("%s %d%n", "classes_roles", Class_Role.SET.size());
+		System.err.printf("%s %d%n", "roles", Role.COLLECTOR.size());
+		System.err.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.size());
 
 		try ( //
 		      @ProvidesIdTo(type = RoleType.class) var ignored1 = RoleType.COLLECTOR.open(); //
@@ -59,11 +59,11 @@ public class Exporter
 			export();
 		}
 	}
+
 	public void serialize() throws IOException
 	{
 		serializeClasses();
 		serializeClassTags();
-		//serializeRoles();
 		serializeRoleTypes();
 		serializeClassesRoles();
 		serializeClassTagsRoles();
@@ -73,7 +73,6 @@ public class Exporter
 	{
 		exportClasses();
 		exportClassTags();
-		//exportRoles();
 		exportRoleTypes();
 		exportClassTagsRoles();
 		exportClassesRoles();
@@ -88,14 +87,8 @@ public class Exporter
 	public void serializeClasses() throws IOException
 	{
 		var m = makeClassesMap();
-		Serialize.serialize(m, new File(outDir,names.serFile("classes.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_by_name")));
 	}
-
-//	public void serializeRoles() throws IOException
-//	{
-//		var m = makeRolesMap();
-//		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve")));
-//	}
 
 	public void serializeRoleTypes() throws IOException
 	{
@@ -106,19 +99,19 @@ public class Exporter
 	public void serializeClassTagsRoles() throws IOException
 	{
 		var m = makeClassTagsRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("classes_roles.resolve", "_by_tag")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_by_tag")));
 	}
 
 	public void serializeClassesRoles() throws IOException
 	{
 		var m = makeClassesRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("classes_roles.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_by_name")));
 	}
 
 	public void exportClassTags() throws IOException
 	{
 		var m = makeClassTagsMap();
-		export(m, new File(outDir, names.mapFile("classes.resolve","_by_tag")));
+		export(m, new File(outDir, names.mapFile("classes.resolve", "_by_tag")));
 	}
 
 	public void exportClasses() throws IOException
@@ -126,12 +119,6 @@ public class Exporter
 		var m = makeClassesMap();
 		export(m, new File(outDir, names.mapFile("classes.resolve", "_by_name")));
 	}
-
-//	public void exportRoles() throws IOException
-//	{
-//		var m = makeRolesMap();
-//		export(m, new File(outDir, names.mapFile("roles.resolve")));
-//	}
 
 	public void exportRoleTypes() throws IOException
 	{
@@ -142,85 +129,13 @@ public class Exporter
 	public void exportClassTagsRoles() throws IOException
 	{
 		var m = makeClassTagsRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("classes_roles.resolve","_by_tag")));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_by_tag")));
 	}
 
 	public void exportClassesRoles() throws IOException
 	{
 		var m = makeClassesRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("classes_roles.resolve", "_by_name")));
-	}
-
-	public Map<String, Integer> makeClassesMap()
-	{
-		return VnClass.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getName(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
-
-	public Map<String, Integer> makeClassTagsMap()
-	{
-		return VnClass.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getTag(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
-
-//	public Map<String, Integer> makeRolesMap()
-//	{
-//		return Role.COLLECTOR.entrySet().stream() //
-//				.map(e -> new SimpleEntry<>(e.getKey().toString(), e.getValue())) //
-//				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-//	}
-
-	public Map<String, Integer> makeRoleTypesMap()
-	{
-		return RoleType.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getType(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
-
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesMap()
-	{
-		return Class_Role.SET.stream() //
-				.sorted(Class_Role.COMPARATOR) //
-				.map(p -> new Pair<>( //
-						new Pair<>(p.getClazz().getTag(), p.getRole().getRoleType().getType()), //
-						new Triplet<>(p.getClazz().getIntId(), p.getRole().getIntId(), p.getRole().getRoleType().getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond));
-	}
-
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesTreeMap()
-	{
-		return Class_Role.SET.stream() //
-				.sorted(Class_Role.COMPARATOR) //
-				.map(p -> new Pair<>( //
-						new Pair<>(p.getClazz().getTag(), p.getRole().getRoleType().getType()), //
-						new Triplet<>(p.getClazz().getIntId(), p.getRole().getIntId(), p.getRole().getRoleType().getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
-					throw new RuntimeException(existing + " > " + replacement);
-				}, () -> new TreeMap<>(COMPARATOR)));
-	}
-
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesMap()
-	{
-		return Class_Role.SET.stream() //
-				.sorted(Class_Role.COMPARATOR) //
-				.map(p -> new Pair<>( //
-						new Pair<>(p.getClazz().getName(), p.getRole().getRoleType().getType()), //
-						new Triplet<>(p.getClazz().getIntId(), p.getRole().getIntId(), p.getRole().getRoleType().getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond));
-	}
-
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesTreeMap()
-	{
-		return Class_Role.SET.stream() //
-				.sorted(Class_Role.COMPARATOR) //
-				.map(p -> new Pair<>( //
-						new Pair<>(p.getClazz().getName(), p.getRole().getRoleType().getType()), //
-						new Triplet<>(p.getClazz().getIntId(), p.getRole().getIntId(), p.getRole().getRoleType().getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
-					throw new RuntimeException(existing + " > " + replacement);
-				}, () -> new TreeMap<>(COMPARATOR)));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_by_name")));
 	}
 
 	public static <K, V> void export(Map<K, V> m, File file) throws IOException
@@ -234,5 +149,104 @@ public class Exporter
 	public static <K, V> void export(PrintStream ps, Map<K, V> m)
 	{
 		m.forEach((strs, nids) -> ps.printf("%s -> %s%n", strs, nids));
+	}
+
+	// M A P S
+
+	/**
+	 * Make classname to classid map
+	 *
+	 * @return classname to classid
+	 */
+	public Map<String, Integer> makeClassesMap()
+	{
+		return VnClass.COLLECTOR.entrySet().stream() //
+				.map(e -> new SimpleEntry<>(e.getKey().getName(), e.getValue())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
+	}
+
+	/**
+	 * Make classtags to classid map
+	 *
+	 * @return classtags to classid
+	 */
+
+	public Map<String, Integer> makeClassTagsMap()
+	{
+		return VnClass.COLLECTOR.entrySet().stream() //
+				.map(e -> new SimpleEntry<>(e.getKey().getTag(), e.getValue())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
+	}
+
+	/**
+	 * Make roletype to roletypeid map
+	 *
+	 * @return roletype to roletypeid map
+	 */
+	public Map<String, Integer> makeRoleTypesMap()
+	{
+		return RoleType.COLLECTOR.entrySet().stream() //
+				.map(e -> new SimpleEntry<>(e.getKey().getType(), e.getValue())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
+	}
+
+	/**
+	 * Make classtag,roletype to ids map
+	 *
+	 * @return (classtag, roletype) to (roleid,classid,roletypeid)
+	 */
+	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesMap()
+	{
+		return Role.COLLECTOR.keySet().stream() //
+				.map(p -> new Pair<>( //
+						new Pair<>(p.getClazz().getTag(), p.getRestrRole().getRoleType().getType()), //
+						new Triplet<>(p.getIntId(), p.getClazz().getIntId(), p.getRestrRole().getRoleType().getIntId()))) //
+				.collect(toMap(Pair::getFirst, Pair::getSecond));
+	}
+
+	/**
+	 * Make classtag,roletype to ids treemap
+	 *
+	 * @return (classtag, roletype) to (roleid,classid,roletypeid)
+	 */
+	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesTreeMap()
+	{
+		return Role.COLLECTOR.keySet().stream() //
+				.map(p -> new Pair<>( //
+						new Pair<>(p.getClazz().getTag(), p.getRestrRole().getRoleType().getType()), //
+						new Triplet<>(p.getIntId(), p.getClazz().getIntId(), p.getRestrRole().getRoleType().getIntId()))) //
+				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
+					throw new RuntimeException(existing + " > " + replacement);
+				}, () -> new TreeMap<>(COMPARATOR)));
+	}
+
+	/**
+	 * Make classname,roletype to ids map
+	 *
+	 * @return (classnameroletype) to (roleid,classid,roletypeid)
+	 */
+	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesMap()
+	{
+		return Role.COLLECTOR.keySet().stream() //
+				.map(r -> new Pair<>( //
+						new Pair<>(r.getClazz().getName(), r.getRestrRole().getRoleType().getType()), //
+						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
+				.collect(toMap(Pair::getFirst, Pair::getSecond));
+	}
+
+	/**
+	 * Make classname,roletype to ids treemap
+	 *
+	 * @return (classname, roletype) to (roleid,classid,roletypeid)
+	 */
+	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesTreeMap()
+	{
+		return Role.COLLECTOR.keySet().stream() //
+				.map(r -> new Pair<>( //
+						new Pair<>(r.getClazz().getName(), r.getRestrRole().getRoleType().getType()), //
+						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
+				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
+					throw new RuntimeException(existing + " > " + replacement);
+				}, () -> new TreeMap<>(COMPARATOR)));
 	}
 }

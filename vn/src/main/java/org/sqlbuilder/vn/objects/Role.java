@@ -1,52 +1,53 @@
 package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.*;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.Objects;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-public class Role implements HasId, Insertable, Comparable<Role>
+public class Role implements Insertable, HasId
 {
-	public static final Comparator<Role> COMPARATOR = Comparator.comparing(Role::getRoleType).thenComparing(Role::getRestrs, Comparator.nullsFirst(Comparator.naturalOrder()));
+	public static final Comparator<Role> COMPARATOR = Comparator.comparing(Role::getClazz).thenComparing(Role::getRestrRole);
 
 	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	private final RoleType roleType;
+	private final RestrainedRole restrainedRole;
 
-	private final Restrs restrs;
+	private final VnClass clazz;
 
 	// C O N S T R U C T O R
-	public static Role make(final String type, final String restrsXML) throws ParserConfigurationException, SAXException, IOException
+
+	public static Role make(final VnClass clazz, final RestrainedRole restrainedRole)
 	{
-		final RoleType roleType = RoleType.make(type);
-		final Restrs restrs = restrsXML == null || restrsXML.isEmpty() || restrsXML.equals("<SELRESTRS/>") ? null : Restrs.make(restrsXML, false);
-		var r = new Role(roleType, restrs);
-		COLLECTOR.add(r);
-		return r;
+		var m = new Role(clazz, restrainedRole);
+		COLLECTOR.add(m);
+		return m;
 	}
 
-	private Role(final RoleType roleType, final Restrs restrs)
+	private Role(final VnClass clazz, final RestrainedRole restrainedRole)
 	{
-		this.roleType = roleType;
-		this.restrs = restrs;
+		this.restrainedRole = restrainedRole;
+		this.clazz = clazz;
 	}
 
 	// A C C E S S
 
+	public RestrainedRole getRestrRole()
+	{
+		return restrainedRole;
+	}
+
 	public RoleType getRoleType()
 	{
-		return this.roleType;
+		return restrainedRole.getRoleType();
 	}
 
-	public Restrs getRestrs()
+	public VnClass getClazz()
 	{
-		return this.restrs;
+		return clazz;
 	}
 
+	@ProvidesIdTo(type = Role.class)
 	@Override
 	public Integer getIntId()
 	{
@@ -67,42 +68,37 @@ public class Role implements HasId, Insertable, Comparable<Role>
 			return false;
 		}
 		Role that = (Role) o;
-		return roleType.equals(that.roleType) && Objects.equals(restrs, that.restrs);
+		return restrainedRole.equals(that.restrainedRole) && clazz.equals(that.clazz);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(roleType, restrs);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(final Role that)
-	{
-		return COMPARATOR.compare(this, that);
+		return Objects.hash(restrainedRole, clazz);
 	}
 
 	// I N S E R T
 
+	@RequiresIdFrom(type = VnClass.class)
 	@RequiresIdFrom(type = RoleType.class)
 	@RequiresIdFrom(type = Restrs.class)
 	@Override
 	public String dataRow()
 	{
-		// id
-		// roleType.id
-		// restrs.id (or null)
-		return String.format("%d,%s", //
-				roleType.getIntId(), //
-				Utils.nullable(restrs, HasId::getSqlId));
+		Restrs restrs = restrainedRole.getRestrs();
+		Integer restrsid = restrs == null ? null : restrs.getIntId();
+		return String.format("%d,%d,%s", clazz.getIntId(), //
+				restrainedRole.getRoleType().getIntId(), //
+				Utils.nullableInt(restrsid) //
+		);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s", roleType.getType());
+		var r = restrainedRole.getRestrs();
+		return String.format("%s,%s,%s", clazz.getName(), restrainedRole.getRoleType().getType(), //
+				r == null ? "∅" : r.toString());
 	}
 
 	// T O S T R I N G
@@ -110,13 +106,6 @@ public class Role implements HasId, Insertable, Comparable<Role>
 	@Override
 	public String toString()
 	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(this.roleType.getType());
-		if (this.restrs != null)
-		{
-			sb.append(' ');
-			sb.append(this.restrs);
-		}
-		return sb.toString();
+		return "class=" + clazz + " role=" + restrainedRole;
 	}
 }

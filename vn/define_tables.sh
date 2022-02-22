@@ -13,9 +13,8 @@ members_groupings
 restrtypes
 restrs
 roletypes
-classes_roles
-classes_frames
 roles
+classes_frames
 frames
 framenames
 framesubnames

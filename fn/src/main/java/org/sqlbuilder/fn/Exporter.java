@@ -1,8 +1,12 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Names;
+import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
+import org.sqlbuilder.fn.types.FeType;
+import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Serialize;
+import org.sqlbuilder2.ser.Triplet;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,9 +14,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+
+import edu.berkeley.icsi.framenet.FEType;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -35,18 +42,23 @@ public class Exporter
 	public void run() throws IOException
 	{
 		System.err.printf("%s %d%n", "frames", Frame.SET.size());
-		serialize();
-		export();
+		try (var ignored = FeType.COLLECTOR.open())
+		{
+			serialize();
+			export();
+		}
 	}
 
 	public void serialize() throws IOException
 	{
 		serializeFrames();
+		serializeFEs();
 	}
 
 	public void export() throws IOException
 	{
 		exportFrames();
+		exportFEs();
 	}
 
 	public void serializeFrames() throws IOException
@@ -55,10 +67,22 @@ public class Exporter
 		Serialize.serialize(m, new File(outDir, names.serFile("frames.resolve", "_by_name")));
 	}
 
+	public void serializeFEs() throws IOException
+	{
+		var m = makeFEsMap();
+		Serialize.serialize(m, new File(outDir, names.serFile("fes.resolve", "_by_name")));
+	}
+
 	public void exportFrames() throws IOException
 	{
 		var m = makeFramesMap();
 		export(m, new File(outDir, names.mapFile("frames.resolve", "_by_name")));
+	}
+
+	public void exportFEs() throws IOException
+	{
+		var m = makeFEsTreeMap();
+		export(m, new File(outDir, names.mapFile("fes.resolve", "_by_name")));
 	}
 
 	public Map<String, Integer> makeFramesMap()
@@ -66,6 +90,31 @@ public class Exporter
 		return Frame.SET.stream() //
 				.map(f -> new SimpleEntry<>(f.getName(), f.getID())) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
+	}
+
+	private static final Comparator<Pair<String,String>> COMPARATOR = Comparator.comparing(Pair<String,String>::getFirst).thenComparing(Pair<String,String>::getSecond);
+
+	public Map<Pair<String,String>, Triplet<Integer,Integer,Integer>> makeFEsMap()
+	{
+		var id2frame = Frame.SET.stream() //
+				.map(f -> new SimpleEntry<>(f.getID(), f.getName())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+
+		return FE.SET.stream() //
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getFrameID(), fe.getID(), FeType.getIntId(fe.name)))) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+	}
+
+	public Map<Pair<String,String>, Triplet<Integer,Integer,Integer>> makeFEsTreeMap()
+	{
+		var id2frame = Frame.SET.stream() //
+				.map(f -> new SimpleEntry<>(f.getID(), f.getName())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+
+		return FE.SET.stream() //
+				//.peek(fe->System.out.println(fe.getName() + " " + fe.getID()))
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getFrameID(), fe.getID(), FeType.getIntId(fe.name)))) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
 	}
 
 	public static <K, V> void export(Map<K, V> m, File file) throws IOException

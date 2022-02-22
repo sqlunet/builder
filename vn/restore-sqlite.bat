@@ -5,7 +5,7 @@ rem 03/12/2021
 set /P DB=Enter database name:
 
 set DBTYPE=sqlite
-set TABLES=classes members members_senses groupings members_groupings restrtypes restrs roletypes classes_roles classes_frames roles frames framenames framesubnames examples frames_examples semantics predicates predicates_semantics syntaxes words
+set TABLES=classes members members_senses groupings members_groupings restrtypes restrs roletypes roles classes_frames frames framenames framesubnames examples frames_examples semantics predicates predicates_semantics syntaxes words
 
 if "%1"=="-d" call :deletedb
 call :dbexists

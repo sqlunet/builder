@@ -1,6 +1,7 @@
 package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.pm.objects.PmEntry;
 
 public class PmResolvingEntry extends PmEntry implements Insertable
 {

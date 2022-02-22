@@ -1,6 +1,7 @@
 package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.*;
+import org.sqlbuilder.pm.objects.PmEntry;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -12,13 +13,11 @@ import java.util.stream.Stream;
 
 public class PmProcessor extends Processor
 {
-	private final String pMHome;
+	protected final String pMHome;
+
+	protected final String pMFile;
 
 	protected final Names names;
-
-	protected boolean resolve;
-
-	private final String pMFile;
 
 	protected File outDir;
 
@@ -27,8 +26,7 @@ public class PmProcessor extends Processor
 	public PmProcessor(final Properties conf)
 	{
 		super("pm");
-		this.names = new Names("bnc");
-		this.resolve = false;
+		this.names = new Names("pm");
 		this.conf = conf;
 		this.pMHome = conf.getProperty("pm_home", System.getenv().get("PMHOME"));
 		this.pMFile = conf.getProperty("pm_file", System.getenv().get("PredicateMatrix.txt"));
@@ -42,10 +40,9 @@ public class PmProcessor extends Processor
 	@Override
 	public void run() throws IOException
 	{
-		// processPMFile(getPMFile());
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pmentry"))), true, StandardCharsets.UTF_8))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 		{
-			processPmFile(ps, getPmFile(), names.table("pmentry"), names.columns("pmentry", resolve), (record, i) -> insertRow(ps, i, record.dataRow()));
+			processPmFile(ps, new File(pMHome, pMFile), names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
 		}
 	}
 
@@ -63,7 +60,7 @@ public class PmProcessor extends Processor
 			final int[] count = {0, 0};
 			stream //
 					.peek(line -> ++count[1]) //
-					.filter(line -> !line.isEmpty() && line.charAt(0) == '\t') //
+					.filter(line -> !line.isEmpty() && line.charAt(0) != '\t') //
 					.map(line -> {
 						try
 						{
@@ -95,72 +92,12 @@ public class PmProcessor extends Processor
 		}
 	}
 
-	private void insertRow(final PrintStream ps, final Integer index, final String values)
+	protected void insertRow(final PrintStream ps, final Integer index, final String values)
 	{
 		if (index != 0)
 		{
 			ps.print(",\n");
 		}
 		ps.printf("(%s)", values);
-	}
-
-	@SuppressWarnings("UnusedReturnValue")
-	private long processPMFile(final File file) throws IOException
-	{
-		Progress.traceHeader("pm", file.getName());
-
-		long unreferencedCount = 0;
-		long count = 0;
-
-		// iterate on synsets
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file))))
-		{
-			int lineCount = 0;
-			String line;
-			while ((line = reader.readLine()) != null)
-			{
-				lineCount++;
-				if (line.isEmpty())
-				{
-					continue;
-				}
-
-				// read
-				PmEntry pmEntry;
-				try
-				{
-					pmEntry = PmEntry.parse(line);
-				}
-				catch (ParseException pe)
-				{
-					Logger.instance.logParseException(PmModule.MODULE_ID, tag, file.getName(), lineCount, line, pe);
-					unreferencedCount++;
-					continue;
-				}
-
-				// insert
-				pmEntry.dataRow();
-				count++;
-
-				// trace
-				if (Progress.hyperverbose)
-				{
-					Progress.trace("pm>", line);
-					Progress.trace("pm<", pmEntry.toString());
-				}
-				else
-				{
-					Progress.trace(count);
-				}
-			}
-			Progress.traceTailer("pm", Long.toString(count));
-			Progress.traceTailer("pm unreferenced", Long.toString(unreferencedCount));
-		}
-		return count;
-	}
-
-	private File getPmFile()
-	{
-		return new File(pMHome + File.separator + pMFile);
 	}
 }

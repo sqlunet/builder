@@ -1,16 +1,15 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.ParseException;
 
 public class PmEntry implements Insertable
 {
-	private static final String LOG_TAG = "pm-entry";
-
 	static final int ID_LANG = 0; // this column contains the language of the predicate. id:eng
 	static final int ID_POS = 1; // this columnn contains the part-of-speech of the predicate. id:n
 	static final int ID_PRED = 2; // this column contains the predicate. id:abatement.01
 	static final int ID_ROLE = 3; // this column contains the role. id:0
+
 	static final int VN_CLASS = 4; // this column contains the information of the VerbNet class. vn:withdraw-82
 	static final int VN_CLASS_NUMBER = 5; // this column contains the information of the VerbNet class number. vn:82
 	static final int VN_SUBCLASS = 6; // this column contains the information of VerbNet subclass. vn:withdraw-82-1
@@ -19,11 +18,14 @@ public class PmEntry implements Insertable
 	static final int VN_ROLE = 9; // this column contains the information of the VerbNet thematic-role. vn:Source
 	static final int WN_SENSE = 10; // this column contains the information of the word sense in WordNet. wn:pull_back%2:32:12
 	static final int MCR_ILI_OFFSET = 11; // this column contains the information of the ILI number in the MCR3.0. mcr:ili-30-00799383-v
+
 	static final int FN_FRAME = 12; // this column contains the information of the frame in FrameNet. fn:Going_back_on_a_commitment
 	static final int FN_LE = 13; // this column contains the information of the corresponding lexical-entry in FrameNet. fn:NULL
 	static final int FN_FRAME_ELEMENT = 14; // this column contains the information of the frame-element in FrameNet. fn:NULL
+
 	static final int PB_ROLESET = 15; // this column contains the information of the predicate in PropBank. pb:NULL
 	static final int PB_ARG = 16; // this column contains the information of the predicate argument in PropBank. pb:NULL
+
 	static final int MCR_BC = 17; // this column contains the information if the verb sense it is Base Concept or not in the MCR3.0. mcr:1
 	static final int MCR_DOMAIN = 18; // this column contains the information of the WordNet domain aligned to WordNet 3.0 in the MCR3.0. mcr:factotum
 	static final int MCR_SUMO = 19; // this column contains the information of the AdimenSUMO in the MCR3.0. mcr:Communication
@@ -52,31 +54,21 @@ public class PmEntry implements Insertable
 
 	// wordnet
 
-	private String lemma;
+	public String word;
 
 	private String senseKey;
 
 	// verbnet
 
-	private String vnclass;
-
-	private String vnsubclass;
-
-	private String vnroletype;
+	public VnRoleAlias vn = new VnRoleAlias();
 
 	// propbank
 
-	private String pbroleset;
-
-	private String pbarg;
+	public PbRoleAlias pb = new PbRoleAlias();
 
 	// framenet
 
-	private String fnframe;
-
-	private String fnfetype;
-
-	private String fnlu;
+	public FnRoleAlias fn = new FnRoleAlias();
 
 	// sumo
 
@@ -101,11 +93,11 @@ public class PmEntry implements Insertable
 		final String predicate = columns[PmEntry.ID_PRED].substring(3);
 		final String role = columns[PmEntry.ID_ROLE].substring(3);
 		final String pos = columns[PmEntry.ID_POS].substring(3);
-		entry.role = new PmRole(predicate, role, pos);
+		entry.role = new PmRole(predicate, role, pos.charAt(0));
 
 		// lemma
 		final String lemma = columns[PmEntry.VN_LEMMA].trim();
-		entry.lemma = lemma.substring(3);
+		entry.word = lemma.substring(3);
 
 		// source
 		final String prefix = lemma.substring(0, 2);
@@ -119,9 +111,9 @@ public class PmEntry implements Insertable
 		{
 			throw new ParseException(prefix);
 		}
-		if ("NULL".equals(entry.lemma))
+		if ("NULL".equals(entry.word))
 		{
-			entry.lemma = predicate.substring(0, predicate.indexOf('.'));
+			entry.word = predicate.substring(0, predicate.indexOf('.'));
 		}
 
 		// sensekey
@@ -140,18 +132,18 @@ public class PmEntry implements Insertable
 		entry.senseKey = senseKey;
 
 		// verbnet
-		entry.vnclass = columns[PmEntry.VN_CLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_CLASS]) ? null : columns[PmEntry.VN_CLASS].trim().substring(3);
-		entry.vnsubclass = columns[PmEntry.VN_SUBCLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_SUBCLASS]) ? null : columns[PmEntry.VN_SUBCLASS].trim().substring(3);
-		entry.vnroletype = columns[PmEntry.VN_ROLE] == null || "vn:NULL".equals(columns[PmEntry.VN_ROLE]) ? null : columns[PmEntry.VN_ROLE].trim().substring(3);
+		String vnsubclass = columns[PmEntry.VN_SUBCLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_SUBCLASS]) ? null : columns[PmEntry.VN_SUBCLASS].trim().substring(3);
+		entry.vn.clazz = vnsubclass != null ? vnsubclass : columns[PmEntry.VN_CLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_CLASS]) ? null : columns[PmEntry.VN_CLASS].trim().substring(3);
+		entry.vn.theta = columns[PmEntry.VN_ROLE] == null || "vn:NULL".equals(columns[PmEntry.VN_ROLE]) ? null : columns[PmEntry.VN_ROLE].trim().substring(3);
 
 		// propbank
-		entry.pbroleset = columns[PmEntry.PB_ROLESET] == null || "pb:NULL".equals(columns[PmEntry.PB_ROLESET]) ? null : columns[PmEntry.PB_ROLESET].trim().substring(3);
-		entry.pbarg = columns[PmEntry.PB_ARG] == null || "pb:NULL".equals(columns[PmEntry.PB_ARG]) ? null : columns[PmEntry.PB_ARG].trim().substring(3);
+		entry.pb.roleset = columns[PmEntry.PB_ROLESET] == null || "pb:NULL".equals(columns[PmEntry.PB_ROLESET]) ? null : columns[PmEntry.PB_ROLESET].trim().substring(3);
+		entry.pb.arg = columns[PmEntry.PB_ARG] == null || "pb:NULL".equals(columns[PmEntry.PB_ARG]) ? null : columns[PmEntry.PB_ARG].trim().substring(3);
 
 		// framenet
-		entry.fnframe = columns[PmEntry.FN_FRAME] == null || "fn:NULL".equals(columns[PmEntry.FN_FRAME]) ? null : columns[PmEntry.FN_FRAME].trim().substring(3);
-		entry.fnfetype = columns[PmEntry.FN_FRAME_ELEMENT] == null || "fn:NULL".equals(columns[PmEntry.FN_FRAME_ELEMENT]) ? null : columns[PmEntry.FN_FRAME_ELEMENT].trim().substring(3);
-		entry.fnlu = columns[PmEntry.FN_LE] == null || "fn:NULL".equals(columns[PmEntry.FN_LE]) ? null : columns[PmEntry.FN_LE].trim().substring(3);
+		entry.fn.frame = columns[PmEntry.FN_FRAME] == null || "fn:NULL".equals(columns[PmEntry.FN_FRAME]) ? null : columns[PmEntry.FN_FRAME].trim().substring(3);
+		entry.fn.fetype = columns[PmEntry.FN_FRAME_ELEMENT] == null || "fn:NULL".equals(columns[PmEntry.FN_FRAME_ELEMENT]) ? null : columns[PmEntry.FN_FRAME_ELEMENT].trim().substring(3);
+		entry.fn.lu = columns[PmEntry.FN_LE] == null || "fn:NULL".equals(columns[PmEntry.FN_LE]) ? null : columns[PmEntry.FN_LE].trim().substring(3);
 
 		// sumo
 		entry.sumoterm = columns[PmEntry.MCR_SUMO] == null || "mcr:NULL".equals(columns[PmEntry.MCR_SUMO]) ? null : columns[PmEntry.MCR_SUMO].trim().substring(4);
@@ -210,12 +202,12 @@ public class PmEntry implements Insertable
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s, %s,%s, %s,%s,%s, %s,%s, %s,%s,%s, %s, %s", //
-				role, // pm
-				lemma, senseKey,  // wordnet
-				vnclass, vnsubclass, vnroletype, // verbnet
-				pbroleset, pbarg, // propbank
-				fnframe, fnfetype, fnlu, // framenet
+		return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SUMO['%s'], SRC[%s]", //
+				role.dataRow(), // pm
+				word, senseKey,  // wordnet
+				vn.dataRow(), // verbnet
+				pb.dataRow(), // propbank
+				fn.dataRow(), // framenet
 				sumoterm, // sumo
 				sources); // sources
 	}

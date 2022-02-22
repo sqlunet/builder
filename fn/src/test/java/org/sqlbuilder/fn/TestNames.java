@@ -20,7 +20,7 @@ public class TestNames
 			var c = names.columns(key);
 			System.out.printf("%s - %s %s %s%n", key, f, t, c);
 			assertEquals(key + ".sql", f);
-			assertEquals("fn_" + key, t);
+			assertEquals("`fn_" + key + '`', t);
 		}
 	}
 }
