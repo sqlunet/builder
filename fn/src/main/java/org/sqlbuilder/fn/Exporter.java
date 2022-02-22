@@ -3,6 +3,7 @@ package org.sqlbuilder.fn;
 import org.sqlbuilder.common.Names;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
+import org.sqlbuilder.fn.objects.Word;
 import org.sqlbuilder.fn.types.FeType;
 import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Serialize;
@@ -42,7 +43,9 @@ public class Exporter
 	public void run() throws IOException
 	{
 		System.err.printf("%s %d%n", "frames", Frame.SET.size());
-		try (var ignored = FeType.COLLECTOR.open())
+		try (
+				var ignored1 = Word.COLLECTOR.open();
+				var ignored2 = FeType.COLLECTOR.open())
 		{
 			serialize();
 			export();
@@ -53,36 +56,48 @@ public class Exporter
 	{
 		serializeFrames();
 		serializeFEs();
+		serializeWords();
 	}
 
 	public void export() throws IOException
 	{
 		exportFrames();
 		exportFEs();
+		exportWords();
 	}
 
 	public void serializeFrames() throws IOException
 	{
 		var m = makeFramesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("frames.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("frames.resolve", "_[frame]-[frameid]")));
 	}
 
 	public void serializeFEs() throws IOException
 	{
 		var m = makeFEsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("fes.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")));
+	}
+
+	public void serializeWords() throws IOException
+	{
+		Serialize.serialize(Word.COLLECTOR.toHashMap(), new File(outDir, names.serFile("words.resolve", "_[word]-[fnwordid]")));
 	}
 
 	public void exportFrames() throws IOException
 	{
 		var m = makeFramesMap();
-		export(m, new File(outDir, names.mapFile("frames.resolve", "_by_name")));
+		export(m, new File(outDir, names.mapFile("frames.resolve", "_[frame]-[frameid]")));
 	}
 
 	public void exportFEs() throws IOException
 	{
 		var m = makeFEsTreeMap();
-		export(m, new File(outDir, names.mapFile("fes.resolve", "_by_name")));
+		export(m, new File(outDir, names.mapFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")));
+	}
+
+	public void exportWords() throws IOException
+	{
+		export(Word.COLLECTOR, new File(outDir, names.mapFile("words.resolve", "_[word]-[fnwordid]")));
 	}
 
 	public Map<String, Integer> makeFramesMap()
@@ -101,7 +116,7 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
 		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getFrameID(), fe.getID(), FeType.getIntId(fe.name)))) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 
@@ -113,7 +128,7 @@ public class Exporter
 
 		return FE.SET.stream() //
 				//.peek(fe->System.out.println(fe.getName() + " " + fe.getID()))
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getFrameID(), fe.getID(), FeType.getIntId(fe.name)))) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
 	}
 

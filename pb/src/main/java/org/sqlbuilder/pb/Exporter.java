@@ -80,49 +80,73 @@ public class Exporter
 	public void serializeThetas() throws IOException
 	{
 		var m = makeThetasMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("thetas.resolve")));
+		Serialize.serialize(m, new File(outDir, names.serFile("thetas.resolve","_[theta]-[thetaid]")));
 	}
 
 	public void serializeRoleSets() throws IOException
 	{
 		var m = makeRoleSetsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("rolesets.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("rolesets.resolve", "_[roleset]-[rolesetid]")));
 	}
 
 	public void serializeRoles() throws IOException
 	{
 		var m = makeRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_from_rs_argn")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[roleset,argn]-[roleid]")));
 	}
 
 	private void serializeRolesFull() throws IOException
 	{
 		var m = makeRolesFromArgNToFullMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_from_rs_argn_to_rid_rsid")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[roleset,argn]-[roleid,rolesetid]")));
 	}
 
 	public void exportThetas() throws IOException
 	{
 		var m = makeThetasMap();
-		export(m, new File(outDir, names.mapFile("thetas.resolve")));
+		export(m, new File(outDir, names.mapFile("thetas.resolve","_[theta]-[thetaid]")));
 	}
 
 	public void exportRoleSets() throws IOException
 	{
 		var m = makeRoleSetsMap();
-		export(m, new File(outDir, names.mapFile("rolesets.resolve", "_by_name")));
+		export(m, new File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")));
 	}
 
 	public void exportRoles() throws IOException
 	{
 		var m = makeRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_from_rs_argn")));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argn]-[roleid]")));
 	}
 
 	public void exportRolesFull() throws IOException
 	{
 		var m = makeRolesFromArgNToFullTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_from_rs_argn_to_rid_rsid")));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argn]-[roleid,rolesetid]")));
+	}
+
+	public static <K, V> void export(Map<K, V> m, File file) throws IOException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file), true, StandardCharsets.UTF_8))
+		{
+			export(ps, m);
+		}
+	}
+
+	public static <K, V> void export(PrintStream ps, Map<K, V> m)
+	{
+		m.forEach((strs, nids) -> ps.printf("%s -> %s%n", strs, nids));
+	}
+
+	void duplicateRoles()
+	{
+		Role.COLLECTOR.keySet().stream() //
+				.map(r -> new Pair<>(r.getRoleSet().getName(), r.getArgn())) //
+				.collect(groupingBy(Function.identity(), counting())) //
+				.entrySet().stream() //
+				.filter(e -> e.getValue() > 1)
+				.map(Map.Entry::getKey)
+				.forEach(System.out::println);
 	}
 
 	public Map<String, Integer> makeRoleSetsMap()
@@ -137,17 +161,6 @@ public class Exporter
 		return Theta.COLLECTOR.entrySet().stream() //
 				.map(e -> new SimpleEntry<>(e.getKey().getTheta(), e.getValue())) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
-
-	void duplicateRoles()
-	{
-		Role.COLLECTOR.keySet().stream() //
-				.map(r -> new Pair<>(r.getRoleSet().getName(), r.getArgn())) //
-				.collect(groupingBy(Function.identity(), counting())) //
-				.entrySet().stream() //
-				.filter(e -> e.getValue() > 1)
-				.map(Map.Entry::getKey)
-				.forEach(System.out::println);
 	}
 
 	public Map<Pair<String, String>, Integer> makeRolesMap()
@@ -222,18 +235,5 @@ public class Exporter
 					System.err.println(x + " / " + r);
 					return x;
 				}, () -> new TreeMap<>(COMPARATOR)));
-	}
-
-	public static <K, V> void export(Map<K, V> m, File file) throws IOException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file), true, StandardCharsets.UTF_8))
-		{
-			export(ps, m);
-		}
-	}
-
-	public static <K, V> void export(PrintStream ps, Map<K, V> m)
-	{
-		m.forEach((strs, nids) -> ps.printf("%s -> %s%n", strs, nids));
 	}
 }

@@ -2,6 +2,7 @@ package org.sqlbuilder.common;
 
 import java.io.Closeable;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
@@ -51,5 +52,10 @@ public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
 	public String status()
 	{
 		return ":" + size();
+	}
+
+	public HashMap<T, Integer> toHashMap()
+	{
+		return new HashMap<>(this);
 	}
 }

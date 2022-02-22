@@ -5,6 +5,7 @@ import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.vn.objects.Role;
 import org.sqlbuilder.vn.objects.RoleType;
 import org.sqlbuilder.vn.objects.VnClass;
+import org.sqlbuilder.vn.objects.Word;
 import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Serialize;
 import org.sqlbuilder2.ser.Triplet;
@@ -48,6 +49,7 @@ public class Exporter
 		System.err.printf("%s %d%n", "classes", VnClass.COLLECTOR.size());
 		System.err.printf("%s %d%n", "roles", Role.COLLECTOR.size());
 		System.err.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.size());
+		System.err.printf("%s %d%n", "words", Word.COLLECTOR.size());
 
 		try ( //
 		      @ProvidesIdTo(type = RoleType.class) var ignored1 = RoleType.COLLECTOR.open(); //
@@ -65,8 +67,9 @@ public class Exporter
 		serializeClasses();
 		serializeClassTags();
 		serializeRoleTypes();
-		serializeClassesRoles();
-		serializeClassTagsRoles();
+		serializeRolesUsingClassTags();
+		serializeRolesUsingClassNames();
+		serializeWords();
 	}
 
 	public void export() throws IOException
@@ -74,68 +77,79 @@ public class Exporter
 		exportClasses();
 		exportClassTags();
 		exportRoleTypes();
-		exportClassTagsRoles();
-		exportClassesRoles();
+		exportRolesUsingClassTags();
+		exportRolesUsingClassNames();
+		exportWords();
 	}
 
 	public void serializeClassTags() throws IOException
 	{
 		var m = makeClassTagsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_by_tag")));
+		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_[classtag]-[classid]")));
 	}
 
 	public void serializeClasses() throws IOException
 	{
 		var m = makeClassesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_[classname]-[classid]")));
 	}
 
 	public void serializeRoleTypes() throws IOException
 	{
 		var m = makeRoleTypesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roletypes.resolve")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roletypes.resolve", "_[roletype]-[roletypeid]")));
 	}
 
-	public void serializeClassTagsRoles() throws IOException
+	public void serializeRolesUsingClassTags() throws IOException
 	{
 		var m = makeClassTagsRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_by_tag")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")));
 	}
 
-	public void serializeClassesRoles() throws IOException
+	public void serializeRolesUsingClassNames() throws IOException
 	{
 		var m = makeClassesRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_by_name")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")));
+	}
+
+	public void serializeWords() throws IOException
+	{
+		Serialize.serialize(Word.COLLECTOR.toHashMap(), new File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")));
 	}
 
 	public void exportClassTags() throws IOException
 	{
 		var m = makeClassTagsMap();
-		export(m, new File(outDir, names.mapFile("classes.resolve", "_by_tag")));
+		export(m, new File(outDir, names.mapFile("classes.resolve", "_[classtag]-[classid]")));
 	}
 
 	public void exportClasses() throws IOException
 	{
 		var m = makeClassesMap();
-		export(m, new File(outDir, names.mapFile("classes.resolve", "_by_name")));
+		export(m, new File(outDir, names.mapFile("classes.resolve", "_[classname]-[classid]")));
 	}
 
 	public void exportRoleTypes() throws IOException
 	{
 		var m = makeRoleTypesMap();
-		export(m, new File(outDir, names.mapFile("roletypes.resolve")));
+		export(m, new File(outDir, names.mapFile("roletypes.resolve", "_[roletype]-[roletypeid]")));
 	}
 
-	public void exportClassTagsRoles() throws IOException
+	public void exportRolesUsingClassTags() throws IOException
 	{
 		var m = makeClassTagsRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_by_tag")));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")));
 	}
 
-	public void exportClassesRoles() throws IOException
+	public void exportRolesUsingClassNames() throws IOException
 	{
 		var m = makeClassesRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_by_name")));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")));
+	}
+
+	public void exportWords() throws IOException
+	{
+		export(Word.COLLECTOR, new File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")));
 	}
 
 	public static <K, V> void export(Map<K, V> m, File file) throws IOException

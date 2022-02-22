@@ -31,6 +31,7 @@ public class VnExportingProcessor extends VnProcessor
 		{
 			final VnClass clazz = processClass(start);
 			processItems(start);
+			processMembers(start, head);
 			Collection<RestrainedRole> inheritableRestrainedRoles = processRoles(start, clazz, inheritedRestrainedRoles);
 
 			// recurse
@@ -50,6 +51,20 @@ public class VnExportingProcessor extends VnProcessor
 	private static VnClass processClass(final Node start) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
 	{
 		return VnDocument.makeClass(start);
+	}
+
+	private static void processMembers(final Node start, final String head) throws XPathExpressionException
+	{
+		// members
+		Collection<Member> members = VnDocument.makeMembers(start);
+		members.add(Member.make(head, null, null));
+
+		// member
+		for (final Member member : members)
+		{
+			// word
+			Word.make(member.lemma);
+		}
 	}
 
 	private static void processItems(final Node start) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException

@@ -2,11 +2,12 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.*;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>
+public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>, Serializable
 {
 	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
