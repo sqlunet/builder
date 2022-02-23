@@ -102,6 +102,6 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 	@Override
 	public String toString()
 	{
-		return "W'" + word + '\'';
+		return word;
 	}
 }

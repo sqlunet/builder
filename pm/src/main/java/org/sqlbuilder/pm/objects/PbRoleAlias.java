@@ -1,9 +1,10 @@
 package org.sqlbuilder.pm.objects;
 
 import org.sqlbuilder.common.Resolvable;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder2.ser.Pair;
 
-public class PbRoleAlias implements Resolvable<Pair<String,String>, Pair<Integer,Integer>>
+public class PbRoleAlias implements Resolvable<Pair<String, String>, Pair<Integer, Integer>>
 {
 	public String roleset;
 
@@ -12,11 +13,11 @@ public class PbRoleAlias implements Resolvable<Pair<String,String>, Pair<Integer
 	@Override
 	public String dataRow()
 	{
-		return String.format("'%s','%s'",roleset, arg);
+		return String.format("%s,%s", Utils.nullableQuotedEscapedString(roleset), Utils.nullableQuotedEscapedString(arg));
 	}
 
 	@Override
-	public Pair<String,String> resolving()
+	public Pair<String, String> resolving()
 	{
 		return new Pair<>(roleset, arg);
 	}

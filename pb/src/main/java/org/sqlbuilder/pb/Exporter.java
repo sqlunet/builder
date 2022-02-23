@@ -5,6 +5,7 @@ import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.pb.objects.Role;
 import org.sqlbuilder.pb.objects.RoleSet;
 import org.sqlbuilder.pb.objects.Theta;
+import org.sqlbuilder.pb.objects.Word;
 import org.sqlbuilder2.ser.Pair;
 import org.sqlbuilder2.ser.Serialize;
 
@@ -45,15 +46,17 @@ public class Exporter
 
 	public void run() throws IOException
 	{
-		System.err.printf("%s %d%n", "thetas", Theta.COLLECTOR.size());
-		System.err.printf("%s %d%n", "roles", Role.COLLECTOR.size());
-		System.err.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size());
+		System.out.printf("%s %d%n", "thetas", Theta.COLLECTOR.size());
+		System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size());
+		System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size());
+		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
 		duplicateRoles();
 
 		try ( //
 		      @ProvidesIdTo(type = Theta.class) var ignored1 = Theta.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Role.class) var ignored2 = Role.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = RoleSet.class) var ignored3 = RoleSet.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Word.class) var ignored4 = Word.COLLECTOR.open() //
 		)
 		{
 			serialize();
@@ -65,22 +68,24 @@ public class Exporter
 	{
 		serializeThetas();
 		serializeRoleSets();
+		serializeRolesBare();
 		serializeRoles();
-		serializeRolesFull();
+		serializeWords();
 	}
 
 	public void export() throws IOException
 	{
 		exportThetas();
 		exportRoleSets();
+		exportRolesBare();
 		exportRoles();
-		exportRolesFull();
+		exportWords();
 	}
 
 	public void serializeThetas() throws IOException
 	{
 		var m = makeThetasMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("thetas.resolve","_[theta]-[thetaid]")));
+		Serialize.serialize(m, new File(outDir, names.serFile("thetas.resolve", "_[theta]-[thetaid]")));
 	}
 
 	public void serializeRoleSets() throws IOException
@@ -89,22 +94,28 @@ public class Exporter
 		Serialize.serialize(m, new File(outDir, names.serFile("rolesets.resolve", "_[roleset]-[rolesetid]")));
 	}
 
-	public void serializeRoles() throws IOException
+	public void serializeRolesBare() throws IOException
 	{
 		var m = makeRolesMap();
 		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[roleset,argn]-[roleid]")));
 	}
 
-	private void serializeRolesFull() throws IOException
+	private void serializeRoles() throws IOException
 	{
 		var m = makeRolesFromArgNToFullMap();
 		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[roleset,argn]-[roleid,rolesetid]")));
 	}
 
+	public void serializeWords() throws IOException
+	{
+		var m = makeWordMap();
+		Serialize.serialize(m, new File(outDir, names.serFile("words.resolve", "_[word]-[pbwordid]")));
+	}
+
 	public void exportThetas() throws IOException
 	{
 		var m = makeThetasMap();
-		export(m, new File(outDir, names.mapFile("thetas.resolve","_[theta]-[thetaid]")));
+		export(m, new File(outDir, names.mapFile("thetas.resolve", "_[theta]-[thetaid]")));
 	}
 
 	public void exportRoleSets() throws IOException
@@ -113,16 +124,22 @@ public class Exporter
 		export(m, new File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")));
 	}
 
-	public void exportRoles() throws IOException
+	public void exportRolesBare() throws IOException
 	{
 		var m = makeRolesTreeMap();
 		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argn]-[roleid]")));
 	}
 
-	public void exportRolesFull() throws IOException
+	public void exportRoles() throws IOException
 	{
 		var m = makeRolesFromArgNToFullTreeMap();
 		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argn]-[roleid,rolesetid]")));
+	}
+
+	public void exportWords() throws IOException
+	{
+		var m = makeWordMap();
+		export(m, new File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")));
 	}
 
 	public static <K, V> void export(Map<K, V> m, File file) throws IOException
@@ -144,9 +161,21 @@ public class Exporter
 				.map(r -> new Pair<>(r.getRoleSet().getName(), r.getArgn())) //
 				.collect(groupingBy(Function.identity(), counting())) //
 				.entrySet().stream() //
-				.filter(e -> e.getValue() > 1)
-				.map(Map.Entry::getKey)
-				.forEach(System.out::println);
+				.filter(e -> e.getValue() > 1).map(Map.Entry::getKey).forEach(p -> System.err.printf("%s is duplicated in %s%n", p.second, p.first));
+	}
+
+	// M A P S
+
+	/**
+	 * Make word to wordid map
+	 *
+	 * @return word to wordid
+	 */
+	public Map<String, Integer> makeWordMap()
+	{
+		return Word.COLLECTOR.entrySet().stream() //
+				.map(e -> new SimpleEntry<>(e.getKey().getWord(), e.getValue())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
 	public Map<String, Integer> makeRoleSetsMap()
@@ -174,7 +203,7 @@ public class Exporter
 							e.getValue());
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					System.err.println(x + " / " + r);
+					System.err.println("duplicate roleid for roleset: " + x + " / " + r);
 					return x;
 				}));
 	}
@@ -190,7 +219,7 @@ public class Exporter
 							e.getValue());
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					System.err.println(x + " / " + r);
+					// System.err.println("duplicate roleid for roleset: " + x + " / " + r);
 					return x;
 				}, () -> new TreeMap<>(COMPARATOR)));
 	}
@@ -211,7 +240,7 @@ public class Exporter
 							new Pair<>(e.getValue(), rs.getIntId()));
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					System.err.println(x + " / " + r);
+					// System.err.println("duplicate roleid for roleset: " + x + " / " + r);
 					return x;
 				}));
 	}
@@ -232,7 +261,7 @@ public class Exporter
 							new Pair<>(e.getValue(), rs.getIntId()));
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					System.err.println(x + " / " + r);
+					// System.err.println("duplicate roleid for roleset: " + x + " / " + r);
 					return x;
 				}, () -> new TreeMap<>(COMPARATOR)));
 	}

@@ -15,7 +15,7 @@ public class FnRoleAlias implements Resolvable<Triplet<String,String,String>, Tr
 	@Override
 	public String dataRow()
 	{
-		return String.format("'%s',%s,%s",frame, Utils.nullableQuotedEscapedString(fetype), Utils.nullableQuotedEscapedString(lu));
+		return String.format("%s,%s,%s",Utils.nullableQuotedEscapedString(frame), Utils.nullableQuotedEscapedString(fetype), Utils.nullableQuotedEscapedString(lu));
 	}
 
 	@Override

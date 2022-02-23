@@ -2,8 +2,12 @@ package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.pm.objects.PmEntry;
+import org.sqlbuilder.pm.objects.PmRole;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Objects;
@@ -40,9 +44,16 @@ public class PmProcessor extends Processor
 	@Override
 	public void run() throws IOException
 	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
+		var inputFile = new File(pMHome, pMFile);
+		process(inputFile, PmRole::parse, null);
+		try (@ProvidesIdTo(type = PmRole.class) var ignored = PmRole.COLLECTOR.open())
 		{
-			processPmFile(ps, new File(pMHome, pMFile), names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
+			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"));
+
+			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
+			{
+				processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
+			}
 		}
 	}
 
@@ -53,7 +64,7 @@ public class PmProcessor extends Processor
 		ps.print(';');
 	}
 
-	private void process(final File file, final ThrowingFunction<String, PmEntry> producer, final BiConsumer<PmEntry, Integer> consumer) throws IOException
+	protected static <T> void process(final File file, final ThrowingFunction<String, T> producer, final BiConsumer<T, Integer> consumer) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
@@ -71,11 +82,11 @@ public class PmProcessor extends Processor
 							var cause = e.getCause();
 							if (cause instanceof ParseException)
 							{
-								Logger.instance.logParseException(PmModule.MODULE_ID, this.tag, file.getName(), count[1], line, (ParseException) cause);
+								Logger.instance.logParseException(PmModule.MODULE_ID, "pm", file.getName(), count[1], line, (ParseException) cause);
 							}
 							else if (cause instanceof NotFoundException)
 							{
-								Logger.instance.logNotFoundException(PmModule.MODULE_ID, this.tag, file.getName(), count[1], line, (NotFoundException) cause);
+								Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.getName(), count[1], line, (NotFoundException) cause);
 							}
 							else if (cause instanceof IgnoreException)
 							{
@@ -86,7 +97,10 @@ public class PmProcessor extends Processor
 					}) //
 					.filter(Objects::nonNull) //
 					.forEach(r -> {
-						consumer.accept(r, count[0]);
+						if (consumer != null)
+						{
+							consumer.accept(r, count[0]);
+						}
 						count[0]++;
 					});
 		}

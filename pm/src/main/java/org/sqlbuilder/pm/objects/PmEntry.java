@@ -2,6 +2,7 @@ package org.sqlbuilder.pm.objects;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.ParseException;
+import org.sqlbuilder.common.Utils;
 
 public class PmEntry implements Insertable
 {
@@ -90,10 +91,7 @@ public class PmEntry implements Insertable
 		final PmEntry entry = new PmEntry();
 
 		// predicate, role, pos
-		final String predicate = columns[PmEntry.ID_PRED].substring(3);
-		final String role = columns[PmEntry.ID_ROLE].substring(3);
-		final String pos = columns[PmEntry.ID_POS].substring(3);
-		entry.role = new PmRole(predicate, role, pos.charAt(0));
+		entry.role = PmRole.parse(columns);
 
 		// lemma
 		final String lemma = columns[PmEntry.VN_LEMMA].trim();
@@ -113,23 +111,23 @@ public class PmEntry implements Insertable
 		}
 		if ("NULL".equals(entry.word))
 		{
-			entry.word = predicate.substring(0, predicate.indexOf('.'));
+			entry.word = entry.role.predicate.substring(0, entry.role.predicate.indexOf('.'));
 		}
 
 		// sensekey
-		String senseKey = columns[PmEntry.WN_SENSE].trim().substring(3); // .replace('_', ' ');
-		if (!senseKey.isEmpty() && !"NULL".equals(senseKey))
+		String sensekey = columns[PmEntry.WN_SENSE].trim().substring(3); // .replace('_', ' ');
+		if (!sensekey.isEmpty() && !"NULL".equals(sensekey))
 		{
-			if (senseKey.startsWith("?"))
+			if (sensekey.startsWith("?"))
 			{
-				senseKey = senseKey.substring(1);
+				sensekey = sensekey.substring(1);
 			}
 		}
-		else if (senseKey.isEmpty())
+		else if (sensekey.isEmpty())
 		{
 			throw new ParseException("Empty sensekey for " + line);
 		}
-		entry.sensekey = senseKey + "::";
+		entry.sensekey = "NULL".equalsIgnoreCase(sensekey) ? null : sensekey + "::";
 
 		// verbnet
 		String vnsubclass = columns[PmEntry.VN_SUBCLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_SUBCLASS]) ? null : columns[PmEntry.VN_SUBCLASS].trim().substring(3);
@@ -202,9 +200,10 @@ public class PmEntry implements Insertable
 	@Override
 	public String dataRow()
 	{
-		return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SUMO['%s'], SRC[%s]", //
-				role.dataRow(), // pm
-				word, sensekey,  // wordnet
+		//return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SUMO['%s'], SRC[%s]", //
+		return String.format("%s,'%s',%s,%s,%s,%s,'%s',%s", //
+				role.getIntId(), // pm
+				word, Utils.nullable(sensekey),  // wordnet
 				vn.dataRow(), // verbnet
 				pb.dataRow(), // propbank
 				fn.dataRow(), // framenet
@@ -215,6 +214,6 @@ public class PmEntry implements Insertable
 	@Override
 	public String comment()
 	{
-		return Insertable.super.comment();
+		return String.format("%s,%s,%c", role.getPredicate(), role.getRole(), role.getPos());
 	}
 }

@@ -2,10 +2,11 @@ package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.*;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comparable<Word>
+public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comparable<Word>, Serializable
 {
 	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
@@ -86,6 +87,14 @@ public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comp
 
 	@Override
 	public String resolving()
+	{
+		return word;
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
 	{
 		return word;
 	}

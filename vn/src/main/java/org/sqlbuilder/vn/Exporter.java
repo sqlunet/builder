@@ -46,15 +46,16 @@ public class Exporter
 
 	public void run() throws IOException
 	{
-		System.err.printf("%s %d%n", "classes", VnClass.COLLECTOR.size());
-		System.err.printf("%s %d%n", "roles", Role.COLLECTOR.size());
-		System.err.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.size());
-		System.err.printf("%s %d%n", "words", Word.COLLECTOR.size());
+		System.out.printf("%s %d%n", "classes", VnClass.COLLECTOR.size());
+		System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size());
+		System.out.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.size());
+		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
 
 		try ( //
 		      @ProvidesIdTo(type = RoleType.class) var ignored1 = RoleType.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Role.class) var ignored2 = Role.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = VnClass.class) var ignored3 = VnClass.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Word.class) var ignored4 = Word.COLLECTOR.open(); //
 		)
 		{
 			serialize();
@@ -114,7 +115,8 @@ public class Exporter
 
 	public void serializeWords() throws IOException
 	{
-		Serialize.serialize(Word.COLLECTOR.toHashMap(), new File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")));
+		var m = makeWordMap();
+		Serialize.serialize(m, new File(outDir, names.serFile("words.resolve", "_[word]-[vnwordid]")));
 	}
 
 	public void exportClassTags() throws IOException
@@ -149,7 +151,8 @@ public class Exporter
 
 	public void exportWords() throws IOException
 	{
-		export(Word.COLLECTOR, new File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")));
+		var m = makeWordMap();
+		export(m, new File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")));
 	}
 
 	public static <K, V> void export(Map<K, V> m, File file) throws IOException
@@ -166,6 +169,18 @@ public class Exporter
 	}
 
 	// M A P S
+
+	/**
+	 * Make word to wordid map
+	 *
+	 * @return word to wordid
+	 */
+	public Map<String, Integer> makeWordMap()
+	{
+		return Word.COLLECTOR.entrySet().stream() //
+				.map(e -> new SimpleEntry<>(e.getKey().getWord(), e.getValue())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
+	}
 
 	/**
 	 * Make classname to classid map

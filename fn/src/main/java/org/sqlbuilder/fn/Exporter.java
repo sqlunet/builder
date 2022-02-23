@@ -1,6 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Names;
+import org.sqlbuilder.common.ProvidesIdTo;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
 import org.sqlbuilder.fn.objects.Word;
@@ -42,10 +43,14 @@ public class Exporter
 
 	public void run() throws IOException
 	{
-		System.err.printf("%s %d%n", "frames", Frame.SET.size());
+		System.out.printf("%s %d%n", "frames", Frame.SET.size());
+		System.out.printf("%s %d%n", "fes", FE.SET.size());
+		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.size());
+		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
+
 		try (
-				var ignored1 = Word.COLLECTOR.open();
-				var ignored2 = FeType.COLLECTOR.open())
+				@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open();
+				@ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
 		{
 			serialize();
 			export();
@@ -80,7 +85,8 @@ public class Exporter
 
 	public void serializeWords() throws IOException
 	{
-		Serialize.serialize(Word.COLLECTOR.toHashMap(), new File(outDir, names.serFile("words.resolve", "_[word]-[fnwordid]")));
+		var m = makeWordMap();
+		Serialize.serialize(m, new File(outDir, names.serFile("words.resolve", "_[word]-[fnwordid]")));
 	}
 
 	public void exportFrames() throws IOException
@@ -97,7 +103,22 @@ public class Exporter
 
 	public void exportWords() throws IOException
 	{
-		export(Word.COLLECTOR, new File(outDir, names.mapFile("words.resolve", "_[word]-[fnwordid]")));
+		var m = makeWordMap();
+		export(m, new File(outDir, names.mapFile("words.resolve", "_[word]-[fnwordid]")));
+	}
+
+	// M A P S
+
+	/**
+	 * Make word to wordid map
+	 *
+	 * @return word to wordid
+	 */
+	public Map<String, Integer> makeWordMap()
+	{
+		return Word.COLLECTOR.entrySet().stream() //
+				.map(e -> new SimpleEntry<>(e.getKey().getWord(), e.getValue())) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
 	public Map<String, Integer> makeFramesMap()

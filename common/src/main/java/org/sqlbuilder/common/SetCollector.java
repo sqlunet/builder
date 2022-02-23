@@ -26,9 +26,21 @@ public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
 		return this;
 	}
 
+	/**
+	 * Add item key to map
+	 *
+	 * @param item item key
+	 * @return false if already there
+	 */
 	public boolean add(T item)
 	{
-		return put(item, null) == null;
+		// avoid changing value to null
+		// putIfAbsent(item, null) uses get and throw not-open exception
+		if (containsKey(item))
+		{
+			return false;
+		}
+		return put(item, null) == null; // null if there was no mapping
 	}
 
 	@Override
@@ -51,7 +63,7 @@ public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
 
 	public String status()
 	{
-		return ":" + size();
+		return "#" + size();
 	}
 
 	public HashMap<T, Integer> toHashMap()

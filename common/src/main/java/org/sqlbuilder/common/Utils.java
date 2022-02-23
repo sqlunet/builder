@@ -47,6 +47,18 @@ public class Utils
 	 * @param object object
 	 * @return SQL string
 	 */
+	public static <T> String nullable(final T object)
+	{
+		return object == null ? NULLSTR : object.toString();
+	}
+
+	/**
+	 * Stringify nullable object for it to be handled by SQL
+	 *
+	 * @param object   object
+	 * @param toString stringifier
+	 * @return SQL string
+	 */
 	public static <T> String nullable(final T object, final Function<T, String> toString)
 	{
 		return object == null ? NULLSTR : toString.apply(object);

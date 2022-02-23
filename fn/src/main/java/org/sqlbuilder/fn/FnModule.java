@@ -56,6 +56,7 @@ public class FnModule extends Module
 
 			case EXPORT:
 				new FnExportingProcessor(props).run();
+				new FnWordProcessor(props).run();
 				try
 				{
 					Exporter exporter = new Exporter(props);
