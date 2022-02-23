@@ -1,0 +1,1 @@
+CREATE INDEX 'k_@{pms.table}_@{pms.pmroleid}' ON ${pms.table} (${pms.pmroleid});CREATE INDEX 'k_@{pms.table}_@{pms.synsetid}' ON ${pms.table} (${pms.synsetid});CREATE INDEX 'k_@{pms.table}_@{pms.wordid}' ON ${pms.table} (${pms.wordid});

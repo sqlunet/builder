@@ -8,7 +8,7 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
-modules="bnc vn pb fn sn"
+modules="bnc vn pb fn sn pm"
 
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
@@ -24,7 +24,7 @@ for m in ${modules}; do
       else
         echo -e "${C}${f} -> ${f2}${Z}"
       fi
-      cat ${f} | ./filter-mysql.py > "${f2}"
+      #cat ${f} | ./filter-mysql.py > "${f2}"
       mv -f "${f2}" "${f}"
      done
   done
