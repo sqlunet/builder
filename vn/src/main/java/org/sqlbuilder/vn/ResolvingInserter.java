@@ -2,7 +2,6 @@ package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.vn.joins.Member_Sense;
 import org.sqlbuilder.vn.objects.Word;
 

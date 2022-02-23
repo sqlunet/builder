@@ -57,17 +57,14 @@ public class Checker
 		final NamedNodeMap attrs = e.getAttributes();
 		if (m != null)
 		{
-			if (attrs != null)
+			for (int i = 0; i < attrs.getLength(); i++)
 			{
-				for (int i = 0; i < attrs.getLength(); i++)
+				final Node attr = attrs.item(i);
+				final String name = attr.getNodeName();
+				if (!name.matches(m))
 				{
-					final Node attr = attrs.item(i);
-					final String name = attr.getNodeName();
-					if (!name.matches(m))
-					{
-						++Checker.errors;
-						throw new RuntimeException("attribute in " + e.getNodeName() + " |" + name + "| " + (message == null ? "" : message));
-					}
+					++Checker.errors;
+					throw new RuntimeException("attribute in " + e.getNodeName() + " |" + name + "| " + (message == null ? "" : message));
 				}
 			}
 		}

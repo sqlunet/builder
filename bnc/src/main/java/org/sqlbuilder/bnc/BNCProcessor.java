@@ -24,7 +24,7 @@ public class BNCProcessor extends Processor
 
 	protected final Properties conf;
 
-	public BNCProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	public BNCProcessor(final Properties conf)
 	{
 		super("bnc");
 		this.names = new Names("bnc");

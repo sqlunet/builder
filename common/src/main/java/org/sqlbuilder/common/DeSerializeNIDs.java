@@ -62,8 +62,7 @@ public class DeSerializeNIDs
 	{
 		try (InputStream is = new FileInputStream(inFile))
 		{
-			var m = DeSerializeNIDs.deSerializeNIDs(is);
-			return m;
+			return DeSerializeNIDs.deSerializeNIDs(is);
 		}
 	}
 
@@ -77,6 +76,7 @@ public class DeSerializeNIDs
 	 */
 	public static Map<String, Integer> deSerializeNIDs(final InputStream is) throws IOException, ClassNotFoundException
 	{
+		//noinspection unchecked
 		return (Map<String, Integer>) deSerialize(is);
 	}
 

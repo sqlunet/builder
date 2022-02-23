@@ -18,6 +18,7 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Frame_FrameRelated make(final int frameid, final FrameIDNameType frame2, final String relation)
 	{
 		var ff = new Frame_FrameRelated(frameid, frame2.getID(), relation);
@@ -41,7 +42,7 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 
 	// O R D E R
 
-	public static Comparator<Frame_FrameRelated> COMPARATOR = Comparator.comparing(Frame_FrameRelated::getRelation).thenComparing(Pair::getFirst).thenComparing(Pair::getSecond);
+	public static final Comparator<Frame_FrameRelated> COMPARATOR = Comparator.comparing(Frame_FrameRelated::getRelation).thenComparing(Pair::getFirst).thenComparing(Pair::getSecond);
 
 	// I N S E R T
 

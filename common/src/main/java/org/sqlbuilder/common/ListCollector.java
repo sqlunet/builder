@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ListCollector<T extends SetId> extends ArrayList<T> implements Closeable
 {
-	private boolean isOpen = false;
+	private final boolean isOpen = false;
 
 	private int allocator = 0;
 

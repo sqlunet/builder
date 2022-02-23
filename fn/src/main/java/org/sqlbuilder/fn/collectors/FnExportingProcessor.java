@@ -24,6 +24,7 @@ import edu.berkeley.icsi.framenet.FrameDocument;
 
 public class FnExportingProcessor extends FnProcessor
 {
+	@SuppressWarnings("FieldCanBeLocal")
 	private final boolean skipLexUnits;
 
 	public FnExportingProcessor(final Properties props)

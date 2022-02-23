@@ -1,6 +1,5 @@
 package org.sqlbuilder.sn;
 
-import org.sqlbuilder.common.Nullable;
 import org.sqlbuilder.common.Resolver;
 import org.sqlbuilder2.ser.DeSerialize;
 

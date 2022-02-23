@@ -14,6 +14,7 @@ public class FE_FEExcluded extends Pair<Integer, Integer> implements Insertable
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FE_FEExcluded make(final int feid, final InternalFrameRelationFEType fe2)
 	{
 		var ff = new FE_FEExcluded(feid, fe2.getID());

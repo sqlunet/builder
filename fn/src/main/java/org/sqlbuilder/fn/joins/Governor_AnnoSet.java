@@ -18,6 +18,7 @@ public class Governor_AnnoSet extends Pair<Governor, Integer> implements Inserta
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Governor_AnnoSet make(final Governor governor, final AnnoSetType annoset)
 	{
 		var ga = new Governor_AnnoSet(governor, annoset.getID());

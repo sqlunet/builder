@@ -32,7 +32,7 @@ public class Exporter
 
 	protected final Names names;
 
-	protected File outDir;
+	protected final File outDir;
 
 	public Exporter(final Properties conf)
 	{
@@ -55,7 +55,7 @@ public class Exporter
 		      @ProvidesIdTo(type = RoleType.class) var ignored1 = RoleType.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Role.class) var ignored2 = Role.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = VnClass.class) var ignored3 = VnClass.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = Word.class) var ignored4 = Word.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Word.class) var ignored4 = Word.COLLECTOR.open() //
 		)
 		{
 			serialize();

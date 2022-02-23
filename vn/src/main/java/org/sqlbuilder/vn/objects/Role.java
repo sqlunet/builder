@@ -17,6 +17,7 @@ public class Role implements Insertable, HasId
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Role make(final VnClass clazz, final RestrainedRole restrainedRole)
 	{
 		var m = new Role(clazz, restrainedRole);

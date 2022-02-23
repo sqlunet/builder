@@ -36,7 +36,6 @@ public class SnModule extends Module
 
 				case EXPORT:
 				default:
-					return;
 			}
 		}
 		catch (IOException | ClassNotFoundException e)
@@ -45,7 +44,7 @@ public class SnModule extends Module
 		}
 	}
 
-	public static void main(final String[] args) throws IOException
+	public static void main(final String[] args)
 	{
 		int i = 0;
 		Mode mode = Mode.PLAIN;

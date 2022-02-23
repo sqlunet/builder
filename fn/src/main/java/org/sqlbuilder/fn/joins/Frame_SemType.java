@@ -12,6 +12,7 @@ public class Frame_SemType extends Pair<Integer, Integer> implements Insertable
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Frame_SemType make(final int frameid, final int semtypeid)
 	{
 		var ft = new Frame_SemType(frameid, semtypeid);

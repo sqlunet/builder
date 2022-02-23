@@ -34,8 +34,7 @@ public abstract class Alias implements Insertable, Resolvable<String,Integer>
 
 	public static Alias make(final Db db, final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
 	{
-		var a = db.equals(Db.VERBNET) ? VnAlias.make(clazz, pos, pbRoleSet, word) : (db.equals(Db.FRAMENET) ? FnAlias.make(clazz, pos, pbRoleSet, word) : null);
-		return a;
+		return db.equals(Db.VERBNET) ? VnAlias.make(clazz, pos, pbRoleSet, word) : (db.equals(Db.FRAMENET) ? FnAlias.make(clazz, pos, pbRoleSet, word) : null);
 	}
 
 	protected Alias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)

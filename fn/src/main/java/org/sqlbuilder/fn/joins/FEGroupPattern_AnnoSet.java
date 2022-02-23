@@ -14,6 +14,7 @@ public class FEGroupPattern_AnnoSet extends Pair<FEGroupPattern, Integer> implem
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FEGroupPattern_AnnoSet make(final FEGroupPattern pattern, final AnnoSetType annoset)
 	{
 		var pa = new FEGroupPattern_AnnoSet(pattern, annoset.getID());

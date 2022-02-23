@@ -118,6 +118,7 @@ public class VnDocument
 
 	// G R O U P I N G S
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Set<Grouping> makeGroupings(final Node start) throws XPathExpressionException
 	{
@@ -164,6 +165,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<RoleType> makeRoleTypes(final Node start) throws XPathExpressionException
 	{
@@ -183,6 +185,7 @@ public class VnDocument
 
 	// R E S T R
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<RestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
 	{
@@ -202,6 +205,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<RestrType> makeSynRestrTypes(final Node start) throws XPathExpressionException
 	{
@@ -221,6 +225,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<Restrs> makeSelRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
@@ -242,6 +247,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<Restrs> makeSynRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
@@ -287,6 +293,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<FrameName> makeFrameNames(final Node start) throws XPathExpressionException
 	{
@@ -304,6 +311,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<FrameSubName> makeFrameSubNames(final Node start) throws XPathExpressionException
 	{
@@ -325,6 +333,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<FrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
 	{
@@ -340,6 +349,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static List<Frame_Example> makeFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
 	{
@@ -371,6 +381,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<Syntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
@@ -386,6 +397,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<Semantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
 	{
@@ -401,6 +413,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static Collection<Predicate> makePredicates(final Node start) throws XPathExpressionException
 	{
@@ -418,6 +431,7 @@ public class VnDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	@NotNull
 	public static List<Predicate_Semantics> makePredicateSemanticsMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
 	{

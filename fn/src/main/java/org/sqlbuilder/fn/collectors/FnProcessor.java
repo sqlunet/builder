@@ -18,7 +18,7 @@ public abstract class FnProcessor extends Processor
 
 	protected String filename;
 
-	protected int fileCount;
+	protected final int fileCount;
 
 	public FnProcessor(final String subDir, final Properties props, final String tag)
 	{

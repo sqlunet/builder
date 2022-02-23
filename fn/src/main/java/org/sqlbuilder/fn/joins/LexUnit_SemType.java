@@ -1,7 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -17,6 +16,7 @@ public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertabl
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static LexUnit_SemType make(final int luid, final SemTypeRefType semtype)
 	{
 		var ut = new LexUnit_SemType(luid, semtype.getID());

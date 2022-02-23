@@ -99,7 +99,7 @@ public class VnProcessor extends Processor
 		}
 	}
 
-	private static VnClass processClass(final Node start) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
+	private static VnClass processClass(final Node start)
 	{
 		return VnDocument.makeClass(start);
 	}

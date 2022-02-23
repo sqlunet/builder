@@ -42,7 +42,7 @@ public class LexItem implements Comparable<LexItem>
 	@Override
 	public int compareTo(final LexItem p)
 	{
-		return this.lemma.toString().compareTo(p.lemma.toString());
+		return this.lemma.compareTo(p.lemma);
 	}
 
 	// T O S T R I N G

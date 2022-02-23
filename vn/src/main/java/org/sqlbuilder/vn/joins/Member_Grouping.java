@@ -26,6 +26,7 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Member_Grouping make(final VnClass clazz, final Word word, final Grouping grouping)
 	{
 		var m = new Member_Grouping(clazz, word, grouping);
@@ -91,6 +92,6 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", clazz.getName(), word.getIntId(), grouping.getName());
+		return String.format("%s,%s,%s", clazz.getName(), word.getIntId(), grouping.getName());
 	}
 }

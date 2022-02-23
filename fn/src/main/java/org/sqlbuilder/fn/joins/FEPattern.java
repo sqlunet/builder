@@ -20,6 +20,7 @@ public class FEPattern extends Pair<FERealization, ValenceUnit> implements Inser
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FEPattern make(final FERealization fer, final ValenceUnit vu)
 	{
 		var vr = new FEPattern(fer, vu);

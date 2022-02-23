@@ -21,15 +21,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import edu.berkeley.icsi.framenet.FEType;
-
 import static java.util.stream.Collectors.toMap;
 
 public class Exporter
 {
 	protected final Names names;
 
-	protected File outDir;
+	protected final File outDir;
 
 	public Exporter(final Properties conf)
 	{
@@ -128,7 +126,7 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
-	private static final Comparator<Pair<String,String>> COMPARATOR = Comparator.comparing(Pair<String,String>::getFirst).thenComparing(Pair<String,String>::getSecond);
+	private static final Comparator<Pair<String,String>> COMPARATOR = Comparator.comparing(Pair<String,String>::getFirst).thenComparing(Pair::getSecond);
 
 	public Map<Pair<String,String>, Triplet<Integer,Integer,Integer>> makeFEsMap()
 	{

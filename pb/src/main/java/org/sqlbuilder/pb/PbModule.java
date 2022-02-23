@@ -64,7 +64,6 @@ public class PbModule extends Module
 				break;
 
 			default:
-				return;
 		}
 	}
 

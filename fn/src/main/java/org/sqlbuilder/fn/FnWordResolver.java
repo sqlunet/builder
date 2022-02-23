@@ -1,7 +1,6 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Nullable;
 import org.sqlbuilder.common.Resolver;
 
 import java.io.File;

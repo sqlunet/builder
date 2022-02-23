@@ -17,6 +17,7 @@ public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Inse
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static SubCorpus_Sentence make(final SubCorpus subcorpus, final Sentence sentence)
 	{
 		var ss = new SubCorpus_Sentence(subcorpus, sentence.getID());

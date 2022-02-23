@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class PmRole implements HasId, Insertable, Comparable<PmRole>
 {
-	public static Comparator<PmRole> COMPARATOR = Comparator.comparing(PmRole::getPredicate).thenComparing(PmRole::getRole).thenComparing(PmRole::getPos);
+	public static final Comparator<PmRole> COMPARATOR = Comparator.comparing(PmRole::getPredicate).thenComparing(PmRole::getRole).thenComparing(PmRole::getPos);
 
-	public static SetCollector<PmRole> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector<PmRole> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final String predicate;
 

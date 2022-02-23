@@ -8,15 +8,8 @@ public interface ThrowingConsumer<T> extends Consumer<T>
 	@Override
 	default void accept(T t)
 	{
-		try
-		{
-			acceptThrows(t);
-		}
-		catch (final CommonException e)
-		{
-			throw new RuntimeException(e);
-		}
+		acceptThrows(t);
 	}
 
-	void acceptThrows(T t) throws CommonException;
+	void acceptThrows(T t);
 }

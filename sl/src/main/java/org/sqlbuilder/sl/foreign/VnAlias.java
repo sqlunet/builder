@@ -15,7 +15,7 @@ public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pai
 
 	public static final Set<VnAlias> SET = new TreeSet<>(COMPARATOR);
 
-	public static Function<Pair<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+	public static final Function<Pair<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
 			r == null ? "NULL,NULL" : String.format("%s,%s", r.first, r.second);
 
 	private final String pbRoleset;
@@ -24,6 +24,7 @@ public class VnAlias implements Insertable, Resolvable<Pair<String, String>, Pai
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static VnAlias make(final String pbRoleSet, final String vnClass)
 	{
 		var a = new VnAlias(pbRoleSet, vnClass);

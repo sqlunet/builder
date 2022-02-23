@@ -6,7 +6,6 @@ import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.vn.VnDocument;
 import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.joins.Member_Sense;
 import org.sqlbuilder.vn.objects.*;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

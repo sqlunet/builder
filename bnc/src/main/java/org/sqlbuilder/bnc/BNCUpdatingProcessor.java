@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import java.util.function.BiConsumer;
 
 public class BNCUpdatingProcessor extends BNCResolvingProcessor
 {

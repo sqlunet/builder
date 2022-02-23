@@ -20,6 +20,7 @@ public class Cxns implements HasID, Insertable
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Cxns make(final int id, final String name)
 	{
 		var c = new Cxns(id, name);

@@ -23,7 +23,7 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 
 	public static final Set<Member_Sense> SET = new HashSet<>();
 
-	public static Function<SimpleEntry<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+	public static final Function<SimpleEntry<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
 			r == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.getKey()), Utils.nullableInt(r.getValue()));
 	//r == null ? "NULL,NULL" : String.format("%s,%s", r.first, r.second);
 
@@ -37,6 +37,7 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Member_Sense make(final Class_Word member, final int sensenum, final Sensekey sensekey, final Float quality)
 	{
 		var m = new Member_Sense(member, sensenum, sensekey, quality);

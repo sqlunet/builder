@@ -18,7 +18,7 @@ public class PmResolvingProcessor extends PmProcessor
 {
 	protected final Names names;
 
-	protected File outDir;
+	protected final File outDir;
 
 	protected final String wordSerFile;
 

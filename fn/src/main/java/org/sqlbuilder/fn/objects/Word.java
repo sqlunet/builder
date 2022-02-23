@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>, Serializable
 {
-	public static Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
+	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
 	public static final SetCollector<Word> COLLECTOR = new SetCollector<>(COMPARATOR);
 

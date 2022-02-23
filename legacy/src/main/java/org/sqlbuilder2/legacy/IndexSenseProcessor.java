@@ -29,12 +29,12 @@ public class IndexSenseProcessor extends Processor
 
 	private final Properties conf;
 
-	public IndexSenseProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	public IndexSenseProcessor(final Properties conf)
 	{
 		super("sk2nid");
 		this.conf = conf;
 		this.source = conf.getProperty("to_sensekeys.source");
-		this.inDir = new File(conf.getProperty("to_sensekeys.home").replaceAll("\\$\\{source\\}", source));
+		this.inDir = new File(conf.getProperty("to_sensekeys.home").replaceAll("\\$\\{source}", source));
 		this.outDir = new File(conf.getProperty("legacy_serdir", "sers"));
 		if (!this.outDir.exists())
 		{
@@ -50,12 +50,12 @@ public class IndexSenseProcessor extends Processor
 
 	public void run1() throws IOException
 	{
-		String inFile = conf.getProperty("to_sensekeys.map").replaceAll("\\$\\{source\\}", source);
-		String outFile = Names.TO_SENSEKEYS.FILE.replaceAll("\\$\\{source\\}", source);
+		String inFile = conf.getProperty("to_sensekeys.map").replaceAll("\\$\\{source}", source);
+		String outFile = Names.TO_SENSEKEYS.FILE.replaceAll("\\$\\{source}", source);
 
 		var m = getLemmaPosOffsetToSensekey(new File(inDir, inFile));
 		Serialize.serialize(m, new File(outDir, outFile + ".ser"));
-		Insert.insert(m, new File(outDir, outFile + ".map"), conf.getProperty("to_sensekeys.table").replaceAll("\\$\\{source\\}", source), "word,pos,offset,sensekey", //
+		Insert.insert(m, new File(outDir, outFile + ".map"), conf.getProperty("to_sensekeys.table").replaceAll("\\$\\{source}", source), "word,pos,offset,sensekey", //
 				r -> String.format("'%s','%s',%s,'%s'", r.getKey().first, r.getKey().second, r.getKey().third, r.getValue()));
 	}
 

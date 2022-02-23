@@ -20,6 +20,7 @@ public class Class_Frame implements Insertable
 	private final Frame frame;
 
 	// C O N S T R U C T O R
+	@SuppressWarnings("UnusedReturnValue")
 	public static Class_Frame make(final VnClass clazz, final Frame frame)
 	{
 		var m = new Class_Frame(clazz, frame);

@@ -64,11 +64,10 @@ public class VnModule extends Module
 				break;
 
 			default:
-				return;
 		}
 	}
 
-	public static void main(final String[] args) throws IOException
+	public static void main(final String[] args)
 	{
 		int i = 0;
 		Mode mode = Mode.PLAIN;

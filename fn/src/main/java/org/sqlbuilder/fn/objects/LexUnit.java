@@ -38,6 +38,7 @@ public class LexUnit implements HasID, Insertable
 
 	private final int totalAnnotated;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static LexUnit make(final LexUnitDocument.LexUnit lu)
 	{
 		var u = new LexUnit(lu);
@@ -50,6 +51,7 @@ public class LexUnit implements HasID, Insertable
 		return u;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static LexUnit make(final FrameLUType lu, final int frameid, final String frameName)
 	{
 		var u = new LexUnit(lu, frameid, frameName);
@@ -138,7 +140,7 @@ public class LexUnit implements HasID, Insertable
 
 	// O R D E R
 
-	public static Comparator<LexUnit> COMPARATOR = Comparator.comparing(LexUnit::getName).thenComparing(LexUnit::getID);
+	public static final Comparator<LexUnit> COMPARATOR = Comparator.comparing(LexUnit::getName).thenComparing(LexUnit::getID);
 
 	// I N S E R T
 

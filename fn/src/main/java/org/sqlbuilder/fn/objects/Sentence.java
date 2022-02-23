@@ -94,7 +94,7 @@ public class Sentence implements HasID, Insertable
 
 	// O R D E R
 
-	public static Comparator<Sentence> COMPARATOR = Comparator.comparing(Sentence::getID).thenComparing(Sentence::getDocID).thenComparing(Sentence::getCorpusID);
+	public static final Comparator<Sentence> COMPARATOR = Comparator.comparing(Sentence::getID).thenComparing(Sentence::getDocID).thenComparing(Sentence::getCorpusID);
 
 	// I N S E R T
 

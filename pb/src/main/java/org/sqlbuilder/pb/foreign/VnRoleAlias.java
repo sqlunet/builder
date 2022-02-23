@@ -18,9 +18,9 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>,
 {
 	static public final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getRole).thenComparing(VnRoleAlias::getVnRole);
 
-	public static Set<VnRoleAlias> SET = new HashSet<>();
+	public static final Set<VnRoleAlias> SET = new HashSet<>();
 
-	public static Function<Triplet<Integer, Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+	public static final Function<Triplet<Integer, Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
 			r == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", r.first, r.second, r.third);
 
 	private final Role role;
@@ -29,6 +29,7 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>,
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static VnRoleAlias make(final Role role, final VnRole vnRole)
 	{
 		var m = new VnRoleAlias(role, vnRole);

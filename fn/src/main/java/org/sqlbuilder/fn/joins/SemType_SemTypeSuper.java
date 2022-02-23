@@ -15,6 +15,7 @@ public class SemType_SemTypeSuper extends Pair<Integer, Integer> implements Inse
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static SemType_SemTypeSuper make(final SemType semtype, final SuperType supersemtype)
 	{
 		var tt = new SemType_SemTypeSuper(semtype.getID(), supersemtype.getSupID());

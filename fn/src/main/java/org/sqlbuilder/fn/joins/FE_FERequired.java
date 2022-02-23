@@ -14,6 +14,7 @@ public class FE_FERequired extends Pair<Integer, Integer> implements Insertable
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FE_FERequired make(final int fe, final InternalFrameRelationFEType fe2)
 	{
 		var ff = new FE_FERequired(fe, fe2.getID());

@@ -2,9 +2,7 @@ package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.fn.collectors.*;
-import org.sqlbuilder.fn.objects.Word;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FnModule extends Module
@@ -69,11 +67,10 @@ public class FnModule extends Module
 				break;
 
 			default:
-				return;
 		}
 	}
 
-	public static void main(final String[] args) throws IOException
+	public static void main(final String[] args)
 	{
 		int i = 0;
 		Mode mode = Mode.PLAIN;

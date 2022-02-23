@@ -34,7 +34,7 @@ public class PmEntry implements Insertable
 	static final int MCR_LEXNAME = 21; // this column contains the information of the MCR Lexicographical file name. mcr:communication
 	static final int MCR_BLC = 22; // this column contains the information of the Base Level Concept of the WordNet verb sense in the MCR3.0.mcr:back_away%2:32:00
 	static final int WN_SENSEFREC = 23; // this column contains the information of the frequency of the WordNet 3.0 verb sense. wn:0
-	static final int WN_SYNSET_REL_NUM = 24; // : this column contains the information of the number of relations of the WordNet 3.0 verb sense. wn:004
+	static final int WN_SYNSET_REL_NUM = 24; // this column contains the information of the number of relations of the WordNet 3.0 verb sense. wn:004
 	static final int ESO_CLASS = 25; // this column contains the information of the class of the ESO ontology.
 	static final int ESO_ROLE = 26; // this column contains the information of the role of the ESO ontology.
 	static final int SOURCE = 27; // this column contains the information of how the row has been obtained. SEMLINK;FRAME;SYNONYMS
@@ -61,15 +61,15 @@ public class PmEntry implements Insertable
 
 	// verbnet
 
-	public VnRoleAlias vn = new VnRoleAlias();
+	public final VnRoleAlias vn = new VnRoleAlias();
 
 	// propbank
 
-	public PbRoleAlias pb = new PbRoleAlias();
+	public final PbRoleAlias pb = new PbRoleAlias();
 
 	// framenet
 
-	public FnRoleAlias fn = new FnRoleAlias();
+	public final FnRoleAlias fn = new FnRoleAlias();
 
 	// sumo
 

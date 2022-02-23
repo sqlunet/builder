@@ -12,6 +12,7 @@ public class FE_SemType extends Pair<Integer, Integer> implements Insertable
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FE_SemType make(final int feid, final int semtypeid)
 	{
 		var fs = new FE_SemType(feid, semtypeid);

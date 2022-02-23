@@ -18,6 +18,7 @@ public class Values
 
 		private final String pos;
 
+		@SuppressWarnings("UnusedReturnValue")
 		public static Pos make(final String pos, final int idx)
 		{
 			var p = new Pos(pos);
@@ -52,6 +53,7 @@ public class Values
 
 		private final String coretype;
 
+		@SuppressWarnings("UnusedReturnValue")
 		public static CoreType make(final String coretype, final int idx)
 		{
 			var t = new CoreType(coretype);
@@ -86,6 +88,7 @@ public class Values
 
 		private final String labelitype;
 
+		@SuppressWarnings("UnusedReturnValue")
 		public static LabelIType make(final String labelitype, final int idx)
 		{
 			var l = new LabelIType(labelitype);

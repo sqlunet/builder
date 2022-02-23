@@ -24,6 +24,7 @@ public class Lexeme implements Insertable
 
 	private final long luid;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Lexeme make(final LexemeType lexeme, final long luid)
 	{
 		var l = new Lexeme(lexeme, luid);
@@ -78,7 +79,7 @@ public class Lexeme implements Insertable
 
 	// O R D E R
 
-	public static Comparator<Lexeme> COMPARATOR = Comparator.comparing(Lexeme::getWord).thenComparing(Lexeme::getLuid);
+	public static final Comparator<Lexeme> COMPARATOR = Comparator.comparing(Lexeme::getWord).thenComparing(Lexeme::getLuid);
 
 	// I N S E R T
 

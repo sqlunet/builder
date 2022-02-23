@@ -94,7 +94,7 @@ public class Variables
 		}
 	}
 
-	private static boolean USE_BACKTICKS = true;
+	private static final boolean USE_BACKTICKS = true;
 
 	private static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
 

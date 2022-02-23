@@ -28,6 +28,7 @@ public class Frame implements HasID, Insertable
 
 	public final String definition;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Frame make(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
 	{
 		var f = new Frame(frame);

@@ -23,7 +23,7 @@ public class PmProcessor extends Processor
 
 	protected final Names names;
 
-	protected File outDir;
+	protected final File outDir;
 
 	protected final Properties conf;
 

@@ -31,16 +31,15 @@ public class BNCModule extends Module
 					new BNCUpdatingProcessor(props).run();
 					break;
 				default:
-					return;
 			}
 		}
-		catch (IOException | ClassNotFoundException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(final String[] args) throws IOException
+	public static void main(final String[] args)
 	{
 		int i = 0;
 		Mode mode = Mode.PLAIN;

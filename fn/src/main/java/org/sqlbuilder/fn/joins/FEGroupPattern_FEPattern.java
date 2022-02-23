@@ -14,6 +14,7 @@ public class FEGroupPattern_FEPattern extends Triple<FEGroupPattern, FERealizati
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FEGroupPattern_FEPattern make(final FEGroupPattern groupPattern, final FERealization fer, final ValenceUnit vu)
 	{
 		var p = new FEGroupPattern_FEPattern(groupPattern, fer, vu);

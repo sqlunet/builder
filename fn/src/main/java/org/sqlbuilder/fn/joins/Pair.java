@@ -1,6 +1,5 @@
 package org.sqlbuilder.fn.joins;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Pair<T, U>

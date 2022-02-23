@@ -16,9 +16,9 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, Str
 {
 	public static final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getPbRole).thenComparing(VnRoleAlias::getVnRole);
 
-	public static Set<VnRoleAlias> SET = new TreeSet<>(COMPARATOR);
+	public static final Set<VnRoleAlias> SET = new TreeSet<>(COMPARATOR);
 
-	public static Function<Pair<Pair<Integer, Integer>, Triplet<Integer, Integer, Integer>>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
+	public static final Function<Pair<Pair<Integer, Integer>, Triplet<Integer, Integer, Integer>>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
 			r == null ? //
 					"NULL,NULL,NULL,NULL" : //
 					String.format("%s,%s", //
@@ -31,6 +31,7 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, Str
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static VnRoleAlias make(final PbRole role, final VnRole vnRole)
 	{
 		var a = new VnRoleAlias(role, vnRole);

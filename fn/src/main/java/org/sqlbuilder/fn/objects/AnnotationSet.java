@@ -77,6 +77,7 @@ public class AnnotationSet implements HasID, Insertable
 
 	public final String cxnName;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid)
 	{
 		var a = new AnnotationSet(annoset, sentenceid);
@@ -176,8 +177,6 @@ public class AnnotationSet implements HasID, Insertable
 				Utils.nullableInt(frameid), //
 				Utils.zeroableInt(cxnid) //
 		);
-		// String(7, this.annoset.getStatus());
-		// String(8, this.annoset.getCDate());
 	}
 
 	@Override

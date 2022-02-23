@@ -1,6 +1,5 @@
 package org.sqlbuilder.pb.foreign;
 
-import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.pb.objects.Word;
 import org.sqlbuilder.pb.objects.RoleSet;
 

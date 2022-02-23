@@ -18,6 +18,7 @@ public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> impl
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FE_FEGroupRealization make(final FEValenceType fe, final FEGroupRealization fegr)
 	{
 		var fr = new FE_FEGroupRealization(fe.getName(), fegr);

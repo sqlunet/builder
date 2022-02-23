@@ -1,6 +1,5 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.*;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -79,27 +78,6 @@ public class RestrainedRole implements Comparable<RestrainedRole>
 	{
 		return COMPARATOR.compare(this, that);
 	}
-
-	/*
-	// I N S E R T
-
-	@RequiresIdFrom(type = RoleType.class)
-	@RequiresIdFrom(type = Restrs.class)
-	public String dataRow()
-	{
-		// id
-		// roleType.id
-		// restrs.id (or null)
-		return String.format("%d,%s", //
-				roleType.getIntId(), //
-				Utils.nullable(restrs, HasId::getSqlId));
-	}
-
-	public String comment()
-	{
-		return String.format("%s", roleType.getType());
-	}
-	*/
 
 	// T O S T R I N G
 

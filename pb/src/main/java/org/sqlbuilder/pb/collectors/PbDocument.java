@@ -62,6 +62,7 @@ public class PbDocument extends XmlDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Collection<RoleSet> makeRoleSets(final String head, final Node start) throws XPathExpressionException
 	{
 		List<RoleSet> result = null;
@@ -158,6 +159,7 @@ public class PbDocument extends XmlDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Collection<Role> makeRoles(final String head, final Node start) throws XPathExpressionException
 	{
 		List<Role> result = null;
@@ -231,6 +233,7 @@ public class PbDocument extends XmlDocument
 		}
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Collection<Example> makeExamples(final String head, final Node start) throws XPathExpressionException
 	{
 		List<Example> result = null;
@@ -312,6 +315,7 @@ public class PbDocument extends XmlDocument
 		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Collection<Arg> makeExampleArgs(final String head, final Node start) throws XPathExpressionException
 	{
 		List<Arg> result = null;

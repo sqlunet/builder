@@ -20,6 +20,7 @@ public class Sense implements Insertable, Resolvable<String, SimpleEntry<Integer
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Sense make(final Sensekey sensekey)
 	{
 		var m = new Sense(sensekey);

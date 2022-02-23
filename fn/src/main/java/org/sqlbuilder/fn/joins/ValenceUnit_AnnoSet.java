@@ -1,7 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.objects.AnnotationSet;
 import org.sqlbuilder.fn.objects.ValenceUnit;
 
 import java.util.HashSet;
@@ -13,6 +12,7 @@ public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements I
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static ValenceUnit_AnnoSet make(final ValenceUnit vu, final int annosetid)
 	{
 		var va = new ValenceUnit_AnnoSet(vu, annosetid);

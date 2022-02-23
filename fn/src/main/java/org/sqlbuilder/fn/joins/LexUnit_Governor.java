@@ -16,6 +16,7 @@ public class LexUnit_Governor extends Pair<Integer, Governor> implements Inserta
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static LexUnit_Governor make(final int luid, final Governor governor)
 	{
 		var ug = new LexUnit_Governor(luid, governor);

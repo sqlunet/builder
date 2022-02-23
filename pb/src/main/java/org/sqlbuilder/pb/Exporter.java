@@ -32,7 +32,7 @@ public class Exporter
 
 	protected final Names names;
 
-	protected File outDir;
+	protected final File outDir;
 
 	public Exporter(final Properties conf)
 	{

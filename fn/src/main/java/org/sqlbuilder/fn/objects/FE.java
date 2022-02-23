@@ -38,6 +38,7 @@ public class FE implements HasID, Insertable
 
 	private final int frameid;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static FE make(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
 	{
 		var e = new FE(fe, coreset, frameid);
@@ -112,7 +113,7 @@ public class FE implements HasID, Insertable
 
 	// O R D E R
 
-	public static Comparator<FE> COMPARATOR = Comparator.comparing(FE::getName).thenComparing(FE::getID);
+	public static final Comparator<FE> COMPARATOR = Comparator.comparing(FE::getName).thenComparing(FE::getID);
 
 	// I N S E R T
 
@@ -129,10 +130,6 @@ public class FE implements HasID, Insertable
 				coretype, //
 				Utils.nullableInt(coreset), //
 				frameid); //
-		// String(8, this.fe.getFgColor());
-		// String(9, this.fe.getBgColor());
-		// String(10, this.fe.getCDate());
-		// String(11, this.fe.getCBy());
 	}
 
 	@Override

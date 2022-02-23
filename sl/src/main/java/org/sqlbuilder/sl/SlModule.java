@@ -51,7 +51,6 @@ public class SlModule extends Module
 				break;
 
 			default:
-				return;
 		}
 	}
 

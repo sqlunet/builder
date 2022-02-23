@@ -25,6 +25,7 @@ public class Label implements Insertable
 
 	public final Layer layer;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Label make(final edu.berkeley.icsi.framenet.LabelType label, final Layer layer)
 	{
 		var l = new Label(label, layer);
@@ -58,9 +59,6 @@ public class Label implements Insertable
 				Utils.zeroableInt(start), //
 				Utils.zeroableInt(end), //
 				layer.getSqlId());
-		// String(8, this.label.getBgColor());
-		// String(9, this.label.getFgColor());
-		// String(10, this.label.getCBy());
 	}
 
 	@Override

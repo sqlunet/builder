@@ -22,6 +22,7 @@ public class Member implements Insertable, Comparable<Member>
 
 	// C O N S T R U C T O R
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Member make(final RoleSet roleSet, final Word word)
 	{
 		var m = new Member(roleSet, word);
