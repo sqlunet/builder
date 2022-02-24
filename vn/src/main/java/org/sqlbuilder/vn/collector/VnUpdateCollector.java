@@ -19,14 +19,11 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class VnUpdateCollector extends Processor
+public class VnUpdateCollector extends VnCollector
 {
-	protected final String verbNetHome;
-
 	public VnUpdateCollector(final Properties props)
 	{
-		super("vn");
-		this.verbNetHome = props.getProperty("vnhome", System.getenv().get("VNHOME"));
+		super(props);
 	}
 
 	@Override
@@ -55,8 +52,8 @@ public class VnUpdateCollector extends Processor
 		Progress.traceTailer(fileCount);
 	}
 
-	@SuppressWarnings("UnusedReturnValue")
-	private void processVerbNetFile(final String fileName, final String name)
+	@Override
+	protected void processVerbNetFile(final String fileName, final String name)
 	{
 		final String head = name.split("-")[0];
 		Progress.tracePending("verbnet",head);

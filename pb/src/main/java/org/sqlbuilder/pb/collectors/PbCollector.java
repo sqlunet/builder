@@ -24,14 +24,11 @@ public class PbCollector extends Processor
 
 	protected final String propBankHome;
 
-	protected int fileCount;
-
 	public PbCollector(final Properties conf)
 	{
 		super("pb");
 		this.conf = conf;
 		this.propBankHome = conf.getProperty("pb_home", System.getenv().get("PBHOME"));
-		this.fileCount = 0;
 	}
 
 	@Override
@@ -46,37 +43,33 @@ public class PbCollector extends Processor
 		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
-		this.fileCount = 0;
+		int fileCount = 0;
 		Progress.traceHeader("propbank", "reading files");
 		for (final File file : files)
 		{
-			this.fileCount += 1;
+			fileCount++;
 			processPropBankFile(file.getAbsolutePath(), file.getName());
-			Progress.trace(this.fileCount);
+			Progress.trace(fileCount);
 		}
-		Progress.traceTailer(this.fileCount);
+		Progress.traceTailer(fileCount);
 	}
 
-	@SuppressWarnings("UnusedReturnValue")
-	private int processPropBankFile(final String fileName, final String name)
+	private void processPropBankFile(final String fileName, final String name)
 	{
 		final String head = name.split("\\.")[0];
-		int count = 0;
 		try
 		{
 			final PbDocument document = new PbDocument(fileName);
-			count = processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head);
+			processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head);
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
 			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e);
 		}
-		return count;
 	}
 
-	protected int processFrameset(final PbDocument document, final Node start, final String head)
+	protected void processFrameset(final PbDocument document, final Node start, final String head)
 	{
-		long count = 0;
 		try
 		{
 			// predicates
@@ -94,7 +87,6 @@ public class PbCollector extends Processor
 						// Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
 					}
 				}
-				count += predicates.size();
 			}
 			final Collection<LexItem> aliasLexItems = PbDocument.getAliasPredicates(start);
 			if (aliasLexItems != null)
@@ -110,7 +102,6 @@ public class PbCollector extends Processor
 						// Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
 					}
 				}
-				count += aliasLexItems.size();
 			}
 
 			// rolesets
@@ -129,6 +120,5 @@ public class PbCollector extends Processor
 		{
 			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e);
 		}
-		return (int) count;
 	}
 }
