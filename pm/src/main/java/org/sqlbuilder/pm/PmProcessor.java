@@ -1,6 +1,7 @@
 package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.*;
+import org.sqlbuilder.pm.PmModule;
 import org.sqlbuilder.pm.objects.PmEntry;
 import org.sqlbuilder.pm.objects.PmRole;
 

@@ -18,7 +18,7 @@ public class PmResolvingProcessor extends PmProcessor
 {
 	protected final Names names;
 
-	protected final File outDir;
+	protected File outDir;
 
 	protected final String wordSerFile;
 
@@ -99,22 +99,25 @@ public class PmResolvingProcessor extends PmProcessor
 				processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), (entry, i) -> {
 
 					var wordid = wordResolver.apply(entry.word);
-					var vnWordid = this.vnWordResolver.apply(entry.word);
-					var pbWordid = this.pbWordResolver.apply(entry.word);
-					var fnWordid = this.fnWordResolver.apply(entry.word);
 					var sk = sensekeyResolver.apply(entry.sensekey);
+
+					var vnWordid = this.vnWordResolver.apply(entry.word);
 					var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.theta));
+					var pbWordid = this.pbWordResolver.apply(entry.word);
 					var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
+					var fnWordid = this.fnWordResolver.apply(entry.word);
 					var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
 
 					var wordResolved = Utils.nullableInt(wordid);
+					var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
+
 					var vnWordResolved = Utils.nullableInt(vnWordid);
 					var pbWordResolved = Utils.nullableInt(pbWordid);
 					var fnWordResolved = Utils.nullableInt(fnWordid);
-					var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
 					var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.first), Utils.nullableInt(vn.second)));
 					var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.first), Utils.nullableInt(pb.second)));
 					var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.first), Utils.nullableInt(fn.second), Utils.nullableInt(fn.third)));
+
 					insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, vnWordResolved, pbWordResolved, fnWordResolved, senseResolved, vnResolved, pbResolved, fnResolved));
 				});
 			}

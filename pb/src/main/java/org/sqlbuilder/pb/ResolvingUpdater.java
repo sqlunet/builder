@@ -21,7 +21,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		super(conf);
 
 		// output
-		this.outDir = new File(conf.getProperty("pb_outdir_updated", "sql/data_updated"));
+		this.outDir = new File(conf.getProperty("pm_outdir_updated", "sql/data_updated"));
 		if (!this.outDir.exists())
 		{
 			this.outDir.mkdirs();
