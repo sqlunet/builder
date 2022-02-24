@@ -30,7 +30,7 @@ public class PbUpdatingProcessor extends Processor
 	{
 		super("pb");
 		this.conf = conf;
-		this.propBankHome = conf.getProperty("pbhome", System.getenv().get("PBHOME"));
+		this.propBankHome = conf.getProperty("pb_home", System.getenv().get("PBHOME"));
 		this.fileCount = 0;
 	}
 
@@ -50,7 +50,6 @@ public class PbUpdatingProcessor extends Processor
 		{
 			this.fileCount += 1;
 			processPropBankFile(file.getAbsolutePath(), file.getName());
-
 			Progress.trace(this.fileCount);
 		}
 		Progress.traceTailer(this.fileCount);

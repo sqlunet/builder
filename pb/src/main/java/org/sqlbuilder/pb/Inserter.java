@@ -73,7 +73,7 @@ public class Inserter
 			insertWords();
 			insertFnAliases();
 			insertVnAliases();
-			insertVnAliasRoles();
+			insertVnRoleAliases();
 		}
 		Progress.traceTailer("inserts", "done");
 	}
@@ -99,7 +99,7 @@ public class Inserter
 		Progress.traceDone(null);
 	}
 
-	protected void insertVnAliasRoles() throws FileNotFoundException
+	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));

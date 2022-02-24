@@ -90,7 +90,7 @@ public class ResolvingInserter extends Inserter
 	}
 
 	@Override
-	protected void insertVnAliasRoles() throws FileNotFoundException
+	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //

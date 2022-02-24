@@ -52,7 +52,6 @@ public class PbProcessor extends Processor
 		{
 			this.fileCount += 1;
 			processPropBankFile(file.getAbsolutePath(), file.getName());
-
 			Progress.trace(this.fileCount);
 		}
 		Progress.traceTailer(this.fileCount);

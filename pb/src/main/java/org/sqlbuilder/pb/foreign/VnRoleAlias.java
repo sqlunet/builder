@@ -102,9 +102,10 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>,
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", //
+		return String.format("%s,%s,%s", //
 				role.getRoleSet().getName(), //
-				role);
+				role.getArgn(),
+				role.getTheta());
 	}
 
 	// R E S O L V E

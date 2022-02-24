@@ -17,6 +17,13 @@ public class BNCUpdatingProcessor extends BNCResolvingProcessor
 	public BNCUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
+
+		// output
+		this.outDir = new File(conf.getProperty("bnc_outdir_updated", "sql/data_updated"));
+		if (!this.outDir.exists())
+		{
+			this.outDir.mkdirs();
+		}
 	}
 
 	@Override

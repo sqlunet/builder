@@ -19,6 +19,13 @@ public class ResolvingUpdater extends ResolvingInserter
 	public ResolvingUpdater(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
+
+		// output
+		this.outDir = new File(conf.getProperty("pb_outdir_updated", "sql/data_updated"));
+		if (!this.outDir.exists())
+		{
+			this.outDir.mkdirs();
+		}
 	}
 
 	@Override
@@ -27,7 +34,9 @@ public class ResolvingUpdater extends ResolvingInserter
 		try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
 		{
 			insertWords();
-			this.insertFnAliases();
+			insertFnAliases();
+			insertVnAliases();
+			insertVnRoleAliases();
 		}
 	}
 
@@ -68,14 +77,14 @@ public class ResolvingUpdater extends ResolvingInserter
 	}
 
 	@Override
-	protected void insertVnAliasRoles() throws FileNotFoundException
+	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		final String vnroleidCol = names.column("pbroles_vnroles.roleid");
 		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
 				vnClassRoleResolver, //
 				resolved -> vnroleidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				names.column("pbroles_vnroles.role"));
+				names.column("pbroles_vnroles.vntheta"));
 		Progress.traceDone(null);
 	}
 }
