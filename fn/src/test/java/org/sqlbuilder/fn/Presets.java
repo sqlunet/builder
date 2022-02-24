@@ -1,9 +1,8 @@
 package org.sqlbuilder.fn;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.sqlbuilder.fn.collectors.FnEnumProcessor;
+import org.sqlbuilder.fn.collectors.FnEnumCollector;
 import org.sqlbuilder.fn.objects.Values;
 
 public class Presets
@@ -11,14 +10,14 @@ public class Presets
 	@BeforeClass
 	public static void init()
 	{
-		new FnEnumProcessor().run();
+		new FnEnumCollector().run();
 	}
 
 	@Test
 	public void presetsPoses()
 	{
 		System.out.println("\nPOSes:");
-		for (final String s : FnEnumProcessor.getCoreTypes())
+		for (final String s : FnEnumCollector.getCoreTypes())
 		{
 			System.out.println(s);
 		}
@@ -34,7 +33,7 @@ public class Presets
 	public void presetsCoreTypes()
 	{
 		System.out.println("\nCORETYPEs:");
-		for (final String s : FnEnumProcessor.getCoreTypes())
+		for (final String s : FnEnumCollector.getCoreTypes())
 		{
 			System.out.println(s);
 		}
@@ -50,7 +49,7 @@ public class Presets
 	public void presetsITypes()
 	{
 		System.out.println("\nLABELITYPEs:");
-		for (final String s : FnEnumProcessor.getLabelITypes())
+		for (final String s : FnEnumCollector.getLabelITypes())
 		{
 			System.out.println(s);
 		}

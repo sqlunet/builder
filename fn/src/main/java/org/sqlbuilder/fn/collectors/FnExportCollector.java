@@ -4,11 +4,12 @@ import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.joins.*;
+import org.sqlbuilder.fn.joins.FE_FEExcluded;
+import org.sqlbuilder.fn.joins.FE_FERequired;
+import org.sqlbuilder.fn.joins.FE_SemType;
+import org.sqlbuilder.fn.joins.Frame_SemType;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
-import org.sqlbuilder.fn.objects.LexUnit;
-import org.sqlbuilder.fn.objects.Lexeme;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -21,11 +22,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FrameDocument;
 
-public class FnFrameProcessor extends FnProcessor
+public class FnExportCollector extends FnCollector
 {
+	@SuppressWarnings("FieldCanBeLocal")
 	private final boolean skipLexUnits;
 
-	public FnFrameProcessor(final Properties props)
+	public FnExportCollector(final Properties props)
 	{
 		super("frame", props, "frame");
 		this.skipLexUnits = props.getProperty("fnskiplu", "true").compareToIgnoreCase("true") == 0;
@@ -97,40 +99,6 @@ public class FnFrameProcessor extends FnProcessor
 				for (var _excludedfe : _fe.getExcludesFEArray())
 				{
 					FE_FEExcluded.make(feid, _excludedfe);
-				}
-			}
-
-			// R E L A T E D F R A M E S
-
-			for (var _framerelations : _frame.getFrameRelationArray())
-			{
-				final String relation = _framerelations.getType();
-				for (var _relatedframe : _framerelations.getRelatedFrameArray())
-				{
-					Frame_FrameRelated.make(frameid, _relatedframe, relation);
-				}
-			}
-
-			// L E X U N I T S
-
-			if (!this.skipLexUnits)
-			{
-				for (var _lexunit : _frame.getLexUnitArray())
-				{
-					final int luid = _lexunit.getID();
-					LexUnit.make(_lexunit, frameid, _frame.getName());
-
-					// lexemes
-					for (var _lexeme : _lexunit.getLexemeArray())
-					{
-						Lexeme.make(_lexeme, luid);
-					}
-
-					// semtypes
-					for (var _semtype : _lexunit.getSemTypeArray())
-					{
-						LexUnit_SemType.make(luid, _semtype);
-					}
 				}
 			}
 		}

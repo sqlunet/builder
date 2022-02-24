@@ -1,9 +1,9 @@
 package org.sqlbuilder.pb.collectors;
 
-import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.pb.PbModule;
 import org.sqlbuilder.pb.objects.LexItem;
 import org.sqlbuilder.pb.objects.Predicate;
@@ -18,7 +18,7 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class PbUpdatingProcessor extends Processor
+public class PbCollector extends Processor
 {
 	protected final Properties conf;
 
@@ -26,7 +26,7 @@ public class PbUpdatingProcessor extends Processor
 
 	protected int fileCount;
 
-	public PbUpdatingProcessor(final Properties conf)
+	public PbCollector(final Properties conf)
 	{
 		super("pb");
 		this.conf = conf;
@@ -41,7 +41,9 @@ public class PbUpdatingProcessor extends Processor
 		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
+		{
 			return;
+		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
 		this.fileCount = 0;

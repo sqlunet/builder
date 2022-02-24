@@ -19,11 +19,11 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class VnUpdatingProcessor extends Processor
+public class VnUpdateCollector extends Processor
 {
 	protected final String verbNetHome;
 
-	public VnUpdatingProcessor(final Properties props)
+	public VnUpdateCollector(final Properties props)
 	{
 		super("vn");
 		this.verbNetHome = props.getProperty("vnhome", System.getenv().get("VNHOME"));

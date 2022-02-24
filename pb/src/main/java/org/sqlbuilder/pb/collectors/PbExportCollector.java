@@ -16,7 +16,7 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class PbExportingProcessor extends Processor
+public class PbExportCollector extends Processor
 {
 	protected final Properties conf;
 
@@ -24,7 +24,7 @@ public class PbExportingProcessor extends Processor
 
 	protected int fileCount;
 
-	public PbExportingProcessor(final Properties conf)
+	public PbExportCollector(final Properties conf)
 	{
 		super("pb");
 		this.conf = conf;

@@ -13,9 +13,9 @@ import java.util.Properties;
 
 import edu.berkeley.icsi.framenet.SemTypesDocument;
 
-public class FnSemTypeProcessor extends FnProcessor1
+public class FnSemTypeCollector extends FnCollector1
 {
-	public FnSemTypeProcessor(final String filename, final Properties props)
+	public FnSemTypeCollector(final String filename, final Properties props)
 	{
 		super(filename, props, "semtype");
 	}

@@ -18,11 +18,11 @@ import edu.berkeley.icsi.framenet.LexUnitDocument;
 import edu.berkeley.icsi.framenet.ValenceUnitType;
 import edu.berkeley.icsi.framenet.ValencesType;
 
-public class FnLexUnitProcessor extends FnProcessor
+public class FnLexUnitCollector extends FnCollector
 {
 	private final boolean skipLayers;
 
-	public FnLexUnitProcessor(final Properties props)
+	public FnLexUnitCollector(final Properties props)
 	{
 		super("lu", props, "lu");
 		this.skipLayers = props.getProperty("fn_skip_layers", "").compareToIgnoreCase("true") == 0;

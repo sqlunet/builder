@@ -17,9 +17,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class VnExportingProcessor extends VnProcessor
+public class VnExportCollector extends VnCollector
 {
-	public VnExportingProcessor(final Properties props)
+	public VnExportCollector(final Properties props)
 	{
 		super(props);
 	}

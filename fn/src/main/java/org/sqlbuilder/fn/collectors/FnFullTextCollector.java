@@ -16,9 +16,9 @@ import edu.berkeley.icsi.framenet.FullTextAnnotationDocument.FullTextAnnotation;
 import edu.berkeley.icsi.framenet.HeaderType;
 import edu.berkeley.icsi.framenet.HeaderType.Frame;
 
-public class FnFullTextProcessor extends FnProcessor
+public class FnFullTextCollector extends FnCollector
 {
-	public FnFullTextProcessor(final Properties props)
+	public FnFullTextCollector(final Properties props)
 	{
 		super("fulltext", props, "fulltext");
 	}

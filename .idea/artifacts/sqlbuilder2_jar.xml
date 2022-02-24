@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="sqlbuilder2:jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="sqlbuilder2.jar">
+      <element id="module-output" name="foreign" />
+      <element id="module-output" name="bnc" />
+      <element id="module-output" name="common" />
+      <element id="module-output" name="sl" />
+      <element id="module-output" name="fn-jaxb" />
+      <element id="module-output" name="sn" />
+      <element id="module-output" name="vn" />
+      <element id="module-output" name="fn" />
+      <element id="module-output" name="fn-beans" />
+      <element id="module-output" name="pm" />
+      <element id="module-output" name="pb" />
+      <element id="module-output" name="legacy" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/xmlbeans/xmlbeans/5.0.3/xmlbeans-5.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.17.1/log4j-core-2.17.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-core/3.0.1/jaxb-core-3.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/3.0.1/jaxb-impl-3.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

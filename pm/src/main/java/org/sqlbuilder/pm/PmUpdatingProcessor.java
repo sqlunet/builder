@@ -32,7 +32,8 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		var inputFile = new File(pMHome, pMFile);
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("pms.wn"))), true, StandardCharsets.UTF_8))
 		{
-			processPmFile(ps, inputFile, (entry, i) -> updateWordSenseRow(ps, names.table("pms"), i, entry, //
+			processPmFile(inputFile, (entry, i) -> updateWordSenseRow(ps, //
+					names.table("pms"), i, entry, //
 					names.column("pms.wordid"), //
 					names.column("pms.synsetid"), //
 					names.column("pms.word"), //
@@ -41,28 +42,26 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("pms.xn"))), true, StandardCharsets.UTF_8))
 		{
-			processPmFile(ps, inputFile, (entry, i) -> {
-
-				updateVnPbFnRow(ps, names.table("pms"), i, entry, //
-						names.column("pms.vnwordid"), //
-						names.column("pms.pbwordid"), //
-						names.column("pms.fnwordid"), //
-						names.column("pms.vnclassid"), //
-						names.column("pms.vnroleid"), //
-						names.column("pms.pbrolesetid"), //
-						names.column("pms.pbroleid"), //
-						names.column("pms.fnframeid"), //
-						names.column("pms.fnfeid"), //
-						names.column("pms.fnluid"), //
-						names.column("pms.word"), //
-						names.column("pms.vnclass"), //
-						names.column("pms.vnrole"), //
-						names.column("pms.pbroleset"), //
-						names.column("pms.pbrole"), //
-						names.column("pms.fnframe"), //
-						names.column("pms.fnfe") //
-				);
-			});
+			processPmFile(inputFile, (entry, i) -> updateVnPbFnRow(ps, //
+					names.table("pms"), i, entry, //
+					names.column("pms.vnwordid"), //
+					names.column("pms.pbwordid"), //
+					names.column("pms.fnwordid"), //
+					names.column("pms.vnclassid"), //
+					names.column("pms.vnroleid"), //
+					names.column("pms.pbrolesetid"), //
+					names.column("pms.pbroleid"), //
+					names.column("pms.fnframeid"), //
+					names.column("pms.fnfeid"), //
+					names.column("pms.fnluid"), //
+					names.column("pms.word"), //
+					names.column("pms.vnclass"), //
+					names.column("pms.vnrole"), //
+					names.column("pms.pbroleset"), //
+					names.column("pms.pbrole"), //
+					names.column("pms.fnframe"), //
+					names.column("pms.fnfe") //
+			));
 		}
 	}
 
@@ -71,14 +70,14 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		var wordid = wordResolver.apply(entry.word);
 		var wordResolved = Utils.nullableInt(wordid);
 		var sk = sensekeyResolver.apply(entry.sensekey);
-		var senseResolved = sk == null ? "NULL" : Utils.nullableInt(sk.getValue());
+		var senseResolved = Utils.nullable(sk, x -> Utils.nullableInt(x.getValue()));
 
 		var setClause = String.format("%s=%s,%s=%s ", //
 				columns[0], wordResolved, //
 				columns[1], senseResolved);
-		var whereClause = String.format("%s=%s,%s=%s", //
+		var whereClause = String.format("%s=%s AND %s=%s", //
 				columns[2], Utils.quote(Utils.escape(entry.word)), //
-				columns[3], entry.sensekey == null ? "NULL" : Utils.quote(Utils.escape(Utils.escape(entry.sensekey))) //
+				columns[3], Utils.nullable(entry.sensekey, x -> Utils.quote(Utils.escape(Utils.escape(x)))) //
 		);
 		ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
 	}
@@ -95,27 +94,27 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		var setClause = String.format("%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s", columns[0], Utils.nullableInt(vnWordid), //
 				columns[1], Utils.nullableInt(pbWordid), //
 				columns[2], Utils.nullableInt(fnWordid), //
-				columns[3], vn == null ? "NULL" : Utils.nullableInt(vn.first), //
-				columns[4], vn == null ? "NULL" : Utils.nullableInt(vn.second), //
-				columns[5], pb == null ? "NULL" : Utils.nullableInt(pb.first), //
-				columns[6], pb == null ? "NULL" : Utils.nullableInt(pb.second), //
-				columns[7], fn == null ? "NULL" : Utils.nullableInt(fn.first), //
-				columns[8], fn == null ? "NULL" : Utils.nullableInt(fn.second), //
-				columns[9], fn == null ? "NULL" : Utils.nullableInt(fn.third) //
+				columns[3], Utils.nullable(vn, x -> Utils.nullableInt(x.first)), //
+				columns[4], Utils.nullable(vn, x -> Utils.nullableInt(x.second)), //
+				columns[5], Utils.nullable(pb, x -> Utils.nullableInt(x.first)), //
+				columns[6], Utils.nullable(pb, x -> Utils.nullableInt(x.second)), //
+				columns[7], Utils.nullable(fn, x -> Utils.nullableInt(x.first)), //
+				columns[8], Utils.nullable(fn, x -> Utils.nullableInt(x.second)), //
+				columns[9], Utils.nullable(fn, x -> Utils.nullableInt(x.third)) //
 		);
-		var whereClause = String.format("%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s,%s=%s", //
-				columns[10], entry.word == null ? "NULL" : Utils.quote(Utils.escape(entry.word)), //
-				columns[11], entry.vn.clazz == null ? "NULL" : Utils.quote(Utils.escape(entry.vn.clazz)), //
-				columns[12], entry.vn.theta == null ? "NULL" : Utils.quote(Utils.escape(entry.vn.theta)), //
-				columns[13], entry.pb.roleset == null ? "NULL" : Utils.quote(Utils.escape(entry.pb.roleset)), //
-				columns[14], entry.pb.arg == null ? "NULL" : Utils.quote(Utils.escape(entry.pb.arg)), //
-				columns[15], entry.fn.frame == null ? "NULL" : Utils.quote(Utils.escape(entry.fn.frame)), //
-				columns[16], entry.fn.fetype == null ? "NULL" : Utils.quote(Utils.escape(entry.fn.fetype)) //
+		var whereClause = String.format("%s=%s AND %s=%s AND %s=%s AND %s=%s AND %s=%s AND %s=%s AND %s=%s", //
+				columns[10], Utils.nullable(entry.word, x -> Utils.quote(Utils.escape(x))), //
+				columns[11], Utils.nullable(entry.vn.clazz, x -> Utils.quote(Utils.escape(x))), //
+				columns[12], Utils.nullable(entry.vn.theta, x -> Utils.quote(Utils.escape(x))), //
+				columns[13], Utils.nullable(entry.pb.roleset, x -> Utils.quote(Utils.escape(x))), //
+				columns[14], Utils.nullable(entry.pb.arg, x -> Utils.quote(Utils.escape(x))), //
+				columns[15], Utils.nullable(entry.fn.frame, x -> Utils.quote(Utils.escape(x))), //
+				columns[16], Utils.nullable(entry.fn.fetype, x -> Utils.quote(Utils.escape(x))) //
 		);
 		ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
 	}
 
-	protected void processPmFile(final PrintStream ps, final File file, final BiConsumer<PmEntry, Integer> consumer) throws IOException
+	protected void processPmFile(final File file, final BiConsumer<PmEntry, Integer> consumer) throws IOException
 	{
 		process(file, PmEntry::parse, consumer);
 	}

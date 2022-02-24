@@ -13,9 +13,9 @@ import java.util.Properties;
 import edu.berkeley.icsi.framenet.LexUnitDocument;
 import edu.berkeley.icsi.framenet.ValencesType;
 
-public class FnWordProcessor extends FnProcessor
+public class FnWordCollector extends FnCollector
 {
-	public FnWordProcessor(final Properties props)
+	public FnWordCollector(final Properties props)
 	{
 		super("lu", props, "w");
 	}

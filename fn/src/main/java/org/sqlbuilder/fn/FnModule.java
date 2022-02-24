@@ -23,11 +23,11 @@ public class FnModule extends Module
 		{
 			case PLAIN:
 			case RESOLVE:
-				new FnEnumProcessor().run();
-				new FnSemTypeProcessor("semTypes.xml", props).run();
-				new FnFrameProcessor(props).run();
-				new FnLexUnitProcessor(props).run();
-				new FnFullTextProcessor(props).run();
+				new FnEnumCollector().run();
+				new FnSemTypeCollector("semTypes.xml", props).run();
+				new FnFrameCollector(props).run();
+				new FnLexUnitCollector(props).run();
+				new FnFullTextCollector(props).run();
 				try
 				{
 					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
@@ -40,7 +40,7 @@ public class FnModule extends Module
 				break;
 
 			case UPDATE:
-				new FnWordProcessor(props).run();
+				new FnWordCollector(props).run();
 				try
 				{
 					Inserter inserter = new ResolvingUpdater(props);
@@ -53,8 +53,8 @@ public class FnModule extends Module
 				break;
 
 			case EXPORT:
-				new FnExportingProcessor(props).run();
-				new FnWordProcessor(props).run();
+				new FnExportCollector(props).run();
+				new FnWordCollector(props).run();
 				try
 				{
 					Exporter exporter = new Exporter(props);

@@ -9,9 +9,9 @@ import org.sqlbuilder.fn.objects.Values;
 import edu.berkeley.icsi.framenet.LabelType;
 import edu.berkeley.icsi.framenet.POSType;
 
-public class FnEnumProcessor extends Processor
+public class FnEnumCollector extends Processor
 {
-	public FnEnumProcessor()
+	public FnEnumCollector()
 	{
 		super("preset");
 	}

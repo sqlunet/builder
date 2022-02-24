@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class FnProcessor extends Processor
+public abstract class FnCollector extends Processor
 {
 	protected final String fnHome;
 
@@ -20,7 +20,7 @@ public abstract class FnProcessor extends Processor
 
 	protected final int fileCount;
 
-	public FnProcessor(final String subDir, final Properties props, final String tag)
+	public FnCollector(final String subDir, final Properties props, final String tag)
 	{
 		super(tag);
 		this.fnHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));

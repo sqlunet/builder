@@ -1,9 +1,9 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.vn.collector.VnExportingProcessor;
-import org.sqlbuilder.vn.collector.VnProcessor;
-import org.sqlbuilder.vn.collector.VnUpdatingProcessor;
+import org.sqlbuilder.vn.collector.VnExportCollector;
+import org.sqlbuilder.vn.collector.VnCollector;
+import org.sqlbuilder.vn.collector.VnUpdateCollector;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ public class VnModule extends Module
 		{
 			case PLAIN:
 			case RESOLVE:
-				new VnProcessor(props).run();
+				new VnCollector(props).run();
 				try
 				{
 					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
@@ -38,7 +38,7 @@ public class VnModule extends Module
 				break;
 
 			case UPDATE:
-				new VnUpdatingProcessor(props).run();
+				new VnUpdateCollector(props).run();
 				try
 				{
 					Inserter inserter = new ResolvingUpdater(props);
@@ -51,7 +51,7 @@ public class VnModule extends Module
 				break;
 
 			case EXPORT:
-				new VnExportingProcessor(props).run();
+				new VnExportCollector(props).run();
 				try
 				{
 					Exporter exporter = new Exporter(props);

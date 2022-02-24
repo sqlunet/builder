@@ -22,11 +22,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class VnProcessor extends Processor
+public class VnCollector extends Processor
 {
 	protected final String verbNetHome;
 
-	public VnProcessor(final Properties props)
+	public VnCollector(final Properties props)
 	{
 		super("vn");
 		this.verbNetHome = props.getProperty("vnhome", System.getenv().get("VNHOME"));

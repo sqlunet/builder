@@ -1,9 +1,9 @@
 package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.pb.collectors.PbExportingProcessor;
-import org.sqlbuilder.pb.collectors.PbProcessor;
-import org.sqlbuilder.pb.collectors.PbUpdatingProcessor;
+import org.sqlbuilder.pb.collectors.PbExportCollector;
+import org.sqlbuilder.pb.collectors.PbCollector;
+import org.sqlbuilder.pb.collectors.PbUpdateCollector;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ public class PbModule extends Module
 		{
 			case PLAIN:
 			case RESOLVE:
-				new PbProcessor(props).run();
+				new PbCollector(props).run();
 				try
 				{
 					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
@@ -38,7 +38,7 @@ public class PbModule extends Module
 				break;
 
 			case UPDATE:
-				new PbUpdatingProcessor(props).run();
+				new PbUpdateCollector(props).run();
 					try
 				{
 					Inserter inserter = new ResolvingUpdater(props);
@@ -51,7 +51,7 @@ public class PbModule extends Module
 				break;
 
 			case EXPORT:
-				new PbExportingProcessor(props).run();
+				new PbExportCollector(props).run();
 				try
 				{
 					Exporter exporter = new Exporter(props);
