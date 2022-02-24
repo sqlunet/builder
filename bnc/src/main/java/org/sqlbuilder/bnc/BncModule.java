@@ -4,11 +4,11 @@ import org.sqlbuilder.common.Module;
 
 import java.io.IOException;
 
-public class BNCModule extends Module
+public class BncModule extends Module
 {
 	public static final String MODULE_ID = "bnc";
 
-	protected BNCModule(final String conf, final Mode mode)
+	protected BncModule(final String conf, final Mode mode)
 	{
 		super(MODULE_ID, conf, mode);
 	}
@@ -22,13 +22,13 @@ public class BNCModule extends Module
 			switch (mode)
 			{
 				case PLAIN:
-					new BNCProcessor(props).run();
+					new BncProcessor(props).run();
 					break;
 				case RESOLVE:
-					new BNCResolvingProcessor(props).run();
+					new BncResolvingProcessor(props).run();
 					break;
 				case UPDATE:
-					new BNCUpdatingProcessor(props).run();
+					new BncUpdatingProcessor(props).run();
 					break;
 				default:
 			}
@@ -48,6 +48,6 @@ public class BNCModule extends Module
 			mode = Mode.read(args[i++]);
 		}
 		String conf = args[i];
-		new BNCModule(conf, mode).run();
+		new BncModule(conf, mode).run();
 	}
 }

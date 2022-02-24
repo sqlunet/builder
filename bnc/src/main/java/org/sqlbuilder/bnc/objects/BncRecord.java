@@ -5,16 +5,16 @@ import org.sqlbuilder.common.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BNCRecord implements Insertable
+public class BncRecord implements Insertable
 {
 	protected static final Map<String, Character> posMap = new HashMap<>();
 
 	static
 	{
-		BNCRecord.posMap.put("Adj", 'a');
-		BNCRecord.posMap.put("Adv", 'r');
-		BNCRecord.posMap.put("Verb", 'v');
-		BNCRecord.posMap.put("NoC", 'n');
+		BncRecord.posMap.put("Adj", 'a');
+		BncRecord.posMap.put("Adv", 'r');
+		BncRecord.posMap.put("Verb", 'v');
+		BncRecord.posMap.put("NoC", 'n');
 		// "VMod"
 		// "NoP"
 		// "NoP-"
@@ -52,7 +52,7 @@ public class BNCRecord implements Insertable
 
 	// C O N S T R U C T O R
 
-	protected BNCRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion)
+	protected BncRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion)
 	{
 		this.word = lemma;
 		this.pos = pos;
@@ -84,7 +84,7 @@ public class BNCRecord implements Insertable
 	@                       @       abandonment     5       89      0.92
 	@                       @       abandonments    0       1       0.00
 	*/
-	public static BNCRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
+	public static BncRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
 	{
 		final String[] fields = line.split("\\t+");
 		if (fields.length != 7)
@@ -101,14 +101,14 @@ public class BNCRecord implements Insertable
 		String word = field1;
 		if (word.equals("@"))
 		{
-			word = BNCRecord.lastLemma;
+			word = BncRecord.lastLemma;
 		}
 		if (bncPos.equals("@"))
 		{
-			bncPos = BNCRecord.lastPos;
+			bncPos = BncRecord.lastPos;
 		}
-		BNCRecord.lastLemma = word;
-		BNCRecord.lastPos = bncPos;
+		BncRecord.lastLemma = word;
+		BncRecord.lastPos = bncPos;
 
 		// do not process variants
 		if (!inflectedForm.equals("%"))
@@ -118,7 +118,7 @@ public class BNCRecord implements Insertable
 
 		// convert data
 		final String lemma = makeLemma(word);
-		final Character pos = BNCRecord.posMap.get(bncPos);
+		final Character pos = BncRecord.posMap.get(bncPos);
 		if (pos == null)
 		{
 			throw new NotFoundException(bncPos);
@@ -129,7 +129,7 @@ public class BNCRecord implements Insertable
 		final int range = Integer.parseInt(fields[5]);
 		final float dispersion = Float.parseFloat(fields[6]);
 
-		return new BNCRecord(lemma, pos, freq, range, dispersion);
+		return new BncRecord(lemma, pos, freq, range, dispersion);
 	}
 
 	static String makeLemma(String word)

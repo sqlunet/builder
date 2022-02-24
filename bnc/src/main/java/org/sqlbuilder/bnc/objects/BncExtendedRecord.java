@@ -2,7 +2,7 @@ package org.sqlbuilder.bnc.objects;
 
 import org.sqlbuilder.common.*;
 
-public class BNCExtendedRecord extends BNCRecord
+public class BncExtendedRecord extends BncRecord
 {
 	protected final int freq2;
 
@@ -12,7 +12,7 @@ public class BNCExtendedRecord extends BNCRecord
 
 	protected final float lL;
 
-	protected BNCExtendedRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion, final int freq2, final int range2, final float dispersion2, final float lL)
+	protected BncExtendedRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion, final int freq2, final int range2, final float dispersion2, final float lL)
 	{
 		super(lemma, pos, freq, range, dispersion);
 		this.freq2 = freq2;
@@ -21,7 +21,7 @@ public class BNCExtendedRecord extends BNCRecord
 		this.lL = lL;
 	}
 
-	public static BNCExtendedRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
+	public static BncExtendedRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
 	{
 		final String[] fields = line.split("\\t+");
 		if (fields.length != 12)
@@ -37,14 +37,14 @@ public class BNCExtendedRecord extends BNCRecord
 		// expand tab placeholders (do not move: this is a reference to previous line/chain of lines)
 		if (word.equals("@"))
 		{
-			word = BNCRecord.lastLemma;
+			word = BncRecord.lastLemma;
 		}
 		if (word.equals("@"))
 		{
-			word = BNCRecord.lastPos;
+			word = BncRecord.lastPos;
 		}
-		BNCRecord.lastLemma = word;
-		BNCRecord.lastPos = bncPos;
+		BncRecord.lastLemma = word;
+		BncRecord.lastPos = bncPos;
 
 		// do not process variants
 		if (!inflectedForm.equals("%"))
@@ -54,7 +54,7 @@ public class BNCExtendedRecord extends BNCRecord
 
 		// convert data
 		final String lemma = makeLemma(word);
-		final Character pos = BNCRecord.posMap.get(bncPos);
+		final Character pos = BncRecord.posMap.get(bncPos);
 		if (pos == null)
 		{
 			throw new NotFoundException(bncPos);
@@ -76,7 +76,7 @@ public class BNCExtendedRecord extends BNCRecord
 		final int range2 = Integer.parseInt(fields[10]);
 		final float dispersion2 = Float.parseFloat(fields[11]);
 
-		return new BNCExtendedRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
+		return new BncExtendedRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
 	}
 
 	// I N S E R T

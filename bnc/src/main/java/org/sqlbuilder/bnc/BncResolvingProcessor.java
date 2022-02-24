@@ -1,7 +1,7 @@
 package org.sqlbuilder.bnc;
 
-import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
-import org.sqlbuilder.bnc.objects.BNCRecord;
+import org.sqlbuilder.bnc.objects.BncExtendedRecord;
+import org.sqlbuilder.bnc.objects.BncRecord;
 import org.sqlbuilder.common.NotFoundException;
 import org.sqlbuilder.common.ThrowingBiConsumer;
 import org.sqlbuilder.common.Utils;
@@ -13,13 +13,13 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-public class BNCResolvingProcessor extends BNCProcessor
+public class BncResolvingProcessor extends BncProcessor
 {
 	protected final String serFile;
 
 	protected final BncWordResolver wordResolver;
 
-	public BNCResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	public BncResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
@@ -65,7 +65,7 @@ public class BNCResolvingProcessor extends BNCProcessor
 		}
 	}
 
-	private void resolveAndInsert(final PrintStream ps, final BNCRecord record, final int i) throws NotFoundException
+	private void resolveAndInsert(final PrintStream ps, final BncRecord record, final int i) throws NotFoundException
 	{
 		var nr = record.dataRow();
 		var r = wordResolver.apply(record.word);
@@ -79,18 +79,18 @@ public class BNCResolvingProcessor extends BNCProcessor
 	}
 
 	@Override
-	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BNCRecord::parse, consumer);
+		process(file, BncRecord::parse, consumer);
 		ps.print(';');
 	}
 
 	@Override
-	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BNCExtendedRecord::parse, consumer);
+		process(file, BncExtendedRecord::parse, consumer);
 		ps.print(';');
 	}
 }

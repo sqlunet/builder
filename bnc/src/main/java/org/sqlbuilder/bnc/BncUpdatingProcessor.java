@@ -1,7 +1,7 @@
 package org.sqlbuilder.bnc;
 
-import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
-import org.sqlbuilder.bnc.objects.BNCRecord;
+import org.sqlbuilder.bnc.objects.BncExtendedRecord;
+import org.sqlbuilder.bnc.objects.BncRecord;
 import org.sqlbuilder.common.ThrowingBiConsumer;
 import org.sqlbuilder.common.Utils;
 
@@ -12,9 +12,9 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-public class BNCUpdatingProcessor extends BNCResolvingProcessor
+public class BncUpdatingProcessor extends BncResolvingProcessor
 {
-	public BNCUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	public BncUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
@@ -56,19 +56,19 @@ public class BNCUpdatingProcessor extends BNCResolvingProcessor
 		}
 	}
 
-	private void processBNCFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	private void processBNCFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), this.serFile);
-		process(file, BNCRecord::parse, consumer);
+		process(file, BncRecord::parse, consumer);
 	}
 
-	private void processBNCSubFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	private void processBNCSubFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("-- %s %s%n", file.getName(), this.serFile);
-		process(file, BNCExtendedRecord::parse, consumer);
+		process(file, BncExtendedRecord::parse, consumer);
 	}
 
-	private void updateRow(final PrintStream ps, final String table, final int index, final BNCRecord bncRecord, final String... columns)
+	private void updateRow(final PrintStream ps, final String table, final int index, final BncRecord bncRecord, final String... columns)
 	{
 		Integer wordid = wordResolver.apply(bncRecord.word);
 		if (wordid != null)

@@ -1,7 +1,7 @@
 package org.sqlbuilder.bnc;
 
-import org.sqlbuilder.bnc.objects.BNCExtendedRecord;
-import org.sqlbuilder.bnc.objects.BNCRecord;
+import org.sqlbuilder.bnc.objects.BncExtendedRecord;
+import org.sqlbuilder.bnc.objects.BncRecord;
 import org.sqlbuilder.common.*;
 
 import java.io.File;
@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-public class BNCProcessor extends Processor
+public class BncProcessor extends Processor
 {
 	protected final File bncHome;
 
@@ -24,7 +24,7 @@ public class BNCProcessor extends Processor
 
 	protected final Properties conf;
 
-	public BNCProcessor(final Properties conf)
+	public BncProcessor(final Properties conf)
 	{
 		super("bnc");
 		this.names = new Names("bnc");
@@ -67,21 +67,21 @@ public class BNCProcessor extends Processor
 		}
 	}
 
-	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BNCRecord::parse, consumer);
+		process(file, BncRecord::parse, consumer);
 		ps.print(';');
 	}
 
-	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BNCExtendedRecord::parse, consumer);
+		process(file, BncExtendedRecord::parse, consumer);
 		ps.print(';');
 	}
 
-	protected void process(final File file, final ThrowingFunction<String, BNCRecord> producer, final ThrowingBiConsumer<BNCRecord, Integer> consumer) throws IOException
+	protected void process(final File file, final ThrowingFunction<String, BncRecord> producer, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
@@ -99,11 +99,11 @@ public class BNCProcessor extends Processor
 							var cause = e.getCause();
 							if (cause instanceof ParseException)
 							{
-								Logger.instance.logParseException(BNCModule.MODULE_ID, tag, file.getName(), count[1], line, (ParseException) cause);
+								Logger.instance.logParseException(BncModule.MODULE_ID, tag, file.getName(), count[1], line, (ParseException) cause);
 							}
 							else if (cause instanceof NotFoundException)
 							{
-								Logger.instance.logNotFoundException(BNCModule.MODULE_ID, tag, file.getName(), count[1], line, (NotFoundException) cause);
+								Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.getName(), count[1], line, (NotFoundException) cause);
 							}
 							else if (cause instanceof IgnoreException)
 							{
@@ -121,7 +121,7 @@ public class BNCProcessor extends Processor
 						}
 						catch (NotFoundException nfe)
 						{
-							Logger.instance.logNotFoundException(BNCModule.MODULE_ID, tag, file.getName(), count[1], null, nfe);
+							Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.getName(), count[1], null, nfe);
 						}
 						catch (CommonException other)
 						{
