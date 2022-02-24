@@ -40,7 +40,7 @@ public class SemlinkProcessor extends Processor
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	protected static void processSemlinks(final Node start) throws XPathExpressionException
+	private static void processSemlinks(final Node start) throws XPathExpressionException
 	{
 		Progress.traceHeader("semlink", "reading file");
 		SemlinkDocument.makeMappings(start);

@@ -2,6 +2,7 @@ package org.sqlbuilder.sl;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.sl.collectors.SemlinkProcessor;
+import org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor;
 
 import java.io.IOException;
 
@@ -19,11 +20,11 @@ public class SlModule extends Module
 	{
 		assert props != null;
 
-		new SemlinkProcessor(props).run();
 		switch (mode)
 		{
 			case PLAIN:
 			case RESOLVE:
+				new SemlinkProcessor(props).run();
 				try
 				{
 					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
@@ -36,6 +37,7 @@ public class SlModule extends Module
 				break;
 
 			case UPDATE:
+				new SemlinkUpdatingProcessor(props).run();
 				try
 				{
 					Inserter inserter = new ResolvingUpdater(props);

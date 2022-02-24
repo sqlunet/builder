@@ -15,14 +15,11 @@ import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-public class SemlinkUpdatingProcessor extends Processor
+public class SemlinkUpdatingProcessor extends SemlinkProcessor
 {
-	protected final String semlinkFile;
-
-	public SemlinkUpdatingProcessor(final Properties props)
+	public SemlinkUpdatingProcessor(final Properties conf)
 	{
-		super("semlink0");
-		this.semlinkFile = props.getProperty("semlinkhome", System.getenv().get("SEMLINKHOME")) + File.separatorChar + props.getProperty("semlinkfile");
+		super(conf);
 	}
 
 	@Override
@@ -40,7 +37,7 @@ public class SemlinkUpdatingProcessor extends Processor
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	protected static void processSemlinks(final Node start) throws XPathExpressionException
+	private static void processSemlinks(final Node start) throws XPathExpressionException
 	{
 		Progress.traceHeader("semlink", "reading file");
 		SemlinkDocument.makeMappings(start);
