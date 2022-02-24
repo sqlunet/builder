@@ -23,12 +23,12 @@ fi
 module="$1"
 shift
 if [ "${module}" == "" ]; then
-  echo "No module"
+  echo "No module. You may use 'all'."
   exit 1
 fi
 modules="${module}"
 if [ "${modules}" == "all" ]; then
-  modules="bnc vn pb fn sn"
+  modules="bnc sn vn pb fn sl pm"
   echo "All modules: ${modules}"
 fi
 shift

@@ -1,2 +1,2 @@
-ALTER TABLE ${restrainedRoles.table} ADD KEY `k_@{restrainedRoles.table}_@{restrainedRoles.roledescr}` (${restrainedRoles.roledescr});
-ALTER TABLE ${restrainedRoles.table} ADD KEY `k_@{restrainedRoles.table}_@{restrainedRoles.rolesetid}` (${restrainedRoles.rolesetid});
+ALTER TABLE ${roles.table} ADD KEY `k_@{roles.table}_@{roles.roledescr}` (${roles.roledescr});
+ALTER TABLE ${roles.table} ADD KEY `k_@{roles.table}_@{roles.rolesetid}` (${roles.rolesetid});

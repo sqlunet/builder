@@ -1,1 +1,1 @@
-CREATE TABLE IF NOT EXISTS ${restrainedRoles.table} ( ${restrainedRoles.roleid} INTEGER NOT NULL, ${restrainedRoles.rolesetid} INTEGER NOT NULL, ${restrainedRoles.nargid} VARCHAR (1 ) NOT NULL, ${restrainedRoles.funcid} INTEGER NULL, ${restrainedRoles.roledescr} VARCHAR (100) NULL,PRIMARY KEY (${restrainedRoles.roleid}));
+CREATE TABLE IF NOT EXISTS ${roles.table} ( ${roles.roleid} INTEGER NOT NULL, ${roles.rolesetid} INTEGER NOT NULL, ${roles.nargid} VARCHAR (1 ) NOT NULL, ${roles.funcid} INTEGER NULL, ${roles.roledescr} VARCHAR (100) NULL,PRIMARY KEY (${roles.roleid}));

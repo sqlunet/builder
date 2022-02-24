@@ -1,1 +1,1 @@
-CREATE INDEX `k_@{restrainedRoles.table}_@{restrainedRoles.roledescr}` ON ${restrainedRoles.table} (${restrainedRoles.roledescr});CREATE INDEX `k_@{restrainedRoles.table}_@{restrainedRoles.rolesetid}` ON ${restrainedRoles.table} (${restrainedRoles.rolesetid});
+CREATE INDEX `k_@{roles.table}_@{roles.roledescr}` ON ${roles.table} (${roles.roledescr});CREATE INDEX `k_@{roles.table}_@{roles.rolesetid}` ON ${roles.table} (${roles.rolesetid});

@@ -33,7 +33,7 @@ public class BNCModule extends Module
 				default:
 			}
 		}
-		catch (IOException e)
+		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
