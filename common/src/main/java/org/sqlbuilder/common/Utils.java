@@ -164,7 +164,7 @@ public class Utils
 	 * Back tick
 	 *
 	 * @param value value to backtick
-	 * @return bactocked string value
+	 * @return backticked string value
 	 */
 	public static String backtick(final String value)
 	{

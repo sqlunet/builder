@@ -91,7 +91,6 @@ public class VnDocument
 		return result;
 	}
 
-	@NotNull
 	public static void makeResolvableMembers(final Node start) throws XPathExpressionException
 	{
 		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");

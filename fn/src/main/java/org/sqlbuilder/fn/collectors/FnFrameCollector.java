@@ -27,7 +27,7 @@ public class FnFrameCollector extends FnCollector
 	public FnFrameCollector(final Properties props)
 	{
 		super("frame", props, "frame");
-		this.skipLexUnits = props.getProperty("fnskiplu", "true").compareToIgnoreCase("true") == 0;
+		this.skipLexUnits = props.getProperty("fn_skip_lu", "true").compareToIgnoreCase("true") == 0;
 	}
 
 	@Override

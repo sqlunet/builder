@@ -69,7 +69,7 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 	// O R D E R
 
 	@Override
-	public int compareTo(final Word that)
+	public int compareTo(@NotNull final Word that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

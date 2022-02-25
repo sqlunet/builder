@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Predicate;
 import org.sqlbuilder.vn.objects.Semantics;
@@ -60,7 +61,7 @@ public class Predicate_Semantics implements Insertable, Comparable<Predicate_Sem
 	static public final Comparator<Predicate_Semantics> COMPARATOR = Comparator.comparing(Predicate_Semantics::getSemantics).thenComparing(Predicate_Semantics::getPredicate);
 
 	@Override
-	public int compareTo(final Predicate_Semantics that)
+	public int compareTo(@NotNull final Predicate_Semantics that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

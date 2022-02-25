@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.RequiresIdFrom;
 
 import java.util.Comparator;
@@ -75,7 +76,7 @@ public class Member implements Insertable, Comparable<Member>
 	// O R D E R
 
 	@Override
-	public int compareTo(final Member that)
+	public int compareTo(@NotNull final Member that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

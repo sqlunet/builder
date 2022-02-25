@@ -99,13 +99,7 @@ public class PmEntry implements Insertable
 
 		// source
 		final String prefix = lemma.substring(0, 2);
-		if ("vn".equals(prefix))
-		{
-		}
-		else if ("fn".equals(prefix))
-		{
-		}
-		else
+		if (!"vn".equals(prefix) && !"fn".equals(prefix))
 		{
 			throw new ParseException(prefix);
 		}

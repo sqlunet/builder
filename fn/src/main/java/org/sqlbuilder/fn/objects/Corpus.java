@@ -23,6 +23,7 @@ public class Corpus implements HasID, Insertable
 
 	private final Integer luid;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Corpus make(final CorpDocType corpus, final Integer luid)
 	{
 		var c = new Corpus(corpus, luid);

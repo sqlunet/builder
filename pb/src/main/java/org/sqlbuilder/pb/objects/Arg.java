@@ -27,7 +27,7 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 
 	// C O N S T R U C T O R
 
-	public static Arg make(final Example example, final String text, final String n, final String f)
+	public static Arg make(final Example example, final String text, @NotNull final String n, final String f)
 	{
 		var a = new Arg(example, text, n, f);
 		COLLECTOR.add(a);
@@ -36,9 +36,10 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 
 	private Arg(final Example example, final String text, final String n, final String f)
 	{
+		assert n != null && !n.isEmpty();
 		this.example = example;
 		this.text = PbNormalizer.normalize(text);
-		this.n = n == null || n.isEmpty() ? null : ArgN.make(n);
+		this.n = ArgN.make(n);
 		this.f = f == null || f.isEmpty() ? null : Func.make(f.toLowerCase());
 	}
 
@@ -60,7 +61,7 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 		return this.f;
 	}
 
-	@Nullable
+	@NotNull
 	public ArgN getN()
 	{
 		return this.n;
@@ -75,7 +76,7 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 	// O R D E R
 
 	@Override
-	public int compareTo(final Arg that)
+	public int compareTo(@NotNull final Arg that)
 	{
 		return COMPARATOR.compare(this, that);
 	}
@@ -106,6 +107,6 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s",  n.getArgn(), f == null ? null : f.getFunc());
+		return String.format("%s,%s", n.getArgn(), f == null ? null : f.getFunc());
 	}
 }

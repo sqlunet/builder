@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Grouping;
 import org.sqlbuilder.vn.objects.VnClass;
@@ -61,7 +62,7 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Member_Grouping that)
+	public int compareTo(@NotNull final Member_Grouping that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

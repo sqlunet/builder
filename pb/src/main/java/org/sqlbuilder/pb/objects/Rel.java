@@ -63,7 +63,7 @@ public class Rel implements HasId, Insertable, Comparable<Rel>
 	// O R D E R
 
 	@Override
-	public int compareTo(final Rel that)
+	public int compareTo(@NotNull final Rel that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

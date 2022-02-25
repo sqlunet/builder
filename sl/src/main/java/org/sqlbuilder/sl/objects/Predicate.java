@@ -1,9 +1,6 @@
 package org.sqlbuilder.sl.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 
@@ -15,6 +12,7 @@ public class Predicate implements HasId, Comparable<Predicate>, Insertable
 
 	public final String predicate;
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static Predicate make(final String lemma, final String other)
 	{
 		return new Predicate(lemma);
@@ -47,7 +45,7 @@ public class Predicate implements HasId, Comparable<Predicate>, Insertable
 	// O R D E R
 
 	@Override
-	public int compareTo(final Predicate that)
+	public int compareTo(@NotNull final Predicate that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

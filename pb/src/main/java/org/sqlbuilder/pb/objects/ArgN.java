@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.Utils;
 
 import java.util.*;
@@ -72,7 +73,7 @@ public class ArgN implements Comparable<ArgN>, Insertable
 	// O R D E R
 
 	@Override
-	public int compareTo(final ArgN that)
+	public int compareTo(@NotNull final ArgN that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

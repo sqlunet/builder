@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.common.Utils;
 
@@ -43,7 +44,7 @@ public class Sense implements Insertable, Resolvable<String, SimpleEntry<Integer
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Sense that)
+	public int compareTo(@NotNull final Sense that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

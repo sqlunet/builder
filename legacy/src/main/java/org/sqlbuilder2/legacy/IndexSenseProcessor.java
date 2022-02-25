@@ -1,6 +1,7 @@
 package org.sqlbuilder2.legacy;
 
 import org.sqlbuilder.common.Insert;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.Processor;
 import org.sqlbuilder2.ser.Serialize;
 import org.sqlbuilder2.ser.Triplet;
@@ -21,6 +22,8 @@ import java.util.stream.Stream;
  */
 public class IndexSenseProcessor extends Processor
 {
+	private final Names names;
+
 	private final String source;
 
 	private final File inDir;
@@ -32,6 +35,7 @@ public class IndexSenseProcessor extends Processor
 	public IndexSenseProcessor(final Properties conf)
 	{
 		super("sk2nid");
+		this.names = new Names("legacy");
 		this.conf = conf;
 		this.source = conf.getProperty("to_sensekeys.source");
 		this.inDir = new File(conf.getProperty("to_sensekeys.home").replaceAll("\\$\\{source}", source));
@@ -52,7 +56,7 @@ public class IndexSenseProcessor extends Processor
 	public void run1() throws IOException
 	{
 		String inFile = conf.getProperty("to_sensekeys.map").replaceAll("\\$\\{source}", source);
-		String outFile = Names.TO_SENSEKEYS.FILE.replaceAll("\\$\\{source}", source);
+		String outFile = names.file("to_sensekeys").replaceAll("\\$\\{source}", source);
 
 		var m = getLemmaPosOffsetToSensekey(new File(inDir, inFile));
 		Serialize.serialize(m, new File(outDir, outFile + ".ser"));

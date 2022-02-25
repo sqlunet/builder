@@ -115,7 +115,7 @@ public class Frame implements HasId, Insertable, Comparable<Frame>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Frame that)
+	public int compareTo(@NotNull final Frame that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

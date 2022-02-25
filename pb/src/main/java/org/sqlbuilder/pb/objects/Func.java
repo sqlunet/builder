@@ -89,7 +89,7 @@ public class Func implements HasId, Comparable<Func>, Insertable
 	// O R D E R
 
 	@Override
-	public int compareTo(final Func that)
+	public int compareTo(@NotNull final Func that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

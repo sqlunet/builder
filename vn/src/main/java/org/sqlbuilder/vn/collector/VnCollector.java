@@ -178,6 +178,7 @@ public class VnCollector extends Processor
 		Collection<Frame> frames = VnDocument.makeFrames(start);
 		if (inheritedFrames != null)
 		{
+			//noinspection ConstantConditions
 			frames = Inherit.mergeFrames(frames, inheritedFrames);
 		}
 

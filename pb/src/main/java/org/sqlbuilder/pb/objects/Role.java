@@ -58,11 +58,13 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return this.argn;
 	}
 
+	@Nullable
 	public Func getFunc()
 	{
 		return func;
 	}
 
+	@Nullable
 	public Theta getTheta()
 	{
 		return theta;

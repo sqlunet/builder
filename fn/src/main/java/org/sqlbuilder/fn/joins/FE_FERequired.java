@@ -44,6 +44,6 @@ public class FE_FERequired extends Pair<Integer, Integer> implements Insertable
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-FEreq feid=%s feid2=%s]", first, second);
+		return String.format("[FE-reqFE feid=%s feid2=%s]", first, second);
 	}
 }

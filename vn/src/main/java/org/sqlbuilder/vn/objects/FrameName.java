@@ -2,6 +2,7 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
@@ -62,7 +63,7 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final FrameName that)
+	public int compareTo(@NotNull final FrameName that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

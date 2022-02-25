@@ -44,6 +44,6 @@ public class FE_FEExcluded extends Pair<Integer, Integer> implements Insertable
 	@Override
 	public String toString()
 	{
-		return String.format("[FE-FEexcl feid=%s feid2=%s]", first, second);
+		return String.format("[FE-exclFE feid=%s feid2=%s]", first, second);
 	}
 }

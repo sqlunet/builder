@@ -110,7 +110,7 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>, Serializ
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final RoleSet that)
+	public int compareTo(@NotNull final RoleSet that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

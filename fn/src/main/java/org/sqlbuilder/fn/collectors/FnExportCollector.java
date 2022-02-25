@@ -23,13 +23,9 @@ import edu.berkeley.icsi.framenet.FrameDocument;
 
 public class FnExportCollector extends FnCollector
 {
-	@SuppressWarnings("FieldCanBeLocal")
-	private final boolean skipLexUnits;
-
 	public FnExportCollector(final Properties props)
 	{
 		super("frame", props, "frame");
-		this.skipLexUnits = props.getProperty("fnskiplu", "true").compareToIgnoreCase("true") == 0;
 	}
 
 	@Override

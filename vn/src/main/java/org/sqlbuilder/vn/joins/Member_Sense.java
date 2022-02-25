@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.joins;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.vn.objects.Sensekey;
 import org.sqlbuilder.vn.objects.VnClass;
 import org.sqlbuilder.vn.objects.Word;
@@ -78,7 +75,7 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Member_Sense that)
+	public int compareTo(@NotNull final Member_Sense that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

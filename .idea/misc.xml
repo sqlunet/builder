@@ -136,6 +136,9 @@
     <pattern value="org.sqlbuilder.common.XmlDocument" method="getXPathTexts" />
     <pattern value="org.sqlbuilder.common.XmlTextUtils" method="getXPathTexts" />
     <pattern value="org.sqlbuilder.common.XPathUtils" method="getXML" />
+    <pattern value="org.sqlbuilder.common.MapFactory" method="insert" />
+    <pattern value="org.sqlbuilder.common.MapFactory" method="makeMap" />
+    <pattern value="org.sqlbuilder.common.MapFactory" method="makeSortedMap" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">

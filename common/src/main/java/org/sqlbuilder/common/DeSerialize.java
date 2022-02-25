@@ -12,7 +12,7 @@ public class DeSerialize
 	 *
 	 * @param object object
 	 * @param <T>    cast type
-	 * @return cast ofject
+	 * @return cast object
 	 */
 	@SuppressWarnings("unchecked")
 	private static <T> T safeCast(Object object)

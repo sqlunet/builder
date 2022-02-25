@@ -67,6 +67,6 @@ public class Frame_FrameRelated extends Pair<Integer, Integer> implements Insert
 	@Override
 	public String toString()
 	{
-		return String.format("[FRrel frameid=%s frame2id=%s type=%s]", first, second, relation);
+		return String.format("[relFR frameid=%s frame2id=%s type=%s]", first, second, relation);
 	}
 }

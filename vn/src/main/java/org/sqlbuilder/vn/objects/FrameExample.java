@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -68,7 +65,7 @@ public class FrameExample implements HasId, Insertable, Comparable<FrameExample>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final FrameExample that)
+	public int compareTo(@NotNull final FrameExample that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

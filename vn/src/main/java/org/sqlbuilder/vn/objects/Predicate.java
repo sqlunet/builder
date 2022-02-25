@@ -2,6 +2,7 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.*;
@@ -66,7 +67,7 @@ public class Predicate implements HasId, Insertable, Comparable<Predicate>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Predicate that)
+	public int compareTo(@NotNull final Predicate that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

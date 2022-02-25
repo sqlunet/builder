@@ -103,7 +103,7 @@ public class PmRole implements HasId, Insertable, Comparable<PmRole>
 	// O R D E R
 
 	@Override
-	public int compareTo(final PmRole that)
+	public int compareTo(@NotNull final PmRole that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

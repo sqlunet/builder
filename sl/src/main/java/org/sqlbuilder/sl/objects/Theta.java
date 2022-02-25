@@ -73,7 +73,7 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 	// O R D E R
 
 	@Override
-	public int compareTo(final Theta that)
+	public int compareTo(@NotNull final Theta that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

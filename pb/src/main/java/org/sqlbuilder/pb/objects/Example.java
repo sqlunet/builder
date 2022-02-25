@@ -90,7 +90,7 @@ public class Example implements HasId, Insertable, Comparable<Example>
 		return e;
 	}
 
-	private Example(final RoleSet roleSet, final String name, final String text, final String aspect, final String form, final String person, final String tense, final String voice)
+	private Example(@NotNull final RoleSet roleSet, final String name, final String text, @Nullable final String aspect, @Nullable final String form, @Nullable final String person, @Nullable final String tense, @Nullable final String voice)
 	{
 		this.roleSet = roleSet;
 		this.name = name;
@@ -168,7 +168,7 @@ public class Example implements HasId, Insertable, Comparable<Example>
 	// O R D E R
 
 	@Override
-	public int compareTo(final Example that)
+	public int compareTo(@NotNull final Example that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

@@ -1,5 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.common.NotNull;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -74,7 +75,7 @@ public class RestrainedRole implements Comparable<RestrainedRole>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final RestrainedRole that)
+	public int compareTo(@NotNull final RestrainedRole that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

@@ -1,5 +1,6 @@
 package org.sqlbuilder.sl.foreign;
 
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.sl.objects.Theta;
 
 import java.util.Comparator;
@@ -62,7 +63,7 @@ public class VnRole implements Comparable<VnRole>
 	// O R D E R
 
 	@Override
-	public int compareTo(final VnRole that)
+	public int compareTo(@NotNull final VnRole that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

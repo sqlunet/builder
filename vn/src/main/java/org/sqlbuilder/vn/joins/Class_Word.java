@@ -1,6 +1,7 @@
 package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.VnClass;
 import org.sqlbuilder.vn.objects.Word;
@@ -73,7 +74,7 @@ public class Class_Word implements Insertable, Comparable<Class_Word>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final Class_Word that)
+	public int compareTo(@NotNull final Class_Word that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

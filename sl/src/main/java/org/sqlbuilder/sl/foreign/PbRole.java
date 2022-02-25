@@ -1,5 +1,7 @@
 package org.sqlbuilder.sl.foreign;
 
+import org.sqlbuilder.common.NotNull;
+
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -62,7 +64,7 @@ public class PbRole implements Comparable<PbRole>
 	// O R D E R
 
 	@Override
-	public int compareTo(final PbRole that)
+	public int compareTo(@NotNull final PbRole that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

@@ -2,6 +2,7 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
@@ -83,7 +84,7 @@ public class RestrType implements HasId, Insertable, Comparable<RestrType>
 	// O R D E R I N G
 
 	@Override
-	public int compareTo(final RestrType that)
+	public int compareTo(@NotNull final RestrType that)
 	{
 		return COMPARATOR.compare(this, that);
 	}

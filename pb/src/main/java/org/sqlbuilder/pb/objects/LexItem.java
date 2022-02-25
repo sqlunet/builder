@@ -32,11 +32,6 @@ public class LexItem implements Comparable<LexItem>
 			throw new RuntimeException(toString());
 	}
 
-	public void put(final Word word)
-	{
-		LexItem.map.put(this, word);
-	}
-
 	// O R D E R
 
 	@Override
