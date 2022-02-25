@@ -22,6 +22,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		this.outDir = new File(conf.getProperty("vn_outdir_updated", "sql/data_updated"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 	}

@@ -25,6 +25,7 @@ public class SnResolvingProcessor extends SnProcessor
 		this.outDir = new File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 

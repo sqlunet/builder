@@ -2,7 +2,6 @@ package org.sqlbuilder.fn.collectors;
 
 import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.AlreadyFoundException;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.joins.*;
@@ -35,7 +34,6 @@ public class FnLexUnitCollector extends FnCollector
 	{
 		vuToFer.clear();
 
-		final int count = 0;
 		final File file = new File(fileName);
 		try
 		{
@@ -125,7 +123,7 @@ public class FnLexUnitCollector extends FnCollector
             //          <annoSet ID="n"/> *
  			//      </pattern>
 			//  </FEGroupRealization>
-			// The following assumes the grouppatterns reuse the valence units declared in FEREalization
+			// The following assumes the grouppatterns reuse the valence units declared in FERealization
 			// so we simply point to them through the vuToFer map
 
 			for (var _fegr : _valences.getFEGroupRealizationArray())

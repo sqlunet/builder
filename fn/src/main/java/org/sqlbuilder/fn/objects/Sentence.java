@@ -32,12 +32,7 @@ public class Sentence implements HasID, Insertable
 	public static Sentence make(final SentenceType sentence, final boolean fromFullText)
 	{
 		var s = new Sentence(sentence, fromFullText);
-
-		final boolean isNew = Sentence.SET.add(s);
-		if (!isNew)
-		{
-			// Logger.instance.logWarn(FnModule.MODULE_ID, "Sentence", fromFullText ? "sentence-duplicate (from fullText)" : "sentence-duplicate", null, -1, null, s.toString());
-		}
+		Sentence.SET.add(s);
 		return s;
 	}
 

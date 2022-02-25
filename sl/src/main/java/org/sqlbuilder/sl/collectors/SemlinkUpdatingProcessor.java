@@ -1,14 +1,12 @@
 package org.sqlbuilder.sl.collectors;
 
 import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.sl.SlModule;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 

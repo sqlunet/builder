@@ -35,6 +35,7 @@ public class Exporter
 		this.outDir = new File(conf.getProperty("fn_outdir_ser", "sers"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 	}

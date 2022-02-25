@@ -38,6 +38,7 @@ public class PmProcessor extends Processor
 		this.outDir = new File(conf.getProperty("pm_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 	}

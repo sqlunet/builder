@@ -37,11 +37,11 @@ public class ResolvingInserter extends Inserter
 		this.outDir = new File(conf.getProperty("sl_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 
 		// resolve
-		this.resolve = true;
 		this.pbRoleSetSerFile = conf.getProperty("pbroleset_nids");
 		this.pbRoleSerFile = conf.getProperty("pbrole_nids");
 		this.vnClassSerFile = conf.getProperty("vnclass_nids");

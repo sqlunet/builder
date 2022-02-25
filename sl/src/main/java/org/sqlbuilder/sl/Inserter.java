@@ -16,14 +16,13 @@ public class Inserter
 
 	protected File outDir;
 
-	protected boolean resolve = false;
-
 	public Inserter(final Properties conf)
 	{
 		this.names = new Names("sl");
 		this.outDir = new File(conf.getProperty("sl_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 	}

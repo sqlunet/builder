@@ -62,6 +62,7 @@ public class PmResolvingProcessor extends PmProcessor
 		this.outDir = new File(conf.getProperty("pm_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 

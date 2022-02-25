@@ -90,6 +90,7 @@ public class AnnotationSet implements HasID, Insertable
 		return a;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid, final Integer luid, final Integer frameid)
 	{
 		var a = new AnnotationSet(annoset, sentenceid, luid, frameid);

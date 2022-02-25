@@ -38,6 +38,7 @@ public class IndexSenseProcessor extends Processor
 		this.outDir = new File(conf.getProperty("legacy_serdir", "sers"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 	}

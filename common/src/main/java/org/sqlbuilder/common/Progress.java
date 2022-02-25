@@ -2,7 +2,6 @@ package org.sqlbuilder.common;
 
 public class Progress
 {
-	public static boolean hyperverbose = false;
 
 	public static void tracePending(final String tag, final String message)
 	{

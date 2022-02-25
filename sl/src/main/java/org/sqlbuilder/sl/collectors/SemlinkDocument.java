@@ -39,7 +39,8 @@ public class SemlinkDocument extends XmlDocument
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
 			final String lemmaAttribute = predicateElement.getAttribute("lemma");
-			final Predicate predicate = Predicate.make(lemmaAttribute, lemmaAttribute);
+			//noinspection ResultOfMethodCallIgnored
+			Predicate.make(lemmaAttribute, lemmaAttribute);
 
 			final NodeList argmapNodes = XmlDocument.getXPaths(predicateElement, "./argmap");
 			for (int j = 0; j < argmapNodes.getLength(); j++)

@@ -27,6 +27,7 @@ public class BncResolvingProcessor extends BncProcessor
 		this.outDir = new File(conf.getProperty("bnc_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 

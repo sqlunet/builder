@@ -179,18 +179,6 @@ public class Example implements HasId, Insertable, Comparable<Example>
 	@Override
 	public String dataRow()
 	{
-		// rels
-		for (final Rel rel : rels)
-		{
-		//	rel.insert(connection);
-		}
-
-		// args
-		for (final Arg arg : args)
-		{
-		//	arg.insert(connection);
-		}
-
 		// (exampleid),examplename,text,aspect,form,tense,voice,person,rolesetid
 		return String.format("'%s','%s',%s,%s,%s,%s,%s,%d", Utils.escape(name), //
 				Utils.escape(text), //

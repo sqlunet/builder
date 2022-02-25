@@ -23,14 +23,11 @@ public class Corpus implements HasID, Insertable
 
 	private final Integer luid;
 
-	public static void make(final CorpDocType corpus, final Integer luid)
+	public static Corpus make(final CorpDocType corpus, final Integer luid)
 	{
 		var c = new Corpus(corpus, luid);
-		final boolean isNew = SET.add(c);
-		if (!isNew)
-		{
-			// Logger.instance.logWarn(FnModule.MODULE_ID, "Corpus", "corpus-duplicate", null, -1, null, c.toString());
-		}
+		SET.add(c);
+		return c;
 	}
 
 	private Corpus(final CorpDocType corpus, final Integer luid)

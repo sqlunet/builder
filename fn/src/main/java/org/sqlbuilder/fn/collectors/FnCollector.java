@@ -18,14 +18,11 @@ public abstract class FnCollector extends Processor
 
 	protected String filename;
 
-	protected final int fileCount;
-
 	public FnCollector(final String subDir, final Properties props, final String tag)
 	{
 		super(tag);
 		this.fnHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
 		this.fnDir = subDir;
-		this.fileCount = 0;
 	}
 
 	@Override

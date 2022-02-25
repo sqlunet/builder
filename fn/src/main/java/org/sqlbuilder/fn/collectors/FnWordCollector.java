@@ -2,7 +2,6 @@ package org.sqlbuilder.fn.collectors;
 
 import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.objects.Word;
 

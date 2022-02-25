@@ -1,7 +1,6 @@
 package org.sqlbuilder.vn.collector;
 
 import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.vn.VnDocument;

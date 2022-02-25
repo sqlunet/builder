@@ -6,19 +6,19 @@ import org.sqlbuilder.common.Utils;
 
 public class PmEntry implements Insertable
 {
-	static final int ID_LANG = 0; // this column contains the language of the predicate. id:eng
+//	static final int ID_LANG = 0; // this column contains the language of the predicate. id:eng
 	static final int ID_POS = 1; // this columnn contains the part-of-speech of the predicate. id:n
 	static final int ID_PRED = 2; // this column contains the predicate. id:abatement.01
 	static final int ID_ROLE = 3; // this column contains the role. id:0
 
 	static final int VN_CLASS = 4; // this column contains the information of the VerbNet class. vn:withdraw-82
-	static final int VN_CLASS_NUMBER = 5; // this column contains the information of the VerbNet class number. vn:82
+//	static final int VN_CLASS_NUMBER = 5; // this column contains the information of the VerbNet class number. vn:82
 	static final int VN_SUBCLASS = 6; // this column contains the information of VerbNet subclass. vn:withdraw-82-1
-	static final int VN_SUBCLASS_NUMBER = 7; // this column contains the information of the VerbNet subclass number. vn:82-1
+//	static final int VN_SUBCLASS_NUMBER = 7; // this column contains the information of the VerbNet subclass number. vn:82-1
 	static final int VN_LEMMA = 8; // this column contains the information of the verb lemma. vn:pull_back
 	static final int VN_ROLE = 9; // this column contains the information of the VerbNet thematic-role. vn:Source
 	static final int WN_SENSE = 10; // this column contains the information of the word sense in WordNet. wn:pull_back%2:32:12
-	static final int MCR_ILI_OFFSET = 11; // this column contains the information of the ILI number in the MCR3.0. mcr:ili-30-00799383-v
+//	static final int MCR_ILI_OFFSET = 11; // this column contains the information of the ILI number in the MCR3.0. mcr:ili-30-00799383-v
 
 	static final int FN_FRAME = 12; // this column contains the information of the frame in FrameNet. fn:Going_back_on_a_commitment
 	static final int FN_LE = 13; // this column contains the information of the corresponding lexical-entry in FrameNet. fn:NULL
@@ -27,16 +27,16 @@ public class PmEntry implements Insertable
 	static final int PB_ROLESET = 15; // this column contains the information of the predicate in PropBank. pb:NULL
 	static final int PB_ARG = 16; // this column contains the information of the predicate argument in PropBank. pb:NULL
 
-	static final int MCR_BC = 17; // this column contains the information if the verb sense it is Base Concept or not in the MCR3.0. mcr:1
-	static final int MCR_DOMAIN = 18; // this column contains the information of the WordNet domain aligned to WordNet 3.0 in the MCR3.0. mcr:factotum
+//	static final int MCR_BC = 17; // this column contains the information if the verb sense it is Base Concept or not in the MCR3.0. mcr:1
+//	static final int MCR_DOMAIN = 18; // this column contains the information of the WordNet domain aligned to WordNet 3.0 in the MCR3.0. mcr:factotum
 	static final int MCR_SUMO = 19; // this column contains the information of the AdimenSUMO in the MCR3.0. mcr:Communication
-	static final int MCR_TO = 20; // this column contains the information of the MCR Top Ontology in the MCR3.0. mcr:Dynamic;communication;
-	static final int MCR_LEXNAME = 21; // this column contains the information of the MCR Lexicographical file name. mcr:communication
-	static final int MCR_BLC = 22; // this column contains the information of the Base Level Concept of the WordNet verb sense in the MCR3.0.mcr:back_away%2:32:00
-	static final int WN_SENSEFREC = 23; // this column contains the information of the frequency of the WordNet 3.0 verb sense. wn:0
-	static final int WN_SYNSET_REL_NUM = 24; // this column contains the information of the number of relations of the WordNet 3.0 verb sense. wn:004
-	static final int ESO_CLASS = 25; // this column contains the information of the class of the ESO ontology.
-	static final int ESO_ROLE = 26; // this column contains the information of the role of the ESO ontology.
+//	static final int MCR_TO = 20; // this column contains the information of the MCR Top Ontology in the MCR3.0. mcr:Dynamic;communication;
+//	static final int MCR_LEXNAME = 21; // this column contains the information of the MCR Lexicographical file name. mcr:communication
+//	static final int MCR_BLC = 22; // this column contains the information of the Base Level Concept of the WordNet verb sense in the MCR3.0.mcr:back_away%2:32:00
+//	static final int WN_SENSEFREC = 23; // this column contains the information of the frequency of the WordNet 3.0 verb sense. wn:0
+//	static final int WN_SYNSET_REL_NUM = 24; // this column contains the information of the number of relations of the WordNet 3.0 verb sense. wn:004
+//	static final int ESO_CLASS = 25; // this column contains the information of the class of the ESO ontology.
+//	static final int ESO_ROLE = 26; // this column contains the information of the role of the ESO ontology.
 	static final int SOURCE = 27; // this column contains the information of how the row has been obtained. SEMLINK;FRAME;SYNONYMS
 
 	// sources

@@ -40,6 +40,7 @@ public class Exporter
 		this.outDir = new File(conf.getProperty("pb_outdir_ser", "sers"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 	}

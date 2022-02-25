@@ -48,6 +48,7 @@ public class SnProcessor extends Processor
 		this.outDir = new File(conf.getProperty("sn_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
 
