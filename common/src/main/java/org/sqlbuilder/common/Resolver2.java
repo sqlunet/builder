@@ -9,7 +9,7 @@ t->r
 u->s
 (t,u)->(r,s)
  */
-public class Resolver2<T, R, U, S> implements Function<Pair<T,U>,Pair<R,S>>
+public class Resolver2<T, R, U, S> implements Function<Pair<T, U>, Pair<R, S>>
 {
 	private final Function<T, R> r1;
 

@@ -86,8 +86,7 @@ public class FEGroupPattern implements HasId, SetId, Insertable
 		// (patternid),fegrid,total
 		return String.format("%d,%d,%s", //
 				getIntId(), // patternid
-				total,
-				fegr.getSqlId()); // fegrid
+				total, fegr.getSqlId()); // fegrid
 	}
 
 	@Override

@@ -94,7 +94,7 @@ public class Class_Word implements Insertable, Comparable<Class_Word>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s",clazz.getName(), word.getWord());
+		return String.format("%s,%s", clazz.getName(), word.getWord());
 	}
 
 	// T O S T R I N G

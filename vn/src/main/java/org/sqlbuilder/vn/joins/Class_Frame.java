@@ -53,17 +53,13 @@ public class Class_Frame implements Insertable
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%d",
-				clazz.getIntId(),
-				frame.getIntId());
+		return String.format("%d,%d", clazz.getIntId(), frame.getIntId());
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s",
-				clazz.getName(),
-				frame.getName());
+		return String.format("%s,%s", clazz.getName(), frame.getName());
 	}
 
 	// T O S T R I N G

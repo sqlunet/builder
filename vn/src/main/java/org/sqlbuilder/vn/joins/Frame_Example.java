@@ -76,8 +76,6 @@ public class Frame_Example implements Insertable, Comparable<Frame_Example>
 	{
 		// frame.id
 		// example.id
-		return String.format("%d,%d",
-				frame.getIntId(),
-				example.getIntId());
+		return String.format("%d,%d", frame.getIntId(), example.getIntId());
 	}
 }

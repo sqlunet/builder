@@ -133,7 +133,7 @@ public class Variables
 				var val = toValue.get(varName);
 				return useBackticks ? "`" + val + '`' : val;
 			});
-			if (output.contains(p.pattern().substring(0,1)))
+			if (output.contains(p.pattern().substring(0, 1)))
 			{
 				throw new IllegalArgumentException(p.pattern().charAt(0) + ",{,} used in '" + input + "'");
 			}

@@ -19,7 +19,7 @@ public class FnModule extends Module
 	{
 		assert props != null;
 
-		switch(mode)
+		switch (mode)
 		{
 			case PLAIN:
 			case RESOLVE:

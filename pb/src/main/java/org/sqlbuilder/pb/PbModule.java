@@ -1,8 +1,8 @@
 package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.pb.collectors.PbExportCollector;
 import org.sqlbuilder.pb.collectors.PbCollector;
+import org.sqlbuilder.pb.collectors.PbExportCollector;
 import org.sqlbuilder.pb.collectors.PbUpdateCollector;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class PbModule extends Module
 
 			case UPDATE:
 				new PbUpdateCollector(props).run();
-					try
+				try
 				{
 					Inserter inserter = new ResolvingUpdater(props);
 					inserter.insert();

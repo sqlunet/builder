@@ -47,9 +47,7 @@ public class Exporter
 		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.size());
 		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
 
-		try (
-				@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open();
-				@ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
+		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); @ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
 		{
 			serialize();
 			export();
@@ -127,9 +125,9 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
-	private static final Comparator<Pair<String,String>> COMPARATOR = Comparator.comparing(Pair<String,String>::getFirst).thenComparing(Pair::getSecond);
+	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
 
-	public Map<Pair<String,String>, Triplet<Integer,Integer,Integer>> makeFEsMap()
+	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsMap()
 	{
 		var id2frame = Frame.SET.stream() //
 				.map(f -> new SimpleEntry<>(f.getID(), f.getName())) //
@@ -140,7 +138,7 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 
-	public Map<Pair<String,String>, Triplet<Integer,Integer,Integer>> makeFEsTreeMap()
+	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsTreeMap()
 	{
 		var id2frame = Frame.SET.stream() //
 				.map(f -> new SimpleEntry<>(f.getID(), f.getName())) //

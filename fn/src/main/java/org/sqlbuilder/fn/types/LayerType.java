@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.types;
 
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.SqlId;
 
 import java.util.Comparator;

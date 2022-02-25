@@ -1,9 +1,9 @@
 package org.sqlbuilder.fn.objects;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.common.AlreadyFoundException;
 import org.sqlbuilder.common.HasID;
+import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.fn.types.Cxns;
 
 import java.util.Comparator;

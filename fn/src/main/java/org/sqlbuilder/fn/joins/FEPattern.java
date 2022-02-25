@@ -65,7 +65,7 @@ public class FEPattern extends Pair<FERealization, ValenceUnit> implements Inser
 	@Override
 	public String comment()
 	{
-		return  String.format("luid=%d,fe=%s,vu={%s,%s,%s}", first.getLuId(), first.getFEName(), second.getFE(), second.getPT(), second.getGF());
+		return String.format("luid=%d,fe=%s,vu={%s,%s,%s}", first.getLuId(), first.getFEName(), second.getFE(), second.getPT(), second.getGF());
 	}
 
 	// T O S T R I N G

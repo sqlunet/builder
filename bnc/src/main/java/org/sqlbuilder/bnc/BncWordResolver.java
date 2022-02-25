@@ -6,7 +6,7 @@ import org.sqlbuilder.common.Resolver;
 import java.io.File;
 import java.io.IOException;
 
-public class BncWordResolver extends Resolver<String,Integer>
+public class BncWordResolver extends Resolver<String, Integer>
 {
 	public BncWordResolver(final String ser) throws IOException, ClassNotFoundException
 	{

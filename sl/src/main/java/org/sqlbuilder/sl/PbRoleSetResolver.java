@@ -6,7 +6,7 @@ import org.sqlbuilder.common.Resolver;
 import java.io.File;
 import java.io.IOException;
 
-public class PbRoleSetResolver extends Resolver<String,Integer>
+public class PbRoleSetResolver extends Resolver<String, Integer>
 {
 	public PbRoleSetResolver(final String ser) throws IOException, ClassNotFoundException
 	{

@@ -40,7 +40,7 @@ public class XmlDocument
 		factory.setValidating(false);
 		factory.setExpandEntityReferences(false);
 		//factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-		
+
 		return factory.newDocumentBuilder();
 	}
 
@@ -96,7 +96,9 @@ public class XmlDocument
 	{
 		final Node node = XPathUtils.getXPath(start, xpathExpr);
 		if (node == null)
+		{
 			return null;
+		}
 		final Element element = (Element) node;
 		return element.getTextContent().trim();
 	}

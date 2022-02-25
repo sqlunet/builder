@@ -3,7 +3,7 @@ package org.sqlbuilder.common;
 import java.util.function.BiConsumer;
 
 @FunctionalInterface
-public interface ThrowingBiConsumer<T,U> extends BiConsumer<T,U>
+public interface ThrowingBiConsumer<T, U> extends BiConsumer<T, U>
 {
 	@Override
 	default void accept(T t, U u)

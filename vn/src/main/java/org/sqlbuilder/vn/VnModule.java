@@ -1,8 +1,8 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Module;
-import org.sqlbuilder.vn.collector.VnExportCollector;
 import org.sqlbuilder.vn.collector.VnCollector;
+import org.sqlbuilder.vn.collector.VnExportCollector;
 import org.sqlbuilder.vn.collector.VnUpdateCollector;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class VnModule extends Module
 	{
 		assert props != null;
 
-		switch(mode)
+		switch (mode)
 		{
 			case PLAIN:
 			case RESOLVE:

@@ -29,6 +29,6 @@ public abstract class FnCollector1 extends Processor
 		Progress.traceTailer(1);
 	}
 
-	@SuppressWarnings({ "SameReturnValue", "UnusedReturnValue" })
+	@SuppressWarnings({"SameReturnValue", "UnusedReturnValue"})
 	protected abstract void processFrameNetFile(final String fileName);
 }

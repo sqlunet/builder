@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
+
 //                                                         input
 public class VnRoleAlias implements Insertable, Resolvable<Pair<Pair<String, String>, Pair<String, String>>, Pair<Pair<Integer, Integer>, Triplet<Integer, Integer, Integer>>>
 {

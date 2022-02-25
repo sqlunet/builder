@@ -1,7 +1,6 @@
 package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.*;
-import org.sqlbuilder.pm.PmModule;
 import org.sqlbuilder.pm.objects.PmEntry;
 import org.sqlbuilder.pm.objects.PmRole;
 
@@ -90,10 +89,10 @@ public class PmProcessor extends Processor
 							{
 								Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.getName(), count[1], line, (NotFoundException) cause);
 							}
-//							else if (cause instanceof IgnoreException)
-//							{
-//								// ignore
-//							}
+							//							else if (cause instanceof IgnoreException)
+							//							{
+							//								// ignore
+							//							}
 						}
 						return null;
 					}) //

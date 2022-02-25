@@ -5,7 +5,8 @@ import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
 import org.sqlbuilder.common.SetCollector;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
 
 public class Predicate implements HasId, Insertable, Comparable<Predicate>
 {

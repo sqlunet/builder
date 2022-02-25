@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Resolvable;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder2.ser.Triplet;
 
-public class FnRoleAlias implements Resolvable<Triplet<String,String,String>, Triplet<Integer,Integer,Integer>>
+public class FnRoleAlias implements Resolvable<Triplet<String, String, String>, Triplet<Integer, Integer, Integer>>
 {
 	public String frame;
 
@@ -15,11 +15,11 @@ public class FnRoleAlias implements Resolvable<Triplet<String,String,String>, Tr
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s,%s",Utils.nullableQuotedEscapedString(frame), Utils.nullableQuotedEscapedString(fetype), Utils.nullableQuotedEscapedString(lu));
+		return String.format("%s,%s,%s", Utils.nullableQuotedEscapedString(frame), Utils.nullableQuotedEscapedString(fetype), Utils.nullableQuotedEscapedString(lu));
 	}
 
 	@Override
-	public Triplet<String,String, String> resolving()
+	public Triplet<String, String, String> resolving()
 	{
 		return new Triplet<>(frame, fetype, lu);
 	}

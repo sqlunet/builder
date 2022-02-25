@@ -47,7 +47,9 @@ public class VnSemanticsXmlProcessor extends XmlProcessor
 	public String process(final String xml) throws ParserConfigurationException, SAXException, IOException
 	{
 		if (xml == null || xml.isEmpty())
+		{
 			return null;
+		}
 		final Element e = XmlProcessor.docFromString("<root>" + xml + "</root>");
 		return VnSemanticsXmlProcessor.process(e);
 	}
@@ -76,7 +78,9 @@ public class VnSemanticsXmlProcessor extends XmlProcessor
 			// args
 			final NodeList argss = pred.getElementsByTagName("ARGS");
 			if (argss.getLength() > 1)
+			{
 				throw new RuntimeException("ARGS number at pred " + i);
+			}
 
 			// args
 			sb.append(VnSemanticsXmlProcessor.START_ARGS);
@@ -113,23 +117,31 @@ public class VnSemanticsXmlProcessor extends XmlProcessor
 					if (t.equalsIgnoreCase("Event"))
 					{
 						if (!v.matches("E[01]?") && !v.matches(VnSemanticsXmlProcessor.EVENT))
+						{
 							throw new RuntimeException("Event expression " + v);
+						}
 						sb.append("event:").append(v);
 					}
 					else if (t.equalsIgnoreCase("VerbSpecific"))
 					{
 						if (!v.matches(VnSemanticsXmlProcessor.SPECIFIC))
+						{
 							throw new RuntimeException("VerbSpecific expression " + v);
+						}
 						sb.append("verbspecific:").append(v);
 					}
 					else if (t.equalsIgnoreCase("Constant"))
 					{
 						if (!v.matches(VnSemanticsXmlProcessor.CONSTANT))
+						{
 							throw new RuntimeException("Constant expression " + v);
+						}
 						sb.append("constant:").append(v);
 					}
 					else
+					{
 						throw new RuntimeException("type " + t);
+					}
 				}
 			}
 			sb.append(VnSemanticsXmlProcessor.END_ARGS);

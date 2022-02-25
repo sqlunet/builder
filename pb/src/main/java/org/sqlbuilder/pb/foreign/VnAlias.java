@@ -1,8 +1,8 @@
 package org.sqlbuilder.pb.foreign;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.pb.objects.Word;
 import org.sqlbuilder.pb.objects.RoleSet;
+import org.sqlbuilder.pb.objects.Word;
 
 import java.util.Comparator;
 import java.util.HashSet;

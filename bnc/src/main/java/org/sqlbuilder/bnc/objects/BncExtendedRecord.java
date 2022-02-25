@@ -1,6 +1,9 @@
 package org.sqlbuilder.bnc.objects;
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.IgnoreException;
+import org.sqlbuilder.common.NotFoundException;
+import org.sqlbuilder.common.ParseException;
+import org.sqlbuilder.common.Utils;
 
 public class BncExtendedRecord extends BncRecord
 {

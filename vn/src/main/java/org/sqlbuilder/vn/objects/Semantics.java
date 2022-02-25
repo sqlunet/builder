@@ -7,7 +7,8 @@ import org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
 
 import javax.xml.parsers.ParserConfigurationException;
 

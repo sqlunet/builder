@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Word implements HasId, Insertable, Resolvable<String,Integer>, Comparable<Word>, Serializable
+public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>, Serializable
 {
 	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 

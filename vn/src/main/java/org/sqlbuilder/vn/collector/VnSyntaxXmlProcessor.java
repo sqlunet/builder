@@ -127,7 +127,9 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 	public String process(final String xml) throws ParserConfigurationException, SAXException, IOException
 	{
 		if (xml == null || xml.isEmpty())
+		{
 			return null;
+		}
 		final Element e = XmlProcessor.docFromString("<root>" + xml + "</root>");
 		return VnSyntaxXmlProcessor.process(e);
 	}
@@ -164,10 +166,8 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 			if (!value.isEmpty())
 			{
 				Checker.checkAttributeValue(value, //
-						"('s|about|after|against|among|and|apart|as|at|away|be|between|in_between|\\[\\+be\\]|before|by|concerning|down|for|from|in|into|it|it\\[\\+be\\]|like|of|off|on|onto|out|out_of|over|regarding|respecting|there|through|to|together|towards|under|until|up|upon|with|"
-								+ //
-								"Agent|Asset|Attribute|Beneficiary|Cause|Co-Agent|Co-Patient|Co-Theme|Destination|Experiencer|Extent|Goal|Initial_Location|Instrument|Location|Material|Patient|Pivot|Predicate|Product|Recipient|Reflexive|Result|Source|Stimulus|Theme|Time|Topic|Trajectory|Value)",
-						name);
+						"('s|about|after|against|among|and|apart|as|at|away|be|between|in_between|\\[\\+be\\]|before|by|concerning|down|for|from|in|into|it|it\\[\\+be\\]|like|of|off|on|onto|out|out_of|over|regarding|respecting|there|through|to|together|towards|under|until|up|upon|with|" + //
+								"Agent|Asset|Attribute|Beneficiary|Cause|Co-Agent|Co-Patient|Co-Theme|Destination|Experiencer|Extent|Goal|Initial_Location|Instrument|Location|Material|Patient|Pivot|Predicate|Product|Recipient|Reflexive|Result|Source|Stimulus|Theme|Time|Topic|Trajectory|Value)", name);
 				sb.append(' ');
 				sb.append(value);
 			}

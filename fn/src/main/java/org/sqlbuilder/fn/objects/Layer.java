@@ -1,9 +1,9 @@
 package org.sqlbuilder.fn.objects;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.HasId;
+import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.fn.types.LayerType;
 
 import java.util.Comparator;
@@ -66,7 +66,7 @@ public class Layer implements HasId, Insertable
 	@Override
 	public String comment()
 	{
-		return  String.format("type=%s", name);
+		return String.format("type=%s", name);
 	}
 
 	@Override

@@ -1,10 +1,6 @@
 package org.sqlbuilder.fn.objects;
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.ListCollector;
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.RequiresIdFrom;
-import org.sqlbuilder.common.SetId;
+import org.sqlbuilder.common.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -65,7 +61,7 @@ public class FEGroupRealization implements HasId, SetId, Insertable
 		return feNames;
 	}
 
-	@RequiresIdFrom(type= FEGroupRealization.class)
+	@RequiresIdFrom(type = FEGroupRealization.class)
 	@Override
 	public Integer getIntId()
 	{

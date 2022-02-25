@@ -6,7 +6,7 @@ import org.sqlbuilder.common.Resolver;
 import java.io.File;
 import java.io.IOException;
 
-public class WordResolver extends Resolver<String,Integer>
+public class WordResolver extends Resolver<String, Integer>
 {
 	public WordResolver(final String ser) throws IOException, ClassNotFoundException
 	{

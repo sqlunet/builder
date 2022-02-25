@@ -183,7 +183,7 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					}
 					/*
 					 * case "gov": { Checker.checkSubElements(e2, null, name2); Checker.checkAttributeName(e2, null, name2);
-					 * 
+					 *
 					 * final String value = e2.getTextContent().replaceAll("\n\n+", "\n"); // sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>'); sb.append(value); break; }
 					 */
 					default:

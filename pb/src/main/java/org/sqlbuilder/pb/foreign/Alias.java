@@ -3,13 +3,13 @@ package org.sqlbuilder.pb.foreign;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.RequiresIdFrom;
 import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.pb.objects.Word;
 import org.sqlbuilder.pb.objects.RoleSet;
+import org.sqlbuilder.pb.objects.Word;
 
 import java.util.Comparator;
 import java.util.Objects;
 
-public abstract class Alias implements Insertable, Resolvable<String,Integer>
+public abstract class Alias implements Insertable, Resolvable<String, Integer>
 {
 	public static final Comparator<? extends Alias> COMPARATOR = Comparator //
 			.comparing(Alias::getPbRoleSet) //

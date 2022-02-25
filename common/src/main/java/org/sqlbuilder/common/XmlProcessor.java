@@ -1,14 +1,14 @@
 package org.sqlbuilder.common;
 
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 public abstract class XmlProcessor
 {

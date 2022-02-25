@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.types;
 
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.SqlId;
 
 import java.util.Comparator;
@@ -12,13 +12,13 @@ public class FeType
 
 	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	@RequiresIdFrom(type=FeType.class)
+	@RequiresIdFrom(type = FeType.class)
 	public static Integer getIntId(String value)
 	{
 		return value == null ? null : COLLECTOR.get(value);
 	}
 
-	@RequiresIdFrom(type=FeType.class)
+	@RequiresIdFrom(type = FeType.class)
 	public static Object getSqlId(String value)
 	{
 		return SqlId.getSqlId(getIntId(value));

@@ -31,14 +31,16 @@ public class PbUpdateCollector extends PbCollector
 		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
+		{
 			return;
+		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
 		int fileCount = 0;
 		Progress.traceHeader("propbank", "reading files");
 		for (final File file : files)
 		{
-			fileCount ++;
+			fileCount++;
 			processPropBankFile(file.getAbsolutePath(), file.getName());
 			Progress.trace(fileCount);
 		}

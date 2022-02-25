@@ -106,10 +106,10 @@ public class BncProcessor extends Processor
 							{
 								Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.getName(), count[1], line, (NotFoundException) cause);
 							}
-//							else if (cause instanceof IgnoreException)
-//							{
-//								// ignore
-//							}
+							//							else if (cause instanceof IgnoreException)
+							//							{
+							//								// ignore
+							//							}
 						}
 						return null;
 					}) //

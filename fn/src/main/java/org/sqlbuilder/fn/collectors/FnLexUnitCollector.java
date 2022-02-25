@@ -1,8 +1,8 @@
 package org.sqlbuilder.fn.collectors;
 
 import org.apache.xmlbeans.XmlException;
-import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.common.AlreadyFoundException;
+import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.*;
@@ -120,8 +120,8 @@ public class FnLexUnitCollector extends FnCollector
 			//		    <valenceUnit FE="fe1" PT="pt" GF="gf"/>
 			//			<valenceUnit FE="fe2" PT="pt" GF="gf"/>
 			//			<valenceUnit FE="fe3" PT="pt" GF="gf"/>
-            //          <annoSet ID="n"/> *
- 			//      </pattern>
+			//          <annoSet ID="n"/> *
+			//      </pattern>
 			//  </FEGroupRealization>
 			// The following assumes the grouppatterns reuse the valence units declared in FERealization
 			// so we simply point to them through the vuToFer map
@@ -147,7 +147,7 @@ public class FnLexUnitCollector extends FnCollector
 						final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
 						FERealization fer = vuToFer.get(valenceunit);
 						FEGroupPattern_FEPattern.make(grouppattern, fer, valenceunit);
-				}
+					}
 
 					// a n n o s e t s
 					for (var _annoset : _grouppattern.getAnnoSetArray())

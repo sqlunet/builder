@@ -91,7 +91,9 @@ public class Checker
 	public static void checkAttributeValue(final String value, final String m, final String message) throws RuntimeException
 	{
 		if (value == null || value.isEmpty())
+		{
 			return;
+		}
 		final String[] items = value.split("\\s+");
 		for (final String item : items)
 		{

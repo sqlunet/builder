@@ -33,7 +33,8 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>,
 	public static VnRoleAlias make(final Role role, final VnRole vnRole)
 	{
 		var m = new VnRoleAlias(role, vnRole);
-		/* boolean wasThere = ! */ SET.add(m);
+		/* boolean wasThere = ! */
+		SET.add(m);
 		/*
 		if (wasThere)
 		{
@@ -104,8 +105,7 @@ public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>,
 	{
 		return String.format("%s,%s,%s", //
 				role.getRoleSet().getName(), //
-				role.getArgn(),
-				role.getTheta());
+				role.getArgn(), role.getTheta());
 	}
 
 	// R E S O L V E

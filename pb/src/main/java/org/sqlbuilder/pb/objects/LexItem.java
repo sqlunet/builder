@@ -29,7 +29,9 @@ public class LexItem implements Comparable<LexItem>
 		final boolean keyExisted = LexItem.map.containsKey(this);
 		LexItem.map.put(this, null);
 		if (keyExisted)
+		{
 			throw new RuntimeException(toString());
+		}
 	}
 
 	// O R D E R

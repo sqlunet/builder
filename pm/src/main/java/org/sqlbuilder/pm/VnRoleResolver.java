@@ -8,7 +8,7 @@ import org.sqlbuilder2.ser.Triplet;
 import java.io.File;
 import java.io.IOException;
 
-public class VnRoleResolver extends Resolver<Pair<String,String>, Triplet<Integer,Integer,Integer>>
+public class VnRoleResolver extends Resolver<Pair<String, String>, Triplet<Integer, Integer, Integer>>
 {
 	public VnRoleResolver(final String ser) throws IOException, ClassNotFoundException
 	{

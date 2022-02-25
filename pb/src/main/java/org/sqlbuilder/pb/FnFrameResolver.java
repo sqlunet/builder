@@ -6,7 +6,7 @@ import org.sqlbuilder.common.Resolver;
 import java.io.File;
 import java.io.IOException;
 
-public class FnFrameResolver extends Resolver<String,Integer>
+public class FnFrameResolver extends Resolver<String, Integer>
 {
 	public FnFrameResolver(final String ser) throws IOException, ClassNotFoundException
 	{

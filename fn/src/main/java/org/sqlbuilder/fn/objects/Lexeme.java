@@ -1,10 +1,13 @@
 package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.common.Utils;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import edu.berkeley.icsi.framenet.LexemeType;
 
