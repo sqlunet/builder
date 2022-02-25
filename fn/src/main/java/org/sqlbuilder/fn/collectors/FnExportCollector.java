@@ -36,10 +36,6 @@ public class FnExportCollector extends FnCollector
 	@Override
 	protected void processFrameNetFile(final String fileName, final String name)
 	{
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("framenet (frame)", name);
-		}
 		final File xmlFile = new File(fileName);
 		try
 		{
@@ -105,10 +101,6 @@ public class FnExportCollector extends FnCollector
 		catch (XmlException | ParserConfigurationException | SAXException | IOException | RuntimeException e)
 		{
 			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("framenet (frame)", name);
 		}
 	}
 }

@@ -45,10 +45,11 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
+		final String wordCol = names.column("words.word");
 		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), names.table("words"), //
 				wordResolver, //
 				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				names.column("words.word"));
+				resolving -> String.format("%s='%s'", wordCol, resolving));
 		Progress.traceDone(null);
 	}
 
@@ -57,10 +58,11 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("set", "fnalias");
 		final String fnframeidCol = names.column("pbrolesets_fnframes.fnframeid");
+		final String vnclassCol = names.column("pbrolesets_fnframes.fnframe");
 		Update.update(FnAlias.SET, new File(outDir, names.updateFile("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), //
 				fnFrameResolver, //
 				resolved -> fnframeidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				names.column("pbrolesets_fnframes.fnframe"));
+				resolving -> String.format("%s='%s'", vnclassCol, resolving));
 		Progress.traceDone(null);
 	}
 
@@ -69,10 +71,11 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("set", "vnalias");
 		final String vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid");
+		final String vnclassCol = names.column("pbrolesets_vnclasses.vnclass");
 		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), //
 				vnClassResolver, //
 				resolved -> vnclassidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				names.column("pbrolesets_vnclasses.vnclass"));
+				resolving -> String.format("%s='%s'", vnclassCol, resolving));
 		Progress.traceDone(null);
 	}
 
@@ -81,10 +84,11 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		final String vnroleidCol = names.column("pbroles_vnroles.roleid");
+		final String vnroleCol = names.column("pbroles_vnroles.vntheta");
 		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
 				vnClassRoleResolver, //
 				resolved -> vnroleidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				names.column("pbroles_vnroles.vntheta"));
+				resolving -> String.format("%s='%s'", vnroleCol, resolving));
 		Progress.traceDone(null);
 	}
 }

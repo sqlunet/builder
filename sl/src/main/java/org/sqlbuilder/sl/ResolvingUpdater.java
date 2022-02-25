@@ -44,7 +44,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		final String vnclassCol = names.column("pbrolesets_vnclasses.vnclass");
 		final String pbrolesetidCol = names.column("pbrolesets_vnclasses.pbrolesetid");
 		final String vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid");
-		Update.updateResolvable(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), //
+		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), //
 				new Resolver2<>(pbRoleSetResolver, vnClassResolver), //
 				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", pbrolesetidCol, vnclassidCol) : String.format("%s=%s,%s=%s", pbrolesetidCol, Utils.nullableInt(resolved.first), vnclassidCol, Utils.nullableInt(resolved.second)), //
 				resolving -> String.format("%s='%s' AND %s='%s'", pbrolesetCol, resolving.first, vnclassCol, resolving.second));
@@ -72,14 +72,15 @@ public class ResolvingUpdater extends ResolvingInserter
 								r.first == null ? //
 										String.format("%s=NULL,%s=NULL", pbrolesetidCol, pbroleidCol) : //
 										String.format("%s=%s,%s=%s", pbrolesetidCol, Utils.nullableInt(r.first.first), pbroleidCol, Utils.nullableInt(r.first.second)), //
-								r.second == null ? //
+								r.second == null ?
+										//
 										String.format("%s=NULL,%s=NULL,%s=NULL", vnclassidCol, vnroleidCol, vnroletypeidCol) :
 										String.format("%s=%s,%s=%s,%s=%s", vnclassidCol, Utils.nullableInt(r.second.first), vnroleidCol, Utils.nullableInt(r.second.second), vnroletypeidCol, Utils.nullableInt(r.second.third)));
 
 		final Function<Pair<Pair<String, String>, Pair<String, String>>, String> whereStringifier = r -> //
 				String.format("%s='%s' AND %s='%s' AND %s='%s' AND %s='%s'", pbrolesetCol, r.first.first, pbroleCol, r.first.second, vnclassCol, r.second.first, vnroleCol, r.second.second);
 
-		Update.updateResolvable(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
+		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
 				new Resolver2<>(pbRoleResolver, vnRoleResolver), //
 				setStringifier, //
 				whereStringifier);

@@ -30,13 +30,9 @@ public class Inserter
 
 	public void insert() throws FileNotFoundException
 	{
-		Progress.traceHeader("inserts", "inserting");
-
 		// R E S O L V A B L E
 		insertVnAliases();
 		insertVnRoleAliases();
-
-		Progress.traceTailer("inserts", "done");
 	}
 
 	protected void insertVnAliases() throws FileNotFoundException

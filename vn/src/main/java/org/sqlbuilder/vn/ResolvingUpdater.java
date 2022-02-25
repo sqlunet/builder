@@ -41,10 +41,11 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
+		final String wordCol = names.column("words.word");
 		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), names.table("words"), //
 				wordResolver, //
 				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				names.column("words.word"));
+				resolving -> String.format("%s='%s'", wordCol, resolving));
 		Progress.traceDone(null);
 	}
 
@@ -54,10 +55,11 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("set", "members senses");
 		final String wordidCol = names.column("members_senses.wordid");
 		final String synsetidCol = names.column("members_senses.synsetid");
+		final String sensekeyCol = names.column("members_senses.sensekey");
 		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), names.table("members_senses"), //
 				sensekeyResolver, //
 				resolved -> resolved == null ? "NULL,NULL" : (wordidCol + '=' + resolved.getKey() + ',' + synsetidCol + '=' + resolved.getValue()), //
-				names.column("members_senses.sensekey"));
+				resolving -> String.format("%s='%s'", sensekeyCol, resolving));
 		Progress.traceDone(null);
 	}
 }

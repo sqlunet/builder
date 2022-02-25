@@ -2,8 +2,6 @@ package org.sqlbuilder.common;
 
 public class Logger
 {
-	public static final boolean verbose = false;
-
 	public static final Logger instance = new Logger();
 
 	public void logParseException(final String moduleId, final String tag, final String filename, final long lineCount, final String line, final ParseException pe)

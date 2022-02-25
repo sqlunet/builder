@@ -41,6 +41,6 @@ public class SemlinkUpdatingProcessor extends SemlinkProcessor
 	{
 		Progress.traceHeader("semlink", "reading file");
 		SemlinkDocument.makeMappings(start);
-		Progress.traceTailer("semlink", "done");
+		Progress.traceTailer( 1);
 	}
 }

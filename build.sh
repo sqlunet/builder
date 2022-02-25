@@ -18,11 +18,11 @@ if [ "${modules}" == "all" ]; then
   modules="bnc sn vn pb fn sl pm"
   echo "All modules: ${modules}"
 fi
-shift
 
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
   pushd "${m}" > /dev/null
-  java ${vmargs} -cp ../sqlbuilder2.jar org.sqlbuilder.${m}.${m^}Module ${m}.properties $*
+  echo -e "${M}$* ${m}.properties${Z}"
+  java ${vmargs} -cp ../sqlbuilder2.jar org.sqlbuilder.${m}.${m^}Module $* ${m}.properties
   popd > /dev/null
 done

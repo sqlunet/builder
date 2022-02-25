@@ -23,10 +23,6 @@ public class FnSemTypeCollector extends FnCollector1
 	@Override
 	protected void processFrameNetFile(final String fileName, final String name)
 	{
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("framenet (semtype)", name);
-		}
 		final File xmlFile = new File(fileName);
 		try
 		{
@@ -44,10 +40,6 @@ public class FnSemTypeCollector extends FnCollector1
 		catch (XmlException | IOException e)
 		{
 			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("framenet (semtype)", name);
 		}
 	}
 }

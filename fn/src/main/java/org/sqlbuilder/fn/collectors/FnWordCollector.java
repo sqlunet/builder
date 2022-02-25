@@ -23,12 +23,6 @@ public class FnWordCollector extends FnCollector
 	@Override
 	protected void processFrameNetFile(final String fileName, final String name)
 	{
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("framenet (lu)", name);
-		}
-
-		final int count = 0;
 		final File file = new File(fileName);
 		try
 		{
@@ -54,10 +48,6 @@ public class FnWordCollector extends FnCollector
 		catch (XmlException | IOException e)
 		{
 			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("framenet (lu) " + name, Integer.toString(count));
 		}
 	}
 }

@@ -33,7 +33,6 @@ public class Inserter
 
 	public void insert() throws FileNotFoundException
 	{
-		Progress.traceHeader("inserts", "inserting");
 		try ( //
 		      var ignored1 = Example.ASPECT_COLLECTOR.open(); //
 		      var ignored2 = Example.FORM_COLLECTOR.open(); //
@@ -75,7 +74,6 @@ public class Inserter
 			insertVnAliases();
 			insertVnRoleAliases();
 		}
-		Progress.traceTailer("inserts", "done");
 	}
 
 	protected void insertWords() throws FileNotFoundException

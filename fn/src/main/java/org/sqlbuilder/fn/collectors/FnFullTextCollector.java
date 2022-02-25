@@ -26,11 +26,6 @@ public class FnFullTextCollector extends FnCollector
 	@Override
 	protected void processFrameNetFile(final String fileName, final String name)
 	{
-		if (Logger.verbose)
-		{
-			Progress.traceHeader("framenet (fulltext)", name);
-		}
-		final int count = 0;
 		final File xmlFile = new File(fileName);
 		try
 		{
@@ -104,10 +99,6 @@ public class FnFullTextCollector extends FnCollector
 		catch (XmlException | IOException e)
 		{
 			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-		if (Logger.verbose)
-		{
-			Progress.traceTailer("framenet (fulltext)" + name, Long.toString(count));
 		}
 	}
 }
