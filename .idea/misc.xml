@@ -147,6 +147,7 @@
     <pattern value="org.sqlbuilder.common.Progress" method="trace" />
     <pattern value="org.sqlbuilder.common.Progress" method="traceTailer" />
     <pattern value="org.sqlbuilder.common.ThrowingConsumer" />
+    <pattern value="org.sqlbuilder.common.Module" method="getId" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
