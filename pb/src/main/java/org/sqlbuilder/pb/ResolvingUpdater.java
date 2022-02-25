@@ -50,7 +50,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				wordResolver, //
 				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				resolving -> String.format("%s='%s'", wordCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				fnFrameResolver, //
 				resolved -> fnframeidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				resolving -> String.format("%s='%s'", vnclassCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				vnClassResolver, //
 				resolved -> vnclassidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				resolving -> String.format("%s='%s'", vnclassCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -89,6 +89,6 @@ public class ResolvingUpdater extends ResolvingInserter
 				vnClassRoleResolver, //
 				resolved -> vnroleidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				resolving -> String.format("%s='%s'", vnroleCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

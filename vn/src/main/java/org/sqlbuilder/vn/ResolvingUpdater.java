@@ -46,7 +46,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				wordResolver, //
 				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				resolving -> String.format("%s='%s'", wordCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -60,6 +60,6 @@ public class ResolvingUpdater extends ResolvingInserter
 				sensekeyResolver, //
 				resolved -> resolved == null ? "NULL,NULL" : (wordidCol + '=' + resolved.getKey() + ',' + synsetidCol + '=' + resolved.getValue()), //
 				resolving -> String.format("%s='%s'", sensekeyCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

@@ -42,6 +42,6 @@ public class ResolvingInserter extends Inserter
 				resolver, //
 				w -> Utils.nullable(w, Objects::toString), //
 				names.column("words.wordid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

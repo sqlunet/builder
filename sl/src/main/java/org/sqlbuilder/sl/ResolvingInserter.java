@@ -62,7 +62,7 @@ public class ResolvingInserter extends Inserter
 				VnAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbrolesets_vnclasses.pbrolesetid"), //
 				names.column("pbrolesets_vnclasses.vnclassid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -77,6 +77,6 @@ public class ResolvingInserter extends Inserter
 				names.column("pbroles_vnroles.vnclassid"), //
 				names.column("pbroles_vnroles.vnroleid"), //;
 				names.column("pbroles_vnroles.vnroletypeid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

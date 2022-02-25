@@ -64,7 +64,7 @@ public class ResolvingInserter extends Inserter
 				wordResolver, //
 				Objects::toString, //
 				names.column("words.wordid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class ResolvingInserter extends Inserter
 				fnFrameResolver, //
 				r -> Utils.nullable(r, Objects::toString), //
 				names.column("pbrolesets_fnframes.fnframeid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class ResolvingInserter extends Inserter
 				vnClassResolver, //
 				r -> Utils.nullable(r, Objects::toString), //
 				names.column("pbrolesets_vnclasses.vnclassid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -99,6 +99,6 @@ public class ResolvingInserter extends Inserter
 				names.column("pbroles_vnroles.vnclassid"), //
 				names.column("pbroles_vnroles.vnroleid"), //
 				names.column("pbroles_vnroles.vnroletypeid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

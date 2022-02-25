@@ -56,12 +56,10 @@ public class VnUpdateCollector extends VnCollector
 	protected void processVerbNetFile(final String fileName, final String name)
 	{
 		final String head = name.split("-")[0];
-		Progress.tracePending("verbnet",head);
 		try
 		{
 			final VnDocument document = new VnDocument(fileName);
 			processVerbNetClass(XPathUtils.getXPath(document.getDocument(), "./VNCLASS"), head);
-			Progress.traceDone(null);
 		}
 		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
 		{

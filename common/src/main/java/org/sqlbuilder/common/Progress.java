@@ -9,6 +9,11 @@ public class Progress
 		System.out.print(tag + " " + message);
 	}
 
+	public static void traceDone()
+	{
+		traceDone(null);
+	}
+
 	public static void traceDone(final String message)
 	{
 		if (message == null)

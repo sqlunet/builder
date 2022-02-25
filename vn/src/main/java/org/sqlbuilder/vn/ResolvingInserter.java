@@ -48,18 +48,18 @@ public class ResolvingInserter extends Inserter
 				wordResolver, //
 				Objects::toString, //
 				names.column("words.wordid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
 	protected void insertMemberSenses() throws FileNotFoundException
 	{
-		Progress.tracePending("set", "word");
+		Progress.tracePending("set", "member sense");
 		Insert.resolveAndInsert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), //
 				sensekeyResolver, //
 				Member_Sense.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("members_senses.wordid"),  //
 				names.column("members_senses.synsetid"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

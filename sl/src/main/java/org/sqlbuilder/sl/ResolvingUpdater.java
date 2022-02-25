@@ -48,7 +48,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				new Resolver2<>(pbRoleSetResolver, vnClassResolver), //
 				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", pbrolesetidCol, vnclassidCol) : String.format("%s=%s,%s=%s", pbrolesetidCol, Utils.nullableInt(resolved.first), vnclassidCol, Utils.nullableInt(resolved.second)), //
 				resolving -> String.format("%s='%s' AND %s='%s'", pbrolesetCol, resolving.first, vnclassCol, resolving.second));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	@Override
@@ -84,6 +84,6 @@ public class ResolvingUpdater extends ResolvingInserter
 				new Resolver2<>(pbRoleResolver, vnRoleResolver), //
 				setStringifier, //
 				whereStringifier);
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

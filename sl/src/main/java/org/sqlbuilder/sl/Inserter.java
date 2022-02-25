@@ -39,13 +39,13 @@ public class Inserter
 	{
 		Progress.tracePending("set", "vnalias");
 		Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }

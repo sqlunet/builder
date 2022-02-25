@@ -61,17 +61,14 @@ public class VnCollector extends Processor
 	protected void processVerbNetFile(final String fileName, final String name)
 	{
 		final String head = name.split("-")[0];
-		Progress.tracePending("verbnet",head);
 		try
 		{
 			final VnDocument document = new VnDocument(fileName);
 			processVerbNetClass(XPathUtils.getXPath(document.getDocument(), "./VNCLASS"), head, null, null);
-			Progress.traceDone(null);
 		}
 		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
 		{
 			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e);
-			Progress.traceDone(e.toString());
 		}
 	}
 

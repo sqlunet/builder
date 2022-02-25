@@ -44,6 +44,6 @@ public class ResolvingUpdater extends ResolvingInserter
 				resolver, //
 				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
 				resolving -> String.format("%s='%s'", wordCol, resolving));
-		Progress.traceDone(null);
+		Progress.traceDone();
 	}
 }
