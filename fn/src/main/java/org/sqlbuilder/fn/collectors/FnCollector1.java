@@ -24,11 +24,11 @@ public abstract class FnCollector1 extends Processor
 	{
 		Progress.traceHeader("framenet file", this.filename);
 		final File file = new File(this.fnHome + File.separatorChar + this.filename);
-		processFrameNetFile(file.getAbsolutePath(), file.getName());
+		processFrameNetFile(file.getAbsolutePath());
 		Progress.trace(1);
 		Progress.traceTailer(1);
 	}
 
 	@SuppressWarnings({ "SameReturnValue", "UnusedReturnValue" })
-	protected abstract void processFrameNetFile(final String fileName, final String name);
+	protected abstract void processFrameNetFile(final String fileName);
 }

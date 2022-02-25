@@ -46,7 +46,7 @@ public class PmResolvingProcessor extends PmProcessor
 
 	protected final SensekeyResolver sensekeyResolver;
 
-	protected final VnClassRoleResolver vnRoleResolver;
+	protected final VnRoleResolver vnRoleResolver;
 
 	protected final PbRoleResolver pbRoleResolver;
 
@@ -81,7 +81,7 @@ public class PmResolvingProcessor extends PmProcessor
 		this.pbWordResolver = new PbWordResolver(pbWordSerFile);
 		this.fnWordResolver = new FnWordResolver(fnWordSerFile);
 		this.sensekeyResolver = new SensekeyResolver(sensekeySerFile);
-		this.vnRoleResolver = new VnClassRoleResolver(vnRoleSerFile);
+		this.vnRoleResolver = new VnRoleResolver(vnRoleSerFile);
 		this.pbRoleResolver = new PbRoleResolver(pbRoleSerFile);
 		this.fnRoleResolver = new FnRoleResolver(this.fnRoleSerFile);
 	}

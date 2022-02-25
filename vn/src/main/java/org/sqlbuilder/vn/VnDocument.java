@@ -106,7 +106,7 @@ public class VnDocument
 				for (var sensekey : sensekeys)
 				{
 					// sense mapping quality as indicated by verbnet ('?' prefix to sense key)
-					final float senseQuality = sensekey.getQuality();
+					// final float senseQuality = sensekey.getQuality();
 
 					// class member sense
 					Sense.make(sensekey);

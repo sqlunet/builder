@@ -8,9 +8,9 @@ import org.sqlbuilder2.ser.Triplet;
 import java.io.File;
 import java.io.IOException;
 
-public class VnClassRoleResolver extends Resolver<Pair<String,String>, Triplet<Integer,Integer,Integer>>
+public class VnRoleResolver extends Resolver<Pair<String,String>, Triplet<Integer,Integer,Integer>>
 {
-	public VnClassRoleResolver(final String ser) throws IOException, ClassNotFoundException
+	public VnRoleResolver(final String ser) throws IOException, ClassNotFoundException
 	{
 		super(DeSerialize.deserialize(new File(ser)));
 	}

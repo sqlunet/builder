@@ -30,7 +30,7 @@ public class FnLexUnitCollector extends FnCollector
 	private final Map<ValenceUnit, FERealization> vuToFer = new HashMap<>();
 
 	@Override
-	protected void processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName)
 	{
 		vuToFer.clear();
 
@@ -165,7 +165,7 @@ public class FnLexUnitCollector extends FnCollector
 
 				for (var _sentence : _subcorpus.getSentenceArray())
 				{
-					final Sentence sentence = Sentence.make(_sentence, false);
+					final Sentence sentence = Sentence.make(_sentence);
 					SubCorpus_Sentence.make(subcorpus, sentence);
 
 					for (var _annoset : _sentence.getAnnotationSetArray())

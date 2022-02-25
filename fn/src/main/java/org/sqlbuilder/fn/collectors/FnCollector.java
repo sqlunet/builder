@@ -47,7 +47,7 @@ public abstract class FnCollector extends Processor
 			this.filename = file.getName();
 			try
 			{
-				processFrameNetFile(file.getAbsolutePath(), file.getName());
+				processFrameNetFile(file.getAbsolutePath());
 				fileCount++;
 			}
 			catch (Exception e)
@@ -60,5 +60,5 @@ public abstract class FnCollector extends Processor
 	}
 
 	@SuppressWarnings("SameReturnValue")
-	protected abstract void processFrameNetFile(final String fileName, final String name);
+	protected abstract void processFrameNetFile(final String fileName);
 }

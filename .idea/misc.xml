@@ -7,6 +7,9 @@
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.objects.FERealization COMPARATOR" />
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.objects.Frame COMPARATOR" />
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.ListCollector isOpen" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pb.collectors.PbCollector conf" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pm.PmProcessor conf" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.sn.SnProcessor conf" />
     </entry_points>
     <pattern value="org.sqlbuilder.pb.foreign.Alias" method="dataRow" />
     <pattern value="org.sqlbuilder.fn.objects.AnnotationSet" method="dataRow" />
@@ -139,6 +142,11 @@
     <pattern value="org.sqlbuilder.common.MapFactory" method="insert" />
     <pattern value="org.sqlbuilder.common.MapFactory" method="makeMap" />
     <pattern value="org.sqlbuilder.common.MapFactory" method="makeSortedMap" />
+    <pattern value="org.sqlbuilder.pb.foreign.VnClass" method="getHead" />
+    <pattern value="org.sqlbuilder.common.Progress" method="info" />
+    <pattern value="org.sqlbuilder.common.Progress" method="trace" />
+    <pattern value="org.sqlbuilder.common.Progress" method="traceTailer" />
+    <pattern value="org.sqlbuilder.common.ThrowingConsumer" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">

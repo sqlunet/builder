@@ -29,14 +29,14 @@ public class Sentence implements HasID, Insertable
 
 	private final String text;
 
-	public static Sentence make(final SentenceType sentence, final boolean fromFullText)
+	public static Sentence make(final SentenceType sentence)
 	{
-		var s = new Sentence(sentence, fromFullText);
+		var s = new Sentence(sentence);
 		Sentence.SET.add(s);
 		return s;
 	}
 
-	private Sentence(final SentenceType sentence, final boolean fromFullText)
+	private Sentence(final SentenceType sentence)
 	{
 		this.sentenceid = sentence.getID();
 		this.corpusid = sentence.getCorpID();

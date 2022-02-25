@@ -13,7 +13,7 @@ public class Predicate implements HasId, Comparable<Predicate>, Insertable
 	public final String predicate;
 
 	@SuppressWarnings("UnusedReturnValue")
-	public static Predicate make(final String lemma, final String other)
+	public static Predicate make(final String lemma)
 	{
 		return new Predicate(lemma);
 	}

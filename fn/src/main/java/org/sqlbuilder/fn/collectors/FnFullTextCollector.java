@@ -23,7 +23,7 @@ public class FnFullTextCollector extends FnCollector
 	}
 
 	@Override
-	protected void processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName)
 	{
 		final File xmlFile = new File(fileName);
 		try
@@ -67,7 +67,7 @@ public class FnFullTextCollector extends FnCollector
 			for (var _sentence : _fulltextannotation.getSentenceArray())
 			{
 				int sentenceid = _sentence.getID();
-				Sentence.make(_sentence, true);
+				Sentence.make(_sentence);
 
 				// annotation sets
 				for (var _annoset : _sentence.getAnnotationSetArray())

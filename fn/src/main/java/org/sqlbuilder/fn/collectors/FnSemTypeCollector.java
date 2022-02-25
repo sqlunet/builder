@@ -20,7 +20,7 @@ public class FnSemTypeCollector extends FnCollector1
 	}
 
 	@Override
-	protected void processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName)
 	{
 		final File xmlFile = new File(fileName);
 		try

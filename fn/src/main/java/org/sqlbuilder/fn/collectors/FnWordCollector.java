@@ -20,7 +20,7 @@ public class FnWordCollector extends FnCollector
 	}
 
 	@Override
-	protected void processFrameNetFile(final String fileName, final String name)
+	protected void processFrameNetFile(final String fileName)
 	{
 		final File file = new File(fileName);
 		try

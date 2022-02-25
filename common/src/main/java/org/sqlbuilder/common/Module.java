@@ -56,4 +56,9 @@ public abstract class Module
 		}
 		return null;
 	}
+
+	public String getId()
+	{
+		return id;
+	}
 }

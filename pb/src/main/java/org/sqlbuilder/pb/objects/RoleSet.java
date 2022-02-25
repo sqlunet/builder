@@ -126,7 +126,6 @@ public class RoleSet implements HasId, Insertable, Comparable<RoleSet>, Serializ
 		final Word word = LexItem.map.get(predicate2);
 
 		// (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
-		final int roleSetId = RoleSet.COLLECTOR.get(this);
 		return String.format("'%s',%s,'%s',%s", //
 				Utils.escape(name), //
 				Utils.nullableQuotedEscapedString(descr), //

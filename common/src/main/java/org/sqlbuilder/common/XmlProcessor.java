@@ -12,11 +12,6 @@ import org.xml.sax.SAXException;
 
 public abstract class XmlProcessor
 {
-	protected XmlProcessor()
-	{
-		//
-	}
-
 	public abstract String process(String xml) throws ParserConfigurationException, SAXException, IOException;
 
 	static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
