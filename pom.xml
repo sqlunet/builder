@@ -21,6 +21,7 @@
 		<module>pm</module>
 		<module>legacy</module>
 		<module>sl</module>
+		<module>reqprov</module>
 	</modules>
 
 	<properties>

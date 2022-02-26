@@ -82,13 +82,6 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 		return String.format("'%s'", Utils.escape(word));
 	}
 
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String comment()
-	{
-		return String.format("id=%s", getSqlId());
-	}
-
 	// R E S O L V E
 
 	@Override

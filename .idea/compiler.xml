@@ -2,7 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile name="Maven default annotation processors profile" enabled="true">
+      <profile default="true" name="Default" procOnly="true">
+        <processorPath useClasspath="false" />
+      </profile>
+      <profile name="Maven default annotation processors profile">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -10,14 +13,21 @@
         <module name="legacy" />
         <module name="common" />
         <module name="bnc" />
-        <module name="fn" />
         <module name="vn" />
         <module name="sl" />
         <module name="fn-jaxb" />
+        <module name="reqprov" />
         <module name="sn" />
         <module name="fn-beans" />
         <module name="pm" />
         <module name="foreign" />
+      </profile>
+      <profile name="reqprov" enabled="true" procOnly="true">
+        <processor name="org.sqlbuilder.annotations.RequiresProvides" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/reqprov/target/reqprov-1.0-SNAPSHOT.jar" />
+        </processorPath>
+        <module name="fn" />
       </profile>
     </annotationProcessing>
   </component>
