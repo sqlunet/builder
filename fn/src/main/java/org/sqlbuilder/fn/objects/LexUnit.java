@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn.objects;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.types.FeType;

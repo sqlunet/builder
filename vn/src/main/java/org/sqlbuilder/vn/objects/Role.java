@@ -1,5 +1,7 @@
 package org.sqlbuilder.vn.objects;
 
+import org.sqlbuilder.annotations.ProvidesIdTo;
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
@@ -48,7 +50,7 @@ public class Role implements Insertable, HasId
 		return clazz;
 	}
 
-	@ProvidesIdTo(type = Role.class)
+	@RequiresIdFrom(type = Role.class)
 	@Override
 	public Integer getIntId()
 	{

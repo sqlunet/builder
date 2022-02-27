@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.common.Update;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.vn.objects.Sense;

@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn.objects;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 
 import java.io.Serializable;

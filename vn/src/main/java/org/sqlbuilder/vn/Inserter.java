@@ -3,7 +3,7 @@ package org.sqlbuilder.vn;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.vn.joins.*;
 import org.sqlbuilder.vn.objects.*;
 
@@ -40,8 +40,8 @@ public class Inserter
 		      @ProvidesIdTo(type = FrameName.class) var ignored31 = FrameName.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = FrameSubName.class) var ignored32 = FrameSubName.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = FrameExample.class) var ignored33 = FrameExample.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = FrameExample.class) var ignored34 = Syntax.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = FrameExample.class) var ignored35 = Semantics.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Syntax.class) var ignored34 = Syntax.COLLECTOR.open(); //
+		      @ProvidesIdTo(type = Semantics.class) var ignored35 = Semantics.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Grouping.class) var ignored40 = Grouping.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Predicate.class) var ignored41 = Predicate.COLLECTOR.open(); //
 		      @ProvidesIdTo(type = Word.class) var ignored50 = Word.COLLECTOR.open() //

@@ -9,25 +9,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="pb" />
         <module name="legacy" />
+        <module name="fn" />
+        <module name="reqprov" />
+        <module name="foreign" />
+        <module name="pb" />
         <module name="common" />
         <module name="bnc" />
         <module name="vn" />
         <module name="sl" />
         <module name="fn-jaxb" />
-        <module name="reqprov" />
         <module name="sn" />
         <module name="fn-beans" />
         <module name="pm" />
-        <module name="foreign" />
       </profile>
       <profile name="reqprov" enabled="true" procOnly="true">
-        <processor name="org.sqlbuilder.annotations.RequiresProvides" />
+        <processor name="org.sqlbuilder.annotations.RequiresProvidesProcessor" />
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/reqprov/target/reqprov-1.0-SNAPSHOT.jar" />
         </processorPath>
-        <module name="fn" />
+        <module name="reqprovtest" />
       </profile>
     </annotationProcessing>
   </component>

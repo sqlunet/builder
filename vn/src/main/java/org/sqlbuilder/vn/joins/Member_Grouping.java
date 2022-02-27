@@ -2,7 +2,7 @@ package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Grouping;
 import org.sqlbuilder.vn.objects.VnClass;
 import org.sqlbuilder.vn.objects.Word;

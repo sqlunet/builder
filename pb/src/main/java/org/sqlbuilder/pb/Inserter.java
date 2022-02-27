@@ -3,7 +3,7 @@ package org.sqlbuilder.pb;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Names;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.pb.foreign.FnAlias;
 import org.sqlbuilder.pb.foreign.VnAlias;
 import org.sqlbuilder.pb.foreign.VnRoleAlias;

@@ -2,7 +2,7 @@ package org.sqlbuilder.pm;
 
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.pm.objects.PmRole;
 import org.sqlbuilder2.ser.Pair;

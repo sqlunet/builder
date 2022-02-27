@@ -1,4 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;

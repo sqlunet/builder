@@ -1,5 +1,6 @@
 package org.sqlbuilder.fn.joins;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.fn.objects.FEGroupRealization;
 

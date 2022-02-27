@@ -1,7 +1,7 @@
 package org.sqlbuilder.pb;
 
 import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.pb.objects.Role;
 import org.sqlbuilder.pb.objects.RoleSet;
 import org.sqlbuilder.pb.objects.Theta;

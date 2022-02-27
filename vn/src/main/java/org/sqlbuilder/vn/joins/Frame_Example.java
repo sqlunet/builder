@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Frame;
 import org.sqlbuilder.vn.objects.FrameExample;
 

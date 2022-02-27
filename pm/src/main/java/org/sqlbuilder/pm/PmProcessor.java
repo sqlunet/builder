@@ -1,5 +1,6 @@
 package org.sqlbuilder.pm;
 
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.pm.objects.PmEntry;
 import org.sqlbuilder.pm.objects.PmRole;

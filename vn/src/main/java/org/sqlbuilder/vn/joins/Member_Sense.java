@@ -1,5 +1,6 @@
 package org.sqlbuilder.vn.joins;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.vn.objects.Sensekey;
 import org.sqlbuilder.vn.objects.VnClass;

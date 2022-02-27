@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn;
 
 import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.vn.objects.Role;
 import org.sqlbuilder.vn.objects.RoleType;
 import org.sqlbuilder.vn.objects.VnClass;

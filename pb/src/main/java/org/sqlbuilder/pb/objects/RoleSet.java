@@ -1,5 +1,6 @@
 package org.sqlbuilder.pb.objects;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.pb.foreign.Alias;
 

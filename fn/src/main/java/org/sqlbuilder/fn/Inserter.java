@@ -1,5 +1,8 @@
 package org.sqlbuilder.fn;
 
+import org.sqlbuilder.annotations.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo2;
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.*;

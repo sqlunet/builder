@@ -1,5 +1,6 @@
 package org.sqlbuilder.pm.objects;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 
 import java.util.Comparator;

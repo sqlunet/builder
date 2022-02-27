@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn.joins;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.Governor;
 
 import java.util.Comparator;

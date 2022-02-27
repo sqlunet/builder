@@ -2,7 +2,7 @@ package org.sqlbuilder.fn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.RequiresIdFrom;
+import org.sqlbuilder.annotations.RequiresIdFrom;
 
 import java.util.Comparator;
 import java.util.Map;

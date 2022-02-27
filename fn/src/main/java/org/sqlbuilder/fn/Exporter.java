@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.ProvidesIdTo;
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
 import org.sqlbuilder.fn.objects.Word;
@@ -47,7 +47,8 @@ public class Exporter
 		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.size());
 		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
 
-		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); @ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
+		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); //
+		     @ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
 		{
 			serialize();
 			export();
