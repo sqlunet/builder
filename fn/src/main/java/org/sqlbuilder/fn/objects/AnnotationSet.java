@@ -82,6 +82,10 @@ public class AnnotationSet implements HasID, Insertable
 	{
 		var a = new AnnotationSet(annoset, sentenceid);
 
+		if (a.cxnid != null && a.cxnName != null)
+		{
+			Cxns.make(a.cxnid, a.cxnName);
+		}
 		final boolean isNew = SET.add(a);
 		if (!isNew)
 		{

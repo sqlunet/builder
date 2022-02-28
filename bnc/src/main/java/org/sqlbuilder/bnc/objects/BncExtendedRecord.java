@@ -32,25 +32,20 @@ public class BncExtendedRecord extends BncRecord
 			throw new ParseException("Number of fields is not 12");
 		}
 
-		// id
-		String word = fields[1];
-		final String bncPos = fields[2];
+		// fields
+		final String field1 = fields[1];
+		final String field2 = fields[2];
 		final String inflectedForm = fields[3];
 
-		// expand tab placeholders (do not move: this is a reference to previous line/chain of lines)
-		if (word.equals("@"))
-		{
-			word = BncRecord.lastLemma;
-		}
-		if (word.equals("@"))
-		{
-			word = BncRecord.lastPos;
-		}
+		// expand placeholders (do not move: this is a reference to previous line/chain of lines)
+		final String word = "@".equals(field1) ? BncRecord.lastLemma : field1;
+		final String bncPos = "@".equals(field2) ? BncRecord.lastPos : field2;
+
 		BncRecord.lastLemma = word;
 		BncRecord.lastPos = bncPos;
 
 		// do not process variants
-		if (!inflectedForm.equals("%"))
+		if (!"%".equals(inflectedForm) || "%".equals(field1))
 		{
 			throw new IgnoreException(inflectedForm);
 		}

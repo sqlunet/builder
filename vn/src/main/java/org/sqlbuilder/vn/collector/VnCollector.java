@@ -32,7 +32,7 @@ public class VnCollector extends Processor
 	public VnCollector(final Properties props)
 	{
 		super("vn");
-		this.verbNetHome = props.getProperty("vnhome", System.getenv().get("VNHOME"));
+		this.verbNetHome = props.getProperty("vn_home", System.getenv().get("VNHOME"));
 	}
 
 	@Override

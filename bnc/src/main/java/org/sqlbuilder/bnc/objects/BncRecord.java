@@ -94,24 +94,18 @@ public class BncRecord implements Insertable
 
 		// fields
 		final String field1 = fields[1];
+		final String field2 = fields[2];
 		final String inflectedForm = fields[3];
-		String bncPos = fields[2];
 
-		// expand tab placeholders (do not move: this is a reference to previous line/chain of lines)
-		String word = field1;
-		if (word.equals("@"))
-		{
-			word = BncRecord.lastLemma;
-		}
-		if (bncPos.equals("@"))
-		{
-			bncPos = BncRecord.lastPos;
-		}
+		// expand placeholders (do not move: this is a reference to previous line/chain of lines)
+		final String word = "@".equals(field1) ? BncRecord.lastLemma : field1;
+		final String bncPos = "@".equals(field2) ? BncRecord.lastPos : field2;
+
 		BncRecord.lastLemma = word;
 		BncRecord.lastPos = bncPos;
 
 		// do not process variants
-		if (!inflectedForm.equals("%"))
+		if (!"%".equals(inflectedForm) || "%".equals(field1))
 		{
 			throw new IgnoreException(inflectedForm);
 		}
