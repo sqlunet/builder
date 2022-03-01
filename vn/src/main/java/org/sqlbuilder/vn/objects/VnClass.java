@@ -18,6 +18,11 @@ public class VnClass implements HasId, Insertable, Comparable<VnClass>
 
 	public static VnClass make(final String name)
 	{
+		if (name == null || name.isEmpty())
+		{
+			throw new RuntimeException("No name");
+		}
+
 		var c = new VnClass(name);
 		COLLECTOR.add(c);
 		return c;
