@@ -8,12 +8,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 public class VnRestrsXmlProcessor extends XmlProcessor
 {
 	private static final boolean LOG_ONLY = false;
+	private static final boolean TARGET_34 = true;
 
 	static final char START_SELRESTR = '<';
 	static final char END_SELRESTR = '>';
@@ -24,9 +26,14 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 
 	static final String RESTRS2 = "SELRESTR|SYNRESTR|SELRESTRS";
 
-	static final String SELRESTR = "abstract|animal|animate|at|biotic|body_part|comestible|communication|concrete|currency|dest|dest_conf|dest_dir|dir|elongated|eventive|force|garment|gol|human|int_control|loc|location|machine|nonrigid|organization|path|plural|pointy|question|refl|region|solid|sound|spatial|src|src_conf|state|substance|vehicle|vehicle_part";
+	static final String SELRESTR_REGEX33 = "abstract|animal|animate|biotic|body_part|comestible|communication|concrete|currency|dest|dest_conf|dest_dir|dir|elongated|eventive|force|garment|human|int_control|loc|location|machine|nonrigid|organization|path|plural|pointy|refl|region|solid|sound|spatial|src|state|substance|time|vehicle";
+	static final String SELRESTR_REGEX34 = "abstract|animal|animate|at|biotic|body_part|comestible|communication|concrete|currency|dest|dest_conf|dest_dir|dir|elongated|eventive|force|garment|gol|human|int_control|loc|location|machine|nonrigid|organization|path|plural|pointy|question|refl|region|solid|sound|spatial|src|src_conf|state|substance|vehicle|vehicle_part";
 
-	static final String SYNRESTR = "ac_ing|ac_to_inf|adv_loc|be_sc_ing|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|poss_ing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|what_extract|what_inf|wh_comp|wheth_inf|wh_extract|wh_inf|wh_ing";
+	static final String SYNRESTR_REGEX33 = "ac_ing|ac_to_inf|adv_loc|be_sc_ing|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|poss_ing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|what_extract|what_inf|wh_comp|wheth_inf|wh_extract|wh_inf|wh_ing";
+	static final String SYNRESTR_REGEX34 = "ac_ing|ac_to_inf|adv_loc|be_sc_ing|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|poss_ing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|what_extract|what_inf|wh_comp|wheth_inf|wh_extract|wh_inf|wh_ing";
+
+	static final Pattern SELRESTR_PATTERN = Pattern.compile(TARGET_34 ? SELRESTR_REGEX34 : SELRESTR_REGEX33, Pattern.CASE_INSENSITIVE);
+	static final Pattern SYNRESTR_PATTERN = Pattern.compile(TARGET_34 ? SYNRESTR_REGEX34 : SYNRESTR_REGEX33, Pattern.CASE_INSENSITIVE);
 
 	public VnRestrsXmlProcessor()
 	{
@@ -140,13 +147,13 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 				{
 					if (isSynRestr)
 					{
-						Checker.checkAttributeValue(type3, SYNRESTR, "SYNRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SYNRESTR, LOG_ONLY);
-						//System.out.println("SYN " + type3);
+						Checker.checkAttributeValue(type3, SYNRESTR_PATTERN, "SYNRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SYNRESTR_PATTERN.pattern(), LOG_ONLY);
+						//System.out.println("@SYN " + type3);
 					}
 					if (isSelRestr)
 					{
-						Checker.checkAttributeValue(type3, SELRESTR, "SELRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SELRESTR, LOG_ONLY);
-						//System.out.println("SEN " + type3);
+						Checker.checkAttributeValue(type3, SELRESTR_PATTERN, "SELRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SELRESTR_PATTERN.pattern(), LOG_ONLY);
+						//System.out.println("@SEL " + type3);
 					}
 				}
 

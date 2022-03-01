@@ -25,23 +25,24 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 	// C O N S T R U C T O R
 	public static Semantics make(final String semantics) throws IOException, SAXException, ParserConfigurationException
 	{
-		var s = new Semantics(semantics);
-		COLLECTOR.add(s);
-		return s;
-	}
-
-	private Semantics(final String semantics) throws IOException, SAXException, ParserConfigurationException
-	{
-		final String semantics2 = semantics.replaceFirst("^<SEMANTICS>", "").replaceFirst("</SEMANTICS>$", "");
+		String semantics2 = semantics.replaceFirst("^<SEMANTICS>", "").replaceFirst("</SEMANTICS>$", "");
 		try
 		{
-			this.semantics = SEMANTICS_PROCESSOR.process(semantics2);
+			semantics2 = SEMANTICS_PROCESSOR.process(semantics2);
 		}
 		catch (ParserConfigurationException | IOException | SAXException e)
 		{
 			System.err.println(semantics2);
 			throw e;
 		}
+		var s = new Semantics(semantics2);
+		COLLECTOR.add(s);
+		return s;
+	}
+
+	private Semantics(final String semantics)
+	{
+		this.semantics = semantics;
 	}
 
 	// A C C E S S

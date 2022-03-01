@@ -129,6 +129,11 @@ public class Checker
 		return checkAttributeValue(value, "\\s+", regex, context, logOnly);
 	}
 
+	public static boolean checkAttributeValue(final String value, final Pattern pattern, final String context, boolean logOnly) throws RuntimeException
+	{
+		return checkAttributeValue(value, "\\s+", pattern, context, logOnly);
+	}
+
 	public static boolean checkAttributeValue(final String value, final String delim, final String regex, final String context, boolean logOnly) throws RuntimeException
 	{
 		if (value == null || value.isEmpty())
@@ -137,6 +142,16 @@ public class Checker
 		}
 		final String[] items = value.trim().split(delim);
 		return checkAttributeValues(items, regex, context, logOnly);
+	}
+
+	public static boolean checkAttributeValue(final String value, final String delim, final Pattern pattern, final String context, boolean logOnly) throws RuntimeException
+	{
+		if (value == null || value.isEmpty())
+		{
+			return true;
+		}
+		final String[] items = value.trim().split(delim);
+		return checkAttributeValues(items, pattern, context, logOnly);
 	}
 
 	public static boolean checkAttributeValues(final String[] values, final String regex, final String context, boolean logOnly) throws RuntimeException
@@ -150,6 +165,34 @@ public class Checker
 		for (final String value : values)
 		{
 			Matcher m= p.matcher(value);
+			if (!m.matches())
+			{
+				++Checker.errors;
+				String message = "Illegal attribute value <" + value + "> in " + (context == null ? "" : context);
+				if (!logOnly)
+				{
+					throw new RuntimeException(message);
+				}
+				else
+				{
+					System.err.println(message);
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public static boolean checkAttributeValues(final String[] values, final Pattern pattern, final String context, boolean logOnly) throws RuntimeException
+	{
+		if (values == null || values.length == 0)
+		{
+			return true;
+		}
+
+		for (final String value : values)
+		{
+			Matcher m= pattern.matcher(value);
 			if (!m.matches())
 			{
 				++Checker.errors;

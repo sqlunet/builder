@@ -29,26 +29,19 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 	// C O N S T R U C T O R
 	public static Restrs make(final String value, final boolean isSyntactic) throws IOException, SAXException, ParserConfigurationException
 	{
-		var r = new Restrs(value, isSyntactic);
-		COLLECTOR.add(r);
-		return r;
-	}
-
-	private Restrs(final String value, final boolean isSyntactic0) throws IOException, SAXException, ParserConfigurationException
-	{
-		this.isSyntactic = isSyntactic0;
+		String value2;
 		try
 		{
-			this.value = RESTRS_XML_PROCESSOR.process(value);
-			if (this.value == null || this.value.isEmpty())
+			value2 = RESTRS_XML_PROCESSOR.process(value);
+			if (value2 == null || value2.isEmpty())
 			{
 				if (LOG_ONLY)
 				{
-					System.err.println("empty [" + value + "] ->" + this.value);
+					System.err.println("empty [" + value + "]");
 				}
 				else
 				{
-					throw new RuntimeException("empty [" + value + "] ->" + this.value);
+					throw new RuntimeException("empty [" + value + "]");
 				}
 			}
 		}
@@ -57,6 +50,15 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 			System.err.println(value);
 			throw e;
 		}
+		var r = new Restrs(value2, isSyntactic);
+		COLLECTOR.add(r);
+		return r;
+	}
+
+	private Restrs(final String value, final boolean isSyntactic)
+	{
+		this.value = value;
+		this.isSyntactic = isSyntactic;
 	}
 
 	// A C C E S S

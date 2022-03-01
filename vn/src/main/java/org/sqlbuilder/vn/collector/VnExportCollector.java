@@ -45,7 +45,7 @@ public class VnExportCollector extends VnCollector
 		}
 		catch (XPathExpressionException | TransformerException | ParserConfigurationException | SAXException | IOException e)
 		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getNodeName(), e);
+			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getOwnerDocument().getDocumentURI(), e);
 		}
 	}
 

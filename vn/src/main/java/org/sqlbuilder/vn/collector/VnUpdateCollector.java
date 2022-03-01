@@ -86,7 +86,7 @@ public class VnUpdateCollector extends VnCollector
 		}
 		catch (XPathExpressionException e)
 		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getNodeName(), e);
+			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getOwnerDocument().getDocumentURI(), e);
 		}
 	}
 

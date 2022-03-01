@@ -24,25 +24,27 @@ public class Syntax implements HasId, Insertable, Comparable<Syntax>
 	private final String syntax;
 
 	// C O N S T R U C T O R
+
 	public static Syntax make(final String syntax) throws IOException, SAXException, ParserConfigurationException
 	{
-		var s = new Syntax(syntax);
+		String syntax2 = syntax.replaceFirst("^<SYNTAX>", "").replaceFirst("</SYNTAX>$", "");
+		try
+		{
+			syntax2 = SYNTAX_XML_PROCESSOR.process(syntax2);
+		}
+		catch (ParserConfigurationException | IOException | SAXException e)
+		{
+			System.err.println(syntax2);
+			throw e;
+		}
+		var s = new Syntax(syntax2);
 		COLLECTOR.add(s);
 		return s;
 	}
 
-	private Syntax(final String syntax) throws IOException, SAXException, ParserConfigurationException
+	private Syntax(final String syntax)
 	{
-		final String syntax1 = syntax.replaceFirst("^<SYNTAX>", "").replaceFirst("</SYNTAX>$", "");
-		try
-		{
-			this.syntax = SYNTAX_XML_PROCESSOR.process(syntax1);
-		}
-		catch (ParserConfigurationException | IOException | SAXException e)
-		{
-			System.err.println(syntax1);
-			throw e;
-		}
+		this.syntax = syntax;
 	}
 
 	// A C C E S S

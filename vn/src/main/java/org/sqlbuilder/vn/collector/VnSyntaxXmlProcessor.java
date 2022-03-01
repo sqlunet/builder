@@ -8,13 +8,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 public class VnSyntaxXmlProcessor extends XmlProcessor
 {
-	private static final boolean LOG_ONLY = true;
+	private static final boolean LOG_ONLY = false;
+	private static final boolean TARGET_34 = true;
 
 	static final String SEP_CAT = "\n";
 	static final String START_SELRESTR = " <";
@@ -24,19 +26,29 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 
 	static final String CATS = "ADJ|ADV|LEX|NP|PREP|VERB|VP";
 
-	private static String PREPS = "about|after|against|among|as|as_if|as_though|at|before|between|by|concerning|for|from|in|in_between|into|like|of|off|on|onto|out_of|over|regarding|respecting|through|to|toward|towards|under|until|upon|with";
+	private static String NP_REGEX33 = "Affector|Agent|Asset|Attribute|Axis|Beneficiary|Causer|Co-Agent|Context|Co-Patient|Co-Theme|Destination|Duration|Experiencer|Extent|Goal|Initial_Location|Initial_State|Instrument|Location|Manner|Material|Path|Patient|Pivot|Precondition|Predicate|Product|Recipient|Reflexive|Result|Source|Stimulus|Theme|Time|Topic|Trajectory|Value";
+	private static String NP_REGEX34 = "Affector|Agent|Asset|Attribute|Axis|Beneficiary|Causer|Circumstance|Co-Agent|Co-Patient|Co-Theme|Destination|Duration|Eventuality|Experiencer|Extent|Goal|Initial_Location|Initial_State|Instrument|Location|Maleficiary|Manner|Material|Path|Patient|Pivot|Precondition|Product|Recipient|Reflexive|Result|Result|Source|Stimulus|Subeventuality|Theme|Topic|Trajectory|Value";
 
-	private static String NP = "Affector|Agent|Asset|Attribute|Axis|Beneficiary|Cause|Causer|Circumstance|Co-Agent|Co-Patient|Co-Theme|Context|Destination|Duration|Eventuality|Experiencer|Extent|Goal|Initial_Location|Initial_State|Instrument|Location|Maleficiary|Manner|Material|Path|Patient|Pivot|Precondition|Predicate|Product|Recipient|Reflexive|Result|Source|Stimulus|Subeventuality|Theme|Time|Topic|Trajectory|Value";
+	private static String PREP_REGEX33 = "about|after|against|among|as|as_if|as_though|at|before|between|by|concerning|for|from|in|in_between|into|like|of|off|on|onto|out_of|over|regarding|respecting|through|to|towards|under|until|upon|with";
+	private static String PREP_REGEX34 = "about|after|against|among|as|as_if|as_though|at|before|between|by|concerning|for|from|in|in_between|into|like|of|off|on|onto|out_of|over|regarding|respecting|through|to|toward|towards|under|upon|with";
 
-	private static String VP = "Eventuality";
+	private static String LEX_REGEX33 = "and|apart|as|at|away|be|down|it|like|of|out|'s|there|to|to be|together|up|\\[\\+be\\]|it\\[\\+be\\]";
+	private static String LEX_REGEX34 = "and|apart|as|at|be|down|it|like|of|out|'s|there|to|to be|together|up|\\[\\+be\\]|it\\[\\+be\\]";
 
-	private static String ADV = "Manner|Path|Trajectory";
+	private static String ADV_REGEX33 = "Trajectory";
+	private static String ADV_REGEX34 = "Manner|Path|Trajectory";
 
-	private static String LEX = "and|apart|as|at|away|down|like|of|out|together|up|'s|there|to|be|to be|\\[\\+be\\]|it|it\\[\\+be\\]";
+	private static String VP_REGEX33 = ".*";
+	private static String VP_REGEX34 = "Eventuality";
 
-	static final String SYNRESTR = "ac_ing|ac_to_inf|adv_loc|be_sc_ing|body_part|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_be|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|pos_ing|poss_ing|possing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|to_inf_rs|what_extract|vc_to_inf|wh_comp|wh_inf|what_inf|wheth_inf|wh_extract|wh_ing";
+	static final String SELRESTR = "at|body_part|concrete|dest|dest_conf|dest_dir|dir|gol|loc|location|path|refl|region|spatial|src|src_conf|state";
+	static final String SYNRESTR = "ac_ing|ac_to_inf|adv_loc|be_sc_ing|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|poss_ing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|what_extract|what_inf|wh_comp|wheth_inf|wh_extract|wh_inf|wh_ing";
 
-	static final String SELRESTR = "at|body_part|concrete|dest|dest_conf|dest_dir|dir|loc|location|path|region|refl|src|spatial|state|gol|src_conf";
+	static final Pattern NP_PATTERN = Pattern.compile(TARGET_34 ? NP_REGEX34 : NP_REGEX33, Pattern.CASE_INSENSITIVE);
+	static final Pattern PREP_PATTERN = Pattern.compile(TARGET_34 ? PREP_REGEX34 : PREP_REGEX33, Pattern.CASE_INSENSITIVE);
+	static final Pattern LEX_PATTERN = Pattern.compile(TARGET_34 ? LEX_REGEX34 : LEX_REGEX33, Pattern.CASE_INSENSITIVE);
+	static final Pattern ADV_PATTERN = Pattern.compile(TARGET_34 ? ADV_REGEX34 : ADV_REGEX33, Pattern.CASE_INSENSITIVE);
+	static final Pattern VP_PATTERN = Pattern.compile(TARGET_34 ? VP_REGEX34 : VP_REGEX33, Pattern.CASE_INSENSITIVE);
 
 	public VnSyntaxXmlProcessor()
 	{
@@ -99,48 +111,47 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					{
 						String[] values = getAttrs(value.trim());
 						var values2 = Stream.of(values).map(s -> s.charAt(0) == '?' ? s.substring(1) : s).toArray(String[]::new); //
-						Checker.checkAttributeValues(values2, PREPS, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						Checker.checkAttributeValues(values2, PREP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
 						value = String.join(" | ", values);
+						//System.out.println("@PREP " + value);
 						break;
 					}
 					case "NP":
 					{
 						value = value.trim();
-						Checker.checkAttributeValue(value.charAt(0) == '?' ? value.substring(1) : value, NP, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						Checker.checkAttributeValue(value.charAt(0) == '?' ? value.substring(1) : value, NP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						//System.out.println("@NP " + value);
 						break;
 					}
 					case "LEX":
 					{
-						Checker.checkAttributeValue(value.trim(), LEX, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
-						break;
-					}
-					case "VERB":
-					{
-						System.out.println("VERB has 'value' attr: " + value);
+						Checker.checkAttributeValue(value.trim(), LEX_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						//System.out.println("@LEX " + value);
 						break;
 					}
 					case "ADV":
 					{
-						Checker.checkAttributeValue(value.trim(), ADV, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
-						break;
-					}
-					case "ADJ":
-					{
-						System.out.println("ADJ has 'value' attr: " + value);
+						Checker.checkAttributeValue(value.trim(), ADV_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						//System.out.println("@ADV " + value);
 						break;
 					}
 					case "VP":
 					{
-						Checker.checkAttributeValue(value.trim(), VP, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						Checker.checkAttributeValue(value.trim(), VP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						//System.out.println("@VP " + value);
 						break;
 					}
+					case "VERB":
+					case "ADJ":
 					default:
 					{
 						System.out.println(name + " has 'value' attr: " + value);
+						//System.out.println("@" + name + " " + value);
 						break;
 					}
 				}
 
+				// collect value
 				sb.append(' ');
 				sb.append(value);
 			}
@@ -211,10 +222,12 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 						if (isSynRestr)
 						{
 							Checker.checkAttributeValue(type3, VnSyntaxXmlProcessor.SYNRESTR, "SYNTAX " + name3 + " has unexpected synrestr 'Value' attr: " + type3, LOG_ONLY);
+							//System.out.println("@SYN " + type3);
 						}
 						if (isSelRestr)
 						{
 							Checker.checkAttributeValue(type3, VnSyntaxXmlProcessor.SELRESTR, "SYNTAX " + name3 + " has unexpected selrestr 'Value' attr: " + type3, LOG_ONLY);
+							//System.out.println("@SEL " + type3);
 						}
 					}
 
