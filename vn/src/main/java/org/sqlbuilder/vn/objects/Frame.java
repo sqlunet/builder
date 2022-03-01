@@ -145,11 +145,11 @@ public class Frame implements HasId, Insertable, Comparable<Frame>
 		// subName.id
 		// syntax.id
 		// semantics.id
-		return String.format("%s,'%s',%d,%d,%d,%d", //
+		return String.format("%s,'%s',%d,%s,%d,%d", //
 				Utils.nullableQuotedString(descriptionNumber), //
 				descriptionXTag, //
 				name.getIntId(), //
-				subName.getIntId(), //
+				Utils.nullableInt(FrameSubName.getIntId(subName)), //
 				syntax.getIntId(), //
 				semantics.getIntId());
 	}

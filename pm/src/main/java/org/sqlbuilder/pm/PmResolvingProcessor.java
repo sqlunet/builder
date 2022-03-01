@@ -93,7 +93,7 @@ public class PmResolvingProcessor extends PmProcessor
 		process(inputFile, PmRole::parse, null);
 		try (@ProvidesIdTo(type = PmRole.class) var ignored = PmRole.COLLECTOR.open())
 		{
-			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"));
+			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"), header);
 
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 			{

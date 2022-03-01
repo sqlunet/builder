@@ -24,6 +24,8 @@ public class PmProcessor extends Processor
 
 	protected final Names names;
 
+	protected final String header;
+
 	protected final File outDir;
 
 	protected final Properties conf;
@@ -33,6 +35,7 @@ public class PmProcessor extends Processor
 		super("pm");
 		this.names = new Names("pm");
 		this.conf = conf;
+		this.header = conf.getProperty("pm_header");
 		this.pMHome = conf.getProperty("pm_home", System.getenv().get("PMHOME"));
 		this.pMFile = conf.getProperty("pm_file", System.getenv().get("PredicateMatrix.txt"));
 		this.outDir = new File(conf.getProperty("pm_outdir", "sql/data"));
@@ -50,7 +53,7 @@ public class PmProcessor extends Processor
 		process(inputFile, PmRole::parse, null);
 		try (@ProvidesIdTo(type = PmRole.class) var ignored = PmRole.COLLECTOR.open())
 		{
-			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"));
+			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"), header);
 
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 			{

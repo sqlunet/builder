@@ -17,11 +17,14 @@ public class Inserter
 {
 	protected final Names names;
 
+	protected final String header;
+
 	protected File outDir;
 
 	public Inserter(final Properties conf)
 	{
 		this.names = new Names("pb");
+		this.header = conf.getProperty("pb_header");
 		this.outDir = new File(conf.getProperty("pb_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
@@ -51,59 +54,59 @@ public class Inserter
 		)
 		{
 			Progress.tracePending("collector", "aspect");
-			Insert.insertStringMap(Example.ASPECT_COLLECTOR, new File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"));
+			Insert.insertStringMap(Example.ASPECT_COLLECTOR, new File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "form");
-			Insert.insertStringMap(Example.FORM_COLLECTOR, new File(outDir, names.file("forms")), names.table("forms"), names.columns("forms"));
+			Insert.insertStringMap(Example.FORM_COLLECTOR, new File(outDir, names.file("forms")), names.table("forms"), names.columns("forms"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "person");
-			Insert.insertStringMap(Example.PERSON_COLLECTOR, new File(outDir, names.file("persons")), names.table("persons"), names.columns("persons"));
+			Insert.insertStringMap(Example.PERSON_COLLECTOR, new File(outDir, names.file("persons")), names.table("persons"), names.columns("persons"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "tense");
-			Insert.insertStringMap(Example.TENSE_COLLECTOR, new File(outDir, names.file("tenses")), names.table("tenses"), names.columns("tenses"));
+			Insert.insertStringMap(Example.TENSE_COLLECTOR, new File(outDir, names.file("tenses")), names.table("tenses"), names.columns("tenses"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "voice");
-			Insert.insertStringMap(Example.VOICE_COLLECTOR, new File(outDir, names.file("voices")), names.table("voices"), names.columns("voices"));
+			Insert.insertStringMap(Example.VOICE_COLLECTOR, new File(outDir, names.file("voices")), names.table("voices"), names.columns("voices"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "func");
-			Insert.insert(Func.COLLECTOR, new File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"));
+			Insert.insert(Func.COLLECTOR, new File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "theta");
-			Insert.insert(Theta.COLLECTOR, new File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"));
+			Insert.insert(Theta.COLLECTOR, new File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "argn");
-			Insert.insert(ArgN.SET, ArgN.COMPARATOR, new File(outDir, names.file("argns")), names.table("argns"), names.columns("argns"));
+			Insert.insert(ArgN.SET, ArgN.COMPARATOR, new File(outDir, names.file("argns")), names.table("argns"), names.columns("argns"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "roleset");
-			Insert.insert(RoleSet.COLLECTOR, new File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"));
+			Insert.insert(RoleSet.COLLECTOR, new File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "role");
-			Insert.insert(Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"));
+			Insert.insert(Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "example");
-			Insert.insert(Example.COLLECTOR, new File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"));
+			Insert.insert(Example.COLLECTOR, new File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "arg");
-			Insert.insert(Arg.COLLECTOR, new File(outDir, names.file("args")), names.table("args"), names.columns("args"));
+			Insert.insert(Arg.COLLECTOR, new File(outDir, names.file("args")), names.table("args"), names.columns("args"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "rel");
-			Insert.insert(Rel.COLLECTOR, new File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"));
+			Insert.insert(Rel.COLLECTOR, new File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "member");
-			Insert.insert(Member.SET, Member.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"));
+			Insert.insert(Member.SET, Member.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"), header);
 			Progress.traceDone();
 
 			// R E S O L V A B L E
@@ -117,28 +120,28 @@ public class Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"));
+		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header);
 		Progress.traceDone();
 	}
 
 	protected void insertFnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "fnalias");
-		Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"));
+		Insert.insert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header);
 		Progress.traceDone();
 	}
 
 	protected void insertVnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnalias");
-		Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"));
+		Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header);
 		Progress.traceDone();
 	}
 
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
+		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header);
 		Progress.traceDone();
 	}
 }

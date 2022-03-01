@@ -56,6 +56,7 @@ public class VnCollector extends Processor
 		for (final File file : files)
 		{
 			fileCount++;
+			System.out.println(file.getName());
 			processVerbNetFile(file.getAbsolutePath(), file.getName());
 		}
 		Progress.traceTailer(fileCount);
@@ -72,6 +73,11 @@ public class VnCollector extends Processor
 		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
 		{
 			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e);
+		}
+		catch (RuntimeException e)
+		{
+			System.err.println(fileName);
+			throw e;
 		}
 	}
 

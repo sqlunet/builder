@@ -60,7 +60,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), true, //
+		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
 				wordResolver, //
 				Objects::toString, //
 				names.column("words.wordid"));
@@ -71,7 +71,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertFnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "fnalias");
-		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), //
+		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header, //
 				fnFrameResolver, //
 				r -> Utils.nullable(r, Objects::toString), //
 				names.column("pbrolesets_fnframes.fnframeid"));
@@ -82,7 +82,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnalias");
-		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), //
+		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header, //
 				vnClassResolver, //
 				r -> Utils.nullable(r, Objects::toString), //
 				names.column("pbrolesets_vnclasses.vnclassid"));
@@ -93,7 +93,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), //
+		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header, //
 				vnClassRoleResolver, //
 				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbroles_vnroles.vnclassid"), //

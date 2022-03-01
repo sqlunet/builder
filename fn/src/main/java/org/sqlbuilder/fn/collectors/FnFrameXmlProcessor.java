@@ -13,6 +13,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class FnFrameXmlProcessor extends XmlProcessor
 {
+	private static final boolean LOG_ONLY = false;
+
 	public FnFrameXmlProcessor()
 	{
 		//
@@ -68,15 +70,15 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					switch (name2)
 					{
 						case "ex":
-							Checker.checkAttributeName(e2, null, name2);
+							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String example = FnFrameXmlProcessor.processExample(e2);
 							sb.append("<ex>").append(example).append("</ex>");
 							break;
 						case "fen":
 						{
-							Checker.checkSubElements(e2, null, name2);
-							Checker.checkAttributeName(e2, null, name2);
+							Checker.checkSubElements(e2, null, name2, LOG_ONLY);
+							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append("<fen>").append(value).append("</fen>");
@@ -84,8 +86,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						}
 						case "t":
 						{
-							Checker.checkSubElements(e2, null, name2);
-							Checker.checkAttributeName(e2, null, name2);
+							Checker.checkSubElements(e2, null, name2, LOG_ONLY);
+							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append("<t>").append(value).append("</t>");
@@ -95,8 +97,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						{
 							// TODO only one error
 							// Checker.check_SubElements(e2, null, name2);
-							Checker.checkSubElements(e2, "(fen)", name2);
-							Checker.checkAttributeName(e2, null, name2);
+							Checker.checkSubElements(e2, "(fen)", name2, LOG_ONLY);
+							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append(value);
@@ -105,8 +107,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						}
 						case "em":
 						{
-							Checker.checkSubElements(e2, null, name2);
-							Checker.checkAttributeName(e2, null, name2);
+							Checker.checkSubElements(e2, null, name2, LOG_ONLY);
+							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append(value);
@@ -149,8 +151,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 				{
 					case "fex":
 					{
-						Checker.checkSubElements(e2, "(t)", name2);
-						Checker.checkAttributeName(e2, "(name)", name2);
+						Checker.checkSubElements(e2, "(t)", name2, LOG_ONLY);
+						Checker.checkAttributeName(e2, "(name)", name2, LOG_ONLY);
 
 						// attribute
 						final String attr = e2.getAttribute("name");
@@ -165,8 +167,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					}
 					case "t":
 					{
-						Checker.checkSubElements(e2, "(fex)", name2);
-						Checker.checkAttributeName(e2, null, name2);
+						Checker.checkSubElements(e2, "(fex)", name2, LOG_ONLY);
+						Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 						final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 						sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>');
@@ -174,8 +176,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					}
 					case "x":
 					{
-						Checker.checkSubElements(e2, "(fex|t)", "x");
-						Checker.checkAttributeName(e2, null, name2);
+						Checker.checkSubElements(e2, "(fex|t)", "x", LOG_ONLY);
+						Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 						final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 						sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>');
@@ -188,8 +190,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					 */
 					default:
 					{
-						Checker.checkSubElements(e2, null, name2);
-						Checker.checkAttributeName(e2, null, name2);
+						Checker.checkSubElements(e2, null, name2, LOG_ONLY);
+						Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 						final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 						// sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>');

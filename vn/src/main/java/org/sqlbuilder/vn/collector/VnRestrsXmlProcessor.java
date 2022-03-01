@@ -13,109 +13,20 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class VnRestrsXmlProcessor extends XmlProcessor
 {
+	private static final boolean LOG_ONLY = false;
+
 	static final char START_SELRESTR = '<';
 	static final char END_SELRESTR = '>';
 	static final char START_SYNRESTR = '{';
 	static final char END_SYNRESTR = '}';
 
-	static final String SYNRESTR = "(ac_ing|ac_to_inf|adv_loc|be_sc_ing|body_part|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_be|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|pos_ing|poss_ing|possing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|to_inf_rs|what_extract|vc_to_inf|wh_comp|wh_inf|what_inf|wheth_inf)";
-	// xsd
-	// "ac_bare_inf"
-	// "ac_ing"
-	// "ac_to_inf"
-	// "adv_loc"
-	// "bare_inf"
-	// "be_ing_sc"
-	// "control_bare_inf"
-	// "control_ing"
-	// "control_to_inf"
-	// "definite"
-	// "extracted"
-	// "for_comp"
-	// "genitive"
-	// "gerund"
-	// "how_extract"
-	// "how_inf"
-	// "if_comp"
-	// "indicative"
-	// "infinitival"
-	// "np_omit_ing"
-	// "null_comp"
-	// "oc_bare_inf"
-	// "oc_ing"
-	// "oc_to_inf"
-	// "plural"
-	// "poss"
-	// "poss_ing"
-	// "poss_ing_sc"
-	// "ppart"
-	// "quotation"
-	// "refl"
-	// "rs_bare_inf"
-	// "rs_to_inf"
-	// "sc_ing"
-	// "sc_to_inf"
-	// "sentential"
-	// "small_clause"
-	// "tensed_that"
-	// "that_comp"
-	// "to_inf"
-	// "vc_to_inf"
-	// "what_extract"
-	// "what_inf"
-	// "wh_comp"
-	// "when_extract"
-	// "when_inf"
-	// "where_extract"
-	// "where_inf"
-	// "wheth_comp"
-	// "wheth_inf"
-	// "wh_inf"
-	// "who_extract"
-	// "why_extract"
+	static final String RESTRS = "SELRESTRS|SYNRESTRS";
 
-	static final String SELRESTR = "(abstract|animal|animate|body_part|comestible|communication|concrete|currency|dest|dest_conf|dest_dir|dir|elongated|force|garment|human|int_control|loc|location|machine|nonrigid|organization|path|plural|pointy|region|refl|scalar|src|solid|sound|spatial|state|substance|time|vehicle)";
+	static final String RESTRS2 = "SELRESTR|SYNRESTR|SELRESTRS";
 
-	// xsd
-	// "abstract"
-	// "animal"
-	// "animate"
-	// "artifact"
-	// "body_part"
-	// "comestible"
-	// "communication"
-	// "company"
-	// "concrete"
-	// "concrete"
-	// "currency"
-	// "elongated"
-	// "force"
-	// "garment"
-	// "human"
-	// "idea"
-	// "int_control"
-	// "location"
-	// "machine"
-	// "natural"
-	// "nonrigid"
-	// "organization"
-	// "phys_obj"
-	// "place"
-	// "plant"
-	// "plural"
-	// "pointy"
-	// "quotation"
-	// "refl"
-	// "region"
-	// "rigid"
-	// "scalar"
-	// "solid"
-	// "sound"
-	// "state"
-	// "substance"
-	// "time"
-	// "tool"
-	// "vehicle"
+	static final String SELRESTR = "abstract|animal|animate|at|biotic|body_part|comestible|communication|concrete|currency|dest|dest_conf|dest_dir|dir|elongated|eventive|force|garment|gol|human|int_control|loc|location|machine|nonrigid|organization|path|plural|pointy|question|refl|region|solid|sound|spatial|src|src_conf|state|substance|vehicle|vehicle_part";
+
+	static final String SYNRESTR = "ac_ing|ac_to_inf|adv_loc|be_sc_ing|definite|for_comp|genitive|how_extract|np_ing|np_omit_ing|np_p_ing|np_ppart|np_to_inf|oc_bare_inf|oc_ing|oc_to_inf|plural|poss_ing|quotation|refl|rs_to_inf|sc_ing|sc_to_inf|sentential|small_clause|tensed_that|that_comp|to_be|what_extract|what_inf|wh_comp|wheth_inf|wh_extract|wh_inf|wh_ing";
 
 	public VnRestrsXmlProcessor()
 	{
@@ -146,7 +57,7 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			final Node node2 = nodes2.item(j);
 			if (!(node2 instanceof Element))
 			{
-				Checker.checkEmpty(node2, "root");
+				Checker.checkEmpty(node2, "RESTR: non-empty non-element at root", LOG_ONLY);
 				continue;
 			}
 			final Element e2 = (Element) node2;
@@ -169,18 +80,18 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 
 		// name
 		final String name2 = e2.getNodeName();
-		Checker.checkElementName(name2, "SELRESTRS|SYNRESTRS", name2);
+		Checker.checkElementName(name2, RESTRS, "RESTR: " + name2 + " found, expected: " + RESTRS);
 		// sb.append(" = ");
 		// sb.append(name2);
 
 		// attribute check
-		Checker.checkAttributeName(e2, "logic", name2);
+		Checker.checkAttributeName(e2, "logic", "RESTR: " + name2 + " has no 'logic' attribute", LOG_ONLY);
 
 		// 'Value' attribute value
-		String logic = e2.getAttribute("logic");
+		String logic = e2.getAttribute("logic").trim();
 		if (!logic.isEmpty())
 		{
-			Checker.checkAttributeValue(logic, "or", name2);
+			Checker.checkAttributeValue(logic, "or|and", "RESTR: " + name2 + " has 'logic' attribute value outside or|and", LOG_ONLY);
 		}
 
 		// SELRESTR|SYNRESTR
@@ -190,7 +101,7 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			final Node node3 = nodes3.item(k);
 			if (!(node3 instanceof Element))
 			{
-				Checker.checkEmpty(node3, name2);
+				//Checker.checkEmpty(node3, "RESTR: " + name2 + " has non-empty non-element " + node3, LOG_ONLY);
 				continue;
 			}
 			final Element e3 = (Element) node3;
@@ -200,7 +111,7 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			final boolean isSynRestr = name3.equals("SYNRESTR");
 			final boolean isSelRestr = name3.equals("SELRESTR");
 
-			Checker.checkElementName(name3, "SELRESTR|SYNRESTR|SELRESTRS", name3);
+			Checker.checkElementName(name3, RESTRS2, "RESTR: " + name2 + " has unexpected element " + name3 + ", expected: " + RESTRS2);
 			// sb.append(" - ");
 			// sb.append(name3);
 
@@ -214,26 +125,28 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			else
 			{
 				// attribute check
-				Checker.checkAttributeName(e3, "Value|type", name3);
+				Checker.checkAttributeName(e3, "Value|type", "RESTR: " + name3 + " has no 'Value'|'type' attribute", LOG_ONLY);
 
 				// 'Value' attribute value
-				final String value3 = e3.getAttribute("Value");
+				final String value3 = e3.getAttribute("Value").trim();
 				if (!value3.isEmpty())
 				{
-					Checker.checkAttributeValue(value3, "(\\+|\\-)", name3);
+					Checker.checkAttributeValue(value3, "(\\+|\\-)", "RESTR: " + name3 + " has 'value' not in (+/-)", LOG_ONLY);
 				}
 
 				// 'type' attribute value
-				final String type3 = e3.getAttribute("type");
+				final String type3 = e3.getAttribute("type").trim();
 				if (!type3.isEmpty())
 				{
 					if (isSynRestr)
 					{
-						Checker.checkAttributeValue(type3, VnRestrsXmlProcessor.SYNRESTR, name3);
+						Checker.checkAttributeValue(type3, SYNRESTR, "SYNRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SYNRESTR, LOG_ONLY);
+						//System.out.println("SYN " + type3);
 					}
 					if (isSelRestr)
 					{
-						Checker.checkAttributeValue(type3, VnRestrsXmlProcessor.SELRESTR, name3);
+						Checker.checkAttributeValue(type3, SELRESTR, "SELRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SELRESTR, LOG_ONLY);
+						//System.out.println("SEN " + type3);
 					}
 				}
 

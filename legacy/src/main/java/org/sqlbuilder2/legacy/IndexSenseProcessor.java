@@ -24,6 +24,8 @@ public class IndexSenseProcessor extends Processor
 {
 	private final Names names;
 
+	protected final String header;
+
 	private final String source;
 
 	private final File inDir;
@@ -37,6 +39,7 @@ public class IndexSenseProcessor extends Processor
 		super("sk2nid");
 		this.names = new Names("legacy");
 		this.conf = conf;
+		this.header = conf.getProperty("wn_header");
 		this.source = conf.getProperty("to_sensekeys.source");
 		this.inDir = new File(conf.getProperty("to_sensekeys.home").replaceAll("\\$\\{source}", source));
 		this.outDir = new File(conf.getProperty("legacy_serdir", "sers"));
@@ -60,7 +63,7 @@ public class IndexSenseProcessor extends Processor
 
 		var m = getLemmaPosOffsetToSensekey(new File(inDir, inFile));
 		Serialize.serialize(m, new File(outDir, outFile + ".ser"));
-		Insert.insert(m, new File(outDir, outFile + ".map"), conf.getProperty("to_sensekeys.table").replaceAll("\\$\\{source}", source), "word,pos,offset,sensekey", //
+		Insert.insert(m, new File(outDir, outFile + ".map"), conf.getProperty("to_sensekeys.table").replaceAll("\\$\\{source}", source), "word,pos,offset,sensekey", header, //
 				r -> String.format("'%s','%s',%s,'%s'", r.getKey().first, r.getKey().second, r.getKey().third, r.getValue()));
 	}
 

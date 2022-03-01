@@ -14,6 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class Restrs implements HasId, Insertable, Comparable<Restrs>
 {
+	private static final boolean LOG_ONLY = false;
+
 	public static final Comparator<Restrs> COMPARATOR = Comparator.comparing(Restrs::getValue).thenComparing(Restrs::isSyntactic);
 
 	public static final SetCollector<Restrs> COLLECTOR = new SetCollector<>(COMPARATOR);
@@ -40,7 +42,14 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 			this.value = RESTRS_XML_PROCESSOR.process(value);
 			if (this.value == null || this.value.isEmpty())
 			{
-				throw new RuntimeException("empty " + value + "->" + this.value);
+				if (LOG_ONLY)
+				{
+					System.err.println("empty [" + value + "] ->" + this.value);
+				}
+				else
+				{
+					throw new RuntimeException("empty [" + value + "] ->" + this.value);
+				}
 			}
 		}
 		catch (ParserConfigurationException | IOException | SAXException e)

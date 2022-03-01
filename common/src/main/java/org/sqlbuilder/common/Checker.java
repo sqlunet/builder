@@ -5,6 +5,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Checker
 {
 	private Checker()
@@ -13,16 +16,23 @@ public class Checker
 
 	public static int errors = 0;
 
-	public static void checkEmpty(final Node node, final String message) throws RuntimeException
+	public static void checkEmpty(final Node node, final String context, final boolean logOnly) throws RuntimeException
 	{
 		if (!node.getNodeValue().matches(" *"))
 		{
 			++Checker.errors;
-			throw new RuntimeException("empty node " + node + "| " + (message == null ? "" : message));
+			if (logOnly)
+			{
+				System.err.println("empty node <" + node + "> " + (context == null ? "" : context));
+			}
+			else
+			{
+				throw new RuntimeException("empty node <" + node + "> " + (context == null ? "" : context));
+			}
 		}
 	}
 
-	public static void checkSubElements(final Element e, final String m, final String message) throws RuntimeException
+	public static void checkSubElements(final Element e, final String regex, final String context, final boolean logOnly) throws RuntimeException
 	{
 		final NodeList nodes = e.getChildNodes();
 		// if (nodes.getLength() > 1)
@@ -33,38 +43,54 @@ public class Checker
 			final Node node = nodes.item(j);
 			if (node instanceof Element)
 			{
-				if (m == null)
+				if (regex == null)
 				{
 					++Checker.errors;
-					throw new RuntimeException(e.getNodeName() + " has element node |" + node.getNodeName() + "| " + (message == null ? "" : message));
+					if (logOnly)
+					{
+						System.err.println(e.getNodeName() + " has element node <" + node.getNodeName() + "> " + (context == null ? "" : context));
+					}
+					else
+					{
+						throw new RuntimeException(e.getNodeName() + " has element node <" + node.getNodeName() + "> " + (context == null ? "" : context));
+					}
 				}
-				Checker.checkElementName(node.getNodeName(), m, message);
+				Checker.checkElementName(node.getNodeName(), regex, context);
 			}
 		}
 	}
 
-	public static void checkElementName(final String name, final String m, final String message) throws RuntimeException
+	public static void checkElementName(final String name, final String regex, final String context) throws RuntimeException
 	{
-		if (!name.matches(m))
+		if (!name.matches(regex))
 		{
 			++Checker.errors;
-			throw new RuntimeException("element |" + name + "| " + (message == null ? "" : message));
+			throw new RuntimeException("element |" + name + "| " + (context == null ? "" : context));
 		}
 	}
 
-	public static void checkAttributeName(final Element e, final String m, final String message) throws RuntimeException
+	public static boolean checkAttributeName(final Element e, final String regex, final String context, boolean logOnly) throws RuntimeException
 	{
 		final NamedNodeMap attrs = e.getAttributes();
-		if (m != null)
+		if (regex != null)
 		{
 			for (int i = 0; i < attrs.getLength(); i++)
 			{
 				final Node attr = attrs.item(i);
 				final String name = attr.getNodeName();
-				if (!name.matches(m))
+				if (!name.matches(regex))
 				{
 					++Checker.errors;
-					throw new RuntimeException("attribute in " + e.getNodeName() + " |" + name + "| " + (message == null ? "" : message));
+					String message = "Illegal attribute in " + e.getNodeName() + " <" + name + "> in " + (context == null ? "" : context);
+					if (!logOnly)
+					{
+						throw new RuntimeException(message);
+					}
+					else
+					{
+						System.err.println(message);
+						return false;
+					}
 				}
 			}
 		}
@@ -83,25 +109,62 @@ public class Checker
 					sb.append(attr.getNodeName());
 				}
 				++Checker.errors;
-				throw new RuntimeException("attribute |" + sb + "| " + (message == null ? "" : message));
+				String message = "Illegal attribute in " + e.getNodeName() + " <" + sb + "> in " + (context == null ? "" : context);
+				if (!logOnly)
+				{
+					throw new RuntimeException(message);
+				}
+				else
+				{
+					System.err.println(message);
+					return false;
+				}
 			}
 		}
+		return true;
 	}
 
-	public static void checkAttributeValue(final String value, final String m, final String message) throws RuntimeException
+	public static boolean checkAttributeValue(final String value, final String regex, final String context, boolean logOnly) throws RuntimeException
+	{
+		return checkAttributeValue(value, "\\s+", regex, context, logOnly);
+	}
+
+	public static boolean checkAttributeValue(final String value, final String delim, final String regex, final String context, boolean logOnly) throws RuntimeException
 	{
 		if (value == null || value.isEmpty())
 		{
-			return;
+			return true;
 		}
-		final String[] items = value.split("\\s+");
-		for (final String item : items)
+		final String[] items = value.trim().split(delim);
+		return checkAttributeValues(items, regex, context, logOnly);
+	}
+
+	public static boolean checkAttributeValues(final String[] values, final String regex, final String context, boolean logOnly) throws RuntimeException
+	{
+		if (values == null || values.length == 0)
 		{
-			if (!item.matches(m))
+			return true;
+		}
+
+		final Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		for (final String value : values)
+		{
+			Matcher m= p.matcher(value);
+			if (!m.matches())
 			{
 				++Checker.errors;
-				throw new RuntimeException("attribute value |" + item + "| " + (message == null ? "" : message));
+				String message = "Illegal attribute value <" + value + "> in " + (context == null ? "" : context);
+				if (!logOnly)
+				{
+					throw new RuntimeException(message);
+				}
+				else
+				{
+					System.err.println(message);
+					return false;
+				}
 			}
 		}
+		return true;
 	}
 }

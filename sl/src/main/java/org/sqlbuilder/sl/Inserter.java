@@ -14,11 +14,14 @@ public class Inserter
 {
 	protected final Names names;
 
+	protected final String header;
+
 	protected File outDir;
 
 	public Inserter(final Properties conf)
 	{
 		this.names = new Names("sl");
+		this.header = conf.getProperty("vn_header");
 		this.outDir = new File(conf.getProperty("sl_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
@@ -37,14 +40,14 @@ public class Inserter
 	protected void insertVnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnalias");
-		Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"));
+		Insert.insert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header);
 		Progress.traceDone();
 	}
 
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"));
+		Insert.insert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header);
 		Progress.traceDone();
 	}
 }

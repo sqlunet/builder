@@ -4,20 +4,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 public class Insert
 {
 	// L I S T
 
-	public static <T extends Insertable> void insert(final List<T> list, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final List<T> list, final File file, final String table, final String columns, final String header) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (list.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -44,10 +42,11 @@ public class Insert
 
 	// M A P
 
-	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns, final String header, boolean withNumber) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (map.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -74,12 +73,12 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns, final String header) throws FileNotFoundException
 	{
-		insert(map, file, table, columns, true);
+		insert(map, file, table, columns, header, true);
 	}
 
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, boolean withNumber,  //
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, final String header, boolean withNumber,  //
 			final Function<U, R> resolver, //
 			final Function<R, String> stringifier, //
 			final String... resolvedColumns)  //
@@ -87,6 +86,7 @@ public class Insert
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (map.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + String.join(",", resolvedColumns));
@@ -115,10 +115,11 @@ public class Insert
 
 	// S T R I N G   M A P
 
-	public static void insertStringMap(final Map<String, Integer> map, final File file, final String table, final String columns) throws FileNotFoundException
+	public static void insertStringMap(final Map<String, Integer> map, final File file, final String table, final String columns, final String header) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (map.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -143,10 +144,11 @@ public class Insert
 
 	// G E N E R I C   M A P
 
-	public static <K, V> void insert(final Map<K, V> map, final File file, final String table, final String columns, final Function<Map.Entry<K, V>, String> stringifier) throws FileNotFoundException
+	public static <K, V> void insert(final Map<K, V> map, final File file, final String table, final String columns, final String header, final Function<Map.Entry<K, V>, String> stringifier) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (map.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -169,10 +171,11 @@ public class Insert
 
 	// S E T
 
-	public static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (set.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -202,10 +205,11 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (set.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -242,10 +246,11 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns) throws FileNotFoundException
+	public static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header) throws FileNotFoundException
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (set.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
@@ -275,7 +280,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, //
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header, //
 			final Function<U, R> resolver, //
 			final Function<R, String> stringifier, //
 			final String... resolvedColumns) //
@@ -283,6 +288,7 @@ public class Insert
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
+			ps.println("-- " + header);
 			if (set.size() > 0)
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + String.join(",", resolvedColumns));

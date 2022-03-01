@@ -38,7 +38,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), true, //
+		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
 				resolver, //
 				w -> Utils.nullable(w, Objects::toString), //
 				names.column("words.wordid"));
