@@ -106,13 +106,13 @@ function process()
 	local base="$(basename "${sqlfile}")"
 	#echo "${base}"
 	case ${op} in
-	create|index|reference|data)
-		sqlite3 -init "${sqlfile}" "${db}" .quit
-		;;
-	other|*)
-		local sqlfile2=$(fast_to_temp "${sqlfile}")
-		sqlite3 -init "${sqlfile2}" "${db}" .quit
-		;;
+    create|index|cleanup|anchor|reference|data)
+      sqlite3 -init "${sqlfile}" "${db}" .quit
+      ;;
+    other|*)
+      local sqlfile2=$(fast_to_temp "${sqlfile}")
+      sqlite3 -init "${sqlfile2}" "${db}" .quit
+      ;;
 	esac
 }
 
@@ -156,10 +156,10 @@ for m in ${modules}; do
 				dir="${sqldir}/${op}"
 				suffix=
 				;;
-		 	create|index|reference)
+		 	create|index|cleanup|anchor|reference)
 		 		dir="${sqldir}/${dbtype}/${op}"
 				suffix="-${op}"
-		 		;;	
+		 		;;
 		esac
 		for table in ${tables}; do
 			f="${dir}/${table}${suffix}.sql"

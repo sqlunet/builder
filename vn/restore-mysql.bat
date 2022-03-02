@@ -16,6 +16,8 @@ if not %DBEXISTS%==0 call :createdb
 for %%T in (%TABLES%) do call :process sql/%DBTYPE%/create/%%T-create.sql "create %%T" %DB%
 for %%T in (%TABLES%) do call :process sql/data/%%T.sql "data %%T" %DB%
 for %%T in (%TABLES%) do call :process sql/%DBTYPE%/index/%%T-index.sql "index %%T" %DB% --force
+for %%T in (%TABLES%) do call :process sql/%DBTYPE%/cleanup/%%T-cleanup.sql "reference %%T" %DB% --force
+for %%T in (%TABLES%) do call :process sql/%DBTYPE%/anchor/%%T-anchor.sql "reference %%T" %DB% --force
 for %%T in (%TABLES%) do call :process sql/%DBTYPE%/reference/%%T-reference.sql "reference %%T" %DB% --force
 goto :eof
 

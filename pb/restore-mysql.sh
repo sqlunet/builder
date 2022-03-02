@@ -186,10 +186,10 @@ for m in ${modules}; do
 				dir="${sqldir}/${op}"
 				suffix=
 				;;
-		 	create|index|reference)
+		 	create|index|cleanup|anchor|reference)
 		 		dir="${sqldir}/${dbtype}/${op}"
 				suffix="-${op}"
-		 		;;	
+		 		;;
 		esac
 		for table in ${tables}; do
 			f="${dir}/${table}${suffix}.sql"

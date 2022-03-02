@@ -109,6 +109,8 @@
 				<include name="@{dbdata}/*.sql"/>
 				<include name="@{dbtype}/create/*.sql"/>
 				<include name="@{dbtype}/index/*.sql"/>
+				<include name="@{dbtype}/cleanup/*.sql"/>
+				<include name="@{dbtype}/anchor/*.sql"/>
 				<include name="@{dbtype}/reference/*.sql"/>
 			</fileset>
 			<fileset id="fs.@{dbtype}.@{dbtag}.legal" dir="${dir.legal}">
