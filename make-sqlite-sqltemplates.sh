@@ -14,10 +14,15 @@ for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
   templates_home="src/main/resources/${m}/sqltemplates"
 
-  for op in create index; do
+  for op in create index anchor cleanup; do
+    if [ ! -e "${m}/${templates_home}/mysql/${op}" ];then
+      continue
+    fi
     for f in ${m}/${templates_home}/mysql/${op}/*-${op}.sql; do
       b="`basename ${f}`"
-      f2="${m}/${templates_home}/sqlite/${op}/${b}"
+      d2="${m}/${templates_home}/sqlite/${op}"
+      mkdir -p "${d2}"
+      f2="${d2}/${b}"
       echo -e "${M}${b}${Z}"
       if [ ! -e "${f}" ]; then
        echo -e "${R}${f}${Z}"
@@ -36,10 +41,15 @@ for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
   templates_home="sql/"
 
-  for op in create index; do
+  for op in create index anchor cleanup; do
+    if [ ! -e "${m}/${templates_home}/mysql/${op}" ];then
+      continue
+    fi
     for f in ${m}/${templates_home}/mysql/${op}/*-${op}.sql; do
       b="`basename ${f}`"
-      f2="${m}/${templates_home}/sqlite/${op}/${b}"
+      d2="${m}/${templates_home}/sqlite/${op}"
+      mkdir -p "${d2}"
+      f2="${d2}/${b}"
       echo -e "${M}${b}${Z}"
       if [ ! -e "${f}" ]; then
        echo -e "${R}${f}${Z}"
