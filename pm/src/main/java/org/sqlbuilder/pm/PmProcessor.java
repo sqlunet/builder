@@ -57,6 +57,7 @@ public class PmProcessor extends Processor
 
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 			{
+				ps.println("-- " + header);
 				processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
 			}
 		}
@@ -93,10 +94,10 @@ public class PmProcessor extends Processor
 							{
 								Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.getName(), count[1], line, (NotFoundException) cause);
 							}
-							//							else if (cause instanceof IgnoreException)
-							//							{
-							//								// ignore
-							//							}
+							//	else if (cause instanceof IgnoreException)
+							//	{
+							//		// ignore
+							//	}
 						}
 						return null;
 					}) //

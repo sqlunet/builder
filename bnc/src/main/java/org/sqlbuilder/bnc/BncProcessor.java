@@ -20,6 +20,8 @@ public class BncProcessor extends Processor
 
 	protected final Names names;
 
+	protected final String header;
+
 	protected File outDir;
 
 	protected final Properties conf;
@@ -29,6 +31,7 @@ public class BncProcessor extends Processor
 		super("bnc");
 		this.names = new Names("bnc");
 		this.conf = conf;
+		this.header = conf.getProperty("bnc_header");
 		this.bncHome = new File(conf.getProperty("bnc_home", System.getenv().get("BNCHOME")));
 		this.outDir = new File(conf.getProperty("bnc_outdir", "sql/data"));
 		if (!this.outDir.exists())
@@ -45,6 +48,7 @@ public class BncProcessor extends Processor
 		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCFile(ps, new File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs"), (record, i) -> insertRow(ps, i, record.dataRow()));
 		}
 
@@ -52,18 +56,21 @@ public class BncProcessor extends Processor
 		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCSubFile(ps, new File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs"), (record, i) -> insertRow(ps, i, record.dataRow()));
 		}
 
 		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCSubFile(ps, new File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks"), (record, i) -> insertRow(ps, i, record.dataRow()));
 		}
 
 		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCSubFile(ps, new File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs"), (record, i) -> insertRow(ps, i, record.dataRow()));
 		}
 	}

@@ -27,6 +27,8 @@ public class SnProcessor extends Processor
 
 	protected final Names names;
 
+	protected final String header;
+
 	protected boolean resolve;
 
 	protected File outDir;
@@ -40,11 +42,12 @@ public class SnProcessor extends Processor
 	public SnProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super("sn");
-		this.conf = conf;
-		this.names = new Names("sn");
 		this.resolve = false;
-		this.snHome = new File(conf.getProperty("sn_home", System.getenv().get("SNHOME")));
+		this.names = new Names("sn");
+		this.conf = conf;
+		this.header = conf.getProperty("sn_header");
 		this.snMain = conf.getProperty("sn_file", "SYNTAGNET.txt");
+		this.snHome = new File(conf.getProperty("sn_home", System.getenv().get("SNHOME")));
 		this.outDir = new File(conf.getProperty("sn_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
@@ -62,6 +65,7 @@ public class SnProcessor extends Processor
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", resolve), (collocation, i) -> insertRow(ps, i, collocation.dataRow()));
 		}
 	}

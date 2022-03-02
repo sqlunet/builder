@@ -21,7 +21,7 @@ public class Inserter
 	public Inserter(final Properties conf)
 	{
 		this.names = new Names("sl");
-		this.header = conf.getProperty("vn_header");
+		this.header = conf.getProperty("sl_header");
 		this.outDir = new File(conf.getProperty("sl_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
