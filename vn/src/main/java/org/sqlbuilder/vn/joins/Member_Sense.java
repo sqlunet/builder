@@ -9,6 +9,7 @@ import org.sqlbuilder.vn.objects.Word;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -71,6 +72,29 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 	public Sensekey getSensekey()
 	{
 		return sensekey;
+	}
+
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Member_Sense that = (Member_Sense) o;
+		return Objects.equals(member, that.member) && Objects.equals(sensekey, that.sensekey);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(member, sensekey);
 	}
 
 	// O R D E R I N G

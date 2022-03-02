@@ -58,6 +58,7 @@ public class VnCollector extends Processor
 			fileCount++;
 			//System.out.println(file.getName());
 			processVerbNetFile(file.getAbsolutePath(), file.getName());
+			Progress.trace(fileCount);
 		}
 		Progress.traceTailer(fileCount);
 	}

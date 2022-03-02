@@ -9,6 +9,7 @@ import org.sqlbuilder.vn.objects.Word;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
@@ -59,6 +60,29 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 		return grouping;
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Member_Grouping that = (Member_Grouping) o;
+		return word.equals(that.word) && clazz.equals(that.clazz) && grouping.equals(that.grouping);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(word, clazz, grouping);
+	}
+
 	// O R D E R I N G
 
 	@Override
@@ -81,9 +105,6 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 	@Override
 	public String dataRow()
 	{
-		//	clazz.id
-		//	word.id
-		//	grouping.id
 		return String.format("%d,%d,%d", //
 				clazz.getIntId(), //
 				word.getIntId(), //
@@ -93,6 +114,6 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", clazz.getName(), word.getIntId(), grouping.getName());
+		return String.format("%s,%s,%s", clazz.getName(), word.getWord(), grouping.getName());
 	}
 }

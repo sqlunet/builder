@@ -1,1 +1,1 @@
-ALTER TABLE ${words.table} ADD CONSTRAINT `uniq_@{words.table}_@{words.word}` UNIQUE KEY (${words.word});
+ALTER TABLE ${words.table} ADD CONSTRAINT `uk_@{words.table}_@{words.word}` UNIQUE KEY (${words.word});

@@ -48,6 +48,7 @@ public class PbCollector extends Processor
 		for (final File file : files)
 		{
 			fileCount++;
+			//System.out.println(file.getName());
 			processPropBankFile(file.getAbsolutePath(), file.getName());
 			Progress.trace(fileCount);
 		}

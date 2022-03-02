@@ -5,12 +5,15 @@ import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.vn.objects.Frame;
 import org.sqlbuilder.vn.objects.FrameExample;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class Frame_Example implements Insertable, Comparable<Frame_Example>
 {
+	public static final Comparator<Frame_Example> COMPARATOR = Comparator.comparing(Frame_Example::getFrame).thenComparing(Frame_Example::getExample);
+
 	public static final Set<Frame_Example> SET = new HashSet<>();
 
 	private final Frame frame;
@@ -29,6 +32,18 @@ public class Frame_Example implements Insertable, Comparable<Frame_Example>
 	{
 		this.frame = frame;
 		this.example = example;
+	}
+
+	// A C C E S S
+
+	public Frame getFrame()
+	{
+		return frame;
+	}
+
+	public FrameExample getExample()
+	{
+		return example;
 	}
 
 	// I D E N T I T Y
@@ -59,12 +74,7 @@ public class Frame_Example implements Insertable, Comparable<Frame_Example>
 	@Override
 	public int compareTo(final Frame_Example that)
 	{
-		int cmp = this.frame.compareTo(that.frame);
-		if (cmp != 0)
-		{
-			return cmp;
-		}
-		return this.example.compareTo(that.example);
+		return COMPARATOR.compare(this, that);
 	}
 
 	// I N S E R T
