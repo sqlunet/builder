@@ -6,6 +6,7 @@ import org.sqlbuilder.common.Utils;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Cxns implements HasID, Insertable
@@ -46,12 +47,35 @@ public class Cxns implements HasID, Insertable
 		return name;
 	}
 
+	// I D E N T I T Y
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Cxns cxns = (Cxns) o;
+		return id == cxns.id && name.equals(cxns.name);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(id, name);
+	}
+
 	// I N S E R T
 
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%s", id, Utils.escape(name));
+		return String.format("%d,'%s'", id, Utils.escape(name));
 	}
 }
 
