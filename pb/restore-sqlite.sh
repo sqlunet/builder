@@ -20,7 +20,7 @@ roles
 members
 rolesets
 tenses
-vnthetas
+thetas
 voices
 words
 pbrolesets_fnframes

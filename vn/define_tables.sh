@@ -24,6 +24,7 @@ semantics
 predicates
 predicates_semantics
 syntaxes
+thetas
 words
 "
 echo ${tables}
