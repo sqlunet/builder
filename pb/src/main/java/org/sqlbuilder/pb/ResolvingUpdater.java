@@ -1,7 +1,7 @@
 package org.sqlbuilder.pb;
 
-import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.annotations.ProvidesIdTo;
+import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.Update;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.pb.foreign.FnAlias;
@@ -47,9 +47,9 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
 		final String wordCol = names.column("words.word");
-		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), names.table("words"), //
+		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				wordResolver, //
-				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
+				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
 				resolving -> String.format("%s='%s'", wordCol, resolving));
 		Progress.traceDone();
 	}
@@ -60,9 +60,9 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("set", "fnalias");
 		final String fnframeidCol = names.column("pbrolesets_fnframes.fnframeid");
 		final String vnclassCol = names.column("pbrolesets_fnframes.fnframe");
-		Update.update(FnAlias.SET, new File(outDir, names.updateFile("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), //
+		Update.update(FnAlias.SET, new File(outDir, names.updateFile("pbrolesets_fnframes")), header, names.table("pbrolesets_fnframes"), //
 				fnFrameResolver, //
-				resolved -> fnframeidCol + '=' + Utils.nullable(resolved, Object::toString), //
+				resolved -> String.format("%s=%s", fnframeidCol, Utils.nullableInt(resolved)), //
 				resolving -> String.format("%s='%s'", vnclassCol, resolving));
 		Progress.traceDone();
 	}
@@ -73,9 +73,9 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("set", "vnalias");
 		final String vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid");
 		final String vnclassCol = names.column("pbrolesets_vnclasses.vnclass");
-		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), //
+		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), header, names.table("pbrolesets_vnclasses"), //
 				vnClassResolver, //
-				resolved -> vnclassidCol + '=' + Utils.nullable(resolved, Object::toString), //
+				resolved -> String.format("%s=%s", vnclassidCol, Utils.nullableInt(resolved)), //
 				resolving -> String.format("%s='%s'", vnclassCol, resolving));
 		Progress.traceDone();
 	}
@@ -84,12 +84,17 @@ public class ResolvingUpdater extends ResolvingInserter
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		final String vnroleidCol = names.column("pbroles_vnroles.roleid");
+		final String vnclassidCol = names.column("pbroles_vnroles.vnclassid");
+		final String vnroleidCol = names.column("pbroles_vnroles.vnroleid");
+		final String vnroletypeidCol = names.column("pbroles_vnroles.vnroletypeid");
+		final String vnclassCol = names.column("pbroles_vnroles.vnclass");
 		final String vnroleCol = names.column("pbroles_vnroles.vntheta");
-		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), names.table("pbroles_vnroles"), //
+		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), header, names.table("pbroles_vnroles"), //
 				vnClassRoleResolver, //
-				resolved -> vnroleidCol + '=' + Utils.nullable(resolved, Object::toString), //
-				resolving -> String.format("%s='%s'", vnroleCol, resolving));
+				resolved -> resolved == null ?
+						String.format("%s=NULL,%s=NULL,%s=NULL", vnclassidCol, vnroleidCol, vnroletypeidCol) :
+						String.format("%s=%s,%s=%s,%s=%s", vnclassidCol, Utils.nullableInt(resolved.first), vnroleidCol, Utils.nullableInt(resolved.second), vnroletypeidCol, Utils.nullableInt(resolved.third)), //
+				resolving -> String.format("%s='%s' AND %s='%s'", vnclassCol, resolving.first, vnroleCol, resolving.second));
 		Progress.traceDone();
 	}
 }

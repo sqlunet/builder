@@ -3,30 +3,12 @@
 
 # C O N S T S
 
-modules="vn"
+modules="sl"
 tables="
-classes
-members
-members_senses
-groupings
-members_groupings
-restrtypes
-restrs
-roletypes
-roles
-classes_frames
-frames
-framenames
-framesubnames
-examples
-frames_examples
-semantics
-predicates
-predicates_semantics
-syntaxes
-words
+pbrolesets_vnclasses
+pbroles_vnroles
 "
-dbtype=sqlite
+dbtype=mysql
 ops="create data index cleanup reference"
 
 # C O L O R S
@@ -47,6 +29,7 @@ sqldir="${thisdir}/sql"
 # M A I N
 
 echo -e "${Y}Restore utility for ${dbtype}${Z}"
+echo -e "${M}-the ${dbtype} user needs CREATE/DELETE permission${Z}"
 echo -e "${R}-the -d switch will delete an existing database with this name${Z}"
 read -r -p "Are you sure? [y/N] " response
 case "$response" in
@@ -85,55 +68,9 @@ db="$1"
 if [ -z "${db}" ]; then
 	read -p "Enter ${dbtype} database name: " db
 fi
-if [[ "${db}" != *.sqlite ]]; then
-	db="${db}.sqlite"
-fi
 export db
 
 # F U N C T I O N S
-
-pragmas_quick="PRAGMA synchronous=OFF;
-PRAGMA count_changes=OFF;
-PRAGMA journal_mode=MEMORY;
-PRAGMA temp_store=MEMORY;
-PRAGMA auto_vacuum=NONE;
-PRAGMA automatic_index=OFF;"
-
-pragmas_default="PRAGMA synchronous=FULL;
-PRAGMA count_changes=OFF;
-PRAGMA journal_mode=DELETE;
-PRAGMA temp_store=OFF;
-PRAGMA auto_vacuum=NONE;
-PRAGMA automatic_index=OFF;"
-
-begin="BEGIN TRANSACTION;"
-
-commit="COMMIT TRANSACTION;"
-
-tempdir=$(mktemp -d /tmp/sqlite.XXXXXXXXX)
-
-function to_temp()
-{
-	local sqlfile="$1"
-	local base="$(basename "${sqlfile}")"
-	echo "${tempdir}/${base}"
-}
-
-function fast()
-{
-	local sqlfile="$1" # can be or include *
-	local base="$(basename "${sqlfile}")"
-	local sqlfile2="${tempdir}/${base}"
-	printf '%s\n%s\n%s\n%s\n%s' "${pragmas_quick}" "${begin}" "$(cat ${sqlfile})" "${commit}" "${pragmas_default}"
-}
-
-function fast_to_temp()
-{
-	local sqlfile="$1" # can be or include *
-	tempfile=$(to_temp "${sqlfile}")
-	fast "${sqlfile}" > "${tempfile}"
-	echo "${tempfile}"
-}
 
 function process()
 {
@@ -145,38 +82,99 @@ function process()
 	fi
 	local base="$(basename "${sqlfile}")"
 	#echo "${base}"
-	case ${op} in
-	create|index|cleanup|anchor|reference|data)
-		sqlite3 -init "${sqlfile}" "${db}" .quit
-		;;
-	other|*)
-		local sqlfile2=$(fast_to_temp "${sqlfile}")
-		sqlite3 -init "${sqlfile2}" "${db}" .quit
-		;;
-	esac
+	#echo "mysql ${creds} --max_allowed_packet=100M \"${db}\" < \"${sqlfile}\""
+	mysql ${creds} --max_allowed_packet=100M "${db}" < "${sqlfile}"
 }
 
 function dbexists()
 {
-	test -e "${db}"
+	mysql ${creds} -e "\q" ${db} > /dev/null 2> /dev/null
 	return $? 
 }
 
 function deletedb()
 {
 	echo -e "${M}delete ${db}${Z}"
-	rm "${db}"
+	mysql ${creds} -e "DROP DATABASE ${db};"
 }
 
 function createdb()
 {
 	echo -e "${M}create ${db}${Z}"
-	touch "${db}"
+	mysql ${creds} -e "CREATE DATABASE ${db} DEFAULT CHARACTER SET UTF8;"
+}
+
+function getcredentialslegacy()
+{
+  # read user
+	read -p "Enter database user: " dbuser
+	if [ -z "${dbuser}" ]; then
+		echo "Define ${dbtype} user"
+		exit 1
+	fi
+
+  # read password unless et in en variable
+	if [ -z "$MYSQLPASSWORD" ]; then
+		read -s -p "Enter ${dbuser}'s password (type '?' if you want to be asked each time, because it's unsafe): " dbpasswd
+	else
+	  dbpasswd="$MYSQLPASSWORD"
+	fi
+
+  # output as commandline switches
+  echo -n "-u ${dbuser} "
+	if [ ! -z "${dbpasswd}" ]; then
+		if [ "${dbpasswd}" == "?" ]; then
+			echo "--password"
+		else
+			echo "--password=${dbpasswd}"
+		fi
+	fi
+}
+
+function getcredentials()
+{
+  >&2 echo "This requires mysql_config_editor."
+  profiles=`mysql_config_editor print --all | grep '\[.*\]'`
+  if [ ! -z "${profiles}" ]; then
+    >&2 echo "Existing profiles recorded by mysql_config_editor:"
+    >&2 echo "${profiles}"
+  fi
+
+  # read profile
+  read -p "Enter database user profile: " dbprofile
+  if [ -z "${dbprofile}" ]; then
+    echo "Define ${dbtype} user profile"
+    exit 1
+  fi
+
+  if ! echo "${profiles}" | grep -q "\[${dbprofile}\]"; then
+
+    # read user
+    read -p "Enter database user: " dbuser
+    if [ -z "${dbuser}" ]; then
+      echo "Define ${dbtype} user"
+      exit 1
+    fi
+
+    # editor
+    >&2 echo "Passing data to mysql_config_editor (password will be obfuscated ~/.mylogin.cnf)"
+    mysql_config_editor set --login-path=${dbprofile} --host=localhost --user=${dbuser} --password
+
+  fi
+
+	# output as commandline switches
+	echo "--login-path=${dbprofile}"
 }
 
 # R U N
 
 echo -e "${M}restoring ${db}${Z}"
+
+#credentials
+#export lcreds=`getcredentialslegacy`
+#echo "OLD ${lcreds}"
+export creds=`getcredentials`
+#echo "credentials ${lcreds}"
 
 #database
 if [ ! -z "${dbdelete}" ]; then
@@ -210,8 +208,8 @@ for m in ${modules}; do
 		esac
 		echo -e "dir=${M}${dir}${Z}"
 		if [ ! -d "${dir}" ]; then
-			  continue
-			fi
+		  continue
+		fi
 		for table in ${tables}; do
 			f="${dir}/${prefix}${table}${suffix}.sql"
 			if [ ! -e "${f}" ]; then

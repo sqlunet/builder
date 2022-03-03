@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn;
 
-import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.annotations.ProvidesIdTo;
+import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.common.Update;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.vn.objects.Sense;
@@ -43,9 +43,9 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
 		final String wordCol = names.column("words.word");
-		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), names.table("words"), //
+		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				wordResolver, //
-				resolved -> wordidCol + '=' + Utils.nullable(resolved, Object::toString), //
+				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
 				resolving -> String.format("%s='%s'", wordCol, resolving));
 		Progress.traceDone();
 	}
@@ -57,9 +57,9 @@ public class ResolvingUpdater extends ResolvingInserter
 		final String wordidCol = names.column("members_senses.wordid");
 		final String synsetidCol = names.column("members_senses.synsetid");
 		final String sensekeyCol = names.column("members_senses.sensekey");
-		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), names.table("members_senses"), //
+		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"), //
 				sensekeyResolver, //
-				resolved -> resolved == null ? "NULL,NULL" : (wordidCol + '=' + resolved.getKey() + ',' + synsetidCol + '=' + resolved.getValue()), //
+				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", wordidCol, synsetidCol) : String.format("%s=%s,%s=%s", wordidCol, Utils.nullableInt(resolved.getKey()), synsetidCol, Utils.nullableInt(resolved.getValue())), //
 				resolving -> String.format("%s='%s'", sensekeyCol, resolving));
 		Progress.traceDone();
 	}

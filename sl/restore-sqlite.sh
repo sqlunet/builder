@@ -3,28 +3,10 @@
 
 # C O N S T S
 
-modules="vn"
+modules="sl"
 tables="
-classes
-members
-members_senses
-groupings
-members_groupings
-restrtypes
-restrs
-roletypes
-roles
-classes_frames
-frames
-framenames
-framesubnames
-examples
-frames_examples
-semantics
-predicates
-predicates_semantics
-syntaxes
-words
+pbrolesets_vnclasses
+pbroles_vnroles
 "
 dbtype=sqlite
 ops="create data index cleanup reference"

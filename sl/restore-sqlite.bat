@@ -5,7 +5,7 @@ rem 03/12/2021
 set /P DB=Enter database name:
 
 set DBTYPE=sqlite
-set TABLES=annosets coretypes corpuses cxns documents fegrouprealizations ferealizations ferealizations_valenceunits fes_excluded fes_fegrouprealizations fes_required fes_semtypes fes fetypes framerelations frames_related frames_semtypes frames gftypes governors_annosets governors labelitypes labels labeltypes layers layertypes lexemes lexunits_governors lexunits_semtypes lexunits grouppatterns grouppatterns_annosets grouppatterns_patterns poses pttypes semtypes semtypes_supers sentences subcorpuses_sentences subcorpuses valenceunits_annosets valenceunits words
+set TABLES=pbrolesets_vnclasses pbroles_vnroles
 
 if "%1"=="-d" call :deletedb
 call :dbexists

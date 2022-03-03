@@ -116,15 +116,12 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 		// class.id
 		// word.id
 		// sensenum
-		// synsetId (or NULL)
 		// sensekey (or NULL)
 		// quality (or NULL)
-		Integer synsetid = null;
-		return String.format("%d,%d,%d,%s,%s,%s", //
+		return String.format("%d,%d,%d,%s,%s", //
 				member.clazz.getIntId(), //
 				member.word.getIntId(), //
 				sensenum, //
-				Utils.nullableInt(synsetid), //
 				Utils.nullableQuotedString(sensekey, Sensekey::getSensekey), //
 				Utils.nullableFloat(quality));
 	}

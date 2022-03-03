@@ -211,10 +211,10 @@ for m in ${modules}; do
 		fi
 		for table in ${tables}; do
 			f="${dir}/${prefix}${table}${suffix}.sql"
-			echo -e "sql=${Y}${f}${Z}"
 			if [ ! -e "${f}" ]; then
 			  continue
 			fi
+			echo -e "sql=${Y}${f}${Z}"
 			process "${f}" "${op}"
 		done
 	done
