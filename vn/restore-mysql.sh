@@ -40,7 +40,7 @@ source define_colors.sh
 
 # M A I N
 
-echo -e "${Y}Restore ${dbtype} utility${Z}"
+echo -e "${Y}Restore utility for ${dbtype}${Z}"
 echo -e "${M}-the ${dbtype} user needs CREATE/DELETE permission${Z}"
 echo -e "${R}-the -d switch will delete an existing database with this name${Z}"
 read -r -p "Are you sure? [y/N] " response
