@@ -195,7 +195,7 @@ public class PmEntry implements Insertable
 	public String dataRow()
 	{
 		//return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SUMO['%s'], SRC[%s]", //
-		return String.format("%s,'%s',%s,%s,%s,%s,'%s',%s", //
+		return String.format("%s,'%s','%s',%s,%s,%s,'%s',%s", //
 				role.getIntId(), // pm
 				word, Utils.nullable(sensekey),  // wordnet
 				vn.dataRow(), // verbnet

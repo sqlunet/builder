@@ -118,6 +118,6 @@ public class PmProcessor extends Processor
 		{
 			ps.print(",\n");
 		}
-		ps.printf("(%s)", values);
+		ps.printf("(%d,%s)", index + 1, values);
 	}
 }

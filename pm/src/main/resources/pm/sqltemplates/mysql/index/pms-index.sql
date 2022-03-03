@@ -1,4 +1,11 @@
-ALTER TABLE ${pms.table} ADD KEY 'k_@{pms.table}_@{pms.pmroleid}' (${pms.pmroleid});
-ALTER TABLE ${pms.table} ADD KEY 'k_@{pms.table}_@{pms.synsetid}' (${pms.synsetid});
-ALTER TABLE ${pms.table} ADD KEY 'k_@{pms.table}_@{pms.wordid}'   (${pms.wordid});
-
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.pmroleid}`  (${pms.pmroleid});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.synsetid}`  (${pms.synsetid});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.wordid}`    (${pms.wordid});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.word}`      (${pms.word});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.sensekey}`  (${pms.sensekey});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.vnclass}`   (${pms.vnclass});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.vnrole}`    (${pms.vnrole});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.pbroleset}` (${pms.pbroleset});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.pbrole}`    (${pms.pbrole});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.fnframe}`   (${pms.fnframe});
+ALTER TABLE ${pms.table} ADD KEY `k_@{pms.table}_@{pms.fnfe}`      (${pms.fnfe});
