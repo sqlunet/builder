@@ -27,14 +27,20 @@ pbroles_vnroles
 dbtype=mysql
 ops="create data index cleanup reference"
 
+# C O L O R S
+
+export R='\u001b[31m'
+export G='\u001b[32m'
+export B='\u001b[34m'
+export Y='\u001b[33m'
+export M='\u001b[35m'
+export C='\u001b[36m'
+export Z='\u001b[0m'
+
 # D I R
 
 thisdir=`dirname $(readlink -m "$0")`
 sqldir="${thisdir}/sql"
-
-# I N C L U D E
-
-source define_colors.sh
 
 # M A I N
 

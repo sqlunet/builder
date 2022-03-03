@@ -1,12 +1,9 @@
 #!/bin/bash
-# 22/11/2021
+# 03/03/2022
 
 # C O N S T S
 
-thisdir=`dirname $(readlink -m "$0")`
-sqldir="${thisdir}/sql"
-dbtype=sqlite
-modules="wn"
+modules="pb"
 tables="
 argns
 args
@@ -27,10 +24,23 @@ pbrolesets_fnframes
 pbrolesets_vnclasses
 pbroles_vnroles
 "
+dbtype=sqlite
+ops="create data index cleanup reference"
 
-# I N C L U D E
+# C O L O R S
 
-source define_colors.sh
+export R='\u001b[31m'
+export G='\u001b[32m'
+export B='\u001b[34m'
+export Y='\u001b[33m'
+export M='\u001b[35m'
+export C='\u001b[36m'
+export Z='\u001b[0m'
+
+# D I R
+
+thisdir=`dirname $(readlink -m "$0")`
+sqldir="${thisdir}/sql"
 
 # M A I N
 
@@ -53,7 +63,21 @@ if [ "$1" == "-d" ]; then
 	shift
 fi
 
-# D A T A B A S E (PARAM 2)
+# D A T A (PARAM 1)
+
+dbdata=
+if [ "$1" == "-r" ]; then
+	dbdata=_resolved
+	shift
+fi
+
+if [ "$1" == "-u" ]; then
+	dbdata=_updated
+  ops="update"
+	shift
+fi
+
+# D A T A B A S E (PARAM)
 
 db="$1"
 if [ -z "${db}" ]; then
@@ -163,24 +187,35 @@ fi
 # modules
 for m in ${modules}; do
 	echo -e "${C}${m}${Z}"
-	for op in create data index reference; do
+	for op in ${ops}; do
 		echo -e "${M}${op}${Z}"
 		case ${op} in
 			data) 
-				dir="${sqldir}/${op}"
+				dir="${sqldir}/data${dbdata}"
 				suffix=
+				prefix=
 				;;
 		 	create|index|cleanup|anchor|reference)
 		 		dir="${sqldir}/${dbtype}/${op}"
 				suffix="-${op}"
+				prefix=
+		 		;;
+		 	update)
+		 		dir="${sqldir}/data${dbdata}"
+				suffix=
+				prefix="update_"
 		 		;;
 		esac
-		for table in ${tables}; do
-			f="${dir}/${table}${suffix}.sql"
-			if [ ! -e "${f}" -a "${op}" == "reference" ]; then
+		echo -e "dir=${M}${dir}${Z}"
+		if [ ! -d "${dir}" ]; then
 			  continue
 			fi
+		for table in ${tables}; do
+			f="${dir}/${prefix}${table}${suffix}.sql"
 			echo -e "sql=${Y}${f}${Z}"
+			if [ ! -e "${f}" ]; then
+			  continue
+			fi
 			process "${f}" "${op}"
 		done
 	done
