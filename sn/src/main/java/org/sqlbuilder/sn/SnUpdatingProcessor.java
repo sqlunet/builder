@@ -31,6 +31,7 @@ public class SnUpdatingProcessor extends SnResolvingProcessor
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("syntagms"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processSyntagNetFile(ps, new File(snHome, snMain), //
 					(collocation, i) -> updateRow(ps, names.table("syntagms"), i, collocation, //
 							names.column("syntagms.word1id"), //
@@ -49,19 +50,19 @@ public class SnUpdatingProcessor extends SnResolvingProcessor
 		var r2 = senseResolver.apply(collocation.sensekey2);
 		if (r1 != null && r2 != null)
 		{
-			String setClause = String.format("`%s`=%s,`%s`=%s,`%s`=%s,`%s`=%s", //
+			String setClause = String.format("%s=%s,%s=%s,%s=%s,%s=%s", //
 					columns[0], Utils.nullableInt(r1.getKey()), //
 					columns[1], Utils.nullableInt(r1.getValue()), //
 					columns[2], Utils.nullableInt(r2.getKey()), //
 					columns[3], Utils.nullableInt(r2.getValue()));
-			String whereClause = String.format("`%s`=%s AND `%s`= %s", columns[4], Utils.quote(Utils.escape(collocation.sensekey1)), columns[5], Utils.quote(Utils.escape(collocation.sensekey2)));
-			ps.printf("UPDATE `%s` SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
+			String whereClause = String.format("%s=%s AND %s=%s", columns[4], Utils.quote(Utils.escape(collocation.sensekey1)), columns[5], Utils.quote(Utils.escape(collocation.sensekey2)));
+			ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
 		}
 	}
 
 	protected void processSyntagNetFile(final PrintStream ps, final File file, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
-		ps.printf("-- %s %s%n", file.getName(), serFile);
+		ps.printf("-- %s%n", serFile);
 		process(file, Collocation::parse, consumer);
 	}
 }

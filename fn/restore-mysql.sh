@@ -1,12 +1,9 @@
 #!/bin/bash
-# 22/11/2021
+# 03/03/2022
 
 # C O N S T S
 
-thisdir=`dirname $(readlink -m "$0")`
-sqldir="${thisdir}/sql"
-dbtype=mysql
-modules="wn"
+modules="fn"
 tables="
 annosets
 coretypes
@@ -52,6 +49,13 @@ valenceunits_annosets
 valenceunits
 words
 "
+dbtype=mysql
+ops="create data index cleanup reference"
+
+# D I R
+
+thisdir=`dirname $(readlink -m "$0")`
+sqldir="${thisdir}/sql"
 
 # I N C L U D E
 
@@ -79,7 +83,21 @@ if [ "$1" == "-d" ]; then
 	shift
 fi
 
-# D A T A B A S E (PARAM 2)
+# D A T A (PARAM 1)
+
+dbdata=
+if [ "$1" == "-r" ]; then
+	dbdata=_resolved
+	shift
+fi
+
+if [ "$1" == "-u" ]; then
+	dbdata=_updated
+  ops="update"
+	shift
+fi
+
+# D A T A B A S E (PARAM)
 
 db="$1"
 if [ -z "${db}" ]; then
@@ -204,24 +222,35 @@ fi
 # modules
 for m in ${modules}; do
 	echo -e "${C}${m}${Z}"
-	for op in create data index reference; do
+	for op in ${ops}; do
 		echo -e "${M}${op}${Z}"
 		case ${op} in
 			data) 
-				dir="${sqldir}/${op}"
+				dir="${sqldir}/data${dbdata}"
 				suffix=
+				prefix=
 				;;
 		 	create|index|cleanup|anchor|reference)
 		 		dir="${sqldir}/${dbtype}/${op}"
 				suffix="-${op}"
+				prefix=
+		 		;;
+		 	update)
+		 		dir="${sqldir}/data${dbdata}"
+				suffix=
+				prefix="update_"
 		 		;;
 		esac
+		echo -e "dir=${M}${dir}${Z}"
+		if [ ! -d "${dir}" ]; then
+		  continue
+		fi
 		for table in ${tables}; do
-			f="${dir}/${table}${suffix}.sql"
-			if [ ! -e "${f}" -a "${op}" == "reference" ]; then
+			f="${dir}/${prefix}${table}${suffix}.sql"
+			echo -e "sql=${Y}${f}${Z}"
+			if [ ! -e "${f}" ]; then
 			  continue
 			fi
-			echo -e "sql=${Y}${f}${Z}"
 			process "${f}" "${op}"
 		done
 	done

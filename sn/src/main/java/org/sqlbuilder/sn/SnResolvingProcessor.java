@@ -40,14 +40,15 @@ public class SnResolvingProcessor extends SnProcessor
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true), (collocation, i) -> {
 
-				var nr = collocation.dataRow();
-				var r1 = senseResolver.apply(collocation.sensekey1);
-				var r2 = senseResolver.apply(collocation.sensekey2);
+				var unresolved = collocation.dataRow();
+				var r1 = senseResolver.apply(collocation.sensekey1); // (word,synsetid)
+				var r2 = senseResolver.apply(collocation.sensekey2); // (word,synsetid)
 				if (r1 != null && r2 != null)
 				{
-					var values = String.format("%s,%s,%s,%s,%s", nr, Utils.nullableInt(r1.getKey()), Utils.nullableInt(r1.getValue()), Utils.nullableInt(r2.getKey()), Utils.nullableInt(r2.getValue()));
+					var values = String.format("%s,%s,%s,%s,%s", unresolved, Utils.nullableInt(r1.getKey()), Utils.nullableInt(r1.getValue()), Utils.nullableInt(r2.getKey()), Utils.nullableInt(r2.getValue()));
 					insertRow(ps, i, values);
 				}
 			});
@@ -57,6 +58,7 @@ public class SnResolvingProcessor extends SnProcessor
 	@Override
 	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
+		ps.printf("-- %s%n", serFile);
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		process(file, Collocation::parse, consumer);
 		ps.print(';');

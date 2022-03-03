@@ -151,8 +151,10 @@
 				<mappedresources>
 					<fileset refid="fs.@{dbtype}.@{dbtag}.sql"/>
 					<mapper>
+						<!--
 						<globmapper from="data_resolved/*" to="sql/data/*"/>
 						<globmapper from="data_updated/*" to="sql/data/*"/>
+						-->
 						<globmapper from="*" to="sql/*"/>
 					</mapper>
 				</mappedresources>
