@@ -34,7 +34,6 @@ public class ResolvingInserter extends Inserter
 		super(conf);
 
 		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
 		this.header += "\n-- " + conf.getProperty("vn_resolve_against");
 		this.header += "\n-- " + conf.getProperty("pb_resolve_against");
 

@@ -8,7 +8,7 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
-modules="bnc vn pb fn sn pm"
+modules="bnc sn vn pb sl fn pm"
 
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"

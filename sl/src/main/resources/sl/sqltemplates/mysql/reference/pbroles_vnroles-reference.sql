@@ -1,0 +1,4 @@
+-- ALTER TABLE ${pbroles_vnroles.table} ADD CONSTRAINT `fk_@{pbroles_vnroles.table}_@{pbroles_vnroles.pbrolesetid}` FOREIGN KEY (${pbroles_vnroles.pbrolesetid}) REFERENCES ${pbrolesets.table} (${pbrolesets.rolesetid});
+-- ALTER TABLE ${pbroles_vnroles.table} ADD CONSTRAINT `fk_@{pbroles_vnroles.table}_@{pbroles_vnroles.pbroleid}` FOREIGN KEY (${pbroles_vnroles.pbroleid}) REFERENCES ${pbroles.table} (${pbroles.roleid});
+-- ALTER TABLE ${pbroles_vnroles.table} ADD CONSTRAINT `fk_@{pbroles_vnroles.table}_@{pbroles_vnroles.vnclassid}` FOREIGN KEY (${pbroles_vnroles.vnclassid}) REFERENCES ${vnclasses.table} (${vnclasses.classid});
+-- ALTER TABLE ${pbroles_vnroles.table} ADD CONSTRAINT `fk_@{pbroles_vnroles.table}_@{pbroles_vnroles.vnroleid}` FOREIGN KEY (${pbroles_vnroles.vnroleid}) REFERENCES ${vnroles.table} (${vnroles.roleid});

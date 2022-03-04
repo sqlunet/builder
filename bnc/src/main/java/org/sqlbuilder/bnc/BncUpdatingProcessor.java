@@ -34,6 +34,7 @@ public class BncUpdatingProcessor extends BncResolvingProcessor
 		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("bncs"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCFile(ps, new File(bncHome, bNCMain), (record, i) -> updateRow(ps, names.table("bncs"), i, record, names.column("bncs.wordid"), names.column("bncs.word")));
 		}
 
@@ -41,31 +42,32 @@ public class BncUpdatingProcessor extends BncResolvingProcessor
 		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("spwrs"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCSubFile(ps, new File(bncHome, bNCSpWr), (record, i) -> updateRow(ps, names.table("spwrs"), i, record, names.column("spwrs.wordid"), names.column("spwrs.word")));
 		}
 
 		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("convtasks"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCSubFile(ps, new File(bncHome, bNCConvTask), (record, i) -> updateRow(ps, names.table("convtasks"), i, record, names.column("convtasks.wordid"), names.column("convtasks.word")));
 		}
 
 		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("imaginfs"))), true, StandardCharsets.UTF_8))
 		{
+			ps.println("-- " + header);
 			processBNCSubFile(ps, new File(bncHome, bNCImagInf), (record, i) -> updateRow(ps, names.table("imaginfs"), i, record, names.column("imaginfs.wordid"), names.column("imaginfs.word")));
 		}
 	}
 
 	private void processBNCFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
-		ps.printf("-- %s %s%n", file.getName(), this.serFile);
 		process(file, BncRecord::parse, consumer);
 	}
 
 	private void processBNCSubFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
 	{
-		ps.printf("-- %s %s%n", file.getName(), this.serFile);
 		process(file, BncExtendedRecord::parse, consumer);
 	}
 

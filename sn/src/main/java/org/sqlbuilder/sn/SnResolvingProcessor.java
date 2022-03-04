@@ -61,7 +61,6 @@ public class SnResolvingProcessor extends SnProcessor
 	@Override
 	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
-		ps.printf("-- %s%n", serFile);
 		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 		process(file, Collocation::parse, consumer);
 		ps.print(';');

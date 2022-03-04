@@ -62,7 +62,6 @@ public class SnUpdatingProcessor extends SnResolvingProcessor
 
 	protected void processSyntagNetFile(final PrintStream ps, final File file, final BiConsumer<Collocation, Integer> consumer) throws IOException
 	{
-		ps.printf("-- %s%n", serFile);
 		process(file, Collocation::parse, consumer);
 	}
 }
