@@ -50,7 +50,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				wordResolver, //
 				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
-				resolving -> String.format("%s='%s'", wordCol, resolving));
+				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));
 		Progress.traceDone();
 	}
 
@@ -63,7 +63,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(FnAlias.SET, new File(outDir, names.updateFile("pbrolesets_fnframes")), header, names.table("pbrolesets_fnframes"), //
 				fnFrameResolver, //
 				resolved -> String.format("%s=%s", fnframeidCol, Utils.nullableInt(resolved)), //
-				resolving -> String.format("%s='%s'", vnclassCol, resolving));
+				resolving -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)));
 		Progress.traceDone();
 	}
 
@@ -76,7 +76,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), header, names.table("pbrolesets_vnclasses"), //
 				vnClassResolver, //
 				resolved -> String.format("%s=%s", vnclassidCol, Utils.nullableInt(resolved)), //
-				resolving -> String.format("%s='%s'", vnclassCol, resolving));
+				resolving -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)));
 		Progress.traceDone();
 	}
 
@@ -94,7 +94,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				resolved -> resolved == null ?
 						String.format("%s=NULL,%s=NULL,%s=NULL", vnclassidCol, vnroleidCol, vnroletypeidCol) :
 						String.format("%s=%s,%s=%s,%s=%s", vnclassidCol, Utils.nullableInt(resolved.first), vnroleidCol, Utils.nullableInt(resolved.second), vnroletypeidCol, Utils.nullableInt(resolved.third)), //
-				resolving -> String.format("%s='%s' AND %s='%s'", vnclassCol, resolving.first, vnroleCol, resolving.second));
+				resolving -> String.format("%s='%s' AND %s='%s'", vnclassCol, Utils.escape(resolving.first), vnroleCol, Utils.escape(resolving.second)));
 		Progress.traceDone();
 	}
 }

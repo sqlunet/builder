@@ -31,40 +31,32 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 	public void run() throws IOException
 	{
 		var inputFile = new File(pMHome, pMFile);
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("pms.wn"))), true, StandardCharsets.UTF_8))
-		{
-			processPmFile(inputFile, (entry, i) -> updateWordSenseRow(ps, //
-					names.table("pms"), i, entry, //
-					names.column("pms.wordid"), //
-					names.column("pms.synsetid"), //
-					names.column("pms.word"), //
-					names.column("pms.sensekey")));
-		}
+		var singleOutput = names.updateFile("pms");
+		var wnOutput = names.updateFileNullable("pms.wn");
+		var xnOutput = names.updateFileNullable("pms.xn");
 
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("pms.xn"))), true, StandardCharsets.UTF_8))
+		if (wnOutput == null || xnOutput == null)
 		{
-			processPmFile(inputFile, (entry, i) -> updateVnPbFnRow(ps, //
-					names.table("pms"), i, entry, //
-					names.column("pms.vnwordid"), //
-					names.column("pms.pbwordid"), //
-					names.column("pms.fnwordid"), //
-					names.column("pms.vnclassid"), //
-					names.column("pms.vnroleid"), //
-					names.column("pms.pbrolesetid"), //
-					names.column("pms.pbroleid"), //
-					names.column("pms.fnframeid"), //
-					names.column("pms.fnfeid"), //
-					names.column("pms.fnluid"), //
-					names.column("pms.word"), //
-					names.column("pms.vnclass"), //
-					names.column("pms.vnrole"), //
-					names.column("pms.pbroleset"), //
-					names.column("pms.pbrole"), //
-					names.column("pms.fnframe"), //
-					names.column("pms.fnfe") //
-			));
+			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, singleOutput)), true, StandardCharsets.UTF_8))
+			{
+				processPmFile(inputFile, makeWnConsumer(ps));
+				processPmFile(inputFile, makeXnConsumer(ps));
+			}
+		}
+		else
+		{
+			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, wnOutput)), true, StandardCharsets.UTF_8))
+			{
+				processPmFile(inputFile, makeWnConsumer(ps));
+			}
+
+			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, xnOutput)), true, StandardCharsets.UTF_8))
+			{
+				processPmFile(inputFile, makeXnConsumer(ps));
+			}
 		}
 	}
+
 
 	private void updateWordSenseRow(final PrintStream ps, final String table, final int index, final PmEntry entry, final String... columns)
 	{
@@ -113,6 +105,40 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 				columns[16], Utils.nullable(entry.fn.fetype, x -> Utils.quote(Utils.escape(x))) //
 		);
 		ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
+	}
+
+	private BiConsumer<PmEntry, Integer> makeWnConsumer(final PrintStream ps)
+	{
+		return (entry, i) -> updateWordSenseRow(ps, //
+				names.table("pms"), i, entry, //
+				names.column("pms.wordid"), //
+				names.column("pms.synsetid"), //
+				names.column("pms.word"), //
+				names.column("pms.sensekey"));
+	}
+
+	private BiConsumer<PmEntry, Integer> makeXnConsumer(final PrintStream ps)
+	{
+		return (entry, i) -> updateVnPbFnRow(ps, //
+				names.table("pms"), i, entry, //
+				names.column("pms.vnwordid"), //
+				names.column("pms.pbwordid"), //
+				names.column("pms.fnwordid"), //
+				names.column("pms.vnclassid"), //
+				names.column("pms.vnroleid"), //
+				names.column("pms.pbrolesetid"), //
+				names.column("pms.pbroleid"), //
+				names.column("pms.fnframeid"), //
+				names.column("pms.fnfeid"), //
+				names.column("pms.fnluid"), //
+				names.column("pms.word"), //
+				names.column("pms.vnclass"), //
+				names.column("pms.vnrole"), //
+				names.column("pms.pbroleset"), //
+				names.column("pms.pbrole"), //
+				names.column("pms.fnframe"), //
+				names.column("pms.fnfe") //
+		);
 	}
 
 	protected void processPmFile(final File file, final BiConsumer<PmEntry, Integer> consumer) throws IOException

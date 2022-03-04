@@ -46,7 +46,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				wordResolver, //
 				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
-				resolving -> String.format("%s='%s'", wordCol, resolving));
+				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));
 		Progress.traceDone();
 	}
 
@@ -60,7 +60,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"), //
 				sensekeyResolver, //
 				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", wordidCol, synsetidCol) : String.format("%s=%s,%s=%s", wordidCol, Utils.nullableInt(resolved.getKey()), synsetidCol, Utils.nullableInt(resolved.getValue())), //
-				resolving -> String.format("%s='%s'", sensekeyCol, resolving));
+				resolving -> String.format("%s='%s'", sensekeyCol, Utils.escape(resolving)));
 		Progress.traceDone();
 	}
 }

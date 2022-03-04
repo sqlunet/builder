@@ -48,7 +48,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), header, names.table("pbrolesets_vnclasses"), //
 				new Resolver2<>(pbRoleSetResolver, vnClassResolver), //
 				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", pbrolesetidCol, vnclassidCol) : String.format("%s=%s,%s=%s", pbrolesetidCol, Utils.nullableInt(resolved.first), vnclassidCol, Utils.nullableInt(resolved.second)), //
-				resolving -> String.format("%s='%s' AND %s='%s'", pbrolesetCol, resolving.first, vnclassCol, resolving.second));
+				resolving -> String.format("%s='%s' AND %s='%s'", pbrolesetCol, Utils.escape(resolving.first), vnclassCol, Utils.escape(resolving.second)));
 		Progress.traceDone();
 	}
 
@@ -79,7 +79,7 @@ public class ResolvingUpdater extends ResolvingInserter
 										String.format("%s=%s,%s=%s,%s=%s", vnclassidCol, Utils.nullableInt(r.second.first), vnroleidCol, Utils.nullableInt(r.second.second), vnroletypeidCol, Utils.nullableInt(r.second.third)));
 
 		final Function<Pair<Pair<String, String>, Pair<String, String>>, String> whereStringifier = r -> //
-				String.format("%s='%s' AND %s='%s' AND %s='%s' AND %s='%s'", pbrolesetCol, r.first.first, pbroleCol, r.first.second, vnclassCol, r.second.first, vnroleCol, r.second.second);
+				String.format("%s='%s' AND %s='%s' AND %s='%s' AND %s='%s'", pbrolesetCol, Utils.escape(r.first.first), pbroleCol, Utils.escape(r.first.second), vnclassCol, Utils.escape(r.second.first), vnroleCol, Utils.escape(r.second.second));
 
 		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), header, names.table("pbroles_vnroles"), //
 				new Resolver2<>(pbRoleResolver, vnRoleResolver), //

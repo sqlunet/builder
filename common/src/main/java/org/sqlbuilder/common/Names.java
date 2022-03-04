@@ -42,6 +42,12 @@ public class Names
 		return "update_" + get(key + ".file");
 	}
 
+	public String updateFileNullable(String key)
+	{
+		var f = getNullable(key + ".file");
+		return f == null ? null : "update_" + f;
+	}
+
 	public String serFile(String key)
 	{
 		return serFile(key, "");
@@ -90,6 +96,11 @@ public class Names
 			throw new IllegalArgumentException(key);
 		}
 		return v;
+	}
+
+	private String getNullable(String key)
+	{
+		return props.getProperty(key);
 	}
 
 	private String backtickColumns(final String columns)

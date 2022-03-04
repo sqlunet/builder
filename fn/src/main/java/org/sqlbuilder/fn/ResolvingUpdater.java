@@ -44,7 +44,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				resolver, //
 				resolved -> wordidCol + '=' + Utils.nullableInt(resolved), //
-				resolving -> String.format("%s='%s'", wordCol, resolving));
+				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));
 		Progress.traceDone();
 	}
 }
