@@ -57,9 +57,9 @@ public class ResolvingUpdater extends ResolvingInserter
 	{
 		Progress.tracePending("set", "vnaliasrole");
 		final String pbrolesetCol = names.column("pbroles_vnroles.pbroleset");
-		final String pbroleCol = names.column("pbroles_vnroles.pbrole");
+		final String pbroleCol = names.column("pbroles_vnroles.pbarg");
 		final String vnclassCol = names.column("pbroles_vnroles.vnclass");
-		final String vnroleCol = names.column("pbroles_vnroles.vnrole");
+		final String vnroleCol = names.column("pbroles_vnroles.vntheta");
 		final String pbrolesetidCol = names.column("pbroles_vnroles.pbrolesetid");
 		final String pbroleidCol = names.column("pbroles_vnroles.pbroleid");
 		final String vnclassidCol = names.column("pbroles_vnroles.vnclassid");
