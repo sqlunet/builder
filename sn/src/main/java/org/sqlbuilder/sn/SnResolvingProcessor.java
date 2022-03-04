@@ -21,6 +21,9 @@ public class SnResolvingProcessor extends SnProcessor
 	{
 		super(conf);
 
+		// header
+		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+
 		// outdir
 		this.outDir = new File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())

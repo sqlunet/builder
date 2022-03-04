@@ -58,6 +58,11 @@ public class PmResolvingProcessor extends PmProcessor
 
 		this.names = new Names("pm");
 
+		// header
+		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+		this.header += "\n-- " + conf.getProperty("vn_resolve_against");
+		this.header += "\n-- " + conf.getProperty("pb_resolve_against");
+
 		// output
 		this.outDir = new File(conf.getProperty("pm_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())
@@ -97,6 +102,7 @@ public class PmResolvingProcessor extends PmProcessor
 
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 			{
+				ps.println("-- " + header);
 				processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), (entry, i) -> {
 
 					var wordid = wordResolver.apply(entry.word);

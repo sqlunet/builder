@@ -15,7 +15,7 @@ public class Inserter
 {
 	protected final Names names;
 
-	protected final String header;
+	protected String header;
 
 	protected File outDir;
 

@@ -33,6 +33,11 @@ public class ResolvingInserter extends Inserter
 	{
 		super(conf);
 
+		// header
+		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+		this.header += "\n-- " + conf.getProperty("vn_resolve_against");
+		this.header += "\n-- " + conf.getProperty("pb_resolve_against");
+
 		// output
 		this.outDir = new File(conf.getProperty("sl_outdir_resolved", "sql/data_resolved"));
 		if (!this.outDir.exists())

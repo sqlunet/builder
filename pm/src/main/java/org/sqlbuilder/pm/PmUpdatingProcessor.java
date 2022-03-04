@@ -39,6 +39,7 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		{
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, singleOutput)), true, StandardCharsets.UTF_8))
 			{
+				ps.println("-- " + header);
 				processPmFile(inputFile, makeWnConsumer(ps));
 				processPmFile(inputFile, makeXnConsumer(ps));
 			}
@@ -47,11 +48,13 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		{
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, wnOutput)), true, StandardCharsets.UTF_8))
 			{
+				ps.println("-- " + header);
 				processPmFile(inputFile, makeWnConsumer(ps));
 			}
 
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, xnOutput)), true, StandardCharsets.UTF_8))
 			{
+				ps.println("-- " + header);
 				processPmFile(inputFile, makeXnConsumer(ps));
 			}
 		}
