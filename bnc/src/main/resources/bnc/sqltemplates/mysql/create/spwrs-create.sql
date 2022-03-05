@@ -8,5 +8,5 @@ CREATE TABLE ${spwrs.table} (
     ${spwrs.freq2} INTEGER DEFAULT NULL,
     ${spwrs.range2} INTEGER DEFAULT NULL,
     ${spwrs.disp2} FLOAT DEFAULT NULL,
-    ${spwrs.ll} FLOAT DEFAULT NULL,
-PRIMARY KEY (${spwrs.word},${spwrs.pos}));
+    ${spwrs.ll} FLOAT DEFAULT NULL
+);

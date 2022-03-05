@@ -8,5 +8,5 @@ CREATE TABLE ${imaginfs.table} (
     ${imaginfs.freq2} INTEGER DEFAULT NULL,
     ${imaginfs.range2} INTEGER DEFAULT NULL,
     ${imaginfs.disp2} FLOAT DEFAULT NULL,
-    ${imaginfs.ll} FLOAT DEFAULT NULL,
-PRIMARY KEY (${imaginfs.word},${imaginfs.pos}));
+    ${imaginfs.ll} FLOAT DEFAULT NULL
+);

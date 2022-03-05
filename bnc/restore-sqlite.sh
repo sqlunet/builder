@@ -192,7 +192,7 @@ for m in ${modules}; do
 				prefix="update_"
 		 		;;
 		esac
-		echo -e "dir=${M}${dir}${Z}"
+		#echo -e "dir=${M}${dir}${Z}"
 		if [ ! -d "${dir}" ]; then
 			  continue
 			fi
@@ -201,7 +201,7 @@ for m in ${modules}; do
 			if [ ! -e "${f}" ]; then
 			  continue
 			fi
-			echo -e "sql=${Y}${f}${Z}"
+			echo -e "sql=${Y}$(basename ${f})${Z}"
 			process "${f}" "${op}"
 		done
 	done

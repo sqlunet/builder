@@ -8,5 +8,5 @@ CREATE TABLE ${convtasks.table} (
     ${convtasks.freq2} INTEGER DEFAULT NULL,
     ${convtasks.range2} INTEGER DEFAULT NULL,
     ${convtasks.disp2} FLOAT DEFAULT NULL,
-    ${convtasks.ll} FLOAT DEFAULT NULL,
-PRIMARY KEY (${convtasks.word},${convtasks.pos}));
+    ${convtasks.ll} FLOAT DEFAULT NULL
+);

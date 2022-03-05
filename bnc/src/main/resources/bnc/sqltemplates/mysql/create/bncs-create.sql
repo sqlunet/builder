@@ -4,6 +4,6 @@ CREATE TABLE ${bncs.table} (
     ${bncs.pos} ENUM ('n','v','a','r','s') NOT NULL,
     ${bncs.freq} INTEGER DEFAULT NULL,
     ${bncs.range} INTEGER DEFAULT NULL,
-    ${bncs.disp} FLOAT DEFAULT NULL,
-PRIMARY KEY (${bncs.word},${bncs.pos}))
+    ${bncs.disp} FLOAT DEFAULT NULL
+)
 DEFAULT CHARSET=utf8mb3;
