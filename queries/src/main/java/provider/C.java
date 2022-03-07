@@ -145,6 +145,38 @@ public class C
 		static public final String SAMPLE = "sample";
 	}
 
+	static public final class Lexes
+	{
+		static public final String TABLE = "lexes";
+		static public final String CONTENT_URI_TABLE = Lexes.TABLE;
+		static public final String LEXID = "lexid";
+		static public final String WORDID = "wordid";
+	}
+
+	static public final class VFrames
+	{
+		static public final String TABLE = "vframes";
+		static public final String CONTENT_URI_TABLE = VFrames.TABLE;
+		static public final String FRAMEID = "frameid";
+		static public final String FRAME = "frame";
+	}
+
+	static public final class VTemplates
+	{
+		static public final String TABLE = "vtemplates";
+		static public final String CONTENT_URI_TABLE = VTemplates.TABLE;
+		static public final String TEMPLATEID = "templateid";
+		static public final String TEMPLATE = "template";
+	}
+
+	static public final class Morphs
+	{
+		static public final String TABLE = "morphs";
+		static public final String CONTENT_URI_TABLE = Morphs.TABLE;
+		static public final String MORPHID = "morphid";
+		static public final String MORPH = "morph";
+	}
+
 	// J O I N S
 
 	static public final class Words_Senses_Synsets
@@ -255,7 +287,7 @@ public class C
 				"%s AS %s " + //
 						"INNER JOIN %s AS %s ON %s.synset2id = %s.synsetid " + //
 						"INNER JOIN %s AS %s ON %s.word2id = %s.wordid", //
-				"lexrelations",	C.AS_RELATION, //
+				"lexrelations", C.AS_RELATION, //
 				"synsets", C.AS_DEST, C.AS_RELATION, C.AS_DEST, //
 				"words", C.AS_WORD, C.AS_RELATION, C.AS_WORD //
 		);

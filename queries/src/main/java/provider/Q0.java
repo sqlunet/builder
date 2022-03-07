@@ -20,7 +20,7 @@ public class Q0 implements Q
 	static public final String TARGET_WORDID = "d_wordid";
 
 	@Override
-	public String[] query(int code)
+	public String[] query(String key)
 	{
 		final String last = "URILAST";
 		final String[] projection = {"PROJECTION"};
@@ -33,21 +33,21 @@ public class Q0 implements Q
 		String groupBy = null;
 		String table;
 
-		switch (code)
+		switch (key)
 		{
 			// T A B L E
 			// table uri : last element is table
 
-			case Main.WORDS:
-			case Main.SENSES:
-			case Main.SYNSETS:
-			case Main.SEMRELATIONS:
-			case Main.LEXRELATIONS:
-			case Main.RELATIONS:
-			case Main.POSES:
-			case Main.DOMAINS:
-			case Main.ADJPOSITIONS:
-			case Main.SAMPLES:
+			case "WORDS":
+			case "SENSES":
+			case "SYNSETS":
+			case "SEMRELATIONS":
+			case "LEXRELATIONS":
+			case "RELATIONS":
+			case "POSES":
+			case "DOMAINS":
+			case "ADJPOSITIONS":
+			case "SAMPLES":
 				table = "URI_PATH_SEGMENT";
 				break;
 
@@ -55,40 +55,40 @@ public class Q0 implements Q
 			// the incoming URI was for a single item because this URI was for a single row, the _ID value part is present.
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
-			case Main.WORD:
+			case "WORD":
 				table = Words.TABLE;
 				break;
 
-			case Main.SENSE:
+			case "SENSE":
 				table = Senses.TABLE;
 				break;
 
-			case Main.SYNSET:
+			case "SYNSET":
 				table = Synsets.TABLE;
 				break;
 
 			// V I E W S
 
-			case Main.DICT:
+			case "DICT":
 				table = "URI_PATH_SEGMENT";
 				break;
 
 			// J O I N S
 
-			case Main.WORDS_SENSES_SYNSETS:
+			case "WORDS_SENSES_SYNSETS":
 				table = "words AS " + C.AS_WORD + " " + //
 						"LEFT JOIN senses AS " + C.AS_SENSE + " USING (wordid) " + //
 						"LEFT JOIN synsets AS " + C.AS_SYNSET + " USING (synsetid)";
 				break;
 
-			case Main.WORDS_SENSES_CASEDWORDS_SYNSETS:
+			case "WORDS_SENSES_CASEDWORDS_SYNSETS":
 				table = "words AS " + C.AS_WORD + " " + //
 						"LEFT JOIN senses AS " + C.AS_SENSE + " USING (wordid) " + //
 						"LEFT JOIN casedwords AS " + C.AS_CASED + " USING (wordid,casedwordid) " + //
 						"LEFT JOIN synsets AS " + C.AS_SYNSET + " USING (synsetid)";
 				break;
 
-			case Main.WORDS_SENSES_CASEDWORDS_SYNSETS_POSTYPES_LEXDOMAINS:
+			case "WORDS_SENSES_CASEDWORDS_SYNSETS_POSTYPES_LEXDOMAINS":
 				table = "words AS " + C.AS_WORD + " " + //
 						"LEFT JOIN senses AS " + C.AS_SENSE + " USING (wordid) " + //
 						"LEFT JOIN casedwords AS " + C.AS_CASED + " USING (wordid,casedwordid) " + //
@@ -97,32 +97,32 @@ public class Q0 implements Q
 						"LEFT JOIN lexdomains AS " + C.AS_DOMAIN + " USING (lexdomainid)";
 				break;
 
-			case Main.SENSES_WORDS:
+			case "SENSES_WORDS":
 				table = "senses AS " + C.AS_SENSE + " " + //
 						"LEFT JOIN words AS " + C.AS_WORD + " USING(wordid)";
 				break;
 
-			case Main.SENSES_WORDS_BY_SYNSET:
+			case "SENSES_WORDS_BY_SYNSET":
 				groupBy = "synsetid";
 				table = "senses AS " + C.AS_SENSE + " " + //
 						"LEFT JOIN words AS " + C.AS_WORD + " USING(wordid)";
 				actualProjection = Main.appendProjection(actualProjection, "GROUP_CONCAT(words.lemma, ', ' ) AS " + Senses_Words.MEMBERS);
 				break;
 
-			case Main.SENSES_SYNSETS_POSES_DOMAINS:
+			case "SENSES_SYNSETS_POSES_DOMAINS":
 				table = "senses AS " + C.AS_SENSE + " " + //
 						"INNER JOIN synsets AS " + C.AS_SYNSET + " USING (synsetid) " + //
 						"LEFT JOIN postypes AS " + C.AS_POS + " USING(pos) " + //
 						"LEFT JOIN lexdomains AS " + C.AS_DOMAIN + " USING(lexdomainid)";
 				break;
 
-			case Main.SYNSETS_POSES_DOMAINS:
+			case "SYNSETS_POSES_DOMAINS":
 				table = "synsets AS " + C.AS_SYNSET + " " + //
 						"LEFT JOIN postypes AS " + C.AS_POS + " USING(pos) " + //
 						"LEFT JOIN lexdomains AS " + C.AS_DOMAIN + " USING(lexdomainid)";
 				break;
 
-			case Main.BASERELATIONS_SENSES_WORDS_X_BY_SYNSET:
+			case "BASERELATIONS_SENSES_WORDS_X_BY_SYNSET":
 			{
 				final String table1 = "semlinks";
 				final String table2 = "lexlinks";
@@ -156,18 +156,18 @@ public class Q0 implements Q
 			}
 			break;
 
-			case Main.SEMRELATIONS_SYNSETS:
+			case "SEMRELATIONS_SYNSETS":
 				table = "semlinks AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN synsets AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid";
 				break;
 
-			case Main.SEMRELATIONS_SYNSETS_X:
+			case "SEMRELATIONS_SYNSETS_X":
 				table = "semlinks AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN linktypes USING (linkid)" + //
 						"INNER JOIN synsets AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid ";
 				break;
 
-			case Main.SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET:
+			case "SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET":
 				groupBy = C.AS_DEST + ".synsetid";
 				table = "semlinks AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN linktypes USING (linkid) " + //
@@ -177,20 +177,20 @@ public class Q0 implements Q
 				actualProjection = Main.appendProjection(actualProjection, "GROUP_CONCAT(words.lemma, ', ' ) AS " + SemRelations_Synsets_Words_X.MEMBERS2);
 				break;
 
-			case Main.LEXRELATIONS_SENSES:
+			case "LEXRELATIONS_SENSES":
 				table = "lexlinks AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN synsets AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid " + //
 						"INNER JOIN words AS " + C.AS_WORD + " ON " + C.AS_RELATION + ".word2id = " + C.AS_WORD + ".wordid";
 				break;
 
-			case Main.LEXRELATIONS_SENSES_X:
+			case "LEXRELATIONS_SENSES_X":
 				table = "lexlinks AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN linktypes USING (linkid)" + //
 						"INNER JOIN synsets AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid " + //
 						"INNER JOIN words AS " + C.AS_WORD + " ON " + C.AS_RELATION + ".word2id = " + C.AS_WORD + ".wordid ";
 				break;
 
-			case Main.LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET:
+			case "LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET":
 				groupBy = C.AS_DEST + ".synsetid";
 				actualProjection = Main.appendProjection(actualProjection, "GROUP_CONCAT(DISTINCT " + C.AS_WORD2 + ".lemma) AS " + LexRelations_Senses_Words_X.MEMBERS2);
 				table = "lexlinks AS " + C.AS_RELATION + ' ' + //
@@ -201,31 +201,31 @@ public class Q0 implements Q
 						"LEFT JOIN words AS " + C.AS_WORD2 + " USING (wordid)";
 				break;
 
-			case Main.SENSES_VFRAMES:
+			case "SENSES_VFRAMES":
 				table = "senses_vframes " + //
 						"LEFT JOIN vframes USING (frameid)";
 				break;
 
-			case Main.SENSES_VTEMPLATES:
+			case "SENSES_VTEMPLATES":
 				table = "vframesentencemaps " + //
 						"LEFT JOIN vframesentences USING (sentenceid)";
 				break;
 
-			case Main.SENSES_ADJPOSITIONS:
+			case "SENSES_ADJPOSITIONS":
 				table = "adjpositions " + //
 						"LEFT JOIN adjpositiontypes USING (position)";
 				break;
 
-			case Main.LEXES_MORPHS:
+			case "LEXES_MORPHS":
 				table = "morphmaps " + //
 						"LEFT JOIN morphs USING (morphid)";
 				break;
 
-			case Main.WORDS_LEXES_MORPHS_BY_WORD:
+			case "WORDS_LEXES_MORPHS_BY_WORD":
 				groupBy = "wordid";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
-			case Main.WORDS_LEXES_MORPHS:
+			case "WORDS_LEXES_MORPHS":
 				table = "words " + //
 						"LEFT JOIN morphmaps USING (wordid) " + //
 						"LEFT JOIN morphs USING (morphid)";
@@ -233,21 +233,21 @@ public class Q0 implements Q
 
 			// T E X T S E A R C H
 
-			case Main.LOOKUP_FTS_WORDS:
+			case "LOOKUP_FTS_WORDS":
 				table = "words_lemma_fts4";
 				break;
 
-			case Main.LOOKUP_FTS_DEFINITIONS:
+			case "LOOKUP_FTS_DEFINITIONS":
 				table = "synsets_definition_fts4";
 				break;
 
-			case Main.LOOKUP_FTS_SAMPLES:
+			case "LOOKUP_FTS_SAMPLES":
 				table = "samples_sample_fts4";
 				break;
 
 			// S U G G E S T
 
-			case Main.SUGGEST_WORDS:
+			case "SUGGEST_WORDS":
 			{
 				table = "words";
 				actualProjection = new String[]{"wordid AS _id", //
@@ -259,7 +259,7 @@ public class Q0 implements Q
 				break;
 			}
 
-			case Main.SUGGEST_FTS_WORDS:
+			case "SUGGEST_FTS_WORDS":
 			{
 				table = "words_lemma_fts4";
 				actualProjection = new String[]{"wordid AS _id", //
@@ -271,7 +271,7 @@ public class Q0 implements Q
 				break;
 			}
 
-			case Main.SUGGEST_FTS_DEFINITIONS:
+			case "SUGGEST_FTS_DEFINITIONS":
 			{
 				table = "synsets_definition_fts4";
 				actualProjection = new String[]{"synsetid AS _id", //
@@ -283,7 +283,7 @@ public class Q0 implements Q
 				break;
 			}
 
-			case Main.SUGGEST_FTS_SAMPLES:
+			case "SUGGEST_FTS_SAMPLES":
 			{
 				table = "samples_sample_fts4";
 				actualProjection = new String[]{"sampleid AS _id", //
