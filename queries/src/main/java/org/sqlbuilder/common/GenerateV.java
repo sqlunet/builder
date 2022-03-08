@@ -10,12 +10,12 @@ import java.util.Locale;
 
 public class GenerateV
 {
-	private static void newc(PrintStream ps)
+	private static void generateNamesWithNamesAsValues(PrintStream ps, Class<?> clazz, String module)
 	{
-		ps.println("package provider;");
+		ps.println(String.format("package org.sqlunet.%s;", module));
 		ps.println("public class V {");
 
-		Arrays.stream(C.class.getDeclaredClasses()).forEach(c -> {
+		Arrays.stream(clazz.getDeclaredClasses()).forEach(c -> {
 			ps.printf("static public class %s {%n", c.getSimpleName());
 			Arrays.stream(c.getDeclaredFields()) //
 					.filter(f -> !"CONTENT_URI_TABLE".equals(f.getName())) //
@@ -27,11 +27,13 @@ public class GenerateV
 		ps.println("}");
 	}
 
-	public static void main(final String[] args) throws FileNotFoundException
+	public static void main(final String[] args) throws FileNotFoundException, ClassNotFoundException
 	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream("src/provider/V.java")))
+		var c = Class.forName(args[0]);
+		var m = args[1];
+		try (PrintStream ps = new PrintStream(new FileOutputStream(args[2])))
 		{
-			newc(ps);
+			generateNamesWithNamesAsValues(ps, c, m);
 		}
 	}
 }

@@ -132,22 +132,22 @@ public class Q0 implements Q
 				final String table2 = "lexlinks";
 				final String[] projection1 = { //
 						SemRelations.RELATIONID, //
-						SemRelations.SYNSETID1, //
-						SemRelations.SYNSETID2, //
+						SemRelations.SYNSET1ID, //
+						SemRelations.SYNSET2ID, //
 				};
 				final String[] projection2 = { //
 						LexRelations.RELATIONID, //
-						LexRelations.WORDID1, //
-						LexRelations.SYNSETID1, //
-						LexRelations.WORDID2, //
-						LexRelations.SYNSETID2, //
+						LexRelations.WORD1ID, //
+						LexRelations.SYNSET1ID, //
+						LexRelations.WORD2ID, //
+						LexRelations.SYNSET2ID, //
 				};
 				final String[] unionProjection = { //
 						BaseRelations.RELATIONID, //
-						BaseRelations.WORDID1, //
-						BaseRelations.SYNSETID1, //
-						BaseRelations.WORDID2, //
-						BaseRelations.SYNSETID2, //
+						BaseRelations.WORD1ID, //
+						BaseRelations.SYNSET1ID, //
+						BaseRelations.WORD2ID, //
+						BaseRelations.SYNSET2ID, //
 				};
 				groupBy = TARGET_SYNSETID + " , " + C.AS_TYPE + " , link, linkid, " + TARGET_WORDID + ',' + TARGET_LEMMA;
 				table = "( " + "MAKEQUERY" + " ) AS " + C.AS_RELATION + ' ' + //
@@ -303,11 +303,11 @@ public class Q0 implements Q
 				return null;
 		}
 		return new String[]{
-				"T:" + table, //
-				"P:" + Arrays.toString(actualProjection), //
-				"S:" + actualSelection, //
-				"A:" + Arrays.toString(actualSelectionArgs), //
-				"G:" + groupBy
+				table, //
+				Arrays.toString(actualProjection), //
+				actualSelection, //
+				Arrays.toString(actualSelectionArgs), //
+				groupBy
 		};
 	}
 }

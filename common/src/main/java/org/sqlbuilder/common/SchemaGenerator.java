@@ -23,6 +23,13 @@ import java.util.jar.JarFile;
  */
 public class SchemaGenerator
 {
+	private Variables variables;
+
+	public SchemaGenerator(final Variables variables)
+	{
+		this.variables = variables;
+	}
+
 	/**
 	 * Main entry point
 	 *
@@ -44,8 +51,8 @@ public class SchemaGenerator
 		String[] inputs = Arrays.copyOfRange(args, 3, args.length);
 
 		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
-		Variables.set(bundle);
-		new SchemaGenerator().generate(module, output, inputSubdir, inputs);
+		var variables = new Variables(bundle);
+		new SchemaGenerator(variables).generate(module, output, inputSubdir, inputs);
 	}
 
 	/**
@@ -101,7 +108,7 @@ public class SchemaGenerator
 
 					try
 					{
-						Variables.varSubstitutionInIS(is, ps, true);
+						variables.varSubstitutionInIS(is, ps, true);
 					}
 					catch (IOException e)
 					{
@@ -121,7 +128,7 @@ public class SchemaGenerator
 				File output2 = new File(dir, name);
 				try (PrintStream ps = new PrintStream(output2))
 				{
-					Variables.varSubstitutionInIS(is, ps, true);
+					variables.varSubstitutionInIS(is, ps, true);
 				}
 				catch (IOException e)
 				{

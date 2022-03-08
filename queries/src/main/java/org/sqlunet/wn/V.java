@@ -1,4 +1,4 @@
-package org.sqlunet.wn;
+package provider;
 public class V {
 static public class Suggest_FTS_Samples {
 static public final String SEARCH_SAMPLE_PATH = "${suggest_fts_samples.search_sample_path}";
@@ -56,35 +56,36 @@ static public final String WORDID = "${senses_adjpositions.wordid}";
 static public final String POSITIONID = "${senses_adjpositions.positionid}";
 static public final String POSITION = "${senses_adjpositions.position}";
 }
-static public class Senses_VTemplates {
-static public final String TABLE = "${senses_vtemplates.table}";
-static public final String SYNSETID = "${senses_vtemplates.synsetid}";
-static public final String WORDID = "${senses_vtemplates.wordid}";
-static public final String TEMPLATE = "${senses_vtemplates.template}";
+static public class Senses_VerbTemplates {
+static public final String TABLE = "${senses_verbtemplates.table}";
+static public final String SYNSETID = "${senses_verbtemplates.synsetid}";
+static public final String WORDID = "${senses_verbtemplates.wordid}";
+static public final String TEMPLATE = "${senses_verbtemplates.template}";
 }
-static public class Senses_VFrames {
-static public final String TABLE = "${senses_vframes.table}";
-static public final String SYNSETID = "${senses_vframes.synsetid}";
-static public final String WORDID = "${senses_vframes.wordid}";
-static public final String FRAME = "${senses_vframes.frame}";
+static public class Senses_VerbFrames {
+static public final String TABLE = "${senses_verbframes.table}";
+static public final String SYNSETID = "${senses_verbframes.synsetid}";
+static public final String WORDID = "${senses_verbframes.wordid}";
+static public final String FRAME = "${senses_verbframes.frame}";
 }
 static public class LexRelations_Senses_Words_X {
 static public final String TABLE_BY_SYNSET = "${lexrelations_senses_words_x.table_by_synset}";
 static public final String SYNSET1ID = "${lexrelations_senses_words_x.synset1id}";
 static public final String SYNSET2ID = "${lexrelations_senses_words_x.synset2id}";
-static public final String MEMBERS2 = "${members2}";
+static public final String MEMBERS2 = "${lexrelations_senses_words_x.members2}";
 }
 static public class LexRelations_Senses_X {
 static public final String TABLE = "${lexrelations_senses_x.table}";
 }
 static public class LexRelations_Senses {
 static public final String TABLE = "${lexrelations_senses.table}";
+static public final String QUERY = "${lexrelations_senses.query}";
 }
 static public class SemRelations_Synsets_Words_X {
 static public final String TABLE_BY_SYNSET = "${semrelations_synsets_words_x.table_by_synset}";
 static public final String SYNSET1ID = "${semrelations_synsets_words_x.synset1id}";
 static public final String SYNSET2ID = "${semrelations_synsets_words_x.synset2id}";
-static public final String MEMBERS2 = "${members2}";
+static public final String MEMBERS2 = "${semrelations_synsets_words_x.members2}";
 static public final String RECURSES = "${semrelations_synsets_words_x.recurses}";
 }
 static public class SemRelations_Synsets_X {
@@ -97,7 +98,7 @@ static public class BaseRelations_Senses_Words_X {
 static public final String TABLE_BY_SYNSET = "${baserelations_senses_words_x.table_by_synset}";
 static public final String SYNSET1ID = "${baserelations_senses_words_x.synset1id}";
 static public final String SYNSET2ID = "${baserelations_senses_words_x.synset2id}";
-static public final String MEMBERS2 = "${members2}";
+static public final String MEMBERS2 = "${baserelations_senses_words_x.members2}";
 static public final String RECURSES = "${baserelations_senses_words_x.recurses}";
 }
 static public class Synsets_Poses_Domains {
@@ -113,8 +114,8 @@ static public final String TABLE_BY_SYNSET = "${senses_words.table_by_synset}";
 static public final String CONTENT_URI_TABLE_BY_SYNSET = "${senses_words.content_uri_table_by_synset}";
 static public final String SYNSETID = "${senses_words.synsetid}";
 static public final String WORDID = "${senses_words.wordid}";
-static public final String MEMBER = "${member}";
-static public final String MEMBERS = "${members}";
+static public final String MEMBER = "${senses_words.member}";
+static public final String MEMBERS = "${senses_words.members}";
 }
 static public class Words_Senses_CasedWords_Synsets_Poses_Domains {
 static public final String TABLE = "${words_senses_casedwords_synsets_poses_domains.table}";
@@ -190,25 +191,25 @@ static public final String RECURSESSTR = "${relations.recursesstr}";
 static public final String RECURSESSELECT = "${relations.recursesselect}";
 }
 static public class LexRelations {
-static public final String TABLE = "${senses_senses.table}";
-static public final String WORD1ID = "${senses_senses.word1id}";
-static public final String SYNSET1ID = "${senses_senses.synset1id}";
-static public final String WORD2ID = "${senses_senses.word2id}";
-static public final String SYNSET2ID = "${senses_senses.synset2id}";
-static public final String RELATIONID = "${senses_senses.relationid}";
+static public final String TABLE = "${lexrelations.table}";
+static public final String WORDID1 = "${lexrelations.wordid1}";
+static public final String SYNSETID1 = "${lexrelations.synsetid1}";
+static public final String WORDID2 = "${lexrelations.wordid2}";
+static public final String SYNSETID2 = "${lexrelations.synsetid2}";
+static public final String RELATIONID = "${lexrelations.relationid}";
 }
 static public class SemRelations {
-static public final String TABLE = "${synsets_synsets.table}";
-static public final String SYNSET1ID = "${synsets_synsets.synset1id}";
-static public final String SYNSET2ID = "${synsets_synsets.synset2id}";
-static public final String RELATIONID = "${synsets_synsets.relationid}";
+static public final String TABLE = "${semrelations.table}";
+static public final String SYNSETID1 = "${semrelations.synsetid1}";
+static public final String SYNSETID2 = "${semrelations.synsetid2}";
+static public final String RELATIONID = "${semrelations.relationid}";
 }
 static public class BaseRelations {
 static public final String TABLE = "${baserelations.table}";
-static public final String WORD1ID = "${baserelations.word1id}";
-static public final String SYNSET1ID = "${baserelations.synset1id}";
-static public final String WORD2ID = "${baserelations.word2id}";
-static public final String SYNSET2ID = "${baserelations.synset2id}";
+static public final String WORDID1 = "${baserelations.wordid1}";
+static public final String SYNSETID1 = "${baserelations.synsetid1}";
+static public final String WORDID2 = "${baserelations.wordid2}";
+static public final String SYNSETID2 = "${baserelations.synsetid2}";
 static public final String RELATIONID = "${baserelations.relationid}";
 }
 static public class Synsets {

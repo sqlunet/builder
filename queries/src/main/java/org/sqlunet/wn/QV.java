@@ -5,13 +5,12 @@
 package org.sqlunet.wn;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Main;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.sqlbuilder.common.Q;
-import org.sqlunet.wn.V.*;
+import org.sqlunet.wn.C.*;
 
 public class QV implements Q
 {

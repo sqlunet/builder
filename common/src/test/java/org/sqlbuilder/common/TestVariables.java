@@ -7,16 +7,17 @@ import java.util.ResourceBundle;
 
 public class TestVariables
 {
+	private static final String[] dollarVs = new String[]{"${var.a}", "${var.b}", "${var.c}", "__${var.a}__", "__${var.b}__", "__${var.c}__", "${var.z}"};
+	private static final String[] atVs = new String[]{"@{var.a}", "@{var.b}", "@{var.c}", "__@{var.a}__", "__@{var.b}__", "__@{var.c}__", "@{var.z}"};
+
+	private static Variables variables;
+
 	@BeforeClass
 	public static void init()
 	{
 		ResourceBundle bundle = ResourceBundle.getBundle("Names");
-		Variables.set(bundle);
+		variables = new Variables(bundle);
 	}
-
-	private static final String[] dollarVs = new String[]{"${var.a}", "${var.b}", "${var.c}", "__${var.a}__", "__${var.b}__", "__${var.c}__", "${var.z}"};
-
-	private static final String[] atVs = new String[]{"@{var.a}", "@{var.b}", "@{var.c}", "__@{var.a}__", "__@{var.b}__", "__@{var.c}__", "@{var.z}"};;
 
 	@Test
 	public void testVariablesWithDollar()
@@ -36,7 +37,7 @@ public class TestVariables
 		{
 			try
 			{
-				var w = Variables.varSubstitution(v);
+				var w = variables.varSubstitution(v);
 				System.out.println(w);
 			}
 			catch (IllegalArgumentException iae)

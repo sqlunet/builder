@@ -178,10 +178,10 @@ public class Q2 implements Q
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
 						"MAKEQUERY", C.AS_RELATION, // 1
 						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, BaseRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID, // 3
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, BaseRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
 						Senses.TABLE, C.AS_DEST, Synsets.SYNSETID, Senses.TABLE, Senses.SYNSETID, // 4
 						Words.TABLE, C.AS_WORD, Words.WORDID, //
-						Words.TABLE, C.AS_WORD2, C.AS_RELATION, BaseRelations.WORDID2, C.AS_WORD2, Words.WORDID);
+						Words.TABLE, C.AS_WORD2, C.AS_RELATION, BaseRelations.WORD2ID, C.AS_WORD2, Words.WORDID);
 				actualSelection = null;
 				groupBy = String.format("%s,%s,%s,%s,%s,%s", TARGET_SYNSETID, C.AS_TYPE, Relations.RELATION, Relations.RELATIONID, TARGET_WORDID, TARGET_WORD);
 			}
@@ -191,7 +191,7 @@ public class Q2 implements Q
 				table = String.format("%s AS %s " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s", //
 						SemRelations.TABLE, C.AS_RELATION, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID);
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID);
 				break;
 
 			case "SEMRELATIONS_SYNSETS_X":
@@ -200,7 +200,7 @@ public class Q2 implements Q
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s ", //
 						SemRelations.TABLE, C.AS_RELATION, //
 						Relations.TABLE, Relations.RELATIONID, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID);
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID);
 				break;
 
 			case "SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET":
@@ -211,7 +211,7 @@ public class Q2 implements Q
 								"LEFT JOIN %s USING (%s)", // 5
 						SemRelations.TABLE, C.AS_RELATION, // 1
 						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID, // 3
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
 						Senses.TABLE, C.AS_DEST, Synsets.SYNSETID, Senses.TABLE, Senses.SYNSETID, // 4
 						Words.TABLE, Words.WORDID); //5
 				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", Words.TABLE, Words.WORD, SemRelations_Synsets_Words_X.MEMBERS2));
@@ -223,8 +223,8 @@ public class Q2 implements Q
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s", //
 						LexRelations.TABLE, C.AS_RELATION, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID, //
-						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORDID2, C.AS_WORD, Words.WORDID);
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, //
+						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORD2ID, C.AS_WORD, Words.WORDID);
 				break;
 
 			case "LEXRELATIONS_SENSES_X":
@@ -234,8 +234,8 @@ public class Q2 implements Q
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s ", //
 						LexRelations.TABLE, C.AS_RELATION, //
 						Relations.TABLE, Relations.RELATIONID, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID, //
-						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORDID2, C.AS_WORD, Words.WORDID);
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, //
+						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORD2ID, C.AS_WORD, Words.WORDID);
 				break;
 
 			case "LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET":
@@ -247,8 +247,8 @@ public class Q2 implements Q
 								"LEFT JOIN %s AS %s USING (%s)", // 6
 						LexRelations.TABLE, C.AS_RELATION, // 1
 						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSETID2, C.AS_DEST, Synsets.SYNSETID, // 3
-						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORDID2, C.AS_WORD, Words.WORDID, // 4
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
+						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORD2ID, C.AS_WORD, Words.WORDID, // 4
 						Senses.TABLE, C.AS_SENSE, C.AS_DEST, Senses.SYNSETID, C.AS_SENSE, Senses.SYNSETID, // 5
 						Words.TABLE, C.AS_WORD2, Words.WORDID); //6
 				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(DISTINCT %s.%s) AS %s", C.AS_WORD2, Words.WORD, LexRelations_Senses_Words_X.MEMBERS2));
@@ -258,14 +258,14 @@ public class Q2 implements Q
 			case "SENSES_VFRAMES":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s)", //
-						Senses_VerbFrames.TABLE, //
+						Senses_VFrames.TABLE, //
 						VFrames.TABLE, VFrames.FRAMEID);
 				break;
 
 			case "SENSES_VTEMPLATES":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s)", //
-						Senses_VerbTemplates.TABLE, //
+						Senses_VTemplates.TABLE, //
 						VTemplates.TABLE, VTemplates.TEMPLATEID);
 				break;
 

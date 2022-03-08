@@ -185,12 +185,12 @@ public class Q1 implements Q
 				break;
 
 			case "SENSES_VFRAMES":
-				table = Senses_VerbFrames.TABLE + " " + //
+				table = Senses_VFrames.TABLE + " " + //
 						"LEFT JOIN vframes USING (frameid)";
 				break;
 
 			case "SENSES_VTEMPLATES":
-				table = Senses_VerbTemplates.TABLE + " " + //
+				table = Senses_VTemplates.TABLE + " " + //
 						"LEFT JOIN vtemplates USING (templateid)";
 				break;
 

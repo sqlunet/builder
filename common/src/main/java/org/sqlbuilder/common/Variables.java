@@ -20,19 +20,31 @@ public class Variables
 	/**
 	 * Variable-value map
 	 */
-	public static final Map<String, String> toValue = new HashMap<>();
+	public final Map<String, String> toValue = new HashMap<>();
 
 	/**
 	 * Set values in map from resource bundle
 	 *
 	 * @param bundle resource bundle
 	 */
-	public static void set(final ResourceBundle bundle)
+	public Variables(final ResourceBundle bundle)
 	{
 		for (String k : bundle.keySet())
 		{
 			toValue.put(k, bundle.getString(k));
 		}
+	}
+
+	/**
+	 * Add key-value pair
+	 *
+	 * @param key   key
+	 * @param value value
+	 * @return old value if present, null otherwise
+	 */
+	public String put(final String key, final String value)
+	{
+		return toValue.put(key, value);
 	}
 
 	/**
@@ -43,7 +55,7 @@ public class Variables
 	 * @param compress whether to compress spaces to single space
 	 * @throws IOException io exception
 	 */
-	public static void varSubstitutionInFile(final File file, final PrintStream ps, final boolean compress) throws IOException
+	public void varSubstitutionInFile(final File file, final PrintStream ps, final boolean compress) throws IOException
 	{
 		// iterate on lines
 		try (InputStream is = new FileInputStream(file))
@@ -52,7 +64,7 @@ public class Variables
 		}
 		catch (IllegalArgumentException iae)
 		{
-			System.err.printf("%s %s", file, iae.getMessage());
+			System.err.printf("At %s%n%s%n", file, iae.getMessage());
 			throw iae;
 		}
 	}
@@ -65,7 +77,7 @@ public class Variables
 	 * @param compress whether to compress spaces to single space
 	 * @throws IOException io exception
 	 */
-	public static void varSubstitutionInIS(final InputStream is, final PrintStream ps, final boolean compress) throws IOException
+	public void varSubstitutionInIS(final InputStream is, final PrintStream ps, final boolean compress) throws IOException
 	{
 		// iterate on lines
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.defaultCharset())))
@@ -82,7 +94,7 @@ public class Variables
 				}
 				catch (IllegalArgumentException iae)
 				{
-					System.err.printf("%d '%s'", lineNum, line);
+					System.err.printf("At line %d content: [%s]%n", lineNum, line);
 					throw iae;
 				}
 				if (compress)
@@ -106,7 +118,7 @@ public class Variables
 	 * @param input input string
 	 * @return string with values substituted fir variable name
 	 */
-	public static String varSubstitution(String input)
+	public String varSubstitution(String input)
 	{
 		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, USE_BACKTICKS);
 	}
@@ -119,7 +131,7 @@ public class Variables
 	 * @param useBackticks whether to surround substitution result with back ticks
 	 * @return string with values substituted for variable name
 	 */
-	public static String varSubstitution(final String input, final Pattern p, boolean useBackticks)
+	public String varSubstitution(final String input, final Pattern p, boolean useBackticks)
 	{
 		Matcher m = p.matcher(input);
 		if (m.find())

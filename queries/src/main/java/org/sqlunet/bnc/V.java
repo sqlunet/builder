@@ -6,15 +6,15 @@ package org.sqlunet.bnc;
 
 public class V
 {
-	static public final class BNCs
+	static public final class BNCS
 	{
 		static public final String TABLE = "${bncs.table}";
-		static public final String WORDID = "${bnc.wordid}";
-		static public final String POSID = "${bnc.posid}";
-		static public final String FREQ = "${bnc.freq}";
+		static public final String WORDID = "${bncs.wordid}";
+		static public final String POSID = "${bncs.posid}";
+		static public final String FREQ = "${bncs.freq}";
 	}
 
-	static public final class Words_BNCs
+	static public final class WORDS_BNCS
 	{
 		static public final String TABLE = "${words_bncs.table}";
 		static public final String LEMMA = "${words_bncs.word}";

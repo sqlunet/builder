@@ -72,10 +72,10 @@ public class C
 	{
 		static public final String TABLE = "synsets_synsets";
 		static public final String CONTENT_URI_TABLE = SemRelations.TABLE;
-		static public final String WORDID1 = "word1id";
-		static public final String SYNSETID1 = "synset1id";
-		static public final String WORDID2 = "word2id";
-		static public final String SYNSETID2 = "synset2id";
+		static public final String WORD1ID = "word1id";
+		static public final String SYNSET1ID = "synset1id";
+		static public final String WORD2ID = "word2id";
+		static public final String SYNSET2ID = "synset2id";
 		static public final String RELATIONID = "relationid";
 	}
 
@@ -83,8 +83,8 @@ public class C
 	{
 		static public final String TABLE = "synsets_synsets";
 		static public final String CONTENT_URI_TABLE = SemRelations.TABLE;
-		static public final String SYNSETID1 = "synset1id";
-		static public final String SYNSETID2 = "synset2id";
+		static public final String SYNSET1ID = "synset1id";
+		static public final String SYNSET2ID = "synset2id";
 		static public final String RELATIONID = "relationid";
 	}
 
@@ -92,10 +92,10 @@ public class C
 	{
 		static public final String TABLE = "senses_senses";
 		static public final String CONTENT_URI_TABLE = LexRelations.TABLE;
-		static public final String WORDID1 = "word1id";
-		static public final String SYNSETID1 = "synset1id";
-		static public final String WORDID2 = "word2id";
-		static public final String SYNSETID2 = "synset2id";
+		static public final String WORD1ID = "word1id";
+		static public final String SYNSET1ID = "synset1id";
+		static public final String WORD2ID = "word2id";
+		static public final String SYNSET2ID = "synset2id";
 		static public final String RELATIONID = "relationid";
 	}
 
@@ -311,20 +311,20 @@ public class C
 		// lexrelations INNER JOIN synsets INNER JOIN words LEFT JOIN relations LEFT JOIN senses LEFT JOIN words
 	}
 
-	static public final class Senses_VerbFrames
+	static public final class Senses_VFrames
 	{
 		static public final String TABLE = "senses_vframes";
-		static public final String CONTENT_URI_TABLE = Senses_VerbFrames.TABLE;
+		static public final String CONTENT_URI_TABLE = Senses_VFrames.TABLE;
 		static public final String SYNSETID = "synsetid";
 		static public final String WORDID = "wordid";
 		static public final String FRAME = "frame";
 		// senses_vframes LEFT JOIN vframes
 	}
 
-	static public final class Senses_VerbTemplates
+	static public final class Senses_VTemplates
 	{
 		static public final String TABLE = "senses_vtemplates";
-		static public final String CONTENT_URI_TABLE = Senses_VerbTemplates.TABLE;
+		static public final String CONTENT_URI_TABLE = Senses_VTemplates.TABLE;
 		static public final String SYNSETID = "synsetid";
 		static public final String WORDID = "wordid";
 		static public final String TEMPLATE = "template";

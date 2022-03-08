@@ -7,16 +7,17 @@ package org.sqlunet.bnc;
 import org.sqlbuilder.common.Q;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
-public class Q0 implements Q
+public class QV implements Q
 {
 	@Override
 	public String[] query(String key)
 	{
-		final String last = "URILAST";
-		final String[] projection = {"PROJECTION"};
-		final String selection = "SELECTION";
-		final String[] selectionArgs = {"ARGS"};
+		final String last = "${uri_last}";
+		final String[] projection = null;
+		final String selection = null;
+		final String[] selectionArgs = null;
 
 		String[] actualProjection = projection;
 		String actualSelection = selection;
@@ -50,19 +51,25 @@ public class Q0 implements Q
 								"LEFT JOIN %s USING (%s, %s) " + //
 								"LEFT JOIN %s USING (%s, %s) " + //
 								"LEFT JOIN %s USING (%s, %s) ", //
-						"bnc.bncs ", //
-						"bnc.spwrse", "words.wordid", "bnc.posid", //
-						"bnc.convtasks", "words.wordid", "bnc.posid",  //
-						"bnc.imaginfs", "words.wordid", "bnc.posid");
+						"${bncs.table} ", //
+						"${spwrs.table}", "${wnwords.wordid}", "${wnposes.posid}", //
+						"${convtasks.table}", "${wnwords.wordid}", "${wnposes.posid}",  //
+						"${imaginfs.table}", "${wnwords.wordid}", "${wnposes.posid}");
 				break;
 
 			default:
 				return null;
 		}
-		return new String[]{"T:" + table, //
-				"P:" + Arrays.toString(actualProjection), //
-				"S:" + actualSelection, //
-				"A:" + Arrays.toString(actualSelectionArgs), //
-				"G:" + groupBy};
+		return new String[]{ //
+				quote(table), //
+				actualProjection == null ? null : "{" + Arrays.stream(actualProjection).map(this::quote).collect(Collectors.joining(",")) + "}", //
+				quote(actualSelection), //
+				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(this::quote).collect(Collectors.joining(",")) + "}", //
+				quote(groupBy)};
+	}
+
+	private String quote(String str)
+	{
+		return str == null ? null : String.format("\"%s\"", str);
 	}
 }

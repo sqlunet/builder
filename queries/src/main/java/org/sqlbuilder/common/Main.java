@@ -4,11 +4,6 @@
 
 package org.sqlbuilder.common;
 
-import org.sqlunet.wn.Q0;
-import org.sqlunet.wn.Q1;
-import org.sqlunet.wn.Q2;
-import org.sqlunet.wn.QV;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,13 +19,15 @@ import java.util.ResourceBundle;
  */
 public class Main
 {
-	static public String[] KEYS = {"WORDS", "WORD", /*"WORD_BY_LEMMA",*/ "SENSES", "SENSE", "SYNSETS", "SYNSET", "SEMRELATIONS", "LEXRELATIONS", "RELATIONS", "POSES", "DOMAINS", "ADJPOSITIONS", "SAMPLES", "DICT", "WORDS_SENSES_SYNSETS", "WORDS_SENSES_CASEDWORDS_SYNSETS", "WORDS_SENSES_CASEDWORDS_SYNSETS_POSTYPES_LEXDOMAINS", "SENSES_WORDS", "SENSES_WORDS_BY_SYNSET", "SENSES_SYNSETS_POSES_DOMAINS", "SYNSETS_POSES_DOMAINS", "BASERELATIONS_SENSES_WORDS_X_BY_SYNSET", "SEMRELATIONS_SYNSETS", "SEMRELATIONS_SYNSETS_X", "SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET", "LEXRELATIONS_SENSES", "LEXRELATIONS_SENSES_X", "LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET", "SENSES_VFRAMES", "SENSES_VTEMPLATES", "SENSES_ADJPOSITIONS", "LEXES_MORPHS", "WORDS_LEXES_MORPHS", "WORDS_LEXES_MORPHS_BY_WORD", "LOOKUP_FTS_WORDS", "LOOKUP_FTS_DEFINITIONS", "LOOKUP_FTS_SAMPLES", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS", "SUGGEST_FTS_DEFINITIONS", "SUGGEST_FTS_SAMPLES",};
+	static public String[] WN_KEYS = {"WORDS", "WORD", /*"WORD_BY_LEMMA",*/ "SENSES", "SENSE", "SYNSETS", "SYNSET", "SEMRELATIONS", "LEXRELATIONS", "RELATIONS", "POSES", "DOMAINS", "ADJPOSITIONS", "SAMPLES", "DICT", "WORDS_SENSES_SYNSETS", "WORDS_SENSES_CASEDWORDS_SYNSETS", "WORDS_SENSES_CASEDWORDS_SYNSETS_POSTYPES_LEXDOMAINS", "SENSES_WORDS", "SENSES_WORDS_BY_SYNSET", "SENSES_SYNSETS_POSES_DOMAINS", "SYNSETS_POSES_DOMAINS", "BASERELATIONS_SENSES_WORDS_X_BY_SYNSET", "SEMRELATIONS_SYNSETS", "SEMRELATIONS_SYNSETS_X", "SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET", "LEXRELATIONS_SENSES", "LEXRELATIONS_SENSES_X", "LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET", "SENSES_VFRAMES", "SENSES_VTEMPLATES", "SENSES_ADJPOSITIONS", "LEXES_MORPHS", "WORDS_LEXES_MORPHS", "WORDS_LEXES_MORPHS_BY_WORD", "LOOKUP_FTS_WORDS", "LOOKUP_FTS_DEFINITIONS", "LOOKUP_FTS_SAMPLES", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS", "SUGGEST_FTS_DEFINITIONS", "SUGGEST_FTS_SAMPLES",};
+
+	static public String[] BNC_KEYS = {"BNCS", "WORDS_BNCS"};
 
 	// H E L P E R S
 
 	public static void compare(Q q1, Q q2)
 	{
-		for (String key : KEYS)
+		for (String key : WN_KEYS)
 		{
 			String[] result1 = q1.query(key);
 			String[] result2 = q2.query(key);
@@ -62,14 +59,9 @@ public class Main
 		}
 	}
 
-	private static String nullable(String s)
+	public static void generateProperties(String[] keys, Q q, PrintStream ps)
 	{
-		return s == null ? "" : s;
-	}
-
-	public static void generateProperties(Q q, PrintStream ps)
-	{
-		for (String key : KEYS)
+		for (String key : keys)
 		{
 			String[] result = q.query(key);
 			ps.println("# " + key);
@@ -82,11 +74,11 @@ public class Main
 		}
 	}
 
-	public static void generateClass(Q q, String className, PrintStream ps)
+	public static void generateClass(String[] keys, Q q, String className, PrintStream ps)
 	{
 		ps.println("package provider;\n");
 		ps.println("public class " + className + " {\n");
-		for (String key : KEYS)
+		for (String key : keys)
 		{
 			ps.printf("static public class %s {%n", key);
 			String[] result = q.query(key);
@@ -114,30 +106,67 @@ public class Main
 		ps.println("}");
 	}
 
-	private static Q from(String s)
+	private static Q qFrom(String module, String s)
 	{
-		switch (s)
+		switch (module)
 		{
-			case "0":
-				return new Q0();
-			case "1":
-				return new Q1();
-			case "2":
-				return new Q2();
-			case "V":
-				return new QV();
+			case "wn":
+				switch (s)
+				{
+					case "0":
+						return new org.sqlunet.wn.Q0();
+					case "1":
+						return new org.sqlunet.wn.Q1();
+					case "2":
+						return new org.sqlunet.wn.Q2();
+					case "V":
+						return new org.sqlunet.wn.QV();
+				}
+				return null;
+			case "bnc":
+				switch (s)
+				{
+					case "0":
+						return new org.sqlunet.bnc.Q0();
+						/*
+					case "1":
+						return new org.sqlunet.bnc.Q1();
+					case "2":
+						return new org.sqlunet.bnc.Q2();
+						*/
+					case "V":
+						return new org.sqlunet.bnc.QV();
+				}
+				return null;
 		}
 		return null;
 	}
 
-	public static Variables2 makeVariables(final String module) throws IOException
+	private static String[] keysFrom(String module)
+	{
+		switch (module)
+		{
+			case "wn":
+				return WN_KEYS;
+			case "bnc":
+				return BNC_KEYS;
+		}
+		return null;
+	}
+
+	private static String nullable(String s)
+	{
+		return s == null ? "" : s;
+	}
+
+	public static Variables makeVariables(final String module)
 	{
 		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + "Names");
-		Variables2 variables = new Variables2(bundle);
+		Variables variables = new Variables(bundle);
 
 		// synonyms
-		variables.put("baserelations.synset2id", variables.varSubstitution("${synsets_synsets.word2id}"));
-		variables.put("baserelations.word2id", variables.varSubstitution("${senses_senses.word2id}"));
+		//variables.put("baserelations.synset2id", variables.varSubstitution("${synsets_synsets.word2id}"));
+		//variables.put("baserelations.word2id", variables.varSubstitution("${senses_senses.word2id}"));
 
 		// aliases
 		variables.put("members", "members");
@@ -158,37 +187,39 @@ public class Main
 		{
 			case "compare":
 			{
-				compare(from(args[1]), from(args[2]));
+				compare(qFrom(args[1], args[2]), qFrom(args[1], args[3]));
 				break;
 			}
 			case "generate_class":
 			{
-				String source = args[1];
-				String className = args[2];
-				String fileName = "wn/" + className + ".java";
+				String module = args[1];
+				String source = args[2];
+				String className = args[3];
+				String fileName = module + "/" + className + ".java";
 				try (PrintStream ps = new PrintStream(new FileOutputStream(fileName)))
 				{
-					generateClass(from(source), className, ps);
+					generateClass(keysFrom(module), qFrom(module, source), className, ps);
 				}
 				break;
 			}
 			case "generate_properties":
 			{
-				String source = args[1];
-				String propertiesName = args[2];
-				String fileName = "wn/" + propertiesName + ".properties";
+				String module = args[1];
+				String source = args[2];
+				String propertiesName = args[3];
+				String fileName = module + "/" + propertiesName + ".properties";
 				try (PrintStream ps = new PrintStream(new FileOutputStream(fileName)))
 				{
-					generateProperties(from(args[1]), ps);
+					generateProperties(keysFrom(module), qFrom(module, source), ps);
 				}
-				// generateProperties(from(args[1]), System.out);
+				// generateProperties(keysFrom(module), qFrom(module, source), System.out);
 				break;
 			}
 			case "instantiate":
 			{
-				Variables2 variables = makeVariables("wn");
-				String source = args[1];
-				String dest = args[2];
+				Variables variables = makeVariables(args[1]);
+				String source = args[2];
+				String dest = args[3];
 				if ("-".equals(dest))
 				{
 					variables.varSubstitutionInFile(new File(source), System.out, false);
