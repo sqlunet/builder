@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/queries/queries.iml" filepath="$PROJECT_DIR$/queries/queries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reqprovtest/reqprovtest.iml" filepath="$PROJECT_DIR$/reqprovtest/reqprovtest.iml" />
     </modules>
   </component>
 </project>

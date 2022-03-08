@@ -36,6 +36,18 @@ public class Variables2
 	}
 
 	/**
+	 * Add key-value pair
+	 *
+	 * @param key   key
+	 * @param value value
+	 * @return old value if present, null otherwise
+	 */
+	public String put(final String key, final String value)
+	{
+		return toValue.put(key, value);
+	}
+
+	/**
 	 * Substitute values to variables in file
 	 *
 	 * @param file     input file

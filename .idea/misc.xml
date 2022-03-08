@@ -159,6 +159,7 @@
         <option value="$PROJECT_DIR$/fn-jaxb/pom.xml" />
         <option value="$PROJECT_DIR$/fn-beans/pom.xml" />
         <option value="$PROJECT_DIR$/foreign/pom.xml" />
+        <option value="$PROJECT_DIR$/queries/pom.xml" />
       </list>
     </option>
   </component>
