@@ -23,11 +23,19 @@ public class Main
 
 	static public String[] BNC_KEYS = {"BNCS", "WORDS_BNCS"};
 
+	static public String[] FN_KEYS = {"LEXUNITS", "FRAMES", "ANNOSETS", "SENTENCES", "LEXUNIT", "FRAME", "SENTENCE", "ANNOSET", "LEXUNITS_OR_FRAMES", "FRAMES_X_BY_FRAME", "FRAMES_RELATED", "LEXUNITS_X_BY_LEXUNIT", "SENTENCES_LAYERS_X", "ANNOSETS_LAYERS_X", "PATTERNS_LAYERS_X", "VALENCEUNITS_LAYERS_X", "WORDS_LEXUNITS_FRAMES", "FRAMES_FES_BY_FE", "FRAMES_FES", "LEXUNITS_SENTENCES_BY_SENTENCE", "LEXUNITS_SENTENCES", "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS_BY_SENTENCE", "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS", "LEXUNITS_GOVERNORS", "GOVERNORS_ANNOSETS", "LEXUNITS_REALIZATIONS_BY_REALIZATION", "LEXUNITS_REALIZATIONS", "LEXUNITS_GROUPREALIZATIONS_BY_PATTERN", "LEXUNITS_GROUPREALIZATIONS", "PATTERNS_SENTENCES", "VALENCEUNITS_SENTENCES", "LOOKUP_FTS_WORDS", "LOOKUP_FTS_SENTENCES", "LOOKUP_FTS_SENTENCES_X_BY_SENTENCE", "LOOKUP_FTS_SENTENCES_X", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS"};
+
+	static public String[] VN_KEYS = {"VNCLASS", "VNCLASSES_X_BY_VNCLASS", "WORDS_VNCLASSES", "VNCLASSES_VNMEMBERS_X_BY_WORD", "VNCLASSES_VNROLES_X_BY_VNROLE", "VNCLASSES_VNFRAMES_X_BY_VNFRAME", "LOOKUP_FTS_EXAMPLES", "LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE", "LOOKUP_FTS_EXAMPLES_X", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS"};
+
+	static public String[] PB_KEYS = {"PBROLESET", "PBROLESETS", "PBROLESETS_X_BY_ROLESET", "PBROLESETS_X", "WORDS_PBROLESETS", "PBROLESETS_PBROLES", "PBROLESETS_PBEXAMPLES_BY_EXAMPLE", "PBROLESETS_PBEXAMPLES", "LOOKUP_FTS_EXAMPLES", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS"};
+
+	static public String[] SN_KEYS = {"COLLOCATIONS", "COLLOCATIONS_X"};
+
 	// H E L P E R S
 
-	public static void compare(Q q1, Q q2)
+	public static void compare(String[] keys, Q q1, Q q2)
 	{
-		for (String key : WN_KEYS)
+		for (String key : keys)
 		{
 			String[] result1 = q1.query(key);
 			String[] result2 = q2.query(key);
@@ -138,6 +146,46 @@ public class Main
 						return new org.sqlunet.bnc.QV();
 				}
 				return null;
+			case "sn":
+				switch (s)
+				{
+					case "0":
+						return new org.sqlunet.sn.Q0();
+					//case "V":
+					//	return new org.sqlunet.sn.QV();
+				}
+				return null;
+			case "vn":
+				switch (s)
+				{
+					case "0":
+						return new org.sqlunet.vn.Q0();
+					case "1":
+						return new org.sqlunet.vn.Q1();
+					case "2":
+						return new org.sqlunet.vn.Q2();
+					//case "V":
+					//	return new org.sqlunet.vn.QV();
+				}
+				return null;
+			case "pb":
+				switch (s)
+				{
+					case "0":
+						return new org.sqlunet.pb.Q0();
+					//case "V":
+					//	return new org.sqlunet.pb.QV();
+				}
+				return null;
+			case "fn":
+				switch (s)
+				{
+					case "0":
+						return new org.sqlunet.fn.Q0();
+					//case "V":
+					//	return new org.sqlunet.fn.QV();
+				}
+				return null;
 		}
 		return null;
 	}
@@ -150,6 +198,14 @@ public class Main
 				return WN_KEYS;
 			case "bnc":
 				return BNC_KEYS;
+			case "sn":
+				return SN_KEYS;
+			case "vn":
+				return VN_KEYS;
+			case "pb":
+				return PB_KEYS;
+			case "fn":
+				return FN_KEYS;
 		}
 		return null;
 	}
@@ -187,7 +243,10 @@ public class Main
 		{
 			case "compare":
 			{
-				compare(qFrom(args[1], args[2]), qFrom(args[1], args[3]));
+				String module = args[1];
+				String source1 = args[2];
+				String source2 = args[3];
+				compare(keysFrom(module), qFrom(module, source1), qFrom(module, source2));
 				break;
 			}
 			case "generate_class":
