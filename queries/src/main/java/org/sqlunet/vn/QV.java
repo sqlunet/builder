@@ -6,7 +6,6 @@ package org.sqlunet.vn;
 
 import org.sqlbuilder.common.Lib;
 import org.sqlbuilder.common.Q;
-import org.sqlunet.vn.C.*;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class QV implements Q
 {
 	@Override
-	public String[] query(String key)
+	public String[] query(String keyname)
 	{
 		final String last = "${uri_last}";
 		final String[] projection = null;
@@ -32,14 +31,27 @@ public class QV implements Q
 		String groupBy = null;
 		String table;
 
+		Key key = Key.valueOf(keyname);
 		switch (key)
 		{
 			// I T E M
 			// the incoming URI was for a single item because this URI was for a single row, the _ID value part is present.
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
-			case "VNCLASS":
-				table = "${vnclasses.table}";
+			case WORDS:
+				table = "${words.table}";
+				break;
+
+			case SENSES:
+				table = "${senses.table}";
+				break;
+
+			case SYNSETS:
+				table = "${synsets.table}";
+				break;
+
+			case VNCLASS:
+				table = "${classes.table}";
 				if (actualSelection != null)
 				{
 					actualSelection += " AND ";
@@ -48,63 +60,63 @@ public class QV implements Q
 				{
 					actualSelection = "";
 				}
-				actualSelection += "${vnclasses.classid}" + " = " + "URI_PATH_SEGMENT";
+				actualSelection += "${classes.classid}" + " = " + "URI_PATH_SEGMENT";
 				break;
 
-			case "VNCLASSES":
-				table = "${vnclasses.table}";
+			case VNCLASSES:
+				table = "${classes.table}";
 				break;
 
-			case "VNCLASSES_X_BY_VNCLASS":
+			case VNCLASSES_X_BY_VNCLASS:
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${vnclasses.table}", //
-						"${vnmembers_vngroupings.table}", "${vnclasses.classid}", //
-						"${vngroupings.table}", "${vngroupings.groupingid}"); //
-				groupBy = "${vnclasses.classid}";
+						"${classes.table}", //
+						"${members_groupings.table}", "${classes.classid}", //
+						"${groupings.table}", "${groupings.groupingid}"); //
+				groupBy = "${classes.classid}";
 				break;
 
 			// J O I N S
 
-			case "WORDS_VNCLASSES":
+			case WORDS_VNCLASSES:
 				table = String.format("%s " + //
 								"INNER JOIN %s USING (%s) " + //
 								"INNER JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${words.table}", //
-						"${vnwords.table}", "${words.wordid}", //
-						"${vnmembers_senses.table}", "${vnwords.vnwordid}", //
-						"${vnclasses.table}", "${vnclasses.classid}");
+						"${wnwords.table}", //
+						"${words.table}", "${wnwords.wordid}", //
+						"${members_senses.table}", "${words.vnwordid}", //
+						"${classes.table}", "${classes.classid}");
 				break;
 
-			case "VNCLASSES_VNMEMBERS_X_BY_WORD":
+			case VNCLASSES_VNMEMBERS_X_BY_WORD:
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s, %s) " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${vnmembers_senses.table}", //
-						"${vnwords.table}", "${vnwords.vnwordid}", //
-						"${vnmembers_vngroupings.table}", "${vnmembers.classid}", "${vnmembers.vnwordid}", //
-						"${vngroupings.table}", "${vngroupings.groupingid}", //
+						"${members_senses.table}", //
+						"${words.table}", "${words.vnwordid}", //
+						"${members_groupings.table}", "${members.classid}", "${members.vnwordid}", //
+						"${groupings.table}", "${groupings.groupingid}", //
 						"${synsets.table}", "${synsets.synsetid}");
-				groupBy = "${vnwords.vnwordid}";
+				groupBy = "${words.vnwordid}";
 				break;
 
-			case "VNCLASSES_VNROLES_X_BY_VNROLE":
+			case VNCLASSES_VNROLES_X_BY_VNROLE:
 				table = String.format("%s " + //
 								"INNER JOIN %s USING (%s) " + //
 								"INNER JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${vnclasses_vnroles.table}", //
-						"${vnroles.table}", "${vnroles.roleid}", //
-						"${vnroletypes.table}", "${vnroletypes.roletypeid}", //
-						"${vnrestrs.table}", "${vnrestrs.restrsid}");
-				groupBy = "${vnroles.roleid}";
+						"${classes.table}", //
+						"${roles.table}", "${classes.classid}", //
+						"${roletypes.table}", "${roletypes.roletypeid}", //
+						"${restrs.table}", "${restrs.restrsid}");
+				groupBy = "${roles.roleid}";
 				break;
 
-			case "VNCLASSES_VNFRAMES_X_BY_VNFRAME":
+			case VNCLASSES_VNFRAMES_X_BY_VNFRAME:
 				table = String.format("%s " + //
 								"INNER JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s) " + //
@@ -113,54 +125,54 @@ public class QV implements Q
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${vnclasses_vnframes.table}", //
-						"${vnframes.table}", "${vnframes.frameid}", //
-						"${vnframenames.table}", "${vnframenames.framenameid}", //
-						"${vnframesubnames.table}", "${vnframesubnames.framesubnameid}", //
-						"${vnsyntaxes.table}", "${vnsyntaxes.syntaxid}", //
-						"${vnsemantics.table}", "${vnsemantics.semanticsid}", //
-						"${vnframes_vnexamples.table}", "${vnframes.frameid}", //
-						"${vnexamples.table}", "${vnexamples.exampleid}");
-				groupBy = "${vnframes.frameid}";
+						"${classes_frames.table}", //
+						"${frames.table}", "${frames.frameid}", //
+						"${framenames.table}", "${framenames.framenameid}", //
+						"${framesubnames.table}", "${framesubnames.framesubnameid}", //
+						"${syntaxes.table}", "${syntaxes.syntaxid}", //
+						"${semantics.table}", "${semantics.semanticsid}", //
+						"${frames_examples.table}", "${frames.frameid}", //
+						"${examples.table}", "${examples.exampleid}");
+				groupBy = "${frames.frameid}";
 				break;
 
 			// L O O K U P
 
-			case "LOOKUP_FTS_EXAMPLES":
-				table = String.format("%s_%s_fts4", "${vnexamples.table}", "${vnexamples.example}");
+			case LOOKUP_FTS_EXAMPLES:
+				table = String.format("%s_%s_fts4", "${examples.table}", "${examples.example}");
 				break;
 
-			case "LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE":
-				groupBy = "${vnexamples.exampleid}";
+			case LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE:
+				groupBy = "${examples.exampleid}";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
-			case "LOOKUP_FTS_EXAMPLES_X":
+			case LOOKUP_FTS_EXAMPLES_X:
 				table = String.format("%s_%s_fts4 " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${vnexamples.table}", "${vnexamples.example}", //
-						"${vnclasses.table}", "${vnclasses.classid}");
+						"${examples.table}", "${examples.example}", //
+						"${classes.table}", "${classes.classid}");
 				break;
 
 			// S U G G E S T
 
-			case "SUGGEST_WORDS":
+			case SUGGEST_WORDS:
 			{
-				table = "${vnwords.table}";
-				actualProjection = new String[]{String.format("%s AS _id", "${vnwords.vnwordid}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${vnwords.word}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "${vnwords.word}")}; //
-				actualSelection = String.format("%s LIKE ? || '%%'", "${vnwords.word}");
+				table = "${words.table}";
+				actualProjection = new String[]{String.format("%s AS _id", "${words.vnwordid}"), //
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${words.word}"), //
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "${words.word}")}; //
+				actualSelection = String.format("%s LIKE ? || '%%'", "${words.word}");
 				actualSelectionArgs = new String[]{last};
 				break;
 			}
 
-			case "SUGGEST_FTS_WORDS":
+			case SUGGEST_FTS_WORDS:
 			{
-				table = String.format("%s_%s_fts4", "${vnwords.table}", "${vnwords.word}");
-				actualProjection = new String[]{String.format("%s AS _id", "${vnwords.vnwordid}"),//
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${vnwords.word}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "${vnwords.word}")}; //
-				actualSelection = String.format("%s MATCH ?", "${vnwords.word}");
+				table = String.format("%s_%s_fts4", "${words.table}", "${words.word}");
+				actualProjection = new String[]{String.format("%s AS _id", "${words.vnwordid}"),//
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${words.word}"), //
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "${words.word}")}; //
+				actualSelection = String.format("%s MATCH ?", "${words.word}");
 				actualSelectionArgs = new String[]{last + '*'};
 				break;
 			}
@@ -174,5 +186,10 @@ public class QV implements Q
 				Lib.quote(actualSelection), //
 				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
 				Lib.quote(groupBy)};
+	}
+
+	public enum Key
+	{
+		VNCLASS, VNCLASSES, VNCLASSES_X_BY_VNCLASS, WORDS_VNCLASSES, VNCLASSES_VNMEMBERS_X_BY_WORD, VNCLASSES_VNROLES_X_BY_VNROLE, VNCLASSES_VNFRAMES_X_BY_VNFRAME, LOOKUP_FTS_EXAMPLES, LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE, LOOKUP_FTS_EXAMPLES_X, SUGGEST_WORDS, SUGGEST_FTS_WORDS, WORDS, SENSES, SYNSETS,
 	}
 }

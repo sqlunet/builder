@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class QV implements Q
 {
 	@Override
-	public String[] query(String key)
+	public String[] query(String keyname)
 	{
 		final String last = "${uri_last}";
 		final String[] projection = null;
@@ -26,13 +26,14 @@ public class QV implements Q
 		String groupBy = null;
 		String table;
 
+		Key key = Key.valueOf(keyname);
 		switch (key)
 		{
 			// I T E M
 			// the incoming URI was for a single item because this URI was for a single row, the _ID value part is present.
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
-			case "BNCS":
+			case BNCS:
 				table = C.BNCs.TABLE;
 				if (actualSelection != null)
 				{
@@ -47,7 +48,7 @@ public class QV implements Q
 
 			// J O I N S
 
-			case "WORDS_BNCS":
+			case WORDS_BNCS:
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s, %s) " + //
 								"LEFT JOIN %s USING (%s, %s) " + //
@@ -67,5 +68,10 @@ public class QV implements Q
 				Lib.quote(actualSelection), //
 				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
 				Lib.quote(groupBy)};
+	}
+
+	public enum Key
+	{
+		BNCS, WORDS_BNCS;
 	}
 }

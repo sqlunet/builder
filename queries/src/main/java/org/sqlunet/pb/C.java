@@ -26,7 +26,7 @@ public class C
 		static public final String CONTENT_URI_TABLE = PbWords.TABLE;
 		static public final String PBWORDID = "pbwordid";
 		static public final String WORDID = "wordid";
-		static public final String WORD = "lemma";
+		static public final String WORD = "word";
 	}
 
 	static public final class PbRoleSets
@@ -39,6 +39,13 @@ public class C
 		static public final String ROLESETHEAD = "rolesethead";
 	}
 
+	static public final class PbRoles
+	{
+		static public final String TABLE = "pbroles";
+		static public final String CONTENT_URI_TABLE = PbRoles.TABLE;
+		static public final String ROLEID = "roleid";
+	}
+
 	static public final class PbRoleSets_X
 	{
 		static public final String TABLE = "pbrolesets_x";
@@ -48,7 +55,7 @@ public class C
 		static public final String ROLESETNAME = "rolesetname";
 		static public final String ROLESETDESC = "rolesetdescr";
 		static public final String ROLESETHEAD = "rolesethead";
-		static public final String LEMMA = "lemma";
+		static public final String LEMMA = "word";
 		static public final String ALIASES = "aliases";
 	}
 
@@ -74,6 +81,78 @@ public class C
 		static public final String NARG = "narg";
 		static public final String FUNCNAME = "funcname";
 		static public final String THETANAME = "thetaname";
+	}
+
+	static public final class PbExamples
+	{
+		static public final String TABLE = "pbexamples";
+		static public final String CONTENT_URI_TABLE = PbExamples.TABLE;
+		static public final String EXAMPLEID = "exampleid";
+		static public final String EXAMPLE = "text";
+	}
+
+	static public final class PbArgs
+	{
+		static public final String TABLE = "pbargs";
+		static public final String CONTENT_URI_TABLE = PbArgs.TABLE;
+		static public final String ARGN = "narg";
+	}
+
+	static public final class PbThetas
+	{
+		static public final String TABLE = "pbthetas";
+		static public final String CONTENT_URI_TABLE = PbThetas.TABLE;
+		static public final String THETAID = "thetaid";
+		static public final String THETA = "theta";
+	}
+
+	static public final class PbRels
+	{
+		static public final String TABLE = "pbrels";
+		static public final String CONTENT_URI_TABLE = PbRels.TABLE;
+		static public final String RELID = "relid";
+	}
+
+	static public final class PbFuncs
+	{
+		static public final String TABLE = "pbfuncs";
+		static public final String CONTENT_URI_TABLE = PbFuncs.TABLE;
+		static public final String FUNC = "func";
+	}
+
+	static public final class PbPersons
+	{
+		static public final String TABLE = "pbpersons";
+		static public final String CONTENT_URI_TABLE = PbPersons.TABLE;
+		static public final String PERSON = "person";
+	}
+
+	static public final class PbVoices
+	{
+		static public final String TABLE = "pbvoices";
+		static public final String CONTENT_URI_TABLE = PbVoices.TABLE;
+		static public final String VOICE = "voice";
+	}
+
+	static public final class PbAspects
+	{
+		static public final String TABLE = "pbaspects";
+		static public final String CONTENT_URI_TABLE = PbAspects.TABLE;
+		static public final String ASPECT = "aspect";
+	}
+
+	static public final class PbTenses
+	{
+		static public final String TABLE = "pbtenses";
+		static public final String CONTENT_URI_TABLE = PbTenses.TABLE;
+		static public final String TENSE = "tense";
+	}
+
+	static public final class PbForms
+	{
+		static public final String TABLE = "pbforms";
+		static public final String CONTENT_URI_TABLE = PbForms.TABLE;
+		static public final String FORM = "form";
 	}
 
 	static public final class PbRoleSets_PbExamples
@@ -121,19 +200,19 @@ public class C
 
 	static public final class Suggest_PbWords
 	{
-		static final String SEARCH_WORD_PATH = "suggest_pbword";
-		static public final String TABLE = Suggest_PbWords.SEARCH_WORD_PATH + "/" + "SearchManager.SUGGEST_URI_PATH_QUERY";
 		static public final String PBWORDID = "pbwordid";
 		static public final String WORDID = "wordid";
-		static public final String WORD = "lemma";
+		static public final String WORD = "word";
+		static final String SEARCH_WORD_PATH = "suggest_pbword";
+		static public final String TABLE = Suggest_PbWords.SEARCH_WORD_PATH + "/" + "SearchManager.SUGGEST_URI_PATH_QUERY";
 	}
 
 	static public final class Suggest_FTS_PbWords
 	{
-		static final String SEARCH_WORD_PATH = "suggest_fts_pbword";
-		static public final String TABLE = Suggest_FTS_PbWords.SEARCH_WORD_PATH + "/" + "SearchManager.SUGGEST_URI_PATH_QUERY";
 		static public final String PBWORDID = "pbwordid";
 		static public final String WORDID = "wordid";
-		static public final String WORD = "lemma";
+		static public final String WORD = "word";
+		static final String SEARCH_WORD_PATH = "suggest_fts_pbword";
+		static public final String TABLE = Suggest_FTS_PbWords.SEARCH_WORD_PATH + "/" + "SearchManager.SUGGEST_URI_PATH_QUERY";
 	}
 }
