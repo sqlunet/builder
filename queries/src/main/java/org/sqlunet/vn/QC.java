@@ -14,7 +14,7 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:1313ou@gmail.com">Bernard Bou</a>
  */
-public class Q2 implements Q
+public class QC implements Q
 {
 	@Override
 	public String[] query(String key)

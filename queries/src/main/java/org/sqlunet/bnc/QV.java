@@ -4,6 +4,7 @@
 
 package org.sqlunet.bnc;
 
+import org.sqlbuilder.common.Lib;
 import org.sqlbuilder.common.Q;
 
 import java.util.Arrays;
@@ -61,15 +62,10 @@ public class QV implements Q
 				return null;
 		}
 		return new String[]{ //
-				quote(table), //
-				actualProjection == null ? null : "{" + Arrays.stream(actualProjection).map(this::quote).collect(Collectors.joining(",")) + "}", //
-				quote(actualSelection), //
-				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(this::quote).collect(Collectors.joining(",")) + "}", //
-				quote(groupBy)};
-	}
-
-	private String quote(String str)
-	{
-		return str == null ? null : String.format("\"%s\"", str);
+				Lib.quote(table), //
+				actualProjection == null ? null : "{" + Arrays.stream(actualProjection).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
+				Lib.quote(actualSelection), //
+				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
+				Lib.quote(groupBy)};
 	}
 }

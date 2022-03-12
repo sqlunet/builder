@@ -92,4 +92,9 @@ public class Lib
 		}
 		return projection2;
 	}
+
+	public static String quote(String str)
+	{
+		return str == null ? null : String.format("\"%s\"", str);
+	}
 }

@@ -27,7 +27,7 @@ static public class SYNSET {
 }
 
 static public class SEMRELATIONS {
-	static public final String TABLE = "synsets_synsets";
+	static public final String TABLE = "${synsets_synsets.table}";
 }
 
 static public class LEXRELATIONS {
@@ -59,66 +59,66 @@ static public class DICT {
 }
 
 static public class WORDS_SENSES_SYNSETS {
-	static public final String TABLE = "${words.table} AS w LEFT JOIN ${senses.table} AS s USING (${senses.wordid}) LEFT JOIN ${synsets.table} AS y USING (${synsets.synsetid})";
+	static public final String TABLE = "${words.table} AS ${as_word} LEFT JOIN ${senses.table} AS ${as_sense} USING (${senses.wordid}) LEFT JOIN ${synsets.table} AS ${as_synset} USING (${synsets.synsetid})";
 }
 
 static public class WORDS_SENSES_CASEDWORDS_SYNSETS {
-	static public final String TABLE = "${words.table} AS w LEFT JOIN ${senses.table} AS s USING (${senses.wordid}) LEFT JOIN ${casedwords.table} AS c USING (${casedwords.wordid},${casedwords.casedwordid}) LEFT JOIN ${synsets.table} AS y USING (${synsets.synsetid})";
+	static public final String TABLE = "${words.table} AS ${as_word} LEFT JOIN ${senses.table} AS ${as_sense} USING (${senses.wordid}) LEFT JOIN ${casedwords.table} AS ${as_cased} USING (${casedwords.wordid},${casedwords.casedwordid}) LEFT JOIN ${synsets.table} AS ${as_synset} USING (${synsets.synsetid})";
 }
 
 static public class WORDS_SENSES_CASEDWORDS_SYNSETS_POSTYPES_LEXDOMAINS {
-	static public final String TABLE = "${words.table} AS w LEFT JOIN ${senses.table} AS s USING (${senses.wordid}) LEFT JOIN ${casedwords.table} AS c USING (${casedwords.wordid},${casedwords.casedwordid}) LEFT JOIN ${synsets.table} AS y USING (${synsets.synsetid}) LEFT JOIN ${poses.table} AS p USING (${poses.posid}) LEFT JOIN ${domains.table} AS m USING (${domains.domainid})";
+	static public final String TABLE = "${words.table} AS ${as_word} LEFT JOIN ${senses.table} AS ${as_sense} USING (${senses.wordid}) LEFT JOIN ${casedwords.table} AS ${as_cased} USING (${casedwords.wordid},${casedwords.casedwordid}) LEFT JOIN ${synsets.table} AS ${as_synset} USING (${synsets.synsetid}) LEFT JOIN ${poses.table} AS ${as_pos} USING (${poses.posid}) LEFT JOIN ${domains.table} AS ${as_domain} USING (${domains.domainid})";
 }
 
 static public class SENSES_WORDS {
-	static public final String TABLE = "${senses.table} AS s LEFT JOIN ${words.table} AS w USING (${senses.wordid})";
+	static public final String TABLE = "${senses.table} AS ${as_sense} LEFT JOIN ${words.table} AS ${as_word} USING (${senses.wordid})";
 }
 
 static public class SENSES_WORDS_BY_SYNSET {
-	static public final String TABLE = "${senses.table} AS s LEFT JOIN ${words.table} AS w USING (${words.wordid})";
-	static public final String[] PROJECTION = {"*","GROUP_CONCAT(${words.table}.${words.word}, ', ' ) AS ${members}"};
+	static public final String TABLE = "${senses.table} AS ${as_sense} LEFT JOIN ${words.table} AS ${as_word} USING (${words.wordid})";
+	static public final String[] PROJECTION = {"*","GROUP_CONCAT(${words.table}.${words.word}, ', ' ) AS ${senses_words.members}"};
 	static public final String GROUPBY = "${synsets.synsetid}";
 }
 
 static public class SENSES_SYNSETS_POSES_DOMAINS {
-	static public final String TABLE = "${senses.table} AS s INNER JOIN ${synsets.table} AS y USING (${synsets.synsetid}) LEFT JOIN ${poses.table} AS p USING (${poses.posid}) LEFT JOIN ${domains.table} AS m USING (${domains.domainid})";
+	static public final String TABLE = "${senses.table} AS ${as_sense} INNER JOIN ${synsets.table} AS ${as_synset} USING (${synsets.synsetid}) LEFT JOIN ${poses.table} AS ${as_pos} USING (${poses.posid}) LEFT JOIN ${domains.table} AS ${as_domain} USING (${domains.domainid})";
 }
 
 static public class SYNSETS_POSES_DOMAINS {
-	static public final String TABLE = "${synsets.table} AS y LEFT JOIN ${poses.table} AS p USING (${poses.posid}) LEFT JOIN ${domains.table} AS m USING (${domains.domainid})";
+	static public final String TABLE = "${synsets.table} AS ${as_synset} LEFT JOIN ${poses.table} AS ${as_pos} USING (${poses.posid}) LEFT JOIN ${domains.table} AS ${as_domain} USING (${domains.domainid})";
 }
 
 static public class BASERELATIONS_SENSES_WORDS_X_BY_SYNSET {
-	static public final String TABLE = "( MAKEQUERY ) AS r INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS d ON r.${baserelations.synset2id} = d.${synsets.synsetid} LEFT JOIN ${senses.table} ON d.${synsets.synsetid} = ${senses.table}.${senses.synsetid} LEFT JOIN ${words.table} AS w USING (${words.wordid}) LEFT JOIN ${words.table} AS t ON r.${baserelations.word2id} = t.${words.wordid}";
-	static public final String GROUPBY = "${d_synsetid},x,${relations.relation},${relations.relationid},${d_wordid},${d_word}";
+	static public final String TABLE = "( ${MAKEQUERY} ) AS ${as_relation} INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${baserelations.synset2id} = ${as_dest}.${synsets.synsetid} LEFT JOIN ${senses.table} ON ${as_dest}.${synsets.synsetid} = ${senses.table}.${senses.synsetid} LEFT JOIN ${words.table} AS ${as_word} USING (${words.wordid}) LEFT JOIN ${words.table} AS ${as_word2} ON ${as_relation}.${baserelations.word2id} = ${as_word2}.${words.wordid}";
+	static public final String GROUPBY = "${d_synsetid},${as_type},${relations.relation},${relations.relationid},${d_wordid},${d_word}";
 }
 
 static public class SEMRELATIONS_SYNSETS {
-	static public final String TABLE = "${synsets_synsets.table} AS r INNER JOIN ${synsets.table} AS d ON r.${synsets_synsets.synset2id} = d.${synsets.synsetid}";
+	static public final String TABLE = "${semrelations.table} AS ${as_relation} INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${semrelations.synset2id} = ${as_dest}.${synsets.synsetid}";
 }
 
 static public class SEMRELATIONS_SYNSETS_X {
-	static public final String TABLE = "${synsets_synsets.table} AS r INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS d ON r.${synsets_synsets.synset2id} = d.${synsets.synsetid} ";
+	static public final String TABLE = "${semrelations.table} AS ${as_relation} INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${semrelations.synset2id} = ${as_dest}.${synsets.synsetid} ";
 }
 
 static public class SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET {
-	static public final String TABLE = "${synsets_synsets.table} AS r INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS d ON r.${synsets_synsets.synset2id} = d.${synsets.synsetid} LEFT JOIN ${senses.table} ON d.${synsets.synsetid} = ${senses.table}.${senses.synsetid} LEFT JOIN ${words.table} USING (${words.wordid})";
-	static public final String[] PROJECTION = {"*","GROUP_CONCAT(${words.table}.${words.word}, ', ' ) AS ${members2}"};
-	static public final String GROUPBY = "d.${synsets.synsetid}";
+	static public final String TABLE = "${semrelations.table} AS ${as_relation} INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${semrelations.synset2id} = ${as_dest}.${synsets.synsetid} LEFT JOIN ${senses.table} ON ${as_dest}.${synsets.synsetid} = ${senses.table}.${senses.synsetid} LEFT JOIN ${words.table} USING (${words.wordid})";
+	static public final String[] PROJECTION = {"*","GROUP_CONCAT(${words.table}.${words.word}, ', ' ) AS ${semrelations_synsets_words_x.members2}"};
+	static public final String GROUPBY = "${as_dest}.${synsets.synsetid}";
 }
 
 static public class LEXRELATIONS_SENSES {
-	static public final String TABLE = "${senses_senses.table} AS r INNER JOIN ${synsets.table} AS d ON r.${senses_senses.synset2id} = d.${synsets.synsetid} INNER JOIN ${words.table} AS w ON r.${senses_senses.word2id} = w.${words.wordid}";
+	static public final String TABLE = "${lexrelations.table} AS ${as_relation} INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${lexrelations.synset2id} = ${as_dest}.${synsets.synsetid} INNER JOIN ${words.table} AS ${as_word} ON ${as_relation}.${lexrelations.word2id} = ${as_word}.${words.wordid}";
 }
 
 static public class LEXRELATIONS_SENSES_X {
-	static public final String TABLE = "${senses_senses.table} AS r INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS d ON r.${senses_senses.synset2id} = d.${synsets.synsetid} INNER JOIN ${words.table} AS w ON r.${senses_senses.word2id} = w.${words.wordid} ";
+	static public final String TABLE = "${lexrelations.table} AS ${as_relation} INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${lexrelations.synset2id} = ${as_dest}.${synsets.synsetid} INNER JOIN ${words.table} AS ${as_word} ON ${as_relation}.${lexrelations.word2id} = ${as_word}.${words.wordid} ";
 }
 
 static public class LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET {
-	static public final String TABLE = "${senses_senses.table} AS r INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS d ON r.${senses_senses.synset2id} = d.${synsets.synsetid} INNER JOIN ${words.table} AS w ON r.${senses_senses.word2id} = w.${words.wordid} LEFT JOIN ${senses.table} AS s ON d.${senses.synsetid} = s.${senses.synsetid} LEFT JOIN ${words.table} AS t USING (${words.wordid})";
-	static public final String[] PROJECTION = {"*","GROUP_CONCAT(DISTINCT t.${words.word}) AS ${members2}"};
-	static public final String GROUPBY = "d.${synsets.synsetid}";
+	static public final String TABLE = "${lexrelations.table} AS ${as_relation} INNER JOIN ${relations.table} USING (${relations.relationid}) INNER JOIN ${synsets.table} AS ${as_dest} ON ${as_relation}.${lexrelations.synset2id} = ${as_dest}.${synsets.synsetid} INNER JOIN ${words.table} AS ${as_word} ON ${as_relation}.${lexrelations.word2id} = ${as_word}.${words.wordid} LEFT JOIN ${senses.table} AS ${as_sense} ON ${as_dest}.${senses.synsetid} = ${as_sense}.${senses.synsetid} LEFT JOIN ${words.table} AS ${as_word2} USING (${words.wordid})";
+	static public final String[] PROJECTION = {"*","GROUP_CONCAT(DISTINCT ${as_word2}.${words.word}) AS ${lexrelations_senses_words_x.members2}"};
+	static public final String GROUPBY = "${as_dest}.${synsets.synsetid}";
 }
 
 static public class SENSES_VFRAMES {

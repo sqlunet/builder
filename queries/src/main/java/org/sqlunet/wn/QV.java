@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.sqlbuilder.common.Q;
-import org.sqlunet.wn.C.*;
 
 public class QV implements Q
 {
@@ -45,34 +44,34 @@ public class QV implements Q
 			// table uri : last element is table
 
 			case "WORDS":
-				table = Words.TABLE;
+				table = "${words.table}";
 				break;
 			case "SENSES":
-				table = Senses.TABLE;
+				table = "${senses.table}";
 				break;
 			case "SYNSETS":
-				table = Synsets.TABLE;
+				table = "${synsets.table}";
 				break;
 			case "SEMRELATIONS":
-				table = C.SemRelations.TABLE;
+				table = "${synsets_synsets.table}";
 				break;
 			case "LEXRELATIONS":
-				table = LexRelations.TABLE;
+				table = "${senses_senses.table}";
 				break;
 			case "RELATIONS":
-				table = Relations.TABLE;
+				table = "${relations.table}";
 				break;
 			case "POSES":
-				table = Poses.TABLE;
+				table = "${poses.table}";
 				break;
 			case "DOMAINS":
-				table = Domains.TABLE;
+				table = "${domains.table}";
 				break;
 			case "ADJPOSITIONS":
-				table = AdjPositions.TABLE;
+				table = "${adjpositions.table}";
 				break;
 			case "SAMPLES":
-				table = Samples.TABLE;
+				table = "${samples.table}";
 				break;
 
 			// I T E M
@@ -80,15 +79,15 @@ public class QV implements Q
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
 			case "WORD":
-				table = Words.TABLE;
+				table = "${words.table}";
 				break;
 
 			case "SENSE":
-				table = Senses.TABLE;
+				table = "${senses.table}";
 				break;
 
 			case "SYNSET":
-				table = Synsets.TABLE;
+				table = "${synsets.table}";
 				break;
 
 			// V I E W S
@@ -103,9 +102,9 @@ public class QV implements Q
 				table = String.format("%s AS %s " + //
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Words.TABLE, C.AS_WORD, //
-						Senses.TABLE, C.AS_SENSE, Senses.WORDID, //
-						Synsets.TABLE, C.AS_SYNSET, Synsets.SYNSETID);
+						"${words.table}", "${as_word}", //
+						"${senses.table}", "${as_sense}", "${senses.wordid}", //
+						"${synsets.table}", "${as_synset}", "${synsets.synsetid}");
 				break;
 
 			case "WORDS_SENSES_CASEDWORDS_SYNSETS":
@@ -113,10 +112,10 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s,%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Words.TABLE, C.AS_WORD, //
-						Senses.TABLE, C.AS_SENSE, Senses.WORDID, //
-						CasedWords.TABLE, C.AS_CASED, CasedWords.WORDID, CasedWords.CASEDWORDID, //
-						Synsets.TABLE, C.AS_SYNSET, Synsets.SYNSETID);
+						"${words.table}", "${as_word}", //
+						"${senses.table}", "${as_sense}", "${senses.wordid}", //
+						"${casedwords.table}", "${as_cased}", "${casedwords.wordid}", "${casedwords.casedwordid}", //
+						"${synsets.table}", "${as_synset}", "${synsets.synsetid}");
 				break;
 
 			case "WORDS_SENSES_CASEDWORDS_SYNSETS_POSTYPES_LEXDOMAINS":
@@ -126,28 +125,28 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Words.TABLE, C.AS_WORD, //
-						Senses.TABLE, C.AS_SENSE, Senses.WORDID, //
-						CasedWords.TABLE, C.AS_CASED, CasedWords.WORDID, CasedWords.CASEDWORDID, //
-						Synsets.TABLE, C.AS_SYNSET, Synsets.SYNSETID, //
-						Poses.TABLE, C.AS_POS, Poses.POSID, //
-						Domains.TABLE, C.AS_DOMAIN, Domains.DOMAINID);
+						"${words.table}", "${as_word}", //
+						"${senses.table}", "${as_sense}", "${senses.wordid}", //
+						"${casedwords.table}", "${as_cased}", "${casedwords.wordid}", "${casedwords.casedwordid}", //
+						"${synsets.table}", "${as_synset}", "${synsets.synsetid}", //
+						"${poses.table}", "${as_pos}", "${poses.posid}", //
+						"${domains.table}", "${as_domain}", "${domains.domainid}");
 				break;
 
 			case "SENSES_WORDS":
 				table = String.format("%s AS %s " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Senses.TABLE, C.AS_SENSE, //
-						Words.TABLE, C.AS_WORD, Senses.WORDID);
+						"${senses.table}", "${as_sense}", //
+						"${words.table}", "${as_word}", "${senses.wordid}");
 				break;
 
 			case "SENSES_WORDS_BY_SYNSET":
 				table = String.format("%s AS %s " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Senses.TABLE, C.AS_SENSE, //
-						Words.TABLE, C.AS_WORD, Words.WORDID);
-				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", Words.TABLE, Words.WORD, Senses_Words.MEMBERS));
-				groupBy = Synsets.SYNSETID;
+						"${senses.table}", "${as_sense}", //
+						"${words.table}", "${as_word}", "${words.wordid}");
+				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", "${words.table}", "${words.word}", "${senses_words.members}"));
+				groupBy = "${synsets.synsetid}";
 				break;
 
 			case "SENSES_SYNSETS_POSES_DOMAINS":
@@ -155,19 +154,19 @@ public class QV implements Q
 								"INNER JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Senses.TABLE, C.AS_SENSE, //
-						Synsets.TABLE, C.AS_SYNSET, Synsets.SYNSETID, //
-						Poses.TABLE, C.AS_POS, Poses.POSID, //
-						Domains.TABLE, C.AS_DOMAIN, Domains.DOMAINID);
+						"${senses.table}", "${as_sense}", //
+						"${synsets.table}", "${as_synset}", "${synsets.synsetid}", //
+						"${poses.table}", "${as_pos}", "${poses.posid}", //
+						"${domains.table}", "${as_domain}", "${domains.domainid}");
 				break;
 
 			case "SYNSETS_POSES_DOMAINS":
 				table = String.format("%s AS %s " + //
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
-						Synsets.TABLE, C.AS_SYNSET, //
-						Poses.TABLE, C.AS_POS, Poses.POSID,//
-						Domains.TABLE, C.AS_DOMAIN, Domains.DOMAINID);
+						"${synsets.table}", "${as_synset}", //
+						"${poses.table}", "${as_pos}", "${poses.posid}",//
+						"${domains.table}", "${as_domain}", "${domains.domainid}");
 				break;
 
 			case "BASERELATIONS_SENSES_WORDS_X_BY_SYNSET":
@@ -178,31 +177,31 @@ public class QV implements Q
 								"LEFT JOIN %s ON %s.%s = %s.%s " + // 4
 								"LEFT JOIN %s AS %s USING (%s) " + // 5
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
-						"MAKEQUERY", C.AS_RELATION, // 1
-						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, BaseRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
-						Senses.TABLE, C.AS_DEST, Synsets.SYNSETID, Senses.TABLE, Senses.SYNSETID, // 4
-						Words.TABLE, C.AS_WORD, Words.WORDID, //
-						Words.TABLE, C.AS_WORD2, C.AS_RELATION, BaseRelations.WORD2ID, C.AS_WORD2, Words.WORDID);
+						"${MAKEQUERY}", "${as_relation}", // 1
+						"${relations.table}", "${relations.relationid}", // 2
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${baserelations.synset2id}", "${as_dest}", "${synsets.synsetid}", // 3
+						"${senses.table}", "${as_dest}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
+						"${words.table}", "${as_word}", "${words.wordid}", //
+						"${words.table}", "${as_word2}", "${as_relation}", "${baserelations.word2id}", "${as_word2}", "${words.wordid}");
 				actualSelection = null;
-				groupBy = String.format("%s,%s,%s,%s,%s,%s", TARGET_SYNSETID, C.AS_TYPE, Relations.RELATION, Relations.RELATIONID, TARGET_WORDID, TARGET_WORD);
+				groupBy = String.format("%s,%s,%s,%s,%s,%s", TARGET_SYNSETID, "${as_type}", "${relations.relation}", "${relations.relationid}", TARGET_WORDID, TARGET_WORD);
 			}
 			break;
 
 			case "SEMRELATIONS_SYNSETS":
 				table = String.format("%s AS %s " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s", //
-						SemRelations.TABLE, C.AS_RELATION, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID);
+						"${semrelations.table}", "${as_relation}", //
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${semrelations.synset2id}", "${as_dest}", "${synsets.synsetid}");
 				break;
 
 			case "SEMRELATIONS_SYNSETS_X":
 				table = String.format("%s AS %s " + //
 								"INNER JOIN %s USING (%s) " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s ", //
-						SemRelations.TABLE, C.AS_RELATION, //
-						Relations.TABLE, Relations.RELATIONID, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID);
+						"${semrelations.table}", "${as_relation}", //
+						"${relations.table}", "${relations.relationid}", //
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${semrelations.synset2id}", "${as_dest}", "${synsets.synsetid}");
 				break;
 
 			case "SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET":
@@ -211,22 +210,22 @@ public class QV implements Q
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + // 3
 								"LEFT JOIN %s ON %s.%s = %s.%s " + // 4
 								"LEFT JOIN %s USING (%s)", // 5
-						SemRelations.TABLE, C.AS_RELATION, // 1
-						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, SemRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
-						Senses.TABLE, C.AS_DEST, Synsets.SYNSETID, Senses.TABLE, Senses.SYNSETID, // 4
-						Words.TABLE, Words.WORDID); //5
-				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", Words.TABLE, Words.WORD, SemRelations_Synsets_Words_X.MEMBERS2));
-				groupBy = String.format("%s.%s", C.AS_DEST, Synsets.SYNSETID);
+						"${semrelations.table}", "${as_relation}", // 1
+						"${relations.table}", "${relations.relationid}", // 2
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${semrelations.synset2id}", "${as_dest}", "${synsets.synsetid}", // 3
+						"${senses.table}", "${as_dest}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
+						"${words.table}", "${words.wordid}"); //5
+				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", "${words.table}", "${words.word}", "${semrelations_synsets_words_x.members2}"));
+				groupBy = String.format("%s.%s", "${as_dest}", "${synsets.synsetid}");
 				break;
 
 			case "LEXRELATIONS_SENSES":
 				table = String.format("%s AS %s " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s", //
-						LexRelations.TABLE, C.AS_RELATION, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, //
-						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORD2ID, C.AS_WORD, Words.WORDID);
+						"${lexrelations.table}", "${as_relation}", //
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${lexrelations.synset2id}", "${as_dest}", "${synsets.synsetid}", //
+						"${words.table}", "${as_word}", "${as_relation}", "${lexrelations.word2id}", "${as_word}", "${words.wordid}");
 				break;
 
 			case "LEXRELATIONS_SENSES_X":
@@ -234,10 +233,10 @@ public class QV implements Q
 								"INNER JOIN %s USING (%s) " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + //
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s ", //
-						LexRelations.TABLE, C.AS_RELATION, //
-						Relations.TABLE, Relations.RELATIONID, //
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, //
-						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORD2ID, C.AS_WORD, Words.WORDID);
+						"${lexrelations.table}", "${as_relation}", //
+						"${relations.table}", "${relations.relationid}", //
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${lexrelations.synset2id}", "${as_dest}", "${synsets.synsetid}", //
+						"${words.table}", "${as_word}", "${as_relation}", "${lexrelations.word2id}", "${as_word}", "${words.wordid}");
 				break;
 
 			case "LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET":
@@ -247,81 +246,81 @@ public class QV implements Q
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + // 4
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s " + // 5
 								"LEFT JOIN %s AS %s USING (%s)", // 6
-						LexRelations.TABLE, C.AS_RELATION, // 1
-						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, LexRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
-						Words.TABLE, C.AS_WORD, C.AS_RELATION, LexRelations.WORD2ID, C.AS_WORD, Words.WORDID, // 4
-						Senses.TABLE, C.AS_SENSE, C.AS_DEST, Senses.SYNSETID, C.AS_SENSE, Senses.SYNSETID, // 5
-						Words.TABLE, C.AS_WORD2, Words.WORDID); //6
-				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(DISTINCT %s.%s) AS %s", C.AS_WORD2, Words.WORD, LexRelations_Senses_Words_X.MEMBERS2));
-				groupBy = String.format("%s.%s", C.AS_DEST, Synsets.SYNSETID);
+						"${lexrelations.table}", "${as_relation}", // 1
+						"${relations.table}", "${relations.relationid}", // 2
+						"${synsets.table}", "${as_dest}", "${as_relation}", "${lexrelations.synset2id}", "${as_dest}", "${synsets.synsetid}", // 3
+						"${words.table}", "${as_word}", "${as_relation}", "${lexrelations.word2id}", "${as_word}", "${words.wordid}", // 4
+						"${senses.table}", "${as_sense}", "${as_dest}", "${senses.synsetid}", "${as_sense}", "${senses.synsetid}", // 5
+						"${words.table}", "${as_word2}", "${words.wordid}"); //6
+				actualProjection = Lib.appendProjection(actualProjection, String.format("GROUP_CONCAT(DISTINCT %s.%s) AS %s", "${as_word2}", "${words.word}", "${lexrelations_senses_words_x.members2}"));
+				groupBy = String.format("%s.%s", "${as_dest}", "${synsets.synsetid}");
 				break;
 
 			case "SENSES_VFRAMES":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s)", //
-						Senses_VFrames.TABLE, //
-						VFrames.TABLE, VFrames.FRAMEID);
+						"${senses_vframes.table}", //
+						"${vframes.table}", "${vframes.frameid}");
 				break;
 
 			case "SENSES_VTEMPLATES":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s)", //
-						Senses_VTemplates.TABLE, //
-						VTemplates.TABLE, VTemplates.TEMPLATEID);
+						"${senses_vtemplates.table}", //
+						"${vtemplates.table}", "${vtemplates.templateid}");
 				break;
 
 			case "SENSES_ADJPOSITIONS":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s)", //
-						Senses_AdjPositions.TABLE, //
-						AdjPositions.TABLE, AdjPositions.POSITIONID);
+						"${senses_adjpositions.table}", //
+						"${adjpositions.table}", "${adjpositions.positionid}");
 				break;
 
 			case "LEXES_MORPHS":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s)", //
-						Lexes_Morphs.TABLE, //
-						Morphs.TABLE, Morphs.MORPHID);
+						"${lexes_morphs.table}", //
+						"${morphs.table}", "${morphs.morphid}");
 				break;
 
 			case "WORDS_LEXES_MORPHS_BY_WORD":
-				groupBy = Words.WORDID;
+				groupBy = "${words.wordid}";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 			case "WORDS_LEXES_MORPHS":
 				table = String.format("%s " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						Words.TABLE, //
-						Lexes_Morphs.TABLE, Words.WORDID, //
-						Morphs.TABLE, Morphs.MORPHID);
+						"${words.table}", //
+						"${lexes_morphs.table}", "${words.wordid}", //
+						"${morphs.table}", "${morphs.morphid}");
 				break;
 
 			// T E X T S E A R C H
 
 			case "LOOKUP_FTS_WORDS":
-				table = String.format("%s_%s_fts4", Words.TABLE, Words.WORD);
+				table = String.format("%s_%s_fts4", "${words.table}", "${words.word}");
 				break;
 
 			case "LOOKUP_FTS_DEFINITIONS":
-				table = String.format("%s_%s_fts4", Synsets.TABLE, Synsets.DEFINITION);
+				table = String.format("%s_%s_fts4", "${synsets.table}", "${synsets.definition}");
 				break;
 
 			case "LOOKUP_FTS_SAMPLES":
-				table = String.format("%s_%s_fts4", Samples.TABLE, Samples.SAMPLE);
+				table = String.format("%s_%s_fts4", "${samples.table}", "${samples.sample}");
 				break;
 
 			// S U G G E S T
 
 			case "SUGGEST_WORDS":
 			{
-				table = Words.TABLE;
+				table = "${words.table}";
 				actualProjection = new String[]{ //
-						String.format("%s AS _id", Words.WORDID), //
-						String.format("%s AS %s", Words.WORD, "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
-						String.format("%s AS %s", Words.WORD, "SearchManager.SUGGEST_COLUMN_QUERY")};
-				actualSelection = String.format("%s LIKE ? || '%%'", Words.WORD);
+						String.format("%s AS _id", "${words.wordid}"), //
+						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
+						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_QUERY")};
+				actualSelection = String.format("%s LIKE ? || '%%'", "${words.word}");
 				actualSelectionArgs = new String[]{last};
 				groupBy = null;
 				break;
@@ -329,12 +328,12 @@ public class QV implements Q
 
 			case "SUGGEST_FTS_WORDS":
 			{
-				table = String.format("%s_%s_fts4", Words.TABLE, Words.WORD);
+				table = String.format("%s_%s_fts4", "${words.table}", "${words.word}");
 				actualProjection = new String[]{ //
-						String.format("%s AS _id", Words.WORDID), //
-						String.format("%s AS %s", Words.WORD, "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
-						String.format("%s AS %s", Words.WORD, "SearchManager.SUGGEST_COLUMN_QUERY")}; //
-				actualSelection = String.format("%s MATCH ?", Words.WORD);
+						String.format("%s AS _id", "${words.wordid}"), //
+						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
+						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_QUERY")}; //
+				actualSelection = String.format("%s MATCH ?", "${words.word}");
 				actualSelectionArgs = new String[]{last + '*'};
 				groupBy = null;
 				break;
@@ -342,12 +341,12 @@ public class QV implements Q
 
 			case "SUGGEST_FTS_DEFINITIONS":
 			{
-				table = String.format("%s_%s_fts4", Synsets.TABLE, Synsets.DEFINITION);
+				table = String.format("%s_%s_fts4", "${synsets.table}", "${synsets.definition}");
 				actualProjection = new String[]{ //
-						String.format("%s AS _id", Synsets.SYNSETID), //
-						String.format("%s AS %s", Synsets.DEFINITION, "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
-						String.format("%s AS %s", Synsets.DEFINITION, "SearchManager.SUGGEST_COLUMN_QUERY")};
-				actualSelection = String.format("%s MATCH ?", Synsets.DEFINITION);
+						String.format("%s AS _id", "${synsets.synsetid}"), //
+						String.format("%s AS %s", "${synsets.definition}", "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
+						String.format("%s AS %s", "${synsets.definition}", "SearchManager.SUGGEST_COLUMN_QUERY")};
+				actualSelection = String.format("%s MATCH ?", "${synsets.definition}");
 				actualSelectionArgs = new String[]{last + '*'};
 				groupBy = null;
 				break;
@@ -355,12 +354,12 @@ public class QV implements Q
 
 			case "SUGGEST_FTS_SAMPLES":
 			{
-				table = String.format("%s_%s_fts4", Samples.TABLE, Samples.SAMPLE);
+				table = String.format("%s_%s_fts4", "${samples.table}", "${samples.sample}");
 				actualProjection = new String[]{ //
-						String.format("%s AS _id", Samples.SAMPLEID), //
-						String.format("%s AS %s", Samples.SAMPLE, "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
-						String.format("%s AS %s", Samples.SAMPLE, "SearchManager.SUGGEST_COLUMN_QUERY")};
-				actualSelection = String.format("%s MATCH ?", Samples.SAMPLE);
+						String.format("%s AS _id", "${samples.sampleid}"), //
+						String.format("%s AS %s", "${samples.sample}", "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
+						String.format("%s AS %s", "${samples.sample}", "SearchManager.SUGGEST_COLUMN_QUERY")};
+				actualSelection = String.format("%s MATCH ?", "${samples.sample}");
 				actualSelectionArgs = new String[]{last + '*'};
 				groupBy = null;
 				break;
@@ -370,15 +369,10 @@ public class QV implements Q
 				return null;
 		}
 		return new String[]{ //
-				quote(table), //
-				actualProjection == null ? null : "{" + Arrays.stream(actualProjection).map(this::quote).collect(Collectors.joining(",")) + "}", //
-				quote(actualSelection), //
-				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(this::quote).collect(Collectors.joining(",")) + "}", //
-				quote(groupBy)};
-	}
-
-	private String quote(String str)
-	{
-		return str == null ? null : String.format("\"%s\"", str);
+				Lib.quote(table), //
+				actualProjection == null ? null : "{" + Arrays.stream(actualProjection).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
+				Lib.quote(actualSelection), //
+				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
+				Lib.quote(groupBy)};
 	}
 }

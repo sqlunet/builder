@@ -4,6 +4,8 @@
 
 package org.sqlbuilder.common;
 
+import org.sqlunet.vn.QC;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -163,9 +165,9 @@ public class Main
 					case "1":
 						return new org.sqlunet.vn.Q1();
 					case "2":
-						return new org.sqlunet.vn.Q2();
-					//case "V":
-					//	return new org.sqlunet.vn.QV();
+						return new QC();
+					case "V":
+						return new org.sqlunet.vn.QV();
 				}
 				return null;
 			case "pb":

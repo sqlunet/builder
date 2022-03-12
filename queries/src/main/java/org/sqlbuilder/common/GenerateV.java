@@ -29,11 +29,11 @@ public class GenerateV
 
 	public static void main(final String[] args) throws FileNotFoundException, ClassNotFoundException
 	{
-		var c = Class.forName(args[0]);
-		var m = args[1];
+		var module = args[0];
+		var clazz = Class.forName(args[1]);
 		try (PrintStream ps = new PrintStream(new FileOutputStream(args[2])))
 		{
-			generateNamesWithNamesAsValues(ps, c, m);
+			generateNamesWithNamesAsValues(ps, clazz, module);
 		}
 	}
 }
