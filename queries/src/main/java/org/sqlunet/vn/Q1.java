@@ -145,20 +145,20 @@ public class Q1 implements Q
 			{
 				table = "vnwords";
 				actualProjection = new String[]{"vnwordid AS _id", //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "lemma"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "lemma")}; //
-				actualSelection = String.format("%s LIKE ? || '%%'", "lemma");
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "word"), //
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "word")}; //
+				actualSelection = String.format("%s LIKE ? || '%%'", "word");
 				actualSelectionArgs = new String[]{last};
 				break;
 			}
 
 			case "SUGGEST_FTS_WORDS":
 			{
-				table = String.format("%s_%s_fts4", "vnwords", "lemma");
+				table = String.format("%s_%s_fts4", "vnwords", "word");
 				actualProjection = new String[]{String.format("%s AS _id", "vnwordid"),//
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "lemma"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "lemma")}; //
-				actualSelection = String.format("%s MATCH ?", "lemma");
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "word"), //
+						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "word")}; //
+				actualSelection = String.format("%s MATCH ?", "word");
 				actualSelectionArgs = new String[]{last + '*'};
 				break;
 			}
