@@ -304,12 +304,17 @@ public class Q1 implements Q
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 			case "FRAMES_FES":
-				table = "fnframes " + //
-						"INNER JOIN fnfes USING (frameid) " + //
-						"LEFT JOIN fnfetypes USING (fetypeid) " + //
-						"LEFT JOIN fncoretypes USING (coretypeid) " + //
-						"LEFT JOIN fnfes_semtypes USING (feid) " + //
-						"LEFT JOIN fnsemtypes USING (semtypeid)";
+				table = String.format("%s " + //
+								"INNER JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s)", "fnframes", //
+						"fnfes", "frameid", //
+						"fnfetypes", "fetypeid", //
+						"fncoretypes", "coretypeid", //
+						"fnfes_semtypes", "feid", //
+						"fnsemtypes", "semtypeid");
 				break;
 
 			case "LEXUNITS_SENTENCES_BY_SENTENCE":
@@ -317,10 +322,14 @@ public class Q1 implements Q
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 			case "LEXUNITS_SENTENCES":
-				table = "fnlexunits AS " + C.LU + ' ' + //
-						"LEFT JOIN fnsubcorpuses USING (luid) " + //
-						"LEFT JOIN fnsubcorpuses_sentences USING (subcorpusid) " + //
-						"INNER JOIN fnsentences AS " + C.SENTENCE + " USING (sentenceid)";
+				table = String.format("%s AS %s " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"INNER JOIN %s AS %s USING (%s)", //
+						"fnlexunits", C.LU, //
+						"fnsubcorpuses", "luid", //
+						"fnsubcorpuses_sentences", "subcorpusid", //
+						"fnsentences", C.SENTENCE, "sentenceid");
 				break;
 
 			case "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS_BY_SENTENCE":
@@ -328,16 +337,25 @@ public class Q1 implements Q
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 			case "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS":
-				table = "fnlexunits AS " + C.LU + ' ' + //
-						"LEFT JOIN fnsubcorpuses USING (luid) " + //
-						"LEFT JOIN fnsubcorpuses_sentences USING (subcorpusid) " + //
-						"INNER JOIN fnsentences AS " + C.SENTENCE + " USING (sentenceid) " + //
-						"LEFT JOIN fnannosets USING (sentenceid) " + //
-						"LEFT JOIN fnlayers USING (annosetid) " + //
-						"LEFT JOIN fnlayertypes USING (layertypeid) " + //
-						"LEFT JOIN fnlabels USING (layerid) " + //
-						"LEFT JOIN fnlabeltypes USING (labeltypeid) " + //
-						"LEFT JOIN fnlabelitypes USING (labelitypeid)";
+				table = String.format("%s AS %s " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"INNER JOIN %s AS %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s)", "fnlexunits", C.LU, //
+						"fnsubcorpuses", "luid", //
+						"fnsubcorpuses_sentences", "subcorpusid", //
+						"fnsentences", C.SENTENCE, "sentenceid", //
+						"fnannosets", "sentenceid", //
+						"fnlayers", "annosetid", //
+						"fnlayertypes", "layertypeid", //
+						"fnlabels", "layerid", //
+						"fnlabeltypes", "labeltypeid", //
+						"fnlabelitypes", "labelitypeid");
 				break;
 
 			case "LEXUNITS_GOVERNORS":
