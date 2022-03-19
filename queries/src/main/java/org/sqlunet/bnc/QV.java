@@ -34,7 +34,7 @@ public class QV implements Q
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
 			case BNCS:
-				table = C.BNCs.TABLE;
+				table = "${bncs.table}";
 				if (actualSelection != null)
 				{
 					actualSelection += " AND ";
@@ -43,7 +43,7 @@ public class QV implements Q
 				{
 					actualSelection = "";
 				}
-				actualSelection += C.BNCs.POS + " = ?";
+				actualSelection += String.format("%s = ?", "${bncs.posid}");
 				break;
 
 			// J O I N S
@@ -53,7 +53,7 @@ public class QV implements Q
 								"LEFT JOIN %s USING (%s, %s) " + //
 								"LEFT JOIN %s USING (%s, %s) " + //
 								"LEFT JOIN %s USING (%s, %s) ", //
-						"${bncs.table} ", //
+						"${bncs.table}", //
 						"${spwrs.table}", "${wnwords.wordid}", "${wnposes.posid}", //
 						"${convtasks.table}", "${wnwords.wordid}", "${wnposes.posid}",  //
 						"${imaginfs.table}", "${wnwords.wordid}", "${wnposes.posid}");

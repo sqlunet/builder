@@ -17,19 +17,19 @@ import java.util.stream.Collectors;
  */
 public class QV implements Q
 {
+	//# instantiated at runtime
+	static public final String URI_LAST = "#{uri_last}";
+
 	@Override
 	public String[] query(String keyname)
 	{
-		final String last = "${uri_last}";
-		final String[] projection = null;
-		final String selection = null;
-		final String[] selectionArgs = null;
+		final String last = URI_LAST;
 
-		String[] actualProjection = projection;
-		String actualSelection = selection;
-		String[] actualSelectionArgs = selectionArgs;
-		String groupBy = null;
 		String table;
+		String[] projection = null;
+		String selection = null;
+		String[] selectionArgs = null;
+		String groupBy = null;
 
 		Key key = Key.valueOf(keyname);
 		switch (key)
@@ -52,15 +52,15 @@ public class QV implements Q
 
 			case VNCLASS:
 				table = "${classes.table}";
-				if (actualSelection != null)
+				if (selection != null)
 				{
-					actualSelection += " AND ";
+					selection += " AND ";
 				}
 				else
 				{
-					actualSelection = "";
+					selection = "";
 				}
-				actualSelection += "${classes.classid}" + " = " + "URI_PATH_SEGMENT";
+				selection += "${classes.classid}" + " = " + "URI_PATH_SEGMENT";
 				break;
 
 			case VNCLASSES:
@@ -158,22 +158,22 @@ public class QV implements Q
 			case SUGGEST_WORDS:
 			{
 				table = "${words.table}";
-				actualProjection = new String[]{String.format("%s AS _id", "${words.vnwordid}"), //
+				projection = new String[]{String.format("%s AS _id", "${words.vnwordid}"), //
 						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${words.word}"), //
 						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "${words.word}")}; //
-				actualSelection = String.format("%s LIKE ? || '%%'", "${words.word}");
-				actualSelectionArgs = new String[]{last};
+				selection = String.format("%s LIKE ? || '%%'", "${words.word}");
+				selectionArgs = new String[]{last};
 				break;
 			}
 
 			case SUGGEST_FTS_WORDS:
 			{
 				table = String.format("%s_%s_fts4", "${words.table}", "${words.word}");
-				actualProjection = new String[]{String.format("%s AS _id", "${words.vnwordid}"),//
+				projection = new String[]{String.format("%s AS _id", "${words.vnwordid}"),//
 						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${words.word}"), //
 						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_QUERY", "${words.word}")}; //
-				actualSelection = String.format("%s MATCH ?", "${words.word}");
-				actualSelectionArgs = new String[]{last + '*'};
+				selection = String.format("%s MATCH ?", "${words.word}");
+				selectionArgs = new String[]{last + '*'};
 				break;
 			}
 
@@ -182,9 +182,9 @@ public class QV implements Q
 		}
 		return new String[]{ //
 				Lib.quote(table), //
-				actualProjection == null ? null : "{" + Arrays.stream(actualProjection).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
-				Lib.quote(actualSelection), //
-				actualSelectionArgs == null ? null : "{" + Arrays.stream(actualSelectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
+				projection == null ? null : "{" + Arrays.stream(projection).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
+				Lib.quote(selection), //
+				selectionArgs == null ? null : "{" + Arrays.stream(selectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
 				Lib.quote(groupBy)};
 	}
 

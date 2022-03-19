@@ -31,31 +31,6 @@ public class SchemaGenerator
 	}
 
 	/**
-	 * Main entry point
-	 *
-	 * @param args command-line arguments
-	 * @throws IOException io exception
-	 */
-	public static void main(String[] args) throws IOException
-	{
-		boolean compat = false;
-		if ("-compat".equals(args[0]))
-		{
-			compat = true;
-			args = Arrays.copyOfRange(args, 1, args.length);
-		}
-
-		String module = args[0];
-		String output = args[1];
-		String inputSubdir = args[2];
-		String[] inputs = Arrays.copyOfRange(args, 3, args.length);
-
-		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
-		var variables = new Variables(bundle);
-		new SchemaGenerator(variables).generate(module, output, inputSubdir, inputs);
-	}
-
-	/**
 	 * Generate schema
 	 *
 	 * @param module      module
@@ -108,7 +83,7 @@ public class SchemaGenerator
 
 					try
 					{
-						variables.varSubstitutionInIS(is, ps, true);
+						variables.varSubstitutionInIS(is, ps, true, true);
 					}
 					catch (IOException e)
 					{
@@ -128,7 +103,7 @@ public class SchemaGenerator
 				File output2 = new File(dir, name);
 				try (PrintStream ps = new PrintStream(output2))
 				{
-					variables.varSubstitutionInIS(is, ps, true);
+					variables.varSubstitutionInIS(is, ps, true, true);
 				}
 				catch (IOException e)
 				{
@@ -225,5 +200,30 @@ public class SchemaGenerator
 				}
 			}
 		}
+	}
+
+	/**
+	 * Main entry point
+	 *
+	 * @param args command-line arguments
+	 * @throws IOException io exception
+	 */
+	public static void main(String[] args) throws IOException
+	{
+		boolean compat = false;
+		if ("-compat".equals(args[0]))
+		{
+			compat = true;
+			args = Arrays.copyOfRange(args, 1, args.length);
+		}
+
+		String module = args[0];
+		String output = args[1];
+		String inputSubdir = args[2];
+		String[] inputs = Arrays.copyOfRange(args, 3, args.length);
+
+		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
+		var variables = new Variables(bundle);
+		new SchemaGenerator(variables).generate(module, output, inputSubdir, inputs);
 	}
 }

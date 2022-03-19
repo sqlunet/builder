@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # mysql -> mysql
 
 from __future__ import print_function

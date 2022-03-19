@@ -40,7 +40,7 @@ public class Q0 implements Q
 				{
 					actualSelection = "";
 				}
-				actualSelection += C.BNCs.POS + " = ?";
+				actualSelection += C.BNCs.POSID + " = ?";
 				break;
 
 			// J O I N S

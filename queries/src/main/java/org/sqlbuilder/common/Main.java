@@ -5,7 +5,6 @@
 package org.sqlbuilder.common;
 
 import org.sqlunet.vn.QC;
-import org.sqlunet.wn.QV;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,16 +21,16 @@ import java.util.ResourceBundle;
  */
 public class Main
 {
-	static public String[] WN_KEYS = Arrays.stream(org.sqlunet.wn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
+	static public String[] WN_KEYS = Arrays.stream(org.sqlunet.wn.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
 
 	static public String[] BNC_KEYS = Arrays.stream(org.sqlunet.bnc.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
 	static public String[] FN_KEYS = {"LEXUNITS", "FRAMES", "ANNOSETS", "SENTENCES", "LEXUNIT", "FRAME", "SENTENCE", "ANNOSET", "LEXUNITS_OR_FRAMES", "FRAMES_X_BY_FRAME", "FRAMES_RELATED", "LEXUNITS_X_BY_LEXUNIT", "SENTENCES_LAYERS_X", "ANNOSETS_LAYERS_X", "PATTERNS_LAYERS_X", "VALENCEUNITS_LAYERS_X", "WORDS_LEXUNITS_FRAMES", "FRAMES_FES_BY_FE", "FRAMES_FES", "LEXUNITS_SENTENCES_BY_SENTENCE", "LEXUNITS_SENTENCES", "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS_BY_SENTENCE", "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS", "LEXUNITS_GOVERNORS", "GOVERNORS_ANNOSETS", "LEXUNITS_REALIZATIONS_BY_REALIZATION", "LEXUNITS_REALIZATIONS", "LEXUNITS_GROUPREALIZATIONS_BY_PATTERN", "LEXUNITS_GROUPREALIZATIONS", "PATTERNS_SENTENCES", "VALENCEUNITS_SENTENCES", "LOOKUP_FTS_WORDS", "LOOKUP_FTS_SENTENCES", "LOOKUP_FTS_SENTENCES_X_BY_SENTENCE", "LOOKUP_FTS_SENTENCES_X", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS"};
 
-	static public String[] VN_KEYS = Arrays.stream(org.sqlunet.vn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
+	static public String[] VN_KEYS = Arrays.stream(org.sqlunet.vn.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
 
-	static public String[] PB_KEYS = {"PBROLESET", "PBROLESETS", "PBROLESETS_X_BY_ROLESET", "PBROLESETS_X", "WORDS_PBROLESETS", "PBROLESETS_PBROLES", "PBROLESETS_PBEXAMPLES_BY_EXAMPLE", "PBROLESETS_PBEXAMPLES", "LOOKUP_FTS_EXAMPLES", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS"};
-
+	static public String[] PB_KEYS = Arrays.stream(org.sqlunet.pb.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
+	;
 	static public String[] SN_KEYS = {"COLLOCATIONS", "COLLOCATIONS_X"};
 
 	// H E L P E R S
@@ -85,10 +84,18 @@ public class Main
 		}
 	}
 
-	public static void generateClass(String[] keys, Q q, String className, PrintStream ps)
+	public static void generateClass(final String[] keys, final Q q, final String className, final Runnable runnable, final PrintStream ps)
 	{
 		ps.println("package provider;\n");
 		ps.println("public class " + className + " {\n");
+
+		if (runnable != null)
+		{
+			ps.println("// VARIABLES");
+			runnable.run();
+			ps.println();
+		}
+
 		for (String key : keys)
 		{
 			ps.printf("static public class %s {%n", key);
@@ -130,29 +137,29 @@ public class Main
 						return new org.sqlunet.wn.Q1();
 					case "2":
 						return new org.sqlunet.wn.Q2();
-					case "V":
+					case "QV":
 						return new org.sqlunet.wn.QV();
 				}
 				return null;
 			case "bnc":
 				switch (s)
 				{
-					case "0":
+					case "Q0":
 						return new org.sqlunet.bnc.Q0();
 						/*
-					case "1":
+					case "Q1":
 						return new org.sqlunet.bnc.Q1();
-					case "2":
+					case "Q2":
 						return new org.sqlunet.bnc.Q2();
 						*/
-					case "V":
+					case "QV":
 						return new org.sqlunet.bnc.QV();
 				}
 				return null;
 			case "sn":
 				switch (s)
 				{
-					case "0":
+					case "Q0":
 						return new org.sqlunet.sn.Q0();
 					//case "V":
 					//	return new org.sqlunet.sn.QV();
@@ -161,13 +168,13 @@ public class Main
 			case "vn":
 				switch (s)
 				{
-					case "0":
+					case "Q0":
 						return new org.sqlunet.vn.Q0();
-					case "1":
+					case "Q1":
 						return new org.sqlunet.vn.Q1();
-					case "2":
+					case "QC":
 						return new QC();
-					case "V":
+					case "QV":
 						return new org.sqlunet.vn.QV();
 				}
 				return null;
@@ -180,16 +187,18 @@ public class Main
 						return new org.sqlunet.pb.Q1();
 					case "2":
 						return new org.sqlunet.pb.Q2();
-					//case "V":
-					//	return new org.sqlunet.pb.QV();
+					case "QV":
+						return new org.sqlunet.pb.QV();
 				}
 				return null;
 			case "fn":
 				switch (s)
 				{
-					case "0":
+					case "Q0":
 						return new org.sqlunet.fn.Q0();
-					//case "V":
+					case "Q1":
+						return new org.sqlunet.fn.Q1();
+					//case "QV":
 					//	return new org.sqlunet.fn.QV();
 				}
 				return null;
@@ -232,14 +241,33 @@ public class Main
 		//variables.put("baserelations.word2id", variables.varSubstitution("${senses_senses.word2id}"));
 
 		// aliases
+		//variables.put("uri_last", "#{uri_last}");
+		//variables.put("MAKEQUERY", "#{query}");
+
+		// column aliases
 		variables.put("members", "members");
 		variables.put("members2", "members2");
+
 		variables.put("word2", "word2");
 		variables.put("sampleset", "sampleset");
-		variables.put("d_synsetid", "d_synsetid");
-		variables.put("d_wordid", "d_wordid");
-		variables.put("d_word", "#d_word");
-		variables.put("uri_last", "#{uri_last}");
+
+		// table aliases
+		variables.put("as_words", "w");
+		variables.put("as_words2", "w2");
+		variables.put("as_synsets", "y");
+		variables.put("as_synsets2", "y2");
+		variables.put("as_senses", "s");
+		variables.put("as_relations", "r");
+		variables.put("as_types", "t");
+		variables.put("as_poses", "p");
+		variables.put("as_domains", "d");
+		variables.put("as_caseds", "c");
+		variables.put("as_members", "m");
+		variables.put("as_examples", "e");
+		variables.put("as_funcs", "f");
+		variables.put("as_args", "a");
+
+		variables.put("dict.table", "dict");
 
 		return variables;
 	}
@@ -256,6 +284,7 @@ public class Main
 				compare(keysFrom(module), qFrom(module, source1), qFrom(module, source2));
 				break;
 			}
+
 			case "generate_class":
 			{
 				String module = args[1];
@@ -264,10 +293,11 @@ public class Main
 				String fileName = module + "/" + className + ".java";
 				try (PrintStream ps = new PrintStream(new FileOutputStream(fileName)))
 				{
-					generateClass(keysFrom(module), qFrom(module, source), className, ps);
+					generateClass(keysFrom(module), qFrom(module, source), className, () -> makeVariables(args[1]).export(ps), ps);
 				}
 				break;
 			}
+
 			case "generate_properties":
 			{
 				String module = args[1];
@@ -281,6 +311,7 @@ public class Main
 				// generateProperties(keysFrom(module), qFrom(module, source), System.out);
 				break;
 			}
+
 			case "instantiate":
 			{
 				Variables variables = makeVariables(args[1]);
@@ -288,17 +319,25 @@ public class Main
 				String dest = args[3];
 				if ("-".equals(dest))
 				{
-					variables.varSubstitutionInFile(new File(source), System.out, false);
+					variables.varSubstitutionInFile(new File(source), System.out, false, false);
 				}
 				else
 				{
 					try (PrintStream ps = new PrintStream(new FileOutputStream(dest)))
 					{
-						variables.varSubstitutionInFile(new File(source), ps, false);
+						variables.varSubstitutionInFile(new File(source), ps, false, false);
 					}
 				}
 				break;
 			}
+
+			case "export":
+			{
+				String module = args[1];
+				Variables variables = makeVariables(module);
+				variables.export(System.out);
+			}
+			break;
 		}
 	}
 }

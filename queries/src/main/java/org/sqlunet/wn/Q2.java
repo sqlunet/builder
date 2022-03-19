@@ -5,7 +5,6 @@
 package org.sqlunet.wn;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Main;
 
 import java.util.Arrays;
 

@@ -11,7 +11,7 @@ public class C
 		static public final String TABLE = "bncs";
 		static public final String CONTENT_URI_TABLE = BNCs.TABLE;
 		static public final String WORDID = "wordid";
-		static public final String POS = "pos";
+		static public final String POSID = "posid";
 		static public final String CONTENTS = "contents";
 		static public final String FREQ = "freq";
 	}
@@ -20,9 +20,9 @@ public class C
 	{
 		static public final String TABLE = "words_bncs";
 		static public final String CONTENT_URI_TABLE = Words_BNCs.TABLE;
-		static public final String LEMMA = "lemma";
+		static public final String WORD = "word";
 		static public final String WORDID = "wordid";
-		static public final String POS = "pos";
+		static public final String POSID = "posid";
 		static public final String FREQ = "freq";
 		static public final String RANGE = "range";
 		static public final String DISP = "disp";

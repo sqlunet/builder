@@ -14,18 +14,13 @@ for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
   templates_home="src/main/resources/${m}/sqltemplates"
 
-  for op in create index reference; do
+  for op in create index anchor cleanup reference; do
+    echo -e "${C}${op}${Z}"
     for f in ${m}/${templates_home}/mysql/${op}/*.sql; do
-      f2="${f}.tmp"
       b="`basename ${f}`"
-      echo -e "${M}${b}${Z}"
-      if [ ! -e "${f}" ]; then
-       echo -e "${R}${f}${Z}"
-      else
-        echo -e "${C}${f} -> ${f2}${Z}"
+      if [ -e "${f}" ]; then
+        echo -e "${M}${b}${Z}"
       fi
-      #cat ${f} | ./filter-mysql.py > "${f2}"
-      mv -f "${f2}" "${f}"
-     done
+    done
   done
 done

@@ -4,11 +4,11 @@
 
 package org.sqlbuilder.common;
 
+import org.sqlbuilder2.ser.Pair;
+
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +17,10 @@ import java.util.regex.Pattern;
  */
 public class Variables
 {
+	private static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
+
+	private static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
+
 	/**
 	 * Variable-value map
 	 */
@@ -33,6 +37,44 @@ public class Variables
 		{
 			toValue.put(k, bundle.getString(k));
 		}
+	}
+
+	/**
+	 * Scan input and produces list on stderr with same value
+	 *
+	 * @param input input
+	 */
+	public static void dumpVars(String input)
+	{
+		Pattern p = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
+		Matcher m = p.matcher(input);
+		if (m.find())
+		{
+			String varName = m.group(1);
+			System.err.printf("%s=%s%n", varName, varName);
+		}
+	}
+
+	/**
+	 * Export key-value pairs to print stream
+	 */
+	public void dumpVals(final PrintStream ps)
+	{
+		toValue.entrySet().stream().forEach(ps::println);
+	}
+
+	/**
+	 * Export key-value pairs to print stream
+	 */
+	public void export(final PrintStream ps)
+	{
+		toValue.keySet().stream()
+				.map(k->new Pair<>(k, k.contains(".") ? k.substring(k.lastIndexOf('.')+1) : k))
+				.filter(kk->!Set.of("table","file","columns","resolved").contains(kk.getSecond()))
+				.sorted(Comparator.comparing(Pair<String,String>::getSecond))
+				.map(kk->String.format("public static final String %s=\"%s\";", kk.getSecond().toUpperCase(Locale.ROOT), toValue.get(kk.getFirst())))
+				.distinct()
+				.forEach(ps::println);
 	}
 
 	/**
@@ -55,12 +97,12 @@ public class Variables
 	 * @param compress whether to compress spaces to single space
 	 * @throws IOException io exception
 	 */
-	public void varSubstitutionInFile(final File file, final PrintStream ps, final boolean compress) throws IOException
+	public void varSubstitutionInFile(final File file, final PrintStream ps, boolean useBackticks, final boolean compress) throws IOException
 	{
 		// iterate on lines
 		try (InputStream is = new FileInputStream(file))
 		{
-			varSubstitutionInIS(is, ps, compress);
+			varSubstitutionInIS(is, ps, useBackticks, compress);
 		}
 		catch (IllegalArgumentException iae)
 		{
@@ -77,7 +119,7 @@ public class Variables
 	 * @param compress whether to compress spaces to single space
 	 * @throws IOException io exception
 	 */
-	public void varSubstitutionInIS(final InputStream is, final PrintStream ps, final boolean compress) throws IOException
+	public void varSubstitutionInIS(final InputStream is, final PrintStream ps, boolean useBackticks, final boolean compress) throws IOException
 	{
 		// iterate on lines
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.defaultCharset())))
@@ -90,7 +132,7 @@ public class Variables
 				try
 				{
 					//initVars(line);
-					line = varSubstitution(line);
+					line = varSubstitution(line, useBackticks);
 				}
 				catch (IllegalArgumentException iae)
 				{
@@ -106,21 +148,15 @@ public class Variables
 		}
 	}
 
-	private static final boolean USE_BACKTICKS = true;
-
-	private static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
-
-	private static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
-
 	/**
 	 * Substitute values to variables in string
 	 *
 	 * @param input input string
 	 * @return string with values substituted fir variable name
 	 */
-	public String varSubstitution(String input)
+	public String varSubstitution(String input, boolean useBackticks)
 	{
-		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, USE_BACKTICKS);
+		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, useBackticks);
 	}
 
 	/**
@@ -152,21 +188,5 @@ public class Variables
 			return output;
 		}
 		return input;
-	}
-
-	/**
-	 * Scan input and produces list on stderr with same value
-	 *
-	 * @param input input
-	 */
-	public static void dumpVars(String input)
-	{
-		Pattern p = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
-		Matcher m = p.matcher(input);
-		if (m.find())
-		{
-			String varName = m.group(1);
-			System.err.printf("%s=%s%n", varName, varName);
-		}
 	}
 }

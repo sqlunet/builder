@@ -5,7 +5,9 @@ import org.sqlunet.wn.C;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class GenerateV
@@ -15,10 +17,11 @@ public class GenerateV
 		ps.println(String.format("package org.sqlunet.%s;", module));
 		ps.println("public class V {");
 
-		Arrays.stream(clazz.getDeclaredClasses()).forEach(c -> {
+		Arrays.stream(clazz.getDeclaredClasses()).sorted(Comparator.comparing(Class::getSimpleName)).forEach(c -> {
 			ps.printf("static public class %s {%n", c.getSimpleName());
 			Arrays.stream(c.getDeclaredFields()) //
 					.filter(f -> !"CONTENT_URI_TABLE".equals(f.getName())) //
+					.sorted(Comparator.comparing(Field::getName))
 					.forEach(f -> {
 						ps.printf("static public final String %s = \"${%s.%s}\";%n", f.getName(), c.getSimpleName().toLowerCase(Locale.ROOT), f.getName().toLowerCase(Locale.ROOT));
 					});

@@ -37,7 +37,7 @@ public class TestVariables
 		{
 			try
 			{
-				var w = variables.varSubstitution(v);
+				var w = variables.varSubstitution(v, true);
 				System.out.println(w);
 			}
 			catch (IllegalArgumentException iae)

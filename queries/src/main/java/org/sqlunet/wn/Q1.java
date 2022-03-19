@@ -5,7 +5,6 @@
 package org.sqlunet.wn;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Main;
 
 import java.util.Arrays;
 
@@ -140,19 +139,19 @@ public class Q1 implements Q
 			break;
 
 			case "SEMRELATIONS_SYNSETS":
-				table = C.SemRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
+				table = SemRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN "+C.Synsets.TABLE +" AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid";
 				break;
 
 			case "SEMRELATIONS_SYNSETS_X":
-				table = C.SemRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
+				table = SemRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN " + C.Relations.TABLE + " USING (relationid)" + //
 						"INNER JOIN "+C.Synsets.TABLE +" AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid ";
 				break;
 
 			case "SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET":
 				groupBy = C.AS_DEST + ".synsetid";
-				table = C.SemRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
+				table = SemRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN " + C.Relations.TABLE + " USING (relationid) " + //
 						"INNER JOIN "+C.Synsets.TABLE +" AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid " + //
 						"LEFT JOIN " + C.Senses.TABLE + " ON " + C.AS_DEST + ".synsetid = " + C.Senses.TABLE + ".synsetid " + //
@@ -161,13 +160,13 @@ public class Q1 implements Q
 				break;
 
 			case "LEXRELATIONS_SENSES":
-				table = C.LexRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
+				table = LexRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN "+C.Synsets.TABLE +" AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid " + //
 						"INNER JOIN " + C.Words.TABLE + " AS " + C.AS_WORD + " ON " + C.AS_RELATION + ".word2id = " + C.AS_WORD + ".wordid";
 				break;
 
 			case "LEXRELATIONS_SENSES_X":
-				table = C.LexRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
+				table = LexRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN " + C.Relations.TABLE + " USING (relationid)" + //
 						"INNER JOIN "+C.Synsets.TABLE +" AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid " + //
 						"INNER JOIN " + C.Words.TABLE + " AS " + C.AS_WORD + " ON " + C.AS_RELATION + ".word2id = " + C.AS_WORD + ".wordid ";
@@ -176,7 +175,7 @@ public class Q1 implements Q
 			case "LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET":
 				groupBy = C.AS_DEST + ".synsetid";
 				actualProjection = Lib.appendProjection(actualProjection, "GROUP_CONCAT(DISTINCT " + C.AS_WORD2 + ".word) AS " + LexRelations_Senses_Words_X.MEMBERS2);
-				table = C.LexRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
+				table = LexRelations.TABLE + " AS " + C.AS_RELATION + ' ' + //
 						"INNER JOIN " + C.Relations.TABLE + " USING (relationid) " + //
 						"INNER JOIN "+C.Synsets.TABLE +" AS " + C.AS_DEST + " ON " + C.AS_RELATION + ".synset2id = " + C.AS_DEST + ".synsetid " + //
 						"INNER JOIN " + C.Words.TABLE + " AS " + C.AS_WORD + " ON " + C.AS_RELATION + ".word2id = " + C.AS_WORD + ".wordid " + //
