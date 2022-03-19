@@ -198,8 +198,8 @@ public class Main
 						return new org.sqlunet.fn.Q0();
 					case "Q1":
 						return new org.sqlunet.fn.Q1();
-					//case "QV":
-					//	return new org.sqlunet.fn.QV();
+					case "QV":
+						return new org.sqlunet.fn.QV();
 				}
 				return null;
 		}
