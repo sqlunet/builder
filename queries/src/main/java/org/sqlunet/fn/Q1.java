@@ -282,14 +282,21 @@ public class Q1 implements Q
 				break;
 
 			case "WORDS_LEXUNITS_FRAMES":
-				table = "words " + //
-						"INNER JOIN fnwords USING (wordid) " + //
-						"INNER JOIN fnlexemes USING (fnwordid) " + //
-						"INNER JOIN fnlexunits AS " + C.LU + " USING (luid) " + //
-						"LEFT JOIN fnframes USING (frameid) " + //
-						"LEFT JOIN fnposes AS " + C.POS + " ON (" + C.LU + ".posid = " + C.POS + ".posid) " + //
-						"LEFT JOIN fnfes AS " + C.FE + " ON (incorporatedfeid = feid) " + //
-						"LEFT JOIN fnfetypes AS " + C.FETYPE + " ON (incorporatedfetypeid = " + C.FE + ".fetypeid)";
+				table = String.format("%s " + //
+								"INNER JOIN %s USING (%s) " + //
+								"INNER JOIN %s USING (%s) " + //
+								"INNER JOIN %s AS %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s AS %s ON (%s.%s = %s.%s) " + //
+								"LEFT JOIN %s AS %s ON (%s = %s) " + //
+								"LEFT JOIN %s AS %s ON (%s = %s.%s)", "words", //
+						"fnwords", "wordid", //
+						"fnlexemes", "fnwordid", //
+						"fnlexunits", C.LU, "luid", //
+						"fnframes", "frameid", //
+						"fnposes", C.POS, C.LU, "posid", C.POS, "posid", //
+						"fnfes", C.FE, "incorporatedfeid", "feid", //
+						"fnfetypes", C.FETYPE, "incorporatedfetypeid", C.FE, "fetypeid");
 				break;
 
 			case "FRAMES_FES_BY_FE":
