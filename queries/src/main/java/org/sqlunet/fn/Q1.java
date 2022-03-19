@@ -204,45 +204,81 @@ public class Q1 implements Q
 				break;
 
 			case "PATTERNS_LAYERS_X":
-				table = "(SELECT annosetid,sentenceid,text,layerid,layertype,rank," + //
-						"GROUP_CONCAT(start||':'||" + //
-						"end||':'||" + //
-						"labeltype||':'||" + //
-						"CASE WHEN labelitype IS NULL THEN '' ELSE labelitype END||':'||" + //
-						"CASE WHEN bgcolor IS NULL THEN '' ELSE bgcolor END||':'||" + //
-						"CASE WHEN fgcolor IS NULL THEN '' ELSE fgcolor END,'|') AS " + Patterns_Layers_X.LAYERANNOTATIONS + ' ' + //
-						"FROM fnpatterns_annosets " + //
-						"LEFT JOIN fnannosets USING (annosetid) " + //
-						"LEFT JOIN fnsentences USING (sentenceid) " + //
-						"LEFT JOIN fnlayers USING (annosetid) " + //
-						"LEFT JOIN fnlayertypes USING (layertypeid) " + //
-						"LEFT JOIN fnlabels USING (layerid) " + //
-						"LEFT JOIN fnlabeltypes USING (labeltypeid) " + //
-						"LEFT JOIN fnlabelitypes USING (labelitypeid) " + //
-						"WHERE patternid = ? AND labeltypeid IS NOT NULL " + //
-						"GROUP BY layerid " + //
-						"ORDER BY rank,layerid,start,end)";
+				table = String.format("(SELECT %s,%s,%s,%s,%s,%s," + //
+								"GROUP_CONCAT(%s||':'||" + //
+								"%s||':'||" + //
+								"%s||':'||" + //
+								"CASE WHEN %s IS NULL THEN '' ELSE %s END||':'||" + //
+								"CASE WHEN %s IS NULL THEN '' ELSE %s END||':'||" + //
+								"CASE WHEN %s IS NULL THEN '' ELSE %s END,'|') AS %s " +//
+								"FROM %s " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"WHERE %s = ? AND %s IS NOT NULL " + //
+								"GROUP BY %s " + //
+								"ORDER BY %s,%s,%s,%s)", //
+						"annosetid", "sentenceid", "text", "layerid", "layertype", "rank", //
+						"start", //
+						"end", //
+						"labeltype", //
+						"labelitype", "labelitype", //
+						"bgcolor", "bgcolor", //
+						"fgcolor", "fgcolor", Patterns_Layers_X.LAYERANNOTATIONS, //
+						"fnpatterns_annosets", //
+						"fnannosets", "annosetid", //
+						"fnsentences", "sentenceid", //
+						"fnlayers", "annosetid", //
+						"fnlayertypes", "layertypeid", //
+						"fnlabels", "layerid", //
+						"fnlabeltypes", "labeltypeid", //
+						"fnlabelitypes", "labelitypeid", //
+						"patternid", "labeltypeid", //
+						"layerid", //
+						"rank", "layerid", "start", "end");
 				break;
 
 			case "VALENCEUNITS_LAYERS_X":
-				table = "(SELECT annosetid,sentenceid,text,layerid,layertype,rank," + //
-						"GROUP_CONCAT(start||':'||" + //
-						"end||':'||" + //
-						"labeltype||':'||" + //
-						"CASE WHEN labelitype IS NULL THEN '' ELSE labelitype END||':'||" + //
-						"CASE WHEN bgcolor IS NULL THEN '' ELSE bgcolor END||':'||" + //
-						"CASE WHEN fgcolor IS NULL THEN '' ELSE fgcolor END,'|') AS " + ValenceUnits_Layers_X.LAYERANNOTATIONS + ' ' + //
-						"FROM fnvalenceunits_annosets " + //
-						"LEFT JOIN fnannosets USING (annosetid) " + //
-						"LEFT JOIN fnsentences USING (sentenceid) " + //
-						"LEFT JOIN fnlayers USING (annosetid) " + //
-						"LEFT JOIN fnlayertypes USING (layertypeid) " + //
-						"LEFT JOIN fnlabels USING (layerid) " + //
-						"LEFT JOIN fnlabeltypes USING (labeltypeid) " + //
-						"LEFT JOIN fnlabelitypes USING (labelitypeid) " + //
-						"WHERE vuid = ? AND labeltypeid IS NOT NULL " + //
-						"GROUP BY layerid " + //
-						"ORDER BY rank,layerid,start,end)";
+				table = String.format("(SELECT %s,%s,%s,%s,%s,%s," + //
+								"GROUP_CONCAT(%s||':'||" + //
+								"%s||':'||" + //
+								"%s||':'||" + //
+								"CASE WHEN %s IS NULL THEN '' ELSE %s END||':'||" + //
+								"CASE WHEN %s IS NULL THEN '' ELSE %s END||':'||" + //
+								"CASE WHEN %s IS NULL THEN '' ELSE %s END,'|') AS %s " + //
+								"FROM %s " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"LEFT JOIN %s USING (%s) " + //
+								"WHERE %s = ? AND %s IS NOT NULL " + //
+								"GROUP BY %s " + //
+								"ORDER BY %s,%s,%s,%s)", //
+						"annosetid", "sentenceid", "text", "layerid", "layertype", "rank", //
+						"start", //
+						"end", //
+						"labeltype", //
+						"labelitype", "labelitype", //
+						"bgcolor", "bgcolor", //
+						"fgcolor", "fgcolor", ValenceUnits_Layers_X.LAYERANNOTATIONS, //
+						"fnvalenceunits_annosets", //
+						"fnannosets", "annosetid", //
+						"fnsentences", "sentenceid", //
+						"fnlayers", "annosetid", //
+						"fnlayertypes", "layertypeid", //
+						"fnlabels", "layerid", //
+						"fnlabeltypes", "labeltypeid", //
+						"fnlabelitypes", "labelitypeid", //
+						"vuid", "labeltypeid", //
+						"layerid", //
+						"rank", "layerid", "start", "end");
 				break;
 
 			case "WORDS_LEXUNITS_FRAMES":
