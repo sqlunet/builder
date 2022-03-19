@@ -25,13 +25,13 @@ public class Main
 
 	static public String[] BNC_KEYS = Arrays.stream(org.sqlunet.bnc.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
-	static public String[] FN_KEYS = {"LEXUNITS", "FRAMES", "ANNOSETS", "SENTENCES", "LEXUNIT", "FRAME", "SENTENCE", "ANNOSET", "LEXUNITS_OR_FRAMES", "FRAMES_X_BY_FRAME", "FRAMES_RELATED", "LEXUNITS_X_BY_LEXUNIT", "SENTENCES_LAYERS_X", "ANNOSETS_LAYERS_X", "PATTERNS_LAYERS_X", "VALENCEUNITS_LAYERS_X", "WORDS_LEXUNITS_FRAMES", "FRAMES_FES_BY_FE", "FRAMES_FES", "LEXUNITS_SENTENCES_BY_SENTENCE", "LEXUNITS_SENTENCES", "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS_BY_SENTENCE", "LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS", "LEXUNITS_GOVERNORS", "GOVERNORS_ANNOSETS", "LEXUNITS_REALIZATIONS_BY_REALIZATION", "LEXUNITS_REALIZATIONS", "LEXUNITS_GROUPREALIZATIONS_BY_PATTERN", "LEXUNITS_GROUPREALIZATIONS", "PATTERNS_SENTENCES", "VALENCEUNITS_SENTENCES", "LOOKUP_FTS_WORDS", "LOOKUP_FTS_SENTENCES", "LOOKUP_FTS_SENTENCES_X_BY_SENTENCE", "LOOKUP_FTS_SENTENCES_X", "SUGGEST_WORDS", "SUGGEST_FTS_WORDS"};
+	static public String[] FN_KEYS = Arrays.stream(org.sqlunet.fn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
 	static public String[] VN_KEYS = Arrays.stream(org.sqlunet.vn.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
 
 	static public String[] PB_KEYS = Arrays.stream(org.sqlunet.pb.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
 	;
-	static public String[] SN_KEYS = {"COLLOCATIONS", "COLLOCATIONS_X"};
+	static public String[] SN_KEYS = Arrays.stream(org.sqlunet.sn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
 	// H E L P E R S
 
