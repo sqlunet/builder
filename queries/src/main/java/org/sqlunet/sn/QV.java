@@ -24,8 +24,6 @@ public class QV implements Q
 	@Override
 	public String[] query(String keyname)
 	{
-		final String last = URI_LAST;
-
 		String table;
 		String[] projection = null;
 		String selection = null;
@@ -40,7 +38,7 @@ public class QV implements Q
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
 			case COLLOCATIONS:
-				table = SnCollocations.TABLE;
+				table = "${syntagms.table}";
 				if (selection != null)
 				{
 					selection += " AND ";
@@ -49,19 +47,22 @@ public class QV implements Q
 				{
 					selection = "";
 				}
-				selection += SnCollocations.COLLOCATIONID + " = ?";
+				selection += String.format("%s = ?", "${syntagms.syntagmid}");
 				break;
 
 			// J O I N S
 
 			case COLLOCATIONS_X:
-				table = "syntagms " + //
-						"JOIN words AS " + C.W1 + " ON (word1id = " + C.W1 + ".wordid) " + //
-						"JOIN words AS " + C.W2 + " ON (word2id = " + C.W2 + ".wordid) " + //
-						"JOIN synsets AS " + C.S1 + " ON (synset1id = " + C.S1 + ".synsetid) " + //
-						"JOIN synsets AS " + C.S2 + " ON (synset2id = " + C.S2 + ".synsetid)";
+				table = String.format("%s " + //
+								"JOIN %s AS %s ON (%s = %s.%s) " + //
+								"JOIN %s AS %s ON (%s = %s.%s) " + //
+								"JOIN %s AS %s ON (%s = %s.%s) " + //
+								"JOIN %s AS %s ON (%s = %s.%s)", "${syntagms.table}", //
+						"${wnwords.table}", "${as_words1}", "${syntagms.word1id}", "${as_words1}", "${wnwords.wordid}", //
+						"${wnwords.table}", "${as_words2}", "${syntagms.word2id}", "${as_words2}", "${wnwords.wordid}", //
+						"${wnsynsets.table}", "${as_synsets1}", "${syntagms.synset1id}", "${as_synsets1}", "${wnsynsets.synsetid}", //
+						"${wnsynsets.table}", "${as_synsets2}", "${syntagms.synset2id}", "${as_synsets2}", "${wnsynsets.synsetid}");
 				break;
-
 
 			default:
 				return null;

@@ -161,8 +161,8 @@ public class Main
 				{
 					case "Q0":
 						return new org.sqlunet.sn.Q0();
-					//case "V":
-					//	return new org.sqlunet.sn.QV();
+					case "QV":
+						return new org.sqlunet.sn.QV();
 				}
 				return null;
 			case "vn":
@@ -261,8 +261,10 @@ public class Main
 
 		// table aliases
 		variables.put("as_words", "w");
+		variables.put("as_words1", "w1");
 		variables.put("as_words2", "w2");
 		variables.put("as_synsets", "y");
+		variables.put("as_synsets1", "y1");
 		variables.put("as_synsets2", "y2");
 		variables.put("as_senses", "s");
 		variables.put("as_relations", "r");
