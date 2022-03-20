@@ -39,19 +39,19 @@ public class QV implements Q
 			// table uri : last element is table
 
 			case LEXUNITS:
-				table = LexUnits.TABLE;
+				table = "${lexunits.table}";
 				break;
 
 			case FRAMES:
-				table = Frames.TABLE;
+				table = "${frames.table}";
 				break;
 
 			case ANNOSETS:
-				table = AnnoSets.TABLE;
+				table = "${annosets.table}";
 				break;
 
 			case SENTENCES:
-				table = Sentences.TABLE;
+				table = "${sentences.table}";
 				break;
 
 			// I T E M
@@ -59,19 +59,19 @@ public class QV implements Q
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
 			case LEXUNIT:
-				table = LexUnits.TABLE;
+				table = "${lexunits.table}";
 				break;
 
 			case FRAME:
-				table = Frames.TABLE;
+				table = "${frames.table}";
 				break;
 
 			case SENTENCE:
-				table = Sentences.TABLE;
+				table = "${sentences.table}";
 				break;
 
 			case ANNOSET:
-				table = AnnoSets.TABLE;
+				table = "${annosets.table}";
 				break;
 
 			// J O I N S
@@ -87,13 +87,13 @@ public class QV implements Q
 								"SELECT %s AS %s, %s AS %s, 0 AS %s, 0 AS %s, %s AS %s, %s AS %s, %s AS %s, %s AS %s, 1 AS %s " + // 8
 								"FROM %s " + // 9
 								")", //
-						"${words.fnwordid}", "10000", LexUnits_or_Frames.ID, "${lexunits.luid}", LexUnits_or_Frames.FNID, "${words.fnwordid}", LexUnits_or_Frames.FNWORDID, "${words.wordid}", LexUnits_or_Frames.WORDID, "${words.word}", LexUnits_or_Frames.WORD, "${lexunits.lexunit}", LexUnits_or_Frames.NAME, "${frames.frame}", LexUnits_or_Frames.FRAMENAME, "${frames.frameid}", LexUnits_or_Frames.FRAMEID, LexUnits_or_Frames.ISFRAME, // 2
+						"${words.fnwordid}", "10000", "${_id}", "${lexunits.luid}", "${fnid}", "${words.fnwordid}", "${words.fnwordid}", "${words.wordid}", "${words.wordid}", "${words.word}", "${words.word}", "${lexunits.lexunit}", "${frames.frame}", "${frames.frame}", "${frames.frame}", "${frames.frameid}", "${frames.frameid}", "${isframe}", // 2
 						"${words.table}", // 3
 						"${lexemes.table}", "${words.fnwordid}", // 4
-						"${lexunits.table}", C.LU, "${lexunits.luid}", // 5
-						"${frames.table}", C.FRAME, "${frames.frameid}", // 6
+						"${lexunits.table}", "${as_lexunits}", "${lexunits.luid}", // 5
+						"${frames.table}", "${as_frames}", "${frames.frameid}", // 6
 						// 7
-						"${frames.frameid}", LexUnits_or_Frames.ID, "${frames.frameid}", LexUnits_or_Frames.FNID, LexUnits_or_Frames.FNWORDID, LexUnits_or_Frames.WORDID, "${frames.frame}", LexUnits_or_Frames.WORD, "${frames.frame}", LexUnits_or_Frames.NAME, "${frames.frame}", LexUnits_or_Frames.FRAMENAME, "${frames.frameid}", LexUnits_or_Frames.FRAMEID, LexUnits_or_Frames.ISFRAME, // 8
+						"${frames.frameid}", "${_id}", "${frames.frameid}", "${fnid}", "${words.fnwordid}", "${words.wordid}", "${frames.frame}", "${words.word}", "${frames.frame}", "${frames.frame}", "${frames.frame}", "${frames.frame}", "${frames.frameid}", "${frames.frameid}", "${isframe}", // 8
 						"${frames.table}"); // 9
 				break;
 
@@ -112,9 +112,9 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s ON (%s = %s.%s) " + //  //  //
 								"LEFT JOIN %s USING (%s)", //
-						"${frames_related.table}", C.RELATED, //
-						"${frames.table}", C.SRC, "${frames.frameid}", //
-						"${frames.table}", C.DEST, "${frames_related.frame2id}", C.DEST, "${frames.frameid}", //
+						"${frames_related.table}", "${as_related_frames}", //
+						"${frames.table}", "${src_frame}", "${frames.frameid}", //
+						"${frames.table}", "${dest_frame}", "${frames_related.frame2id}", "${dest_frame}", "${frames.frameid}", //
 						"${framerelations.table}", "${frames_related.relationid}");
 				break;
 
@@ -124,11 +124,11 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s ON (%s.%s = %s.%s) " + //
 								"LEFT JOIN %s AS %s ON (%s = %s.%s) " + //
 								"LEFT JOIN %s AS %s ON (%s = %s.%s)", //
-						"${lexunits.table}", C.LU, //
-						"${frames.table}", C.FRAME, "${frames.frameid}", //
-						"${poses.table}", C.POS, C.LU, "${poses.posid}", C.POS, "${poses.posid}", //
-						"${fetypes.table}", C.FETYPE, "${lexunits.incorporatedfetypeid}", C.FETYPE, "${fetypes.fetypeid}", //
-						"${fes.table}", C.FE, "${lexunits.incorporatedfeid}", C.FE, "${fes.feid}");
+						"${lexunits.table}", "${as_lexunits}", //
+						"${frames.table}", "${as_frames}", "${frames.frameid}", //
+						"${poses.table}", "${as_poses}", "${as_lexunits}", "${poses.posid}", "${as_poses}", "${poses.posid}", //
+						"${fetypes.table}", "${as_fetypes}", "${lexunits.incorporatedfetypeid}", "${as_fetypes}", "${fetypes.fetypeid}", //
+						"${fes.table}", "${as_fes}", "${lexunits.incorporatedfeid}", "${as_fes}", "${fes.feid}");
 				groupBy = "${lexunits.luid}";
 				break;
 
@@ -156,7 +156,7 @@ public class QV implements Q
 						"${labeltypes.table}", // 4
 						"${labelitypes.table}", "${labelitypes.labelitype}", // 5
 						"${labels.bgcolor}", "${labels.bgcolor}", // 6
-						"${labels.fgcolor}", "${labels.fgcolor}", Sentences_Layers_X.LAYERANNOTATIONS, // 7
+						"${labels.fgcolor}", "${labels.fgcolor}", "${annotations}", // 7
 						"${sentences.table}", // 8
 						"${annosets.table}", "${sentences.sentenceid}", // 9
 						"${layers.table}", "${annosets.annosetid}", // 10
@@ -193,7 +193,7 @@ public class QV implements Q
 						"${labeltypes.labeltype}", //
 						"${labelitypes.labelitype}", "${labelitypes.labelitype}", //
 						"${labels.bgcolor}", "${labels.bgcolor}", //
-						"${labels.fgcolor}", "${labels.fgcolor}", AnnoSets_Layers_X.LAYERANNOTATIONS, //
+						"${labels.fgcolor}", "${labels.fgcolor}", "${annotations}", //
 						"${annosets.table}", //
 						"${sentences.table}", "${sentences.sentenceid}", //
 						"${layers.table}", "${annosets.annosetid}", //
@@ -231,7 +231,7 @@ public class QV implements Q
 						"${labeltypes.labeltype}", //
 						"${labelitypes.labelitype}", "${labelitypes.labelitype}", //
 						"${labels.bgcolor}", "${labels.bgcolor}", //
-						"${labels.fgcolor}", "${labels.fgcolor}", Patterns_Layers_X.LAYERANNOTATIONS, //
+						"${labels.fgcolor}", "${labels.fgcolor}", "${annotations}", //
 						"${grouppatterns_annosets.table}", //
 						"${annosets.table}", "${annosets.annosetid}", //
 						"${sentences.table}", "${sentences.sentenceid}", //
@@ -270,7 +270,7 @@ public class QV implements Q
 						"${labeltypes.labeltype}", //
 						"${labelitypes.labelitype}", "${labelitypes.labelitype}", //
 						"${labels.bgcolor}", "${labels.bgcolor}", //
-						"${labels.fgcolor}", "${labels.fgcolor}", ValenceUnits_Layers_X.LAYERANNOTATIONS, //
+						"${labels.fgcolor}", "${labels.fgcolor}", "${annotations}", //
 						"${valenceunits_annosets.table}", //
 						"${annosets.table}", "${annosets.annosetid}", //
 						"${sentences.table}", "${sentences.sentenceid}", //
@@ -296,11 +296,11 @@ public class QV implements Q
 						"${words.table}", //
 						"${words.table}", "${words.wordid}", //
 						"${lexemes.table}", "${words.wordid}", //
-						"${lexunits.table}", C.LU, "${lexunits.luid}", //
+						"${lexunits.table}", "${as_lexunits}", "${lexunits.luid}", //
 						"${frames.table}", "${frames.frameid}", //
-						"${poses.table}", C.POS, C.LU, "${poses.posid}", C.POS, "${poses.posid}", //
-						"${fes.table}", C.FE, "${lexunits.incorporatedfeid}", "${fes.feid}", //
-						"${fetypes.table}", C.FETYPE, "${lexunits.incorporatedfetypeid}", C.FE, "${fetypes.fetypeid}");
+						"${poses.table}", "${as_poses}", "${as_lexunits}", "${poses.posid}", "${as_poses}", "${poses.posid}", //
+						"${fes.table}", "${as_fes}", "${lexunits.incorporatedfeid}", "${fes.feid}", //
+						"${fetypes.table}", "${as_fetypes}", "${lexunits.incorporatedfetypeid}", "${as_fes}", "${fetypes.fetypeid}");
 				break;
 
 			case FRAMES_FES_BY_FE:
@@ -323,7 +323,7 @@ public class QV implements Q
 				break;
 
 			case LEXUNITS_SENTENCES_BY_SENTENCE:
-				groupBy = C.SENTENCE + ".sentenceid";
+				groupBy = "${as_sentences}" + ".sentenceid";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 			case LEXUNITS_SENTENCES:
@@ -331,14 +331,14 @@ public class QV implements Q
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"INNER JOIN %s AS %s USING (%s)", //
-						"${lexunits.table}", C.LU, //
+						"${lexunits.table}", "${as_lexunits}", //
 						"${subcorpuses.table}", "${lexunits.luid}", //
 						"${subcorpuses_sentences.table}", "${subcorpuses.subcorpusid}", //
-						"${sentences.table}", C.SENTENCE, "${sentences.sentenceid}");
+						"${sentences.table}", "${as_sentences}", "${sentences.sentenceid}");
 				break;
 
 			case LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS_BY_SENTENCE:
-				groupBy = C.SENTENCE + ".sentenceid";
+				groupBy = "${as_sentences}" + ".sentenceid";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 			case LEXUNITS_SENTENCES_ANNOSETS_LAYERS_LABELS:
@@ -352,10 +352,10 @@ public class QV implements Q
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${lexunits.table}", C.LU, //
+						"${lexunits.table}", "${as_lexunits}", //
 						"${subcorpuses.table}", "${lexunits.luid}", //
 						"${subcorpuses_sentences.table}", "${subcorpuses.subcorpusid}", //
-						"${sentences.table}", C.SENTENCE, "${sentences.sentenceid}", //
+						"${sentences.table}", "${as_sentences}", "${sentences.sentenceid}", //
 						"${annosets.table}", "${sentences.sentenceid}", //
 						"${layers.table}", "${annosets.annosetid}", //
 						"${layertypes.table}", "${layertypes.layertypeid}", //
@@ -419,7 +419,7 @@ public class QV implements Q
 						"${lexunits.table}", // 1
 						"${fegrouprealizations.table}", "${lexunits.luid}", // 2
 						"${grouppatterns.table}", "${fegrouprealizations.fegrid}", // 3
-						//TODO
+						//TODO check
 						"${grouppatterns_patterns.table}", "${grouppatterns.patternid}", // 4
 						"${valenceunits.table}", "${valenceunits.vuid}", // 5
 						"${fetypes.table}", "${fetypes.fetypeid}", // 6
@@ -432,8 +432,8 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
 						"${grouppatterns_annosets.table}", //
-						"${annosets.table}", C.ANNOSET, "${annosets.annosetid}", //
-						"${sentences.table}", C.SENTENCE, "${sentences.sentenceid}");
+						"${annosets.table}", "${as_annosets}", "${annosets.annosetid}", //
+						"${sentences.table}", "${as_sentences}", "${sentences.sentenceid}");
 				break;
 
 			case VALENCEUNITS_SENTENCES:
@@ -441,8 +441,8 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s)", //
 						"${valenceunits_annosets.table}", //
-						"${annosets.table}", C.ANNOSET, "${annosets.annosetid}", //
-						"${sentences.table}", C.SENTENCE, "${sentences.sentenceid}");
+						"${annosets.table}", "${as_annosets}", "${annosets.annosetid}", //
+						"${sentences.table}", "${as_sentences}", "${sentences.sentenceid}");
 				break;
 
 			// L O O K U P

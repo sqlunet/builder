@@ -245,11 +245,19 @@ public class Main
 		//variables.put("MAKEQUERY", "#{query}");
 
 		// column aliases
+		variables.put("_id", "_id");
+		variables.put("name", "name");
 		variables.put("members", "members");
 		variables.put("members2", "members2");
-
 		variables.put("word2", "word2");
+		variables.put("fnid", "fnid");
+		variables.put("isframe", "isframe");
+		variables.put("src_frame", "sf");
+		variables.put("dest_frame", "df");
+
+		// group_concats
 		variables.put("sampleset", "sampleset");
+		variables.put("annotations", "annotations");
 
 		// table aliases
 		variables.put("as_words", "w");
@@ -264,8 +272,17 @@ public class Main
 		variables.put("as_caseds", "c");
 		variables.put("as_members", "m");
 		variables.put("as_examples", "e");
-		variables.put("as_funcs", "f");
-		variables.put("as_args", "a");
+
+		variables.put("as_funcs", "fu");
+		variables.put("as_args", "ar");
+
+		variables.put("as_frames", "fr");
+		variables.put("as_related_frames", "rf");
+		variables.put("as_fes", "fe");
+		variables.put("as_fetypes", "ft");
+		variables.put("as_lexunits", "lu");
+		variables.put("as_sentences", "st");
+		variables.put("as_annosets", "an");
 
 		variables.put("dict.table", "dict");
 
