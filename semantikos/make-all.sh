@@ -75,7 +75,7 @@ echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'
 
 echo -e "${M}I N D I C E S${Z}"
-sqlite3 -init "sqlite-all-indexes.sql" "${db}" .quit
+sqlite3 -init "indexes-all-sqlite.sql" "${db}" .quit
 
 echo -e "${Y}S E A L${Z}"
 ./meta.sh "${db}"
