@@ -7,5 +7,5 @@ ${examples.aspectid} INTEGER NULL,
 ${examples.formid} INTEGER NULL,
 ${examples.tenseid} INTEGER NULL,
 ${examples.voiceid} INTEGER NULL,
-${examples.personid} INTEGER NULL,
-PRIMARY KEY (${examples.exampleid}));
+${examples.personid} INTEGER NULL
+);

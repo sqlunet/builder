@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS ${frames.table} (
     ${frames.framenameid} INTEGER NOT NULL,
     ${frames.framesubnameid} INTEGER NULL,
     ${frames.syntaxid} INTEGER NOT NULL,
-    ${frames.semanticsid} INTEGER NOT NULL,
-PRIMARY KEY (${frames.frameid}));
+    ${frames.semanticsid} INTEGER NOT NULL
+);

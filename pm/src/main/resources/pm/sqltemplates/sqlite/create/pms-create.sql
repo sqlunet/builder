@@ -24,5 +24,5 @@ ${pms.fnframeid} INTEGER DEFAULT NULL,
 ${pms.fnfeid} INTEGER DEFAULT NULL,
 ${pms.fnluid} INTEGER DEFAULT NULL,
 ${pms.fnwordid} INTEGER DEFAULT NULL,
-${pms.wsource} INTEGER DEFAULT NULL,
-PRIMARY KEY (${pms.pmid}));
+${pms.wsource} INTEGER DEFAULT NULL
+);

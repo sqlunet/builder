@@ -5,5 +5,5 @@ ${syntagms.synset1id} INTEGER NULL,
 ${syntagms.word2id} INTEGER NULL,
 ${syntagms.synset2id} INTEGER NULL,
 ${syntagms.sensekey1} VARCHAR (100) NOT NULL,
-${syntagms.sensekey2} VARCHAR (100) NOT NULL,
-PRIMARY KEY (${syntagms.syntagmid}));
+${syntagms.sensekey2} VARCHAR (100) NOT NULL
+);

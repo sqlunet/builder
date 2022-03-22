@@ -5,5 +5,5 @@ ${frames.xtag} VARCHAR (16) NULL,
 ${frames.framenameid} INTEGER NOT NULL,
 ${frames.framesubnameid} INTEGER NULL,
 ${frames.syntaxid} INTEGER NOT NULL,
-${frames.semanticsid} INTEGER NOT NULL,
-PRIMARY KEY (${frames.frameid}));
+${frames.semanticsid} INTEGER NOT NULL
+);

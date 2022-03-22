@@ -1,0 +1,1 @@
+ALTER TABLE ${funcs.table} ADD CONSTRAINT `pk_@{funcs.table}` PRIMARY KEY (${funcs.funcid});

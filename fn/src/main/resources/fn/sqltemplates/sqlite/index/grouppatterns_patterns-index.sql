@@ -1,1 +1,3 @@
-CREATE UNIQUE INDEX `pk_@{grouppatterns_patterns.table}` ON ${grouppatterns_patterns.table} (${grouppatterns_patterns.ferid},${grouppatterns_patterns.patternid},${grouppatterns_patterns.vuid});
+CREATE INDEX `k_@{grouppatterns_patterns.table}_@{grouppatterns_patterns.patternid}` ON ${grouppatterns_patterns.table} (${grouppatterns_patterns.patternid});
+CREATE INDEX `k_@{grouppatterns_patterns.table}_@{grouppatterns_patterns.ferid}` ON ${grouppatterns_patterns.table} (${grouppatterns_patterns.ferid});
+CREATE INDEX `k_@{grouppatterns_patterns.table}_@{grouppatterns_patterns.vuid}` ON ${grouppatterns_patterns.table} (${grouppatterns_patterns.vuid});

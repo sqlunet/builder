@@ -1,0 +1,1 @@
+ALTER TABLE ${forms.table} ADD CONSTRAINT `pk_@{forms.table}` PRIMARY KEY (${forms.formid});

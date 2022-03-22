@@ -1,1 +1,3 @@
-ALTER TABLE ${grouppatterns_patterns.table} ADD CONSTRAINT `pk_@{grouppatterns_patterns.table}` PRIMARY KEY (${grouppatterns_patterns.ferid},${grouppatterns_patterns.patternid},${grouppatterns_patterns.vuid});
+ALTER TABLE ${grouppatterns_patterns.table} ADD KEY `k_@{grouppatterns_patterns.table}_@{grouppatterns_patterns.patternid}` (${grouppatterns_patterns.patternid});
+ALTER TABLE ${grouppatterns_patterns.table} ADD KEY `k_@{grouppatterns_patterns.table}_@{grouppatterns_patterns.ferid}` (${grouppatterns_patterns.ferid});
+ALTER TABLE ${grouppatterns_patterns.table} ADD KEY `k_@{grouppatterns_patterns.table}_@{grouppatterns_patterns.vuid}` (${grouppatterns_patterns.vuid});
