@@ -1,0 +1,1 @@
+ALTER TABLE ${frames.table} ADD CONSTRAINT `pk_@{frames.table}` PRIMARY KEY (${frames.frameid});

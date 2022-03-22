@@ -1,0 +1,1 @@
+ALTER TABLE ${fes_required.table} ADD CONSTRAINT `pk_@{fes_required.table}` PRIMARY KEY (${fes_required.feid},${fes_required.fe2id});

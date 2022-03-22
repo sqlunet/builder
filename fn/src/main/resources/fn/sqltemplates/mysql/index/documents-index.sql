@@ -1,0 +1,1 @@
+ALTER TABLE ${documents.table} ADD CONSTRAINT `pk_@{documents.table}` PRIMARY KEY (${documents.documentid});

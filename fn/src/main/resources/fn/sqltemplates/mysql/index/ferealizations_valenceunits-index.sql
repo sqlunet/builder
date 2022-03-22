@@ -1,0 +1,1 @@
+ALTER TABLE ${ferealizations_valenceunits.table} ADD CONSTRAINT `pk_@{ferealizations_valenceunits.table}` PRIMARY KEY (${ferealizations_valenceunits.ferid},${ferealizations_valenceunits.vuid});

@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS ${sentences.table} (
     ${sentences.sentno} INTEGER,
     ${sentences.text} TEXT,
     ${sentences.apos} INTEGER,
-    ${sentences.noccurs} INTEGER DEFAULT 1,
-PRIMARY KEY (${sentences.sentenceid}) );
+    ${sentences.noccurs} INTEGER DEFAULT 1
+);

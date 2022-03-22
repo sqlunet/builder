@@ -412,15 +412,16 @@ public class QV implements Q
 								"INNER JOIN %s USING (%s) " + // 2
 								"LEFT JOIN %s USING (%s) " + // 3
 								"LEFT JOIN %s USING (%s) " + // 4
-								"LEFT JOIN %s USING (%s) " + // 5
+								"INNER JOIN %s USING (%s,%s) " + // 4 bis, TODO check
+								"INNER JOIN %s USING (%s) " + // 5
 								"LEFT JOIN %s USING (%s) " + // 6
 								"LEFT JOIN %s USING (%s) " + // 7
 								"LEFT JOIN %s USING (%s)", // 8
 						"${lexunits.table}", // 1
 						"${fegrouprealizations.table}", "${lexunits.luid}", // 2
 						"${grouppatterns.table}", "${fegrouprealizations.fegrid}", // 3
-						//TODO check
 						"${grouppatterns_patterns.table}", "${grouppatterns.patternid}", // 4
+						"${ferealizations_valenceunits.table}","${ferealizations.ferid}","${valenceunits.vuid}", // 4 bis, TODO check
 						"${valenceunits.table}", "${valenceunits.vuid}", // 5
 						"${fetypes.table}", "${fetypes.fetypeid}", // 6
 						"${gftypes.table}", "${gftypes.gfid}", // 7

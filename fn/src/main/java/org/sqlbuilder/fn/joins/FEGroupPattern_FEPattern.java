@@ -5,12 +5,14 @@ import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.fn.objects.FERealization;
 import org.sqlbuilder.fn.objects.ValenceUnit;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FEGroupPattern_FEPattern extends Triple<FEGroupPattern, FERealization, ValenceUnit> implements Insertable
 {
-	public static final Set<FEGroupPattern_FEPattern> SET = new HashSet<>();
+	public static final List<FEGroupPattern_FEPattern> LIST = new ArrayList<>();
 
 	// C O N S T R U C T O R
 
@@ -18,7 +20,7 @@ public class FEGroupPattern_FEPattern extends Triple<FEGroupPattern, FERealizati
 	public static FEGroupPattern_FEPattern make(final FEGroupPattern groupPattern, final FERealization fer, final ValenceUnit vu)
 	{
 		var p = new FEGroupPattern_FEPattern(groupPattern, fer, vu);
-		SET.add(p);
+		LIST.add(p);
 		return p;
 	}
 

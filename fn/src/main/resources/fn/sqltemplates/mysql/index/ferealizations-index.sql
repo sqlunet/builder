@@ -1,0 +1,1 @@
+ALTER TABLE ${ferealizations.table} ADD CONSTRAINT `pk_@{ferealizations.table}` PRIMARY KEY (${ferealizations.ferid});

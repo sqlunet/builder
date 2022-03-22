@@ -5,5 +5,5 @@ ${fes.fetypeid} INTEGER DEFAULT NULL,
 ${fes.feabbrev} VARCHAR(24),
 ${fes.fedefinition} TEXT,
 ${fes.coretypeid} INTEGER DEFAULT NULL,
-${fes.coreset} INTEGER DEFAULT NULL,
-PRIMARY KEY (${fes.feid}) );
+${fes.coreset} INTEGER DEFAULT NULL
+);

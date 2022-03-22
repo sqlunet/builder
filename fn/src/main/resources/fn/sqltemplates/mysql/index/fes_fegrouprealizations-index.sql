@@ -1,0 +1,1 @@
+ALTER TABLE ${fes_fegrouprealizations.table} ADD CONSTRAINT `pk_@{fes_fegrouprealizations.table}` PRIMARY KEY (${fes_fegrouprealizations.feid},${fes_fegrouprealizations.fetypeid},${fes_fegrouprealizations.fegrid});

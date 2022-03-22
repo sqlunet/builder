@@ -7,5 +7,5 @@ ${lexunits.ludefinition} TEXT,
 ${lexunits.ludict} CHARACTER,
 ${lexunits.statusid} INTEGER DEFAULT NULL,
 ${lexunits.totalannotated} INTEGER,
-${lexunits.incorporatedfetypeid} INTEGER DEFAULT NULL,
-PRIMARY KEY (${lexunits.luid}) );
+${lexunits.incorporatedfetypeid} INTEGER DEFAULT NULL
+);

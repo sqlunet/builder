@@ -1,0 +1,1 @@
+ALTER TABLE ${cxns.table} ADD CONSTRAINT `pk_@{cxns.table}` PRIMARY KEY (${cxns.cxnid});

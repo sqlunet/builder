@@ -1,0 +1,1 @@
+ALTER TABLE ${grouppatterns.table} ADD CONSTRAINT `pk_@{grouppatterns.table}` PRIMARY KEY (${grouppatterns.patternid});

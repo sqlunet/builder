@@ -6,5 +6,5 @@ ${sentences.paragno} INTEGER,
 ${sentences.sentno} INTEGER,
 ${sentences.text} TEXT,
 ${sentences.apos} INTEGER,
-${sentences.noccurs} INTEGER DEFAULT 1,
-PRIMARY KEY (${sentences.sentenceid}) );
+${sentences.noccurs} INTEGER DEFAULT 1
+);

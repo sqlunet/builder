@@ -1,4 +1,4 @@
 CREATE TABLE IF NOT EXISTS ${layertypes.table} (
 ${layertypes.layertypeid} INTEGER NOT NULL,
-${layertypes.layertype} VARCHAR(6),
-PRIMARY KEY (${layertypes.layertypeid}) );
+${layertypes.layertype} VARCHAR(6)
+);

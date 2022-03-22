@@ -1,0 +1,1 @@
+ALTER TABLE ${governors_annosets.table} ADD CONSTRAINT `pk_@{governors_annosets.table}` PRIMARY KEY (${governors_annosets.governorid},${governors_annosets.annosetid});

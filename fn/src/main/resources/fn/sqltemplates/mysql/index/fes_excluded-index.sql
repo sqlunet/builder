@@ -1,0 +1,1 @@
+ALTER TABLE ${fes_excluded.table} ADD CONSTRAINT `pk_@{fes_excluded.table}` PRIMARY KEY (${fes_excluded.feid},${fes_excluded.fe2id});

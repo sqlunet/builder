@@ -1,0 +1,1 @@
+ALTER TABLE ${valenceunits_annosets.table} ADD CONSTRAINT `pk_@{valenceunits_annosets.table}` PRIMARY KEY (${valenceunits_annosets.vuid},${valenceunits_annosets.annosetid});

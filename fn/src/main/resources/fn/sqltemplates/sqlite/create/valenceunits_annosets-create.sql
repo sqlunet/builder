@@ -1,4 +1,4 @@
 CREATE TABLE IF NOT EXISTS ${valenceunits_annosets.table} (
 ${valenceunits_annosets.vuid} INTEGER NOT NULL,
-${valenceunits_annosets.annosetid} INTEGER NOT NULL,
-PRIMARY KEY (${valenceunits_annosets.vuid},${valenceunits_annosets.annosetid}) );
+${valenceunits_annosets.annosetid} INTEGER NOT NULL
+);

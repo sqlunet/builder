@@ -1,0 +1,1 @@
+ALTER TABLE ${labeltypes.table} ADD CONSTRAINT `pk_@{labeltypes.table}` PRIMARY KEY (${labeltypes.labeltypeid});

@@ -1,0 +1,1 @@
+ALTER TABLE ${layers.table} ADD CONSTRAINT `pk_@{layers.table}` PRIMARY KEY (${layers.layerid});

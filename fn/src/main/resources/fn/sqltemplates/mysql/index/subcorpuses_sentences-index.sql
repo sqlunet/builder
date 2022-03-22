@@ -1,0 +1,1 @@
+ALTER TABLE ${subcorpuses_sentences.table} ADD CONSTRAINT `pk_@{subcorpuses_sentences.table}` PRIMARY KEY (${subcorpuses_sentences.subcorpusid},${subcorpuses_sentences.sentenceid});

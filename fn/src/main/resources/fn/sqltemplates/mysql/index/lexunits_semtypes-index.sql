@@ -1,0 +1,1 @@
+ALTER TABLE ${lexunits_semtypes.table} ADD CONSTRAINT `pk_@{lexunits_semtypes.table}` PRIMARY KEY (${lexunits_semtypes.luid},${lexunits_semtypes.semtypeid});

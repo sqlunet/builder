@@ -1,0 +1,1 @@
+ALTER TABLE ${lexunits_governors.table} ADD CONSTRAINT `pk_@{lexunits_governors.table}` PRIMARY KEY (${lexunits_governors.luid},${lexunits_governors.governorid});

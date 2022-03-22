@@ -5,28 +5,31 @@ import re
 
 # CREATE
 
-c_en1=r'([^\s]+) ENUM \(([^)]+)\)'
+c_en1=r'([^\s]+)\s*ENUM\s*\(([^)]+)\)'
 c_en2=r'\1 CHARACTER (1) CHECK( \1 IN (\2) )'
 
-c_cs1=r'CHARACTER SET utf8\s?'
+c_cs1=r'CHARACTER\s+SET\s+utf8\s*'
 c_cs2=r''
 
-c_bc1=r'COLLATE utf8_bin\s?'
+c_bc1=r'COLLATE\s+utf8_bin\s*'
 c_bc2=r''
 
 c_dcs1=r'DEFAULT\s+CHARSET=utf8mb3'
 c_dcs2=r''
 
-c_uk1=r'UNIQUE KEY\s'
+c_uk1=r'UNIQUE\s+KEY\s'
 c_uk2=r'UNIQUE'
 
 # INDEX
 
-k_k1=r'ALTER TABLE ([^\s]+) ADD KEY ([^\s]+) \(([^)]+)\);'
+k_k1=r'ALTER\s+TABLE\s+([^\s]+)\s+ADD\s+KEY\s+([^\s]+) \(([^)]+)\);'
 k_k2=r'CREATE INDEX \2 ON \1 (\3);'
 
-k_uk1=r'ALTER TABLE ([^\s]+) ADD CONSTRAINT ([^\s]+) UNIQUE KEY \(([^)]+)\);'
+k_uk1=r'ALTER\s+TABLE\s+([^\s]+)\s+ADD\s+CONSTRAINT\s+([^\s]+)\s+UNIQUE KEY\s+\(([^)]+)\);'
 k_uk2=r'CREATE UNIQUE INDEX \2 ON \1 (\3);'
+
+k_pk1=r'ALTER\s+TABLE\s+([^\s]+)\s+ADD\s+CONSTRAINT\s+([^\s]+)\s+PRIMARY KEY\s+\(([^)]+)\);'
+k_pk2=r'CREATE UNIQUE INDEX \2 ON \1 (\3);'
 
 k_l1=r'\([0-9]+\)'
 k_l2=r''
@@ -66,6 +69,7 @@ for line in lines:
 		line=replace(k_l1,k_l2,line)
 		line=replace(k_k1,k_k2,line)
 		line=replace(k_uk1,k_uk2,line)
+		line=replace(k_pk1,k_pk2,line)
 
 	print(line)
 	if dump and line0 != line:

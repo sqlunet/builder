@@ -1,0 +1,1 @@
+ALTER TABLE ${subcorpuses.table} ADD CONSTRAINT `pk_@{subcorpuses.table}` PRIMARY KEY (${subcorpuses.subcorpusid});

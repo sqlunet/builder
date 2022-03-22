@@ -1,0 +1,1 @@
+ALTER TABLE ${grouppatterns_annosets.table} ADD CONSTRAINT `pk_@{grouppatterns_annosets.table}` PRIMARY KEY (${grouppatterns_annosets.patternid},${grouppatterns_annosets.annosetid});

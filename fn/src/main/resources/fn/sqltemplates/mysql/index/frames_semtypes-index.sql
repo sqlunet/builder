@@ -1,0 +1,1 @@
+ALTER TABLE ${frames_semtypes.table} ADD CONSTRAINT `pk_@{frames_semtypes.table}` PRIMARY KEY (${frames_semtypes.frameid},${frames_semtypes.semtypeid});

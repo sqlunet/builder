@@ -1,0 +1,1 @@
+ALTER TABLE ${sentences.table} ADD CONSTRAINT `pk_@{sentences.table}` PRIMARY KEY (${sentences.sentenceid});

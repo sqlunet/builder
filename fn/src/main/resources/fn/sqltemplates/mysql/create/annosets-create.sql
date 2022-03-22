@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS ${annosets.table} (
     ${annosets.sentenceid} INTEGER NOT NULL,
     ${annosets.frameid} INTEGER DEFAULT NULL,
     ${annosets.luid} INTEGER DEFAULT NULL,
-    ${annosets.cxnid} INTEGER DEFAULT NULL,
+    ${annosets.cxnid} INTEGER DEFAULT NULL
     -- ${annosets.statusid} INTEGER DEFAULT NULL,
     -- ${annosets.cdate} VARCHAR(27),
-    -- ${annosets.noccurs} INTEGER DEFAULT 1,
-    PRIMARY KEY (${annosets.annosetid}) );
+    -- ${annosets.noccurs} INTEGER DEFAULT 1
+);

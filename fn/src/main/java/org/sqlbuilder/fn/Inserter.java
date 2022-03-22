@@ -227,9 +227,9 @@ public class Inserter
 								FEGroupPattern_AnnoSet.SET.clear();
 								Progress.traceDone();
 
-								Progress.tracePending("collector", "grouppattern_pattern");
-								Insert.insert(FEGroupPattern_FEPattern.SET, null, new File(outDir, names.file("grouppatterns_patterns")), names.table("grouppatterns_patterns"), names.columns("grouppatterns_patterns"), header);
-								FEGroupPattern_FEPattern.SET.clear();
+								Progress.tracePending("list", "grouppattern_pattern");
+								Insert.insert(FEGroupPattern_FEPattern.LIST, new File(outDir, names.file("grouppatterns_patterns")), names.table("grouppatterns_patterns"), names.columns("grouppatterns_patterns"), header);
+								FEGroupPattern_FEPattern.LIST.clear();
 								Progress.traceDone();
 
 								Progress.tracePending("collector", "valenceunit_annoset");

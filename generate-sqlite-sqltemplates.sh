@@ -14,7 +14,7 @@ for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
   templates_home="src/main/resources/${m}/sqltemplates"
 
-  for op in create index anchor cleanup; do
+  for op in create index anchor; do
     if [ ! -e "${m}/${templates_home}/mysql/${op}" ];then
       continue
     fi
