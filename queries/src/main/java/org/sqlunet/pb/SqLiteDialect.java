@@ -12,57 +12,57 @@ class SqLiteDialect
 	// ROLE SETS
 	// query for role set from role set id
 	static final String PropBankRoleSetQuery = //
-			"SELECT rolesetid, rolesetname, rolesethead, rolesetdescr " + //
-					"FROM pbrolesets " + //
-					"WHERE rolesetid = ? ;";
+			"SELECT ${rolesets.rolesetid}, ${rolesets.rolesetname}, ${rolesets.rolesethead}, ${rolesets.rolesetdescr} " + //
+					"FROM ${rolesets.table} " + //
+					"WHERE ${rolesets.rolesetid} = ? ;";
 	// query for role set from word
 	static final String PropBankRoleSetQueryFromWord = //
-			"SELECT wordid, rolesetid, rolesetname, rolesethead, rolesetdescr " + //
-					"FROM words AS w " + //
-					"INNER JOIN pbwords USING (wordid) " + //
-					"LEFT JOIN pbrolesets USING (pbwordid) " + //
-					"WHERE w.lemma = ? ";
+			"SELECT ${wnwords.wordid}, ${rolesets.rolesetid}, ${rolesets.rolesetname}, ${rolesets.rolesethead}, ${rolesets.rolesetdescr} " + //
+					"FROM ${wnwords.table} AS ${as_words} " + //
+					"INNER JOIN ${words.table} USING (${wnwords.wordid}) " + //
+					"LEFT JOIN ${rolesets.table} USING (${words.pbwordid}) " + //
+					"WHERE ${as_words}.${wnwords.word} = ? ";
 	// query for role set from word id
 	static final String PropBankRoleSetQueryFromWordId = //
-			"SELECT rolesetid, rolesetname, rolesethead, rolesetdescr " + //
-					"FROM words " + //
-					"INNER JOIN pbwords USING (wordid) " + //
-					"INNER JOIN pbrolesets USING (pbwordid) " + //
-					"WHERE wordid = ? ;";
+			"SELECT ${rolesets.rolesetid}, ${rolesets.rolesetname}, ${rolesets.rolesethead}, ${rolesets.rolesetdescr} " + //
+					"FROM ${wnwords.table} " + //
+					"INNER JOIN ${words.table} USING (${wnwords.wordid}) " + //
+					"INNER JOIN ${rolesets.table} USING (${words.pbwordid}) " + //
+					"WHERE ${wnwords.wordid} = ? ;";
 
 	// ROLES
 	// query for roles
 	static final String PropBankRolesQueryFromRoleSetId = //
-			"SELECT roleid,roledescr,narg,funcname,thetaname " + //
-					"FROM pbrolesets " + //
-					"INNER JOIN pbroles USING (rolesetid) " + //
-					"LEFT JOIN pbfuncs USING (func) " + //
-					"LEFT JOIN pbvnthetas USING (theta) " + //
-					"WHERE rolesetid = ? " + //
-					"ORDER BY narg;";
+			"SELECT ${roles.roleid},${roles.roledescr},${argns.nargid},${funcs.func},${thetas.thetaid} " + //
+					"FROM ${rolesets.table} " + //
+					"INNER JOIN ${roles.table} USING (${rolesets.rolesetid}) " + //
+					"LEFT JOIN ${funcs.table} USING (${funcs.funcid}) " + //
+					"LEFT JOIN ${thetas.table} USING (${thetas.theta}) " + //
+					"WHERE ${rolesets.rolesetid} = ? " + //
+					"ORDER BY ${argns.nargid};";
 
 	// EXAMPLES
 	// query for examples rel(n~arg|n~arg|..)
 	static final String PropBankExamplesQueryFromRoleSetId = //
-			"SELECT exampleid,text,rel,GROUP_CONCAT(narg||'~'||" + //
-					"(CASE WHEN funcname IS NULL THEN '*' ELSE funcname END)||'~'||" + //
-					"roledescr||'~'||" + //
-					"(CASE WHEN thetaname IS NULL THEN '*' ELSE thetaname END)||'~'||" + //
-					"arg,'|')," + //
-					"aspectname,formname,tensename,voicename,personname " + //
-					"FROM pbrolesets " + //
-					"INNER JOIN pbexamples AS e USING (rolesetid) " + //
-					"LEFT JOIN pbrels AS r USING (exampleid) " + //
-					"LEFT JOIN pbargs AS a USING (exampleid) " + //
-					"LEFT JOIN pbfuncs AS f ON (a.func = f.func) " + //
-					"LEFT JOIN pbaspects USING (aspect) " + //
-					"LEFT JOIN pbforms USING (form) " + //
-					"LEFT JOIN pbtenses USING (tense) " + //
-					"LEFT JOIN pbvoices USING (voice) " + //
-					"LEFT JOIN pbpersons USING (person) " + //
-					"LEFT JOIN pbroles USING (rolesetid,narg) " + //
-					"LEFT JOIN pbvnthetas USING (theta) " + //
-					"WHERE rolesetid = ? " + //
-					"GROUP BY e.exampleid " + //
-					"ORDER BY e.exampleid,narg;";
+			"SELECT ${examples.exampleid},${examples.text},${rels.rel},GROUP_CONCAT(${args.arg}||'~'||" + //
+					"(CASE WHEN ${funcs.func} IS NULL THEN '*' ELSE ${funcs.func} END)||'~'||" + //
+					"${roles.roledescr}||'~'||" + //
+					"(CASE WHEN ${thetas.theta} IS NULL THEN '*' ELSE ${thetas.theta} END)||'~'||" + //
+					"${args.arg},'|')," + //
+					"${aspects.aspect},${forms.form},${tenses.tense},${voices.voice},${persons.person} " + //
+					"FROM ${rolesets.table} " + //
+					"INNER JOIN ${examples.table} AS ${as_examples} USING (${rolesets.rolesetid}) " + //
+					"LEFT JOIN ${rels.table} AS ${as_relations} USING (${examples.exampleid}) " + //
+					"LEFT JOIN ${args.table} AS ${as_args} USING (${examples.exampleid}) " + //
+					"LEFT JOIN ${funcs.table} AS ${as_funcs} ON (${as_args}.${funcs.func} = ${as_funcs}.${funcs.func}) " + //
+					"LEFT JOIN ${aspects.table} USING (${aspects.aspect}) " + //
+					"LEFT JOIN ${forms.table} USING (${forms.form}) " + //
+					"LEFT JOIN ${tenses.table} USING (${tenses.tense}) " + //
+					"LEFT JOIN ${voices.table} USING (${voices.voice}) " + //
+					"LEFT JOIN ${persons.table} USING (${persons.person}) " + //
+					"LEFT JOIN ${roles.table} USING (${rolesets.rolesetid},${args.argid}) " + //
+					"LEFT JOIN ${thetas.table} USING (${thetas.theta}) " + //
+					"WHERE ${rolesets.rolesetid} = ? " + //
+					"GROUP BY ${as_examples}.${examples.exampleid} " + //
+					"ORDER BY ${as_examples}.${examples.exampleid},${args.arg};";
 }

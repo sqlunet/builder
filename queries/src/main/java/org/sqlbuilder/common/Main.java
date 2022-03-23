@@ -249,15 +249,25 @@ public class Main
 		variables.put("name", "name");
 		variables.put("members", "members");
 		variables.put("members2", "members2");
+		variables.put("word1", "word1");
 		variables.put("word2", "word2");
+		variables.put("pos1", "pos1");
+		variables.put("pos2", "pos2");
+		variables.put("definition1", "definition1");
+		variables.put("definition2", "definition2");
 		variables.put("fnid", "fnid");
 		variables.put("isframe", "isframe");
 		variables.put("src_frame", "sf");
 		variables.put("dest_frame", "df");
+		variables.put("nullsynset", "nullsynset");
+		variables.put("incorporatedfe","incorporatedfe");
+		variables.put("iscorefe","iscorefe");
+		variables.put("governor","governor");
 
 		// group_concats
 		variables.put("sampleset", "sampleset");
 		variables.put("annotations", "annotations");
+		variables.put("groupings", "groupings");
 
 		// table aliases
 		variables.put("as_words", "w");
@@ -285,6 +295,7 @@ public class Main
 		variables.put("as_lexunits", "lu");
 		variables.put("as_sentences", "st");
 		variables.put("as_annosets", "an");
+		variables.put("as_annosets2", "an2");
 
 		variables.put("dict.table", "dict");
 

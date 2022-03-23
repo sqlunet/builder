@@ -1,9 +1,9 @@
 package org.sqlunet.vn;
 public class V {
 static public class Synsets {
-static public final String TABLE = "${synsets.table}";
-static public final String SYNSETID = "${synsets.synsetid}";
-static public final String DEFINITION = "${synsets.definition}";
+static public final String TABLE = "${wnsynsets.table}";
+static public final String SYNSETID = "${wnsynsets.synsetid}";
+static public final String DEFINITION = "${wnsynsets.definition}";
 }
 static public class Words {
 static public final String TABLE = "${wnwords.table}";

@@ -47,7 +47,7 @@ public class QV implements Q
 				break;
 
 			case SYNSETS:
-				table = "${synsets.table}";
+				table = "${wnsynsets.table}";
 				break;
 
 			case VNCLASS:
@@ -100,7 +100,7 @@ public class QV implements Q
 						"${words.table}", "${words.vnwordid}", //
 						"${members_groupings.table}", "${members.classid}", "${members.vnwordid}", //
 						"${groupings.table}", "${groupings.groupingid}", //
-						"${synsets.table}", "${synsets.synsetid}");
+						"${wnsynsets.table}", "${wnsynsets.synsetid}");
 				groupBy = "${words.vnwordid}";
 				break;
 

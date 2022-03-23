@@ -14,83 +14,81 @@ class SqLiteDialect
 	// CLASS
 	// query for verbnet class
 	static final String VerbNetClassQuery = //
-			"SELECT classid, class, GROUP_CONCAT(grouping, '|') AS groupings " + //
-					"FROM vnclasses " + //
-					"LEFT JOIN vngroupingmaps USING (classid) " + //
-					"LEFT JOIN vngroupings USING (groupingid) " + //
-					"WHERE classid = ? ";
+			"SELECT ${classes.classid}, ${classes.class}, GROUP_CONCAT(${groupings.grouping}, '|') AS ${groupings} " + //
+					"FROM ${classes.table} " + //
+					"LEFT JOIN ${members_groupings.table} USING (${classes.classid}) " + //
+					"LEFT JOIN ${groupings.table} USING (${groupings.groupingid}) " + //
+					"WHERE ${classes.classid} = ? ";
 	// query for verbnet class from word and pos
 	static final String VerbNetClassQueryFromWordAndPos = //
-			"SELECT wordid, (synsetid IS NULL) AS nullsynset, synsetid, definition, lexdomainid, classid, class, classtag " + //
-					"FROM words AS w " + //
-					"INNER JOIN vnwords USING (wordid) " + //
-					"LEFT JOIN vnclassmembersenses USING (vnwordid) " + //
-					"LEFT JOIN synsets USING (synsetid) " + //
-					"LEFT JOIN vnclasses USING (classid) " + //
-					"WHERE pos = 'v' AND w.lemma = ? " + //
-					"GROUP BY wordid, synsetid " + //
-					"ORDER BY lexdomainid,synsetid,nullsynset ASC;";
+			"SELECT ${wnwords.wordid}, (${wnsynsets.synsetid} IS NULL) AS ${nullsynset}, ${wnsynsets.synsetid}, ${wnsynsets.definition}, ${wnsynsets.domainid}, ${classes.classid}, ${classes.class}, ${classes.classtag} " + //
+					"FROM ${wnwords.table} AS ${as_words} " + //
+					"INNER JOIN ${words.table} USING (${wnwords.wordid}) " + //
+					"LEFT JOIN ${members_senses.table} USING (${words.vnwordid}) " + //
+					"LEFT JOIN ${wnsynsets.table} USING (${wnsynsets.synsetid}) " + //
+					"LEFT JOIN ${classes.table} USING (${classes.classid}) " + //
+					"WHERE ${wnsynsets.posid} = 'v' AND ${as_words}.${wnwords.word} = ? " + //
+					"GROUP BY ${wnwords.wordid}, ${wnsynsets.synsetid} " + //
+					"ORDER BY ${wnsynsets.domainid},${wnsynsets.synsetid},${nullsynset} ASC;";
 	// query for verbnet class from sense
 	static final String VerbNetClassQueryFromSense = //
-			"SELECT classid, class, (synsetid IS NULL) AS nullsynset, definition, sensenum, sensekey, quality, GROUP_CONCAT(grouping, '|') AS groupings " + //
-					"FROM words " + //
-					"INNER JOIN vnwords USING (wordid) " + //
-					"INNER JOIN vnclassmembersenses USING (vnwordid) " + //
-					"LEFT JOIN vnclasses USING (classid) " + //
-					"LEFT JOIN vngroupingmaps USING (classid, vnwordid) " + //
-					"LEFT JOIN vngroupings USING (groupingid) " + //
-					"LEFT JOIN synsets USING (synsetid) " + //
-					"WHERE wordid = ? AND (synsetid = ? OR synsetid IS NULL) " + //
-					"GROUP BY classid;";
+			"SELECT ${classes.classid}, ${classes.class}, (${wnsynsets.synsetid} IS NULL) AS ${nullsynset}, ${wnsynsets.definition}, ${members_senses.sensenum}, ${members_senses.sensekey}, ${members_senses.quality}, GROUP_CONCAT(${groupings.grouping}, '|') AS ${groupings} " + //
+					"FROM ${wnwords.table} " + //
+					"INNER JOIN ${words.table} USING (${wnwords.wordid}) " + //
+					"INNER JOIN ${members_senses.table} USING (${words.vnwordid}) " + //
+					"LEFT JOIN ${classes.table} USING (${classes.classid}) " + //
+					"LEFT JOIN ${members_groupings.table} USING (${classes.classid}, ${words.vnwordid}) " + //
+					"LEFT JOIN ${groupings.table} USING (${groupings.groupingid}) " + //
+					"LEFT JOIN ${wnsynsets.table} USING (${wnsynsets.synsetid}) " + //
+					"WHERE ${wnwords.wordid} = ? AND (${wnsynsets.synsetid} = ? OR ${wnsynsets.synsetid} IS NULL) " + //
+					"GROUP BY ${classes.classid};";
 
 	// ROLES
 	// query for verbnet roles
 	static final String VerbNetThematicRolesQueryFromClassId = //
-			"SELECT roleid, roletypeid, roletype, restrs, classid " + //
-					"FROM vnrolemaps " + //
-					"INNER JOIN vnroles USING (roleid) " + //
-					"INNER JOIN vnroletypes USING (roletypeid) " + //
-					"LEFT JOIN vnrestrs USING (restrsid) " + //
-					"WHERE classid = ?;";
+			"SELECT ${roles.roleid}, ${roletypes.roletypeid}, ${roletypes.roletype}, ${restrs.restrs}, ${classes.classid} " + //
+					"FROM ${roles.table} " + //
+					"INNER JOIN ${roletypes.table} USING (${roletypes.roletypeid}) " + //
+					"LEFT JOIN ${restrs.table} USING (${restrs.restrsid}) " + //
+					"WHERE ${classes.classid} = ?;";
 	static final String VerbNetThematicRolesQueryFromClassIdAndSense = //
-			"SELECT roleid, roletypeid, roletype, restrs,classid, (synsetid IS NULL) AS nullsynset, wordid, synsetid, quality " + //
-					"FROM words " + //
-					"INNER JOIN vnwords USING (wordid) " + //
-					"LEFT JOIN vnclassmembersenses USING (vnwordid) " + //
-					"INNER JOIN vnrolemaps USING (classid) " + //
-					"INNER JOIN vnroles USING (roleid) " + //
-					"INNER JOIN vnroletypes USING (roletypeid) " + //
-					"LEFT JOIN vnrestrs USING (restrsid) " + //
-					"WHERE classid = ? AND wordid = ? AND (synsetid = ? OR synsetid IS NULL) " + //
-					"ORDER BY nullsynset ASC,roletypeid ASC;";
+			"SELECT ${roles.roleid}, ${roletypes.roletypeid}, ${roletypes.roletype}, ${restrs.restrs}, ${classes.classid}, (${wnsynsets.synsetid} IS NULL) AS ${nullsynset}, ${wnwords.wordid}, ${wnsynsets.synsetid}, ${members_senses.quality} " + //
+					"FROM ${wnwords.table} " + //
+					"INNER JOIN ${words.table} USING (${wnwords.wordid}) " + //
+					"LEFT JOIN ${members_senses.table} USING (${words.vnwordid}) " + //
+					"INNER JOIN ${roles.table} USING (${classes.classid}) " + //
+					"INNER JOIN ${roletypes.table} USING (${roletypes.roletypeid}) " + //
+					"LEFT JOIN ${restrs.table} USING (${restrs.restrsid}) " + //
+					"WHERE ${classes.classid} = ? AND ${wnwords.wordid} = ? AND (${wnsynsets.synsetid} = ? OR ${wnsynsets.synsetid} IS NULL) " + //
+					"ORDER BY ${nullsynset} ASC,${roletypes.roletypeid} ASC;";
 
 	// FRAMES
 	// query for verbnet frames
 	static final String VerbNetFramesQueryFromClassId = //
-			"SELECT frameid, number, xtag, framename, framesubname, syntax, semantics, GROUP_CONCAT(example , '|') AS exampleset, classid " + //
-					"FROM vnframemaps  " + //
-					"INNER JOIN vnframes USING (frameid) " + //
-					"LEFT JOIN vnframenames USING (nameid)  " + //
-					"LEFT JOIN vnframesubnames USING (subnameid) " + //
-					"LEFT JOIN vnsyntaxes USING (syntaxid)  " + //
-					"LEFT JOIN vnsemantics USING (semanticsid) " + //
-					"LEFT JOIN vnexamplemaps USING (frameid)  " + //
-					"LEFT JOIN vnexamples USING (exampleid)  " + //
-					"WHERE classid = ?;";
+			"SELECT ${frames.frameid}, ${frames.number}, ${frames.xtag}, ${framenames.framename}, ${framesubnames.framesubname}, ${syntaxes.syntax}, ${semantics.semantics}, GROUP_CONCAT(${examples.example} , '|') AS ${sampleset}, ${classes.classid} " + //
+					"FROM ${classes_frames.table}  " + //
+					"INNER JOIN ${frames.table} USING (${frames.frameid}) " + //
+					"LEFT JOIN ${framenames.table} USING (${framenames.framenameid})  " + //
+					"LEFT JOIN ${framesubnames.table} USING (${framesubnames.framesubnameid}) " + //
+					"LEFT JOIN ${syntaxes.table} USING (${syntaxes.syntaxid})  " + //
+					"LEFT JOIN ${semantics.table} USING (${semantics.semanticsid}) " + //
+					"LEFT JOIN ${frames_examples.table} USING (${frames.frameid})  " + //
+					"LEFT JOIN ${examples.table} USING (${examples.exampleid})  " + //
+					"WHERE ${classes.classid} = ?;";
 	static final String VerbNetFramesQueryFromClassIdAndSense = //
-			"SELECT frameid, number, xtag, framename, framesubname, syntax, semantics, GROUP_CONCAT(example , '|') AS exampleset,classid,(synsetid IS NULL) AS nullsynset,synsetid,wordid,quality " + //
-					"FROM words " + //
-					"INNER JOIN vnwords USING (wordid) " + //
-					"LEFT JOIN vnclassmembersenses USING (vnwordid) " + //
-					"INNER JOIN vnframemaps USING (classid) " + //
-					"INNER JOIN vnframes USING (frameid) " + //
-					"LEFT JOIN vnframenames USING (nameid) " + //
-					"LEFT JOIN vnframesubnames USING (subnameid) " + //
-					"LEFT JOIN vnsyntaxes USING (syntaxid) " + //
-					"LEFT JOIN vnsemantics USING (semanticsid) " + //
-					"LEFT JOIN vnexamplemaps USING (frameid) " + //
-					"LEFT JOIN vnexamples USING (exampleid) " + //
-					"WHERE classid = ? AND wordid = ? AND (synsetid = ? OR synsetid IS NULL) " + //
-					"GROUP BY frameid " + //
-					"ORDER BY nullsynset ASC,frameid ASC;";
+			"SELECT ${frames.frameid}, ${frames.number}, ${frames.xtag}, ${framenames.framename}, ${framesubnames.framesubname}, ${syntaxes.syntax}, ${semantics.semantics}, GROUP_CONCAT(${examples.example} , '|') AS ${sampleset},${classes.classid},(${wnsynsets.synsetid} IS NULL) AS ${nullsynset},${wnsynsets.synsetid},${wnwords.wordid},${members_senses.quality} " + //
+					"FROM ${wnwords.table} " + //
+					"INNER JOIN ${words.table} USING (${wnwords.wordid}) " + //
+					"LEFT JOIN ${members_senses.table} USING (${words.vnwordid}) " + //
+					"INNER JOIN ${classes_frames.table} USING (${classes.classid}) " + //
+					"INNER JOIN ${frames.table} USING (${frames.frameid}) " + //
+					"LEFT JOIN ${framenames.table} USING (${framenames.framenameid}) " + //
+					"LEFT JOIN ${framesubnames.table} USING (${framesubnames.framesubnameid}) " + //
+					"LEFT JOIN ${syntaxes.table} USING (${syntaxes.syntaxid}) " + //
+					"LEFT JOIN ${semantics.table} USING (${semantics.semanticsid}) " + //
+					"LEFT JOIN ${frames_examples.table} USING (${frames.frameid}) " + //
+					"LEFT JOIN ${examples.table} USING (${examples.exampleid}) " + //
+					"WHERE ${classes.classid} = ? AND ${wnwords.wordid} = ? AND (${wnsynsets.synsetid} = ? OR ${wnsynsets.synsetid} IS NULL) " + //
+					"GROUP BY ${frames.frameid} " + //
+					"ORDER BY ${nullsynset} ASC,${frames.frameid} ASC;";
 }
