@@ -125,7 +125,7 @@ public class Q0 implements Q
 						"LEFT JOIN lexdomains AS " + C.AS_DOMAIN + " USING(lexdomainid)";
 				break;
 
-			case "BASERELATIONS_SENSES_WORDS_X_BY_SYNSET":
+			case "ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET":
 			{
 				final String table1 = "semlinks";
 				final String table2 = "lexlinks";
@@ -142,11 +142,11 @@ public class Q0 implements Q
 						LexRelations.SYNSET2ID, //
 				};
 				final String[] unionProjection = { //
-						BaseRelations.RELATIONID, //
-						BaseRelations.WORD1ID, //
-						BaseRelations.SYNSET1ID, //
-						BaseRelations.WORD2ID, //
-						BaseRelations.SYNSET2ID, //
+						AllRelations.RELATIONID, //
+						AllRelations.WORD1ID, //
+						AllRelations.SYNSET1ID, //
+						AllRelations.WORD2ID, //
+						AllRelations.SYNSET2ID, //
 				};
 				groupBy = TARGET_SYNSETID + " , " + C.AS_TYPE + " , link, linkid, " + TARGET_WORDID + ',' + TARGET_LEMMA;
 				table = "( " + "MAKEQUERY" + " ) AS " + C.AS_RELATION + ' ' + //

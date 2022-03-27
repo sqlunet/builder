@@ -6,20 +6,20 @@ static public final String POSITION = "${adjpositions.position}";
 static public final String POSITIONID = "${adjpositions.positionid}";
 static public final String TABLE = "${adjpositions.table}";
 }
-static public class BaseRelations {
-static public final String RELATIONID = "${baserelations.relationid}";
-static public final String SYNSET1ID = "${baserelations.synset1id}";
-static public final String SYNSET2ID = "${baserelations.synset2id}";
-static public final String TABLE = "${baserelations.table}";
-static public final String WORD1ID = "${baserelations.word1id}";
-static public final String WORD2ID = "${baserelations.word2id}";
+static public class AllRelations{
+static public final String RELATIONID = "${allrelations.relationid}";
+static public final String SYNSET1ID = "${allrelations.synset1id}";
+static public final String SYNSET2ID = "${allrelations.synset2id}";
+static public final String TABLE = "${allrelations.table}";
+static public final String WORD1ID = "${allrelations.word1id}";
+static public final String WORD2ID = "${allrelations.word2id}";
 }
-static public class BaseRelations_Senses_Words_X {
-static public final String MEMBERS2 = "${baserelations_senses_words_x.members2}";
-static public final String RECURSES = "${baserelations_senses_words_x.recurses}";
-static public final String SYNSET1ID = "${baserelations_senses_words_x.synset1id}";
-static public final String SYNSET2ID = "${baserelations_senses_words_x.synset2id}";
-static public final String TABLE_BY_SYNSET = "${baserelations_senses_words_x.table_by_synset}";
+static public class AllRelations_Senses_Words_X {
+static public final String MEMBERS2 = "${allrelations_senses_words_x.members2}";
+static public final String RECURSES = "${allrelations_senses_words_x.recurses}";
+static public final String SYNSET1ID = "${allrelations_senses_words_x.synset1id}";
+static public final String SYNSET2ID = "${allrelations_senses_words_x.synset2id}";
+static public final String TABLE_BY_SYNSET = "${allrelations_senses_words_x.table_by_synset}";
 }
 static public class CasedWords {
 static public final String CASED = "${casedwords.cased}";

@@ -68,7 +68,7 @@ public class C
 		static public final String DEFINITION = "definition";
 	}
 
-	static public final class BaseRelations
+	static public final class AllRelations
 	{
 		static public final String TABLE = "synsets_synsets";
 		static public final String CONTENT_URI_TABLE = SemRelations.TABLE;
@@ -241,10 +241,10 @@ public class C
 		// synsets LEFT JOIN poses LEFT JOIN domains
 	}
 
-	static public final class BaseRelations_Senses_Words_X
+	static public final class AllRelations_Senses_Words_X
 	{
-		static public final String TABLE_BY_SYNSET = "baserelations_senses_relations_senses_words_by_synset";
-		static public final String CONTENT_URI_TABLE = BaseRelations_Senses_Words_X.TABLE_BY_SYNSET;
+		static public final String TABLE_BY_SYNSET = "allrelations_senses_relations_senses_words_by_synset";
+		static public final String CONTENT_URI_TABLE = AllRelations_Senses_Words_X.TABLE_BY_SYNSET;
 		static public final String SYNSET1ID = "synset1id";
 		static public final String SYNSET2ID = "synset2id";
 		static public final String MEMBERS2 = "members";

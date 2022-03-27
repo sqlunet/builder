@@ -197,10 +197,10 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
 						SUBQUERY, "${as_relations}", // 1
 						"${relations.table}", "${relations.relationid}", // 2
-						"${synsets.table}", "${as_synsets2}", "${as_relations}", "${baserelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
+						"${synsets.table}", "${as_synsets2}", "${as_relations}", "${allrelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
 						"${senses.table}", "${as_synsets2}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
 						"${words.table}", "${as_words}", "${words.wordid}", //
-						"${words.table}", "${as_words2}", "${as_relations}", "${baserelations.word2id}", "${as_words2}", "${words.wordid}");
+						"${words.table}", "${as_words2}", "${as_relations}", "${allrelations.word2id}", "${as_words2}", "${words.wordid}");
 				selection = null;
 				groupBy = String.format("%s,%s,%s,%s,%s,%s", "${synset2id}", "${relationtype}", "${relations.relation}", "${relations.relationid}", "${word2id}", "${word2}");
 			}

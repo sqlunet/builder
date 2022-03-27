@@ -125,7 +125,7 @@ public class Q1 implements Q
 						"LEFT JOIN "+C.Domains.TABLE +" AS " + C.AS_DOMAIN + " USING (domainid)";
 				break;
 
-			case "BASERELATIONS_SENSES_WORDS_X_BY_SYNSET":
+			case "ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET":
 			{
 				groupBy = TARGET_SYNSETID + "," + C.AS_TYPE + ",relation,relationid," + TARGET_WORDID + "," + TARGET_WORD;
 				table = "( " + "MAKEQUERY" + " ) AS " + C.AS_RELATION + ' ' + //
