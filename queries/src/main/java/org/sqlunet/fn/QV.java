@@ -93,7 +93,7 @@ public class QV implements Q
 						"${lexunits.table}", "${as_lexunits}", "${lexunits.luid}", // 5
 						"${frames.table}", "${as_frames}", "${frames.frameid}", // 6
 						// 7
-						"${frames.frameid}", "${_id}", "${frames.frameid}", "${fnid}", "${words.fnwordid}", "${words.wordid}", "${frames.frame}", "${words.word}", "${frames.frame}", "${frames.frame}", "${frames.frame}", "${frames.frame}", "${frames.frameid}", "${frames.frameid}", "${isframe}", // 8
+						"${frames.frameid}", "${_id}", "${frames.frameid}", "${fnid}", "${words.fnwordid}", "${words.wordid}", "${frames.frame}", "${words.word}", "${frames.frame}", "${frames.frame}", "${frames.name}", "${frames.frame}", "${frames.frameid}", "${frames.frameid}", "${isframe}", // 8
 						"${frames.table}"); // 9
 				break;
 
@@ -153,8 +153,8 @@ public class QV implements Q
 						"${annosets.annosetid}", "${sentences.sentenceid}", "${layers.layerid}", "${layertypes.layertype}", "${layers.rank}", // 1
 						"${labels.start}", // 2
 						"${labels.end}", // 3
-						"${labeltypes.table}", // 4
-						"${labelitypes.table}", "${labelitypes.labelitype}", // 5
+						"${labeltypes.labeltype}", // 4
+						"${labelitypes.labelitype}", "${labelitypes.labelitype}", // 5
 						"${labels.bgcolor}", "${labels.bgcolor}", // 6
 						"${labels.fgcolor}", "${labels.fgcolor}", "${annotations}", // 7
 						"${sentences.table}", // 8
@@ -293,9 +293,9 @@ public class QV implements Q
 								"LEFT JOIN %s AS %s ON (%s.%s = %s.%s) " + //
 								"LEFT JOIN %s AS %s ON (%s = %s) " + //
 								"LEFT JOIN %s AS %s ON (%s = %s.%s)", //
-						"${words.table}", //
+						"${wnwords.table}", //
 						"${words.table}", "${words.wordid}", //
-						"${lexemes.table}", "${words.wordid}", //
+						"${lexemes.table}", "${words.fnwordid}", //
 						"${lexunits.table}", "${as_lexunits}", "${lexunits.luid}", //
 						"${frames.table}", "${frames.frameid}", //
 						"${poses.table}", "${as_poses}", "${as_lexunits}", "${poses.posid}", "${as_poses}", "${poses.posid}", //
@@ -372,7 +372,7 @@ public class QV implements Q
 						"${lexunits.table}", //
 						"${lexunits_governors.table}", "${lexunits.luid}", //
 						"${governors.table}", "${governors.governorid}", //
-						"${words.table}", "${words.wordid}");
+						"${words.table}", "${words.fnwordid}");
 				break;
 
 			case GOVERNORS_ANNOSETS:
@@ -476,9 +476,9 @@ public class QV implements Q
 			case SUGGEST_WORDS:
 			{
 				table = "${words.table}";
-				projection = new String[]{String.format("%s AS _id", "${words.wordid}"), //
-						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
-						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_QUERY")};
+				projection = new String[]{String.format("%s AS _id", "${words.fnwordid}"), //
+						String.format("%s AS %s", "${words.word}", "#{suggest_text_1}}"), //
+						String.format("%s AS %s", "${words.word}", "#{suggest_query}")};
 				selection = String.format("%s LIKE ? || '%%'", "${words.word}");
 				selectionArgs = new String[]{String.format("%s", last)};
 				break;
@@ -487,9 +487,9 @@ public class QV implements Q
 			case SUGGEST_FTS_WORDS:
 			{
 				table = String.format("%s_%s_fts4", "${words.table}", "${words.word}");
-				projection = new String[]{String.format("%s AS _id", "${words.wordid}"), //
-						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_TEXT_1"), //
-						String.format("%s AS %s", "${words.word}", "SearchManager.SUGGEST_COLUMN_QUERY")};
+				projection = new String[]{String.format("%s AS _id", "${words.fnwordid}"), //
+						String.format("%s AS %s", "${words.word}", "#{suggest_text_1}"), //
+						String.format("%s AS %s", "${words.word}", "#{suggest_query}")};
 				selection = String.format("%s MATCH ?", "${words.word}");
 				selectionArgs = new String[]{String.format("%s*", last)};
 				break;

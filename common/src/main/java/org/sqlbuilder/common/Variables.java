@@ -8,9 +8,12 @@ import org.sqlbuilder2.ser.Pair;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Variable substitution
@@ -44,6 +47,33 @@ public class Variables
 	 *
 	 * @param input input
 	 */
+	public static void dumpVars(File input, Consumer<String> consumer) throws IOException
+	{
+		Pattern p = Pattern.compile("[$@]\\{([a-zA-Z0-9_.]+)}");
+		try (Stream<String> stream = Files.lines(input.toPath()))
+		{
+			stream //
+					.flatMap(line -> {
+						List<String> vars = new ArrayList<>();
+						Matcher m = p.matcher(line);
+						while (m.find())
+						{
+							String varName = m.group(1);
+							vars.add(varName);
+						}
+						return vars.stream();
+					})
+					.sorted()
+					.distinct()
+					.forEach(consumer);
+		}
+	}
+
+	/**
+	 * Scan input and produces list on stderr with same value
+	 *
+	 * @param input input
+	 */
 	public static void dumpVars(String input)
 	{
 		Pattern p = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
@@ -51,7 +81,7 @@ public class Variables
 		if (m.find())
 		{
 			String varName = m.group(1);
-			System.err.printf("%s=%s%n", varName, varName);
+			System.err.printf("%s%n", varName);
 		}
 	}
 
@@ -60,7 +90,7 @@ public class Variables
 	 */
 	public void dumpVals(final PrintStream ps)
 	{
-		toValue.entrySet().stream().forEach(ps::println);
+		toValue.entrySet().forEach(ps::println);
 	}
 
 	/**
@@ -68,13 +98,9 @@ public class Variables
 	 */
 	public void export(final PrintStream ps)
 	{
-		toValue.keySet().stream()
-				.map(k->new Pair<>(k, k.contains(".") ? k.substring(k.lastIndexOf('.')+1) : k))
-				.filter(kk->!Set.of("table","file","columns","resolved").contains(kk.getSecond()))
-				.sorted(Comparator.comparing(Pair<String,String>::getSecond))
-				.map(kk->String.format("public static final String %s=\"%s\";", kk.getSecond().toUpperCase(Locale.ROOT), toValue.get(kk.getFirst())))
-				.distinct()
-				.forEach(ps::println);
+		toValue.keySet().stream().map(k -> new Pair<>(k, k.contains(".") ?
+				k.substring(k.lastIndexOf('.') + 1) :
+				k)).filter(kk -> !Set.of("table", "file", "columns", "resolved").contains(kk.getSecond())).sorted(Comparator.comparing(Pair<String, String>::getSecond)).map(kk -> String.format("public static final String %s=\"%s\";", kk.getSecond().toUpperCase(Locale.ROOT), toValue.get(kk.getFirst()))).distinct().forEach(ps::println);
 	}
 
 	/**

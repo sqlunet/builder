@@ -13,14 +13,10 @@ import java.util.stream.Collectors;
 
 public class QC implements Q
 {
-	//static private final String SOURCE_SYNSETID = "${s_synsetid}";
-	//static private final String SOURCE_DEFINITION = "${s_definition}";
-	//static private final String SOURCE_WORD = "${s_word}";
-	//static private final String SOURCE_WORDID = "${s_wordid}";
-	static public final String TARGET_SYNSETID = "${d_synsetid}";
-	static public final String TARGET_DEFINITION = "${d_definition}";
-	static public final String TARGET_WORD = "${d_word}";
-	static public final String TARGET_WORDID = "${d_wordid}";
+	static public final String TARGET_SYNSETID = "${synset2id}";
+	static public final String TARGET_DEFINITION = "${definition2}";
+	static public final String TARGET_WORD = "${word2}";
+	static public final String TARGET_WORDID = "${word2id}";
 	static public final String MEMBERS = "${members}";
 	static public final String MEMBERS2 = "${members2}";
 

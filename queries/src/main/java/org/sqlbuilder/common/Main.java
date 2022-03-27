@@ -21,15 +21,15 @@ import java.util.ResourceBundle;
  */
 public class Main
 {
-	static public String[] WN_KEYS = Arrays.stream(org.sqlunet.wn.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
+	static public String[] WN_KEYS = Arrays.stream(org.sqlunet.wn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
 	static public String[] BNC_KEYS = Arrays.stream(org.sqlunet.bnc.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
 	static public String[] FN_KEYS = Arrays.stream(org.sqlunet.fn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
-	static public String[] VN_KEYS = Arrays.stream(org.sqlunet.vn.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
+	static public String[] VN_KEYS = Arrays.stream(org.sqlunet.vn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
-	static public String[] PB_KEYS = Arrays.stream(org.sqlunet.pb.QV.Key.values()).map(Enum::toString).sorted().toArray(String[]::new);
+	static public String[] PB_KEYS = Arrays.stream(org.sqlunet.pb.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 	;
 	static public String[] SN_KEYS = Arrays.stream(org.sqlunet.sn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
@@ -84,21 +84,13 @@ public class Main
 		}
 	}
 
-	public static void generateClass(final String[] keys, final Q q, final String className, final Runnable runnable, final PrintStream ps)
+	public static void generateQVClass(final String[] keys, final Q q, final String className, final PrintStream ps)
 	{
 		ps.println("package provider;\n");
-		ps.println("public class " + className + " {\n");
-
-		if (runnable != null)
-		{
-			ps.println("// VARIABLES");
-			runnable.run();
-			ps.println();
-		}
-
+		ps.println("public class " + className + "\n{\n");
 		for (String key : keys)
 		{
-			ps.printf("static public class %s {%n", key);
+			ps.printf("static public class %s%n{%n", key);
 			String[] result = q.query(key);
 
 			ps.printf("\tstatic public final String TABLE = %s;%n", result[0]);
@@ -121,6 +113,47 @@ public class Main
 			ps.println("}");
 			ps.println();
 		}
+		ps.println("}");
+	}
+
+	public static void generateQClass(final String[] keys, final Q q, final Variables variables, final String className, final PrintStream ps)
+	{
+		ps.println("package provider;\n");
+		ps.println("public class " + className + "\n{\n");
+		for (String key : keys)
+		{
+			ps.printf("static public class %s%n{%n", key);
+			String[] result = q.query(key);
+			assert result != null : key;
+
+			ps.printf("\tstatic public final String TABLE = %s;%n", variables.varSubstitution(result[0], false));
+			if (result[1] != null)
+			{
+				ps.printf("\tstatic public final String[] PROJECTION = %s;%n", variables.varSubstitution(result[1], false));
+			}
+			if (result[2] != null)
+			{
+				ps.printf("\tstatic public final String SELECTION = %s;%n", variables.varSubstitution(result[2], false));
+			}
+			if (result[3] != null)
+			{
+				ps.printf("\tstatic public final String[] ARGS = %s;%n", variables.varSubstitution(result[3], false));
+			}
+			if (result[4] != null)
+			{
+				ps.printf("\tstatic public final String GROUPBY = %s;%n", variables.varSubstitution(result[4], false));
+			}
+			ps.println("}");
+			ps.println();
+		}
+		ps.println("}");
+	}
+
+	public static void generateVClass(final Variables variables, final String className, final PrintStream ps)
+	{
+		ps.println("package provider;\n");
+		ps.println("public class " + className + " {\n");
+		variables.export(ps);
 		ps.println("}");
 	}
 
@@ -223,7 +256,7 @@ public class Main
 			case "fn":
 				return FN_KEYS;
 		}
-		return null;
+		throw new IllegalArgumentException(module);
 	}
 
 	private static String nullable(String s)
@@ -236,68 +269,85 @@ public class Main
 		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + "Names");
 		Variables variables = new Variables(bundle);
 
-		// synonyms
-		//variables.put("baserelations.synset2id", variables.varSubstitution("${synsets_synsets.word2id}"));
-		//variables.put("baserelations.word2id", variables.varSubstitution("${senses_senses.word2id}"));
+		switch (module)
+		{
+			case "wn":
+				variables.put("as_words", "w");
+				variables.put("as_words1", "w1");
+				variables.put("as_words2", "w2");
+				variables.put("as_synsets", "y");
+				variables.put("as_synsets1", "y1");
+				variables.put("as_synsets2", "y2");
+				variables.put("as_senses", "s");
+				variables.put("as_relations", "r");
+				variables.put("as_poses", "p");
+				variables.put("as_domains", "d");
+				variables.put("as_caseds", "c");
+				variables.put("dict.table", "dict");
+				// column artifacts
+				variables.put("relationtype", "relationtype");
+				variables.put("members", "members");
+				variables.put("members2", "members2");
+				variables.put("word1", "word1");
+				variables.put("word2", "word2");
+				variables.put("pos1", "pos1");
+				variables.put("pos2", "pos2");
+				variables.put("definition1", "definition1");
+				variables.put("definition2", "definition2");
+				variables.put("synset2id", "synset2id");
+				variables.put("word2id", "word2id");
+				// group_concats
+				variables.put("sampleset", "sampleset");
+				break;
+			case "vn":
+				break;
 
-		// aliases
-		//variables.put("uri_last", "#{uri_last}");
-		//variables.put("MAKEQUERY", "#{query}");
+			case "pb":
+				variables.put("as_funcs", "fu");
+				variables.put("as_args", "ar");
+				break;
 
-		// column aliases
+			case "sl":
+				break;
+
+			case "fn":
+				variables.put("as_frames", "fr");
+				variables.put("as_related_frames", "rf");
+				variables.put("as_fes", "fe");
+				variables.put("as_fetypes", "ft");
+				variables.put("as_lexunits", "lu");
+				variables.put("as_sentences", "st");
+				variables.put("as_annosets", "an");
+				variables.put("as_annosets2", "an2");
+				variables.put("incorporatedfe", "incorporatedfe");
+				variables.put("governor", "governor");
+
+				// column artifacts
+				variables.put("fnid", "fnid");
+				variables.put("name", "name");
+				variables.put("isframe", "isframe");
+				variables.put("src_frame", "sf");
+				variables.put("dest_frame", "df");
+				variables.put("iscorefe", "iscorefe");
+				variables.put("nullsynset", "nullsynset");
+
+				// group_concats
+				variables.put("annotations", "annotations");
+				variables.put("groupings", "groupings");
+				break;
+
+			case "pm":
+				break;
+		}
+
 		variables.put("_id", "_id");
-		variables.put("name", "name");
-		variables.put("members", "members");
-		variables.put("members2", "members2");
-		variables.put("word1", "word1");
-		variables.put("word2", "word2");
-		variables.put("pos1", "pos1");
-		variables.put("pos2", "pos2");
-		variables.put("definition1", "definition1");
-		variables.put("definition2", "definition2");
-		variables.put("fnid", "fnid");
-		variables.put("isframe", "isframe");
-		variables.put("src_frame", "sf");
-		variables.put("dest_frame", "df");
-		variables.put("nullsynset", "nullsynset");
-		variables.put("incorporatedfe","incorporatedfe");
-		variables.put("iscorefe","iscorefe");
-		variables.put("governor","governor");
 
-		// group_concats
-		variables.put("sampleset", "sampleset");
-		variables.put("annotations", "annotations");
-		variables.put("groupings", "groupings");
 
 		// table aliases
-		variables.put("as_words", "w");
-		variables.put("as_words1", "w1");
-		variables.put("as_words2", "w2");
-		variables.put("as_synsets", "y");
-		variables.put("as_synsets1", "y1");
-		variables.put("as_synsets2", "y2");
-		variables.put("as_senses", "s");
-		variables.put("as_relations", "r");
-		variables.put("as_types", "t");
-		variables.put("as_poses", "p");
-		variables.put("as_domains", "d");
-		variables.put("as_caseds", "c");
-		variables.put("as_members", "m");
-		variables.put("as_examples", "e");
 
-		variables.put("as_funcs", "fu");
-		variables.put("as_args", "ar");
-
-		variables.put("as_frames", "fr");
-		variables.put("as_related_frames", "rf");
-		variables.put("as_fes", "fe");
-		variables.put("as_fetypes", "ft");
-		variables.put("as_lexunits", "lu");
-		variables.put("as_sentences", "st");
-		variables.put("as_annosets", "an");
-		variables.put("as_annosets2", "an2");
-
-		variables.put("dict.table", "dict");
+		//variables.put("as_members", "m");
+		//variables.put("as_examples", "e");
+		//variables.put("as_types", "t");
 
 		return variables;
 	}
@@ -315,15 +365,43 @@ public class Main
 				break;
 			}
 
-			case "generate_class":
+			case "generate_qv_class":
 			{
 				String module = args[1];
 				String source = args[2];
-				String className = args[3];
+				String className = args.length > 3 ? args[3] : "QV";
 				String fileName = module + "/" + className + ".java";
 				try (PrintStream ps = new PrintStream(new FileOutputStream(fileName)))
 				{
-					generateClass(keysFrom(module), qFrom(module, source), className, () -> makeVariables(args[1]).export(ps), ps);
+					assert keysFrom(module) != null;
+					generateQVClass(keysFrom(module), qFrom(module, source), className, ps);
+				}
+				break;
+			}
+
+			case "generate_q_class":
+			{
+				String module = args[1];
+				String source = args[2];
+				String className = args.length > 3 ? args[3] : "Q";
+				String fileName = module + "/" + className + ".java";
+				try (PrintStream ps = new PrintStream(new FileOutputStream(fileName)))
+				{
+					assert keysFrom(module) != null;
+					generateQClass(keysFrom(module), qFrom(module, source), makeVariables(args[1]), className, ps);
+				}
+				break;
+			}
+
+			case "generate_v_class":
+			{
+				String module = args[1];
+				String source = args[2];
+				String className = args.length > 3 ? args[3] : "V";
+				String fileName = module + "/" + className + ".java";
+				try (PrintStream ps = new PrintStream(new FileOutputStream(fileName)))
+				{
+					generateVClass(makeVariables(args[1]), className,  ps);
 				}
 				break;
 			}
@@ -366,8 +444,17 @@ public class Main
 				String module = args[1];
 				Variables variables = makeVariables(module);
 				variables.export(System.out);
+				break;
 			}
-			break;
+
+			case "variables":
+			{
+				String module = args[1];
+				String source = args[2];
+				String fileName = module + "/" + source;
+				Variables.dumpVars(new File(fileName), System.out::println);
+				break;
+			}
 		}
 	}
 }

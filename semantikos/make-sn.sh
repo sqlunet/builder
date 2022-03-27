@@ -5,6 +5,7 @@
 
 wn=zip/oewn-2021-sqlite-1.21.0.zip
 sn=zip/sn-data_resolved-oewn2021-sqlite-2.0.0.zip
+bnc=zip/bnc-data_resolved-oewn2021-sqlite-2.0.0.zip
 db=sqlunet-sn.sqlite
 semantikos_db=sqlunet-sn.db
 semantikos_db_zip=${semantikos_db}.zip
@@ -39,6 +40,7 @@ unzip ${sn} -d sn
 echo -e "${R}removing indexes${Z}"
 rm wn/sql/sqlite/index/*
 rm sn/sql/sqlite/index/*
+rm bnc/sql/sqlite/index/*
 
 echo -e "${Y}R E S T O R E${Z}"
 
@@ -52,6 +54,11 @@ chmod +x ./restore-sqlite.sh
 ./restore-sqlite.sh -r "../${db}"
 popd > /dev/null
 
+pushd bnc > /dev/null
+chmod +x ./restore-sqlite.sh 
+./restore-sqlite.sh -r "../${db}"
+popd > /dev/null
+
 echo -e "${Y}A D D${Z}"
 sqlite3 -init "sources.sql" "${db}" .quit
 
@@ -60,7 +67,7 @@ for t in sn_syntagms; do
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN sensekey1;"
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN sensekey2;"
 done
-sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'SyntagNet'"
+sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'SyntagNet' AND name <> 'BNC'"
 
 echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'

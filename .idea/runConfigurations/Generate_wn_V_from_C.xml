@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Generate wn V from C" type="Application" factoryName="Application" folderName="Generate V">
+  <configuration default="false" name="Generate wn V from C" type="Application" factoryName="Application" folderName="Other">
     <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.GenerateV" />
     <module name="queries" />
     <option name="PROGRAM_PARAMETERS" value="wn org.sqlunet.wn.C &quot;src/main/java/org/sqlunet/wn/V.java&quot;" />
