@@ -5,31 +5,20 @@
       <profile default="true" name="Default" procOnly="true">
         <processorPath useClasspath="false" />
       </profile>
-      <profile name="Maven default annotation processors profile">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="legacy" />
-        <module name="fn" />
-        <module name="reqprov" />
-        <module name="foreign" />
-        <module name="pb" />
-        <module name="common" />
-        <module name="bnc" />
-        <module name="vn" />
-        <module name="sl" />
-        <module name="fn-jaxb" />
-        <module name="sn" />
-        <module name="fn-beans" />
-        <module name="pm" />
-      </profile>
-      <profile name="reqprov" enabled="true" procOnly="true">
-        <processor name="org.sqlbuilder.annotations.RequiresProvidesProcessor" />
-        <processorPath useClasspath="false">
-          <entry name="$PROJECT_DIR$/reqprov/target/reqprov-1.0-SNAPSHOT.jar" />
-        </processorPath>
-        <module name="reqprovtest" />
-      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="org.example.query-gen-gradle" target="11" />
+      <module name="org.sqlunet.query-gen" target="11" />
+      <module name="org.sqlunet.query-gen-gradle" target="11" />
+      <module name="org.sqlunet.query-gen-gradle.main" target="11" />
+      <module name="org.sqlunet.query-gen-gradle.test" target="11" />
+      <module name="org.sqlunet.query-gen.main" target="11" />
+      <module name="org.sqlunet.query-gen.test" target="11" />
+      <module name="query-gen-gradle" target="11" />
+      <module name="reqprovtest" target="11" />
+      <module name="sqlbuilder2.query-gen-gradle" target="11" />
+      <module name="sqlbuilder2.query-gen-gradle.main" target="11" />
+      <module name="sqlbuilder2.query-gen-gradle.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

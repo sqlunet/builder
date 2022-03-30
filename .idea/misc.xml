@@ -150,6 +150,9 @@
     <pattern value="org.sqlbuilder.common.Module" method="getId" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file:///mnt/data2/devel/sqlbuilder2/query-gen-gradle" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

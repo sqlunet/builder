@@ -1,0 +1,32 @@
+plugins {
+    id 'org.sqlunet.plugin.query-gen' version '1.0-SNAPSHOT'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+querygen_args {
+    factory = "/opt/devel/sqlbuilder2/queries/Factory.java"
+    variables = "Names.properties"
+    outDir = "${buildDir}/generated"
+    v = "V.java"
+    q = "Q.java"
+    qv = "QV.java"
+}
+
+tasks.named("compileJava"){it.dependsOn('generateQ').dependsOn(generateQV).dependsOn('generateV') }

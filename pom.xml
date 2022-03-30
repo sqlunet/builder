@@ -22,6 +22,7 @@
 		<module>legacy</module>
 		<module>sl</module>
 		<module>reqprov</module>
+		<module>query-gen</module>
 	</modules>
 
 	<properties>

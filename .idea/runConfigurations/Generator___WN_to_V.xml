@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Generator - WN to V" type="Application" factoryName="Application" folderName="Generate Queries">
+    <option name="MAIN_CLASS_NAME" value="org.sqlunet.plugin.Generator" />
+    <module name="org.sqlunet.plugin.query-gen.main" />
+    <option name="PROGRAM_PARAMETERS" value="generate_v_class &quot;$PROJECT_DIR$/queries/wn&quot; - V org.sqlunet" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.sqlunet.plugin.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

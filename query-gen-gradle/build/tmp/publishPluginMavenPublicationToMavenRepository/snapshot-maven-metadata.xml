@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.sqlunet.plugin</groupId>
+  <artifactId>query-gen</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20220329.081027</timestamp>
+      <buildNumber>3</buildNumber>
+    </snapshot>
+    <lastUpdated>20220329081027</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>1.0-20220329.081027-3</value>
+        <updated>20220329081027</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.0-20220329.081027-3</value>
+        <updated>20220329081027</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>module</extension>
+        <value>1.0-20220329.081027-3</value>
+        <updated>20220329081027</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
