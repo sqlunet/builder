@@ -4,20 +4,20 @@
 
 package org.sqlunet.vn;
 
-import org.sqlbuilder.common.Q;
 import org.sqlunet.vn.C.*;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
 /**
  * VerbNet provider
  *
  * @author <a href="mailto:1313ou@gmail.com">Bernard Bou</a>
  */
-public class QC implements Q
+public class QC implements Function<String,String[]>
 {
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = "URILAST";
 		final String[] projection = {"PROJECTION"};

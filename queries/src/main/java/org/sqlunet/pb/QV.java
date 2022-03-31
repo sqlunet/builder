@@ -5,9 +5,9 @@
 package org.sqlunet.pb;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Q;
 
 import java.util.Arrays;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:1313ou@gmail.com">Bernard Bou</a>
  */
-public class QV implements Q
+public class QV implements Function<String,String[]>
 {
 	//# instantiated at runtime
 	static public final String URI_LAST = "#{uri_last}";
 
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = URI_LAST;
 

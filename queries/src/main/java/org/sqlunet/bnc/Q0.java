@@ -4,14 +4,13 @@
 
 package org.sqlunet.bnc;
 
-import org.sqlbuilder.common.Q;
-
 import java.util.Arrays;
+import java.util.function.Function;
 
-public class Q0 implements Q
+public class Q0 implements Function<String,String[]>
 {
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = "URILAST";
 		final String[] projection = {"PROJECTION"};

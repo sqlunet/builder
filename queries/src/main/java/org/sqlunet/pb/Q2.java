@@ -4,20 +4,20 @@
 
 package org.sqlunet.pb;
 
-import org.sqlbuilder.common.Q;
 import org.sqlunet.pb.C.*;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
 /**
  * PropBank provider
  *
  * @author <a href="mailto:1313ou@gmail.com">Bernard Bou</a>
  */
-public class Q2 implements Q
+public class Q2 implements Function<String,String[]>
 {
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = "URILAST";
 		final String[] projection = {"PROJECTION"};

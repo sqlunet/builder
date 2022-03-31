@@ -5,15 +5,15 @@
 package org.sqlunet.bnc;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Q;
 
 import java.util.Arrays;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class QV implements Q
+public class QV implements Function<String,String[]>
 {
 	@Override
-	public String[] query(String keyname)
+	public String[] apply(String keyname)
 	{
 		final String last = "${uri_last}";
 		final String[] projection = null;

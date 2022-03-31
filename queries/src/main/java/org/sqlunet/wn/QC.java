@@ -5,13 +5,13 @@
 package org.sqlunet.wn;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Q;
 import org.sqlunet.wn.C.*;
 
 import java.util.Arrays;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class QC implements Q
+public class QC  implements Function<String,String[]>
 {
 	static public final String TARGET_SYNSETID = "${synset2id}";
 	static public final String TARGET_DEFINITION = "${definition2}";
@@ -21,7 +21,7 @@ public class QC implements Q
 	static public final String MEMBERS2 = "${members2}";
 
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = "${uri_last}";
 		final String[] projection = null;

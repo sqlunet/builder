@@ -5,12 +5,12 @@
 package org.sqlunet.wn;
 
 import org.sqlbuilder.common.Lib;
-import org.sqlbuilder.common.Q;
 
 import java.util.Arrays;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class QV implements Q
+public class QV  implements Function<String,String[]>
 {
 	//# instantiated at runtime
 	static public final String URI_LAST = "#{uri_last}";
@@ -24,7 +24,7 @@ public class QV implements Q
 	static public final String WORD2 = "${word2}";
 
 	@Override
-	public String[] query(String keyname)
+	public String[] apply(String keyname)
 	{
 		final String last = URI_LAST;
 

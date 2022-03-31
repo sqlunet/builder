@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.sqlunet.TestPlugin" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-03-30T12:03:19" hostname="heracles" time="1.884">
-  <properties/>
-  <testcase name="pluginTest()" classname="org.sqlunet.TestPlugin" time="1.884"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

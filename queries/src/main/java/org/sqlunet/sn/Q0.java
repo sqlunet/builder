@@ -4,20 +4,20 @@
 
 package org.sqlunet.sn;
 
-import org.sqlbuilder.common.Q;
 import org.sqlunet.sn.C.SnCollocations;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
 /**
  * SyntagNet provider
  *
  * @author <a href="mailto:1313ou@gmail.com">Bernard Bou</a>
  */
-public class Q0 implements Q
+public class Q0 implements Function<String, String[]>
 {
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = "URILAST";
 		final String[] projection = {"PROJECTION"};

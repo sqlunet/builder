@@ -62,6 +62,11 @@ public class Generator
 		}
 	}
 
+	private static String nullable(String s)
+	{
+		return s == null ? "" : s;
+	}
+
 	// Q C L A S S
 
 	private static void doGenerateQVClass(final Supplier<String[]> keys, final Function<String, String[]> q, final String className, final String packageName, final PrintStream ps)
@@ -125,7 +130,7 @@ public class Generator
 
 	private static void doInstantiate(final File source, final Variables variables, final PrintStream ps) throws IOException
 	{
-		System.out.println("source  " + source);
+		System.out.println("source:  " + source);
 		variables.varSubstitutionInFile(source, ps, false, false);
 	}
 
@@ -135,14 +140,6 @@ public class Generator
 	{
 		return Variables.make(propertiesPaths);
 	}
-
-	/*
-	public static Variables makeVariablesFromBundle(final String module)
-	{
-		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + "Names");
-		return Variables.make(bundle);
-	}
-	*/
 
 	// M A I N
 
@@ -155,19 +152,19 @@ public class Generator
 		}
 	}
 
-	public static void generateQClass(final String factoryPath, final String dest, final String className, final String packageName, final String namesPath, final String namesExtraPath) throws Exception
+	public static void generateQClass(final String factoryPath, final String dest, final String className, final String packageName, final String[] namesPaths) throws Exception
 	{
 		var factory = Runner.build(factoryPath);
-		var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
+		var variables = makeVariablesFromProperties(namesPaths);
 		try (PrintStream ps = makePs(dest, className + ".java"))
 		{
 			doGenerateQClass(factory.first, factory.second, variables, className, packageName, ps);
 		}
 	}
 
-	public static void generateVClass(final String dest, final String className, final String packageName, final String namesPath, final String namesExtraPath) throws Exception
+	public static void generateVClass(final String dest, final String className, final String packageName, final String[] namesPaths) throws Exception
 	{
-		var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
+		var variables = makeVariablesFromProperties(namesPaths);
 		try (PrintStream ps = makePs(dest, className + ".java"))
 		{
 			doGenerateVClass(variables, className, packageName, ps);
@@ -183,30 +180,31 @@ public class Generator
 		}
 	}
 
-	public static void generateQProperties(final String factoryPath, final String dest, final String fileName, final String namesPath, final String namesExtraPath) throws Exception
+	public static void generateQProperties(final String factoryPath, final String dest, final String fileName, final String[] namesPaths) throws Exception
 	{
 		var factory = Runner.build(factoryPath);
-		var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
+		var variables = makeVariablesFromProperties(namesPaths);
 		try (PrintStream ps = makePs(dest, fileName + ".properties"))
 		{
 			doGenerateQProperties(factory.first, factory.second, variables, ps);
 		}
 	}
 
-	public static void instantiate(final String sourcePath, final String dest, final String fileName, final String namesPath, final String namesExtraPath) throws Exception
+	public static void instantiate(final String[] sourcePaths, final String dest, final String[] namesPaths) throws Exception
 	{
-		boolean isConsole = "-".equals(dest);
-		if (isConsole)
+		var variables = makeVariablesFromProperties(namesPaths);
+		for (var sourcePath : sourcePaths)
 		{
-		}
-		var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
-		var source = new File(sourcePath);
-		try (PrintStream ps = makePs(dest, fileName))
-		{
-			doInstantiate(source, variables, ps);
+			var source = new File(sourcePath);
+			var fileName = source.getName();
+			try (PrintStream ps = makePs(dest, fileName))
+			{
+				doInstantiate(source, variables, ps);
+			}
 		}
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	static PrintStream makePs(final String dest, final String fileName) throws FileNotFoundException
 	{
 		boolean isConsole = "-".equals(dest);
@@ -227,8 +225,7 @@ public class Generator
 	private static boolean generateOps(final String op, final String inDir, final String outDir, final String className, final String packageName) throws Exception
 	{
 		String factoryPath = new File(inDir, "Factory.java").getAbsolutePath();
-		String namesPath = new File(inDir, "Names.properties").getAbsolutePath();
-		String namesExtraPath = new File(inDir, "NamesExtra.properties").getAbsolutePath();
+		String[] namesPaths = {new File(inDir, "Names.properties").getAbsolutePath(), new File(inDir, "NamesExtra.properties").getAbsolutePath()};
 		switch (op)
 		{
 			case "generate_qv_class":
@@ -239,13 +236,13 @@ public class Generator
 
 			case "generate_q_class":
 			{
-				generateQClass(factoryPath, outDir, className, packageName, namesPath, namesExtraPath);
+				generateQClass(factoryPath, outDir, className, packageName, namesPaths);
 				return true;
 			}
 
 			case "generate_v_class":
 			{
-				generateVClass(outDir, className, packageName, namesPath, namesExtraPath);
+				generateVClass(outDir, className, packageName, namesPaths);
 				return true;
 			}
 
@@ -257,7 +254,7 @@ public class Generator
 
 			case "generate_q_properties":
 			{
-				generateQProperties(factoryPath, outDir, className, namesPath, namesExtraPath);
+				generateQProperties(factoryPath, outDir, className, namesPaths);
 				return true;
 			}
 		}
@@ -266,17 +263,13 @@ public class Generator
 
 	private static boolean instantiateOps(final String op, final String inDir, final String source, final String outDir, final String dest) throws Exception
 	{
-		String namesPath = new File(inDir, "Names.properties").getAbsolutePath();
-		String namesExtraPath = new File(inDir, "NamesExtra.properties").getAbsolutePath();
+		String[] namesPaths = {new File(inDir, "Names.properties").getAbsolutePath(), new File(inDir, "NamesExtra.properties").getAbsolutePath()};
 		switch (op)
 		{
 			case "instantiate":
 			{
-				var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
-				try (PrintStream ps = "-".equals(outDir) ? System.out : new PrintStream(new FileOutputStream(new File(outDir, dest))))
-				{
-					variables.varSubstitutionInFile(new File(inDir, source), ps, false, false);
-				}
+				String[] sources = {new File(inDir, source).getAbsolutePath()};
+				instantiate(sources, outDir, namesPaths);
 				return true;
 			}
 
@@ -298,24 +291,16 @@ public class Generator
 	{
 		String namesPath = new File(inDir, "Names.properties").getAbsolutePath();
 		String namesExtraPath = new File(inDir, "NamesExtra.properties").getAbsolutePath();
-		switch (op)
+		if ("export".equals(op))
 		{
-			case "export":
+			var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
+			try (PrintStream ps = "-".equals(outDir) ? System.out : new PrintStream(new FileOutputStream(new File(outDir, dest))))
 			{
-				var variables = makeVariablesFromProperties(namesPath, namesExtraPath);
-				try (PrintStream ps = "-".equals(outDir) ? System.out : new PrintStream(new FileOutputStream(new File(outDir, dest))))
-				{
-					variables.export(ps);
-				}
-				return true;
+				variables.export(ps);
 			}
+			return true;
 		}
 		return false;
-	}
-
-	private static String nullable(String s)
-	{
-		return s == null ? "" : s;
 	}
 
 	public static void main(final String[] args) throws Exception

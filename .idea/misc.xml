@@ -151,7 +151,7 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file:///mnt/data2/devel/sqlbuilder2/query-gen-gradle" />
+    <file type="web" url="file:///mnt/data2/devel/sqlbuilder2/querybuilder-gradle" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

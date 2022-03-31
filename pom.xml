@@ -10,6 +10,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<modules>
 		<module>common</module>
+		<module>variables</module>
 		<module>foreign</module>
 		<module>bnc</module>
 		<module>fn-beans</module>
@@ -22,9 +23,8 @@
 		<module>legacy</module>
 		<module>sl</module>
 		<module>reqprov</module>
-		<module>query-gen</module>
-		<module>variables</module>
 		<module>querybuilder</module>
+		<module>querybuilder-maven</module>
 	</modules>
 
 	<properties>

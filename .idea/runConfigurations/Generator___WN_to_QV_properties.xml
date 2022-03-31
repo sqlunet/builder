@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Generator - WN to QV properties" type="Application" factoryName="Application" folderName="Generate Queries">
-    <option name="MAIN_CLASS_NAME" value="org.sqlunet.plugin.Generator" />
-    <module name="org.sqlunet.plugin.query-gen.main" />
+    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.querybuilder.Generator" />
+    <module name="querybuilder" />
     <option name="PROGRAM_PARAMETERS" value="generate_qv_properties &quot;$PROJECT_DIR$/queries/wn&quot; - QV org.sqlunet" />
     <extension name="coverage">
       <pattern>

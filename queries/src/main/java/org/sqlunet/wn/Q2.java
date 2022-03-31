@@ -5,13 +5,12 @@
 package org.sqlunet.wn;
 
 import org.sqlbuilder.common.Lib;
+import org.sqlunet.wn.C.*;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
-import org.sqlunet.wn.C.*;
-import org.sqlbuilder.common.Q;
-
-public class Q2 implements Q
+public class Q2  implements Function<String,String[]>
 {
 	//static private final String SOURCE_SYNSETID = "s_synsetid";
 	//static private final String SOURCE_DEFINITION = "s_definition";
@@ -23,7 +22,7 @@ public class Q2 implements Q
 	static public final String TARGET_WORDID = "d_wordid";
 
 	@Override
-	public String[] query(String key)
+	public String[] apply(String key)
 	{
 		final String last = "URILAST";
 		final String[] projection = {"PROJECTION"};
