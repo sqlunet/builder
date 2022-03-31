@@ -1,0 +1,38 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group 'org.sqlunet.plugin'
+version '1.0-SNAPSHOT'
+
+gradlePlugin {
+    // Define the plugin
+    plugins {
+        querybuilder {
+            id = 'org.sqlunet.plugin.querybuilder'
+            implementationClass = 'org.sqlunet.plugin.QueryBuilderPlugin'
+        }
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.sqlbuilder2:querybuilder:1.0-SNAPSHOT'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,69 @@
+plugins {
+    id 'org.sqlunet.plugin.querybuilder' version '1.0-SNAPSHOT'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        java.srcDir "${buildDir}/generated/main/java"
+    }
+    origin {
+        //resources.srcDir("${projectDir}/origin")
+    }
+}
+
+def originDir = sourceSets.getByName('origin').resources.srcDirs[0]
+
+querybuilder_args {
+    inDir = "${originDir}/wn"
+    factory = "Factory.java"
+    variables = ["Names.properties", "NamesExtra.properties"]
+    instantiates = ["SqLiteDialect.java","SqLiteDialect2.java"]
+
+    outDir = "${buildDir}/generated/main/java"
+    v = "V"
+    q = "Q"
+    qv = "QV"
+    qPackage = "org.sqlunet.wn"
+    instantiateDest = "org.sqlunet.wn"
+}
+
+tasks.named("compileJava") { it.dependsOn('generateQ').dependsOn(generateQV).dependsOn('generateV').dependsOn('instantiate') }
+
+task dumpSourceSet() {
+    doLast {
+        sourceSets.each { srcSet ->
+            println "[" + srcSet.name + "]"
+            print "-->Source directories: " + srcSet.allJava.srcDirs + "\n"
+            print "-->Resource directories: " + srcSet.resources.srcDirs + "\n"
+            print "-->Output directories: " + srcSet.output.classesDirs.files + "\n"
+            print "-->Compile classpath: " + "\n"
+            srcSet.compileClasspath.files.each {
+                print "  " + it.path + "\n"
+            }
+            println ""
+        }
+    }
+}
+
+task dumpOriginSourceSet() {
+    doLast {
+        print "-->Origin: " + sourceSets.getByName('origin').resources.srcDirs[0] + "\n"
+    }
+}
