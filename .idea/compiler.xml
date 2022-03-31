@@ -7,6 +7,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="dummy.generated" target="11" />
       <module name="org.example.query-gen-gradle" target="11" />
       <module name="org.sqlunet.query-gen" target="11" />
       <module name="org.sqlunet.query-gen-gradle" target="11" />

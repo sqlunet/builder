@@ -1,5 +1,6 @@
 package org.sqlunet.plugin;
 
+import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -13,7 +14,15 @@ public class QueryGenPlugin implements Plugin<Project>
 		Extension extension = project.getExtensions().create("querygen_args", Extension.class);
 
 		project.task("generateV").doLast(task -> {
-			generateV(extension);
+			try
+			{
+				generateV(extension);
+			}
+			catch (Exception e)
+			{
+				//e.printStackTrace();
+				throw new GradleException("While generating V", e);
+			}
 		});
 
 		project.task("generateQV").doLast(task -> {
@@ -23,52 +32,90 @@ public class QueryGenPlugin implements Plugin<Project>
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				throw new GradleException("While generating QV", e);
 			}
 		});
 
 		project.task("generateQ").doLast(task -> {
-			generateQ(extension);
+			try
+			{
+				generateQ(extension);
+			}
+			catch (Exception e)
+			{
+				//e.printStackTrace();
+				throw new GradleException("While generating Q", e);
+			}
+		});
+
+		project.task("instantiate").doLast(task -> {
+			try
+			{
+				instantiate(extension);
+			}
+			catch (Exception e)
+			{
+				//e.printStackTrace();
+				throw new GradleException("While instantiating", e);
+			}
 		});
 	}
 
-	void generateV(Extension extension)
+	void generateV(Extension extension) throws Exception
 	{
-		System.out.println("outDir: " + extension.outDir);
+		System.out.println("inDir: " + extension.inDir);
 		System.out.println("variables: " + extension.variables);
+		System.out.println("variables: " + extension.variablesExtra);
+		System.out.println("outDir: " + extension.outDir);
+		System.out.println("package: " + extension.qPackage);
 		System.out.println("V: " + extension.v);
-		File dir = new File(extension.outDir);
-		if (!dir.exists())
-		{
-			dir.mkdirs();
-		}
-
+		String dest = new File(extension.outDir, extension.qPackage.replace(".", File.separator)).getAbsolutePath();
+		String variablesPath = new File(extension.inDir, extension.variables).getAbsolutePath();
+		String variablesExtraPath = new File(extension.inDir, extension.variablesExtra).getAbsolutePath();
+		Generator.generateVClass(dest, extension.v, extension.qPackage, variablesPath, variablesExtraPath);
 	}
 
 	void generateQV(Extension extension) throws Exception
 	{
-		System.out.println("outDir: " + extension.outDir);
+		System.out.println("inDir: " + extension.inDir);
 		System.out.println("factory: " + extension.factory);
+		System.out.println("outDir: " + extension.outDir);
+		System.out.println("package: " + extension.qPackage);
 		System.out.println("QV: " + extension.qv);
-		File dir = new File(extension.outDir);
-		if (!dir.exists())
-		{
-			dir.mkdirs();
-		}
-		new Runner().run(extension.factory);
+		String dest = new File(extension.outDir, extension.qPackage.replace(".", File.separator)).getAbsolutePath();
+		String factoryPath = new File(extension.inDir, extension.factory).getAbsolutePath();
+		Generator.generateQVClass(factoryPath, dest, extension.qv, extension.qPackage);
 	}
 
-	void generateQ(Extension extension)
+	void generateQ(Extension extension) throws Exception
 	{
-		System.out.println("outDir: " + extension.outDir);
+		System.out.println("inDir: " + extension.inDir);
 		System.out.println("factory: " + extension.factory);
 		System.out.println("variables: " + extension.variables);
+		System.out.println("variables: " + extension.variablesExtra);
+		System.out.println("outDir: " + extension.outDir);
+		System.out.println("package: " + extension.qPackage);
 		System.out.println("Q: " + extension.q);
+		String dest = new File(extension.outDir, extension.qPackage.replace(".", File.separator)).getAbsolutePath();
+		String factoryPath = new File(extension.inDir, extension.factory).getAbsolutePath();
+		String variablesPath = new File(extension.inDir, extension.variables).getAbsolutePath();
+		String variablesExtraPath = new File(extension.inDir, extension.variablesExtra).getAbsolutePath();
+		Generator.generateQClass(factoryPath, dest, extension.q, extension.qPackage, variablesPath, variablesExtraPath);
+	}
 
-		File dir = new File(extension.outDir);
-		if (!dir.exists())
-		{
-			dir.mkdirs();
-		}
+	void instantiate(Extension extension) throws Exception
+	{
+		System.out.println("outDir: " + extension.outDir);
+		System.out.println("instantiate: " + extension.instantiate);
+		System.out.println("variables: " + extension.variables);
+		System.out.println("variables: " + extension.variablesExtra);
+		System.out.println("instantiateDest: " + extension.instantiateDest);
+
+		String dest = new File(extension.outDir, extension.instantiateDest.replace(".", File.separator)).getAbsolutePath();
+		String sourcePath = new File(extension.inDir, extension.instantiate).getAbsolutePath();
+		String variablesPath = new File(extension.inDir, extension.variables).getAbsolutePath();
+		String variablesExtraPath = new File(extension.inDir, extension.variablesExtra).getAbsolutePath();
+		Generator.instantiate(sourcePath, dest, extension.instantiate, variablesPath, variablesExtraPath);
 	}
 }

@@ -11,3 +11,4 @@
 /sn/sn0.sqlite
 /vn/vn0.sqlite
 /queries/out/
+/query-gen-gradle/dummy/build/
