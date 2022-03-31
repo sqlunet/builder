@@ -23,11 +23,15 @@
 		<module>sl</module>
 		<module>reqprov</module>
 		<module>query-gen</module>
+		<module>variables</module>
+		<module>querybuilder</module>
 	</modules>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 </project>

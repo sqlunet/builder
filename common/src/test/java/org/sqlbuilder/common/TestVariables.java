@@ -16,7 +16,7 @@ public class TestVariables
 	public static void init()
 	{
 		ResourceBundle bundle = ResourceBundle.getBundle("Names");
-		variables = new Variables(bundle);
+		variables = Variables.make(bundle);
 	}
 
 	@Test

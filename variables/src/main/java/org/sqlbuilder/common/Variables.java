@@ -4,7 +4,6 @@
 
 package org.sqlbuilder.common;
 
-import org.sqlbuilder2.ser.Pair;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -25,21 +24,56 @@ public class Variables
 	private static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
 
 	/**
-	 * Variable-value map
+	 * Name values pairs
 	 */
 	public final Map<String, String> toValue = new HashMap<>();
+
+	/**
+	 * Constructor
+	 */
+	private Variables()
+	{
+	}
+
+	/**
+	 * Set values in map from properties
+	 *
+	 * @param propertiesPaths resource bundle
+	 * @return variables
+	 */
+	public static Variables make(final String... propertiesPaths) throws IOException
+	{
+		var v = new Variables();
+		Properties properties = new Properties();
+		for (var propertiesPath : propertiesPaths)
+		{
+			try (FileInputStream fis = new FileInputStream(propertiesPath))
+			{
+				properties.load(fis);
+			}
+		}
+		for (var o : properties.keySet())
+		{
+			String k = o.toString();
+			v.toValue.put(k, properties.getProperty(k));
+		}
+		return v;
+	}
 
 	/**
 	 * Set values in map from resource bundle
 	 *
 	 * @param bundle resource bundle
+	 * @return variables
 	 */
-	public Variables(final ResourceBundle bundle)
+	public static Variables make(final ResourceBundle bundle)
 	{
+		var v = new Variables();
 		for (String k : bundle.keySet())
 		{
-			toValue.put(k, bundle.getString(k));
+			v.toValue.put(k, bundle.getString(k));
 		}
+		return v;
 	}
 
 	/**
@@ -62,10 +96,7 @@ public class Variables
 							vars.add(varName);
 						}
 						return vars.stream();
-					})
-					.sorted()
-					.distinct()
-					.forEach(consumer);
+					}).sorted().distinct().forEach(consumer);
 		}
 	}
 
@@ -98,9 +129,12 @@ public class Variables
 	 */
 	public void export(final PrintStream ps)
 	{
-		toValue.keySet().stream().map(k -> new Pair<>(k, k.contains(".") ?
-				k.substring(k.lastIndexOf('.') + 1) :
-				k)).filter(kk -> !Set.of("table", "file", "columns", "resolved").contains(kk.getSecond())).sorted(Comparator.comparing(Pair<String, String>::getSecond)).map(kk -> String.format("public static final String %s=\"%s\";", kk.getSecond().toUpperCase(Locale.ROOT), toValue.get(kk.getFirst()))).distinct().forEach(ps::println);
+		toValue.keySet().stream().map(k -> new AbstractMap.SimpleEntry<>(k, k.contains(".") ? k.substring(k.lastIndexOf('.') + 1) : k)) //
+				.filter(kk -> !Set.of("table", "file", "columns", "resolved").contains(kk.getValue())) //
+				.sorted(Comparator.comparing(Map.Entry<String, String>::getValue)) //
+				.map(e -> String.format("public static final String %s=\"%s\";", e.getValue().toUpperCase(Locale.ROOT), toValue.get(e.getKey()))) //
+				.distinct() //
+				.forEach(ps::println);
 	}
 
 	/**

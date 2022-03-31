@@ -223,7 +223,7 @@ public class SchemaGenerator
 		String[] inputs = Arrays.copyOfRange(args, 3, args.length);
 
 		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
-		var variables = new Variables(bundle);
+		var variables = Variables.make(bundle);
 		new SchemaGenerator(variables).generate(module, output, inputSubdir, inputs);
 	}
 }
