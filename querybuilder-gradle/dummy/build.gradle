@@ -20,11 +20,16 @@ test {
 }
 
 sourceSets {
-    main {
+    origin {
+        //resources.srcDir "${projectDir}/origin"
+    }
+    generated {
         java.srcDir "${buildDir}/generated/main/java"
     }
-    origin {
-        //resources.srcDir("${projectDir}/origin")
+    main {
+        java.srcDirs += "${buildDir}/generated/main/java"
+        //compileClasspath += sourceSets.generated.output
+        //runtimeClasspath += sourceSets.generated.output
     }
 }
 
@@ -34,7 +39,7 @@ querybuilder_args {
     inDir = "${originDir}/wn"
     factory = "Factory.java"
     variables = ["Names.properties", "NamesExtra.properties"]
-    instantiates = ["SqLiteDialect.java","SqLiteDialect2.java"]
+    instantiates = ["SqLiteDialect.java", "SqLiteDialect2.java"]
 
     outDir = "${buildDir}/generated/main/java"
     v = "V"
@@ -44,15 +49,14 @@ querybuilder_args {
     instantiateDest = "org.sqlunet.wn"
 }
 
-tasks.named("compileJava") { it.dependsOn('generateQ').dependsOn(generateQV).dependsOn('generateV').dependsOn('instantiate') }
-
-task dumpSourceSet() {
+task dumpSourceSets() {
     doLast {
         sourceSets.each { srcSet ->
             println "[" + srcSet.name + "]"
             print "-->Source directories: " + srcSet.allJava.srcDirs + "\n"
             print "-->Resource directories: " + srcSet.resources.srcDirs + "\n"
-            print "-->Output directories: " + srcSet.output.classesDirs.files + "\n"
+            print "-->Output Classes directories: " + srcSet.output.classesDirs.files + "\n"
+            print "-->Output Resources directories: " + srcSet.output.resourcesDir + "\n"
             print "-->Compile classpath: " + "\n"
             srcSet.compileClasspath.files.each {
                 print "  " + it.path + "\n"
@@ -62,8 +66,17 @@ task dumpSourceSet() {
     }
 }
 
-task dumpOriginSourceSet() {
-    doLast {
-        print "-->Origin: " + sourceSets.getByName('origin').resources.srcDirs[0] + "\n"
-    }
+task generateAll {
+    dependsOn('generateQ')
+            .dependsOn('generateQV')
+            .dependsOn('generateV')
+            .dependsOn('instantiate')
+}
+
+compileGeneratedJava {
+    dependsOn(generateAll)
+}
+
+compileJava {
+    dependsOn(compileGeneratedJava)
 }
