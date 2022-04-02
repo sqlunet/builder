@@ -19,29 +19,28 @@ test {
     useJUnitPlatform()
 }
 
+def generatedSrcDir = new File(buildDir, "generated/sources/java")
+
 sourceSets {
-    origin {
-        //resources.srcDir "${projectDir}/origin"
+
+    proto {
     }
-    generated {
-        java.srcDir "${buildDir}/generated/main/java"
-    }
+
     main {
-        java.srcDirs += "${buildDir}/generated/main/java"
-        //compileClasspath += sourceSets.generated.output
-        //runtimeClasspath += sourceSets.generated.output
-    }
+        java.srcDirs += generatedSrcDir
+     }
 }
 
-def originDir = sourceSets.getByName('origin').resources.srcDirs[0]
+def protoDir = sourceSets.proto.resources.srcDirs[0]
 
 querybuilder_args {
-    inDir = "${originDir}/wn"
+
+    inDir = "${protoDir}/wn"
     factory = "Factory.java"
     variables = ["Names.properties", "NamesExtra.properties"]
     instantiates = ["SqLiteDialect.java", "SqLiteDialect2.java"]
 
-    outDir = "${buildDir}/generated/main/java"
+    outDir = "${generatedSrcDir}"
     v = "V"
     q = "Q"
     qv = "QV"
@@ -67,16 +66,12 @@ task dumpSourceSets() {
 }
 
 task generateAll {
-    dependsOn('generateQ')
-            .dependsOn('generateQV')
+    dependsOn('generateQV')
+            .dependsOn('generateQ')
             .dependsOn('generateV')
             .dependsOn('instantiate')
 }
 
-compileGeneratedJava {
-    dependsOn(generateAll)
-}
-
 compileJava {
-    dependsOn(compileGeneratedJava)
+    dependsOn(generateAll)
 }
