@@ -1,10 +1,10 @@
 plugins {
-    id 'org.sqlunet.plugin.querybuilder' version '1.0-SNAPSHOT'
+    id 'org.sqlunet.plugin.querybuilder' version '1.0.0'
     id 'java'
 }
 
 group 'org.example'
-version '1.0-SNAPSHOT'
+version '1.0.0'
 
 repositories {
     mavenCentral()
