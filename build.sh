@@ -2,6 +2,8 @@
 
 # Copyright (c) 2021. Bernard Bou.
 
+# Usage [all|wn|bnc|sn|vn|pb|sl|fn] (-resolve|-update)
+
 source define_colors.sh
 
 vmargs='-Xmx9G -ea'

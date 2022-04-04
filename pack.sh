@@ -2,11 +2,15 @@
 
 # P A R A M S
 
+# Usage dbtag        dbdir      modules
+# Usage oewn21|other sql|other  [bnc|sn|vn|pb|sl|fn|pm|]
+
 dbtag=$1
 shift
 if [ -z "${dbtag}" ]; then
   dbtag=oewn2021
 fi
+
 dbdir=$1
 shift
 if [ -z "${dbdir}" ]; then

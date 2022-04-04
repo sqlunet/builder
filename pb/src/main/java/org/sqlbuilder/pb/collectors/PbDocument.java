@@ -74,7 +74,7 @@ public class PbDocument extends XmlDocument
 			final Predicate predicate = Predicate.make(head, lemmaAttribute);
 
 			// predicate as roleset member
-			Word pbword = Word.make(predicate.getLemma());
+			Word pbword = Word.make(predicate.getWord());
 
 			final NodeList roleSetNodes = XmlDocument.getXPaths(predicateElement, "./roleset");
 			for (int j = 0; j < roleSetNodes.getLength(); j++)

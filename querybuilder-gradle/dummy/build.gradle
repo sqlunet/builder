@@ -28,7 +28,7 @@ sourceSets {
 
     main {
         java.srcDirs += generatedSrcDir
-     }
+    }
 }
 
 def protoDir = sourceSets.proto.resources.srcDirs[0]

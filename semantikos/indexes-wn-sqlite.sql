@@ -31,4 +31,3 @@ CREATE INDEX IF NOT EXISTS `pk_vframes` ON `vframes` (`frameid`);
 CREATE INDEX IF NOT EXISTS `pk_vtemplates` ON `vtemplates` (`templateid`);
 
 CREATE INDEX IF NOT EXISTS `pk_lexes_morphs_wordid` ON `lexes_morphs` (`wordid`);
-
