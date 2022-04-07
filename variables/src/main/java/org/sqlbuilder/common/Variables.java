@@ -19,9 +19,9 @@ import java.util.stream.Stream;
  */
 public class Variables
 {
-	private static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
-
-	private static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
+	public static final Pattern NUMBER_PATTERN = Pattern.compile("#\\{([a-zA-Z0-9_.]+)}");
+	public static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
+	public static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
 
 	/**
 	 * Name values pairs
@@ -61,17 +61,20 @@ public class Variables
 	}
 
 	/**
-	 * Set values in map from resource bundle
+	 * Set values in map from resource bundles
 	 *
-	 * @param bundle resource bundle
+	 * @param bundles resource bundles
 	 * @return variables
 	 */
-	public static Variables make(final ResourceBundle bundle)
+	public static Variables make(final ResourceBundle... bundles)
 	{
 		var v = new Variables();
-		for (String k : bundle.keySet())
+		for (ResourceBundle bundle : bundles)
 		{
-			v.toValue.put(k, bundle.getString(k));
+			for (String k : bundle.keySet())
+			{
+				v.toValue.put(k, bundle.getString(k));
+			}
 		}
 		return v;
 	}
@@ -214,6 +217,18 @@ public class Variables
 	 * @param input input string
 	 * @return string with values substituted fir variable name
 	 */
+	public String varSubstitution(String input)
+	{
+		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, false);
+	}
+
+	/**
+	 * Substitute values to variables in string
+	 *
+	 * @param input        input string
+	 * @param useBackticks whether to surround substitution result with back ticks
+	 * @return string with values substituted fir variable name
+	 */
 	public String varSubstitution(String input, boolean useBackticks)
 	{
 		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, useBackticks);
@@ -241,11 +256,24 @@ public class Variables
 				var val = toValue.get(varName);
 				return useBackticks ? "`" + val + '`' : val;
 			});
-			if (output.contains(p.pattern().substring(0, 1)))
-			{
-				throw new IllegalArgumentException(p.pattern().charAt(0) + ",{,} used in '" + input + "'");
-			}
 			return output;
+		}
+		return input;
+	}
+
+	/**
+	 * Substitute values to variables in string
+	 *
+	 * @param input0 input string
+	 * @param ps     patterns for variable
+	 * @return string with values substituted for variable name
+	 */
+	public String varSubstitutions(final String input0, final Pattern... ps)
+	{
+		String input = input0;
+		for (Pattern p : ps.length == 0 ? new Pattern[]{DOLLAR_PATTERN, AT_PATTERN, NUMBER_PATTERN} : ps)
+		{
+			input = varSubstitution(input, p, false);
 		}
 		return input;
 	}

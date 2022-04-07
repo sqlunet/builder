@@ -25,7 +25,7 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 	}
 
 	@Override
-	public String[] apply(String key)
+	public String[] apply(String keyname)
 	{
 		final String last = URI_LAST;
 
@@ -36,11 +36,16 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 		String groupBy = null;
 		String sortOrder = null;
 
+		Key key = Key.valueOf(keyname);
 		switch (key)
 		{
 			// T A B L E
 
-			case "PBROLESETS":
+			case PBWORDS:
+				table = "${words.table}";
+				break;
+
+			case PBROLESETS:
 				table = "${rolesets.table}";
 				break;
 
@@ -48,19 +53,19 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 			// the incoming URI was for a single item because this URI was for a single row, the _ID value part is present.
 			// get the last path segment from the URI: this is the _ID value. then, append the value to the WHERE clause for the query
 
-			case "PBROLESET":
+			case PBROLESET1:
 				table = "${rolesets.table}";
 				selection = "${rolesets.rolesetid} = ?";
 				break;
 
 			// J O I N S
 
-			case "PBROLESETS_X_BY_ROLESET":
+			case PBROLESETS_X_BY_ROLESET:
 				groupBy = "${rolesets.rolesetid}";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 
-			case "PBROLESETS_X":
+			case PBROLESETS_X:
 				table = String.format("%s " + //
 								"LEFT JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", //
@@ -69,7 +74,7 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 						"${words.table}", "${as_words}", "${as_members}", "${words.pbwordid}", "${as_words}", "${words.pbwordid}");
 				break;
 
-			case "WORDS_PBROLESETS":
+			case WORDS_PBROLESETS:
 				table = String.format("%s " + //
 								"INNER JOIN %s USING (%s) " + //
 								"INNER JOIN %s USING (%s)", //
@@ -78,24 +83,24 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 						"${rolesets.table}", "${words.pbwordid}");
 				break;
 
-			case "PBROLESETS_PBROLES":
+			case PBROLESETS_PBROLES:
 				table = String.format("%s " + //
 								"INNER JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s)", //
 						"${rolesets.table}", //
 						"${roles.table}", "${rolesets.rolesetid}", //
-						"${funcs.table}", "${funcs.func}", //
-						"${thetas.table}", "${thetas.theta}");
-				sortOrder = "${roles.narg}";
+						"${funcs.table}", "${funcs.funcid}", //
+						"${thetas.table}", "${thetas.thetaid}");
+				sortOrder = "${roles.nargid}";
 				break;
 
-			case "PBROLESETS_PBEXAMPLES_BY_EXAMPLE":
+			case PBROLESETS_PBEXAMPLES_BY_EXAMPLE:
 				groupBy = String.format("%s.%s", "${as_examples}", "${examples.exampleid}");
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 
-			case "PBROLESETS_PBEXAMPLES":
+			case PBROLESETS_PBEXAMPLES:
 				table = String.format("%s " + //
 								"INNER JOIN %s AS %s USING (%s) " + //
 								"LEFT JOIN %s AS %s USING (%s) " + //
@@ -108,33 +113,33 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 								"LEFT JOIN %s USING (%s) " + //
 								"LEFT JOIN %s USING (%s,%s) " + //
 								"LEFT JOIN %s USING (%s)", //
-						"${rolesets.table}", //
-						"${examples.table}", "${as_examples}", "${rolesets.rolesetid}", //
-						"${rels.table}", "${as_relations}", "${examples.exampleid}", //
-						"${args.table}", "${as_args}", "${examples.exampleid}", //
-						"${funcs.table}", "${as_funcs}", "${as_args}", "${funcs.func}", "${as_funcs}", "${funcs.func}", //
-						"${aspects.table}", "${aspects.aspect}", //
-						"${forms.table}", "${forms.form}", //
-						"${tenses.table}", "${tenses.tense}", //
-						"${voices.table}", "${voices.voice}", //
-						"${persons.table}", "${persons.person}", //
-						"${roles.table}", "${rolesets.rolesetid}", "${args.arg}", //
-						"${thetas.table}", "${thetas.theta}");
+						"${rolesets.table}", // 1
+						"${examples.table}", "${as_examples}", "${rolesets.rolesetid}", // 2
+						"${rels.table}", "${as_relations}", "${examples.exampleid}", // 3
+						"${args.table}", "${as_args}", "${examples.exampleid}", // 4
+						"${funcs.table}", "${as_funcs}", "${as_args}", "${funcs.funcid}", "${as_funcs}", "${funcs.funcid}", // 5
+						"${aspects.table}", "${aspects.aspectid}", // 6
+						"${forms.table}", "${forms.formid}", // 7
+						"${tenses.table}", "${tenses.tenseid}", // 8
+						"${voices.table}", "${voices.voiceid}", // 9
+						"${persons.table}", "${persons.personid}", // 10
+						"${roles.table}", "${rolesets.rolesetid}", "${args.nargid}", // 11
+						"${thetas.table}", "${thetas.thetaid}");
 				sortOrder = String.format("%s.%s,%s", "${as_examples}", "${examples.exampleid}", "${args.arg}");
 				break;
 
 			// L O O K U P
 
-			case "LOOKUP_FTS_EXAMPLES":
+			case LOOKUP_FTS_EXAMPLES:
 				table = String.format("%s_%s_fts4", "${examples.table}", "${examples.text}");
 				break;
 
-			case "LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE":
+			case LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE:
 				groupBy = "${examples.exampleid}";
 				//$FALL-THROUGH$
 				//noinspection fallthrough
 
-			case "LOOKUP_FTS_EXAMPLES_X":
+			case LOOKUP_FTS_EXAMPLES_X:
 				table = String.format("%s_%s_fts4 " + //
 								"LEFT JOIN %s USING (%s)", //
 						"${examples.table}", "${examples.text}", //
@@ -143,23 +148,26 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 
 			// S U G G E S T
 
-			case "SUGGEST_WORDS":
+			case SUGGEST_WORDS:
 			{
-				table = "${words.table}";
+				table = String.format("%s " + //
+								"INNER JOIN %s USING (%s)", //
+						"${words.table}", //
+						"${wnwords.table}", "${wnwords.wordid}");
 				projection = new String[]{String.format("%s AS _id", "${words.pbwordid}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_TEXT_1", "${words.word}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_COLUMN_QUERY", "${words.word}")}; //
+						String.format("%s AS #{suggest_text_1}", "${words.word}"), //
+						String.format("%s AS #{suggest_query}", "${words.word}")}; //
 				selection = String.format("%s LIKE ? || '%%'", "${words.word}");
 				selectionArgs = new String[]{last};
 				break;
 			}
 
-			case "SUGGEST_FTS_WORDS":
+			case SUGGEST_FTS_WORDS:
 			{
 				table = String.format("%s_%s_fts4", "${words.table}", "${words.word}");
 				projection = new String[]{String.format("%s AS _id", "${words.pbwordid}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_COLUMN_TEXT_1", "${words.word}"), //
-						String.format("%s AS " + "SearchManager.SUGGEST_COLUMN_COLUMN_QUERY", "${words.word}")}; //
+						String.format("%s AS #{suggest_text_1}", "${words.word}"), //
+						String.format("%s AS #{suggest_query}", "${words.word}")}; //
 				selection = String.format("%s MATCH ?", "${words.word}"); //
 				selectionArgs = new String[]{last + '*'};
 				break;
@@ -185,10 +193,11 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 
 	private enum Key
 	{
+		PBWORDS,
 		PBROLESETS, PBROLESETS_X, PBROLESETS_X_BY_ROLESET, //
 		PBROLESET1, //
 		PBROLESETS_PBROLES, PBROLESETS_PBEXAMPLES, PBROLESETS_PBEXAMPLES_BY_EXAMPLE, //
-		WORDS_PBROLESETS, LOOKUP_FTS_EXAMPLES, LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE, LOOKUP_FTS_EXAMPLES_X, //
+		WORDS_PBROLESETS, LOOKUP_FTS_EXAMPLES, LOOKUP_FTS_EXAMPLES_X, LOOKUP_FTS_EXAMPLES_X_BY_EXAMPLE, //
 		SUGGEST_WORDS, SUGGEST_FTS_WORDS,
 	}
 

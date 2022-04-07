@@ -65,7 +65,7 @@ echo -e "${Y}A D D${Z}"
 sqlite3 -init "sources.sql" "${db}" .quit
 
 echo -e "${Y}T R I M${Z}"
-for t in vn_words; do
+for t in vn_words pb_words; do
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN word;"
 done
 sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'VerbNet' AND name <> 'PropBank'"

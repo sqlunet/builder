@@ -4,13 +4,17 @@
 
 package org.sqlunet.wn;
 
-import org.sqlbuilder.common.Lib;
-
 import java.util.Arrays;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class QV  implements Function<String,String[]>
+/**
+ * WordNet provider
+ *
+ * @author <a href="mailto:1313ou@gmail.com">Bernard Bou</a>
+ */
+public class QV implements Function<String,String[]>, Supplier<String[]>
 {
 	//# instantiated at runtime
 	static public final String URI_LAST = "#{uri_last}";
@@ -23,8 +27,13 @@ public class QV  implements Function<String,String[]>
 	static public final String WORD2ID = "${word2id}";
 	static public final String WORD2 = "${word2}";
 
+	public QV()
+	{
+		System.out.println("WN Factory");
+	}
+
 	@Override
-	public String[] apply(String keyname)
+	public String[] apply(String keyName)
 	{
 		final String last = URI_LAST;
 
@@ -33,8 +42,9 @@ public class QV  implements Function<String,String[]>
 		String selection = null;
 		String[] selectionArgs = null;
 		String groupBy = null;
+		String sortOrder = null;
 
-		Key key = Key.valueOf(keyname);
+		Key key = Key.valueOf(keyName);
 		switch (key)
 		{
 			// T A B L E
@@ -163,7 +173,7 @@ public class QV  implements Function<String,String[]>
 								"LEFT JOIN %s AS %s USING (%s)", //
 						"${senses.table}", "${as_senses}", //
 						"${words.table}", "${as_words}", "${words.wordid}");
-				projection = new String[]{String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", "${words.table}", "${words.word}", MEMBERS)};
+				projection = new String[]{String.format("GROUP_CONCAT(DISTINCT %s.%s) AS %s", "${as_words}", "${words.word}", MEMBERS)};
 				groupBy = "${synsets.synsetid}";
 				break;
 
@@ -201,7 +211,6 @@ public class QV  implements Function<String,String[]>
 						"${senses.table}", "${as_synsets2}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
 						"${words.table}", "${as_words}", "${words.wordid}", //
 						"${words.table}", "${as_words2}", "${as_relations}", "${allrelations.word2id}", "${as_words2}", "${words.wordid}");
-				selection = null;
 				groupBy = String.format("%s,%s,%s,%s,%s,%s", "${synset2id}", "${relationtype}", "${relations.relation}", "${relations.relationid}", "${word2id}", "${word2}");
 			}
 			break;
@@ -227,13 +236,13 @@ public class QV  implements Function<String,String[]>
 								"INNER JOIN %s USING (%s) " + // 2
 								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + // 3
 								"LEFT JOIN %s ON %s.%s = %s.%s " + // 4
-								"LEFT JOIN %s USING (%s)", // 5
+								"LEFT JOIN %s AS %s USING (%s)", // 5
 						"${semrelations.table}", "${as_relations}", // 1
 						"${relations.table}", "${relations.relationid}", // 2
 						"${synsets.table}", "${as_synsets2}", "${as_relations}", "${semrelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
 						"${senses.table}", "${as_synsets2}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
-						"${words.table}", "${words.wordid}"); //5
-				projection =  new String[]{ String.format("GROUP_CONCAT(%s.%s, ', ' ) AS %s", "${words.table}", "${words.word}", MEMBERS2)};
+						"${words.table}", "${as_words2}", "${words.wordid}"); //5
+				projection =  new String[]{ String.format("GROUP_CONCAT(DISTINCT %s.%s) AS %s", "${as_words2}", "${words.word}", MEMBERS2)};
 				groupBy = String.format("%s.%s", "${as_synsets2}", "${synsets.synsetid}");
 				break;
 
@@ -340,7 +349,6 @@ public class QV  implements Function<String,String[]>
 						String.format("%s AS %s", "${words.word}", "#{suggest_query}")};
 				selection = String.format("%s LIKE ? || '%%'", "${words.word}");
 				selectionArgs = new String[]{last};
-				groupBy = null;
 				break;
 			}
 
@@ -353,7 +361,6 @@ public class QV  implements Function<String,String[]>
 						String.format("%s AS %s", "${words.word}", "#{suggest_query}")}; //
 				selection = String.format("%s MATCH ?", "${words.word}");
 				selectionArgs = new String[]{last + '*'};
-				groupBy = null;
 				break;
 			}
 
@@ -366,7 +373,6 @@ public class QV  implements Function<String,String[]>
 						String.format("%s AS %s", "${synsets.definition}", "#{suggest_query}")};
 				selection = String.format("%s MATCH ?", "${synsets.definition}");
 				selectionArgs = new String[]{last + '*'};
-				groupBy = null;
 				break;
 			}
 
@@ -379,7 +385,6 @@ public class QV  implements Function<String,String[]>
 						String.format("%s AS %s", "${samples.sample}", "#{suggest_query}")};
 				selection = String.format("%s MATCH ?", "${samples.sample}");
 				selectionArgs = new String[]{last + '*'};
-				groupBy = null;
 				break;
 			}
 
@@ -387,15 +392,40 @@ public class QV  implements Function<String,String[]>
 				return null;
 		}
 		return new String[]{ //
-				Lib.quote(table), //
-				projection == null ? null : "{" + Arrays.stream(projection).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
-				Lib.quote(selection), //
-				selectionArgs == null ? null : "{" + Arrays.stream(selectionArgs).map(Lib::quote).collect(Collectors.joining(",")) + "}", //
-				Lib.quote(groupBy)};
+				quote(table), //
+				projection == null ? null : "{" + Arrays.stream(projection).map(QV::quote).collect(Collectors.joining(",")) + "}", //
+				quote(selection), //
+				selectionArgs == null ? null : "{" + Arrays.stream(selectionArgs).map(QV::quote).collect(Collectors.joining(",")) + "}", //
+				quote(groupBy), //
+				quote(sortOrder)};
+	}
+
+	@Override
+	public String[] get()
+	{
+		return Arrays.stream(Key.values()).map(Enum::name).toArray(String[]::new);
 	}
 
 	public enum Key
 	{
-		LEXES, WORDS, CASEDWORDS, PRONUNCIATIONS, SENSES, SYNSETS, POSES, DOMAINS, RELATIONS, SEMRELATIONS, LEXRELATIONS, ADJPOSITIONS, MORPHS, SAMPLES, VFRAMES, VTEMPLATES, LEXES_MORPHS, SENSES_VFRAMES, SENSES_VTEMPLATES, SENSES_ADJPOSITIONS, DICT, WORD1, SENSE1, SYNSET1, WORDS_LEXES_MORPHS, WORDS_LEXES_MORPHS_BY_WORD, WORDS_SENSES_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS_POSES_DOMAINS, SENSES_WORDS, SENSES_WORDS_BY_SYNSET, SENSES_SYNSETS_POSES_DOMAINS, SYNSETS_POSES_DOMAINS, ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET, SEMRELATIONS_SYNSETS, SEMRELATIONS_SYNSETS_X, SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET, LEXRELATIONS_SENSES, LEXRELATIONS_SENSES_X, LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET, LOOKUP_FTS_DEFINITIONS, LOOKUP_FTS_SAMPLES, LOOKUP_FTS_WORDS, SUGGEST_FTS_DEFINITIONS, SUGGEST_FTS_SAMPLES, SUGGEST_FTS_WORDS, SUGGEST_WORDS
+		LEXES, WORDS, CASEDWORDS, PRONUNCIATIONS, SENSES, SYNSETS, POSES, DOMAINS, //
+		RELATIONS, SEMRELATIONS, LEXRELATIONS, //
+		ADJPOSITIONS, MORPHS, SAMPLES, VFRAMES, VTEMPLATES, //
+		LEXES_MORPHS, SENSES_VFRAMES, SENSES_VTEMPLATES, SENSES_ADJPOSITIONS, //
+		DICT, //
+		WORD1, SENSE1, SYNSET1, //
+		WORDS_LEXES_MORPHS, WORDS_LEXES_MORPHS_BY_WORD, WORDS_SENSES_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS_POSES_DOMAINS, //
+		SENSES_WORDS, SENSES_WORDS_BY_SYNSET, SENSES_SYNSETS_POSES_DOMAINS, //
+		SYNSETS_POSES_DOMAINS, //
+		ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
+		SEMRELATIONS_SYNSETS, SEMRELATIONS_SYNSETS_X, SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET, //
+		LEXRELATIONS_SENSES, LEXRELATIONS_SENSES_X, LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
+		LOOKUP_FTS_DEFINITIONS, LOOKUP_FTS_SAMPLES, LOOKUP_FTS_WORDS, //
+		SUGGEST_FTS_DEFINITIONS, SUGGEST_FTS_SAMPLES, SUGGEST_FTS_WORDS, SUGGEST_WORDS
+	}
+
+	private static String quote(String str)
+	{
+		return str == null ? null : String.format("\"%s\"", str);
 	}
 }
