@@ -256,15 +256,24 @@ public class Explain
 
 		String module = args[0];
 		String db = args[1];
+		Integer from = null;
+		Integer to = null;
+		if (args.length >= 4)
+		{
+			from = Integer.parseInt(args[2]);
+			to = Integer.parseInt(args[3]);
+		}
 
 		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
 		ResourceBundle bundle2 = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompatExtra" : "NamesExtra"));
 		var variables = Variables.make(bundle, bundle2);
 		variables.put("suggest_text_1", "suggest_text_1");
 		variables.put("suggest_query", "suggest_query");
-		variables.put("query", "SELECT 0 AS relationid, 0 AS word1id, 0 AS synset1id, 0 AS word2id, 0 AS synset2id, 'sem' AS x");
+		variables.put("query", "SELECT 0 AS relationid, 0 AS word1id, 0 AS synset1id, 0 AS word2id, 0 AS synset2id, 'type' AS x");
 		variables.put("uri_last", "0");
 
-		explain(keysFrom(module), qFrom(module), variables, db);
+		final String[] allkeys = keysFrom(module);
+		final String[] keys = from == null || to == null ? allkeys : Arrays.stream(allkeys, from, to).toArray(String[]::new);
+		explain(keys, qFrom(module), variables, db);
 	}
 }
