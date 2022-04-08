@@ -197,7 +197,7 @@ public class QV implements Function<String,String[]>, Supplier<String[]>
 						"${domains.table}", "${as_domains}", "${domains.domainid}");
 				break;
 
-			case ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET:
+			case ANYRELATIONS_SENSES_WORDS_X_BY_SYNSET:
 			{
 				table = String.format("( %s ) AS %s " + // 1
 								"INNER JOIN %s USING (%s) " + // 2
@@ -207,10 +207,10 @@ public class QV implements Function<String,String[]>, Supplier<String[]>
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
 						SUBQUERY, "${as_relations}", // 1
 						"${relations.table}", "${relations.relationid}", // 2
-						"${synsets.table}", "${as_synsets2}", "${as_relations}", "${allrelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
+						"${synsets.table}", "${as_synsets2}", "${as_relations}", "${anyrelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
 						"${senses.table}", "${as_synsets2}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
 						"${words.table}", "${as_words}", "${words.wordid}", //
-						"${words.table}", "${as_words2}", "${as_relations}", "${allrelations.word2id}", "${as_words2}", "${words.wordid}");
+						"${words.table}", "${as_words2}", "${as_relations}", "${anyrelations.word2id}", "${as_words2}", "${words.wordid}");
 				groupBy = String.format("%s,%s,%s,%s,%s,%s", "${synset2id}", "${relationtype}", "${relations.relation}", "${relations.relationid}", "${word2id}", "${word2}");
 			}
 			break;
@@ -417,7 +417,7 @@ public class QV implements Function<String,String[]>, Supplier<String[]>
 		WORDS_LEXES_MORPHS, WORDS_LEXES_MORPHS_BY_WORD, WORDS_SENSES_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS_POSES_DOMAINS, //
 		SENSES_WORDS, SENSES_WORDS_BY_SYNSET, SENSES_SYNSETS_POSES_DOMAINS, //
 		SYNSETS_POSES_DOMAINS, //
-		ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
+		ANYRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
 		SEMRELATIONS_SYNSETS, SEMRELATIONS_SYNSETS_X, SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET, //
 		LEXRELATIONS_SENSES, LEXRELATIONS_SENSES_X, LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
 		LOOKUP_FTS_DEFINITIONS, LOOKUP_FTS_SAMPLES, LOOKUP_FTS_WORDS, //

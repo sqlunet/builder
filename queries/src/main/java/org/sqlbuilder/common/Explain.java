@@ -18,16 +18,18 @@ import java.util.regex.Pattern;
  */
 public class Explain
 {
+	// R E G P A T T E R N S
+
 	private static final String tableName = "([a-z1-2_AS ]+)";
 	private static final String indexName = "([a-z1-2_AS ]+)";
 	private static final String components = "\\(([^)]+)\\)";
 
-	private static final Pattern indexPattern1 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX");
-	private static final Pattern indexPattern2 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX " + indexName);
+	// private static final Pattern indexPattern1 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX");
+	// private static final Pattern indexPattern2 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX " + indexName);
 	private static final Pattern indexPattern3 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX " + indexName + " " + components);
 
-	private static final Pattern coveringIndexPattern1 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX");
-	private static final Pattern coveringIndexPattern2 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX " + indexName);
+	// private static final Pattern coveringIndexPattern1 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX");
+	// private static final Pattern coveringIndexPattern2 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX " + indexName);
 	private static final Pattern coveringIndexPattern3 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX " + indexName + " " + components);
 
 	private static final Pattern autoindexPattern = Pattern.compile("SEARCH TABLE " + tableName + " USING AUTOMATIC COVERING INDEX " + components);
@@ -35,25 +37,21 @@ public class Explain
 
 	private static final Pattern scanPattern = Pattern.compile("SCAN TABLE " + tableName);
 
+	// S Q L
+
 	static public String EQP = "EXPLAIN QUERY PLAN ";
 	static public String SELECT = "SELECT ";
 	static public String FROM = " FROM ";
 	static public String WHERE = " WHERE ";
-	static public String[] WN_KEYS = Arrays.stream(org.sqlunet.wn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
-	static public String[] BNC_KEYS = Arrays.stream(org.sqlunet.bnc.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
-	static public String[] FN_KEYS = Arrays.stream(org.sqlunet.fn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
 
-	// H E L P E R S
-	static public String[] VN_KEYS = Arrays.stream(org.sqlunet.vn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
-	static public String[] PB_KEYS = Arrays.stream(org.sqlunet.pb.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
-	static public String[] SN_KEYS = Arrays.stream(org.sqlunet.sn.QV.Key.values()).map(Enum::toString).toArray(String[]::new);
+	// C O L L E C T
 
 	static Collection<String> indices = new TreeSet<>();
 	static Collection<String> coveringIndices = new TreeSet<>();
 	static Collection<String> autoIndices = new TreeSet<>();
 	static Collection<String> scans = new TreeSet<>();
 
-	public static void explain(String[] keys, Function<String, String[]> qs, Variables variables, String db) throws InterruptedException, IOException
+	public static void explain(final String[] keys, final Function<String, String[]> qs, final Variables variables, String db) throws InterruptedException, IOException
 	{
 		for (String key : keys)
 		{
@@ -66,7 +64,7 @@ public class Explain
 
 			if (table != null)
 			{
-				String q2 = EQP + SELECT;
+				String q2 = SELECT;
 				q2 += projection == null ? "*" : projection;
 				q2 += FROM;
 				q2 += table;
@@ -75,9 +73,8 @@ public class Explain
 					q2 += WHERE + selection + ';';
 				}
 				System.out.println(q2);
-				// System.out.printf("sqlite3 %s '%s'%n", db, q2);
 
-				ProcessBuilder builder = new ProcessBuilder("sqlite3", db, q2);
+				ProcessBuilder builder = new ProcessBuilder("sqlite3", db, EQP + q2);
 				Process p = builder.start();
 				String o = getOutput(p);
 				String e = getError(p);
@@ -269,11 +266,11 @@ public class Explain
 		var variables = Variables.make(bundle, bundle2);
 		variables.put("suggest_text_1", "suggest_text_1");
 		variables.put("suggest_query", "suggest_query");
-		variables.put("query", "SELECT 0 AS relationid, 0 AS word1id, 0 AS synset1id, 0 AS word2id, 0 AS synset2id, 'type' AS x");
 		variables.put("uri_last", "0");
+		variables.put("query", "#{query}"); // to avoid un valued variable
 
-		final String[] allkeys = keysFrom(module);
-		final String[] keys = from == null || to == null ? allkeys : Arrays.stream(allkeys, from, to).toArray(String[]::new);
+		final String[] allKeys = keysFrom(module);
+		final String[] keys = to == null ? allKeys : Arrays.stream(allKeys, from, to).toArray(String[]::new);
 		explain(keys, qFrom(module), variables, db);
 	}
 }

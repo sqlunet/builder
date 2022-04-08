@@ -12,13 +12,13 @@ package org.sqlunet.wn;
 class SqLiteDialect
 {
 	// query for domains enumeration
-	static final String AllDomainsQuery = //
+	static final String DomainsQuery = //
 			"SELECT ${domains.domainid}, ${domains.domain}, ${domains.posid} " +  //
 			"FROM ${domains.table} " +  //
 			"ORDER BY ${domains.domainid};";
 
 	// query for relations enumeration
-	static final String AllRelationsQuery = //
+	static final String RelationsQuery = //
 			"SELECT ${relations.relationid}, ${relations.relation}, ${relations.recurses} " +  //
 			"FROM ${relations.table} " +  //
 			"ORDER BY ${relations.relationid};";

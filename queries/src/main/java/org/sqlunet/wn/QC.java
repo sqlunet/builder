@@ -165,7 +165,7 @@ public class QC  implements Function<String,String[]>
 						Domains.TABLE, C.AS_DOMAIN, Domains.DOMAINID);
 				break;
 
-			case "ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET":
+			case "ANYRELATIONS_SENSES_WORDS_X_BY_SYNSET":
 			{
 				table = String.format("( %s ) AS %s " + // 1
 								"INNER JOIN %s USING (%s) " + // 2
@@ -175,10 +175,10 @@ public class QC  implements Function<String,String[]>
 								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
 						"MAKEQUERY", C.AS_RELATION, // 1
 						Relations.TABLE, Relations.RELATIONID, // 2
-						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, AllRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
+						Synsets.TABLE, C.AS_DEST, C.AS_RELATION, AnyRelations.SYNSET2ID, C.AS_DEST, Synsets.SYNSETID, // 3
 						Senses.TABLE, C.AS_DEST, Synsets.SYNSETID, Senses.TABLE, Senses.SYNSETID, // 4
 						Words.TABLE, C.AS_WORD, Words.WORDID, //
-						Words.TABLE, C.AS_WORD2, C.AS_RELATION, AllRelations.WORD2ID, C.AS_WORD2, Words.WORDID);
+						Words.TABLE, C.AS_WORD2, C.AS_RELATION, AnyRelations.WORD2ID, C.AS_WORD2, Words.WORDID);
 				actualSelection = null;
 				groupBy = String.format("%s,%s,%s,%s,%s,%s", TARGET_SYNSETID, C.AS_TYPE, Relations.RELATION, Relations.RELATIONID, TARGET_WORDID, TARGET_WORD);
 			}

@@ -198,35 +198,40 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 
 			case SEMRELATIONS_QUERY:
 				r.table = "semrelations";
-				r.projection = new String[]{"relationid", "NULL AS word1id", "synset1id", "NULL AS word2id", "synset2id", "'sem' AS relationtype"};
-				r.selection = "synset1id = ?";
+				r.projection = new String[]{"${anyrelations.relationid}", "NULL AS ${anyrelations.word1id}", "${anyrelations.synset1id}", "NULL AS ${anyrelations.word2id}", "${anyrelations.synset2id}", "'sem' AS ${relationtype}"};
+				r.selection = "${anyrelations.synset1id} = ?";
 				break;
 
 			case LEXRELATIONS_QUERY:
 				r.table = "lexrelations";
-				r.projection = new String[]{"relationid", "word1id", "synset1id", "word2id", "synset2id", "'lex' AS relationtype"};
-				r.selection = "synset1id = ? AND word1id = ?";
+				r.projection = new String[]{"${anyrelations.relationid}", "${anyrelations.word1id}", "${anyrelations.synset1id}", "${anyrelations.word2id}", "${anyrelations.synset2id}", "'lex' AS ${relationtype}"};
+				r.selection = "${anyrelations.synset1id} = ? AND ${anyrelations.word1id} = ?";
 				break;
 
-			case ALLRELATIONS_QUERY:
+			case ANYRELATIONS_QUERY:
 				Result q1 = apply(Key.SEMRELATIONS_QUERY);
 				Result q2 = apply(Key.LEXRELATIONS_QUERY);
-				r.table = " ( SELECT " + String.join(",",q1.projection) + " FROM " + q1.table + " WHERE (" + q1.selection + ") UNION SELECT " +String.join(",", q2.projection) + " FROM " + q2.table + " WHERE (" + q2.selection + ") ) ";
+				r.table = " ( SELECT " + String.join(",", q1.projection) + " FROM " + q1.table + " WHERE (" + q1.selection + ") UNION SELECT " + String.join(",", q2.projection) + " FROM " + q2.table + " WHERE (" + q2.selection + ") ) ";
+				r.table = String.format(" ( SELECT %s FROM %s WHERE (%s) UNION SELECT %s FROM %s WHERE (%s) ) ", //
+						String.join(",", q1.projection), q1.table, q1.selection, //
+						String.join(",", q2.projection), q2.table, q2.selection);
 				break;
 
-			case ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET:
+			case ANYRELATIONS_SENSES_WORDS_X_BY_SYNSET:
+				Result q3 = apply(Key.ANYRELATIONS_QUERY);
 				r.table = String.format("( %s ) AS %s " + // 1
-								"INNER JOIN %s USING (%s) " + // 2
-								"INNER JOIN %s AS %s ON %s.%s = %s.%s " + // 3
-								"LEFT JOIN %s ON %s.%s = %s.%s " + // 4
-								"LEFT JOIN %s AS %s USING (%s) " + // 5
-								"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
-						SUBQUERY, "${as_relations}", // 1
-						"${relations.table}", "${relations.relationid}", // 2
-						"${synsets.table}", "${as_synsets2}", "${as_relations}", "${allrelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
-						"${senses.table}", "${as_synsets2}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
-						"${words.table}", "${as_words}", "${words.wordid}", //
-						"${words.table}", "${as_words2}", "${as_relations}", "${allrelations.word2id}", "${as_words2}", "${words.wordid}");
+										"INNER JOIN %s USING (%s) " + // 2
+										"INNER JOIN %s AS %s ON %s.%s = %s.%s " + // 3
+										"LEFT JOIN %s ON %s.%s = %s.%s " + // 4
+										"LEFT JOIN %s AS %s USING (%s) " + // 5
+										"LEFT JOIN %s AS %s ON %s.%s = %s.%s", // 6
+								SUBQUERY, "${as_relations}", // 1
+								"${relations.table}", "${relations.relationid}", // 2
+								"${synsets.table}", "${as_synsets2}", "${as_relations}", "${anyrelations.synset2id}", "${as_synsets2}", "${synsets.synsetid}", // 3
+								"${senses.table}", "${as_synsets2}", "${synsets.synsetid}", "${senses.table}", "${senses.synsetid}", // 4
+								"${words.table}", "${as_words}", "${words.wordid}", //
+								"${words.table}", "${as_words2}", "${as_relations}", "${anyrelations.word2id}", "${as_words2}", "${words.wordid}") //
+						.replace(SUBQUERY, q3.table);
 				r.groupBy = String.format("%s,%s,%s,%s,%s,%s", "${synset2id}", "${relationtype}", "${relations.relation}", "${relations.relationid}", "${word2id}", "${word2}");
 				break;
 
@@ -428,8 +433,8 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 		WORDS_LEXES_MORPHS, WORDS_LEXES_MORPHS_BY_WORD, WORDS_SENSES_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS, WORDS_SENSES_CASEDWORDS_SYNSETS_POSES_DOMAINS, //
 		SENSES_WORDS, SENSES_WORDS_BY_SYNSET, SENSES_SYNSETS_POSES_DOMAINS, //
 		SYNSETS_POSES_DOMAINS, //
-		ALLRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
-		SEMRELATIONS_QUERY, LEXRELATIONS_QUERY, ALLRELATIONS_QUERY, //
+		ANYRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
+		SEMRELATIONS_QUERY, LEXRELATIONS_QUERY, ANYRELATIONS_QUERY, //
 		SEMRELATIONS_SYNSETS, SEMRELATIONS_SYNSETS_X, SEMRELATIONS_SYNSETS_WORDS_X_BY_SYNSET, //
 		LEXRELATIONS_SENSES, LEXRELATIONS_SENSES_X, LEXRELATIONS_SENSES_WORDS_X_BY_SYNSET, //
 		LOOKUP_FTS_DEFINITIONS, LOOKUP_FTS_SAMPLES, LOOKUP_FTS_WORDS, //
