@@ -26,5 +26,7 @@ CREATE INDEX IF NOT EXISTS `pk_lexes_morphs_wordid` ON `lexes_morphs` (`wordid`)
 
 -- syntagnet
 
-CREATE INDEX IF NOT EXISTS `k_syntagms_synset1id_word1id` ON `syntagms` (`synset1id`,`word1id`);
-CREATE INDEX IF NOT EXISTS `k_syntagms_synset2id_word2id` ON `syntagms` (`synset2id`,`word2id`);
+CREATE INDEX IF NOT EXISTS `k_sn_syntagms_synset1id` ON `sn_syntagms` (`synset1id`);
+CREATE INDEX IF NOT EXISTS `k_sn_syntagms_word1id` ON `sn_syntagms` (`word1id`);
+CREATE INDEX IF NOT EXISTS `k_sn_syntagms_synset2id` ON `sn_syntagms` (`synset2id`);
+CREATE INDEX IF NOT EXISTS `k_sn_syntagms_word2id` ON `sn_syntagms` (`word2id`);
