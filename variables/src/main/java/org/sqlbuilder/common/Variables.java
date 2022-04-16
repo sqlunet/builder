@@ -19,9 +19,11 @@ import java.util.stream.Stream;
  */
 public class Variables
 {
-	public static final Pattern NUMBER_PATTERN = Pattern.compile("#\\{([a-zA-Z0-9_.]+)}");
-	public static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$\\{([a-zA-Z0-9_.]+)}");
-	public static final Pattern AT_PATTERN = Pattern.compile("@\\{([a-zA-Z0-9_.]+)}");
+	private static final String CURLY_WRAPPED = "\\{([a-zA-Z0-9_.]+)}";
+	public static final Pattern NUMBER_PATTERN = Pattern.compile("#" + CURLY_WRAPPED);
+	public static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$" + CURLY_WRAPPED);
+	public static final Pattern AT_PATTERN = Pattern.compile("@" + CURLY_WRAPPED);
+	public static final Pattern VAR_PATTERN = Pattern.compile("[@$]" + CURLY_WRAPPED);
 
 	/**
 	 * Name values pairs
@@ -97,6 +99,7 @@ public class Variables
 						{
 							String varName = m.group(1);
 							vars.add(varName);
+							// System.err.println(varName);
 						}
 						return vars.stream();
 					}).sorted().distinct().forEach(consumer);
@@ -162,10 +165,24 @@ public class Variables
 	 */
 	public void varSubstitutionInFile(final File file, final PrintStream ps, boolean useBackticks, final boolean compress) throws IOException
 	{
+		varSubstitutionInFile(file, ps, useBackticks, compress, false);
+	}
+
+	/**
+	 * Substitute values to variables in file
+	 *
+	 * @param file     input file
+	 * @param ps       print stream
+	 * @param compress whether to compress spaces to single space
+	 * @param check    for remaining variable patterns
+	 * @throws IOException io exception
+	 */
+	public void varSubstitutionInFile(final File file, final PrintStream ps, boolean useBackticks, final boolean compress, final boolean check) throws IOException
+	{
 		// iterate on lines
 		try (InputStream is = new FileInputStream(file))
 		{
-			varSubstitutionInIS(is, ps, useBackticks, compress);
+			varSubstitutionInIS(is, ps, useBackticks, compress, check);
 		}
 		catch (IllegalArgumentException iae)
 		{
@@ -184,6 +201,20 @@ public class Variables
 	 */
 	public void varSubstitutionInIS(final InputStream is, final PrintStream ps, boolean useBackticks, final boolean compress) throws IOException
 	{
+		varSubstitutionInIS(is, ps, useBackticks, compress, false);
+	}
+
+	/**
+	 * Substitute values to variables in input stream
+	 *
+	 * @param is       input stream
+	 * @param ps       print stream
+	 * @param compress whether to compress spaces to single space
+	 * @param check    for remaining variable patterns
+	 * @throws IOException io exception
+	 */
+	public void varSubstitutionInIS(final InputStream is, final PrintStream ps, boolean useBackticks, final boolean compress, final boolean check) throws IOException
+	{
 		// iterate on lines
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.defaultCharset())))
 		{
@@ -194,7 +225,6 @@ public class Variables
 				lineNum++;
 				try
 				{
-					//initVars(line);
 					line = varSubstitution(line, useBackticks);
 				}
 				catch (IllegalArgumentException iae)
@@ -207,6 +237,12 @@ public class Variables
 					line = line.replaceAll("\\s+", " ");
 				}
 				ps.println(line);
+
+				// check
+				if (check)
+				{
+					check(line);
+				}
 			}
 		}
 	}
@@ -220,6 +256,21 @@ public class Variables
 	public String varSubstitution(String input)
 	{
 		return varSubstitution(varSubstitution(input, AT_PATTERN, false), DOLLAR_PATTERN, false);
+	}
+
+	/**
+	 * Check for remaining variable pattern in in string
+	 *
+	 * @param input input string
+	 * @throws IllegalStateException illagal state exception
+	 */
+	public void check(String input)
+	{
+		Matcher m = VAR_PATTERN.matcher(input);
+		if (m.find())
+		{
+			throw new IllegalArgumentException(m.group(1));
+		}
 	}
 
 	/**
@@ -247,7 +298,7 @@ public class Variables
 		Matcher m = p.matcher(input);
 		if (m.find())
 		{
-			var output = m.replaceAll(r -> {
+			return m.replaceAll(r -> {
 				String varName = r.group(1);
 				if (!toValue.containsKey(varName))
 				{
@@ -256,7 +307,6 @@ public class Variables
 				var val = toValue.get(varName);
 				return useBackticks ? "`" + val + '`' : val;
 			});
-			return output;
 		}
 		return input;
 	}

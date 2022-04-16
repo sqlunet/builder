@@ -27,8 +27,6 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 	@Override
 	public String[] apply(String keyname)
 	{
-		final String last = URI_LAST;
-
 		String table;
 		String[] projection = null;
 		String selection = null;
@@ -158,7 +156,7 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 						String.format("%s AS #{suggest_text_1}", "${words.word}"), //
 						String.format("%s AS #{suggest_query}", "${words.word}")}; //
 				selection = String.format("%s LIKE ? || '%%'", "${words.word}");
-				selectionArgs = new String[]{last};
+				selectionArgs = new String[]{URI_LAST};
 				break;
 			}
 
@@ -169,7 +167,7 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 						String.format("%s AS #{suggest_text_1}", "${words.word}"), //
 						String.format("%s AS #{suggest_query}", "${words.word}")}; //
 				selection = String.format("%s MATCH ?", "${words.word}"); //
-				selectionArgs = new String[]{last + '*'};
+				selectionArgs = new String[]{URI_LAST + '*'};
 				break;
 			}
 

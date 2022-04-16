@@ -89,7 +89,10 @@ public class Generator
 			String[] result = q.apply(key);
 			assert result != null : key;
 
-			ps.printf("\t\tstatic public final String TABLE = %s;%n", transformer.apply(result[0]));
+			if (result[0] != null)
+			{
+				ps.printf("\t\tstatic public final String TABLE = %s;%n", transformer.apply(result[0]));
+			}
 			if (result[1] != null)
 			{
 				ps.printf("\t\tstatic public final String[] PROJECTION = %s;%n", transformer.apply(result[1]));
@@ -131,7 +134,7 @@ public class Generator
 	private static void doInstantiate(final File source, final Variables variables, final PrintStream ps) throws IOException
 	{
 		System.out.println("source:  " + source);
-		variables.varSubstitutionInFile(source, ps, false, false);
+		variables.varSubstitutionInFile(source, ps, false, false, true);
 	}
 
 	// V A R I A B L E S
