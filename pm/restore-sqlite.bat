@@ -5,7 +5,7 @@ rem 03/12/2021
 set /P DB=Enter database name:
 
 set DBTYPE=sqlite
-set TABLES=pms pmroles
+set TABLES=pms roles predicates
 
 if "%1"=="-d" call :deletedb
 call :dbexists

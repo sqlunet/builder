@@ -44,7 +44,8 @@ CREATE INDEX IF NOT EXISTS `pk_pb_persons` ON `pb_persons` (`personid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_tenses` ON `pb_tenses` (`tenseid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_voices` ON `pb_voices` (`voiceid`);
 CREATE INDEX IF NOT EXISTS `k_pb_members_rolesetid` ON `pb_members` (`rolesetid`);
-CREATE INDEX IF NOT EXISTS `k_pb_words_pbwordid` ON `pb_words` (`pbwordid`);
+CREATE INDEX IF NOT EXISTS `pk_pb_words` ON `pb_words` (`pbwordid`);
+CREATE INDEX IF NOT EXISTS `k_pb_words_wordid` ON `pb_words` (`wordid`);
 
 -- wordnet
 

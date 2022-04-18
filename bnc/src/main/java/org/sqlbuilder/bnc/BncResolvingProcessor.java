@@ -47,7 +47,7 @@ public class BncResolvingProcessor extends BncProcessor
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8))
 		{
 			ps.println("-- " + header);
-			processBNCFile(ps, new File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs"), (record, i) -> resolveAndInsert(ps, record, i));
+			processBNCFile(ps, new File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs", true), (record, i) -> resolveAndInsert(ps, record, i));
 		}
 
 		// subfiles
@@ -55,21 +55,21 @@ public class BncResolvingProcessor extends BncProcessor
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8))
 		{
 			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs"), (record, i) -> resolveAndInsert(ps, record, i));
+			processBNCSubFile(ps, new File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs", true), (record, i) -> resolveAndInsert(ps, record, i));
 		}
 
 		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8))
 		{
 			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks"), (record, i) -> resolveAndInsert(ps, record, i));
+			processBNCSubFile(ps, new File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks", true), (record, i) -> resolveAndInsert(ps, record, i));
 		}
 
 		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8))
 		{
 			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs"), (record, i) -> resolveAndInsert(ps, record, i));
+			processBNCSubFile(ps, new File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs", true), (record, i) -> resolveAndInsert(ps, record, i));
 		}
 	}
 

@@ -12,7 +12,7 @@ public class PmRole implements HasId, Insertable, Comparable<PmRole>
 
 	public static final SetCollector<PmRole> COLLECTOR = new SetCollector<>(COMPARATOR);
 
-	public final String predicate;
+	public final PmPredicate predicate;
 
 	public final String role;
 
@@ -22,12 +22,13 @@ public class PmRole implements HasId, Insertable, Comparable<PmRole>
 
 	public static PmRole make(final String predicate, final String role, final Character pos)
 	{
-		var r = new PmRole(predicate, role, pos);
+		var p = PmPredicate.make(predicate);
+		var r = new PmRole(p, role, pos);
 		COLLECTOR.add(r);
 		return r;
 	}
 
-	private PmRole(final String predicate, final String role, final Character pos)
+	private PmRole(final PmPredicate predicate, final String role, final Character pos)
 	{
 		// predicate, role, pos
 		this.predicate = predicate;
@@ -56,7 +57,7 @@ public class PmRole implements HasId, Insertable, Comparable<PmRole>
 
 	// A C C E S S
 
-	public String getPredicate()
+	public PmPredicate getPredicate()
 	{
 		return predicate;
 	}
@@ -114,7 +115,7 @@ public class PmRole implements HasId, Insertable, Comparable<PmRole>
 	@Override
 	public String dataRow()
 	{
-		return String.format("'%s','%s','%c'", predicate, role, pos);
+		return String.format("%s,'%s','%c'", predicate.getIntId(), role, pos);
 	}
 
 	// T O S T R I N G

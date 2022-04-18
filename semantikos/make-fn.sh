@@ -33,14 +33,14 @@ rm -fR fn
 echo -e "${Y}A D D${Z}"
 unzip ${fn} -d fn
 
-echo -e "${R}removing indexes${Z}"
+echo -e "${M}removing indexes${Z}"
 rm fn/sql/sqlite/index/*
 
 echo -e "${Y}R E S T O R E${Z}"
 
 pushd fn > /dev/null
 chmod +x ./restore-sqlite.sh 
-./restore-sqlite.sh -d -r "../${db}"
+./restore-sqlite.sh -y -d -r "../${db}"
 popd > /dev/null
 
 echo -e "${Y}A D D${Z}"

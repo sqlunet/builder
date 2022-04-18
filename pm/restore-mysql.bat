@@ -7,7 +7,7 @@ set /P DB=Enter database name:
 set DBTYPE=mysql
 set DBUSER=root
 set /P DBPWD=Enter %DBUSER% password:
-set TABLES=pms pmroles
+set TABLES=pms roles predicates
 
 if "%1"=="-d" call :deletedb
 call :dbexists

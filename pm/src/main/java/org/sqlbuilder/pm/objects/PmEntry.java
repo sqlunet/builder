@@ -105,7 +105,7 @@ public class PmEntry implements Insertable
 		}
 		if ("NULL".equals(entry.word))
 		{
-			entry.word = entry.role.predicate.substring(0, entry.role.predicate.indexOf('.'));
+			entry.word = entry.role.predicate.getWord();
 		}
 
 		// sensekey

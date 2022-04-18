@@ -28,13 +28,6 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 
 	// C O N S T R U C T O R
 
-	public static Arg make(final Example example, final String text, @NotNull final String n, final String f)
-	{
-		var a = new Arg(example, text, n, f);
-		COLLECTOR.add(a);
-		return a;
-	}
-
 	private Arg(final Example example, final String text, final String n, final String f)
 	{
 		assert n != null && !n.isEmpty();
@@ -42,6 +35,13 @@ public class Arg implements HasId, Insertable, Comparable<Arg>
 		this.text = PbNormalizer.normalize(text);
 		this.n = ArgN.make(n);
 		this.f = f == null || f.isEmpty() ? null : Func.make(f.toLowerCase());
+	}
+
+	public static Arg make(final Example example, final String text, @NotNull final String n, final String f)
+	{
+		var a = new Arg(example, text, n, f);
+		COLLECTOR.add(a);
+		return a;
 	}
 
 	// A C C E S S

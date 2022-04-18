@@ -6,6 +6,7 @@
 
 export tables="
 pms
-pmroles
+roles
+predicates
 "
 echo ${tables}

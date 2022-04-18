@@ -1,9 +1,10 @@
 package org.sqlbuilder.pm;
 
+import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Names;
-import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.pm.objects.PmPredicate;
 import org.sqlbuilder.pm.objects.PmRole;
 import org.sqlbuilder2.ser.Pair;
 
@@ -17,40 +18,23 @@ import java.util.Properties;
 public class PmResolvingProcessor extends PmProcessor
 {
 	protected final Names names;
-
-	protected File outDir;
-
 	protected final String wordSerFile;
-
 	protected final String vnWordSerFile;
-
 	protected final String pbWordSerFile;
-
 	protected final String fnWordSerFile;
-
 	protected final String sensekeySerFile;
-
 	protected final String vnRoleSerFile;
-
 	protected final String pbRoleSerFile;
-
 	protected final String fnRoleSerFile;
-
 	protected final WordResolver wordResolver;
-
 	protected final VnWordResolver vnWordResolver;
-
 	protected final PbWordResolver pbWordResolver;
-
 	protected final FnWordResolver fnWordResolver;
-
 	protected final SensekeyResolver sensekeyResolver;
-
 	protected final VnRoleResolver vnRoleResolver;
-
 	protected final PbRoleResolver pbRoleResolver;
-
 	protected final FnRoleResolver fnRoleResolver;
+	protected File outDir;
 
 	public PmResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
@@ -96,37 +80,41 @@ public class PmResolvingProcessor extends PmProcessor
 	{
 		var inputFile = new File(pMHome, pMFile);
 		process(inputFile, PmRole::parse, null);
-		try (@ProvidesIdTo(type = PmRole.class) var ignored = PmRole.COLLECTOR.open())
+		try (@ProvidesIdTo(type = PmPredicate.class) var ignored1 = PmPredicate.COLLECTOR.open())
 		{
-			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"), header);
-
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
+			Insert.insert(PmPredicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
+			try (@ProvidesIdTo(type = PmRole.class) var ignored2 = PmRole.COLLECTOR.open())
 			{
-				ps.println("-- " + header);
-				processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), (entry, i) -> {
+				Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
 
-					var wordid = wordResolver.apply(entry.word);
-					var sk = sensekeyResolver.apply(entry.sensekey);
+				try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
+				{
+					ps.println("-- " + header);
+					processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), (entry, i) -> {
 
-					var vnWordid = this.vnWordResolver.apply(entry.word);
-					var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.theta));
-					var pbWordid = this.pbWordResolver.apply(entry.word);
-					var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
-					var fnWordid = this.fnWordResolver.apply(entry.word);
-					var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
+						var wordid = wordResolver.apply(entry.word);
+						var sk = sensekeyResolver.apply(entry.sensekey);
 
-					var wordResolved = Utils.nullableInt(wordid);
-					var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
+						var vnWordid = this.vnWordResolver.apply(entry.word);
+						var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.theta));
+						var pbWordid = this.pbWordResolver.apply(entry.word);
+						var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
+						var fnWordid = this.fnWordResolver.apply(entry.word);
+						var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
 
-					var vnWordResolved = Utils.nullableInt(vnWordid);
-					var pbWordResolved = Utils.nullableInt(pbWordid);
-					var fnWordResolved = Utils.nullableInt(fnWordid);
-					var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.first), Utils.nullableInt(vn.second)));
-					var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.first), Utils.nullableInt(pb.second)));
-					var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.first), Utils.nullableInt(fn.second), Utils.nullableInt(fn.third)));
+						var wordResolved = Utils.nullableInt(wordid);
+						var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
 
-					insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, vnWordResolved, pbWordResolved, fnWordResolved, senseResolved, vnResolved, pbResolved, fnResolved));
-				});
+						var vnWordResolved = Utils.nullableInt(vnWordid);
+						var pbWordResolved = Utils.nullableInt(pbWordid);
+						var fnWordResolved = Utils.nullableInt(fnWordid);
+						var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.first), Utils.nullableInt(vn.second)));
+						var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.first), Utils.nullableInt(pb.second)));
+						var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.first), Utils.nullableInt(fn.second), Utils.nullableInt(fn.third)));
+
+						insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, vnWordResolved, pbWordResolved, fnWordResolved, senseResolved, vnResolved, pbResolved, fnResolved));
+					});
+				}
 			}
 		}
 	}

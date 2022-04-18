@@ -30,7 +30,7 @@ public class Governor implements HasId, Insertable
 		this.word = Word.make(governor.getLemma());
 	}
 
-	//A C C E S S
+	// A C C E S S
 
 	public String getType()
 	{

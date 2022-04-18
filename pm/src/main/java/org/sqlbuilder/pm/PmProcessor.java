@@ -3,6 +3,7 @@ package org.sqlbuilder.pm;
 import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.pm.objects.PmEntry;
+import org.sqlbuilder.pm.objects.PmPredicate;
 import org.sqlbuilder.pm.objects.PmRole;
 
 import java.io.File;
@@ -23,12 +24,9 @@ public class PmProcessor extends Processor
 	protected final String pMFile;
 
 	protected final Names names;
-
-	protected String header;
-
 	protected final File outDir;
-
 	protected final Properties conf;
+	protected String header;
 
 	public PmProcessor(final Properties conf)
 	{
@@ -44,30 +42,6 @@ public class PmProcessor extends Processor
 			//noinspection ResultOfMethodCallIgnored
 			this.outDir.mkdirs();
 		}
-	}
-
-	@Override
-	public void run() throws IOException
-	{
-		var inputFile = new File(pMHome, pMFile);
-		process(inputFile, PmRole::parse, null);
-		try (@ProvidesIdTo(type = PmRole.class) var ignored = PmRole.COLLECTOR.open())
-		{
-			Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("pmroles")), names.table("pmroles"), names.columns("pmroles"), header);
-
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
-			{
-				ps.println("-- " + header);
-				processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
-			}
-		}
-	}
-
-	protected void processPmFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<PmEntry, Integer> consumer) throws IOException
-	{
-		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, PmEntry::parse, consumer);
-		ps.print(';');
 	}
 
 	protected static <T> void process(final File file, final ThrowingFunction<String, T> producer, final BiConsumer<T, Integer> consumer) throws IOException
@@ -110,6 +84,36 @@ public class PmProcessor extends Processor
 						count[0]++;
 					});
 		}
+	}
+
+	@Override
+	public void run() throws IOException
+	{
+		var inputFile = new File(pMHome, pMFile);
+		process(inputFile, PmRole::parse, null);
+
+		try (@ProvidesIdTo(type = PmPredicate.class) var ignored1 = PmPredicate.COLLECTOR.open())
+		{
+			Insert.insert(PmPredicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
+
+			try (@ProvidesIdTo(type = PmRole.class) var ignored2 = PmRole.COLLECTOR.open())
+			{
+				Insert.insert(PmRole.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
+
+				try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
+				{
+					ps.println("-- " + header);
+					processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
+				}
+			}
+		}
+	}
+
+	protected void processPmFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<PmEntry, Integer> consumer) throws IOException
+	{
+		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+		process(file, PmEntry::parse, consumer);
+		ps.print(';');
 	}
 
 	protected void insertRow(final PrintStream ps, final Integer index, final String values)

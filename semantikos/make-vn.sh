@@ -39,7 +39,7 @@ unzip ${wn} -d wn
 unzip ${vn} -d vn
 unzip ${pb} -d pb
 
-echo -e "${R}removing indexes${Z}"
+echo -e "${M}removing indexes${Z}"
 rm wn/sql/sqlite/index/*
 rm vn/sql/sqlite/index/*
 rm pb/sql/sqlite/index/*
@@ -48,17 +48,17 @@ echo -e "${Y}R E S T O R E${Z}"
 
 pushd wn > /dev/null
 chmod +x ./restore-sqlite.sh 
-./restore-sqlite.sh -d "../${db}"
+./restore-sqlite.sh -y -d "../${db}"
 popd > /dev/null
 
 pushd vn > /dev/null
 chmod +x ./restore-sqlite.sh 
-./restore-sqlite.sh -r "../${db}"
+./restore-sqlite.sh -y -r "../${db}"
 popd > /dev/null
 
 pushd pb > /dev/null
 chmod +x ./restore-sqlite.sh 
-./restore-sqlite.sh -r "../${db}"
+./restore-sqlite.sh -y -r "../${db}"
 popd > /dev/null
 
 echo -e "${Y}A D D${Z}"
