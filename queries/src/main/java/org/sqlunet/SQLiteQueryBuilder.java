@@ -1,4 +1,4 @@
-package org.sqlunet.xnet;
+package org.sqlunet;
 
 import java.util.Collection;
 import java.util.Iterator;

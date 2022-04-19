@@ -69,11 +69,11 @@ public class Factory implements Function<String, String[]>, Supplier<String[]>
 						"LEFT JOIN ${wn_synsets.table]                          USING (${wn_synsets.synsetid}) " + //
 
 						"LEFT JOIN ${vn_classes.table}    AS ${as_vnclasses}    ON ${vn_classes.classid}                = ${as_vnclasses}.${vn_classes.classid} " + //
-						"LEFT JOIN ${vn_roles.table}      AS ${as_vnroles}      ON ${vn_roles.roleid}                   = ${as_vnroles}.${vn_roles.roleid} " + //
+						"LEFT JOIN ${vn_roles.table} AS ${as_vnroles} ON ${vn_roles.vnroleid} = ${as_vnroles}.${vn_roles.vnroleid} " + //
 						"LEFT JOIN ${vn_roletypes.table}  AS ${as_vnroletypes}  ON ${vn_roletypes.roletypeid}           = ${as_vnroletypes}.${vn_roletypes.roletypeid} " + //
 
 						"LEFT JOIN ${pb_rolesets.table}   AS ${as_pbrolesets}   ON ${pb_rolesets.rolesetid}             = ${as_pbrolesets}.${pb_rolesets.rolesetid} " + //
-						"LEFT JOIN ${pb_roles.table}      AS ${as_pbroles}      ON ${pb_roles.roleid}                   = ${as_pbroles}.${pb_roles.roleid} " + //
+						"LEFT JOIN ${pb_roles.table} AS ${as_pbroles} ON ${pb_roles.pbroleid} = ${as_pbroles}.${pb_roles.pbroleid} " + //
 						"LEFT JOIN ${pb_argns.table}      AS ${as_pbargs}       ON ${as_pbroles}.${pb_argns.nargid}     = ${as_pbargs}.${pb_argns.nargid} " + //
 
 						"LEFT JOIN ${fn_frames.table}     AS ${as_fnframes}     ON ${fn_frames.frameid}                 = ${as_fnframes}.${fn_frames.frameid} " + //
