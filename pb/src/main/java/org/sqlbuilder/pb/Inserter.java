@@ -81,8 +81,8 @@ public class Inserter
 			Insert.insert(Theta.COLLECTOR, new File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"), header);
 			Progress.traceDone();
 
-			Progress.tracePending("set", "argn");
-			Insert.insert(ArgN.SET, ArgN.COMPARATOR, new File(outDir, names.file("argns")), names.table("argns"), names.columns("argns"), header);
+			Progress.tracePending("set", "argtype");
+			Insert.insert(ArgType.SET, ArgType.COMPARATOR, new File(outDir, names.file("argtypes")), names.table("argtypes"), names.columns("argtypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "roleset");

@@ -78,9 +78,9 @@ public class C
 		static public final String ROLESETID = "rolesetid";
 		static public final String ROLEID = "roleid";
 		static public final String ROLEDESCR = "roledescr";
-		static public final String NARG = "narg";
-		static public final String FUNCNAME = "funcname";
-		static public final String THETANAME = "thetaname";
+		static public final String ARGTYPE = "argtype";
+		static public final String FUNC = "func";
+		static public final String THETA = "theta";
 	}
 
 	static public final class PbExamples
@@ -95,7 +95,8 @@ public class C
 	{
 		static public final String TABLE = "pbargs";
 		static public final String CONTENT_URI_TABLE = PbArgs.TABLE;
-		static public final String ARGN = "narg";
+		static public final String ARGTYPEID = "argtypeid";
+		static public final String ARGTYPE = "argtype";
 	}
 
 	static public final class PbThetas
@@ -161,12 +162,12 @@ public class C
 		static public final String TABLE_BY_EXAMPLE = "pbrolesets_pbexamples_by_example";
 		static public final String CONTENT_URI_TABLE = PbRoleSets_PbExamples.TABLE_BY_EXAMPLE;
 		static public final String ROLESETID = "rolesetid";
+		static public final String ROLEDESCR = "roledescr";
 		static public final String TEXT = "text";
 		static public final String REL = "rel";
-		static public final String NARG = "narg";
-		static public final String FUNCNAME = "funcname";
-		static public final String ROLEDESCR = "roledescr";
-		static public final String THETANAME = "thetaname";
+		static public final String ARGTYPE = "argtype";
+		static public final String FUNC = "func";
+		static public final String THETA = "theta";
 		static public final String ARG = "arg";
 		static public final String ARGS = "args";
 		static public final String EXAMPLEID = "exampleid";

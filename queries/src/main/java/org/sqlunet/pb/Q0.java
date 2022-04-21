@@ -79,7 +79,7 @@ public class Q0 implements Function<String,String[]>
 						"INNER JOIN pbroles USING (rolesetid) " + //
 						"LEFT JOIN pbfuncs USING (func) " + //
 						"LEFT JOIN pbvnthetas USING (theta)";
-				actualSortOrder = "narg";
+				actualSortOrder = "argtypeid";
 				break;
 
 			case "PBROLESETS_PBEXAMPLES_BY_EXAMPLE":
@@ -97,9 +97,9 @@ public class Q0 implements Function<String,String[]>
 						"LEFT JOIN pbtenses USING (tense) " + //
 						"LEFT JOIN pbvoices USING (voice) " + //
 						"LEFT JOIN pbpersons USING (person) " + //
-						"LEFT JOIN pbroles USING (rolesetid,narg) " + //
+						"LEFT JOIN pbroles USING (rolesetid,argtypeid) " + //
 						"LEFT JOIN pbvnthetas USING (theta)";
-				actualSortOrder = C.EXAMPLE + ".exampleid,narg";
+				actualSortOrder = C.EXAMPLE + ".exampleid,argtypeid";
 				break;
 
 			// L O O K U P

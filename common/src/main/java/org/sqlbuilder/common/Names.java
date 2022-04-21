@@ -53,9 +53,9 @@ public class Names
 		return serFile(key, "");
 	}
 
-	public String serFile(String key, String suffix)
+	public String serFile(String name, String suffix)
 	{
-		return get(key) + suffix + ".ser";
+		return name + suffix + ".ser";
 	}
 
 	public String mapFile(String key)
@@ -63,9 +63,9 @@ public class Names
 		return mapFile(key, "");
 	}
 
-	public String mapFile(String key, String suffix)
+	public String mapFile(String name, String suffix)
 	{
-		return get(key) + suffix + ".map";
+		return name + suffix + ".map";
 	}
 
 	public String table(String key)

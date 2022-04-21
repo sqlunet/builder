@@ -135,11 +135,13 @@ public class Variables
 	 */
 	public void export(final PrintStream ps)
 	{
-		toValue.keySet().stream().map(k -> new AbstractMap.SimpleEntry<>(k, k.contains(".") ? k.substring(k.lastIndexOf('.') + 1) : k)) //
-				.filter(kk -> !Set.of("table", "file", "columns", "resolved").contains(kk.getValue())) //
+		toValue.keySet().stream() //
+				.map(k -> new AbstractMap.SimpleEntry<>(k, k.contains(".") ? k.substring(k.lastIndexOf('.') + 1) : k)) // (key, key2)
+				.filter(k -> !Set.of("table", "file", "columns", "resolved").contains(k.getValue())) //
 				.sorted(Comparator.comparing(Map.Entry<String, String>::getValue)) //
-				.map(e -> String.format("public static final String %s=\"%s\";", e.getValue().toUpperCase(Locale.ROOT), toValue.get(e.getKey()))) //
+				.map(e -> new AbstractMap.SimpleEntry<>(e.getValue().toUpperCase(Locale.ROOT), toValue.get(e.getKey()))) // (key2, value)
 				.distinct() //
+				.map(e -> String.format("public static final String %s=\"%s\";", e.getKey(), e.getValue())) //
 				.forEach(ps::println);
 	}
 

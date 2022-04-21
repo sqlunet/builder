@@ -33,13 +33,13 @@ class SqLiteDialect
 	// ROLES
 	// query for roles
 	static final String PropBankRolesQueryFromRoleSetId = //
-			"SELECT ${roles.roleid},${roles.roledescr},${argns.nargid},${funcs.func},${thetas.thetaid} " + //
+			"SELECT ${roles.roleid},${roles.roledescr},${argtypes.argtypeid},${funcs.func},${thetas.thetaid} " + //
 					"FROM ${rolesets.table} " + //
 					"INNER JOIN ${roles.table} USING (${rolesets.rolesetid}) " + //
 					"LEFT JOIN ${funcs.table} USING (${funcs.funcid}) " + //
 					"LEFT JOIN ${thetas.table} USING (${thetas.theta}) " + //
 					"WHERE ${rolesets.rolesetid} = ? " + //
-					"ORDER BY ${argns.nargid};";
+					"ORDER BY ${argtypes.argtypeid};";
 
 	// EXAMPLES
 	// query for examples rel(n~arg|n~arg|..)

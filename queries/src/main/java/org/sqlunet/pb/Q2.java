@@ -89,7 +89,7 @@ public class Q2 implements Function<String,String[]>
 						PbRoles.TABLE, PbRoleSets.ROLESETID, //
 						PbFuncs.TABLE, PbFuncs.FUNC, //
 						PbThetas.TABLE, PbThetas.THETA);
-				actualSortOrder = "narg";
+				actualSortOrder = "argtypeid";
 				break;
 
 			case "PBROLESETS_PBEXAMPLES_BY_EXAMPLE":
@@ -120,9 +120,9 @@ public class Q2 implements Function<String,String[]>
 						PbTenses.TABLE, PbTenses.TENSE, //
 						PbVoices.TABLE, PbVoices.VOICE, //
 						PbPersons.TABLE, PbPersons.PERSON, //
-						PbRoles.TABLE, PbRoleSets.ROLESETID, PbArgs.ARGN, //
+						PbRoles.TABLE, PbRoleSets.ROLESETID, PbArgs.ARGTYPE, //
 						PbThetas.TABLE, PbThetas.THETA);
-				actualSortOrder = String.format("%s.%s,%s", C.EXAMPLE, PbExamples.EXAMPLEID, PbArgs.ARGN);
+				actualSortOrder = String.format("%s.%s,%s", C.EXAMPLE, PbExamples.EXAMPLEID, PbArgs.ARGTYPE);
 				break;
 
 			// L O O K U P

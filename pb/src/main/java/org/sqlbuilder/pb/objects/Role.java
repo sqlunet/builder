@@ -11,7 +11,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 {
 	public static final Comparator<Role> COMPARATOR = Comparator //
 			.comparing(Role::getRoleSet) //
-			.thenComparing(Role::getArgn) //
+			.thenComparing(Role::getArgType) //
 			.thenComparing(Role::getFunc, Comparator.nullsFirst(Comparator.naturalOrder())) //
 			;
 
@@ -19,7 +19,7 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 
 	private final RoleSet roleSet;
 
-	private final String argn;
+	private final String argType;
 
 	@Nullable
 	private final Theta theta;
@@ -38,10 +38,10 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return r;
 	}
 
-	private Role(final RoleSet roleSet, final String n, final String func, final String descriptor, final String theta)
+	private Role(final RoleSet roleSet, final String argType, final String func, final String descriptor, final String theta)
 	{
 		this.roleSet = roleSet;
-		this.argn = n;
+		this.argType = argType;
 		this.theta = theta == null || theta.isEmpty() ? null : Theta.make(theta);
 		this.func = func == null || func.isEmpty() ? null : Func.make(func);
 		this.descr = descriptor;
@@ -54,9 +54,9 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 		return this.roleSet;
 	}
 
-	public String getArgn()
+	public String getArgType()
 	{
-		return this.argn;
+		return this.argType;
 	}
 
 	@Nullable
@@ -103,13 +103,13 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 			return false;
 		}
 		Role that = (Role) o;
-		return roleSet.equals(that.roleSet) && argn.equals(that.argn) && Objects.equals(func, that.func);
+		return roleSet.equals(that.roleSet) && argType.equals(that.argType) && Objects.equals(func, that.func);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(roleSet, argn, func);
+		return Objects.hash(roleSet, argType, func);
 	}
 
 	// O R D E R I N G
@@ -128,9 +128,9 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	@Override
 	public String dataRow()
 	{
-		// (roleid),narg,theta,func,roledescr,rolesetid
+		// (roleid),argtype,theta,func,roledescr,rolesetid
 		return String.format("'%s',%s,%s,%s,%d", //
-				argn, //
+				argType, //
 				Utils.nullable(theta, HasId::getSqlId), //
 				Utils.nullable(func, HasId::getSqlId), //
 				Utils.nullableQuotedEscapedString(descr), //
@@ -151,8 +151,8 @@ public class Role implements HasId, Insertable, Comparable<Role>, Serializable
 	{
 		if (this.descr == null)
 		{
-			return String.format("%s[%s-%s]", roleSet, argn, func);
+			return String.format("%s[%s-%s]", roleSet, argType, func);
 		}
-		return String.format("%s[%s-%s '%s']", roleSet, argn, func, descr);
+		return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr);
 	}
 }

@@ -89,7 +89,7 @@ public class QV implements Function<String,String[]>
 						"${roles.table}", "${rolesets.rolesetid}", //
 						"${funcs.table}", "${funcs.func}", //
 						"${thetas.table}", "${thetas.theta}");
-				sortOrder = "${roles.narg}";
+				sortOrder = "${roles.argtypeid}";
 				break;
 
 			case "PBROLESETS_PBEXAMPLES_BY_EXAMPLE":

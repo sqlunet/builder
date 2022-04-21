@@ -14,7 +14,7 @@ CREATE TABLE ${pms.table} (
      ${pms.fnframe}     VARCHAR(36) DEFAULT NULL,
      ${pms.fnfe}        VARCHAR(32) DEFAULT NULL,
      ${pms.fnlu}        VARCHAR(24) DEFAULT NULL,
-     ${pms.sumo}        VARCHAR(64) DEFAULT NULL,
+--
      ${pms.source}      INTEGER DEFAULT NULL,
 --
      ${pms.wordid}      INTEGER DEFAULT NULL,

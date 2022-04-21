@@ -86,31 +86,31 @@ public class Exporter
 	public void serializeThetas() throws IOException
 	{
 		var m = makeThetasMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("thetas.resolve", "_[theta]-[thetaid]")));
+		Serialize.serialize(m, new File(outDir, names.serFile("thetas", ".resolve_[theta]-[thetaid]")));
 	}
 
 	public void serializeRoleSets() throws IOException
 	{
 		var m = makeRoleSetsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("rolesets.resolve", "_[roleset]-[rolesetid]")));
+		Serialize.serialize(m, new File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")));
 	}
 
 	public void serializeRolesBare() throws IOException
 	{
 		var m = makeRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[roleset,argn]-[roleid]")));
+		Serialize.serialize(m, new File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")));
 	}
 
 	private void serializeRoles() throws IOException
 	{
-		var m = makeRolesFromArgNToFullMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[roleset,argn]-[roleid,rolesetid]")));
+		var m = makeRolesFromArgTypeToFullMap();
+		Serialize.serialize(m, new File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")));
 	}
 
 	public void serializeWords() throws IOException
 	{
 		var m = makeWordMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("words.resolve", "_[word]-[pbwordid]")));
+		Serialize.serialize(m, new File(outDir, names.serFile("words", ".resolve_[word]-[pbwordid]")));
 	}
 
 	public void exportThetas() throws IOException
@@ -128,13 +128,13 @@ public class Exporter
 	public void exportRolesBare() throws IOException
 	{
 		var m = makeRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argn]-[roleid]")));
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")));
 	}
 
 	public void exportRoles() throws IOException
 	{
-		var m = makeRolesFromArgNToFullTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argn]-[roleid,rolesetid]")));
+		var m = makeRolesFromArgTypeToFullTreeMap();
+		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid,rolesetid]")));
 	}
 
 	public void exportWords() throws IOException
@@ -159,7 +159,7 @@ public class Exporter
 	void duplicateRoles()
 	{
 		Role.COLLECTOR.keySet().stream() //
-				.map(r -> new Pair<>(r.getRoleSet().getName(), r.getArgn())) //
+				.map(r -> new Pair<>(r.getRoleSet().getName(), r.getArgType())) //
 				.collect(groupingBy(Function.identity(), counting())) //
 				.entrySet().stream() //
 				.filter(e -> e.getValue() > 1).map(Map.Entry::getKey).forEach(p -> System.err.printf("%s is duplicated in %s%n", p.second, p.first));
@@ -200,7 +200,7 @@ public class Exporter
 					var r = e.getKey(); //
 					var rs = r.getRoleSet();
 					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgn()), //
+							new Pair<>(rs.getName(), r.getArgType()), //
 							e.getValue());
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
@@ -216,7 +216,7 @@ public class Exporter
 					var r = e.getKey(); //
 					var rs = r.getRoleSet();
 					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgn()), //
+							new Pair<>(rs.getName(), r.getArgType()), //
 							e.getValue());
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
@@ -228,16 +228,16 @@ public class Exporter
 	/**
 	 * Detailed role maps
 	 *
-	 * @return (rolesetname, argn) -> (roleid, rolesetid)
+	 * @return (rolesetname, argtype) -> (roleid, rolesetid)
 	 */
-	public Map<Pair<String, String>, Pair<Integer, Integer>> makeRolesFromArgNToFullMap()
+	public Map<Pair<String, String>, Pair<Integer, Integer>> makeRolesFromArgTypeToFullMap()
 	{
 		return Role.COLLECTOR.entrySet().stream() //
 				.map(e -> {
 					var r = e.getKey(); //
 					var rs = r.getRoleSet();
 					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgn()), //
+							new Pair<>(rs.getName(), r.getArgType()), //
 							new Pair<>(e.getValue(), rs.getIntId()));
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
@@ -249,16 +249,16 @@ public class Exporter
 	/**
 	 * Detailed role maps
 	 *
-	 * @return (rolesetname, argn) -> (roleid, rolesetid)
+	 * @return (rolesetname, argtype) -> (roleid, rolesetid)
 	 */
-	public Map<Pair<String, String>, Pair<Integer, Integer>> makeRolesFromArgNToFullTreeMap()
+	public Map<Pair<String, String>, Pair<Integer, Integer>> makeRolesFromArgTypeToFullTreeMap()
 	{
 		return Role.COLLECTOR.entrySet().stream() //
 				.map(e -> {
 					var r = e.getKey(); //
 					var rs = r.getRoleSet();
 					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgn()), //
+							new Pair<>(rs.getName(), r.getArgType()), //
 							new Pair<>(e.getValue(), rs.getIntId()));
 				}) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {

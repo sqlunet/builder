@@ -60,14 +60,14 @@ public class Q0 implements Function<String, String[]>, Supplier<String[]>
 			case PM_X:
 				table = "pm " + //
 						"LEFT JOIN pmroles AS " + PMROLE + " USING (pmroleid) " + //
-						"LEFT JOIN pmpredicates AS " + PMPREDICATE + " USING (pmpredid) " + //
+						"LEFT JOIN pmpredicates AS " + PMPREDICATE + " USING (pmpredicateid) " + //
 						"LEFT JOIN synsets USING (synsetid) " + //
 						"LEFT JOIN vnclasses AS " + VNCLASS + " ON vnclassid = " + VNCLASS + ".classid " + //
 						"LEFT JOIN vnroles AS " + VNROLE + " ON vnroleid = " + VNROLE + ".roleid " + //
 						"LEFT JOIN vnroletypes AS " + VNROLETYPE + " ON " + VNROLE + ".roletypeid = " + VNROLETYPE + ".roletypeid " + //
 						"LEFT JOIN pbrolesets AS " + PBROLESET + " ON pbrolesetid = " + PBROLESET + ".rolesetid " + //
 						"LEFT JOIN pbroles AS " + PBROLE + " ON pbroleid = " + PBROLE + ".roleid " + //
-						"LEFT JOIN pbargns AS " + PBARG + " ON " + PBROLE + ".narg = " + PBARG + ".narg " + //
+						"LEFT JOIN pbargtypes AS " + PBARG + " ON " + PBROLE + ".argtypeid = " + PBARG + ".argtypeid " + //
 						"LEFT JOIN fnframes AS " + FNFRAME + " ON fnframeid = " + FNFRAME + ".frameid " + //
 						"LEFT JOIN fnfes AS " + FNFE + " ON fnfeid = " + FNFE + ".feid " + //
 						"LEFT JOIN fnfetypes AS " + FNFETYPE + " ON " + FNFE + ".fetypeid = " + FNFETYPE + ".fetypeid " + //

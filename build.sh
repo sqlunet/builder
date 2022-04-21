@@ -21,10 +21,23 @@ if [ "${modules}" == "all" ]; then
   echo "All modules: ${modules}"
 fi
 
+# module
+targets="$1"
+shift
+if [ "${targets}" == "" ]; then
+  targets="-base -resolve -update"
+  echo "All targets: ${targets}"
+fi
+
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
   pushd "${m}" > /dev/null
-  echo -e "${M}$* ${m}.properties${Z}"
-  java ${vmargs} -cp ../sqlbuilder2.jar org.sqlbuilder.${m}.${m^}Module $* ${m}.properties
+  for t in ${targets}; do
+    echo -e "${M}${m} ${t}${Z} ${m}.properties"
+    if [ "${t}" = "-base" ]; then
+      t=
+    fi
+    java ${vmargs} -cp ../sqlbuilder2.jar org.sqlbuilder.${m}.${m^}Module ${t} ${m}.properties
+  done
   popd > /dev/null
 done

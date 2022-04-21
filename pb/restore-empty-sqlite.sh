@@ -5,7 +5,7 @@
 
 modules="pb"
 tables="
-argns
+argtypes
 args
 aspects
 examples

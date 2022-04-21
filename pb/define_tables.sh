@@ -5,7 +5,7 @@
 #
 
 export tables="
-argns
+argtypes
 args
 aspects
 examples

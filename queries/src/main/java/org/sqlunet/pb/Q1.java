@@ -88,7 +88,7 @@ public class Q1 implements Function<String,String[]>
 						"pbroles", "rolesetid", //
 						"pbfuncs", "func", //
 						"pbthetas", "theta");
-				actualSortOrder = "narg";
+				actualSortOrder = "argtypeid";
 				break;
 
 			case "PBROLESETS_PBEXAMPLES_BY_EXAMPLE":
@@ -118,9 +118,9 @@ public class Q1 implements Function<String,String[]>
 						"pbtenses", "tense", //
 						"pbvoices", "voice", //
 						"pbpersons", "person", //
-						"pbroles", "rolesetid", "narg", //
+						"pbroles", "rolesetid", "argtypeid", //
 						"pbthetas", "theta");
-				actualSortOrder = String.format("%s.%s,%s", C.EXAMPLE, "exampleid", "narg");
+				actualSortOrder = String.format("%s.%s,%s", C.EXAMPLE, "exampleid", "argtypeid");
 				break;
 
 			// L O O K U P

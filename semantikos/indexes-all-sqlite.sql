@@ -76,7 +76,7 @@ CREATE INDEX IF NOT EXISTS `k_pb_rolesets_pbwordid` ON `pb_rolesets`(`pbwordid`)
 CREATE INDEX IF NOT EXISTS `pk_pb_rels` ON `pb_rels` (`relid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_args` ON `pb_args` (`argid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_thetas` ON `pb_thetas` (`thetaid`);
-CREATE INDEX IF NOT EXISTS `pk_pb_argns` ON `pb_argns` (`nargid`);
+CREATE INDEX IF NOT EXISTS `pk_pb_argtypes` ON `pb_argtypes` (`argtypeid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_aspects` ON `pb_aspects` (`aspectid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_forms` ON `pb_forms` (`formid`);
 CREATE INDEX IF NOT EXISTS `pk_pb_funcs` ON `pb_funcs` (`funcid`);
