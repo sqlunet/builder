@@ -21,6 +21,7 @@ ${pms.pbroleid} INTEGER DEFAULT NULL,
 ${pms.pbwordid} INTEGER DEFAULT NULL,
 ${pms.fnframeid} INTEGER DEFAULT NULL,
 ${pms.fnfeid} INTEGER DEFAULT NULL,
+${pms.fnfetypeid} INTEGER DEFAULT NULL,
 ${pms.fnluid} INTEGER DEFAULT NULL,
 ${pms.fnwordid} INTEGER DEFAULT NULL,
 ${pms.wsource} INTEGER DEFAULT NULL

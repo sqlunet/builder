@@ -11,5 +11,6 @@
 
 -- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.fnframeid}'   FOREIGN KEY (${pms.fnframeid})      REFERENCES ${fnframes.table}   (${fnframes.frameid});
 -- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.fnfeid}'      FOREIGN KEY (${pms.fnfeid})         REFERENCES ${fnfes.table}      (${fnfes.feid});
+-- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.fnfetypeid}'  FOREIGN KEY (${pms.fnfetypeid})     REFERENCES ${fnfetypes.table}  (${fnfetypes.fetypeid});
 -- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.fnluid}'      FOREIGN KEY (${pms.fnluid})         REFERENCES ${fnlexunits.table} (${fnlexunits.luid});
 -- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.fnwordid}'    FOREIGN KEY (${pms.fnwordid})       REFERENCES ${fnwords.table}    (${fnwords.fnwordid});
