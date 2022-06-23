@@ -26,6 +26,7 @@ public class PmResolvingProcessor extends PmProcessor
 	protected final String vnRoleSerFile;
 	protected final String pbRoleSerFile;
 	protected final String fnRoleSerFile;
+	protected final String fnLexUnitSerFile;
 	protected final WordResolver wordResolver;
 	protected final VnWordResolver vnWordResolver;
 	protected final PbWordResolver pbWordResolver;
@@ -34,6 +35,7 @@ public class PmResolvingProcessor extends PmProcessor
 	protected final VnRoleResolver vnRoleResolver;
 	protected final PbRoleResolver pbRoleResolver;
 	protected final FnRoleResolver fnRoleResolver;
+	protected final FnLexUnitResolver fnLexUnitResolver;
 	protected File outDir;
 
 	public PmResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
@@ -61,6 +63,7 @@ public class PmResolvingProcessor extends PmProcessor
 		this.vnRoleSerFile = conf.getProperty("vnrole_nids");
 		this.pbRoleSerFile = conf.getProperty("pbrole_nids");
 		this.fnRoleSerFile = conf.getProperty("fnrole_nids");
+		this.fnLexUnitSerFile = conf.getProperty("fnlexunit_nids");
 		this.vnWordSerFile = conf.getProperty("vnword_nids");
 		this.pbWordSerFile = conf.getProperty("pbword_nids");
 		this.fnWordSerFile = conf.getProperty("fnword_nids");
@@ -73,6 +76,7 @@ public class PmResolvingProcessor extends PmProcessor
 		this.vnRoleResolver = new VnRoleResolver(vnRoleSerFile);
 		this.pbRoleResolver = new PbRoleResolver(pbRoleSerFile);
 		this.fnRoleResolver = new FnRoleResolver(this.fnRoleSerFile);
+		this.fnLexUnitResolver = new FnLexUnitResolver(this.fnLexUnitSerFile);
 	}
 
 	@Override
@@ -101,6 +105,7 @@ public class PmResolvingProcessor extends PmProcessor
 						var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
 						var fnWordid = this.fnWordResolver.apply(entry.word);
 						var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
+						var fnLu = fnLexUnitResolver.apply(new Pair<>(entry.fn.frame, entry.fn.lu));
 
 						var wordResolved = Utils.nullableInt(wordid);
 						var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
@@ -108,11 +113,12 @@ public class PmResolvingProcessor extends PmProcessor
 						var vnWordResolved = Utils.nullableInt(vnWordid);
 						var pbWordResolved = Utils.nullableInt(pbWordid);
 						var fnWordResolved = Utils.nullableInt(fnWordid);
-						var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.first), Utils.nullableInt(vn.second)));
-						var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.first), Utils.nullableInt(pb.second)));
-						var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.first), Utils.nullableInt(fn.second), Utils.nullableInt(fn.third)));
+						var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.second), Utils.nullableInt(vn.first)));
+						var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.second), Utils.nullableInt(pb.first)));
+						var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.second), Utils.nullableInt(fn.first), Utils.nullableInt(fn.third)));
+						var fnLuResolved = String.format("%s", fnLu == null ? "NULL" : String.format("%s", Utils.nullableInt(fnLu.first)));
 
-						insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, vnWordResolved, pbWordResolved, fnWordResolved, senseResolved, vnResolved, pbResolved, fnResolved));
+						insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, vnWordResolved, pbWordResolved, fnWordResolved, senseResolved, vnResolved, pbResolved, fnResolved, fnLuResolved));
 					});
 				}
 			}

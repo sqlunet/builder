@@ -29,7 +29,7 @@ public class PmEntry implements Insertable
 
 	//	static final int MCR_BC = 17; // this column contains the information if the verb sense it is Base Concept or not in the MCR3.0. mcr:1
 	//	static final int MCR_DOMAIN = 18; // this column contains the information of the WordNet domain aligned to WordNet 3.0 in the MCR3.0. mcr:factotum
-	static final int MCR_SUMO = 19; // this column contains the information of the AdimenSUMO in the MCR3.0. mcr:Communication
+	//  static final int MCR_SUMO = 19; // this column contains the information of the AdimenSUMO in the MCR3.0. mcr:Communication
 	//	static final int MCR_TO = 20; // this column contains the information of the MCR Top Ontology in the MCR3.0. mcr:Dynamic;communication;
 	//	static final int MCR_LEXNAME = 21; // this column contains the information of the MCR Lexicographical file name. mcr:communication
 	//	static final int MCR_BLC = 22; // this column contains the information of the Base Level Concept of the WordNet verb sense in the MCR3.0.mcr:back_away%2:32:00
@@ -70,10 +70,6 @@ public class PmEntry implements Insertable
 	// framenet
 
 	public final FnRoleAlias fn = new FnRoleAlias();
-
-	// sumo
-
-	private String sumoterm;
 
 	// sources
 
@@ -137,9 +133,6 @@ public class PmEntry implements Insertable
 		entry.fn.fetype = columns[PmEntry.FN_FRAME_ELEMENT] == null || "fn:NULL".equals(columns[PmEntry.FN_FRAME_ELEMENT]) ? null : columns[PmEntry.FN_FRAME_ELEMENT].trim().substring(3);
 		entry.fn.lu = columns[PmEntry.FN_LE] == null || "fn:NULL".equals(columns[PmEntry.FN_LE]) ? null : columns[PmEntry.FN_LE].trim().substring(3);
 
-		// sumo
-		entry.sumoterm = columns[PmEntry.MCR_SUMO] == null || "mcr:NULL".equals(columns[PmEntry.MCR_SUMO]) ? null : columns[PmEntry.MCR_SUMO].trim().substring(4);
-
 		// source
 		entry.sources = 0;
 		if (columns.length > PmEntry.SOURCE)
@@ -194,14 +187,13 @@ public class PmEntry implements Insertable
 	@Override
 	public String dataRow()
 	{
-		//return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SUMO['%s'], SRC[%s]", //
-		return String.format("%s,'%s','%s',%s,%s,%s,'%s',%s", //
+		//return String.format("PM[%s], WN['%s','%s'], VN[%s], PB[%s], FN[%s], SRC[%s]", //
+		return String.format("%s,'%s','%s',%s,%s,%s,%s", //
 				role.getIntId(), // pm
 				word, Utils.nullable(sensekey),  // wordnet
 				vn.dataRow(), // verbnet
 				pb.dataRow(), // propbank
 				fn.dataRow(), // framenet
-				sumoterm, // sumo
 				sources); // sources
 	}
 
