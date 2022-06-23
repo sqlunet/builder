@@ -26,16 +26,16 @@ public class Explain
 
 	// private static final Pattern indexPattern1 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX");
 	// private static final Pattern indexPattern2 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX " + indexName);
-	private static final Pattern indexPattern3 = Pattern.compile("SEARCH TABLE " + tableName + " USING INDEX " + indexName + " " + components);
+	private static final Pattern indexPattern3 = Pattern.compile("SEARCH " + tableName + " USING INDEX " + indexName + " " + components);
 
 	// private static final Pattern coveringIndexPattern1 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX");
 	// private static final Pattern coveringIndexPattern2 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX " + indexName);
-	private static final Pattern coveringIndexPattern3 = Pattern.compile("SEARCH TABLE " + tableName + " USING COVERING INDEX " + indexName + " " + components);
+	private static final Pattern coveringIndexPattern3 = Pattern.compile("SEARCH " + tableName + " USING COVERING INDEX " + indexName + " " + components);
 
-	private static final Pattern autoindexPattern = Pattern.compile("SEARCH TABLE " + tableName + " USING AUTOMATIC COVERING INDEX " + components);
+	private static final Pattern autoindexPattern = Pattern.compile("SEARCH " + tableName + " USING AUTOMATIC COVERING INDEX " + components);
 	private static final Pattern autoindexSubQueryPattern = Pattern.compile("SEARCH (SUBQUERY [0-9]+) USING AUTOMATIC COVERING INDEX " + components);
 
-	private static final Pattern scanPattern = Pattern.compile("SCAN TABLE " + tableName);
+	private static final Pattern scanPattern = Pattern.compile("SCAN " + tableName);
 
 	// S Q L
 
@@ -72,6 +72,13 @@ public class Explain
 				{
 					q2 += WHERE + selection + ';';
 				}
+				/*
+				else
+				{
+					q2 += WHERE + "rowid = ? " + ';';
+				}
+				*/
+
 				System.out.println(q2);
 
 				ProcessBuilder builder = new ProcessBuilder("sqlite3", db, EQP + q2);
@@ -91,6 +98,7 @@ public class Explain
 				}
 			}
 		}
+
 		System.out.println();
 		System.out.println("\nINDICES");
 		for (String index : indices)
@@ -116,6 +124,7 @@ public class Explain
 
 	public static void analyse(String s)
 	{
+		int n = 0;
 		for (String line : s.split("\n"))
 		{
 			String x = extract3(line, indexPattern3);
@@ -141,8 +150,9 @@ public class Explain
 			x = extract(line, scanPattern);
 			if (x != null)
 			{
-				scans.add(x);
+				scans.add(x + " " + n);
 			}
+			n++;
 		}
 	}
 
@@ -192,6 +202,8 @@ public class Explain
 				return new org.sqlunet.pb.Factory();
 			case "fn":
 				return new org.sqlunet.fn.Factory();
+			case "pm":
+				return new org.sqlunet.pm.Factory();
 		}
 		throw new IllegalArgumentException(module);
 	}
@@ -212,6 +224,8 @@ public class Explain
 				return new org.sqlunet.pb.Factory().get();
 			case "fn":
 				return new org.sqlunet.fn.Factory().get();
+			case "pm":
+				return new org.sqlunet.pm.Factory().get();
 		}
 		throw new IllegalArgumentException(module);
 	}
