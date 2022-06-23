@@ -1,5 +1,7 @@
 /wn/
+/wn31/
 /bnc/
+/bnc31/
 /sn/
 /vn/
 /pb/
@@ -8,6 +10,7 @@
 /pm/
 /db/
 /db*/
+/db
+/db*
 /zip/
 /*.sqlite
-/db_ewn
