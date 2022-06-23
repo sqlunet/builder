@@ -5,6 +5,7 @@ import org.sqlbuilder.common.*;
 import org.sqlbuilder.fn.FnModule;
 import org.sqlbuilder.fn.types.FeType;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import java.util.Set;
 import edu.berkeley.icsi.framenet.FrameLUType;
 import edu.berkeley.icsi.framenet.LexUnitDocument;
 
-public class LexUnit implements HasID, Insertable
+public class LexUnit implements HasID, Insertable, Serializable
 {
 	public static final Set<LexUnit> SET = new HashSet<>();
 
@@ -43,7 +44,8 @@ public class LexUnit implements HasID, Insertable
 		boolean isNew = SET.add(u);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
+			//Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
+			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getNodeName(), "lu-duplicate", u.toString());
 		}
 		return u;
 	}
@@ -56,7 +58,8 @@ public class LexUnit implements HasID, Insertable
 		boolean isNew = SET.add(u);
 		if (!isNew)
 		{
-			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
+			//Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
+			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getNodeName(), "lu-duplicate", u.toString());
 		}
 		return u;
 	}

@@ -53,7 +53,8 @@ public class FnModule extends Module
 				break;
 
 			case EXPORT:
-				new FnExportCollector(props).run();
+				new FnFrameExportCollector(props).run();
+				new FnLexUnitExportCollector(props).run();
 				new FnWordCollector(props).run();
 				try
 				{

@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Names;
 import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
+import org.sqlbuilder.fn.objects.LexUnit;
 import org.sqlbuilder.fn.objects.Word;
 import org.sqlbuilder.fn.types.FeType;
 import org.sqlbuilder2.ser.Pair;
@@ -25,6 +26,8 @@ import static java.util.stream.Collectors.toMap;
 
 public class Exporter
 {
+	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
+
 	protected final Names names;
 
 	protected final File outDir;
@@ -45,6 +48,7 @@ public class Exporter
 		System.out.printf("%s %d%n", "frames", Frame.SET.size());
 		System.out.printf("%s %d%n", "fes", FE.SET.size());
 		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.size());
+		System.out.printf("%s %d%n", "lexunits", LexUnit.SET.size());
 		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
 
 		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); //
@@ -59,6 +63,7 @@ public class Exporter
 	{
 		serializeFrames();
 		serializeFEs();
+		serializeLexUnits();
 		serializeWords();
 	}
 
@@ -66,6 +71,7 @@ public class Exporter
 	{
 		exportFrames();
 		exportFEs();
+		exportLexUnits();
 		exportWords();
 	}
 
@@ -79,6 +85,12 @@ public class Exporter
 	{
 		var m = makeFEsMap();
 		Serialize.serialize(m, new File(outDir, names.serFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")));
+	}
+
+	public void serializeLexUnits() throws IOException
+	{
+		var m = makeLexUnitsMap();
+		Serialize.serialize(m, new File(outDir, names.serFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")));
 	}
 
 	public void serializeWords() throws IOException
@@ -97,6 +109,12 @@ public class Exporter
 	{
 		var m = makeFEsTreeMap();
 		export(m, new File(outDir, names.mapFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")));
+	}
+
+	public void exportLexUnits() throws IOException
+	{
+		var m = makeLexUnitsTreeMap();
+		export(m, new File(outDir, names.mapFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")));
 	}
 
 	public void exportWords() throws IOException
@@ -126,8 +144,6 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
-	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
-
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsMap()
 	{
 		var id2frame = Frame.SET.stream() //
@@ -135,7 +151,7 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
 		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.getName())))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 
@@ -146,8 +162,24 @@ public class Exporter
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
 		return FE.SET.stream() //
-				//.peek(fe->System.out.println(fe.getName() + " " + fe.getID()))
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
+				//.peek(fe -> System.out.println(fe.getName() + " " + fe.getID()))
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.getName())))) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
+	}
+
+	public Map<Pair<String, String>, Pair<Integer, Integer>> makeLexUnitsMap()
+	{
+		return LexUnit.SET.stream() //
+				//.peek(lu->System.out.println(lu.getName() + " " + lu.getID()))
+				.map(lu -> new SimpleEntry<>(new Pair<>(lu.getFrameName(), lu.getName()), new Pair<>(lu.getID(), lu.getFrameID()))) //
+				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+	}
+
+	public Map<Pair<String, String>, Pair<Integer, Integer>> makeLexUnitsTreeMap()
+	{
+		return LexUnit.SET.stream() //
+				//.peek(lu->System.out.println(lu.getName() + " " + lu.getID()))
+				.map(lu -> new SimpleEntry<>(new Pair<>(lu.getFrameName(), lu.getName()), new Pair<>(lu.getID(), lu.getFrameID()))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
 	}
 

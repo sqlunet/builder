@@ -3,12 +3,11 @@ package org.sqlbuilder.fn.collectors;
 import org.apache.xmlbeans.XmlException;
 import org.sqlbuilder.common.Logger;
 import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.joins.FE_FEExcluded;
-import org.sqlbuilder.fn.joins.FE_FERequired;
-import org.sqlbuilder.fn.joins.FE_SemType;
-import org.sqlbuilder.fn.joins.Frame_SemType;
+import org.sqlbuilder.fn.joins.*;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
+import org.sqlbuilder.fn.objects.LexUnit;
+import org.sqlbuilder.fn.objects.Lexeme;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -21,9 +20,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import edu.berkeley.icsi.framenet.FrameDocument;
 
-public class FnExportCollector extends FnCollector
+public class FnFrameExportCollector extends FnCollector
 {
-	public FnExportCollector(final Properties props)
+	public FnFrameExportCollector(final Properties props)
 	{
 		super("frame", props, "frame");
 	}
@@ -91,6 +90,13 @@ public class FnExportCollector extends FnCollector
 				{
 					FE_FEExcluded.make(feid, _excludedfe);
 				}
+			}
+
+			// L E X U N I T S
+
+			for (var _lexunit : _frame.getLexUnitArray())
+			{
+				LexUnit.make(_lexunit, frameid, _frame.getName());
 			}
 		}
 		catch (XmlException | ParserConfigurationException | SAXException | IOException | RuntimeException e)
