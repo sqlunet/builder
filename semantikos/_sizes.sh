@@ -1,38 +1,15 @@
 #/bin/bash
 
-db="$1"
-
-sql_schema="SELECT * FROM sqlite_schema;"
-sql_tables_schema="SELECT * FROM sqlite_schema WHERE type='table';"
-sql_indexes_schema="SELECT * FROM sqlite_schema WHERE type='index';"
-
-sql_sizes="SELECT name, SUM(pgsize) as size
-FROM sqlite_schema AS s
-LEFT JOIN dbstat AS c USING (name)
-GROUP BY name;"
-
-sql_total_size="SELECT SUM(size) FROM (
-SELECT name, SUM(pgsize) as size
-FROM sqlite_schema AS s
-LEFT JOIN dbstat AS c USING (name)
-GROUP BY name);"
-
-sql_total_table_size="SELECT SUM(size) FROM (
-SELECT name, SUM(pgsize) as size
-FROM sqlite_schema AS s
-LEFT JOIN dbstat AS c USING (name)
-WHERE type='table'
-GROUP BY name);"
-
-sql_total_index_size="SELECT SUM(size) FROM (
-SELECT name, SUM(pgsize) as size
-FROM sqlite_schema AS s
-LEFT JOIN dbstat AS c USING (name)
-WHERE type='index'
-GROUP BY name);"
-
-
-# sqlite3 "${db}" < "${sql}"
-
-sqlite3 "${db}" "${sql_sizes}"
+./_sizes.py sqlunet.sqlite 		db/sqlunet.db 			db/sqlunet.db.zip 			samples_sample synsets_definition words_word vn_examples_example vn_words_word pb_examples_text pb_words_word fn_sentences_text
+read
+./_sizes.py sqlunet-ewn.sqlite 	db-ewn/sqlunet-ewn.db 	db-ewn/sqlunet-ewn.db.zip 	samples_sample synsets_definition words_word
+read
+./_sizes.py sqlunet-wn.sqlite 	db-wn/sqlunet-wn.db 	db-wn/sqlunet-wn.db.zip 	samples_sample synsets_definition words_word
+read
+./_sizes.py sqlunet-vn.sqlite 	db-vn/sqlunet-vn.db 	db-vn/sqlunet-vn.db.zip 	samples_sample synsets_definition words_word vn_examples_example vn_words_word pb_examples_text pb_words_word
+read
+./_sizes.py sqlunet-sn.sqlite 	db-sn/sqlunet-sn.db 	db-sn/sqlunet-sn.db.zip 	samples_sample synsets_definition words_word
+read
+./_sizes.py sqlunet-fn.sqlite	db-fn/sqlunet-fn.db 	db-fn/sqlunet-fn.db.zip 	fn_words_word fn_sentences_text
+read
 

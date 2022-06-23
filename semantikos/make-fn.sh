@@ -3,11 +3,11 @@
 
 # C O N S T S
 
-fn=zip/fn-data_resolved-all-sqlite-2.0.0.zip
+fn=zip/fn-data_resolved-oewn2021-sqlite-2.0.0.zip
 db=sqlunet-fn.sqlite
 semantikos_db=sqlunet-fn.db
 semantikos_db_zip=${semantikos_db}.zip
-semantikos_dir=db_fn
+semantikos_dir=db-fn
 thisdir=`dirname $(readlink -m "$0")`
 
 # C O L O R S
@@ -44,7 +44,7 @@ chmod +x ./restore-sqlite.sh
 popd > /dev/null
 
 echo -e "${Y}A D D${Z}"
-sqlite3 -init "sources.sql" "${db}" .quit
+sqlite3 -init "sql/sources.sql" "${db}" .quit
 
 echo -e "${Y}T R I M${Z}"
 sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'FrameNet'"
@@ -52,14 +52,18 @@ sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'FrameNet'"
 echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'
 
-echo -e "${M}I N D I C E S${Z}"
-sqlite3 -init "indexes-fn-sqlite.sql" "${db}" .quit
+echo -e "${Y}I N D I C E S${Z}"
+sqlite3 -init "sql/indexes-fn-sqlite.sql" "${db}" .quit
 
 echo -e "${Y}S E A L${Z}"
 ./meta.sh "${db}"
+cp "${db}" "${semantikos_dir}/${semantikos_db}"
+
+echo -e "${Y}A D D   T E X T S E A R C H   I N   N O N - D I S T   D B${Z}"
+sqlite3 -init "sql/textsearch-fn-sqlite.sql" "${db}" .quit
+sqlite3 -init "sql/textsearch-fn2-sqlite.sql" "${db}" .quit
 
 echo -e "${Y}P A C K${Z}"
-cp "${db}" "${semantikos_dir}/${semantikos_db}"
 pushd ${semantikos_dir} > /dev/null
 zip -r "${semantikos_db}.zip" "${semantikos_db}"
 popd > /dev/null

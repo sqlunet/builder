@@ -8,7 +8,7 @@ bnc=zip/bnc-data_resolved-oewn2021-sqlite-2.0.0.zip
 db=sqlunet-ewn.sqlite
 semantikos_db=sqlunet-ewn.db
 semantikos_db_zip=${semantikos_db}.zip
-semantikos_dir=db_oewn
+semantikos_dir=db-oewn
 thisdir=`dirname $(readlink -m "$0")`
 
 # C O L O R S
@@ -53,7 +53,7 @@ chmod +x ./restore-sqlite.sh
 popd > /dev/null
 
 echo -e "${Y}A D D${Z}"
-sqlite3 -init "sources.sql" "${db}" .quit
+sqlite3 -init "sql/sources.sql" "${db}" .quit
 
 echo -e "${Y}T R I M${Z}"
 for t in bnc_bncs bnc_convtasks bnc_imaginfs bnc_spwrs; do
@@ -64,14 +64,18 @@ sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open E
 echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'
 
-echo -e "${M}I N D I C E S${Z}"
-sqlite3 -init "indexes-wn-sqlite.sql" "${db}" .quit
+echo -e "${Y}I N D I C E S${Z}"
+sqlite3 -init "sql/indexes-wn-sqlite.sql" "${db}" .quit
 
 echo -e "${Y}S E A L${Z}"
 ./meta.sh "${db}"
+cp "${db}" "${semantikos_dir}/${semantikos_db}"
+
+echo -e "${Y}A D D   T E X T S E A R C H   A N D   V I E W   I N   N O N - D I S T   D B${Z}"
+sqlite3 -init "sql/textsearch-wn-sqlite.sql" "${db}" .quit
+sqlite3 -init "sql/views-wn-sqlite.sql" "${db}" .quit
 
 echo -e "${Y}P A C K${Z}"
-cp "${db}" "${semantikos_dir}/${semantikos_db}"
 pushd ${semantikos_dir} > /dev/null
 zip -r "${semantikos_db}.zip" "${semantikos_db}"
 popd > /dev/null
