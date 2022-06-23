@@ -14,13 +14,13 @@ fi
 dbtag=$1
 shift
 if [ -z "${dbtag}" ]; then
-  dbtag=oewn2021
+  dbtag=wn31
 fi
 
 dbdir=$1
 shift
 if [ -z "${dbdir}" ]; then
-  dbdir=sql
+  dbdir=sql31
 fi
 
 # S O U R C E S
