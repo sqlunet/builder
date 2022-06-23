@@ -1,0 +1,108 @@
+fnannosets, 418720<-385554
+fncoretypes, 4
+fncorpuses, 13
+fncxns, 22<-0
+fndocuments, 3429
+fnfegrouprealizations, 53523
+fnfegrouprealizations_fes, 148742 <-140553
+fnferealizations, 44641
+fnfes, 11428
+fnfes_excluded, 455
+fnfes_required, 105
+fnfes_semtypes, 4629
+fnfetypes, 1284 <-1285
+fnframerelations, 13
+fnframes, 1221
+fnframes_related, 3619 <- 3569
+fnframes_semtypes, 213
+fngftypes, 8 <- 7
+fngovernors, 12620 <- 2675
+fngovernors_annosets, 20853
+fnlabelitypes, 5
+fnlabels, 7443313 <- 5965283
+fnlabeltypes, 1442 <- 1451
+fnlayers, 2254896 <- 1967629
+fnlayertypes, 21
+fnlexemes, 14642 <- 14639
+fnlexunits, 13572
+fnlexunits_governors, 12620
+fnlexunits_semtypes, 1125
+fnpatterns, 95802
+fnpatterns_annosets, 198874
+fngrouppatterns_patterns, 255319 <- 249661
+fnposes, 14
+fnpttypes, 162
+fnsemtypes, 109 <- 112
+fnsemtypes_supers, 106
+fnsentences, 187718 <- 182650
+fnstatuses, 16
+fnsubcorpuses, 95699
+fnsubcorpuses_sentences, 200751
+fnvalenceunits, 96439 <- 31
+fnvalenceunits_annosets, 453565
+fnwords, 9175 <-9185
+
+
+TABLES FED BY MUTLIPLE COLLECTORS
+
+t:FnAnnotationSet.SET.add(annoset);
+l:FnAnnotationSet.SET.add(annoset);
+
+l:FnCorpus.SET.add(corpus);
+t:FnCorpus.SET.add(fnCorpus);
+
+l:FnDocument.SET.add(doc);
+t:FnDocument.SET.add(fnDocument);
+
+l:FnLabel.SET.add(label);
+t:FnLabel.SET.add(label);
+
+l:FnLayer.SET.add(layer);
+t:FnLayer.SET.add(layer);
+
+f:FnLexeme.SET.add(lexeme);
+l:FnLexeme.SET.add(lexeme);
+
+f:FnLexUnit_SemType.SET.add(lexunit_semtype);
+l:FnLexUnit_SemType.SET.add(lexunit_semtype);
+
+t:FnSentence.SET.add(fnSentence);
+l:FnSentence.SET.add(sentence);
+
+f:FnWord.SET.add(word);
+l:FnWord.SET.add(word);
+l:FnWord.SET.add(word);
+
+l:FnValenceUnitBase.SET.add(valenceunit);
+l:FnValenceUnit.SET.add(valenceunit);
+
+TABLES FED BY SINGLE COLLECTOR
+
+base blocks
+
+f:FnFE.SET.add(fe);
+f:FnFrame.SET.add(frame);
+l:FnLexUnit.SET.add(lexunit);
+s:FnSemType.SET.add(semtype);
+
+others
+
+f:FnFEExcluded.SET.add(excludedfe);
+l:FnFEGroupRealization_Fe.SET.add(fegr_fe);
+l:FnFEGroupRealization.SET.add(fegr);
+l:FnFERealization.SET.add(fer);
+f:FnFERequired.SET.add(requiredfe);
+f:FnFE_SemType.SET.add(fe_semtype);
+f:FnFrame_LexUnit.SET.add(frame_lexunit);
+f:FnFrameRelated.SET.add(relatedframe);
+f:FnFrame_SemType.SET.add(frame_semtype);
+l:FnGovernor_AnnoSet.SET.add(governor_annoset);
+l:FnGovernor.SET.add(governor);
+l:FnGroupPattern.SET.add(grouppattern);
+l:FnLexUnit_Governor.SET.add(lexunit_governor);
+l:FnPattern_AnnoSet.SET.add(pattern_annoset);
+l:FnPattern_ValenceUnit.SET.add(pattern_valenceunit);
+s:FnSemTypeSuper.SET.add(semsupertype);
+l:FnSubCorpus_Sentence.SET.add(subcorpus_sentence);
+l:FnSubCorpus.SET.add(subcorpus);
+l:FnValenceUnit_AnnoSet.SET.add(valenceunit_annoset);
