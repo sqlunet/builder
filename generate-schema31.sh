@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#
-# Copyright (c) 2021. Bernard Bou.
-#
 # -compat
 # outdir
 # indir

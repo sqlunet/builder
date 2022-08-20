@@ -50,8 +50,13 @@
 	</target>
 
 	<target name="ask-dbtag" unless="dbtag" description="prompts for dbtag if necessary (not in command line arguments)">
-		<input addProperty="dbtag" message="Wordnet tag (wn31,oewn2021,...):"/>
+		<input addProperty="dbtag" message="Wordnet tag (wn31,oewn2021,oewn2022...):"/>
 		<echo>dbtag=${dbtag}</echo>
+	</target>
+
+	<target name="ask-version" unless="version" description="prompts for version if necessary (not in command line arguments)">
+		<input addProperty="version" message="Dist version (2.0.0,...):"/>
+		<echo>version=${version}</echo>
 	</target>
 
 	<target name="makestamp">
@@ -61,35 +66,34 @@
 	</target>
 
 	<!-- main -->
-	<target name="dist" depends="dump,makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-dbdir,dist-sqlite,dist-mysql">
+	<target name="dist" depends="dump,makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir,dist-sqlite,dist-mysql">
 		<echo message="done"/>
 	</target>
 
-	<target name="dist-sqlite" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-dbdir">
+	<target name="dist-sqlite" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir">
 		<pack dbmodule="${dbmodule}" dbdata="${dbdata}" dbtype="sqlite" dbtag="${dbtag}" version="${version}"/>
 	</target>
 
-	<target name="dist-mysql" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-dbdir">
+	<target name="dist-mysql" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir">
 		<pack dbmodule="${dbmodule}" dbdata="${dbdata}" dbtype="mysql" dbtag="${dbtag}" version="${version}"/>
 	</target>
 
 	<!-- dump -->
-	<target name="dump" depends="ask-dbmodule,ask-dbdata,ask-dbtag,ask-dbdir">
+	<target name="dump" depends="ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir">
 		<echo message="dir ${dir.project}"/>
 		<echo message="module ${dbmodule}"/>
 		<echo message="data ${dbdata}"/>
 		<echo message="tag ${dbtag}"/>
-		<echo message="type ${dbtype}"/>
 		<echo message="version ${version}"/>
 	</target>
 
-	<target name="dump-sqlite" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-dbdir,dump">
+	<target name="dump-sqlite" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir,dump">
 		<dumpfs dbmodule="${dbmodule}" dbdata="${dbdata}" dbtype="sqlite" dbtag="${dbtag}" version="${version}"/>
 		<echo-fileset filesetref="fs.legal"/>
 		<echo-fileset filesetref="fs.restore.sqlite"/>
 	</target>
 
-	<target name="dump-mysql" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-dbdir,dump">
+	<target name="dump-mysql" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir,dump">
 		<dumpfs dbmodule="${dbmodule}" dbdata="${dbdata}" dbtype="mysql" dbtag="${dbtag}" version="${version}"/>
 		<echo-fileset filesetref="fs.legal"/>
 		<echo-fileset filesetref="fs.restore.mysql"/>

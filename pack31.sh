@@ -14,7 +14,13 @@ fi
 dbtag=$1
 shift
 if [ -z "${dbtag}" ]; then
-  dbtag=wn31
+  dbtag=oewn2022
+fi
+
+version=$1
+shift
+if [ -z "${version}" ]; then
+  dbtag=2.0.0
 fi
 
 dbdir=$1
@@ -39,7 +45,7 @@ for dbmodule in ${dbmodules}; do
     echo -e "${Y}${wd}${Z}"
     for dbdata in data data_resolved data_updated; do
       echo -e "${M}${dbmodule} ${dbdata} ${dbtag} ${dbdir}${Z}"
-      ant -f ../make-dist-sql.xml -Dbasedir=${wd} -Ddbmodule=${dbmodule} -Ddbdata=${dbdata} -Ddbdir=${dbdir} -Ddbtag=${dbtag}
+      ant -f ../make-dist-sql.xml -Dbasedir=${wd} -Ddbmodule=${dbmodule} -Ddbdata=${dbdata} -Ddbdir=${dbdir} -Ddbtag=${dbtag} -Dversion=${version}
     done
   popd > /dev/null
 done
