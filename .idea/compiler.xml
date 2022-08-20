@@ -27,13 +27,32 @@
         <module name="fn-beans" />
         <module name="querybuilder-maven" />
       </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="variables" />
+        <module name="legacy" />
+        <module name="querybuilder" />
+        <module name="fn" />
+        <module name="reqprov" />
+        <module name="queries" />
+        <module name="foreign" />
+        <module name="pb" />
+        <module name="common" />
+        <module name="bnc" />
+        <module name="vn" />
+        <module name="sl" />
+        <module name="fn-jaxb" />
+        <module name="sn" />
+        <module name="pm" />
+        <module name="fn-beans" />
+        <module name="querybuilder-maven" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="dummy" target="11" />
       <module name="dummy.generated" target="11" />
-      <module name="dummy.main" target="11" />
       <module name="dummy.origin" target="11" />
-      <module name="dummy.test" target="11" />
       <module name="org.example.dummy.generated" target="11" />
       <module name="org.example.dummy.origin" target="11" />
       <module name="org.example.querybuilder-gradle" target="11" />
@@ -43,6 +62,7 @@
       <module name="org.sqlunet.querybuilder-gradle.test" target="11" />
       <module name="org.sqlunet.querybuilder.main" target="11" />
       <module name="org.sqlunet.querybuilder.test" target="11" />
+      <module name="querybuilder-gradle" target="11" />
       <module name="reqprovtest" target="11" />
       <module name="sqlbuilder2.querybuilder-gradle" target="11" />
       <module name="sqlbuilder2.querybuilder-gradle.main" target="11" />
