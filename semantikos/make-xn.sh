@@ -1,16 +1,29 @@
 #!/bin/bash
 # 22/03/2022
 
+# P A R A M S
+
+tag=$1
+if [ -z "${tag}" ]; then
+	echo "define tag as 1st param"
+	exit 1
+fi
+version=$2
+if [ -z "${version}" ]; then
+	echo "define version as 2nd param"
+	exit 2
+fi
+
 # C O N S T S
 
-wn=zip/oewn-2021-sqlite-1.21.0.zip
-bnc=zip/bnc-data_resolved-oewn2021-sqlite-2.0.0.zip
-sn=zip/sn-data_resolved-oewn2021-sqlite-2.0.0.zip
-vn=zip/vn-data_resolved-oewn2021-sqlite-2.0.0.zip
-pb=zip/pb-data_resolved-oewn2021-sqlite-2.0.0.zip
-sl=zip/sl-data_resolved-oewn2021-sqlite-2.0.0.zip
-fn=zip/fn-data_resolved-oewn2021-sqlite-2.0.0.zip
-pm=zip/pm-data_resolved-oewn2021-sqlite-2.0.0.zip
+wn=zip/oewn-${tag}-sqlite-1.${tag:2:2}.zip
+bnc=zip/bnc-data_resolved-oewn${tag}-sqlite-${version}.zip
+sn=zip/sn-data_resolved-oewn${tag}-sqlite-${version}.zip
+vn=zip/vn-data_resolved-oewn${tag}-sqlite-${version}.zip
+pb=zip/pb-data_resolved-oewn${tag}-sqlite-${version}.zip
+sl=zip/sl-data_resolved-oewn${tag}-sqlite-${version}.zip
+fn=zip/fn-data_resolved-oewn${tag}-sqlite-${version}.zip
+pm=zip/pm-data_resolved-oewn${tag}-sqlite-${version}.zip
 db=sqlunet.sqlite
 semantikos_db=sqlunet.db
 semantikos_db_zip=${semantikos_db}.zip
@@ -45,19 +58,22 @@ rm -fR fn
 rm -fR pm
 
 echo -e "${Y}A D D${Z}"
-unzip ${wn} -d wn
-unzip ${bnc} -d bnc
-unzip ${sn} -d sn
-unzip ${vn} -d vn
-unzip ${pb} -d pb
-unzip ${sl} -d sl
-unzip ${fn} -d fn
-unzip ${pm} -d pm
+unzip -q ${wn} -d wn
+unzip -q ${bnc} -d bnc
+unzip -q ${sn} -d sn
+unzip -q ${vn} -d vn
+unzip -q ${pb} -d pb
+unzip -q ${sl} -d sl
+unzip -q ${fn} -d fn
+unzip -q ${pm} -d pm
 
 echo -e "${M}removing indexes${Z}"
 for m in wn bnc sn vn pb sl fn pm; do
-	rm ${m}/sql/sqlite/index/*
+	rm -f ${m}/sql/sqlite/index/*
 done
+
+echo -e "${M}tweaking restore script${Z}"
+sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 

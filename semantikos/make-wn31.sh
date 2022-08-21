@@ -33,12 +33,15 @@ rm -fR wn31
 rm -fR bnc31
 
 echo -e "${Y}A D D${Z}"
-unzip ${wn} -d wn31
-unzip ${bnc} -d bnc31
+unzip -q ${wn} -d wn31
+unzip -q ${bnc} -d bnc31
 
 echo -e "${M}removing indexes${Z}"
-rm wn31/sql/sqlite/index/*
-rm bnc31/sql/sqlite/index/*
+rm -f wn31/sql/sqlite/index/*
+rm -f bnc31/sql/sqlite/index/*
+
+echo -e "${M}tweaking restore script${Z}"
+sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn31/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 

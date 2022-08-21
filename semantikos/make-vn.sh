@@ -1,11 +1,24 @@
 #!/bin/bash
 # 22/11/2021
 
+# P A R A M S
+
+tag=$1
+if [ -z "${tag}" ]; then
+	echo "define tag as 1st param"
+	exit 1
+fi
+version=$2
+if [ -z "${version}" ]; then
+	echo "define version as 2nd param"
+	exit 2
+fi
+
 # C O N S T S
 
-wn=zip/oewn-2021-sqlite-1.21.0.zip
-vn=zip/vn-data_resolved-oewn2021-sqlite-2.0.0.zip
-pb=zip/pb-data_resolved-oewn2021-sqlite-2.0.0.zip
+wn=zip/oewn-${tag}-sqlite-1.${tag:2:2}.zip
+vn=zip/vn-data_resolved-oewn${tag}-sqlite-${version}.zip
+pb=zip/pb-data_resolved-oewn${tag}-sqlite-${version}.zip
 db=sqlunet-vn.sqlite
 semantikos_db=sqlunet-vn.db
 semantikos_db_zip=${semantikos_db}.zip
@@ -35,14 +48,17 @@ rm -fR vn
 rm -fR pb
 
 echo -e "${Y}A D D${Z}"
-unzip ${wn} -d wn
-unzip ${vn} -d vn
-unzip ${pb} -d pb
+unzip -q ${wn} -d wn
+unzip -q ${vn} -d vn
+unzip -q ${pb} -d pb
 
 echo -e "${M}removing indexes${Z}"
-rm wn/sql/sqlite/index/*
-rm vn/sql/sqlite/index/*
-rm pb/sql/sqlite/index/*
+rm -f wn/sql/sqlite/index/*
+rm -f vn/sql/sqlite/index/*
+rm -f pb/sql/sqlite/index/*
+
+echo -e "${M}tweaking restore script${Z}"
+sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 

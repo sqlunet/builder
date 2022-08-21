@@ -191,7 +191,7 @@ for m in ${modules}; do
 		esac
 		for table in ${tables}; do
 			f="${dir}/${table}${suffix}.sql"
-			if [ ! -e "${f}" -a "${op}" == "reference" ]; then
+			if [ ! -e "${f}" -a "${op}" == "index" -o "${op}" == "reference" ]; then
 			  continue
 			fi
 			echo -e "sql=${Y}$(basename ${f})${Z}"
