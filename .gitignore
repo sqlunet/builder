@@ -16,3 +16,4 @@
 /queries/out/
 /querybuilder-gradle/dummy/build/
 /querybuilder/target/
+/querybuilder-gradle/target/
