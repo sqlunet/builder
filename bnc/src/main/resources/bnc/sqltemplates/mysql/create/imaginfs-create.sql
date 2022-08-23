@@ -1,6 +1,6 @@
 CREATE TABLE ${imaginfs.table} (
     ${imaginfs.wordid} INTEGER DEFAULT NULL,
-    ${imaginfs.word} VARCHAR (80) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+    ${imaginfs.word} VARCHAR (80) CHARACTER SET utf8 COLLATE utf8mb4_0900_as_cs NOT NULL,
     ${imaginfs.posid} ENUM ('n','v','a','r','s') NOT NULL,
     ${imaginfs.freq1} INTEGER DEFAULT NULL,
     ${imaginfs.range1} INTEGER DEFAULT NULL,

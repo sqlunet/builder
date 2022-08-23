@@ -11,10 +11,10 @@ c_en2=r'\1 CHARACTER (1) CHECK( \1 IN (\2) )'
 c_cs1=r'CHARACTER\s+SET\s+utf8\s*'
 c_cs2=r''
 
-c_bc1=r'COLLATE\s+utf8_bin\s*'
+c_bc1=r'COLLATE\s+utf8mb4_0900_as_cs\s*'
 c_bc2=r''
 
-c_dcs1=r'DEFAULT\s+CHARSET=utf8mb3'
+c_dcs1=r'DEFAULT\s+CHARSET=utf8mb4'
 c_dcs2=r''
 
 c_uk1=r'UNIQUE\s+KEY\s'
