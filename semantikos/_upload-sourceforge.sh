@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1"
+VERSION="2"
 
 # C O L O R S
 
@@ -21,33 +21,33 @@ REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos2/${VERSION}
 # M A I N
 
 echo -e "${Y}S E M A N T I K O S  T O  S O U R C E F O R G E${Z}"
-#for m in "" -ewn -vn -fn -sn; do
-for m in -fn; do
-echo -e "${C}m=${m}${Z}"
+#for m in "" -ewn -vn -fn -sn -wn31; do
+for m in -ewn -wn31; do
+	echo -e "${C}m=${m}${Z}"
 
-# D I R S
+	# D I R S
 
-datadir=db${m}
-#datadir="$(readlink -m ${datadir})"
-echo ${datadir}
+	datadir=db${m}
+	#datadir="$(readlink -m ${datadir})"
+	echo ${datadir}
 
-# S F T P
+	# S F T P
 
-pushd ${datadir} > /dev/null
-echo -e ${G}
-ls -1hs ${files}
-echo -e ${Z}
-popd > /dev/null
+	pushd ${datadir} > /dev/null
+	echo -e ${G}
+	ls -1hs ${files}
+	echo -e ${Z}
+	popd > /dev/null
 
-echo -e "${C}$REMOTEDIR${Z}"
-echo -e "${R}"
-read -p "Are you sure you want to upload? " -n 1 -r
-echo    # (optional) move to a new line
-echo -e "${Z}"
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-echo 'Proceeding ...'
+	echo -e "${C}$REMOTEDIR${Z}"
+	echo -e "${R}"
+	read -p "Are you sure you want to upload? " -n 1 -r
+	echo    # (optional) move to a new line
+	echo -e "${Z}"
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+	echo 'Proceeding ...'
 
-echo -e "${Y}upload${Z}"
+	echo -e "${Y}upload${Z}"
 
 sftp $USER@$SITE <<EOF
 
@@ -66,6 +66,7 @@ ls -l *${m}.*
 
 quit
 EOF
-fi
+
+	fi
 
 done

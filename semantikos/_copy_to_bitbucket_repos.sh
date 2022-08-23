@@ -22,10 +22,10 @@ function copy()
 	[ -e "${from}" ] || echo -e "${Z}${from} does not exist${Z}"
 	[ -e "${to}" ] || echo -e "${Z}${to} does not exist${Z}"
 	#echo cp -P "${from}" "${to}"
-	cp ${options} -P "${from}"/distrib* "${to}"
-	cp ${options} -P "${from}"/*.zip "${to}"
-	cp ${options} -P "${from}"/*.zip.md5 "${to}"
-	cp ${options} -P README.md "${to}"
+	cp ${options} -p "${from}"/distrib* "${to}"
+	cp ${options} -p "${from}"/*.zip "${to}"
+	cp ${options} -p "${from}"/*.zip.md5 "${to}"
+	cp ${options} -p README.md "${to}"
 }
 
 echo -e "${Y}xn${Z}"
