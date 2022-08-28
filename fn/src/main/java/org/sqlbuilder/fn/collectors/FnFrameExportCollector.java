@@ -22,9 +22,12 @@ import edu.berkeley.icsi.framenet.FrameDocument;
 
 public class FnFrameExportCollector extends FnCollector
 {
-	public FnFrameExportCollector(final Properties props)
+	private final boolean skipLexUnits;
+
+public FnFrameExportCollector(final Properties props)
 	{
 		super("frame", props, "frame");
+		this.skipLexUnits = props.getProperty("fn_skip_lu", "true").compareToIgnoreCase("true") == 0;
 	}
 
 	@Override
@@ -94,9 +97,12 @@ public class FnFrameExportCollector extends FnCollector
 
 			// L E X U N I T S
 
-			for (var _lexunit : _frame.getLexUnitArray())
+			if (!this.skipLexUnits)
 			{
-				LexUnit.make(_lexunit, frameid, _frame.getName());
+				for (var _lexunit : _frame.getLexUnitArray())
+				{
+					LexUnit.make(_lexunit, frameid, _frame.getName());
+				}
 			}
 		}
 		catch (XmlException | ParserConfigurationException | SAXException | IOException | RuntimeException e)
