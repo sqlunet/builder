@@ -1,0 +1,2 @@
+ALTER TABLE ${ferealizations_valenceunits.table} ADD CONSTRAINT `fk_@{ferealizations_valenceunits.table}_@{ferealizations_valenceunits.ferid}` FOREIGN KEY (${ferealizations_valenceunits.ferid}) REFERENCES ${ferealizations.table} (${ferealizations.ferid});
+ALTER TABLE ${ferealizations_valenceunits.table} ADD CONSTRAINT `fk_@{ferealizations_valenceunits.table}_@{ferealizations_valenceunits.vuid}` FOREIGN KEY (${ferealizations_valenceunits.vuid}) REFERENCES ${valenceunits.table} (${valenceunits.vuid});
