@@ -101,8 +101,8 @@ public class ResolvingInserter extends Inserter
 		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header, //
 				vnClassRoleResolver, //
 				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
-				names.column("pbroles_vnroles.vnclassid"), //
 				names.column("pbroles_vnroles.vnroleid"), //
+				names.column("pbroles_vnroles.vnclassid"), //
 				names.column("pbroles_vnroles.vnroletypeid"));
 		Progress.traceDone();
 	}
