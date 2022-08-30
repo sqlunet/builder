@@ -1,3 +1,5 @@
+ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.pmroleid}`    FOREIGN KEY (${pms.pmroleid})       REFERENCES ${roles.table}      (${roles.roleid});
+
 -- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.wordid}`      FOREIGN KEY (${pms.wordid})         REFERENCES ${wnwords.table}    (${wnwords.wordid});
 -- ALTER TABLE ${pms.table} ADD CONSTRAINT `fk_@{pms.table}_@{pms.synsetid}`    FOREIGN KEY (${pms.synsetid})       REFERENCES ${wnsynsets.table}  (${wnsynsets.synsetid});
 
