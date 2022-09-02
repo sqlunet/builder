@@ -1,0 +1,83 @@
+vn_classes
+	class varchar
+	classid int
+	classtag varchar
+
+vn_groupings
+	grouping varchar
+	groupingid int
+
+vn_members
+	classid int
+	vnwordid int
+vn_members_senses
+	classid int
+	quality float
+	sensekey varchar
+	sensenum int
+	synsetid int
+	vnwordid int
+	wordid int
+vn_members_groupings
+	classid int
+	groupingid int
+	vnwordid int
+
+vn_frames
+	frameid int
+	framenameid int
+	framesubnameid int
+	number varchar
+	semanticsid int
+	syntaxid int
+	xtag varchar
+vn_framenames
+	framename varchar
+	framenameid int
+vn_framesubnames
+	framesubname varchar
+	framesubnameid int
+vn_examples
+	example text
+	exampleid int
+vn_frames_examples
+	exampleid int
+	frameid int
+vn_classes_frames
+	classid int
+	frameid int
+
+vn_predicates
+	predicate varchar
+	predicateid int
+vn_predicates_semantics
+	predicateid int
+	semanticsid int
+
+vn_restrs
+	issyn tinyint
+	restrs text
+	restrsid int
+vn_restrtypes
+	issyn tinyint
+	restr varchar
+	restrid int
+	restrval varchar
+vn_roles
+	classid int
+	restrsid int
+	roleid int
+	roletypeid int
+vn_roletypes
+	roletype varchar
+	roletypeid int
+vn_semantics
+	semantics text
+	semanticsid int
+vn_syntaxes
+	syntax text
+	syntaxid int
+vn_words
+	vnwordid int
+	word varchar
+	wordid int

@@ -1,0 +1,124 @@
+--- vn1.txt	2022-08-24 10:51:03.835178766 +0200
++++ vn2.txt	2022-08-24 10:47:30.252939870 +0200
+@@ -1,87 +1,83 @@
+-vnclasses
++vn_classes
+ 	class varchar
+ 	classid int
+ 	classtag varchar
+ 
+-vngroupings
++vn_groupings
+ 	grouping varchar
+ 	groupingid int
+ 
+-vnclassmembers
++vn_members
+ 	classid int
+ 	vnwordid int
+-vnclassmembersenses
++vn_members_senses
+ 	classid int
+ 	quality float
+ 	sensekey varchar
+ 	sensenum int
+ 	synsetid int
+ 	vnwordid int
+-vngroupingmaps
+-	groupingmapid int
++	wordid int
++vn_members_groupings
+ 	classid int
+ 	groupingid int
+ 	vnwordid int
+ 
+-vnframes
++vn_frames
+ 	frameid int
+-	nameid int
++	framenameid int
++	framesubnameid int
+ 	number varchar
+ 	semanticsid int
+-	subnameid int
+ 	syntaxid int
+ 	xtag varchar
+-vnframenames
++vn_framenames
+ 	framename varchar
+-	nameid int
+-vnframesubnames
++	framenameid int
++vn_framesubnames
+ 	framesubname varchar
+-	subnameid int
+-vnexamples
+-	example varchar
++	framesubnameid int
++vn_examples
++	example text
+ 	exampleid int
+-vnexamplemaps
++vn_frames_examples
+ 	exampleid int
+ 	frameid int
+-vnframemaps
++vn_classes_frames
+ 	classid int
+ 	frameid int
+-	framemapid int
+ 
+-vnpredicates
+-	pred varchar
+-	predid int
+-vnpredicatemaps
+-	predid int
++vn_predicates
++	predicate varchar
++	predicateid int
++vn_predicates_semantics
++	predicateid int
+ 	semanticsid int
+ 
+-vnrestrs
++vn_restrs
+ 	issyn tinyint
+-	restrs mediumtext
++	restrs text
+ 	restrsid int
+-vnrestrtypes
++vn_restrtypes
+ 	issyn tinyint
+ 	restr varchar
+ 	restrid int
+ 	restrval varchar
+-vnroles
++vn_roles
++	classid int
+ 	restrsid int
+ 	roleid int
+ 	roletypeid int
+-vnrolemaps
+-	classid int
+-	roleid int
+-	rolemapid int
+-vnroletypes
++vn_roletypes
+ 	roletype varchar
+ 	roletypeid int
+-vnsemantics
+-	semantics mediumtext
++vn_semantics
++	semantics text
+ 	semanticsid int
+-vnsyntaxes
+-	syntax mediumtext
++vn_syntaxes
++	syntax text
+ 	syntaxid int
+-vnwords
++vn_words
+ 	vnwordid int
+-	lemma varchar
++	word varchar
+ 	wordid int

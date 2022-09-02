@@ -1,0 +1,1908 @@
+-- MySQL dump 10.13  Distrib 8.0.30, for Linux (x86_64)
+--
+-- Host: localhost    Database: sqlunetXX
+-- ------------------------------------------------------
+-- Server version	8.0.30-0ubuntu0.22.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `words`
+--
+
+DROP TABLE IF EXISTS `words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `words` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `lemma` varchar(80) NOT NULL,
+  PRIMARY KEY (`wordid`),
+  UNIQUE KEY `unq_words_lemma` (`lemma`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `casedwords`
+--
+
+DROP TABLE IF EXISTS `casedwords`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `casedwords` (
+  `casedwordid` int NOT NULL DEFAULT '0',
+  `wordid` int NOT NULL DEFAULT '0',
+  `cased` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`casedwordid`),
+  UNIQUE KEY `unq_casedwords_cased` (`cased`),
+  KEY `k_casedwords_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `postypes`
+--
+
+DROP TABLE IF EXISTS `poses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `poses` (
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `posname` varchar(20) NOT NULL,
+  PRIMARY KEY (`pos`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `lexdomains`
+--
+
+DROP TABLE IF EXISTS `domains`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `domains` (
+  `lexdomainid` int NOT NULL DEFAULT '0',
+  `lexdomainname` varchar(32) DEFAULT NULL,
+  `lexdomain` varchar(32) DEFAULT NULL,
+  `pos` enum('n','v','a','r','s') DEFAULT NULL,
+  PRIMARY KEY (`lexdomainid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `adjpositiontypes`
+--
+
+DROP TABLE IF EXISTS `adjpositions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `adjpositions` (
+  `position` enum('a','p','ip') NOT NULL,
+  `positionname` varchar(24) NOT NULL,
+  PRIMARY KEY (`position`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `linktypes`
+--
+
+DROP TABLE IF EXISTS `relations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `relations` (
+  `linkid` int NOT NULL DEFAULT '0',
+  `link` varchar(50) DEFAULT NULL,
+  `recurses` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`linkid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `semlinks`
+--
+
+DROP TABLE IF EXISTS `semrelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `semrelations` (
+  `synset1id` int NOT NULL DEFAULT '0',
+  `synset2id` int NOT NULL DEFAULT '0',
+  `linkid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`synset1id`,`synset2id`,`linkid`),
+  KEY `k_semlinks_linkid` (`linkid`),
+  KEY `k_semlinks_synset1id` (`synset1id`),
+  KEY `k_semlinks_synset2id` (`synset2id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `lexlinks`
+--
+
+DROP TABLE IF EXISTS `lexrelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lexrelations` (
+  `synset1id` int NOT NULL DEFAULT '0',
+  `word1id` int NOT NULL DEFAULT '0',
+  `synset2id` int NOT NULL DEFAULT '0',
+  `word2id` int NOT NULL DEFAULT '0',
+  `linkid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`word1id`,`synset1id`,`word2id`,`synset2id`,`linkid`),
+  KEY `k_lexlinks_linkid` (`linkid`),
+  KEY `k_lexlinks_synset1id` (`synset1id`),
+  KEY `k_lexlinks_synset1id_word1id` (`synset1id`,`word1id`),
+  KEY `k_lexlinks_synset2id` (`synset2id`),
+  KEY `k_lexlinks_synset2id_word2id` (`synset2id`,`word2id`),
+  KEY `k_lexlinks_word1id` (`word1id`),
+  KEY `k_lexlinks_word2id` (`word2id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `synsets`
+--
+
+DROP TABLE IF EXISTS `synsets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `synsets` (
+  `synsetid` int NOT NULL DEFAULT '0',
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `lexdomainid` int NOT NULL DEFAULT '0',
+  `definition` mediumtext,
+  PRIMARY KEY (`synsetid`),
+  KEY `k_synsets_lexdomainid` (`lexdomainid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `senses`
+--
+
+DROP TABLE IF EXISTS `senses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `casedwordid` int DEFAULT NULL,
+  `synsetid` int NOT NULL DEFAULT '0',
+  `senseid` int DEFAULT NULL,
+  `sensenum` int NOT NULL DEFAULT '0',
+  `lexid` int NOT NULL DEFAULT '0',
+  `tagcount` int DEFAULT NULL,
+  `sensekey` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`wordid`,`synsetid`),
+  UNIQUE KEY `unq_senses_senseid` (`senseid`),
+  UNIQUE KEY `unq_senses_sensekey` (`sensekey`),
+  KEY `k_senses_lexid` (`lexid`),
+  KEY `k_senses_synsetid` (`synsetid`),
+  KEY `k_senses_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `samples`
+--
+
+DROP TABLE IF EXISTS `samples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `samples` (
+  `synsetid` int NOT NULL DEFAULT '0',
+  `sampleid` int NOT NULL DEFAULT '0',
+  `sample` mediumtext NOT NULL,
+  PRIMARY KEY (`synsetid`,`sampleid`),
+  KEY `k_samples_synsetid` (`synsetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `morphs`
+--
+
+DROP TABLE IF EXISTS `morphs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `morphs` (
+  `morphid` int NOT NULL DEFAULT '0',
+  `morph` varchar(70) NOT NULL,
+  PRIMARY KEY (`morphid`),
+  UNIQUE KEY `unq_morphs_morph` (`morph`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `morphmaps`
+--
+
+DROP TABLE IF EXISTS `lexes_morphs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lexes_morphs` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `morphid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`morphid`,`pos`,`wordid`),
+  KEY `k_morphmaps_morphid` (`morphid`),
+  KEY `k_morphmaps_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `adjpositions`
+--
+
+DROP TABLE IF EXISTS `senses_adjpositions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses_adjpositions` (
+  `synsetid` int NOT NULL DEFAULT '0',
+  `wordid` int NOT NULL DEFAULT '0',
+  `position` enum('a','p','ip') NOT NULL,
+  PRIMARY KEY (`synsetid`,`wordid`),
+  KEY `k_adjpositions_synsetid` (`synsetid`),
+  KEY `k_adjpositions_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vframes`
+--
+
+DROP TABLE IF EXISTS `vframes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vframes` (
+  `frameid` int NOT NULL DEFAULT '0',
+  `frame` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`frameid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vframemaps`
+--
+
+DROP TABLE IF EXISTS `senses_vframes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses_vframes` (
+  `synsetid` int NOT NULL DEFAULT '0',
+  `wordid` int NOT NULL,
+  `frameid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`synsetid`,`wordid`,`frameid`),
+  KEY `k_vframemaps_frameid` (`frameid`),
+  KEY `k_vframemaps_synsetid` (`synsetid`),
+  KEY `k_vframemaps_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vframesentences`
+--
+
+DROP TABLE IF EXISTS `vtemplates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vtemplates` (
+  `sentenceid` int NOT NULL DEFAULT '0',
+  `sentence` mediumtext,
+  PRIMARY KEY (`sentenceid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `vframesentencemaps`
+--
+
+DROP TABLE IF EXISTS `senses_vtemplates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses_vtemplates` (
+  `synsetid` int NOT NULL DEFAULT '0',
+  `wordid` int NOT NULL DEFAULT '0',
+  `sentenceid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`synsetid`,`wordid`,`sentenceid`),
+  KEY `k_vframesentencemaps_sentenceid` (`sentenceid`),
+  KEY `k_vframesentencemaps_synsetid` (`synsetid`),
+  KEY `k_vframesentencemaps_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `bncs`
+--
+
+DROP TABLE IF EXISTS `bnc_bncs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_bncs` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `freq` int DEFAULT NULL,
+  `range` int DEFAULT NULL,
+  `disp` float DEFAULT NULL,
+  PRIMARY KEY (`wordid`,`pos`),
+  KEY `k_bncs_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bncconvtasks`
+--
+
+DROP TABLE IF EXISTS `bnc_convtasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_convtasks` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `freq1` int DEFAULT NULL,
+  `range1` int DEFAULT NULL,
+  `disp1` float DEFAULT NULL,
+  `freq2` int DEFAULT NULL,
+  `range2` int DEFAULT NULL,
+  `disp2` float DEFAULT NULL,
+  `ll` float DEFAULT NULL,
+  PRIMARY KEY (`wordid`,`pos`),
+  KEY `k_bncconvtasks_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bncimaginfs`
+--
+
+DROP TABLE IF EXISTS `bnc_imaginfs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_imaginfs` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `freq1` int DEFAULT NULL,
+  `range1` int DEFAULT NULL,
+  `disp1` float DEFAULT NULL,
+  `freq2` int DEFAULT NULL,
+  `range2` int DEFAULT NULL,
+  `disp2` float DEFAULT NULL,
+  `ll` float DEFAULT NULL,
+  PRIMARY KEY (`wordid`,`pos`),
+  KEY `k_bncimaginfs_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bncspwrs`
+--
+
+DROP TABLE IF EXISTS `bnc_spwrs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_spwrs` (
+  `wordid` int NOT NULL DEFAULT '0',
+  `pos` enum('n','v','a','r','s') NOT NULL,
+  `freq1` int DEFAULT NULL,
+  `range1` int DEFAULT NULL,
+  `disp1` float DEFAULT NULL,
+  `freq2` int DEFAULT NULL,
+  `range2` int DEFAULT NULL,
+  `disp2` float DEFAULT NULL,
+  `ll` float DEFAULT NULL,
+  PRIMARY KEY (`wordid`,`pos`),
+  KEY `k_bncspwrs_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnframes`
+--
+
+DROP TABLE IF EXISTS `fn_frames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_frames` (
+  `frameid` int NOT NULL,
+  `frame` varchar(40) DEFAULT NULL,
+  `framedefinition` mediumtext,
+  `cdate` varchar(27) DEFAULT NULL,
+  `cby` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`frameid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnframerelations`
+--
+
+DROP TABLE IF EXISTS `fn_framerelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_framerelations` (
+  `relationid` int NOT NULL AUTO_INCREMENT,
+  `relation` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`relationid`),
+  UNIQUE KEY `unq_fnframerelations_relation` (`relation`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnframes_related`
+--
+
+DROP TABLE IF EXISTS `fn_frames_related`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_frames_related` (
+  `frameid` int NOT NULL,
+  `frame2id` int NOT NULL,
+  `relationid` int NOT NULL,
+  PRIMARY KEY (`frameid`,`frame2id`,`relationid`),
+  KEY `fk_fnframes_related_frame2id` (`frame2id`),
+  KEY `fk_fnframes_related_relationid` (`relationid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnframes_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_frames_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_frames_semtypes` (
+  `frameid` int NOT NULL,
+  `semtypeid` int NOT NULL,
+  PRIMARY KEY (`frameid`,`semtypeid`),
+  KEY `fk_fnframes_semtypes_semtypeid` (`semtypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnfetypes`
+--
+
+DROP TABLE IF EXISTS `fn_fetypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fetypes` (
+  `fetypeid` int NOT NULL AUTO_INCREMENT,
+  `fetype` varchar(26) DEFAULT NULL,
+  PRIMARY KEY (`fetypeid`),
+  UNIQUE KEY `unq_fnfetypes_fetype` (`fetype`)
+) ENGINE=MyISAM AUTO_INCREMENT=1285 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fes`
+--
+
+DROP TABLE IF EXISTS `fn_fes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes` (
+  `feid` int NOT NULL,
+  `frameid` int DEFAULT NULL,
+  `fetypeid` int DEFAULT NULL,
+  `feabbrev` varchar(24) DEFAULT NULL,
+  `fedefinition` mediumtext,
+  `coretypeid` int DEFAULT NULL,
+  `coreset` int DEFAULT NULL,
+  `fgcolor` varchar(6) DEFAULT NULL,
+  `bgcolor` varchar(6) DEFAULT NULL,
+  `cdate` varchar(27) DEFAULT NULL,
+  `cby` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`feid`),
+  KEY `k_fnfes_fetypeid` (`fetypeid`),
+  KEY `k_fnfes_frameid` (`frameid`),
+  KEY `fk_fnfes_coretypeid` (`coretypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnfes_excluded`
+--
+
+DROP TABLE IF EXISTS `fn_fes_excluded`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_excluded` (
+  `feid` int NOT NULL,
+  `fe2id` int NOT NULL,
+  PRIMARY KEY (`feid`,`fe2id`),
+  KEY `fk_fnfes_excluded_fe2id` (`fe2id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnfes_required`
+--
+
+DROP TABLE IF EXISTS `fn_fes_required`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_required` (
+  `feid` int NOT NULL,
+  `fe2id` int NOT NULL,
+  PRIMARY KEY (`feid`,`fe2id`),
+  KEY `fk_fnfes_required_fe2id` (`fe2id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnfes_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_fes_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_semtypes` (
+  `feid` int NOT NULL,
+  `semtypeid` int NOT NULL,
+  PRIMARY KEY (`feid`,`semtypeid`),
+  KEY `fk_fnfes_semtypes_semtypeid` (`semtypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fncoretypes`
+--
+
+DROP TABLE IF EXISTS `fn_coretypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_coretypes` (
+  `coretypeid` int NOT NULL AUTO_INCREMENT,
+  `coretype` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`coretypeid`),
+  UNIQUE KEY `unq_fncoretypes_coretype` (`coretype`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnferealizations`
+--
+
+DROP TABLE IF EXISTS `fn_ferealizations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_ferealizations` (
+  `ferid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `fetypeid` int DEFAULT NULL,
+  `feid` int DEFAULT NULL,
+  `total` int DEFAULT NULL,
+  PRIMARY KEY (`ferid`),
+  KEY `fk_fnferealizations_fetypeid` (`fetypeid`),
+  KEY `fk_fnferealizations_luid` (`luid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnfegrouprealizations`
+--
+
+DROP TABLE IF EXISTS `fn_fegrouprealizations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fegrouprealizations` (
+  `fegrid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `total` int DEFAULT NULL,
+  PRIMARY KEY (`fegrid`),
+  KEY `fk_fnfegrouprealizations_luid` (`luid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnfegrouprealizations_fes`
+--
+
+DROP TABLE IF EXISTS `fn_fes_fegrouprealizations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_fegrouprealizations` (
+  `rfeid` int NOT NULL,
+  `fegrid` int NOT NULL,
+  `feid` int DEFAULT NULL,
+  `fetypeid` int DEFAULT NULL,
+  PRIMARY KEY (`rfeid`),
+  KEY `fk_fnfegrouprealizations_fes_fegrid` (`fegrid`),
+  KEY `fk_fnfegrouprealizations_fes_feid` (`feid`),
+  KEY `fk_fnfegrouprealizations_fes_fetypeid` (`fetypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnpatterns`
+--
+
+DROP TABLE IF EXISTS `fn_grouppatterns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_grouppatterns` (
+  `patternid` int NOT NULL,
+  `fegrid` int DEFAULT NULL,
+  `total` int DEFAULT NULL,
+  PRIMARY KEY (`patternid`),
+  KEY `fk_fnpatterns_fegrid` (`fegrid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnpatterns_valenceunits`
+--
+
+DROP TABLE IF EXISTS `fn_grouppatterns_valenceunits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_grouppatterns_valenceunits` (
+  `pvid` int NOT NULL AUTO_INCREMENT,
+  `patternid` int NOT NULL,
+  `vuid` int NOT NULL,
+  `feid` int DEFAULT NULL,
+  `fetypeid` int DEFAULT NULL,
+  PRIMARY KEY (`pvid`),
+  KEY `fk_fnpatterns_valenceunits_feid` (`feid`),
+  KEY `fk_fnpatterns_valenceunits_fetypeid` (`fetypeid`),
+  KEY `fk_fnpatterns_valenceunits_patternid` (`patternid`),
+  KEY `fk_fnpatterns_valenceunits_vuid` (`vuid`)
+) ENGINE=MyISAM AUTO_INCREMENT=255320 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnpatterns_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_grouppatterns_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_grouppatterns_annosets` (
+  `patternid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`patternid`,`annosetid`),
+  KEY `fk_fnpatterns_annosets_annosetid` (`annosetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnvalenceunits`
+--
+
+DROP TABLE IF EXISTS `fn_valenceunits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_valenceunits` (
+  `vuid` int NOT NULL,
+  `ferid` int NOT NULL,
+  `ptid` int DEFAULT NULL,
+  `gfid` int DEFAULT NULL,
+  PRIMARY KEY (`vuid`),
+  KEY `fk_fnvalenceunits_ferid` (`ferid`),
+  KEY `fk_fnvalenceunits_gfid` (`gfid`),
+  KEY `fk_fnvalenceunits_ptid` (`ptid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnvalenceunits_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_valenceunits_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_valenceunits_annosets` (
+  `vuid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`vuid`,`annosetid`),
+  KEY `fk_fnvalenceunits_annosets_annosetid` (`annosetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fngovernors`
+--
+
+DROP TABLE IF EXISTS `fn_governors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_governors` (
+  `governorid` int NOT NULL,
+  `fnwordid` int DEFAULT NULL,
+  `governortype` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`governorid`),
+  KEY `fk_fngovernors_fnwordid` (`fnwordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fngovernors_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_governors_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_governors_annosets` (
+  `governorid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`governorid`,`annosetid`),
+  KEY `fk_fngovernors_annosets_annosetid` (`annosetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnannosets`
+--
+
+DROP TABLE IF EXISTS `fn_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_annosets` (
+  `annosetid` int NOT NULL,
+  `sentenceid` int NOT NULL,
+  `frameid` int DEFAULT NULL,
+  `luid` int DEFAULT NULL,
+  `cxnid` int DEFAULT NULL,
+  `statusid` int DEFAULT NULL,
+  `cdate` varchar(27) DEFAULT NULL,
+  `noccurs` int DEFAULT '1',
+  PRIMARY KEY (`annosetid`),
+  KEY `k_fnannosets_frameid` (`frameid`),
+  KEY `k_fnannosets_luid` (`luid`),
+  KEY `fk_fnannosets_cxnid` (`cxnid`),
+  KEY `fk_fnannosets_sentenceid` (`sentenceid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlayers`
+--
+
+DROP TABLE IF EXISTS `fn_layers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_layers` (
+  `layerid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  `layertypeid` int DEFAULT NULL,
+  `rank` int DEFAULT NULL,
+  PRIMARY KEY (`layerid`),
+  KEY `fk_fnlayers_annosetid` (`annosetid`),
+  KEY `fk_fnlayers_layertypeid` (`layertypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlayertypes`
+--
+
+DROP TABLE IF EXISTS `fn_layertypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_layertypes` (
+  `layertypeid` int NOT NULL AUTO_INCREMENT,
+  `layertype` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`layertypeid`),
+  UNIQUE KEY `unq_fnlayertypes_layertype` (`layertype`)
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlabels`
+--
+
+DROP TABLE IF EXISTS `fn_labels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_labels` (
+  `labelid` int NOT NULL,
+  `layerid` int DEFAULT NULL,
+  `labeltypeid` int DEFAULT NULL,
+  `labelitypeid` int DEFAULT NULL,
+  `feid` int DEFAULT NULL,
+  `start` int DEFAULT NULL,
+  `end` int DEFAULT NULL,
+  `fgcolor` varchar(6) DEFAULT NULL,
+  `bgcolor` varchar(6) DEFAULT NULL,
+  `cby` varchar(27) DEFAULT NULL,
+  PRIMARY KEY (`labelid`),
+  KEY `fk_fnlabels_feid` (`feid`),
+  KEY `fk_fnlabels_labelitypeid` (`labelitypeid`),
+  KEY `fk_fnlabels_labeltypeid` (`labeltypeid`),
+  KEY `fk_fnlabels_layerid` (`layerid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlabeltypes`
+--
+
+DROP TABLE IF EXISTS `fn_labeltypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_labeltypes` (
+  `labeltypeid` int NOT NULL AUTO_INCREMENT,
+  `labeltype` varchar(26) DEFAULT NULL,
+  PRIMARY KEY (`labeltypeid`),
+  UNIQUE KEY `unq_fnlabeltypes_labeltype` (`labeltype`)
+) ENGINE=MyISAM AUTO_INCREMENT=1443 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlexemes`
+--
+
+DROP TABLE IF EXISTS `fn_lexemes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexemes` (
+  `lexemeid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `fnwordid` int DEFAULT NULL,
+  `posid` int DEFAULT NULL,
+  `breakbefore` tinyint(1) DEFAULT NULL,
+  `headword` tinyint(1) DEFAULT NULL,
+  `lexemeidx` int DEFAULT NULL,
+  PRIMARY KEY (`lexemeid`),
+  KEY `k_fnlexemes_fnwordid` (`fnwordid`),
+  KEY `k_fnlexemes_luid` (`luid`),
+  KEY `fk_fnlexemes_posid` (`posid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlexunits`
+--
+
+DROP TABLE IF EXISTS `fn_lexunits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexunits` (
+  `luid` int NOT NULL,
+  `frameid` int DEFAULT NULL,
+  `lexunit` varchar(64) DEFAULT NULL,
+  `posid` int DEFAULT NULL,
+  `ludefinition` mediumtext,
+  `ludict` char(1) DEFAULT NULL,
+  `statusid` int DEFAULT NULL,
+  `totalannotated` int DEFAULT NULL,
+  `incorporatedfeid` int DEFAULT NULL,
+  `incorporatedfetypeid` int DEFAULT NULL,
+  `noccurs` int DEFAULT '1',
+  PRIMARY KEY (`luid`),
+  KEY `k_fnlexunits_frameid` (`frameid`),
+  KEY `fk_fnlexunits_incorporatedfeid` (`incorporatedfeid`),
+  KEY `fk_fnlexunits_posid` (`posid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlexunits_governors`
+--
+
+DROP TABLE IF EXISTS `fn_lexunits_governors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexunits_governors` (
+  `luid` int NOT NULL,
+  `governorid` int NOT NULL,
+  PRIMARY KEY (`luid`,`governorid`),
+  KEY `fk_fnlexunits_governors_governorid` (`governorid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlexunits_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_lexunits_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexunits_semtypes` (
+  `luid` int NOT NULL,
+  `semtypeid` int NOT NULL,
+  PRIMARY KEY (`luid`,`semtypeid`),
+  KEY `fk_fnlexunits_semtypes_semtypeid` (`semtypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnposes`
+--
+
+DROP TABLE IF EXISTS `fn_poses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_poses` (
+  `posid` int NOT NULL AUTO_INCREMENT,
+  `pos` varchar(8) DEFAULT NULL,
+  PRIMARY KEY (`posid`),
+  UNIQUE KEY `unq_fnposes_pos` (`pos`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_gftypes`
+--
+
+DROP TABLE IF EXISTS `fn_gftypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_gftypes` (
+  `gfid` int NOT NULL AUTO_INCREMENT,
+  `gf` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`gfid`),
+  UNIQUE KEY `unq_fngftypes_gf` (`gf`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnlabelitypes`
+--
+
+DROP TABLE IF EXISTS `fn_labelitypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_labelitypes` (
+  `labelitypeid` int NOT NULL AUTO_INCREMENT,
+  `labelitype` varchar(4) DEFAULT NULL,
+  `labelitypedescr` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`labelitypeid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnpttypes`
+--
+
+DROP TABLE IF EXISTS `fn_pttypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_pttypes` (
+  `ptid` int NOT NULL AUTO_INCREMENT,
+  `pt` varchar(19) DEFAULT NULL,
+  PRIMARY KEY (`ptid`),
+  UNIQUE KEY `unq_fnpttypes_pt` (`pt`)
+) ENGINE=MyISAM AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnsemtypes`
+--
+
+DROP TABLE IF EXISTS `fn_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_semtypes` (
+  `semtypeid` int NOT NULL,
+  `semtype` varchar(32) DEFAULT NULL,
+  `semtypeabbrev` varchar(24) DEFAULT NULL,
+  `semtypedefinition` mediumtext,
+  PRIMARY KEY (`semtypeid`),
+  UNIQUE KEY `unq_fnsemtypes_semtype` (`semtype`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnsemtypes_supers`
+--
+
+DROP TABLE IF EXISTS `fn_semtypes_supers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_semtypes_supers` (
+  `semtypeid` int NOT NULL,
+  `supersemtypeid` int NOT NULL,
+  PRIMARY KEY (`semtypeid`,`supersemtypeid`),
+  KEY `fk_fnsemtypes_supers_supersemtypeid` (`supersemtypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnsentences`
+--
+
+DROP TABLE IF EXISTS `fn_sentences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_sentences` (
+  `sentenceid` int NOT NULL,
+  `documentid` int DEFAULT NULL,
+  `corpusid` int DEFAULT NULL,
+  `paragno` int DEFAULT NULL,
+  `sentno` int DEFAULT NULL,
+  `text` mediumtext,
+  `apos` int DEFAULT NULL,
+  `noccurs` int DEFAULT '1',
+  PRIMARY KEY (`sentenceid`),
+  KEY `fk_fnsentences_corpusid` (`corpusid`),
+  KEY `fk_fnsentences_documentid` (`documentid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnstatuses`
+--
+
+DROP TABLE IF EXISTS `fn_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_statuses` (
+  `statusid` int NOT NULL AUTO_INCREMENT,
+  `status` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`statusid`),
+  UNIQUE KEY `unq_fnstatuses_status` (`status`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fncxns`
+--
+
+DROP TABLE IF EXISTS `fn_cxns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_cxns` (
+  `cxnid` int NOT NULL,
+  `cxn` varchar(31) DEFAULT NULL,
+  PRIMARY KEY (`cxnid`),
+  UNIQUE KEY `unq_fncxns_cxn` (`cxn`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `fndocuments`
+--
+
+DROP TABLE IF EXISTS `fn_documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_documents` (
+  `documentid` int NOT NULL,
+  `corpusid` int DEFAULT NULL,
+  `documentdesc` varchar(84) DEFAULT NULL,
+  `noccurs` int DEFAULT '1',
+  PRIMARY KEY (`documentid`),
+  KEY `fk_fndocuments_corpusid` (`corpusid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fncorpuses`
+--
+
+DROP TABLE IF EXISTS `fn_corpuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_corpuses` (
+  `corpusid` int NOT NULL,
+  `corpus` varchar(80) DEFAULT NULL,
+  `corpusdesc` varchar(96) DEFAULT NULL,
+  `luid` int DEFAULT NULL,
+  `noccurs` int DEFAULT '1',
+  PRIMARY KEY (`corpusid`),
+  KEY `fk_fncorpuses_luid` (`luid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnsubcorpuses`
+--
+
+DROP TABLE IF EXISTS `fn_subcorpuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_subcorpuses` (
+  `subcorpusid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `subcorpus` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`subcorpusid`),
+  KEY `fk_fnsubcorpuses_luid` (`luid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnsubcorpuses_sentences`
+--
+
+DROP TABLE IF EXISTS `fn_subcorpuses_sentences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_subcorpuses_sentences` (
+  `subcorpusid` int NOT NULL,
+  `sentenceid` int NOT NULL,
+  PRIMARY KEY (`subcorpusid`,`sentenceid`),
+  KEY `fk_fnsubcorpuses_sentences_sentenceid` (`sentenceid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fnwords`
+--
+
+DROP TABLE IF EXISTS `fn_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_words` (
+  `fnwordid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `word` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`fnwordid`),
+  UNIQUE KEY `unq_fnwords_word` (`word`),
+  KEY `fk_fnwords_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbrolesets`
+--
+
+DROP TABLE IF EXISTS `pb_rolesets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_rolesets` (
+  `rolesetid` int NOT NULL,
+  `rolesethead` varchar(24) NOT NULL,
+  `rolesetname` varchar(64) NOT NULL,
+  `rolesetdescr` mediumtext NOT NULL,
+  `pbwordid` int DEFAULT NULL,
+  PRIMARY KEY (`rolesetid`),
+  KEY `k_pbrolesets_pbwordid` (`pbwordid`),
+  KEY `k_pbrolesets_rolesethead` (`rolesethead`),
+  KEY `k_pbrolesets_rolesetname` (`rolesetname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbrolesetmembers`
+--
+
+DROP TABLE IF EXISTS `pb_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_members` (
+  `rolesetid` int NOT NULL,
+  `pbwordid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rolesetid`,`pbwordid`),
+  KEY `k_pbrolesetmembers_pbwordid` (`pbwordid`),
+  KEY `k_pbrolesetmembers_rolesetid` (`rolesetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbroles`
+--
+
+DROP TABLE IF EXISTS `pb_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_roles` (
+  `roleid` int NOT NULL,
+  `rolesetid` int NOT NULL,
+  `narg` varchar(1) NOT NULL,
+  `func` int DEFAULT NULL,
+  `theta` int DEFAULT NULL,
+  `roledescr` varchar(100) NOT NULL,
+  PRIMARY KEY (`roleid`),
+  KEY `k_pbroles_roledescr` (`roledescr`),
+  KEY `k_pbroles_rolesetid` (`rolesetid`),
+  KEY `fk_pbroles_func` (`func`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbargs`
+--
+
+DROP TABLE IF EXISTS `pb_args`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_args` (
+  `argid` int NOT NULL,
+  `exampleid` int NOT NULL,
+  `arg` mediumtext,
+  `narg` varchar(1) DEFAULT NULL,
+  `func` int DEFAULT NULL,
+  PRIMARY KEY (`argid`),
+  KEY `k_pbargs_arg` (`arg`(128)),
+  KEY `fk_pbargs_exampleid` (`exampleid`),
+  KEY `fk_pbargs_func` (`func`),
+  KEY `fk_pbargs_narg` (`narg`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbexamples`
+--
+
+DROP TABLE IF EXISTS `pb_examples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_examples` (
+  `exampleid` int NOT NULL,
+  `rolesetid` int NOT NULL,
+  `examplename` varchar(180) NOT NULL,
+  `text` mediumtext,
+  `aspect` int DEFAULT NULL,
+  `form` int DEFAULT NULL,
+  `tense` int DEFAULT NULL,
+  `voice` int DEFAULT NULL,
+  `person` int DEFAULT NULL,
+  PRIMARY KEY (`exampleid`),
+  KEY `k_pbexamples_examplename` (`examplename`),
+  KEY `k_pbexamples_rolesetid` (`rolesetid`),
+  KEY `fk_pbexamples_aspect` (`aspect`),
+  KEY `fk_pbexamples_form` (`form`),
+  KEY `fk_pbexamples_person` (`person`),
+  KEY `fk_pbexamples_tense` (`tense`),
+  KEY `fk_pbexamples_voice` (`voice`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbfnframemaps`
+--
+
+DROP TABLE IF EXISTS `pb_pbrolesets_fnframes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_pbrolesets_fnframes` (
+  `rolesetid` int NOT NULL,
+  `fnframeid` int NOT NULL,
+  `pos` varchar(1) NOT NULL,
+  `pbwordid` int NOT NULL,
+  PRIMARY KEY (`rolesetid`,`fnframeid`,`pos`,`pbwordid`),
+  KEY `fk_pbfnframemaps_fnframeid` (`fnframeid`),
+  KEY `fk_pbfnframemaps_pbwordid` (`pbwordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbvnclassmaps`
+--
+
+DROP TABLE IF EXISTS `pb_pbrolesets_vnclasses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_pbrolesets_vnclass` (
+  `rolesetid` int NOT NULL,
+  `vnclassid` int NOT NULL,
+  `pos` varchar(1) NOT NULL,
+  `pbwordid` int NOT NULL,
+  PRIMARY KEY (`rolesetid`,`vnclassid`,`pos`,`pbwordid`),
+  KEY `fk_pbvnclassmaps_pbwordid` (`pbwordid`),
+  KEY `fk_pbvnclassmaps_vnclassid` (`vnclassid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbvnrolemaps`
+--
+
+DROP TABLE IF EXISTS `pb_pbroles_vnroles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_pbroles_vnroles` (
+  `rolesetid` int NOT NULL,
+  `roleid` int NOT NULL,
+  `vnclassid` int NOT NULL,
+  `vnroleid` int NOT NULL,
+  PRIMARY KEY (`rolesetid`,`roleid`,`vnclassid`,`vnroleid`),
+  KEY `fk_pbvnrolemaps_roleid` (`roleid`),
+  KEY `fk_pbvnrolemaps_vnclassid` (`vnclassid`),
+  KEY `fk_pbvnrolemaps_vnroleid` (`vnroleid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbrels`
+--
+
+DROP TABLE IF EXISTS `pb_rels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_rels` (
+  `relid` int NOT NULL,
+  `exampleid` int NOT NULL,
+  `rel` varchar(32) NOT NULL,
+  `func` int DEFAULT NULL,
+  PRIMARY KEY (`relid`),
+  KEY `k_pbrels_rel` (`rel`),
+  KEY `fk_pbrels_exampleid` (`exampleid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbargns`
+--
+
+DROP TABLE IF EXISTS `pb_argtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_argtypes` (
+  `narg` varchar(1) NOT NULL,
+  `nargdescr` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`narg`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbaspects`
+--
+
+DROP TABLE IF EXISTS `pb_aspects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_aspects` (
+  `aspect` int NOT NULL,
+  `aspectname` varchar(20) NOT NULL,
+  PRIMARY KEY (`aspect`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbforms`
+--
+
+DROP TABLE IF EXISTS `pb_forms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_forms` (
+  `form` int NOT NULL,
+  `formname` varchar(20) NOT NULL,
+  PRIMARY KEY (`form`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbfuncs`
+--
+
+DROP TABLE IF EXISTS `pb_funcs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_funcs` (
+  `func` int NOT NULL,
+  `funcname` varchar(20) NOT NULL,
+  `funcdescr` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`func`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbpersons`
+--
+
+DROP TABLE IF EXISTS `pb_persons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_persons` (
+  `person` int NOT NULL,
+  `personname` varchar(20) NOT NULL,
+  PRIMARY KEY (`person`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbtenses`
+--
+
+DROP TABLE IF EXISTS `pb_tenses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_tenses` (
+  `tense` int NOT NULL,
+  `tensename` varchar(20) NOT NULL,
+  PRIMARY KEY (`tense`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbvnthetas`
+--
+
+DROP TABLE IF EXISTS `pb_thetas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_thetas` (
+  `theta` int NOT NULL,
+  `thetaname` varchar(20) NOT NULL,
+  PRIMARY KEY (`theta`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbvoices`
+--
+
+DROP TABLE IF EXISTS `pb_voices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_voices` (
+  `voice` int NOT NULL,
+  `voicename` varchar(20) NOT NULL,
+  PRIMARY KEY (`voice`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pbwords`
+--
+
+DROP TABLE IF EXISTS `pb_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_words` (
+  `pbwordid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `lemma` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`pbwordid`),
+  UNIQUE KEY `unq_pbwords_word` (`lemma`),
+  KEY `fk_pbwords_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm`
+--
+
+DROP TABLE IF EXISTS `pm_pms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pm_pms` (
+  `pmid` int NOT NULL,
+  `pmroleid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `synsetid` int DEFAULT NULL,
+  `lemma` varchar(33) DEFAULT NULL,
+  `vnwordid` int DEFAULT NULL,
+  `vnclassid` int DEFAULT NULL,
+  `vnroleid` int DEFAULT NULL,
+  `pbwordid` int DEFAULT NULL,
+  `pbrolesetid` int DEFAULT NULL,
+  `pbroleid` int DEFAULT NULL,
+  `fnwordid` int DEFAULT NULL,
+  `fnluid` int DEFAULT NULL,
+  `fnframeid` int DEFAULT NULL,
+  `fnfeid` int DEFAULT NULL,
+  `sumoid` int DEFAULT NULL,
+  `wsource` int DEFAULT NULL,
+  PRIMARY KEY (`pmid`),
+  KEY `k_pm_pmroleid` (`pmroleid`),
+  KEY `k_pm_synsetid` (`synsetid`),
+  KEY `k_pm_wordid` (`wordid`),
+  KEY `fk_pm_fnfeid` (`fnfeid`),
+  KEY `fk_pm_fnframeid` (`fnframeid`),
+  KEY `fk_pm_fnluid` (`fnluid`),
+  KEY `fk_pm_fnwordid` (`fnwordid`),
+  KEY `fk_pm_pbrolesetid` (`pbrolesetid`),
+  KEY `fk_pm_pbwordid` (`pbwordid`),
+  KEY `fk_pm_sumoid` (`sumoid`),
+  KEY `fk_pm_vnclassid` (`vnclassid`),
+  KEY `fk_pm_vnroleid` (`vnroleid`),
+  KEY `fk_pm_vnwordid` (`vnwordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pmroles`
+--
+
+DROP TABLE IF EXISTS `pm_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pm_roles` (
+  `pmroleid` int NOT NULL,
+  `pmpredid` int DEFAULT NULL,
+  `role` varchar(10) NOT NULL,
+  `pos` varchar(1) NOT NULL,
+  PRIMARY KEY (`pmroleid`),
+  UNIQUE KEY `unq_pmroles_pmpredid_role_pos` (`pmpredid`,`role`,`pos`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pmpredicates`
+--
+
+DROP TABLE IF EXISTS `pm_predicates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pm_predicates` (
+  `pmpredid` int NOT NULL AUTO_INCREMENT,
+  `predicate` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`pmpredid`),
+  UNIQUE KEY `unq_pmpredicates_predicate` (`predicate`)
+) ENGINE=MyISAM AUTO_INCREMENT=7563 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `syntagms`
+--
+
+DROP TABLE IF EXISTS `sn_syntagms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sn_syntagms` (
+  `syntagmid` int NOT NULL AUTO_INCREMENT,
+  `synset1id` int NOT NULL,
+  `word1id` int NOT NULL,
+  `synset2id` int NOT NULL,
+  `word2id` int NOT NULL,
+  PRIMARY KEY (`syntagmid`),
+  KEY `k_syntagms_synset1id_word1id` (`synset1id`,`word1id`),
+  KEY `k_syntagms_synset2id_word2id` (`synset2id`,`word2id`)
+) ENGINE=MyISAM AUTO_INCREMENT=88008 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnclasses`
+--
+
+DROP TABLE IF EXISTS `vn_classes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_classes` (
+  `classid` int NOT NULL,
+  `class` varchar(64) NOT NULL,
+  `classtag` varchar(32) NOT NULL,
+  PRIMARY KEY (`classid`),
+  UNIQUE KEY `unq_vnclasses_class` (`class`),
+  UNIQUE KEY `unq_vnclasses_classtag` (`classtag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vngroupings`
+--
+
+DROP TABLE IF EXISTS `vn_groupings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_groupings` (
+  `groupingid` int NOT NULL,
+  `grouping` varchar(64) NOT NULL,
+  PRIMARY KEY (`groupingid`),
+  UNIQUE KEY `unq_vngroupings_grouping` (`grouping`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnclassmembers`
+--
+
+DROP TABLE IF EXISTS `vn_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_members` (
+  `classid` int NOT NULL,
+  `vnwordid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`classid`,`vnwordid`),
+  KEY `k_vnclassmembers_classid` (`classid`),
+  KEY `k_vnclassmembers_vnwordid` (`vnwordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnclassmembersenses`
+--
+
+DROP TABLE IF EXISTS `vn_members_senses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_members_senses` (
+  `classid` int NOT NULL,
+  `vnwordid` int NOT NULL DEFAULT '0',
+  `sensenum` int NOT NULL DEFAULT '0',
+  `synsetid` int DEFAULT NULL,
+  `sensekey` varchar(100) DEFAULT NULL,
+  `quality` float NOT NULL,
+  PRIMARY KEY (`classid`,`vnwordid`,`sensenum`),
+  KEY `k_vnclassmembersenses_classid` (`classid`),
+  KEY `k_vnclassmembersenses_sensekey` (`sensekey`),
+  KEY `k_vnclassmembersenses_synsetid` (`synsetid`),
+  KEY `k_vnclassmembersenses_vnwordid` (`vnwordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vngroupingmaps`
+--
+
+DROP TABLE IF EXISTS `vn_members_groupings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_members_groupings` (
+  `groupingmapid` int NOT NULL,
+  `classid` int NOT NULL,
+  `vnwordid` int NOT NULL,
+  `groupingid` int NOT NULL,
+  PRIMARY KEY (`groupingmapid`),
+  KEY `k_vngroupingmaps_classid` (`classid`),
+  KEY `k_vngroupingmaps_groupingid` (`groupingid`),
+  KEY `k_vngroupingmaps_vnwordid` (`vnwordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnframes`
+--
+
+DROP TABLE IF EXISTS `vn_frames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_frames` (
+  `frameid` int NOT NULL,
+  `number` varchar(16) DEFAULT NULL,
+  `xtag` varchar(16) DEFAULT NULL,
+  `nameid` int NOT NULL,
+  `subnameid` int NOT NULL,
+  `syntaxid` int NOT NULL,
+  `semanticsid` int NOT NULL,
+  PRIMARY KEY (`frameid`),
+  UNIQUE KEY `unq_vnframes_number_xtag_nameid_subnameid_syntaxid_semanticsid` (`number`,`xtag`,`nameid`,`subnameid`,`syntaxid`,`semanticsid`),
+  KEY `k_vnframes_nameid` (`nameid`),
+  KEY `k_vnframes_semanticsid` (`semanticsid`),
+  KEY `k_vnframes_subnameid` (`subnameid`),
+  KEY `k_vnframes_syntaxid` (`syntaxid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnframenames`
+--
+
+DROP TABLE IF EXISTS `vn_framenames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_framenames` (
+  `nameid` int NOT NULL,
+  `framename` varchar(64) NOT NULL,
+  PRIMARY KEY (`nameid`),
+  UNIQUE KEY `unq_vnframenames_framename` (`framename`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnframesubnames`
+--
+
+DROP TABLE IF EXISTS `vn_framesubnames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_framesubnames` (
+  `subnameid` int NOT NULL,
+  `framesubname` varchar(64) NOT NULL,
+  PRIMARY KEY (`subnameid`),
+  UNIQUE KEY `unq_vnframesubnames_framesubname` (`framesubname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnexamples`
+--
+
+DROP TABLE IF EXISTS `vn_frames_examples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_frames_examples` (
+  `exampleid` int NOT NULL,
+  `example` varchar(128) NOT NULL,
+  PRIMARY KEY (`exampleid`),
+  UNIQUE KEY `unq_vnexamples_example` (`example`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnexamplemaps`
+--
+
+DROP TABLE IF EXISTS `vn_frames_examples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_frames_examples` (
+  `frameid` int NOT NULL,
+  `exampleid` int NOT NULL,
+  PRIMARY KEY (`frameid`,`exampleid`),
+  KEY `k_vnexamplemaps_exampleid` (`exampleid`),
+  KEY `k_vnexamplemaps_frameid` (`frameid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnframemaps`
+--
+
+DROP TABLE IF EXISTS `vn_classes_frames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_classes_frames` (
+  `framemapid` int NOT NULL,
+  `classid` int NOT NULL,
+  `frameid` int NOT NULL,
+  PRIMARY KEY (`framemapid`),
+  UNIQUE KEY `unq_vnframemaps_classid_frameid` (`classid`,`frameid`),
+  KEY `k_vnframemaps_classid` (`classid`),
+  KEY `k_vnframemaps_frameid` (`frameid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnpredicates`
+--
+
+DROP TABLE IF EXISTS `vn_predicates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_predicates` (
+  `predid` int NOT NULL,
+  `pred` varchar(128) NOT NULL,
+  PRIMARY KEY (`predid`),
+  UNIQUE KEY `unq_vnpredicates_pred` (`pred`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnpredicatemaps`
+--
+
+DROP TABLE IF EXISTS `vn_predicates_semantics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_predicates_semantics` (
+  `semanticsid` int NOT NULL,
+  `predid` int NOT NULL,
+  PRIMARY KEY (`semanticsid`,`predid`),
+  KEY `k_vnpredicatemaps_predid` (`predid`),
+  KEY `k_vnpredicatemaps_semanticsid` (`semanticsid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnrestrs`
+--
+
+DROP TABLE IF EXISTS `vn_restrs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_restrs` (
+  `restrsid` int NOT NULL,
+  `restrs` mediumtext NOT NULL,
+  `issyn` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`restrsid`),
+  KEY `k_vnrestrs_restrs` (`restrs`(255),`issyn`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnrestrtypes`
+--
+
+DROP TABLE IF EXISTS `vn_restrtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_restrtypes` (
+  `restrid` int NOT NULL,
+  `restrval` varchar(32) NOT NULL,
+  `restr` varchar(32) NOT NULL,
+  `issyn` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`restrid`),
+  UNIQUE KEY `unq_vnrestrtypes_restrval_restr` (`restrval`,`restr`,`issyn`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnroles`
+--
+
+DROP TABLE IF EXISTS `vn_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_roles` (
+  `roleid` int NOT NULL,
+  `roletypeid` int NOT NULL,
+  `restrsid` int DEFAULT NULL,
+  PRIMARY KEY (`roleid`),
+  UNIQUE KEY `unq_vnroles_roletypeid_restrsid` (`roletypeid`,`restrsid`),
+  KEY `k_vnroles_restrsid` (`restrsid`),
+  KEY `k_vnroles_roletypeid` (`roletypeid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnrolemaps`
+--
+
+DROP TABLE IF EXISTS `vn_classes_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_classes_roles` (
+  `rolemapid` int NOT NULL,
+  `roleid` int NOT NULL,
+  `classid` int NOT NULL,
+  PRIMARY KEY (`rolemapid`),
+  UNIQUE KEY `unq_vnrolemaps_roleid_classid` (`roleid`,`classid`),
+  KEY `k_vnrolemaps_classid` (`classid`),
+  KEY `k_vnrolemaps_roleid` (`roleid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnroletypes`
+--
+
+DROP TABLE IF EXISTS `vn_roletypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_roletypes` (
+  `roletypeid` int NOT NULL,
+  `roletype` varchar(32) NOT NULL,
+  PRIMARY KEY (`roletypeid`),
+  UNIQUE KEY `unq_vnroletypes_roletype` (`roletype`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnsemantics`
+--
+
+DROP TABLE IF EXISTS `vn_semantics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_semantics` (
+  `semanticsid` int NOT NULL,
+  `semantics` mediumtext NOT NULL,
+  PRIMARY KEY (`semanticsid`),
+  KEY `k_vnsemantics_semantics` (`semantics`(255))
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnsyntaxes`
+--
+
+DROP TABLE IF EXISTS `vn_syntaxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_syntaxes` (
+  `syntaxid` int NOT NULL,
+  `syntax` mediumtext NOT NULL,
+  PRIMARY KEY (`syntaxid`),
+  UNIQUE KEY `unq_vnsyntaxes_syntax` (`syntax`(255))
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vnwords`
+--
+
+DROP TABLE IF EXISTS `vn_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_words` (
+  `vnwordid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `lemma` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`vnwordid`),
+  UNIQUE KEY `unq_vnwords_lemma` (`lemma`),
+  KEY `fk_vnwords_wordid` (`wordid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+-- Dump completed on 2022-08-24 15:55:38

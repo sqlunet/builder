@@ -1,0 +1,83 @@
+pbrolesets
+	pbwordid int
+	rolesetdescr mediumtext
+	rolesethead varchar
+	rolesetid int
+	rolesetname varchar
+pbrolesetmembers
+	pbwordid int
+	rolesetid int
+pbroles
+	func int
+	narg varchar
+	roledescr varchar
+	roleid int
+	rolesetid int
+	theta int
+pbargs
+	arg mediumtext
+	argid int
+	exampleid int
+	func int
+	narg varchar
+pbexamples
+	aspect int
+	exampleid int
+	examplename varchar
+	form int
+	person int
+	rolesetid int
+	tense int
+	text mediumtext
+	voice int
+pbfnframemaps
+	fnframeid int
+	pbwordid int
+	pos varchar
+	rolesetid int
+pbvnclassmaps
+	pbwordid int
+	pos varchar
+	rolesetid int
+	vnclassid int
+pbvnrolemaps
+	roleid int
+	rolesetid int
+	vnclassid int
+	vnroleid int
+
+pbargns
+	narg varchar
+	nargdescr varchar
+pbaspects
+	aspect int
+	aspectname varchar
+pbforms
+	form int
+	formname varchar
+pbfuncs
+	func int
+	funcdescr varchar
+	funcname varchar
+pbpersons
+	person int
+	personname varchar
+pbrels
+	exampleid int
+	func int
+	rel varchar
+	relid int
+pbtenses
+	tense int
+	tensename varchar
+pbvnthetas
+	theta int
+	thetaname varchar
+pbvoices
+	voice int
+	voicename varchar
+
+pbwords
+	lemma varchar
+	pbwordid int
+	wordid int

@@ -1,0 +1,88 @@
+pb_rolesets
+	pbwordid int
+	rolesetdescr text
+	rolesethead varchar
+	rolesetid int
+	rolesetname varchar
+pb_members
+	pbwordid int
+	rolesetid int
+pb_roles
+	argtypeid varchar
+	funcid int
+	roledescr varchar
+	roleid int
+	rolesetid int
+	thetaid int
+pb_args
+	arg text
+	argid int
+	argtypeid varchar
+	exampleid int
+	funcid int
+pb_examples
+	aspectid int
+	exampleid int
+	examplename varchar
+	formid int
+	personid int
+	rolesetid int
+	tenseid int
+	text text
+	voiceid int
+pb_pbrolesets_fnframes
+	fnframe varchar
+	fnframeid int
+	pbwordid int
+	pos varchar
+	rolesetid int
+pb_pbrolesets_vnclasses
+	pbwordid int
+	pos varchar
+	rolesetid int
+	vnclass varchar
+	vnclassid int
+pb_pbroles_vnroles
+	roleid int
+	rolesetid int
+	vnclass varchar
+	vnclassid int
+	vnroleid int
+	vnroletypeid int
+	vntheta varchar
+
+pb_argtypes
+	argtype varchar
+	argtypeid varchar
+pb_aspects
+	aspect varchar
+	aspectid int
+pb_forms
+	form varchar
+	formid int
+pb_funcs
+	func varchar
+	funcdescr varchar
+	funcid int
+pb_persons
+	person varchar
+	personid int
+pb_rels
+	exampleid int
+	funcid int
+	rel varchar
+	relid int
+pb_tenses
+	tense varchar
+	tenseid int
+pb_thetas
+	theta varchar
+	thetaid int
+pb_voices
+	voice varchar
+	voiceid int
+
+pb_words
+	pbwordid int
+	word varchar
+	wordid int

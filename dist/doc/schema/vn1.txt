@@ -1,0 +1,87 @@
+vnclasses
+	class varchar
+	classid int
+	classtag varchar
+
+vngroupings
+	grouping varchar
+	groupingid int
+
+vnclassmembers
+	classid int
+	vnwordid int
+vnclassmembersenses
+	classid int
+	quality float
+	sensekey varchar
+	sensenum int
+	synsetid int
+	vnwordid int
+vngroupingmaps
+	groupingmapid int
+	classid int
+	groupingid int
+	vnwordid int
+
+vnframes
+	frameid int
+	nameid int
+	number varchar
+	semanticsid int
+	subnameid int
+	syntaxid int
+	xtag varchar
+vnframenames
+	framename varchar
+	nameid int
+vnframesubnames
+	framesubname varchar
+	subnameid int
+vnexamples
+	example varchar
+	exampleid int
+vnexamplemaps
+	exampleid int
+	frameid int
+vnframemaps
+	classid int
+	frameid int
+	framemapid int
+
+vnpredicates
+	pred varchar
+	predid int
+vnpredicatemaps
+	predid int
+	semanticsid int
+
+vnrestrs
+	issyn tinyint
+	restrs mediumtext
+	restrsid int
+vnrestrtypes
+	issyn tinyint
+	restr varchar
+	restrid int
+	restrval varchar
+vnroles
+	restrsid int
+	roleid int
+	roletypeid int
+vnrolemaps
+	classid int
+	roleid int
+	rolemapid int
+vnroletypes
+	roletype varchar
+	roletypeid int
+vnsemantics
+	semantics mediumtext
+	semanticsid int
+vnsyntaxes
+	syntax mediumtext
+	syntaxid int
+vnwords
+	vnwordid int
+	lemma varchar
+	wordid int

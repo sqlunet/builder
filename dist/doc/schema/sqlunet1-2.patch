@@ -1,0 +1,947 @@
+--- /opt/devel/sqlbuilder2/sqlunet2.txt
++++ /opt/devel/sqlbuilder2/sqlunetXX.txt
+@@ -1,175 +1,168 @@
+ adjpositions
+-	position varchar
+-	positionid enum
+-bnc_bncs
+-	disp float
+-	freq int
+-	posid enum
+-	range int
+-	word varchar
+-	wordid int
+-bnc_convtasks
++	position enum
++	synsetid int
++	wordid int
++adjpositiontypes
++	position enum
++	positionname varchar
++bncconvtasks
+ 	disp1 float
+ 	disp2 float
+ 	freq1 int
+ 	freq2 int
+ 	ll float
+-	posid enum
++	pos enum
+ 	range1 int
+ 	range2 int
+-	word varchar
+-	wordid int
+-bnc_imaginfs
++	wordid int
++bncimaginfs
+ 	disp1 float
+ 	disp2 float
+ 	freq1 int
+ 	freq2 int
+ 	ll float
+-	posid enum
++	pos enum
+ 	range1 int
+ 	range2 int
+-	word varchar
+-	wordid int
+-bnc_spwrs
++	wordid int
++bncs
++	disp float
++	freq int
++	pos enum
++	range int
++	wordid int
++bncspwrs
+ 	disp1 float
+ 	disp2 float
+ 	freq1 int
+ 	freq2 int
+ 	ll float
+-	posid enum
++	pos enum
+ 	range1 int
+ 	range2 int
+-	word varchar
+ 	wordid int
+ casedwords
+-	casedword varchar
++	cased varchar
+ 	casedwordid int
+ 	wordid int
+-domains
+-	domain varchar
+-	domainid int
+-	domainname varchar
+-	posid enum
+-fn_annosets
++fnannosets
+ 	annosetid int
++	cdate varchar
+ 	cxnid int
+ 	frameid int
+ 	luid int
++	noccurs int
+ 	sentenceid int
+-fn_coretypes
++	statusid int
++fncoretypes
+ 	coretype varchar
+ 	coretypeid int
+-fn_corpuses
++fncorpuses
+ 	corpus varchar
+ 	corpusdesc varchar
+ 	corpusid int
+ 	luid int
+-fn_cxns
++	noccurs int
++fncxns
+ 	cxn varchar
+ 	cxnid int
+-fn_documents
++fndocuments
+ 	corpusid int
+-	document varchar
+ 	documentdesc varchar
+ 	documentid int
+-fn_fegrouprealizations
++	noccurs int
++fnfegrouprealizations
+ 	fegrid int
+ 	luid int
+ 	total int
+-fn_ferealizations
++fnfegrouprealizations_fes
++	fegrid int
++	feid int
++	fetypeid int
++	rfeid int
++fnferealizations
+ 	feid int
+ 	ferid int
+ 	fetypeid int
+ 	luid int
+ 	total int
+-fn_ferealizations_valenceunits
+-	ferid int
+-	vuid int
+-fn_fes
++fnfes
++	bgcolor varchar
++	cby varchar
++	cdate varchar
+ 	coreset int
+ 	coretypeid int
+ 	feabbrev varchar
+-	fedefinition text
++	fedefinition mediumtext
+ 	feid int
+ 	fetypeid int
+-	frameid int
+-fn_fes_excluded
++	fgcolor varchar
++	frameid int
++fnfes_excluded
+ 	fe2id int
+ 	feid int
+-fn_fes_fegrouprealizations
+-	fegrid int
+-	feid int
+-	fetypeid int
+-fn_fes_required
++fnfes_required
+ 	fe2id int
+ 	feid int
+-fn_fes_semtypes
++fnfes_semtypes
+ 	feid int
+ 	semtypeid int
+-fn_fetypes
++fnfetypes
+ 	fetype varchar
+ 	fetypeid int
+-fn_framerelations
++fnframerelations
+ 	relation varchar
+ 	relationid int
+-fn_frames
++fnframes
+ 	cby varchar
+ 	cdate varchar
+ 	frame varchar
+-	framedefinition text
+-	frameid int
+-fn_frames_related
++	framedefinition mediumtext
++	frameid int
++fnframes_related
+ 	frame2id int
+ 	frameid int
+ 	relationid int
+-fn_frames_semtypes
++fnframes_semtypes
+ 	frameid int
+ 	semtypeid int
+-fn_gftypes
++fngftypes
+ 	gf varchar
+ 	gfid int
+-fn_governors
++fngovernors
+ 	fnwordid int
+ 	governorid int
+ 	governortype varchar
+-fn_governors_annosets
++fngovernors_annosets
+ 	annosetid int
+ 	governorid int
+-fn_grouppatterns
+-	fegrid int
+-	patternid int
+-	total int
+-fn_grouppatterns_annosets
+-	annosetid int
+-	patternid int
+-fn_grouppatterns_patterns
+-	ferid int
+-	patternid int
+-	vuid int
+-fn_labelitypes
++fnlabelitypes
+ 	labelitype varchar
+ 	labelitypedescr varchar
+ 	labelitypeid int
+-fn_labels
++fnlabels
++	bgcolor varchar
++	cby varchar
+ 	end int
+ 	feid int
++	fgcolor varchar
+ 	labelid int
+ 	labelitypeid int
+ 	labeltypeid int
+ 	layerid int
+ 	start int
+-fn_labeltypes
++fnlabeltypes
+ 	labeltype varchar
+ 	labeltypeid int
+-fn_layers
++fnlayers
+ 	annosetid int
+ 	layerid int
+ 	layertypeid int
+ 	rank int
+-fn_layertypes
++fnlayertypes
+ 	layertype varchar
+ 	layertypeid int
+-fn_lexemes
++fnlexemes
+ 	breakbefore tinyint
+ 	fnwordid int
+ 	headword tinyint
+@@ -177,37 +170,52 @@
+ 	lexemeidx int
+ 	luid int
+ 	posid int
+-fn_lexunits
+-	frameid int
++fnlexunits
++	frameid int
++	incorporatedfeid int
+ 	incorporatedfetypeid int
+ 	lexunit varchar
+-	ludefinition text
++	ludefinition mediumtext
+ 	ludict char
+ 	luid int
++	noccurs int
+ 	posid int
+ 	statusid int
+ 	totalannotated int
+-fn_lexunits_governors
++fnlexunits_governors
+ 	governorid int
+ 	luid int
+-fn_lexunits_semtypes
++fnlexunits_semtypes
+ 	luid int
+ 	semtypeid int
+-fn_poses
++fnpatterns
++	fegrid int
++	patternid int
++	total int
++fnpatterns_annosets
++	annosetid int
++	patternid int
++fnpatterns_valenceunits
++	feid int
++	fetypeid int
++	patternid int
++	pvid int
++	vuid int
++fnposes
+ 	pos varchar
+ 	posid int
+-fn_pttypes
++fnpttypes
+ 	pt varchar
+ 	ptid int
+-fn_semtypes
++fnsemtypes
+ 	semtype varchar
+ 	semtypeabbrev varchar
+-	semtypedefinition text
++	semtypedefinition mediumtext
+ 	semtypeid int
+-fn_semtypes_supers
++fnsemtypes_supers
+ 	semtypeid int
+ 	supersemtypeid int
+-fn_sentences
++fnsentences
+ 	apos int
+ 	corpusid int
+ 	documentid int
+@@ -215,329 +223,417 @@
+ 	paragno int
+ 	sentenceid int
+ 	sentno int
+-	text text
+-fn_subcorpuses
++	text mediumtext
++fnstatuses
++	status varchar
++	statusid int
++fnsubcorpuses
+ 	luid int
+ 	subcorpus varchar
+ 	subcorpusid int
+-fn_subcorpuses_sentences
++fnsubcorpuses_sentences
+ 	sentenceid int
+ 	subcorpusid int
+-fn_valenceunits
+-	fetypeid int
++fnvalenceunits
++	ferid int
+ 	gfid int
+ 	ptid int
+ 	vuid int
+-fn_valenceunits_annosets
++fnvalenceunits_annosets
+ 	annosetid int
+ 	vuid int
+-fn_words
++fnwords
+ 	fnwordid int
+ 	word varchar
+ 	wordid int
+-lexes
+-	casedwordid int
+-	luid int
+-	posid enum
+-	wordid int
+-lexes_morphs
+-	luid int
+-	morphid int
+-	posid enum
+-	wordid int
+-lexes_pronunciations
+-	luid int
+-	posid enum
+-	pronunciationid int
+-	variety varchar
+-	wordid int
+-lexrelations
+-	lu1id int
+-	lu2id int
+-	relationid int
++glfs
++	issub tinyint
++	lf mediumtext
++	synsetid int
++	text mediumtext
++	wordid int
++ilfs
++	lf mediumtext
++	prettylf mediumtext
++	synsetid int
++	text mediumtext
++	wordid int
++lexdomains
++	lexdomain varchar
++	lexdomainid int
++	lexdomainname varchar
++	pos enum
++lexlinks
++	linkid int
+ 	synset1id int
+ 	synset2id int
+ 	word1id int
+ 	word2id int
++linktypes
++	link varchar
++	linkid int
++	recurses tinyint
++logs
++	cause text
++	exc text
++	id int
++	line text
++	location int
++	module varchar
++	object text
++	source varchar
++	sql text
++	subtag varchar
++	table text
++	tag varchar
++morphmaps
++	morphid int
++	pos enum
++	wordid int
+ morphs
+ 	morph varchar
+ 	morphid int
+-pb_args
+-	arg text
++pbargns
++	narg varchar
++	nargdescr varchar
++pbargs
++	arg mediumtext
+ 	argid int
+-	argtypeid varchar
+ 	exampleid int
+-	funcid int
+-pb_argtypes
+-	argtype varchar
+-	argtypeid varchar
+-pb_aspects
+-	aspect varchar
+-	aspectid int
+-pb_examples
+-	aspectid int
++	func int
++	narg varchar
++pbaspects
++	aspect int
++	aspectname varchar
++pbexamples
++	aspect int
+ 	exampleid int
+ 	examplename varchar
+-	formid int
+-	personid int
++	form int
++	person int
+ 	rolesetid int
+-	tenseid int
+-	text text
+-	voiceid int
+-pb_forms
+-	form varchar
+-	formid int
+-pb_funcs
+-	func varchar
+-	funcdescr varchar
+-	funcid int
+-pb_members
+-	pbwordid int
+-	rolesetid int
+-pb_pbroles_vnroles
+-	roleid int
+-	rolesetid int
+-	vnclass varchar
+-	vnclassid int
+-	vnroleid int
+-	vnroletypeid int
+-	vntheta varchar
+-pb_pbrolesets_fnframes
+-	fnframe varchar
++	tense int
++	text mediumtext
++	voice int
++pbfnframemaps
+ 	fnframeid int
+ 	pbwordid int
+ 	pos varchar
+ 	rolesetid int
+-pb_pbrolesets_vnclasses
++pbforms
++	form int
++	formname varchar
++pbfuncs
++	func int
++	funcdescr varchar
++	funcname varchar
++pbpersons
++	person int
++	personname varchar
++pbrels
++	exampleid int
++	func int
++	rel varchar
++	relid int
++pbroles
++	func int
++	narg varchar
++	roledescr varchar
++	roleid int
++	rolesetid int
++	theta int
++pbrolesetmembers
++	pbwordid int
++	rolesetid int
++pbrolesets
++	pbwordid int
++	rolesetdescr mediumtext
++	rolesethead varchar
++	rolesetid int
++	rolesetname varchar
++pbtenses
++	tense int
++	tensename varchar
++pbvnclassmaps
+ 	pbwordid int
+ 	pos varchar
+ 	rolesetid int
+-	vnclass varchar
+ 	vnclassid int
+-pb_persons
+-	person varchar
+-	personid int
+-pb_rels
+-	exampleid int
+-	funcid int
+-	rel varchar
+-	relid int
+-pb_roles
+-	argtypeid varchar
+-	funcid int
+-	roledescr varchar
++pbvnrolemaps
+ 	roleid int
+ 	rolesetid int
+-	thetaid int
+-pb_rolesets
++	vnclassid int
++	vnroleid int
++pbvnthetas
++	theta int
++	thetaname varchar
++pbvoices
++	voice int
++	voicename varchar
++pbwords
++	lemma varchar
+ 	pbwordid int
+-	rolesetdescr text
+-	rolesethead varchar
+-	rolesetid int
+-	rolesetname varchar
+-pb_tenses
+-	tense varchar
+-	tenseid int
+-pb_thetas
+-	theta varchar
+-	thetaid int
+-pb_voices
+-	voice varchar
+-	voiceid int
+-pb_words
+-	pbwordid int
+-	word varchar
+-	wordid int
+-pm_pms
+-	fnfe varchar
++	wordid int
++pm
+ 	fnfeid int
+-	fnfetypeid int
+-	fnframe varchar
+ 	fnframeid int
+-	fnlu varchar
+ 	fnluid int
+ 	fnwordid int
+-	pbrole varchar
++	lemma varchar
+ 	pbroleid int
+-	pbroleset varchar
+ 	pbrolesetid int
+ 	pbwordid int
+ 	pmid int
+ 	pmroleid int
+-	sensekey varchar
+-	source int
+-	synsetid int
+-	vnclass varchar
++	sumoid int
++	synsetid int
+ 	vnclassid int
+-	vnrole varchar
+ 	vnroleid int
+ 	vnwordid int
+-	word varchar
+ 	wordid int
+ 	wsource int
+-pm_predicates
++pmpredicates
++	pmpredid int
+ 	predicate varchar
+-	predicateid int
+-pm_roles
++pmroles
++	pmpredid int
+ 	pmroleid int
+-	pos char
+-	predicateid int
++	pos varchar
+ 	role varchar
+-poses
+-	pos varchar
+-	posid enum
+-pronunciations
+-	pronunciation varchar
+-	pronunciationid int
+-relations
+-	recurses tinyint
+-	relation varchar
+-	relationid int
++postypes
++	pos enum
++	posname varchar
+ samples
+ 	sample mediumtext
+ 	sampleid int
+ 	synsetid int
+-semrelations
+-	relationid int
++semlinks
++	linkid int
+ 	synset1id int
+ 	synset2id int
++sensemaps2021
++	origin enum
++	quality float
++	srcsynsetid int
++	synsetid int
++	wordid int
++sensemaps2130
++	origin enum
++	quality float
++	srcsynsetid int
++	synsetid int
++	wordid int
++sensemaps3031
++	origin enum
++	quality float
++	srcsynsetid int
++	synsetid int
++	wordid int
++sensemaps31XX
++	origin enum
++	quality float
++	srcsynsetid int
++	synsetid int
++	wordid int
+ senses
+ 	casedwordid int
+ 	lexid int
+-	luid int
+ 	senseid int
+ 	sensekey varchar
+ 	sensenum int
+ 	synsetid int
+ 	tagcount int
+ 	wordid int
+-senses_adjpositions
+-	luid int
+-	positionid enum
+-	synsetid int
+-	wordid int
+-senses_vframes
+-	frameid int
+-	luid int
+-	synsetid int
+-	wordid int
+-senses_vtemplates
+-	luid int
+-	synsetid int
+-	templateid int
+-	wordid int
+-sl_pbroles_vnroles
+-	pbarg varchar
+-	pbroleid int
+-	pbroleset varchar
+-	pbrolesetid int
+-	vnclass varchar
+-	vnclassid int
+-	vnroleid int
+-	vnroletypeid int
+-	vntheta varchar
+-sl_pbrolesets_vnclasses
+-	pbroleset varchar
+-	pbrolesetid int
+-	vnclass varchar
+-	vnclassid int
+-sn_syntagms
+-	sensekey1 varchar
+-	sensekey2 varchar
++senses20
++	pos enum
++	senseid int
++	sensekey varchar
++	sensenum int
++	synsetid int
++	wordid int
++senses21
++	pos enum
++	senseid int
++	sensekey varchar
++	sensenum int
++	synsetid int
++	wordid int
++senses30
++	pos enum
++	senseid int
++	sensekey varchar
++	sensenum int
++	synsetid int
++	wordid int
++senses31
++	pos enum
++	senseid int
++	sensekey varchar
++	sensenum int
++	synsetid int
++	wordid int
++sumofiles
++	sumodate datetime
++	sumofile varchar
++	sumofileid int
++	sumoversion varchar
++sumoformulas
++	formula mediumtext
++	formulaid int
++	sumofileid int
++sumomaps
++	sumoid int
++	sumownrel enum
++	synsetid int
++sumoparsemaps
++	argnum int
++	formulaid int
++	mapid int
++	sumoid int
++	sumoparsetype enum
++sumotermattrs
++	sumoattr varchar
++	sumoid int
++sumoterms
++	sumoid int
++	sumoterm varchar
++synsetmaps20XX
++	quality float
++	srcsynsetid int
++	synsetid int
++synsetmaps21XX
++	quality float
++	srcsynsetid int
++	synsetid int
++synsetmaps3031
++	quality float
++	srcsynsetid int
++	synsetid int
++synsetmaps30XX
++	quality float
++	srcsynsetid int
++	synsetid int
++synsetmaps31XX
++	quality float
++	srcsynsetid int
++	synsetid int
++synsets
++	definition mediumtext
++	lexdomainid int
++	pos enum
++	synsetid int
++syntagms
+ 	synset1id int
+ 	synset2id int
+ 	syntagmid int
+ 	word1id int
+ 	word2id int
+-synsets
+-	definition mediumtext
+-	domainid int
+-	posid enum
+-	synsetid int
++vframemaps
++	frameid int
++	synsetid int
++	wordid int
+ vframes
+ 	frame varchar
+ 	frameid int
+-vn_classes
++vframesentencemaps
++	sentenceid int
++	synsetid int
++	wordid int
++vframesentences
++	sentence mediumtext
++	sentenceid int
++vnclasses
+ 	class varchar
+ 	classid int
+ 	classtag varchar
+-vn_classes_frames
++vnclassmembers
+ 	classid int
+-	frameid int
+-vn_examples
+-	example text
++	vnwordid int
++vnclassmembersenses
++	classid int
++	quality float
++	sensekey varchar
++	sensenum int
++	synsetid int
++	vnwordid int
++vnexamplemaps
+ 	exampleid int
+-vn_framenames
++	frameid int
++vnexamples
++	example varchar
++	exampleid int
++vnframemaps
++	classid int
++	frameid int
++	framemapid int
++vnframenames
+ 	framename varchar
+-	framenameid int
+-vn_frames
+-	frameid int
+-	framenameid int
+-	framesubnameid int
++	nameid int
++vnframes
++	frameid int
++	nameid int
+ 	number varchar
+ 	semanticsid int
++	subnameid int
+ 	syntaxid int
+ 	xtag varchar
+-vn_frames_examples
+-	exampleid int
+-	frameid int
+-vn_framesubnames
++vnframesubnames
+ 	framesubname varchar
+-	framesubnameid int
+-vn_groupings
++	subnameid int
++vngroupingmaps
++	classid int
++	groupingid int
++	groupingmapid int
++	vnwordid int
++vngroupings
+ 	grouping varchar
+ 	groupingid int
+-vn_members
+-	classid int
+-	vnwordid int
+-vn_members_groupings
+-	classid int
+-	groupingid int
+-	vnwordid int
+-vn_members_senses
+-	classid int
+-	quality float
+-	sensekey varchar
+-	sensenum int
+-	synsetid int
+-	vnwordid int
+-	wordid int
+-vn_predicates
+-	predicate varchar
+-	predicateid int
+-vn_predicates_semantics
+-	predicateid int
++vnpredicatemaps
++	predid int
+ 	semanticsid int
+-vn_restrs
++vnpredicates
++	pred varchar
++	predid int
++vnrestrs
+ 	issyn tinyint
+-	restrs text
++	restrs mediumtext
+ 	restrsid int
+-vn_restrtypes
++vnrestrtypes
+ 	issyn tinyint
+ 	restr varchar
+ 	restrid int
+ 	restrval varchar
+-vn_roles
++vnrolemaps
+ 	classid int
++	roleid int
++	rolemapid int
++vnroles
+ 	restrsid int
+ 	roleid int
+ 	roletypeid int
+-vn_roletypes
++vnroletypes
+ 	roletype varchar
+ 	roletypeid int
+-vn_semantics
+-	semantics text
++vnsemantics
++	semantics mediumtext
+ 	semanticsid int
+-vn_syntaxes
+-	syntax text
++vnsyntaxes
++	syntax mediumtext
+ 	syntaxid int
+-vn_words
++vnwords
++	lemma varchar
+ 	vnwordid int
+-	word varchar
+-	wordid int
+-vtemplates
+-	template mediumtext
+-	templateid int
++	wordid int
+ words
+-	word varchar
+-	wordid int
++	lemma varchar
++	wordid int
++xwnparselfts
++	lft mediumtext
++	lftquality int
++	parse mediumtext
++	parsequality int
++	synsetid int
++xwnwsds
++	synsetid int
++	text mediumtext
++	wsd mediumtext

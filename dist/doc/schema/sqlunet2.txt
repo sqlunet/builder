@@ -1,0 +1,543 @@
+adjpositions
+	position varchar
+	positionid enum
+bnc_bncs
+	disp float
+	freq int
+	posid enum
+	range int
+	word varchar
+	wordid int
+bnc_convtasks
+	disp1 float
+	disp2 float
+	freq1 int
+	freq2 int
+	ll float
+	posid enum
+	range1 int
+	range2 int
+	word varchar
+	wordid int
+bnc_imaginfs
+	disp1 float
+	disp2 float
+	freq1 int
+	freq2 int
+	ll float
+	posid enum
+	range1 int
+	range2 int
+	word varchar
+	wordid int
+bnc_spwrs
+	disp1 float
+	disp2 float
+	freq1 int
+	freq2 int
+	ll float
+	posid enum
+	range1 int
+	range2 int
+	word varchar
+	wordid int
+casedwords
+	casedword varchar
+	casedwordid int
+	wordid int
+domains
+	domain varchar
+	domainid int
+	domainname varchar
+	posid enum
+fn_annosets
+	annosetid int
+	cxnid int
+	frameid int
+	luid int
+	sentenceid int
+fn_coretypes
+	coretype varchar
+	coretypeid int
+fn_corpuses
+	corpus varchar
+	corpusdesc varchar
+	corpusid int
+	luid int
+fn_cxns
+	cxn varchar
+	cxnid int
+fn_documents
+	corpusid int
+	document varchar
+	documentdesc varchar
+	documentid int
+fn_fegrouprealizations
+	fegrid int
+	luid int
+	total int
+fn_ferealizations
+	feid int
+	ferid int
+	fetypeid int
+	luid int
+	total int
+fn_ferealizations_valenceunits = fn_patterns
+	ferid int
+	vuid int
+fn_fes
+	coreset int
+	coretypeid int
+	feabbrev varchar
+	fedefinition text
+	feid int
+	fetypeid int
+	frameid int
+fn_fes_excluded
+	fe2id int
+	feid int
+fn_fes_fegrouprealizations
+	fegrid int
+	feid int
+	fetypeid int
+fn_fes_required
+	fe2id int
+	feid int
+fn_fes_semtypes
+	feid int
+	semtypeid int
+fn_fetypes
+	fetype varchar
+	fetypeid int
+fn_framerelations
+	relation varchar
+	relationid int
+fn_frames
+	cby varchar
+	cdate varchar
+	frame varchar
+	framedefinition text
+	frameid int
+fn_frames_related
+	frame2id int
+	frameid int
+	relationid int
+fn_frames_semtypes
+	frameid int
+	semtypeid int
+fn_gftypes
+	gf varchar
+	gfid int
+fn_governors
+	fnwordid int
+	governorid int
+	governortype varchar
+fn_governors_annosets
+	annosetid int
+	governorid int
+fn_grouppatterns
+	fegrid int
+	patternid int
+	total int
+fn_grouppatterns_annosets
+	annosetid int
+	patternid int
+fn_grouppatterns_patterns
+	ferid int
+	patternid int
+	vuid int
+fn_labelitypes
+	labelitype varchar
+	labelitypedescr varchar
+	labelitypeid int
+fn_labels
+	end int
+	feid int
+	labelid int
+	labelitypeid int
+	labeltypeid int
+	layerid int
+	start int
+fn_labeltypes
+	labeltype varchar
+	labeltypeid int
+fn_layers
+	annosetid int
+	layerid int
+	layertypeid int
+	rank int
+fn_layertypes
+	layertype varchar
+	layertypeid int
+fn_lexemes
+	breakbefore tinyint
+	fnwordid int
+	headword tinyint
+	lexemeid int
+	lexemeidx int
+	luid int
+	posid int
+fn_lexunits
+	frameid int
+	incorporatedfetypeid int
+	lexunit varchar
+	ludefinition text
+	ludict char
+	luid int
+	posid int
+	statusid int
+	totalannotated int
+fn_lexunits_governors
+	governorid int
+	luid int
+fn_lexunits_semtypes
+	luid int
+	semtypeid int
+fn_poses
+	pos varchar
+	posid int
+fn_pttypes
+	pt varchar
+	ptid int
+fn_semtypes
+	semtype varchar
+	semtypeabbrev varchar
+	semtypedefinition text
+	semtypeid int
+fn_semtypes_supers
+	semtypeid int
+	supersemtypeid int
+fn_sentences
+	apos int
+	corpusid int
+	documentid int
+	noccurs int
+	paragno int
+	sentenceid int
+	sentno int
+	text text
+fn_subcorpuses
+	luid int
+	subcorpus varchar
+	subcorpusid int
+fn_subcorpuses_sentences
+	sentenceid int
+	subcorpusid int
+fn_valenceunits
+	fetypeid int
+	gfid int
+	ptid int
+	vuid int
+fn_valenceunits_annosets
+	annosetid int
+	vuid int
+fn_words
+	fnwordid int
+	word varchar
+	wordid int
+lexes
+	casedwordid int
+	luid int
+	posid enum
+	wordid int
+lexes_morphs
+	luid int
+	morphid int
+	posid enum
+	wordid int
+lexes_pronunciations
+	luid int
+	posid enum
+	pronunciationid int
+	variety varchar
+	wordid int
+lexrelations
+	lu1id int
+	lu2id int
+	relationid int
+	synset1id int
+	synset2id int
+	word1id int
+	word2id int
+morphs
+	morph varchar
+	morphid int
+pb_args
+	arg text
+	argid int
+	argtypeid varchar
+	exampleid int
+	funcid int
+pb_argtypes
+	argtype varchar
+	argtypeid varchar
+pb_aspects
+	aspect varchar
+	aspectid int
+pb_examples
+	aspectid int
+	exampleid int
+	examplename varchar
+	formid int
+	personid int
+	rolesetid int
+	tenseid int
+	text text
+	voiceid int
+pb_forms
+	form varchar
+	formid int
+pb_funcs
+	func varchar
+	funcdescr varchar
+	funcid int
+pb_members
+	pbwordid int
+	rolesetid int
+pb_pbroles_vnroles
+	roleid int
+	rolesetid int
+	vnclass varchar
+	vnclassid int
+	vnroleid int
+	vnroletypeid int
+	vntheta varchar
+pb_pbrolesets_fnframes
+	fnframe varchar
+	fnframeid int
+	pbwordid int
+	pos varchar
+	rolesetid int
+pb_pbrolesets_vnclasses
+	pbwordid int
+	pos varchar
+	rolesetid int
+	vnclass varchar
+	vnclassid int
+pb_persons
+	person varchar
+	personid int
+pb_rels
+	exampleid int
+	funcid int
+	rel varchar
+	relid int
+pb_roles
+	argtypeid varchar
+	funcid int
+	roledescr varchar
+	roleid int
+	rolesetid int
+	thetaid int
+pb_rolesets
+	pbwordid int
+	rolesetdescr text
+	rolesethead varchar
+	rolesetid int
+	rolesetname varchar
+pb_tenses
+	tense varchar
+	tenseid int
+pb_thetas
+	theta varchar
+	thetaid int
+pb_voices
+	voice varchar
+	voiceid int
+pb_words
+	pbwordid int
+	word varchar
+	wordid int
+pm_pms
+	fnfe varchar
+	fnfeid int
+	fnfetypeid int
+	fnframe varchar
+	fnframeid int
+	fnlu varchar
+	fnluid int
+	fnwordid int
+	pbrole varchar
+	pbroleid int
+	pbroleset varchar
+	pbrolesetid int
+	pbwordid int
+	pmid int
+	pmroleid int
+	sensekey varchar
+	source int
+	synsetid int
+	vnclass varchar
+	vnclassid int
+	vnrole varchar
+	vnroleid int
+	vnwordid int
+	word varchar
+	wordid int
+	wsource int
+pm_predicates
+	predicate varchar
+	predicateid int
+pm_roles
+	pmroleid int
+	pos char
+	predicateid int
+	role varchar
+poses
+	pos varchar
+	posid enum
+pronunciations
+	pronunciation varchar
+	pronunciationid int
+relations
+	recurses tinyint
+	relation varchar
+	relationid int
+samples
+	sample mediumtext
+	sampleid int
+	synsetid int
+semrelations
+	relationid int
+	synset1id int
+	synset2id int
+senses
+	casedwordid int
+	lexid int
+	luid int
+	senseid int
+	sensekey varchar
+	sensenum int
+	synsetid int
+	tagcount int
+	wordid int
+senses_adjpositions
+	luid int
+	positionid enum
+	synsetid int
+	wordid int
+senses_vframes
+	frameid int
+	luid int
+	synsetid int
+	wordid int
+senses_vtemplates
+	luid int
+	synsetid int
+	templateid int
+	wordid int
+sl_pbroles_vnroles
+	pbarg varchar
+	pbroleid int
+	pbroleset varchar
+	pbrolesetid int
+	vnclass varchar
+	vnclassid int
+	vnroleid int
+	vnroletypeid int
+	vntheta varchar
+sl_pbrolesets_vnclasses
+	pbroleset varchar
+	pbrolesetid int
+	vnclass varchar
+	vnclassid int
+sn_syntagms
+	sensekey1 varchar
+	sensekey2 varchar
+	synset1id int
+	synset2id int
+	syntagmid int
+	word1id int
+	word2id int
+synsets
+	definition mediumtext
+	domainid int
+	posid enum
+	synsetid int
+vframes
+	frame varchar
+	frameid int
+vn_classes
+	class varchar
+	classid int
+	classtag varchar
+vn_classes_frames
+	classid int
+	frameid int
+vn_examples
+	example text
+	exampleid int
+vn_framenames
+	framename varchar
+	framenameid int
+vn_frames
+	frameid int
+	framenameid int
+	framesubnameid int
+	number varchar
+	semanticsid int
+	syntaxid int
+	xtag varchar
+vn_frames_examples
+	exampleid int
+	frameid int
+vn_framesubnames
+	framesubname varchar
+	framesubnameid int
+vn_groupings
+	grouping varchar
+	groupingid int
+vn_members
+	classid int
+	vnwordid int
+vn_members_groupings
+	classid int
+	groupingid int
+	vnwordid int
+vn_members_senses
+	classid int
+	quality float
+	sensekey varchar
+	sensenum int
+	synsetid int
+	vnwordid int
+	wordid int
+vn_predicates
+	predicate varchar
+	predicateid int
+vn_predicates_semantics
+	predicateid int
+	semanticsid int
+vn_restrs
+	issyn tinyint
+	restrs text
+	restrsid int
+vn_restrtypes
+	issyn tinyint
+	restr varchar
+	restrid int
+	restrval varchar
+vn_roles
+	classid int
+	restrsid int
+	roleid int
+	roletypeid int
+vn_roletypes
+	roletype varchar
+	roletypeid int
+vn_semantics
+	semantics text
+	semanticsid int
+vn_syntaxes
+	syntax text
+	syntaxid int
+vn_words
+	vnwordid int
+	word varchar
+	wordid int
+vtemplates
+	template mediumtext
+	templateid int
+words
+	word varchar
+	wordid int

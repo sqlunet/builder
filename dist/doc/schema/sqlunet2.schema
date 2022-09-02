@@ -1,0 +1,2146 @@
+-- MySQL dump 10.13  Distrib 8.0.30, for Linux (x86_64)
+--
+-- Host: localhost    Database: sqlunet2
+-- ------------------------------------------------------
+-- Server version	8.0.30-0ubuntu0.22.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `adjpositions`
+--
+
+DROP TABLE IF EXISTS `adjpositions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `adjpositions` (
+  `positionid` enum('a','p','ip') NOT NULL,
+  `position` varchar(24) NOT NULL,
+  PRIMARY KEY (`positionid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bnc_bncs`
+--
+
+DROP TABLE IF EXISTS `bnc_bncs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_bncs` (
+  `wordid` int DEFAULT NULL,
+  `word` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `freq` int DEFAULT NULL,
+  `range` int DEFAULT NULL,
+  `disp` float DEFAULT NULL,
+  KEY `k_bnc_bncs_wordid` (`wordid`),
+  KEY `k_bnc_bncs_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bnc_convtasks`
+--
+
+DROP TABLE IF EXISTS `bnc_convtasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_convtasks` (
+  `wordid` int DEFAULT NULL,
+  `word` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `freq1` int DEFAULT NULL,
+  `range1` int DEFAULT NULL,
+  `disp1` float DEFAULT NULL,
+  `freq2` int DEFAULT NULL,
+  `range2` int DEFAULT NULL,
+  `disp2` float DEFAULT NULL,
+  `ll` float DEFAULT NULL,
+  KEY `k_bnc_convtasks_wordid` (`wordid`),
+  KEY `k_bnc_convtasks_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bnc_imaginfs`
+--
+
+DROP TABLE IF EXISTS `bnc_imaginfs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_imaginfs` (
+  `wordid` int DEFAULT NULL,
+  `word` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `freq1` int DEFAULT NULL,
+  `range1` int DEFAULT NULL,
+  `disp1` float DEFAULT NULL,
+  `freq2` int DEFAULT NULL,
+  `range2` int DEFAULT NULL,
+  `disp2` float DEFAULT NULL,
+  `ll` float DEFAULT NULL,
+  KEY `k_bnc_imaginfs_wordid` (`wordid`),
+  KEY `k_bnc_imaginfs_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bnc_spwrs`
+--
+
+DROP TABLE IF EXISTS `bnc_spwrs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bnc_spwrs` (
+  `wordid` int DEFAULT NULL,
+  `word` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `freq1` int DEFAULT NULL,
+  `range1` int DEFAULT NULL,
+  `disp1` float DEFAULT NULL,
+  `freq2` int DEFAULT NULL,
+  `range2` int DEFAULT NULL,
+  `disp2` float DEFAULT NULL,
+  `ll` float DEFAULT NULL,
+  KEY `k_bnc_spwrs_wordid` (`wordid`),
+  KEY `k_bnc_spwrs_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `casedwords`
+--
+
+DROP TABLE IF EXISTS `casedwords`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `casedwords` (
+  `casedwordid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `casedword` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  PRIMARY KEY (`casedwordid`),
+  UNIQUE KEY `uk_casedwords_casedword` (`casedword`),
+  KEY `k_casedwords_wordid` (`wordid`),
+  KEY `k_casedwords_wordid_casedwordid` (`wordid`,`casedwordid`),
+  CONSTRAINT `fk_casedwords_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `domains`
+--
+
+DROP TABLE IF EXISTS `domains`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `domains` (
+  `domainid` int NOT NULL,
+  `domain` varchar(32) NOT NULL,
+  `domainname` varchar(32) NOT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  PRIMARY KEY (`domainid`),
+  UNIQUE KEY `uk_domains_domain_posid` (`domain`,`posid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_annosets` (
+  `annosetid` int NOT NULL,
+  `sentenceid` int NOT NULL,
+  `frameid` int DEFAULT NULL,
+  `luid` int DEFAULT NULL,
+  `cxnid` int DEFAULT NULL,
+  PRIMARY KEY (`annosetid`),
+  KEY `k_fn_annosets_frameid` (`frameid`),
+  KEY `k_fn_annosets_luid` (`luid`),
+  KEY `fk_fn_annosets_sentenceid` (`sentenceid`),
+  KEY `fk_fn_annosets_cxnid` (`cxnid`),
+  CONSTRAINT `fk_fn_annosets_cxnid` FOREIGN KEY (`cxnid`) REFERENCES `fn_cxns` (`cxnid`),
+  CONSTRAINT `fk_fn_annosets_frameid` FOREIGN KEY (`frameid`) REFERENCES `fn_frames` (`frameid`),
+  CONSTRAINT `fk_fn_annosets_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`),
+  CONSTRAINT `fk_fn_annosets_sentenceid` FOREIGN KEY (`sentenceid`) REFERENCES `fn_sentences` (`sentenceid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_coretypes`
+--
+
+DROP TABLE IF EXISTS `fn_coretypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_coretypes` (
+  `coretypeid` int NOT NULL,
+  `coretype` varchar(16) NOT NULL,
+  PRIMARY KEY (`coretypeid`),
+  UNIQUE KEY `uk_fn_coretypes_coretype` (`coretype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_corpuses`
+--
+
+DROP TABLE IF EXISTS `fn_corpuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_corpuses` (
+  `corpusid` int NOT NULL,
+  `corpus` varchar(80) DEFAULT NULL,
+  `corpusdesc` varchar(96) DEFAULT NULL,
+  `luid` int DEFAULT NULL,
+  PRIMARY KEY (`corpusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_cxns`
+--
+
+DROP TABLE IF EXISTS `fn_cxns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_cxns` (
+  `cxnid` int NOT NULL,
+  `cxn` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`cxnid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_documents`
+--
+
+DROP TABLE IF EXISTS `fn_documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_documents` (
+  `documentid` int NOT NULL,
+  `document` varchar(85) DEFAULT NULL,
+  `documentdesc` varchar(85) DEFAULT NULL,
+  `corpusid` int DEFAULT NULL,
+  PRIMARY KEY (`documentid`),
+  KEY `fk_fn_documents_corpusid` (`corpusid`),
+  CONSTRAINT `fk_fn_documents_corpusid` FOREIGN KEY (`corpusid`) REFERENCES `fn_corpuses` (`corpusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fegrouprealizations`
+--
+
+DROP TABLE IF EXISTS `fn_fegrouprealizations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fegrouprealizations` (
+  `fegrid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `total` int DEFAULT NULL,
+  PRIMARY KEY (`fegrid`),
+  KEY `fk_fn_fegrouprealizations_luid` (`luid`),
+  CONSTRAINT `fk_fn_fegrouprealizations_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_ferealizations`
+--
+
+DROP TABLE IF EXISTS `fn_ferealizations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_ferealizations` (
+  `ferid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `fetypeid` int DEFAULT NULL,
+  `feid` int DEFAULT NULL,
+  `total` int DEFAULT NULL,
+  PRIMARY KEY (`ferid`),
+  KEY `fk_fn_ferealizations_luid` (`luid`),
+  KEY `fk_fn_ferealizations_fetypeid` (`fetypeid`),
+  CONSTRAINT `fk_fn_ferealizations_fetypeid` FOREIGN KEY (`fetypeid`) REFERENCES `fn_fetypes` (`fetypeid`),
+  CONSTRAINT `fk_fn_ferealizations_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_ferealizations_valenceunits`
+--
+
+DROP TABLE IF EXISTS `fn_ferealizations_valenceunits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_ferealizations_valenceunits` (
+  `ferid` int NOT NULL,
+  `vuid` int NOT NULL,
+  PRIMARY KEY (`ferid`,`vuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fes`
+--
+
+DROP TABLE IF EXISTS `fn_fes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes` (
+  `feid` int NOT NULL,
+  `frameid` int DEFAULT NULL,
+  `fetypeid` int DEFAULT NULL,
+  `feabbrev` varchar(24) DEFAULT NULL,
+  `fedefinition` text,
+  `coretypeid` int DEFAULT NULL,
+  `coreset` int DEFAULT NULL,
+  PRIMARY KEY (`feid`),
+  KEY `k_fn_fes_frameid` (`frameid`),
+  KEY `k_fn_fes_fetypeid` (`fetypeid`),
+  KEY `fk_fn_fes_coretypeid` (`coretypeid`),
+  CONSTRAINT `fk_fn_fes_coretypeid` FOREIGN KEY (`coretypeid`) REFERENCES `fn_coretypes` (`coretypeid`),
+  CONSTRAINT `fk_fn_fes_fetypeid` FOREIGN KEY (`fetypeid`) REFERENCES `fn_fetypes` (`fetypeid`),
+  CONSTRAINT `fk_fn_fes_frameid` FOREIGN KEY (`frameid`) REFERENCES `fn_frames` (`frameid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fes_excluded`
+--
+
+DROP TABLE IF EXISTS `fn_fes_excluded`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_excluded` (
+  `feid` int NOT NULL,
+  `fe2id` int NOT NULL,
+  PRIMARY KEY (`feid`,`fe2id`),
+  KEY `fk_fn_fes_excluded_fe2id` (`fe2id`),
+  CONSTRAINT `fk_fn_fes_excluded_fe2id` FOREIGN KEY (`fe2id`) REFERENCES `fn_fes` (`feid`),
+  CONSTRAINT `fk_fn_fes_excluded_feid` FOREIGN KEY (`feid`) REFERENCES `fn_fes` (`feid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fes_fegrouprealizations`
+--
+
+DROP TABLE IF EXISTS `fn_fes_fegrouprealizations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_fegrouprealizations` (
+  `feid` int NOT NULL,
+  `fetypeid` int NOT NULL,
+  `fegrid` int NOT NULL,
+  PRIMARY KEY (`feid`,`fetypeid`,`fegrid`),
+  KEY `fk_fn_fes_fegrouprealizations_fegrid` (`fegrid`),
+  KEY `fk_fn_fes_fegrouprealizations_fetypeid` (`fetypeid`),
+  CONSTRAINT `fk_fn_fes_fegrouprealizations_fegrid` FOREIGN KEY (`fegrid`) REFERENCES `fn_fegrouprealizations` (`fegrid`),
+  CONSTRAINT `fk_fn_fes_fegrouprealizations_feid` FOREIGN KEY (`feid`) REFERENCES `fn_fes` (`feid`),
+  CONSTRAINT `fk_fn_fes_fegrouprealizations_fetypeid` FOREIGN KEY (`fetypeid`) REFERENCES `fn_fetypes` (`fetypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fes_required`
+--
+
+DROP TABLE IF EXISTS `fn_fes_required`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_required` (
+  `feid` int NOT NULL,
+  `fe2id` int NOT NULL,
+  PRIMARY KEY (`feid`,`fe2id`),
+  KEY `fk_fn_fes_required_fe2id` (`fe2id`),
+  CONSTRAINT `fk_fn_fes_required_fe2id` FOREIGN KEY (`fe2id`) REFERENCES `fn_fes` (`feid`),
+  CONSTRAINT `fk_fn_fes_required_feid` FOREIGN KEY (`feid`) REFERENCES `fn_fes` (`feid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fes_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_fes_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fes_semtypes` (
+  `feid` int NOT NULL,
+  `semtypeid` int NOT NULL,
+  PRIMARY KEY (`feid`,`semtypeid`),
+  KEY `fk_fn_fes_semtypes_semtypeid` (`semtypeid`),
+  CONSTRAINT `fk_fn_fes_semtypes_feid` FOREIGN KEY (`feid`) REFERENCES `fn_fes` (`feid`),
+  CONSTRAINT `fk_fn_fes_semtypes_semtypeid` FOREIGN KEY (`semtypeid`) REFERENCES `fn_semtypes` (`semtypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_fetypes`
+--
+
+DROP TABLE IF EXISTS `fn_fetypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_fetypes` (
+  `fetypeid` int NOT NULL,
+  `fetype` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`fetypeid`),
+  UNIQUE KEY `uk_fn_fetypes_fetype` (`fetype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_framerelations`
+--
+
+DROP TABLE IF EXISTS `fn_framerelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_framerelations` (
+  `relationid` int NOT NULL,
+  `relation` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`relationid`),
+  UNIQUE KEY `uk_fn_framerelations_relation` (`relation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_frames`
+--
+
+DROP TABLE IF EXISTS `fn_frames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_frames` (
+  `frameid` int NOT NULL,
+  `frame` varchar(40) DEFAULT NULL,
+  `framedefinition` text,
+  `cdate` varchar(27) DEFAULT NULL,
+  `cby` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`frameid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_frames_related`
+--
+
+DROP TABLE IF EXISTS `fn_frames_related`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_frames_related` (
+  `frameid` int NOT NULL,
+  `frame2id` int NOT NULL,
+  `relationid` int NOT NULL,
+  PRIMARY KEY (`frameid`,`frame2id`,`relationid`),
+  KEY `fk_fn_frames_related_frame2id` (`frame2id`),
+  KEY `fk_fn_frames_related_relationid` (`relationid`),
+  CONSTRAINT `fk_fn_frames_related_frame2id` FOREIGN KEY (`frame2id`) REFERENCES `fn_frames` (`frameid`),
+  CONSTRAINT `fk_fn_frames_related_frameid` FOREIGN KEY (`frameid`) REFERENCES `fn_frames` (`frameid`),
+  CONSTRAINT `fk_fn_frames_related_relationid` FOREIGN KEY (`relationid`) REFERENCES `fn_framerelations` (`relationid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_frames_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_frames_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_frames_semtypes` (
+  `frameid` int NOT NULL,
+  `semtypeid` int NOT NULL,
+  PRIMARY KEY (`frameid`,`semtypeid`),
+  KEY `fk_fn_frames_semtypes_semtypeid` (`semtypeid`),
+  CONSTRAINT `fk_fn_frames_semtypes_frameid` FOREIGN KEY (`frameid`) REFERENCES `fn_frames` (`frameid`),
+  CONSTRAINT `fk_fn_frames_semtypes_semtypeid` FOREIGN KEY (`semtypeid`) REFERENCES `fn_semtypes` (`semtypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_gftypes`
+--
+
+DROP TABLE IF EXISTS `fn_gftypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_gftypes` (
+  `gfid` int NOT NULL,
+  `gf` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`gfid`),
+  UNIQUE KEY `uk_fn_gftypes_gf` (`gf`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_governors`
+--
+
+DROP TABLE IF EXISTS `fn_governors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_governors` (
+  `governorid` int NOT NULL,
+  `fnwordid` int DEFAULT NULL,
+  `governortype` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`governorid`),
+  KEY `fk_fn_governors_fnwordid` (`fnwordid`),
+  CONSTRAINT `fk_fn_governors_fnwordid` FOREIGN KEY (`fnwordid`) REFERENCES `fn_words` (`fnwordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_governors_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_governors_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_governors_annosets` (
+  `governorid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`governorid`,`annosetid`),
+  KEY `fk_fn_governors_annosets_annosetid` (`annosetid`),
+  CONSTRAINT `fk_fn_governors_annosets_annosetid` FOREIGN KEY (`annosetid`) REFERENCES `fn_annosets` (`annosetid`),
+  CONSTRAINT `fk_fn_governors_annosets_governorid` FOREIGN KEY (`governorid`) REFERENCES `fn_governors` (`governorid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_grouppatterns`
+--
+
+DROP TABLE IF EXISTS `fn_grouppatterns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_grouppatterns` (
+  `patternid` int NOT NULL,
+  `total` int DEFAULT NULL,
+  `fegrid` int DEFAULT NULL,
+  PRIMARY KEY (`patternid`),
+  KEY `fk_fn_grouppatterns_fegrid` (`fegrid`),
+  CONSTRAINT `fk_fn_grouppatterns_fegrid` FOREIGN KEY (`fegrid`) REFERENCES `fn_fegrouprealizations` (`fegrid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_grouppatterns_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_grouppatterns_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_grouppatterns_annosets` (
+  `patternid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`patternid`,`annosetid`),
+  KEY `fk_fn_grouppatterns_annosets_annosetid` (`annosetid`),
+  CONSTRAINT `fk_fn_grouppatterns_annosets_annosetid` FOREIGN KEY (`annosetid`) REFERENCES `fn_annosets` (`annosetid`),
+  CONSTRAINT `fk_fn_grouppatterns_annosets_patternid` FOREIGN KEY (`patternid`) REFERENCES `fn_grouppatterns` (`patternid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_grouppatterns_patterns`
+--
+
+DROP TABLE IF EXISTS `fn_grouppatterns_patterns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_grouppatterns_patterns` (
+  `patternid` int NOT NULL,
+  `ferid` int NOT NULL,
+  `vuid` int NOT NULL,
+  KEY `k_fn_grouppatterns_patterns_patternid` (`patternid`),
+  KEY `k_fn_grouppatterns_patterns_ferid` (`ferid`),
+  KEY `k_fn_grouppatterns_patterns_vuid` (`vuid`),
+  CONSTRAINT `fk_fn_grouppatterns_patterns_ferid` FOREIGN KEY (`ferid`) REFERENCES `fn_ferealizations` (`ferid`),
+  CONSTRAINT `fk_fn_grouppatterns_patterns_patternid` FOREIGN KEY (`patternid`) REFERENCES `fn_grouppatterns` (`patternid`),
+  CONSTRAINT `fk_fn_grouppatterns_patterns_vuid` FOREIGN KEY (`vuid`) REFERENCES `fn_valenceunits` (`vuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_labelitypes`
+--
+
+DROP TABLE IF EXISTS `fn_labelitypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_labelitypes` (
+  `labelitypeid` int NOT NULL,
+  `labelitype` varchar(4) DEFAULT NULL,
+  `labelitypedescr` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`labelitypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_labels`
+--
+
+DROP TABLE IF EXISTS `fn_labels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_labels` (
+  `labelid` int NOT NULL,
+  `layerid` int DEFAULT NULL,
+  `labeltypeid` int DEFAULT NULL,
+  `labelitypeid` int DEFAULT NULL,
+  `feid` int DEFAULT NULL,
+  `start` int DEFAULT NULL,
+  `end` int DEFAULT NULL,
+  PRIMARY KEY (`labelid`),
+  KEY `fk_fn_labels_layerid` (`layerid`),
+  KEY `fk_fn_labels_feid` (`feid`),
+  KEY `fk_fn_labels_labeltypeid` (`labeltypeid`),
+  KEY `fk_fn_labels_labelitypeid` (`labelitypeid`),
+  CONSTRAINT `fk_fn_labels_feid` FOREIGN KEY (`feid`) REFERENCES `fn_fes` (`feid`),
+  CONSTRAINT `fk_fn_labels_labelitypeid` FOREIGN KEY (`labelitypeid`) REFERENCES `fn_labelitypes` (`labelitypeid`),
+  CONSTRAINT `fk_fn_labels_labeltypeid` FOREIGN KEY (`labeltypeid`) REFERENCES `fn_labeltypes` (`labeltypeid`),
+  CONSTRAINT `fk_fn_labels_layerid` FOREIGN KEY (`layerid`) REFERENCES `fn_layers` (`layerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_labeltypes`
+--
+
+DROP TABLE IF EXISTS `fn_labeltypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_labeltypes` (
+  `labeltypeid` int NOT NULL,
+  `labeltype` varchar(26) DEFAULT NULL,
+  PRIMARY KEY (`labeltypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_layers`
+--
+
+DROP TABLE IF EXISTS `fn_layers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_layers` (
+  `layerid` int NOT NULL,
+  `layertypeid` int DEFAULT NULL,
+  `rank` int DEFAULT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`layerid`),
+  KEY `fk_fn_layers_annosetid` (`annosetid`),
+  KEY `fk_fn_layers_layertypeid` (`layertypeid`),
+  CONSTRAINT `fk_fn_layers_annosetid` FOREIGN KEY (`annosetid`) REFERENCES `fn_annosets` (`annosetid`),
+  CONSTRAINT `fk_fn_layers_layertypeid` FOREIGN KEY (`layertypeid`) REFERENCES `fn_layertypes` (`layertypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_layertypes`
+--
+
+DROP TABLE IF EXISTS `fn_layertypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_layertypes` (
+  `layertypeid` int NOT NULL,
+  `layertype` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`layertypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_lexemes`
+--
+
+DROP TABLE IF EXISTS `fn_lexemes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexemes` (
+  `lexemeid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `fnwordid` int DEFAULT NULL,
+  `posid` int DEFAULT NULL,
+  `breakbefore` tinyint(1) DEFAULT NULL,
+  `headword` tinyint(1) DEFAULT NULL,
+  `lexemeidx` int DEFAULT NULL,
+  PRIMARY KEY (`lexemeid`),
+  KEY `k_fn_lexemes_luid` (`luid`),
+  KEY `k_fn_lexemes_fnwordid` (`fnwordid`),
+  KEY `fk_fn_lexemes_posid` (`posid`),
+  CONSTRAINT `fk_fn_lexemes_fnwordid` FOREIGN KEY (`fnwordid`) REFERENCES `fn_words` (`fnwordid`),
+  CONSTRAINT `fk_fn_lexemes_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`),
+  CONSTRAINT `fk_fn_lexemes_posid` FOREIGN KEY (`posid`) REFERENCES `fn_poses` (`posid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_lexunits`
+--
+
+DROP TABLE IF EXISTS `fn_lexunits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexunits` (
+  `luid` int NOT NULL,
+  `frameid` int DEFAULT NULL,
+  `lexunit` varchar(64) DEFAULT NULL,
+  `posid` int DEFAULT NULL,
+  `ludefinition` text,
+  `ludict` char(1) DEFAULT NULL,
+  `statusid` int DEFAULT NULL,
+  `totalannotated` int DEFAULT NULL,
+  `incorporatedfetypeid` int DEFAULT NULL,
+  PRIMARY KEY (`luid`),
+  KEY `k_fn_lexunits_frameid` (`frameid`),
+  KEY `fk_fn_lexunits_posid` (`posid`),
+  KEY `fk_fn_lexunits_incorporatedfetypeid` (`incorporatedfetypeid`),
+  CONSTRAINT `fk_fn_lexunits_frameid` FOREIGN KEY (`frameid`) REFERENCES `fn_frames` (`frameid`),
+  CONSTRAINT `fk_fn_lexunits_incorporatedfetypeid` FOREIGN KEY (`incorporatedfetypeid`) REFERENCES `fn_fetypes` (`fetypeid`),
+  CONSTRAINT `fk_fn_lexunits_posid` FOREIGN KEY (`posid`) REFERENCES `fn_poses` (`posid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_lexunits_governors`
+--
+
+DROP TABLE IF EXISTS `fn_lexunits_governors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexunits_governors` (
+  `luid` int NOT NULL,
+  `governorid` int NOT NULL,
+  PRIMARY KEY (`luid`,`governorid`),
+  KEY `fk_fn_lexunits_governors_governorid` (`governorid`),
+  CONSTRAINT `fk_fn_lexunits_governors_governorid` FOREIGN KEY (`governorid`) REFERENCES `fn_governors` (`governorid`),
+  CONSTRAINT `fk_fn_lexunits_governors_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_lexunits_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_lexunits_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_lexunits_semtypes` (
+  `luid` int NOT NULL,
+  `semtypeid` int NOT NULL,
+  PRIMARY KEY (`luid`,`semtypeid`),
+  KEY `fk_fn_lexunits_semtypes_semtypeid` (`semtypeid`),
+  CONSTRAINT `fk_fn_lexunits_semtypes_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`),
+  CONSTRAINT `fk_fn_lexunits_semtypes_semtypeid` FOREIGN KEY (`semtypeid`) REFERENCES `fn_semtypes` (`semtypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_poses`
+--
+
+DROP TABLE IF EXISTS `fn_poses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_poses` (
+  `posid` int NOT NULL,
+  `pos` varchar(8) DEFAULT NULL,
+  PRIMARY KEY (`posid`),
+  UNIQUE KEY `uk_fn_poses_pos` (`pos`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_pttypes`
+--
+
+DROP TABLE IF EXISTS `fn_pttypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_pttypes` (
+  `ptid` int NOT NULL,
+  `pt` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`ptid`),
+  UNIQUE KEY `uk_fn_pttypes_pt` (`pt`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_semtypes`
+--
+
+DROP TABLE IF EXISTS `fn_semtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_semtypes` (
+  `semtypeid` int NOT NULL,
+  `semtype` varchar(32) DEFAULT NULL,
+  `semtypeabbrev` varchar(24) DEFAULT NULL,
+  `semtypedefinition` text,
+  PRIMARY KEY (`semtypeid`),
+  UNIQUE KEY `uk_fn_semtypes_semtype` (`semtype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_semtypes_supers`
+--
+
+DROP TABLE IF EXISTS `fn_semtypes_supers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_semtypes_supers` (
+  `semtypeid` int NOT NULL,
+  `supersemtypeid` int NOT NULL,
+  PRIMARY KEY (`semtypeid`,`supersemtypeid`),
+  KEY `fk_fn_semtypes_supers_supersemtypeid` (`supersemtypeid`),
+  CONSTRAINT `fk_fn_semtypes_supers_semtypeid` FOREIGN KEY (`semtypeid`) REFERENCES `fn_semtypes` (`semtypeid`),
+  CONSTRAINT `fk_fn_semtypes_supers_supersemtypeid` FOREIGN KEY (`supersemtypeid`) REFERENCES `fn_semtypes` (`semtypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_sentences`
+--
+
+DROP TABLE IF EXISTS `fn_sentences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_sentences` (
+  `sentenceid` int NOT NULL,
+  `documentid` int DEFAULT NULL,
+  `corpusid` int DEFAULT NULL,
+  `paragno` int DEFAULT NULL,
+  `sentno` int DEFAULT NULL,
+  `text` text,
+  `apos` int DEFAULT NULL,
+  `noccurs` int DEFAULT '1',
+  PRIMARY KEY (`sentenceid`),
+  KEY `fk_fn_sentences_documentid` (`documentid`),
+  KEY `fk_fn_sentences_corpusid` (`corpusid`),
+  CONSTRAINT `fk_fn_sentences_corpusid` FOREIGN KEY (`corpusid`) REFERENCES `fn_corpuses` (`corpusid`),
+  CONSTRAINT `fk_fn_sentences_documentid` FOREIGN KEY (`documentid`) REFERENCES `fn_documents` (`documentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_subcorpuses`
+--
+
+DROP TABLE IF EXISTS `fn_subcorpuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_subcorpuses` (
+  `subcorpusid` int NOT NULL,
+  `luid` int DEFAULT NULL,
+  `subcorpus` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`subcorpusid`),
+  KEY `fk_fn_subcorpuses_luid` (`luid`),
+  CONSTRAINT `fk_fn_subcorpuses_luid` FOREIGN KEY (`luid`) REFERENCES `fn_lexunits` (`luid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_subcorpuses_sentences`
+--
+
+DROP TABLE IF EXISTS `fn_subcorpuses_sentences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_subcorpuses_sentences` (
+  `subcorpusid` int NOT NULL,
+  `sentenceid` int NOT NULL,
+  PRIMARY KEY (`subcorpusid`,`sentenceid`),
+  KEY `fk_fn_subcorpuses_sentences_sentenceid` (`sentenceid`),
+  CONSTRAINT `fk_fn_subcorpuses_sentences_sentenceid` FOREIGN KEY (`sentenceid`) REFERENCES `fn_sentences` (`sentenceid`),
+  CONSTRAINT `fk_fn_subcorpuses_sentences_subcorpusid` FOREIGN KEY (`subcorpusid`) REFERENCES `fn_subcorpuses` (`subcorpusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_valenceunits`
+--
+
+DROP TABLE IF EXISTS `fn_valenceunits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_valenceunits` (
+  `vuid` int NOT NULL,
+  `fetypeid` int DEFAULT NULL,
+  `ptid` int DEFAULT NULL,
+  `gfid` int DEFAULT NULL,
+  PRIMARY KEY (`vuid`),
+  KEY `fk_fn_valenceunits_fetypeid` (`fetypeid`),
+  KEY `fk_fn_valenceunits_ptid` (`ptid`),
+  KEY `fk_fn_valenceunits_gfid` (`gfid`),
+  CONSTRAINT `fk_fn_valenceunits_fetypeid` FOREIGN KEY (`fetypeid`) REFERENCES `fn_fetypes` (`fetypeid`),
+  CONSTRAINT `fk_fn_valenceunits_gfid` FOREIGN KEY (`gfid`) REFERENCES `fn_gftypes` (`gfid`),
+  CONSTRAINT `fk_fn_valenceunits_ptid` FOREIGN KEY (`ptid`) REFERENCES `fn_pttypes` (`ptid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_valenceunits_annosets`
+--
+
+DROP TABLE IF EXISTS `fn_valenceunits_annosets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_valenceunits_annosets` (
+  `vuid` int NOT NULL,
+  `annosetid` int NOT NULL,
+  PRIMARY KEY (`vuid`,`annosetid`),
+  KEY `fk_fn_valenceunits_annosets_annosetid` (`annosetid`),
+  CONSTRAINT `fk_fn_valenceunits_annosets_annosetid` FOREIGN KEY (`annosetid`) REFERENCES `fn_annosets` (`annosetid`),
+  CONSTRAINT `fk_fn_valenceunits_annosets_vuid` FOREIGN KEY (`vuid`) REFERENCES `fn_valenceunits` (`vuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `fn_words`
+--
+
+DROP TABLE IF EXISTS `fn_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fn_words` (
+  `fnwordid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `word` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`fnwordid`),
+  UNIQUE KEY `uk_fn_words_word` (`word`),
+  KEY `k_fn_words_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `lexes`
+--
+
+DROP TABLE IF EXISTS `lexes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lexes` (
+  `luid` int NOT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `wordid` int NOT NULL,
+  `casedwordid` int DEFAULT NULL,
+  PRIMARY KEY (`luid`),
+  KEY `k_lexes_wordid` (`wordid`),
+  KEY `k_lexes_casedwordid` (`casedwordid`),
+  KEY `fk_lexes_posid` (`posid`),
+  CONSTRAINT `fk_lexes_casedwordid` FOREIGN KEY (`casedwordid`) REFERENCES `casedwords` (`casedwordid`),
+  CONSTRAINT `fk_lexes_posid` FOREIGN KEY (`posid`) REFERENCES `poses` (`posid`),
+  CONSTRAINT `fk_lexes_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `lexes_morphs`
+--
+
+DROP TABLE IF EXISTS `lexes_morphs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lexes_morphs` (
+  `luid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `morphid` int NOT NULL,
+  PRIMARY KEY (`morphid`,`luid`,`posid`),
+  KEY `k_lexes_morphs_morphid` (`morphid`),
+  KEY `k_lexes_morphs_luid` (`luid`),
+  KEY `k_lexes_morphs_wordid` (`wordid`),
+  KEY `fk_lexes_morphs_posid` (`posid`),
+  CONSTRAINT `fk_lexes_morphs_luid` FOREIGN KEY (`luid`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_lexes_morphs_morphid` FOREIGN KEY (`morphid`) REFERENCES `morphs` (`morphid`),
+  CONSTRAINT `fk_lexes_morphs_posid` FOREIGN KEY (`posid`) REFERENCES `poses` (`posid`),
+  CONSTRAINT `fk_lexes_morphs_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `lexes_pronunciations`
+--
+
+DROP TABLE IF EXISTS `lexes_pronunciations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lexes_pronunciations` (
+  `luid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `pronunciationid` int NOT NULL,
+  `variety` varchar(2) DEFAULT NULL,
+  KEY `k_lexes_pronunciations_pronunciationid` (`pronunciationid`),
+  KEY `k_lexes_pronunciations_luid` (`luid`),
+  KEY `k_lexes_pronunciations_wordid` (`wordid`),
+  KEY `fk_lexes_pronunciations_posid` (`posid`),
+  CONSTRAINT `fk_lexes_pronunciations_luid` FOREIGN KEY (`luid`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_lexes_pronunciations_posid` FOREIGN KEY (`posid`) REFERENCES `poses` (`posid`),
+  CONSTRAINT `fk_lexes_pronunciations_pronunciationid` FOREIGN KEY (`pronunciationid`) REFERENCES `pronunciations` (`pronunciationid`),
+  CONSTRAINT `fk_lexes_pronunciations_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `lexrelations`
+--
+
+DROP TABLE IF EXISTS `lexrelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lexrelations` (
+  `synset1id` int NOT NULL,
+  `lu1id` int NOT NULL,
+  `word1id` int NOT NULL,
+  `synset2id` int NOT NULL,
+  `lu2id` int NOT NULL,
+  `word2id` int NOT NULL,
+  `relationid` int NOT NULL,
+  PRIMARY KEY (`synset1id`,`lu1id`,`lu2id`,`synset2id`,`relationid`),
+  KEY `k_lexrelations_relationid` (`relationid`),
+  KEY `k_lexrelations_synset1id` (`synset1id`),
+  KEY `k_lexrelations_lu1id` (`lu1id`),
+  KEY `k_lexrelations_word1id` (`word1id`),
+  KEY `k_lexrelations_synset2id` (`synset2id`),
+  KEY `k_lexrelations_lu2id` (`lu2id`),
+  KEY `k_lexrelations_word2id` (`word2id`),
+  KEY `k_lexrelations_word1id_synset1id` (`word1id`,`synset1id`),
+  KEY `k_lexrelations_lu1id_synset1id` (`lu1id`,`synset1id`),
+  KEY `k_lexrelations_word2id_synset2id` (`word2id`,`synset2id`),
+  KEY `k_lexrelations_lu2id_synset2id` (`lu2id`,`synset2id`),
+  CONSTRAINT `fk_lexrelations_lu1id` FOREIGN KEY (`lu1id`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_lexrelations_lu2id` FOREIGN KEY (`lu2id`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_lexrelations_relationid` FOREIGN KEY (`relationid`) REFERENCES `relations` (`relationid`),
+  CONSTRAINT `fk_lexrelations_synset1id` FOREIGN KEY (`synset1id`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_lexrelations_synset2id` FOREIGN KEY (`synset2id`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_lexrelations_word1id` FOREIGN KEY (`word1id`) REFERENCES `words` (`wordid`),
+  CONSTRAINT `fk_lexrelations_word2id` FOREIGN KEY (`word2id`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `morphs`
+--
+
+DROP TABLE IF EXISTS `morphs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `morphs` (
+  `morphid` int NOT NULL,
+  `morph` varchar(70) NOT NULL,
+  PRIMARY KEY (`morphid`),
+  UNIQUE KEY `uk_morphs_morph` (`morph`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_args`
+--
+
+DROP TABLE IF EXISTS `pb_args`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_args` (
+  `argid` int NOT NULL,
+  `exampleid` int NOT NULL,
+  `arg` text,
+  `argtypeid` varchar(1) DEFAULT NULL,
+  `funcid` int DEFAULT NULL,
+  PRIMARY KEY (`argid`),
+  KEY `k_pb_args_arg` (`arg`(100)),
+  KEY `fk_pb_args_exampleid` (`exampleid`),
+  KEY `fk_pb_args_argtypeid` (`argtypeid`),
+  KEY `fk_pb_args_funcid` (`funcid`),
+  CONSTRAINT `fk_pb_args_argtypeid` FOREIGN KEY (`argtypeid`) REFERENCES `pb_argtypes` (`argtypeid`),
+  CONSTRAINT `fk_pb_args_exampleid` FOREIGN KEY (`exampleid`) REFERENCES `pb_examples` (`exampleid`),
+  CONSTRAINT `fk_pb_args_funcid` FOREIGN KEY (`funcid`) REFERENCES `pb_funcs` (`funcid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_argtypes`
+--
+
+DROP TABLE IF EXISTS `pb_argtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_argtypes` (
+  `argtypeid` varchar(1) NOT NULL,
+  `argtype` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`argtypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_aspects`
+--
+
+DROP TABLE IF EXISTS `pb_aspects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_aspects` (
+  `aspectid` int NOT NULL,
+  `aspect` varchar(20) NOT NULL,
+  PRIMARY KEY (`aspectid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_examples`
+--
+
+DROP TABLE IF EXISTS `pb_examples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_examples` (
+  `exampleid` int NOT NULL,
+  `rolesetid` int NOT NULL,
+  `examplename` varchar(180) NOT NULL,
+  `text` text,
+  `aspectid` int DEFAULT NULL,
+  `formid` int DEFAULT NULL,
+  `tenseid` int DEFAULT NULL,
+  `voiceid` int DEFAULT NULL,
+  `personid` int DEFAULT NULL,
+  PRIMARY KEY (`exampleid`),
+  KEY `k_pb_examples_examplename` (`examplename`),
+  KEY `k_pb_examples_rolesetid` (`rolesetid`),
+  KEY `fk_pb_examples_aspectid` (`aspectid`),
+  KEY `fk_pb_examples_formid` (`formid`),
+  KEY `fk_pb_examples_tenseid` (`tenseid`),
+  KEY `fk_pb_examples_voiceid` (`voiceid`),
+  KEY `fk_pb_examples_personid` (`personid`),
+  CONSTRAINT `fk_pb_examples_aspectid` FOREIGN KEY (`aspectid`) REFERENCES `pb_aspects` (`aspectid`),
+  CONSTRAINT `fk_pb_examples_formid` FOREIGN KEY (`formid`) REFERENCES `pb_forms` (`formid`),
+  CONSTRAINT `fk_pb_examples_personid` FOREIGN KEY (`personid`) REFERENCES `pb_persons` (`personid`),
+  CONSTRAINT `fk_pb_examples_rolesetid` FOREIGN KEY (`rolesetid`) REFERENCES `pb_rolesets` (`rolesetid`),
+  CONSTRAINT `fk_pb_examples_tenseid` FOREIGN KEY (`tenseid`) REFERENCES `pb_tenses` (`tenseid`),
+  CONSTRAINT `fk_pb_examples_voiceid` FOREIGN KEY (`voiceid`) REFERENCES `pb_voices` (`voiceid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_forms`
+--
+
+DROP TABLE IF EXISTS `pb_forms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_forms` (
+  `formid` int NOT NULL,
+  `form` varchar(20) NOT NULL,
+  PRIMARY KEY (`formid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_funcs`
+--
+
+DROP TABLE IF EXISTS `pb_funcs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_funcs` (
+  `funcid` int NOT NULL,
+  `func` varchar(20) NOT NULL,
+  `funcdescr` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`funcid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_members`
+--
+
+DROP TABLE IF EXISTS `pb_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_members` (
+  `rolesetid` int NOT NULL,
+  `pbwordid` int NOT NULL,
+  PRIMARY KEY (`rolesetid`,`pbwordid`),
+  KEY `k_pb_members_rolesetid` (`rolesetid`),
+  KEY `k_pb_members_pb_members_pbwordid` (`pbwordid`),
+  CONSTRAINT `fk_pb_members_pbwordid` FOREIGN KEY (`pbwordid`) REFERENCES `pb_words` (`pbwordid`),
+  CONSTRAINT `fk_pb_members_rolesetid` FOREIGN KEY (`rolesetid`) REFERENCES `pb_rolesets` (`rolesetid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_pbroles_vnroles`
+--
+
+DROP TABLE IF EXISTS `pb_pbroles_vnroles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_pbroles_vnroles` (
+  `rolesetid` int NOT NULL,
+  `roleid` int NOT NULL,
+  `vnclassid` int DEFAULT NULL,
+  `vnroleid` int DEFAULT NULL,
+  `vnroletypeid` int DEFAULT NULL,
+  `vnclass` varchar(64) NOT NULL,
+  `vntheta` varchar(20) NOT NULL,
+  KEY `k_pb_pbroles_vnroles_rolesetid_roleid` (`rolesetid`,`roleid`),
+  KEY `k_pb_pbroles_vnroles_vnclass_vntheta` (`vnclass`,`vntheta`),
+  KEY `fk_pb_pbroles_vnroles_roleid` (`roleid`),
+  CONSTRAINT `fk_pb_pbroles_vnroles_roleid` FOREIGN KEY (`roleid`) REFERENCES `pb_roles` (`roleid`),
+  CONSTRAINT `fk_pb_pbroles_vnroles_rolesetid` FOREIGN KEY (`rolesetid`) REFERENCES `pb_rolesets` (`rolesetid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_pbrolesets_fnframes`
+--
+
+DROP TABLE IF EXISTS `pb_pbrolesets_fnframes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_pbrolesets_fnframes` (
+  `rolesetid` int NOT NULL,
+  `fnframeid` int DEFAULT NULL,
+  `pos` varchar(1) NOT NULL,
+  `pbwordid` int NOT NULL,
+  `fnframe` varchar(40) NOT NULL,
+  KEY `k_pb_pbrolesets_fnframes_rolesetid` (`rolesetid`),
+  KEY `k_pb_pbrolesets_fnframes_fnframe` (`fnframe`),
+  KEY `fk_pb_pbrolesets_fnframes_pbwordid` (`pbwordid`),
+  CONSTRAINT `fk_pb_pbrolesets_fnframes_pbwordid` FOREIGN KEY (`pbwordid`) REFERENCES `pb_words` (`pbwordid`),
+  CONSTRAINT `fk_pb_pbrolesets_fnframes_rolesetid` FOREIGN KEY (`rolesetid`) REFERENCES `pb_rolesets` (`rolesetid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_pbrolesets_vnclasses`
+--
+
+DROP TABLE IF EXISTS `pb_pbrolesets_vnclasses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_pbrolesets_vnclasses` (
+  `rolesetid` int NOT NULL,
+  `vnclassid` int DEFAULT NULL,
+  `pos` varchar(1) NOT NULL,
+  `pbwordid` int NOT NULL,
+  `vnclass` varchar(64) NOT NULL,
+  KEY `k_pb_pbrolesets_vnclasses_rolesetid` (`rolesetid`),
+  KEY `k_pb_pbrolesets_vnclasses_vnclass` (`rolesetid`),
+  KEY `fk_pb_pbrolesets_vnclasses_pbwordid` (`pbwordid`),
+  CONSTRAINT `fk_pb_pbrolesets_vnclasses_pbwordid` FOREIGN KEY (`pbwordid`) REFERENCES `pb_words` (`pbwordid`),
+  CONSTRAINT `fk_pb_pbrolesets_vnclasses_rolesetid` FOREIGN KEY (`rolesetid`) REFERENCES `pb_rolesets` (`rolesetid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_persons`
+--
+
+DROP TABLE IF EXISTS `pb_persons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_persons` (
+  `personid` int NOT NULL,
+  `person` varchar(20) NOT NULL,
+  PRIMARY KEY (`personid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_rels`
+--
+
+DROP TABLE IF EXISTS `pb_rels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_rels` (
+  `relid` int NOT NULL,
+  `exampleid` int NOT NULL,
+  `rel` varchar(32) NOT NULL,
+  `funcid` int DEFAULT NULL,
+  PRIMARY KEY (`relid`),
+  KEY `k_pb_rels_rel` (`rel`),
+  KEY `fk_pb_rels_exampleid` (`exampleid`),
+  CONSTRAINT `fk_pb_rels_exampleid` FOREIGN KEY (`exampleid`) REFERENCES `pb_examples` (`exampleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_roles`
+--
+
+DROP TABLE IF EXISTS `pb_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_roles` (
+  `roleid` int NOT NULL,
+  `rolesetid` int NOT NULL,
+  `argtypeid` varchar(1) NOT NULL,
+  `funcid` int DEFAULT NULL,
+  `thetaid` int DEFAULT NULL,
+  `roledescr` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`roleid`),
+  KEY `k_pb_roles_roledescr` (`roledescr`),
+  KEY `k_pb_roles_rolesetid` (`rolesetid`),
+  KEY `fk_pb_roles_funcid` (`funcid`),
+  KEY `fk_pb_roles_thetaid` (`thetaid`),
+  CONSTRAINT `fk_pb_roles_funcid` FOREIGN KEY (`funcid`) REFERENCES `pb_funcs` (`funcid`),
+  CONSTRAINT `fk_pb_roles_rolesetid` FOREIGN KEY (`rolesetid`) REFERENCES `pb_rolesets` (`rolesetid`),
+  CONSTRAINT `fk_pb_roles_thetaid` FOREIGN KEY (`thetaid`) REFERENCES `pb_thetas` (`thetaid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_rolesets`
+--
+
+DROP TABLE IF EXISTS `pb_rolesets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_rolesets` (
+  `rolesetid` int NOT NULL,
+  `rolesethead` varchar(24) NOT NULL,
+  `rolesetname` varchar(64) NOT NULL,
+  `rolesetdescr` text,
+  `pbwordid` int DEFAULT NULL,
+  PRIMARY KEY (`rolesetid`),
+  KEY `k_pb_rolesets_rolesethead` (`rolesethead`),
+  KEY `k_pb_rolesets_rolesetname` (`rolesetname`),
+  KEY `k_pb_rolesets_pbwordid` (`pbwordid`),
+  CONSTRAINT `fk_pb_rolesets_pbwordid` FOREIGN KEY (`pbwordid`) REFERENCES `pb_words` (`pbwordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_tenses`
+--
+
+DROP TABLE IF EXISTS `pb_tenses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_tenses` (
+  `tenseid` int NOT NULL,
+  `tense` varchar(20) NOT NULL,
+  PRIMARY KEY (`tenseid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_thetas`
+--
+
+DROP TABLE IF EXISTS `pb_thetas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_thetas` (
+  `thetaid` int NOT NULL,
+  `theta` varchar(20) NOT NULL,
+  PRIMARY KEY (`thetaid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_voices`
+--
+
+DROP TABLE IF EXISTS `pb_voices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_voices` (
+  `voiceid` int NOT NULL,
+  `voice` varchar(20) NOT NULL,
+  PRIMARY KEY (`voiceid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pb_words`
+--
+
+DROP TABLE IF EXISTS `pb_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pb_words` (
+  `pbwordid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `word` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  PRIMARY KEY (`pbwordid`),
+  UNIQUE KEY `uk_pb_words_word` (`word`),
+  KEY `k_pb_words_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm_pms`
+--
+
+DROP TABLE IF EXISTS `pm_pms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pm_pms` (
+  `pmid` int NOT NULL,
+  `pmroleid` int NOT NULL,
+  `word` varchar(24) DEFAULT NULL,
+  `sensekey` varchar(32) DEFAULT NULL,
+  `vnclass` varchar(12) DEFAULT NULL,
+  `vnrole` varchar(24) DEFAULT NULL,
+  `pbroleset` varchar(24) DEFAULT NULL,
+  `pbrole` varchar(12) DEFAULT NULL,
+  `fnframe` varchar(36) DEFAULT NULL,
+  `fnfe` varchar(32) DEFAULT NULL,
+  `fnlu` varchar(24) DEFAULT NULL,
+  `source` int DEFAULT NULL,
+  `wordid` int DEFAULT NULL,
+  `synsetid` int DEFAULT NULL,
+  `vnclassid` int DEFAULT NULL,
+  `vnroleid` int DEFAULT NULL,
+  `vnwordid` int DEFAULT NULL,
+  `pbrolesetid` int DEFAULT NULL,
+  `pbroleid` int DEFAULT NULL,
+  `pbwordid` int DEFAULT NULL,
+  `fnframeid` int DEFAULT NULL,
+  `fnfeid` int DEFAULT NULL,
+  `fnfetypeid` int DEFAULT NULL,
+  `fnluid` int DEFAULT NULL,
+  `fnwordid` int DEFAULT NULL,
+  `wsource` int DEFAULT NULL,
+  PRIMARY KEY (`pmid`),
+  KEY `k_pm_pms_pmroleid` (`pmroleid`),
+  KEY `k_pm_pms_synsetid` (`synsetid`),
+  KEY `k_pm_pms_wordid` (`wordid`),
+  KEY `k_pm_pms_word` (`word`),
+  KEY `k_pm_pms_sensekey` (`sensekey`),
+  KEY `k_pm_pms_vnclass` (`vnclass`),
+  KEY `k_pm_pms_vnrole` (`vnrole`),
+  KEY `k_pm_pms_pbroleset` (`pbroleset`),
+  KEY `k_pm_pms_pbrole` (`pbrole`),
+  KEY `k_pm_pms_fnframe` (`fnframe`),
+  KEY `k_pm_pms_fnfe` (`fnfe`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm_predicates`
+--
+
+DROP TABLE IF EXISTS `pm_predicates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pm_predicates` (
+  `predicateid` int NOT NULL,
+  `predicate` varchar(80) NOT NULL,
+  PRIMARY KEY (`predicateid`),
+  UNIQUE KEY `uk_pm_predicates_predicate` (`predicate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm_roles`
+--
+
+DROP TABLE IF EXISTS `pm_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pm_roles` (
+  `pmroleid` int NOT NULL,
+  `predicateid` int NOT NULL,
+  `role` varchar(10) NOT NULL,
+  `pos` char(1) NOT NULL,
+  PRIMARY KEY (`pmroleid`),
+  KEY `k_pm_roles_predicateid` (`predicateid`),
+  CONSTRAINT `fk_pm_roles_predicateid` FOREIGN KEY (`predicateid`) REFERENCES `pm_predicates` (`predicateid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `poses`
+--
+
+DROP TABLE IF EXISTS `poses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `poses` (
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `pos` varchar(20) NOT NULL,
+  PRIMARY KEY (`posid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pronunciations`
+--
+
+DROP TABLE IF EXISTS `pronunciations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pronunciations` (
+  `pronunciationid` int NOT NULL,
+  `pronunciation` varchar(50) NOT NULL,
+  PRIMARY KEY (`pronunciationid`),
+  UNIQUE KEY `uk_pronunciations_pronunciation` (`pronunciation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `relations`
+--
+
+DROP TABLE IF EXISTS `relations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `relations` (
+  `relationid` int NOT NULL,
+  `relation` varchar(50) NOT NULL,
+  `recurses` tinyint(1) NOT NULL,
+  PRIMARY KEY (`relationid`),
+  UNIQUE KEY `uk_relations_relation` (`relation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `samples`
+--
+
+DROP TABLE IF EXISTS `samples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `samples` (
+  `sampleid` int NOT NULL,
+  `sample` mediumtext NOT NULL,
+  `synsetid` int NOT NULL,
+  PRIMARY KEY (`synsetid`,`sampleid`),
+  KEY `k_samples_synsetid` (`synsetid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `semrelations`
+--
+
+DROP TABLE IF EXISTS `semrelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `semrelations` (
+  `synset1id` int NOT NULL,
+  `synset2id` int NOT NULL,
+  `relationid` int NOT NULL,
+  PRIMARY KEY (`synset1id`,`synset2id`,`relationid`),
+  KEY `k_semrelations_relationid` (`relationid`),
+  KEY `k_semrelations_synset1id` (`synset1id`),
+  KEY `k_semrelations_synset2id` (`synset2id`),
+  CONSTRAINT `fk_semrelations_relationid` FOREIGN KEY (`relationid`) REFERENCES `relations` (`relationid`),
+  CONSTRAINT `fk_semrelations_synset1id` FOREIGN KEY (`synset1id`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_semrelations_synset2id` FOREIGN KEY (`synset2id`) REFERENCES `synsets` (`synsetid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `senses`
+--
+
+DROP TABLE IF EXISTS `senses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses` (
+  `senseid` int NOT NULL,
+  `sensekey` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `synsetid` int NOT NULL,
+  `luid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `casedwordid` int DEFAULT NULL,
+  `lexid` int NOT NULL,
+  `sensenum` int DEFAULT NULL,
+  `tagcount` int DEFAULT NULL,
+  PRIMARY KEY (`senseid`),
+  UNIQUE KEY `uk_senses_luid_synsetid` (`luid`,`synsetid`),
+  UNIQUE KEY `uk_senses_sensekey` (`sensekey`),
+  UNIQUE KEY `uk_senses_luid_sensekey` (`luid`,`sensekey`),
+  KEY `k_senses_luid` (`luid`),
+  KEY `k_senses_wordid` (`wordid`),
+  KEY `k_senses_casedwordid` (`casedwordid`),
+  KEY `k_senses_synsetid` (`synsetid`),
+  CONSTRAINT `fk_senses_casedwordid` FOREIGN KEY (`casedwordid`) REFERENCES `casedwords` (`casedwordid`),
+  CONSTRAINT `fk_senses_luid` FOREIGN KEY (`luid`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_senses_synsetid` FOREIGN KEY (`synsetid`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_senses_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `senses_adjpositions`
+--
+
+DROP TABLE IF EXISTS `senses_adjpositions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses_adjpositions` (
+  `synsetid` int NOT NULL,
+  `luid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `positionid` enum('a','p','ip') NOT NULL,
+  KEY `k_senses_adjpositions_synsetid` (`synsetid`),
+  KEY `k_senses_adjpositions_luid` (`luid`),
+  KEY `k_senses_adjpositions_wordid` (`wordid`),
+  KEY `fk_senses_adjpositions_positionid` (`positionid`),
+  CONSTRAINT `fk_senses_adjpositions_luid` FOREIGN KEY (`luid`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_senses_adjpositions_positionid` FOREIGN KEY (`positionid`) REFERENCES `adjpositions` (`positionid`),
+  CONSTRAINT `fk_senses_adjpositions_synsetid` FOREIGN KEY (`synsetid`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_senses_adjpositions_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `senses_vframes`
+--
+
+DROP TABLE IF EXISTS `senses_vframes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses_vframes` (
+  `synsetid` int NOT NULL,
+  `luid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `frameid` int NOT NULL,
+  KEY `k_senses_vframes_frameid` (`frameid`),
+  KEY `k_senses_vframes_synsetid` (`synsetid`),
+  KEY `k_senses_vframes_luid` (`luid`),
+  KEY `k_senses_vframes_wordid` (`wordid`),
+  CONSTRAINT `fk_senses_vframes_frameid` FOREIGN KEY (`frameid`) REFERENCES `vframes` (`frameid`),
+  CONSTRAINT `fk_senses_vframes_luid` FOREIGN KEY (`luid`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_senses_vframes_synsetid` FOREIGN KEY (`synsetid`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_senses_vframes_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `senses_vtemplates`
+--
+
+DROP TABLE IF EXISTS `senses_vtemplates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `senses_vtemplates` (
+  `synsetid` int NOT NULL,
+  `luid` int NOT NULL,
+  `wordid` int NOT NULL,
+  `templateid` int NOT NULL,
+  KEY `k_senses_vtemplates_templateid` (`templateid`),
+  KEY `k_senses_vtemplates_synsetid` (`synsetid`),
+  KEY `k_senses_vtemplates_luid` (`luid`),
+  KEY `k_senses_vtemplates_wordid` (`wordid`),
+  CONSTRAINT `fk_senses_vtemplates_luid` FOREIGN KEY (`luid`) REFERENCES `lexes` (`luid`),
+  CONSTRAINT `fk_senses_vtemplates_synsetid` FOREIGN KEY (`synsetid`) REFERENCES `synsets` (`synsetid`),
+  CONSTRAINT `fk_senses_vtemplates_templateid` FOREIGN KEY (`templateid`) REFERENCES `vtemplates` (`templateid`),
+  CONSTRAINT `fk_senses_vtemplates_wordid` FOREIGN KEY (`wordid`) REFERENCES `words` (`wordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sl_pbroles_vnroles`
+--
+
+DROP TABLE IF EXISTS `sl_pbroles_vnroles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sl_pbroles_vnroles` (
+  `pbrolesetid` int DEFAULT NULL,
+  `pbroleid` int DEFAULT NULL,
+  `vnclassid` int DEFAULT NULL,
+  `vnroleid` int DEFAULT NULL,
+  `vnroletypeid` int DEFAULT NULL,
+  `pbroleset` varchar(64) NOT NULL,
+  `pbarg` varchar(1) NOT NULL,
+  `vnclass` varchar(64) NOT NULL,
+  `vntheta` varchar(20) NOT NULL,
+  KEY `k_sl_pbroles_vnroles_pbroleset_pbarg` (`pbroleset`,`pbarg`),
+  KEY `k_sl_pbroles_vnroles_vnclass_vntheta` (`vnclass`,`vntheta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sl_pbrolesets_vnclasses`
+--
+
+DROP TABLE IF EXISTS `sl_pbrolesets_vnclasses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sl_pbrolesets_vnclasses` (
+  `pbrolesetid` int DEFAULT NULL,
+  `vnclassid` int DEFAULT NULL,
+  `pbroleset` varchar(64) NOT NULL,
+  `vnclass` varchar(64) NOT NULL,
+  KEY `k_sl_pbrolesets_vnclasses_pbroleset` (`pbroleset`),
+  KEY `k_sl_pbrolesets_vnclasses_vnclass` (`vnclass`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sn_syntagms`
+--
+
+DROP TABLE IF EXISTS `sn_syntagms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sn_syntagms` (
+  `syntagmid` int NOT NULL,
+  `word1id` int DEFAULT NULL,
+  `synset1id` int DEFAULT NULL,
+  `word2id` int DEFAULT NULL,
+  `synset2id` int DEFAULT NULL,
+  `sensekey1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `sensekey2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  PRIMARY KEY (`syntagmid`),
+  KEY `k_sn_syntagms_synset1id_word1id` (`synset1id`,`word1id`),
+  KEY `k_sn_syntagms_synset2id_word2id` (`synset2id`,`word2id`),
+  KEY `k_sn_syntagms_sensekey1` (`sensekey1`),
+  KEY `k_sn_syntagms_sensekey2` (`sensekey2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `synsets`
+--
+
+DROP TABLE IF EXISTS `synsets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `synsets` (
+  `synsetid` int NOT NULL,
+  `posid` enum('n','v','a','r','s') NOT NULL,
+  `domainid` int NOT NULL,
+  `definition` mediumtext NOT NULL,
+  PRIMARY KEY (`synsetid`),
+  KEY `fk_synsets_posid` (`posid`),
+  CONSTRAINT `fk_synsets_posid` FOREIGN KEY (`posid`) REFERENCES `poses` (`posid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vframes`
+--
+
+DROP TABLE IF EXISTS `vframes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vframes` (
+  `frameid` int NOT NULL,
+  `frame` varchar(50) NOT NULL,
+  PRIMARY KEY (`frameid`),
+  UNIQUE KEY `uk_vframes_frame` (`frame`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_classes`
+--
+
+DROP TABLE IF EXISTS `vn_classes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_classes` (
+  `classid` int NOT NULL,
+  `class` varchar(64) NOT NULL,
+  `classtag` varchar(32) NOT NULL,
+  PRIMARY KEY (`classid`),
+  UNIQUE KEY `uk_vn_classes_class` (`class`),
+  UNIQUE KEY `uk_vn_classes_classtag` (`classtag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_classes_frames`
+--
+
+DROP TABLE IF EXISTS `vn_classes_frames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_classes_frames` (
+  `classid` int NOT NULL,
+  `frameid` int NOT NULL,
+  PRIMARY KEY (`classid`,`frameid`),
+  UNIQUE KEY `uk_vn_classes_frames_classid_frameid` (`classid`,`frameid`),
+  KEY `k_vn_classes_frames_classid` (`classid`),
+  KEY `k_vn_classes_frames_frameid` (`frameid`),
+  CONSTRAINT `fk_vn_classes_frames_classid` FOREIGN KEY (`classid`) REFERENCES `vn_classes` (`classid`),
+  CONSTRAINT `fk_vn_classes_frames_frameid` FOREIGN KEY (`frameid`) REFERENCES `vn_frames` (`frameid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_examples`
+--
+
+DROP TABLE IF EXISTS `vn_examples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_examples` (
+  `exampleid` int NOT NULL,
+  `example` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci,
+  PRIMARY KEY (`exampleid`),
+  UNIQUE KEY `uk_vn_examples_example` (`example`(255))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_framenames`
+--
+
+DROP TABLE IF EXISTS `vn_framenames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_framenames` (
+  `framenameid` int NOT NULL,
+  `framename` varchar(64) NOT NULL,
+  PRIMARY KEY (`framenameid`),
+  UNIQUE KEY `uk_vn_framenames_framename` (`framename`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_frames`
+--
+
+DROP TABLE IF EXISTS `vn_frames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_frames` (
+  `frameid` int NOT NULL,
+  `number` varchar(16) DEFAULT NULL,
+  `xtag` varchar(16) DEFAULT NULL,
+  `framenameid` int NOT NULL,
+  `framesubnameid` int DEFAULT NULL,
+  `syntaxid` int NOT NULL,
+  `semanticsid` int NOT NULL,
+  PRIMARY KEY (`frameid`),
+  UNIQUE KEY `uk_vn_frames_all` (`number`,`xtag`,`framenameid`,`framesubnameid`,`syntaxid`,`semanticsid`),
+  KEY `k_vn_frames_framenameid` (`framenameid`),
+  KEY `k_vn_frames_framesubnameid` (`framesubnameid`),
+  KEY `k_vn_frames_syntaxid` (`syntaxid`),
+  KEY `k_vn_frames_semanticsid` (`semanticsid`),
+  CONSTRAINT `fk_vn_frames_framenameid` FOREIGN KEY (`framenameid`) REFERENCES `vn_framenames` (`framenameid`),
+  CONSTRAINT `fk_vn_frames_framesubnameid` FOREIGN KEY (`framesubnameid`) REFERENCES `vn_framesubnames` (`framesubnameid`),
+  CONSTRAINT `fk_vn_frames_semanticsid` FOREIGN KEY (`semanticsid`) REFERENCES `vn_semantics` (`semanticsid`),
+  CONSTRAINT `fk_vn_frames_syntaxid` FOREIGN KEY (`syntaxid`) REFERENCES `vn_syntaxes` (`syntaxid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_frames_examples`
+--
+
+DROP TABLE IF EXISTS `vn_frames_examples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_frames_examples` (
+  `frameid` int NOT NULL,
+  `exampleid` int NOT NULL,
+  PRIMARY KEY (`frameid`,`exampleid`),
+  KEY `k_vn_frames_examples_frameid` (`frameid`),
+  KEY `k_vn_frames_examples_exampleid` (`exampleid`),
+  CONSTRAINT `fk_vn_frames_examples_exampleid` FOREIGN KEY (`exampleid`) REFERENCES `vn_examples` (`exampleid`),
+  CONSTRAINT `fk_vn_frames_examples_frameid` FOREIGN KEY (`frameid`) REFERENCES `vn_frames` (`frameid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_framesubnames`
+--
+
+DROP TABLE IF EXISTS `vn_framesubnames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_framesubnames` (
+  `framesubnameid` int NOT NULL,
+  `framesubname` varchar(128) NOT NULL,
+  PRIMARY KEY (`framesubnameid`),
+  UNIQUE KEY `uk_vn_framesubnames_framesubname` (`framesubname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_groupings`
+--
+
+DROP TABLE IF EXISTS `vn_groupings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_groupings` (
+  `groupingid` int NOT NULL,
+  `grouping` varchar(64) NOT NULL,
+  PRIMARY KEY (`groupingid`),
+  UNIQUE KEY `uk_vn_groupings_grouping` (`grouping`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_members`
+--
+
+DROP TABLE IF EXISTS `vn_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_members` (
+  `classid` int NOT NULL,
+  `vnwordid` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`classid`,`vnwordid`),
+  KEY `k_vn_members_classid` (`classid`),
+  KEY `k_vn_members_vnwordid` (`vnwordid`),
+  CONSTRAINT `fk_vn_members_classid` FOREIGN KEY (`classid`) REFERENCES `vn_classes` (`classid`),
+  CONSTRAINT `fk_vn_members_vnwordid` FOREIGN KEY (`vnwordid`) REFERENCES `vn_words` (`vnwordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_members_groupings`
+--
+
+DROP TABLE IF EXISTS `vn_members_groupings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_members_groupings` (
+  `classid` int NOT NULL,
+  `vnwordid` int NOT NULL,
+  `groupingid` int NOT NULL,
+  UNIQUE KEY `uk_vn_members_groupings_classid_vnwordid_groupingid` (`classid`,`vnwordid`,`groupingid`),
+  KEY `k_vn_members_groupings_classid` (`classid`),
+  KEY `k_vn_members_groupings_vnwordid` (`vnwordid`),
+  KEY `k_vn_members_groupings_groupingid` (`groupingid`),
+  CONSTRAINT `fk_vn_members_groupings_classid` FOREIGN KEY (`classid`) REFERENCES `vn_classes` (`classid`),
+  CONSTRAINT `fk_vn_members_groupings_groupingid` FOREIGN KEY (`groupingid`) REFERENCES `vn_groupings` (`groupingid`),
+  CONSTRAINT `fk_vn_members_groupings_vnwordid` FOREIGN KEY (`vnwordid`) REFERENCES `vn_words` (`vnwordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_members_senses`
+--
+
+DROP TABLE IF EXISTS `vn_members_senses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_members_senses` (
+  `classid` int NOT NULL,
+  `vnwordid` int NOT NULL,
+  `sensenum` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `synsetid` int DEFAULT NULL,
+  `sensekey` varchar(100) DEFAULT NULL,
+  `quality` float NOT NULL,
+  KEY `k_vn_members_senses_classid` (`classid`),
+  KEY `k_vn_members_senses_vnwordid` (`vnwordid`),
+  KEY `k_vn_members_senses_synsetid` (`synsetid`),
+  KEY `k_vn_members_senses_sensekey` (`sensekey`),
+  CONSTRAINT `fk_vn_members_senses_classid` FOREIGN KEY (`classid`) REFERENCES `vn_classes` (`classid`),
+  CONSTRAINT `fk_vn_members_senses_vnwordid` FOREIGN KEY (`vnwordid`) REFERENCES `vn_words` (`vnwordid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_predicates`
+--
+
+DROP TABLE IF EXISTS `vn_predicates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_predicates` (
+  `predicateid` int NOT NULL,
+  `predicate` varchar(128) NOT NULL,
+  PRIMARY KEY (`predicateid`),
+  UNIQUE KEY `uk_vn_predicates_predicate` (`predicate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_predicates_semantics`
+--
+
+DROP TABLE IF EXISTS `vn_predicates_semantics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_predicates_semantics` (
+  `predicateid` int NOT NULL,
+  `semanticsid` int NOT NULL,
+  PRIMARY KEY (`predicateid`,`semanticsid`),
+  KEY `k_vn_predicates_semantics_semanticsid` (`semanticsid`),
+  KEY `k_vn_predicates_semantics_predicateid` (`predicateid`),
+  CONSTRAINT `fk_vn_predicates_semantics_predicateid` FOREIGN KEY (`predicateid`) REFERENCES `vn_predicates` (`predicateid`),
+  CONSTRAINT `fk_vn_predicates_semantics_semanticsid` FOREIGN KEY (`semanticsid`) REFERENCES `vn_semantics` (`semanticsid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_restrs`
+--
+
+DROP TABLE IF EXISTS `vn_restrs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_restrs` (
+  `restrsid` int NOT NULL,
+  `restrs` text NOT NULL,
+  `issyn` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`restrsid`),
+  UNIQUE KEY `uk_vn_restrs_restrs` (`restrs`(32),`issyn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_restrtypes`
+--
+
+DROP TABLE IF EXISTS `vn_restrtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_restrtypes` (
+  `restrid` int NOT NULL,
+  `restrval` varchar(1) NOT NULL,
+  `restr` varchar(32) NOT NULL,
+  `issyn` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`restrid`),
+  UNIQUE KEY `uk_vn_restrtypes_restrval_restr` (`restrval`,`restr`,`issyn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_roles`
+--
+
+DROP TABLE IF EXISTS `vn_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_roles` (
+  `roleid` int NOT NULL,
+  `classid` int NOT NULL,
+  `roletypeid` int NOT NULL,
+  `restrsid` int DEFAULT NULL,
+  PRIMARY KEY (`roleid`),
+  UNIQUE KEY `uk_vn_roles_classid_roletypeid}` (`classid`,`roletypeid`),
+  KEY `k_vn_roles_classid` (`classid`),
+  KEY `k_vn_roles_roletypeid` (`roletypeid`),
+  KEY `fk_vn_roles_restrsid` (`restrsid`),
+  CONSTRAINT `fk_vn_roles_classid` FOREIGN KEY (`classid`) REFERENCES `vn_classes` (`classid`),
+  CONSTRAINT `fk_vn_roles_restrsid` FOREIGN KEY (`restrsid`) REFERENCES `vn_restrs` (`restrsid`),
+  CONSTRAINT `fk_vn_roles_roletypeid` FOREIGN KEY (`roletypeid`) REFERENCES `vn_roletypes` (`roletypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_roletypes`
+--
+
+DROP TABLE IF EXISTS `vn_roletypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_roletypes` (
+  `roletypeid` int NOT NULL,
+  `roletype` varchar(32) NOT NULL,
+  PRIMARY KEY (`roletypeid`),
+  UNIQUE KEY `uk_vn_roletypes_roletype` (`roletype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_semantics`
+--
+
+DROP TABLE IF EXISTS `vn_semantics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_semantics` (
+  `semanticsid` int NOT NULL,
+  `semantics` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci,
+  PRIMARY KEY (`semanticsid`),
+  UNIQUE KEY `uk_vn_semantics_semantics` (`semantics`(380))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_syntaxes`
+--
+
+DROP TABLE IF EXISTS `vn_syntaxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_syntaxes` (
+  `syntaxid` int NOT NULL,
+  `syntax` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci,
+  PRIMARY KEY (`syntaxid`),
+  UNIQUE KEY `uk_vn_syntaxes_syntax` (`syntax`(80))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vn_words`
+--
+
+DROP TABLE IF EXISTS `vn_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vn_words` (
+  `vnwordid` int NOT NULL,
+  `wordid` int DEFAULT NULL,
+  `word` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`vnwordid`),
+  UNIQUE KEY `uk_vn_words_word` (`word`),
+  KEY `k_vn_words_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vtemplates`
+--
+
+DROP TABLE IF EXISTS `vtemplates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vtemplates` (
+  `templateid` int NOT NULL,
+  `template` mediumtext NOT NULL,
+  PRIMARY KEY (`templateid`),
+  UNIQUE KEY `uk_vtemplates_template` (`template`(64))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `words`
+--
+
+DROP TABLE IF EXISTS `words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `words` (
+  `wordid` int NOT NULL,
+  `word` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci DEFAULT NULL,
+  PRIMARY KEY (`wordid`),
+  UNIQUE KEY `uk_words_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-08-24 15:55:20

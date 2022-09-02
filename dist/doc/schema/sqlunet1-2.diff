@@ -1,0 +1,396 @@
+
+# W O R D N E T
+
+words				words
+	lemma				word
+
+casedwords			casedwords
+	cased				casedword
+
+0					pronunciations
+	0					pronunciation
+	0					pronunciationid
+
+0					lexes
+	0					luid
+	0 					wordid
+	0					casedwordid
+	0					posid
+
+0					lexes_morphs
+	0					luid
+ 	0					wordid
+	0					posid
+	0					morphid
+
+0					lexes_pronunciations
+	0					luid
+	0					wordid
+	0					posid
+	0					pronunciationid
+	0					variety
+
+postypes			poses
+	pos					posid
+	posname				pos
+
+lexdomains			domains
+	lexdomain			domain
+	lexdomainid			domainid
+	lexdomainname		domainid
+	pos					posid
+
+adjpositiontypes	adjpositions
+	position			positionid
+	positionname		position
+
+linktypes			relations
+	link				relation
+	linkid				relationid
+
+semlinks			semrelations
+	linkid				relationid
+
+lexlinks			lexrelations
+	linkid				relationid
+	0					lu1id
+	0					lu2id
+
+synsets				synsets
+	lexdomainid			domainid
+	pos					posid
+
+senses				senses
+ 	0					luid
+
+adjpositions		senses_adjpositions
+	position 			positionid
+	0					luid
+
+vframesentences		vtemplates
+	sentence			template
+	sentenceid			templateid
+
+vframemaps			senses_vframes
+	0					luid
+
+vframesentencemaps	senses_vtemplates
+	sentenceid			templateid
+	0					luid
+
+morphmaps			lexes_morphs
+	pos					posid
+	0					luid
+
+# B N C
+
+bncs				bnc_bncs
+	pos					posid
+	0					word
+
+bncconvtasks 		bnc_convtasks
+	pos 				posid
+	0					word
+
+bncimaginfs			bnc_imaginfs
+	pos			  		posid
+	0					word
+
+bncspwrs			bnc_spwrs
+	pos					posid
+	0					word
+
+# S N
+
+syntagms			sn_syntagms
+	0					sensekey1
+	0					sensekey2
+
+# F N
+
+fnframes					fn_frames
+
+fnframerelations 			fn_framerelations
+
+fnframes_related 			fn_frames_related
+
+fnframes_semtypes			fn_frames_semtypes
+
+fnfetypes					fn_fetypes
+
+fnfes						fn_fes
+	bgcolor						0
+	fgcolor						0
+	cby							0
+	cdate						0
+
+fnfes_excluded 				fn_fes_excluded
+
+fnfes_required 				fn_fes_required
+
+fnfes_semtypes 				fn_fes_semtypes
+
+fncoretypes					fn_coretypes
+
+fnferealizations			fn_ferealizations
+
+0							fn_ferealizations_valenceunits
+	0							ferid
+	0							vuid
+
+fnfegrouprealizations		fn_fegrouprealizations
+
+fnfegrouprealizations_fes	fn_fes_fegrouprealizations
+	rfeid						0
+
+fnpatterns					fn_grouppatterns
+
+fnpatterns_valenceunits		0
+	feid						0
+	fetypeid					0
+	patternid					0
+	pvid						0
+	vuid						0
+
+0							fn_grouppatterns_patterns
+	0							ferid
+	0							patternid
+	0							vuid
+
+fnpatterns_annosets			fn_grouppatterns_annosets
+
+fnvalenceunits				fn_valenceunits
+	ferid 						0
+	0							fetypeid
+
+fnvalenceunits_annosets		fn_valenceunits_annosets
+
+fngovernors					fn_governors
+
+fngovernors_annosets 		fn_governors_annosets
+
+fnannosets					fn_annosets
+
+fnlayers					fn_layers
+
+fnlayertypes				fn_layertypes
+
+fnlabels					fn_labels
+	bgcolor						0
+	fgcolor						0
+	cby							0
+
+fnlabeltypes				fn_labeltypes
+
+fnlexemes					fn_lexemes
+
+fnlexunits					fn_lexunits
+	incorporatedfeid			0
+	noccurs						0
+
+fnlexunits_governors		fn_lexunits_governors
+
+fnlexunits_semtypes			fn_lexunits_semtypes
+
+fnposes						fn_poses
+
+fngftypes					fn_gftypes
+
+fnlabelitypes				fn_labelitypes
+
+fnpttypes					fn_pttypes
+
+fnsemtypes					fn_semtypes
+
+fnsemtypes_supers			fn_semtypes_supers
+
+fnsentences					fn_sentences
+
+fnstatuses					0
+	status						0
+	statusid					0
+
+fncxns						fn_cxns
+
+fndocuments					fn_documents
+	0							document
+	noccurs						0
+
+fncorpuses					fn_corpuses
+	noccurs						0
+
+fnsubcorpuses				fn_subcorpuses
+	0							text
+
+fnsubcorpuses_sentences 	fn_subcorpuses_sentences
+
+fnwords						fn_words
+
+# P B
+
+pbrolesets			pb_rolesets
+
+pbrolesetmembers	pb_members
+
+pbroles				pb_roles
+	narg				argtypeid
+	func				funcid
+	theta				thetaid
+
+pbargs				pb_args
+	narg				argtypeid
+	func				funcid
+
+pbexamples			pb_examples
+	func				funcid
+	aspect				aspectid
+	form				formid
+	person				personid
+	tense				tenseid
+
+pbfnframemaps		pb_pbrolesets_fnframes
+	0					fnframe
+
+pbvnclassmaps		pb_pbrolesets_vnclasses
+	0					vnclass
+
+pbvnrolemaps		pb_pbroles_vnroles
+	0					vnclass
+	0					vntheta
+	0					vnroletypeid
+
+pbrels				pb_rels
+	func				funcid
+
+pbargns				pb_argtypes
+	narg 				argtypeid
+	nargdescr 			argtype
+
+pbaspects			pb_aspects
+	aspect				aspectid
+	aspectname			aspect
+
+pbforms				pb_forms
+	form				formid
+	formname			form
+
+pbfuncs				pb_funcs
+	func				funcid
+	funcname			func
+
+pbpersons			pb_persons
+	person 				personid
+	personname 			person
+
+pbtenses			pb_tenses
+	tense 				tenseid
+	tensename 			tense
+
+pbvnthetas			pb_thetas
+	theta				thetaid
+	thetaname			theta
+
+pbvoices			pb_voices
+	voice				voiceid
+	voicename			voice
+
+pbwords				pb_words
+	lemma 				word
+
+# P M
+
+pm					pm_pms
+	lemma				word
+	0					sensekey
+	0					source
+	0					fnfe
+	0					fnfetypeid
+	0					fnframe
+	0					fnlu
+	0					pbroleset
+	0					pbrole
+	0					vnclass
+	0					vnrole
+
+pmpredicates		pm_predicates
+	pmpredid			predicateid
+
+pmroles				pm_roles
+	pmpredid 			predicateid
+
+ # S L
+0				sl_pbroles_vnroles
+	0				pbarg varchar
+	0				pbroleid int
+	0				pbroleset varchar
+	0				pbrolesetid int
+	0				vnclass varchar
+	0				vnclassid int
+	0				vnroleid int
+	0				vnroletypeid int
+	0				vntheta varchar
+
+0				sl_pbrolesets_vnclasses
+	0				pbroleset varchar
+	0				pbrolesetid int
+	0				vnclass varchar
+	0				vnclassid int
+
+# V N
+
+vnclasses				vn_classes
+
+vngroupings				vn_groupings
+
+vnclassmembers			vn_members
+
+vnclassmembersenses		vn_members_senses
+	0						wordid
+
+vngroupingmaps			vn_members_groupings
+	groupingmapid			0
+
+vnframes				vn_frames
+	nameid 					framenameid
+	subnameid				framesubnameid
+
+vnframenames			vn_framenames
+	nameid					framenameid
+
+vnframesubnames			vn_framesubnames
+	subnameid				framesubnameid
+
+vnexamples				vn_examples
+
+vnexamplemaps			vn_frames_examples
+
+vnframemaps				vn_classes_frames
+	framemapid				0
+
+vnpredicates			vn_predicates
+	pred					predicate
+	predid					predicateid
+
+vnpredicatemaps			vn_predicates_semantics
+	predid					predicateid
+
+vnrestrs				vn_restrs
+
+vnrestrtypes			vn_restrtypes
+
+vnroles					vn_roles
+	0						classid
+
+vnrolemaps				0
+	class					0
+	roleid					0
+	rolemapid				0
+
+vnroletypes				vn_roletypes
+
+vnsemantics				vn_semantics
+
+vnsyntaxes				vn_syntaxes
+
+vnwords					vn_words
+ 	lemma 					word
