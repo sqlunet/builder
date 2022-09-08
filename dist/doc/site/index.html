@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>SQLUNET</title>
+<meta name="author" content="Bernard Bou">
+<meta name="changedby" content="Bernard Bou">
+<meta name="created" content="20140410;10000000">
+<meta name="changed" content="20220908;10000000">
+<meta name="keywords" content="sql,sqlunet,wordnet,verbnet,propbank,framenet,syntagnet,bnc">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td class="color1" width="25%">&nbsp;</td>
+      <td class="color2" width="25%">&nbsp;</td>
+      <td class="color3" width="25%">&nbsp;</td>
+      <td class="color4" width="25%">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4"><p align="center"><img src="images/logo.png" alt="logo"><br></p></td>
+    </tr>
+    <tr>
+      <td colspan="4"><p align="center"> <span class="color4"><b>sql unified xnet</b></span><br>
+          <span class="subtitle">Bernard Bou</span><br>
+      <a href="mailto:1313ou@gmail.com">1313ou@gmail.com</a></p></td>
+    </tr>
+    <tr>
+      <td class="color1" width="25%">&nbsp;</td>
+      <td class="color2" width="25%">&nbsp;</td>
+      <td class="color3" width="25%">&nbsp;</td>
+      <td class="color4" width="25%">&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="pickarea" width="25%"><div align="center"><a href="http://sourceforge.net/projects/sqlunet/">project page</a></div></td>
+      <td class="pickarea" width="25%"><div align="center"><a href="http://sourceforge.net/projects/sqlunet/files">download</a></div></td>
+      <td class="pickarea" width="25%"><div align="center"><a href="schema.html">schema</a> | <a href="http://sourceforge.net/projects/sqlunet/files/mwb2">mwb</a></div></td>
+      <td class="pickarea" width="25%"><div align="center"><a href="sql.html">how to query</a></div></td>
+    </tr>
+    <tr>
+      <td class="color1" width="25%">&nbsp;</td>
+      <td class="color2" width="25%">&nbsp;</td>
+      <td class="color3" width="25%">&nbsp;</td>
+      <td class="color4" width="25%">&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<p align="center" class="pickarea"><strong>SQL unified database</strong>
+<div style="text-align: center;">
+	<ul>
+		<li>generates relational tables from the following NLP databases</li>
+		<li>makes the tables joinable, thereby unifying them</li>
+	</ul>
+</div>
+</p>
+
+<p><strong>Databases</strong></p>
+<table class="dbtable" align="center"><tbody>
+	<tr>
+		<th class="header">database</th>
+		<th class="header">version</th>
+		<th class="header">source</th>
+		<th class="header">role</th>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">Open English WordNet</td>
+		<td class="dbver">2022</td>
+		<td class="dburl"><a href="https://github.com/globalwordnet/english-wordnet">source</a></td>
+		<td class="dbrole">words, senses, relations</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">SyntagNet</td>
+		<td class="dbver">1.0</td>
+		<td class="dburl"><a href="https://syntagnet.org">source</a></td>
+		<td class="dbrole">collocations</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">VerbNet</td>
+		<td class="dbver">3.4</td>
+		<td class="dburl"><a href="https://github.com/cu-clear/verbnet">source</a></td>
+		<td class="dbrole">semantic roles</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">Propbank</td>
+		<td class="dbver">3.1</td>
+		<td class="dburl"><a href="https://github.com/propbank/propbank-frames">source</a></td>
+		<td class="dbrole">semantic roles</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">SemLink</td>
+		<td class="dbver">2.0.0</td>
+		<td class="dburl"><a href="https://github.com/cu-clear/semlink">source</a></td>
+		<td class="dbrole">semantic roles</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">FrameNet</td>
+		<td class="dbver">1.7</td>
+		<td class="dburl"><a href="http://framenet.icsi.berkeley.edu/">source</a></td>
+		<td class="dbrole">semantic roles</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">PredicateMatrix</td>
+		<td class="dbver">1.3</td>
+		<td class="dburl"><a href="http://adimen.si.ehu.es/web/PredicateMatrix">source</a></td>
+		<td class="dbrole">semantic roles</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">British National Corpus statistical data</td>
+		<td class="dbver">2001</td>
+		<td class="dburl"><a href="http://ucrel.lancs.ac.uk/bncfreq/">source</a></td>
+		<td class="dbrole">frequency</td>
+	</tr>
+</tbody></table>
+<p><strong>Restore</strong></p>
+<a href="restore.html">How to restore the database</a>
+<p><br>
+</p>
+<p><strong>Builder</strong></p>
+The <b>builder</b> utilities that produce the SQL statements are available as two distinct if related projects:
+<a href="https://github.com/oewntk">oewntk</a> for the wordnet core and 
+<a href="https://github.com/sqlunet/builder">sqlbuilder2</a> for the other xnets.
+
+<p><br>
+</p>
+</body>
+</html>
