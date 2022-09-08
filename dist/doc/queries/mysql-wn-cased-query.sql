@@ -1,0 +1,1 @@
+/opt/devel/oewn/oewn-tosql/queries/mysql-wn-cased-query.sql
