@@ -30,6 +30,8 @@ replace_word positionname position "$1"
 replace_word link relation "$1"
 replace_word linkid relationid "$1"
 
+replace_word syntagms sn_syntagms "$1"
+
 replace_word fnframes fn_frames "$1"
 replace_word fnframes_related fn_frames_related "$1"
 replace_word fnframes_semtypes fn_frames_semtypes "$1"

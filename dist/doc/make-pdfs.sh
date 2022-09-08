@@ -87,6 +87,8 @@ echo -e "pdfs=${M}${allpdfs}${Z}"
 #echo ${allpdfs} | tr '\n' ' '
 
 param="--pdftitle 'SqlUNet2' --pdfauthor 'Bernard Bou' --paper A4 --twoside --no-landscape --rotateoversize 'false'"
-pdfjam ${params} --outfile ../sqlunet2.pdf ${p1} ${allpdfs}
+outfile=$(readlink -m ../sqlunet2.pdf)
+pdfjam ${params} --outfile "${outfile}" ${p1} ${allpdfs}
+echo -e "${G}${outfile}${Z}"
 popd > /dev/null
 

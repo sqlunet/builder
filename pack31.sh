@@ -14,13 +14,7 @@ fi
 dbtag=$1
 shift
 if [ -z "${dbtag}" ]; then
-  dbtag=oewn2022
-fi
-
-version=$1
-shift
-if [ -z "${version}" ]; then
-  dbtag=2.0.0
+  dbtag=wn31
 fi
 
 dbdir=$1
@@ -28,6 +22,17 @@ shift
 if [ -z "${dbdir}" ]; then
   dbdir=sql31
 fi
+
+version=$1
+shift
+if [ -z "${version}" ]; then
+  version=2.0.0
+fi
+
+# D I R S
+
+distdir=$(readlink -m "dist/${dbtag}")
+mkdir -p "${distdir}"
 
 # S O U R C E S
 
@@ -46,6 +51,13 @@ for dbmodule in ${dbmodules}; do
     for dbdata in data data_resolved data_updated; do
       echo -e "${M}${dbmodule} ${dbdata} ${dbtag} ${dbdir}${Z}"
       ant -f ../make-dist-sql.xml -Dbasedir=${wd} -Ddbmodule=${dbmodule} -Ddbdata=${dbdata} -Ddbdir=${dbdir} -Ddbtag=${dbtag} -Dversion=${version}
+      target1="${dbdir}/${dbmodule}-${dbdata}-${dbtag}-mysql-${version}.zip"
+      target2="${dbdir}/${dbmodule}-${dbdata}-${dbtag}-sqlite-${version}.zip"
+      for t in "${target1}" "${target2}"; do
+      	t2=$(readlink -m ${t})
+      	ln -sf "${t2}" "${distdir}"
+      	echo -e "${G}${t}${Z}"
+      done
     done
   popd > /dev/null
 done
