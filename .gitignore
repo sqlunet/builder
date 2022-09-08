@@ -19,6 +19,11 @@
 /dist/doc/pdf/schema*
 /dist/doc/pdf/tables*
 /dist/doc/pdf/uml*
+/dist/doc/queries/html/
+/dist/doc/queries/pdf/
+/dist/doc/site/pdf/
+/dist/doc/site/sql/
+/dist/doc/site/*.pdf
 
 /bnc/bnc0.sqlite
 /fn/fn0.sqlite
