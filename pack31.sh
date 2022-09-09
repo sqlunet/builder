@@ -8,7 +8,8 @@
 dbmodules="$1"
 shift
 if [ -z "${dbmodules}" ]; then
-  dbmodules="bnc sn vn pb sl fn pm"
+  # dbmodules="bnc sn vn pb sl fn pm"
+  dbmodules="bnc"
 fi
 
 dbtag=$1
