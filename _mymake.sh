@@ -10,6 +10,9 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
+echo -e "${Y}S C H E M A${Z}"
+./generate-schema.sh all
+
 echo -e "${Y}B U I L D${Z}"
 ./build.sh all
 
