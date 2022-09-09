@@ -1,5 +1,5 @@
 @echo off
-rem bbou@ac-toulouse.fr
+rem 1313ou@gmail.com
 rem 03/12/2021 
 
 set /P DB=Enter database name:
