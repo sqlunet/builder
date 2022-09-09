@@ -2,7 +2,6 @@ package org.sqlbuilder.common;
 
 public class Progress
 {
-
 	public static void tracePending(final String tag, final String message)
 	{
 		System.out.print(tag + " " + message);
