@@ -3,8 +3,6 @@
 
 # C O N S T S
 
-thisdir=$(dirname $(readlink -m "$0"))
-sqldir="${thisdir}/sql"
 dbtype=sqlite
 modules="wn"
 tables="
@@ -40,6 +38,11 @@ export Y='\u001b[33m'
 export M='\u001b[35m'
 export C='\u001b[36m'
 export Z='\u001b[0m'
+
+# D I R
+
+thisdir=`dirname $(readlink -m "$0")`
+sqldir="${thisdir}/sql"
 
 # M A I N
 
@@ -100,27 +103,31 @@ commit="COMMIT TRANSACTION;"
 
 tempdir=$(mktemp -d /tmp/sqlite.XXXXXXXXX)
 
-function to_temp() {
+function to_temp()
+{
   local sqlfile="$1"
   local base="$(basename "${sqlfile}")"
   echo "${tempdir}/${base}"
 }
 
-function fast() {
+function fast()
+{
   local sqlfile="$1" # can be or include *
   local base="$(basename "${sqlfile}")"
   local sqlfile2="${tempdir}/${base}"
   printf '%s\n%s\n%s\n%s\n%s' "${pragmas_quick}" "${begin}" "$(cat ${sqlfile})" "${commit}" "${pragmas_default}"
 }
 
-function fast_to_temp() {
+function fast_to_temp()
+{
   local sqlfile="$1" # can be or include *
   tempfile=$(to_temp "${sqlfile}")
   fast "${sqlfile}" >"${tempfile}"
   echo "${tempfile}"
 }
 
-function process() {
+function process()
+{
   local sqlfile="$1"
   local op="$2"
   if [ ! -e "${sqlfile}" ]; then
@@ -140,17 +147,20 @@ function process() {
   esac
 }
 
-function dbexists() {
+function dbexists()
+{
   test -e "${db}"
   return $?
 }
 
-function deletedb() {
+function deletedb()
+{
   echo -e "${M}delete ${db}${Z}"
   rm -f "${db}"
 }
 
-function createdb() {
+function createdb()
+{
   echo -e "${M}create ${db}${Z}"
   touch "${db}"
 }
