@@ -3,6 +3,7 @@
 
 PROJECTDIR='/opt/devel/android-sqlunet-as/semantikos'
 options="-i"
+options=""
 
 # C O L O R S
 
@@ -14,16 +15,28 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
+function confirm()
+{
+	echo -en "Are you sure you want to copy ${C}"${from}"${Z} "${to}" ? "
+	read -n 1 -r
+	#echo    # (optional) move to a new line
+	echo -e "${Z}"
+	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+		return 2
+	fi
+	echo 'overwriting ...'
+	return 0
+}
+
 function copy()
 {
 	local from="$1"
 	local to="$2"
 	[ -e "${from}" ] || echo -e "${Z}${from} does not exist${Z}"
 	[ -e "${to}" ] || echo -e "${Z}${to} does not exist${Z}"
-	#echo cp -P "${from}" "${to}"
-	cp ${options} -P "${from}"/distrib* "${to}"
-	cp ${options} -P "${from}"/*.zip "${to}"
-	cp ${options} -P "${from}"/*.zip.md5 "${to}"
+	if confirm "${from}" "${to}"; then
+		cp ${options} -Pv "${from}"/distrib* "${from}"/*.zip "${from}"/*.zip.md5 "${to}"
+	fi
 }
 
 echo -e "${Y}xn${Z}"
