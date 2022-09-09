@@ -16,7 +16,7 @@ fi
 
 # C O N S T S
 
-wn=zip/oewn-${tag}-sqlite-1.${tag:2:2}.zip
+wn=zip/oewn-${tag}-sqlite-${version}.zip
 bnc=zip/bnc-data_resolved-oewn${tag}-sqlite-${version}.zip
 db=sqlunet-ewn.sqlite
 semantikos_db=sqlunet-ewn.db
