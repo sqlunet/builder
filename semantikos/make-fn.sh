@@ -96,3 +96,5 @@ echo -e ${G}
 cat distrib-fn.hsize
 echo -e ${Z}
 popd > /dev/null
+
+mv "${db}" dist/

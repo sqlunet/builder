@@ -1,11 +1,14 @@
 #!/bin/bash
 # 22/03/2022
 
-tag="2022"
-version="2.0.0"
+source _define_build.sh
+
+tag="${TAG}"
+tag31="${TAG31}"
+version="${BUILD}"
 
 ./make-xn.sh "${tag}" "${version}"
-./make-wn31.sh
+./make-wn31.sh "${tag31}" "${version}"
 ./make-oewn.sh "${tag}" "${version}"
 ./make-vn.sh "${tag}" "${version}"
 ./make-fn.sh "${tag}" "${version}"

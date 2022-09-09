@@ -118,3 +118,5 @@ echo -e ${G}
 cat distrib-sn.hsize
 echo -e ${Z}
 popd > /dev/null
+
+mv "${db}" dist/

@@ -1,14 +1,27 @@
 #!/bin/bash
 # 22/03/2022
 
+# P A R A M S
+
+tag=$1
+if [ -z "${tag}" ]; then
+	echo "define tag as 1st param"
+	exit 1
+fi
+version=$2
+if [ -z "${version}" ]; then
+	echo "define version as 2nd param"
+	exit 2
+fi
+
 # C O N S T S
 
-wn=zip/oewn-31-sqlite-1.21.0.zip
-bnc=zip/bnc-data_resolved-wn31-sqlite-2.0.0.zip
+wn=zip/oewn-${tag}-sqlite-${version}.zip
+bnc=zip/bnc-data_resolved-wn${tag}-sqlite-${version}.zip
 db=sqlunet-wn.sqlite
 semantikos_db=sqlunet-wn.db
 semantikos_db_zip=${semantikos_db}.zip
-semantikos_dir=db-wn31
+semantikos_dir=db-wn${tag}
 thisdir=`dirname $(readlink -m "$0")`
 
 # C O L O R S
@@ -29,28 +42,28 @@ fi # ------------------------------------------------------------------END-SKIP
 
 echo -e "${Y}U N Z I P${Z}"
 
-rm -fR wn31
-rm -fR bnc31
+rm -fR wn${tag}
+rm -fR bnc${tag}
 
 echo -e "${Y}A D D${Z}"
-unzip -q ${wn} -d wn31
-unzip -q ${bnc} -d bnc31
+unzip -q ${wn} -d wn${tag}
+unzip -q ${bnc} -d bnc${tag}
 
 echo -e "${M}removing indexes${Z}"
-rm -f wn31/sql/sqlite/index/*
-rm -f bnc31/sql/sqlite/index/*
+rm -f wn${tag}/sql/sqlite/index/*
+rm -f bnc${tag}/sql/sqlite/index/*
 
 echo -e "${M}tweaking restore script${Z}"
-sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn31/restore-sqlite.sh
+sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn${tag}/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 
-pushd wn31 > /dev/null
+pushd wn${tag} > /dev/null
 chmod +x ./restore-sqlite.sh 
 ./restore-sqlite.sh -y -d "../${db}"
 popd > /dev/null
 
-pushd bnc31 > /dev/null
+pushd bnc${tag} > /dev/null
 chmod +x ./restore-sqlite.sh 
 ./restore-sqlite.sh -y -r "../${db}"
 popd > /dev/null
@@ -98,3 +111,5 @@ echo -e ${G}
 cat distrib-wn.hsize
 echo -e ${Z}
 popd > /dev/null
+
+mv "${db}" dist/
