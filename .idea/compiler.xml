@@ -31,23 +31,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="variables" />
-        <module name="legacy" />
-        <module name="querybuilder" />
-        <module name="fn" />
-        <module name="reqprov" />
-        <module name="queries" />
-        <module name="foreign" />
-        <module name="pb" />
-        <module name="common" />
-        <module name="bnc" />
-        <module name="vn" />
-        <module name="sl" />
-        <module name="fn-jaxb" />
-        <module name="sn" />
-        <module name="pm" />
-        <module name="fn-beans" />
-        <module name="querybuilder-maven" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
