@@ -16,7 +16,7 @@ fi
 
 # C O N S T S
 
-wn=zip/oewn-${tag}-sqlite-1.${version}.zip
+wn=zip/oewn-${tag}-sqlite-${version}.zip
 vn=zip/vn-data_resolved-oewn${tag}-sqlite-${version}.zip
 pb=zip/pb-data_resolved-oewn${tag}-sqlite-${version}.zip
 db=sqlunet-vn.sqlite

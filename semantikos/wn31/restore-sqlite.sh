@@ -3,7 +3,7 @@
 
 # C O N S T S
 
-thisdir=`dirname $(readlink -m "$0")`
+thisdir=$(dirname $(readlink -m "$0"))
 sqldir="${thisdir}/sql"
 dbtype=sqlite
 modules="wn"
@@ -44,18 +44,18 @@ export Z='\u001b[0m'
 # M A I N
 
 if [ "$1" == "-y" ]; then
-	silent=true
-	shift
+  silent=true
+  shift
 else
   echo -e "${Y}Restore utility for ${dbtype}${Z}"
   echo -e "${R}-the -d switch will delete an existing database with this name${Z}"
   read -r -p "Are you sure? [y/N] " response
   case "$response" in
-      [yY][eE][sS]|[yY])
-          ;;
-      *)
-          exit 1
-          ;;
+  [yY][eE][sS] | [yY]) ;;
+
+  *)
+    exit 1
+    ;;
   esac
 fi
 
@@ -63,18 +63,18 @@ fi
 
 dbdelete=
 if [ "$1" == "-d" ]; then
-	dbdelete=true
-	shift
+  dbdelete=true
+  shift
 fi
 
 # D A T A B A S E (PARAM 2)
 
 db="$1"
 if [ -z "${db}" ]; then
-	read -p "Enter ${dbtype} database name: " db
+  read -p "Enter ${dbtype} database name: " db
 fi
 if [[ "${db}" != *.sqlite ]]; then
-	db="${db}.sqlite"
+  db="${db}.sqlite"
 fi
 export db
 
@@ -100,66 +100,59 @@ commit="COMMIT TRANSACTION;"
 
 tempdir=$(mktemp -d /tmp/sqlite.XXXXXXXXX)
 
-function to_temp()
-{
-	local sqlfile="$1"
-	local base="$(basename "${sqlfile}")"
-	echo "${tempdir}/${base}"
+function to_temp() {
+  local sqlfile="$1"
+  local base="$(basename "${sqlfile}")"
+  echo "${tempdir}/${base}"
 }
 
-function fast()
-{
-	local sqlfile="$1" # can be or include *
-	local base="$(basename "${sqlfile}")"
-	local sqlfile2="${tempdir}/${base}"
-	printf '%s\n%s\n%s\n%s\n%s' "${pragmas_quick}" "${begin}" "$(cat ${sqlfile})" "${commit}" "${pragmas_default}"
+function fast() {
+  local sqlfile="$1" # can be or include *
+  local base="$(basename "${sqlfile}")"
+  local sqlfile2="${tempdir}/${base}"
+  printf '%s\n%s\n%s\n%s\n%s' "${pragmas_quick}" "${begin}" "$(cat ${sqlfile})" "${commit}" "${pragmas_default}"
 }
 
-function fast_to_temp()
-{
-	local sqlfile="$1" # can be or include *
-	tempfile=$(to_temp "${sqlfile}")
-	fast "${sqlfile}" > "${tempfile}"
-	echo "${tempfile}"
+function fast_to_temp() {
+  local sqlfile="$1" # can be or include *
+  tempfile=$(to_temp "${sqlfile}")
+  fast "${sqlfile}" >"${tempfile}"
+  echo "${tempfile}"
 }
 
-function process()
-{
-	local sqlfile="$1"
-	local op="$2"
-	if [ ! -e "${sqlfile}" ];then
-		echo -e "${R}${sqlfile} does not exist${Z}"
-		return
-	fi
-	local base="$(basename "${sqlfile}")"
-	#echo "${base}"
-	case ${op} in
-	create|index|reference|data)
-		sqlite3 -init "${sqlfile}" "${db}" .quit
-		;;
-	other|*)
-		local sqlfile2=$(fast_to_temp "${sqlfile}")
-		sqlite3 -init "${sqlfile2}" "${db}" .quit
-		;;
-	esac
+function process() {
+  local sqlfile="$1"
+  local op="$2"
+  if [ ! -e "${sqlfile}" ]; then
+    echo -e "${R}${sqlfile} does not exist${Z}"
+    return
+  fi
+  local base="$(basename "${sqlfile}")"
+  #echo "${base}"
+  case ${op} in
+  create | index | reference | data)
+    sqlite3 -init "${sqlfile}" "${db}" .quit
+    ;;
+  other | *)
+    local sqlfile2=$(fast_to_temp "${sqlfile}")
+    sqlite3 -init "${sqlfile2}" "${db}" .quit
+    ;;
+  esac
 }
 
-function dbexists()
-{
-	test -e "${db}"
-	return $? 
+function dbexists() {
+  test -e "${db}"
+  return $?
 }
 
-function deletedb()
-{
-	echo -e "${M}delete ${db}${Z}"
-	rm -f "${db}"
+function deletedb() {
+  echo -e "${M}delete ${db}${Z}"
+  rm -f "${db}"
 }
 
-function createdb()
-{
-	echo -e "${M}create ${db}${Z}"
-	touch "${db}"
+function createdb() {
+  echo -e "${M}create ${db}${Z}"
+  touch "${db}"
 }
 
 # R U N
@@ -168,34 +161,34 @@ echo -e "${M}restoring ${db}${Z}"
 
 #database
 if [ ! -z "${dbdelete}" ]; then
-	deletedb
+  deletedb
 fi
 if ! dbexists; then
-	createdb
+  createdb
 fi
 
 # modules
 for m in ${modules}; do
-	echo -e "${C}${m}${Z}"
-	for op in create data index reference; do
-		echo -e "${M}${op}${Z}"
-		case ${op} in
-			data) 
-				dir="${sqldir}/${op}"
-				suffix=
-				;;
-		 	create|index|reference)
-		 		dir="${sqldir}/${dbtype}/${op}"
-				suffix="-${op}"
-		 		;;	
-		esac
-		for table in ${tables}; do
-			f="${dir}/${table}${suffix}.sql"
-			if [ ! -e "${f}" -a "${op}" == "index" -o "${op}" == "reference" ]; then
-			  continue
-			fi
-			echo -e "sql=${Y}$(basename ${f})${Z}"
-			process "${f}" "${op}"
-		done
-	done
+  echo -e "${C}${m}${Z}"
+  for op in create data index reference; do
+    echo -e "${M}${op}${Z}"
+    case ${op} in
+    data)
+      dir="${sqldir}/${op}"
+      suffix=
+      ;;
+    create | index | reference)
+      dir="${sqldir}/${dbtype}/${op}"
+      suffix="-${op}"
+      ;;
+    esac
+    for table in ${tables}; do
+      f="${dir}/${table}${suffix}.sql"
+      if [ ! -e "${f}" -a "${op}" == "index" -o "${op}" == "reference" ]; then
+        continue
+      fi
+      echo -e "sql=${Y}$(basename ${f})${Z}"
+      process "${f}" "${op}"
+    done
+  done
 done
