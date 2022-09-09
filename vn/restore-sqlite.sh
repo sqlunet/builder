@@ -170,7 +170,7 @@ function dbexists()
 function deletedb()
 {
 	echo -e "${M}delete ${db}${Z}"
-	rm "${db}"
+	rm -f "${db}"
 }
 
 function createdb()
