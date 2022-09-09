@@ -46,7 +46,7 @@ echo "ant pack with dbtag=${dbtag}"
 for dbmodule in ${dbmodules}; do
   pushd ${dbmodule} > /dev/null
     wd=$(readlink - m .)
-    rm *.zip
+    rm -f *.zip
     echo -e "${Y}${wd}${Z}"
     for dbdata in data data_resolved data_updated; do
       echo -e "${M}${dbmodule} ${dbdata} ${dbtag} ${dbdir}${Z}"
