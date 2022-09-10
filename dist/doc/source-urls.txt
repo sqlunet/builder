@@ -1,0 +1,13 @@
+
+https://github.com/globalwordnet/english-wordnet
+https://syntagnet.org
+https://github.com/cu-clear/verbnet
+https://github.com/propbank/propbank-frames
+https://github.com/cu-clear/semlink
+http://framenet.icsi.berkeley.edu/
+http://adimen.si.ehu.es/web/PredicateMatrix
+http://ucrel.lancs.ac.uk/bncfreq/
+
+https://github.com/oewntk
+https://github.com/sqlunet/builder
+
