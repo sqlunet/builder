@@ -7,24 +7,26 @@ options=""
 
 # C O L O R S
 
-R='\u001b[31m'
-G='\u001b[32m'
-B='\u001b[34m'
-Y='\u001b[33m'
-M='\u001b[35m'
-C='\u001b[36m'
-Z='\u001b[0m'
+export R='\u001b[31m'
+export G='\u001b[32m'
+export B='\u001b[34m'
+export Y='\u001b[33m'
+export M='\u001b[35m'
+export C='\u001b[36m'
+export Z='\u001b[0m'
+
+# F U N C
 
 function confirm()
 {
-	echo -en "Are you sure you want to copy ${C}"${from}"${Z} "${to}" ? "
+	local from="$1"
+	local to="$2"
+	echo -en "Copy ${C}$(basename $1)${Z} to ${M}$2${Z} ? "
 	read -n 1 -r
-	#echo    # (optional) move to a new line
-	echo -e "${Z}"
+	echo
 	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
 		return 2
 	fi
-	echo 'overwriting ...'
 	return 0
 }
 
@@ -32,12 +34,20 @@ function copy()
 {
 	local from="$1"
 	local to="$2"
-	[ -e "${from}" ] || echo -e "${Z}${from} does not exist${Z}"
-	[ -e "${to}" ] || echo -e "${Z}${to} does not exist${Z}"
+	if [ ! -e "${from}" ]; then 
+		echo -e "${R}SRC ${from} does not exist${Z}"
+		return 1
+	fi
+	if [ ! -e "${to}" ]; then
+		echo -e "${R}DEST ${to} does not exist${Z}"
+		return 2
+	fi
 	if confirm "${from}" "${to}"; then
-		cp ${options} -Pv "${from}"/distrib* "${from}"/*.zip "${from}"/*.zip.md5 "${to}"
+		cp -p ${options} -Pv "${from}"/distrib* "${from}"/*.zip "${from}"/*.zip.md5 "${to}"
 	fi
 }
+
+# M A I N
 
 echo -e "${Y}xn${Z}"
 from="db"

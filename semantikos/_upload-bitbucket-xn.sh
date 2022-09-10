@@ -19,7 +19,7 @@ datadir="$(readlink -m ${datadir})"
 echo "datadir=${datadir}"
 
 bitbucketrepo="repo1"
-bitbucketdir="bitbucket/${bitbucketrepo}"
+bitbucketdir="dist/repos/bitbucket/${bitbucketrepo}"
 bitbucketdir="$(readlink -m ${bitbucketdir})"
 echo "bitbucketdir=${bitbucketdir}"
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 #origin="https://semantikos@bitbucket.org/semantikos/semantikos2.git"
 
-REPODIR='bitbucket'
+REPODIR='dist/repos/bitbucket'
 MAKE_REPO=true
 
 # C O L O R S

@@ -1,32 +1,57 @@
 #!/bin/bash
 # 22/03/2022
 
-REPODIR='bitbucket'
+REPODIR='dist/repos/bitbucket'
 options="-i"
-options=
+options=""
 
 # C O L O R S
 
-R='\u001b[31m'
-G='\u001b[32m'
-B='\u001b[34m'
-Y='\u001b[33m'
-M='\u001b[35m'
-C='\u001b[36m'
-Z='\u001b[0m'
+export R='\u001b[31m'
+export G='\u001b[32m'
+export B='\u001b[34m'
+export Y='\u001b[33m'
+export M='\u001b[35m'
+export C='\u001b[36m'
+export Z='\u001b[0m'
+
+# F U N C
+
+function confirm()
+{
+	local from="$1"
+	local to="$2"
+	echo -en "Copy ${C}$(basename $1)${Z} to $(basename $2) ? "
+	read -n 1 -r
+	#echo    # (optional) move to a new line
+	echo -e "${Z}"
+	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+		return 2
+	fi
+	return 0
+}
 
 function copy()
 {
 	local from="$1"
 	local to="$2"
-	[ -e "${from}" ] || echo -e "${Z}${from} does not exist${Z}"
-	[ -e "${to}" ] || echo -e "${Z}${to} does not exist${Z}"
-	#echo cp -P "${from}" "${to}"
-	cp ${options} -p "${from}"/distrib* "${to}"
-	cp ${options} -p "${from}"/*.zip "${to}"
-	cp ${options} -p "${from}"/*.zip.md5 "${to}"
-	cp ${options} -p README.md "${to}"
+	if [ ! -e "${from}" ]; then 
+		echo -e "${R}SRC ${from} does not exist${Z}"
+		return 1
+	fi
+	if [ ! -e "${to}" ]; then
+		echo -e "${R}DEST ${to} does not exist${Z}"
+		return 2
+	fi
+	if confirm "${from}" "${to}"; then
+		cp ${options} -p "${from}"/distrib* "${to}"
+		cp ${options} -p "${from}"/*.zip "${to}"
+		cp ${options} -p "${from}"/*.zip.md5 "${to}"
+		cp ${options} -p README.md "${to}"
+	fi
 }
+
+# M A I N
 
 echo -e "${Y}xn${Z}"
 from="db"
