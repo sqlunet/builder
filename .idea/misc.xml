@@ -165,6 +165,11 @@
         <option value="$PROJECT_DIR$/queries/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/querybuilder/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.sqlbuilder.common.Nullable" />
