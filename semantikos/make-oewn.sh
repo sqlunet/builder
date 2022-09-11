@@ -84,7 +84,7 @@ echo -e "${Y}I N D I C E S${Z}"
 sqlite3 -init "sql/indexes-wn-sqlite.sql" "${db}" .quit
 
 echo -e "${Y}S E A L${Z}"
-./meta.sh "${db}"
+./meta.sh "${db}" "wn/sql/build"
 cp "${db}" "${semantikos_dir}/${semantikos_db}"
 
 echo -e "${Y}A D D   T E X T S E A R C H   A N D   V I E W   I N   N O N - D I S T   D B${Z}"
