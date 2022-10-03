@@ -1,0 +1,3 @@
+-- ALTER TABLE `@{terms_senses.table}` ADD CONSTRAINT `fk_@{terms_senses.table}_@{terms_senses.sensekey}` FOREIGN KEY (${terms_senses.sensekey}) REFERENCES ${wnsenses.table} (${wnsenses.sensekey});
+-- ALTER TABLE ${terms_senses.table} ADD CONSTRAINT `fk_@{terms_senses.table}_@{terms_senses.synsetid}` FOREIGN KEY (${terms_senses.synsetid}) REFERENCES ${wnsynsets.table} (${wnsynsets.synsetid});
+-- ALTER TABLE ${terms_senses.table} ADD CONSTRAINT `fk_@{terms_senses.table}_@{terms_senses.wordid}` FOREIGN KEY (${terms_senses.wordid}) REFERENCES ${wnwords.table} (${wnwords.wordid});
