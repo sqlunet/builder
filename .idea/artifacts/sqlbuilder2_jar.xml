@@ -21,6 +21,8 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-core/3.0.1/jaxb-core-3.0.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/3.0.1/jaxb-impl-3.0.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar" path-in-jar="/" />
+      <element id="module-output" name="su" />
+      <element id="library" level="project" name="Maven: io.github.sqlunet:sigma-core:2.10.2-SNAPSHOT" />
     </root>
   </artifact>
 </component>
