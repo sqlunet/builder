@@ -8,7 +8,7 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
-modules="bnc sn vn pb sl fn pm"
+modules="bnc sn vn pb sl fn pm su"
 
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"
@@ -29,7 +29,7 @@ for m in ${modules}; do
       #else
       #  echo -e "${C}${f} -> ${f2}${Z}"
       fi
-
+      echo doing ${f2}
       cat ${f} | ./filter-flat.py | ./filter-mysql2sqlite.py > "${f2}"
      done
   done
