@@ -1,5 +1,6 @@
 package org.sqlbuilder.common;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -62,6 +63,31 @@ public class Utils
 	public static <T> String nullable(final T object, final Function<T, String> toString)
 	{
 		return object == null ? NULLSTR : toString.apply(object);
+	}
+
+	// Q U O T E D   +   E S C A P E D
+
+	/**
+	 * Quoted object string value for it to be handled by SQL
+	 *
+	 * @param object object
+	 * @return SQL string
+	 */
+	public static <T> String quotedEscapedString(final T object)
+	{
+		return quotedEscapedString(object, String::valueOf);
+	}
+
+	/**
+	 * Quoted object string value for it to be handled by SQL
+	 *
+	 * @param object   object
+	 * @param toString string function
+	 * @return SQL string
+	 */
+	public static <T> String quotedEscapedString(final T object, final Function<T, String> toString)
+	{
+		return quote(escape(toString.apply(object)));
 	}
 
 	// N U L L A B L E   +   Q U O T E D   +   E S C  A P E D
@@ -134,6 +160,28 @@ public class Utils
 	public static String nullableInt(final Integer i)
 	{
 		return nullable(i, String::valueOf);
+	}
+
+	/**
+	 * Nullable int for it to be handled by SQL
+	 *
+	 * @param l long
+	 * @return SQL long or NULL
+	 */
+	public static String nullableLong(final Long l)
+	{
+		return nullable(l, String::valueOf);
+	}
+
+	/**
+	 * Nullable date for it to be handled by SQL
+	 *
+	 * @param date date
+	 * @return SQL timestamp or NULL
+	 */
+	public static String nullableDate(final Date date)
+	{
+		return nullable(date, d -> Long.toString(date.getTime()));
 	}
 
 	/**
