@@ -1,6 +1,7 @@
 package og.sqlbuilder.sumo;
 
 import org.sqlbuilder.sumo.Kb;
+import org.sqlbuilder.sumo.SumoModule;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -28,16 +29,7 @@ public class TestUtils
 
 	public static void turnOffLogging()
 	{
-		final String pathKey = "java.util.logging.config.file";
-		final String pathValue = "logging.properties";
-		System.setProperty(pathKey, pathValue);
-
-		final String classKey = "java.util.logging.config.class";
-		final String classValue = System.getProperty(classKey);
-		if (classValue != null && !classValue.isEmpty())
-		{
-			System.err.println(classKey + " = " + classValue);
-		}
+		SumoModule.turnOffLogging();
 
 		boolean silent = System.getProperties().containsKey("SILENT");
 		if (silent)

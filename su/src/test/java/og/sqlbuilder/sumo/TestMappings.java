@@ -1,43 +1,57 @@
 package og.sqlbuilder.sumo;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.sqlbuilder.sumo.KBLoader;
-import org.sqlbuilder.sumo.WnProcessor;
+import org.sqlbuilder.sumo.SumoProcessor;
+import org.sqlbuilder.sumo.joins.Term_Sense;
+import org.sqlbuilder.sumo.objects.Term;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+@ExtendWith({KbLoaderExtension.class})
 public class TestMappings
 {
-	private static String kbPath;
-
-	@BeforeAll
-	public static void init()
-	{
-		TestUtils.turnOffLogging();
-		kbPath = KBLoader.getPath();
-	}
-
 	@Test
 	public void testMappings()
 	{
-		WnProcessor processor = new WnProcessor(kbPath);
 		try
 		{
-			processor.run(TestUtils.OUT,TestUtils.OUT_WARN);
+			SumoProcessor.insertSenses(TestUtils.OUT, Term_Sense.SET, "terms_senses", "terms_senses");
 		}
-		catch (IOException ioe)
+		catch (Exception e)
 		{
-			fail(ioe.getMessage());
+			fail(e.getMessage());
 		}
 	}
 
-	public static void main(String[] args)
+	@BeforeAll
+	public static void init() throws IOException
 	{
+		String kbPath = KBLoader.getPath();
+		SumoProcessor.collectTerms(KBLoader.kb);
+		SumoProcessor.collectSenses(kbPath + File.separator + SumoProcessor.SUMO_TEMPLATE, TestUtils.OUT_WARN);
+
+		Term.COLLECTOR.open();
+	}
+
+	@AfterAll
+	public static void shutdown()
+	{
+		Term.COLLECTOR.close();
+	}
+
+	public static void main(String[] args) throws IOException
+	{
+		new KBLoader().load();
 		init();
 		TestMappings t = new TestMappings();
 		t.testMappings();
+		shutdown();
 	}
 }

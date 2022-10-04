@@ -40,15 +40,29 @@ public class SumoModule extends Module
 			}
 		}
 		catch (IOException e)
-
 		{
 			e.printStackTrace();
 		}
+	}
 
+	public static void turnOffLogging()
+	{
+		final String pathKey = "java.util.logging.config.file";
+		final String pathValue = "logging.properties";
+		System.setProperty(pathKey, pathValue);
+
+		final String classKey = "java.util.logging.config.class";
+		final String classValue = System.getProperty(classKey);
+		if (classValue != null && !classValue.isEmpty())
+		{
+			System.err.println(classKey + " = " + classValue);
+		}
 	}
 
 	public static void main(String[] args) throws NotFoundException
 	{
+		turnOffLogging();
+
 		int i = 0;
 		Mode mode = Mode.PLAIN;
 		if (args[i].startsWith("-"))

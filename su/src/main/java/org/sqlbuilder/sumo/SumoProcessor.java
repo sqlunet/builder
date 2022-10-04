@@ -1,22 +1,24 @@
 package org.sqlbuilder.sumo;
 
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.common.Processor;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.sumo.joins.Formula_Arg;
+import org.sqlbuilder.sumo.joins.Term_Sense;
 import org.sqlbuilder.sumo.objects.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Properties;
 
 public class SumoProcessor extends Processor
 {
+	private static final String[] POSES = {"noun", "verb", "adj", "adv"};
+
+	public static final String SUMO_TEMPLATE = "WordNetMappings/WordNetMappings30-%s.txt";
+
 	protected final File sumoHome;
 
 	protected final Names names;
@@ -33,7 +35,7 @@ public class SumoProcessor extends Processor
 	{
 		super("sumo");
 		this.resolve = false;
-		this.names = new Names("sumo");
+		this.names = new Names("su");
 		this.conf = conf;
 		this.header = conf.getProperty("sumo_header");
 		this.sumoHome = new File(conf.getProperty("sumo_home", System.getenv().get("SUMOHOME")));
@@ -44,6 +46,79 @@ public class SumoProcessor extends Processor
 			this.outDir.mkdirs();
 		}
 	}
+
+	// C O L L E C T
+
+	public static void collectFiles(final Kb kb)
+	{
+		for (final String filename : kb.getFilenames())
+		{
+			SUFile.make(filename);
+		}
+	}
+
+	public static void collectTerms(final Kb kb)
+	{
+		for (final String term : kb.terms)
+		{
+			Term.make(term);
+		}
+	}
+
+	public static void collectFormulas(final Kb kb)
+	{
+		for (final com.articulate.sigma.Formula formula : kb.formulaMap.values())
+		{
+			Formula.make(formula);
+		}
+	}
+
+	public static void collectSenses(final String fileTemplate, final PrintStream pse) throws IOException
+	{
+		for (final String posName : POSES)
+		{
+			final String filename = String.format(fileTemplate, posName);
+			final char pos = posName.charAt(0);
+			collectSenses(pos, filename, pse);
+		}
+	}
+
+	public static void collectSenses(final char pos, final String filename, final PrintStream pse) throws IOException
+	{
+		// iterate on synsets
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filename)))))
+		{
+			int lineno = 0;
+			String line;
+			while ((line = reader.readLine()) != null)
+			{
+				lineno++;
+				line = line.trim();
+				if (line.isEmpty() || line.charAt(0) == ' ' || line.charAt(0) == ';' || !line.contains("&%"))
+				{
+					continue;
+				}
+
+				// read
+				try
+				{
+					final String term = Term.parse(line);
+					/* final Term_Sense mapping = */
+					Term_Sense.parse(term, line, pos); // side effect: term mapping collected into set
+				}
+				catch (IllegalArgumentException iae)
+				{
+					pse.println("line " + lineno + '-' + pos + " " + ": ILLEGAL [" + iae.getMessage() + "] : " + line);
+				}
+				catch (AlreadyFoundException afe)
+				{
+					pse.println("line " + lineno + '-' + pos + " " + ": DUPLICATE [" + afe.getMessage() + "] : " + line);
+				}
+			}
+		}
+	}
+
+	// I N S E R T
 
 	public static void insertFiles(final PrintStream ps, final Collection<SUFile> files, final String table, final String columns)
 	{
@@ -187,29 +262,21 @@ public class SumoProcessor extends Processor
 		}
 	}
 
-	public static void collectFiles(final Kb kb)
+	public static void insertSenses(final PrintStream ps, final Collection<Term_Sense> terms_senses, final String table, final String columns)
 	{
-		for (final String filename : kb.getFilenames())
+		if (terms_senses.size() > 0)
 		{
-			SUFile.make(filename);
+			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+			for (final Term_Sense map : terms_senses)
+			{
+				String row = map.dataRow();
+				String comment = map.comment();
+				ps.printf("%s -- %s%n", row, comment);
+			}
 		}
 	}
 
-	public static void collectTerms(final Kb kb)
-	{
-		for (final String term : kb.terms)
-		{
-			Term.make(term);
-		}
-	}
-
-	public static void collectFormulas(final Kb kb)
-	{
-		for (final com.articulate.sigma.Formula formula : kb.formulaMap.values())
-		{
-			Formula.make(formula);
-		}
-	}
+	// R U N
 
 	@Override
 	public void run() throws IOException
@@ -218,18 +285,22 @@ public class SumoProcessor extends Processor
 		collectFiles(KBLoader.kb);
 		collectTerms(KBLoader.kb);
 		collectFormulas(KBLoader.kb);
+		collectSenses(this.sumoHome + File.separator + SUMO_TEMPLATE, System.err);
+
 		try ( //
 		      var ignored1 = SUFile.COLLECTOR.open(); //
 		      var ignored2 = Term.COLLECTOR.open(); //
 		      var ignored3 = Formula.COLLECTOR.open() //
 		) //
 		{
+			// files
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("files"))), true, StandardCharsets.UTF_8))
 			{
 				ps.println("-- " + header);
 				insertFiles(ps, SUFile.COLLECTOR.keySet(), names.table("files"), names.columns("files"));
 			}
 
+			// terms + attrs
 			try ( //
 			      PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8); //
 			      PrintStream ps2 = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_attrs"))), true, StandardCharsets.UTF_8) //
@@ -240,6 +311,7 @@ public class SumoProcessor extends Processor
 				insertTermsAndAttrs(ps, ps2, Term.COLLECTOR.keySet(), KBLoader.kb, names.table("terms"), names.columns("terms"), names.table("terms_attrs"), names.columns("terms_attrs"));
 			}
 
+			// formulas + args
 			try ( //
 			      PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("formulas"))), true, StandardCharsets.UTF_8); //
 			      PrintStream ps2 = new PrintStream(new FileOutputStream(new File(outDir, names.file("formulas_args"))), true, StandardCharsets.UTF_8) //
@@ -248,6 +320,13 @@ public class SumoProcessor extends Processor
 				ps.println("-- " + header);
 				ps2.println("-- " + header);
 				insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR.keySet(), names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"));
+			}
+
+			// terms_senses
+			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_senses"))), true, StandardCharsets.UTF_8))
+			{
+				ps.println("-- " + header);
+				insertSenses(ps, Term_Sense.SET, names.table("terms_senses"), names.columns("terms_senses"));
 			}
 		}
 		catch (NotFoundException | ParseException e)
