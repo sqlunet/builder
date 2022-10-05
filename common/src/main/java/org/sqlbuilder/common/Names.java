@@ -37,6 +37,11 @@ public class Names
 		return get(key + ".file");
 	}
 
+	public String header(String key)
+	{
+		return get(key + ".header");
+	}
+
 	public String updateFile(String key)
 	{
 		return "update_" + get(key + ".file");
