@@ -15,13 +15,13 @@ import java.util.TreeSet;
 
 public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sense>
 {
-	private static final Comparator<Term_Sense> COMPARATOR = Comparator.comparing(Term_Sense::getTerm).thenComparing(Term_Sense::getSynsetId).thenComparing(Term_Sense::getPos).thenComparing(Term_Sense::getMapType);
+	private static final Comparator<Term_Sense> COMPARATOR = Comparator.comparing(Term_Sense::getTerm).thenComparing(Term_Sense::getSynsetId).thenComparing(Term_Sense::getPosId).thenComparing(Term_Sense::getMapType);
 
 	public static final Set<Term_Sense> SET = new TreeSet<>();
 
 	public final long synsetId;
 
-	public final char pos;
+	public final char posId;
 
 	public final Term term;
 
@@ -32,7 +32,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 	private Term_Sense(final Term term, final long synsetId, char pos, final String mapType)
 	{
 		this.synsetId = synsetId;
-		this.pos = pos;
+		this.posId = pos;
 		this.term = term;
 		this.mapType = mapType;
 	}
@@ -76,9 +76,9 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 		return synsetId;
 	}
 
-	public char getPos()
+	public char getPosId()
 	{
-		return pos;
+		return posId;
 	}
 
 	public Term getTerm()
@@ -105,13 +105,13 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 			return false;
 		}
 		Term_Sense that = (Term_Sense) o;
-		return synsetId == that.synsetId && pos == that.pos && term.equals(that.term);
+		return synsetId == that.synsetId && posId == that.posId && term.equals(that.term);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(synsetId, pos, term);
+		return Objects.hash(synsetId, posId, term);
 	}
 
 	// O R D E R
@@ -127,7 +127,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 	@Override
 	public String toString()
 	{
-		return this.term + " -> " + this.synsetId + " [" + this.pos + "] (" + mapType + ")";
+		return this.term + " -> " + this.synsetId + " [" + this.posId + "] (" + mapType + ")";
 	}
 
 	// I N S E R T
@@ -135,27 +135,29 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s,'%s'", //
+		return String.format("%s,'%s','%s',%s", //
 				Utils.nullableInt(resolveTerm(term)), // 1
-				Utils.nullableLong(resolveSynsetId(synsetId)), // 2
-				mapType); // 3
+				mapType, // 2
+				posId, // 3
+				Utils.nullableLong(resolveSynsetId(synsetId))); // 4
 	}
 
 	@Override
 	public String comment()
 	{
-		return getTerm().term;
+		return String.format("%s, %d", getTerm().term, synsetId);
 	}
 
 	// R E S O L V E
 
-	private Long resolveSynsetId(final long synsetId)
-	{
-		return synsetId;
-	}
-
 	private Integer resolveTerm(final Term term)
 	{
 		return term.resolve();
+	}
+
+	private Long resolveSynsetId(final long synsetId)
+	{
+		return -1L;
+		//return synsetId;
 	}
 }

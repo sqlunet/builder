@@ -323,10 +323,10 @@ public class SumoProcessor extends Processor
 			}
 
 			// terms_senses
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_senses"))), true, StandardCharsets.UTF_8))
+			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8))
 			{
 				ps.println("-- " + header);
-				insertSenses(ps, Term_Sense.SET, names.table("terms_senses"), names.columns("terms_senses"));
+				insertSenses(ps, Term_Sense.SET, names.table("terms_synsets"), names.columns("terms_synsets"));
 			}
 		}
 		catch (NotFoundException | ParseException e)
