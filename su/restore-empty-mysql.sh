@@ -3,14 +3,17 @@
 
 # C O N S T S
 
-modules="pm"
+modules="su"
 tables="
-pms
-roles
-predicates
+terms
+terms_attrs
+terms_synsets
+formulas
+formulas_args
+files
 "
 dbtype=mysql
-ops="create data index cleanup reference"
+ops="create index cleanup reference"
 
 # C O L O R S
 

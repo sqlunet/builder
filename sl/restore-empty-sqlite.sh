@@ -55,7 +55,7 @@ fi
 # D A T A (PARAM 1)
 
 dbdata=
-if [ "$1" == "-r" ]; then
+if [ "$1" == "-r" -o -e "${sqldir}/data_resolved" ]; then
 	dbdata=_resolved
 	shift
 fi
@@ -152,7 +152,7 @@ function dbexists()
 function deletedb()
 {
 	echo -e "${M}delete ${db}${Z}"
-	rm "${db}"
+	rm -f "${db}"
 }
 
 function createdb()

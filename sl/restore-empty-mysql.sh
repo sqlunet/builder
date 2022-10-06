@@ -28,17 +28,21 @@ sqldir="${thisdir}/sql"
 
 # M A I N
 
-echo -e "${Y}Restore utility for ${dbtype}${Z}"
-echo -e "${M}-the ${dbtype} user needs CREATE/DELETE permission${Z}"
-echo -e "${R}-the -d switch will delete an existing database with this name${Z}"
-read -r -p "Are you sure? [y/N] " response
-case "$response" in
-    [yY][eE][sS]|[yY]) 
-        ;;
-    *)
-        exit 1
-        ;;
-esac
+if [ "$1" == "-y" ]; then
+	silent=true
+	shift
+else
+  echo -e "${Y}Restore utility for ${dbtype}${Z}"
+  echo -e "${R}-the -d switch will delete an existing database with this name${Z}"
+  read -r -p "Are you sure? [y/N] " response
+  case "$response" in
+      [yY][eE][sS]|[yY])
+          ;;
+      *)
+          exit 1
+          ;;
+  esac
+fi
 
 # D E L E T E (PARAM 1)
 
@@ -51,7 +55,7 @@ fi
 # D A T A (PARAM 1)
 
 dbdata=
-if [ "$1" == "-r" ]; then
+if [ "$1" == "-r" -o -e "${sqldir}/data_resolved" ]; then
 	dbdata=_resolved
 	shift
 fi
