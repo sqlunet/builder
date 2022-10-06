@@ -1,0 +1,42 @@
+LICENSE FOR SUMO
+
+Please refer to http://www.ontologyportal.org/
+
+SUMO is free and owned by the IEEE. 
+The ontologies that extend SUMO are available under GNU General Public License.
+Adam Pease is the Technical Editor of SUMO.
+
+Primary paper:
+Niles, I., and Pease, A. 2001. Towards a Standard Upper Ontology. In Proceedings of the 2nd International Conference on Formal Ontology in Information Systems (FOIS-2001), Chris Welty and Barry Smith, eds, Ogunquit, Maine, October 17-19, 2001.
+http://home.earthlink.net/~adampease/professional/FOIS.pdf
+
+LICENSE FOR SIGMA
+
+This code and documentation are copyright Articulate Software (c)
+2005, 2006, 2007.  Some portions copyright Teknowledge (c) 2003
+and reused under the terms of the GNU license.  This software is
+released under the GNU Public License
+http://www.gnu.org/copyleft/gpl.html .
+
+Users of this code also consent, by use of this code, to credit
+Articulate Software and Teknowledge in any writings, briefings,
+publications, presentations, or other representations of any
+software that incorporates, builds on, or uses this code.  Please
+cite the following article in any publication with references:
+
+Pease, A., (2003). The Sigma Ontology Development Environment.
+In Working Notes of the IJCAI-2003 Workshop on Ontology and
+Distributed Systems, August 9, Acapulco, Mexico.
+
+Note that the current release of Sigma is "beta" code, and is not
+suitable for any mission-critical use.  It is strictly a tool for
+research.  Sigma comes with no warranty, expressed or implied.
+By using Sigma, you assume all responsibility for events that may
+result, and agree to hold Articulate Software blameless for any
+adverse consequences.
+
+Bug reports, fixed code, and new, implemented features are
+welcome, however, and will be shared with the Sigma user
+community.
+Niles, I., and Pease, A. 2001.  Towards a Standard Upper Ontology. In Proceedings of the 2nd International Conference on Formal Ontology in Information Systems (FOIS-2001), Chris Welty and Barry Smith, eds, Ogunquit, Maine, October 17-19, 2001.
+http://home.earthlink.net/~adampease/professional/FOIS.pdf

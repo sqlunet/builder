@@ -1,0 +1,6 @@
+PM 1.1
+
+1. LICENSE
+==========
+
+This package is distributed under Attribution 3.0 Unported (CC BY 3.0) license. You can find it at http://creativecommons.org/licenses/by/3.0
