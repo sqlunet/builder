@@ -2,7 +2,7 @@ package org.sqlbuilder.sumo;
 
 import org.sqlbuilder.common.*;
 import org.sqlbuilder.sumo.joins.Formula_Arg;
-import org.sqlbuilder.sumo.joins.Term_Sense;
+import org.sqlbuilder.sumo.joins.Term_Synset;
 import org.sqlbuilder.sumo.objects.*;
 
 import java.io.*;
@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 public class SumoProcessor extends Processor
@@ -19,11 +20,13 @@ public class SumoProcessor extends Processor
 
 	public static final String SUMO_TEMPLATE = "WordNetMappings/WordNetMappings30-%s.txt";
 
-	protected final File sumoHome;
+	protected final File inDir;
 
 	protected final Names names;
 
 	protected String header;
+
+	protected String columns;
 
 	protected boolean resolve;
 
@@ -37,9 +40,10 @@ public class SumoProcessor extends Processor
 		this.resolve = false;
 		this.names = new Names("su");
 		this.conf = conf;
-		this.header = conf.getProperty("sumo_header");
-		this.sumoHome = new File(conf.getProperty("sumo_home", System.getenv().get("SUMOHOME")));
-		this.outDir = new File(conf.getProperty("sumo_outdir", "sql/data"));
+		this.header = conf.getProperty("su_header");
+		this.columns = names.columns("terms_synsets");
+		this.inDir = new File(conf.getProperty("su_home", System.getenv().get("SUMOHOME")));
+		this.outDir = new File(conf.getProperty("su_outdir", "sql/data"));
 		if (!this.outDir.exists())
 		{
 			//noinspection ResultOfMethodCallIgnored
@@ -73,17 +77,17 @@ public class SumoProcessor extends Processor
 		}
 	}
 
-	public static void collectSenses(final String fileTemplate, final PrintStream pse) throws IOException
+	public static void collectSynsets(final String fileTemplate, final PrintStream pse) throws IOException
 	{
 		for (final String posName : POSES)
 		{
 			final String filename = String.format(fileTemplate, posName);
 			final char pos = posName.charAt(0);
-			collectSenses(pos, filename, pse);
+			collectSynsets(pos, filename, pse);
 		}
 	}
 
-	public static void collectSenses(final char pos, final String filename, final PrintStream pse) throws IOException
+	public static void collectSynsets(final char pos, final String filename, final PrintStream pse) throws IOException
 	{
 		// iterate on synsets
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filename)))))
@@ -104,7 +108,7 @@ public class SumoProcessor extends Processor
 				{
 					final String term = Term.parse(line);
 					/* final Term_Sense mapping = */
-					Term_Sense.parse(term, line, pos); // side effect: term mapping collected into set
+					Term_Synset.parse(term, line, pos); // side effect: term mapping collected into set
 				}
 				catch (IllegalArgumentException iae)
 				{
@@ -122,40 +126,49 @@ public class SumoProcessor extends Processor
 
 	public static void insertFiles(final PrintStream ps, final Collection<SUFile> files, final String table, final String columns)
 	{
-		if (files.size() > 0)
+		int n = files.size();
+		if (n > 0)
 		{
+			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			for (final SUFile file : files)
 			{
 				String row = file.dataRow();
-				ps.println(row);
+				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
+				i++;
 			}
 		}
 	}
 
-	public static void insertTerms(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final String table, final String columns)
+	public static void insertTerms(final PrintStream ps, final Collection<Term> terms, final String table, final String columns)
 	{
-		if (terms.size() > 0)
+		int n = terms.size();
+		if (n > 0)
 		{
+			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			for (final Term term : terms)
 			{
 				String row = term.dataRow();
-				ps.println(row);
+				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
+				i++;
 			}
 		}
 	}
 
 	public static void insertTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
 	{
-		if (terms.size() > 0)
+		int n = terms.size();
+		if (n > 0)
 		{
+			int i = 0;
+			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
 			for (final Term term : terms)
 			{
 				String row = term.dataRow();
-				ps.println(row);
+				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
 
 				int termid = term.resolve();
 				try
@@ -164,22 +177,26 @@ public class SumoProcessor extends Processor
 					for (final TermAttr attribute : attributes)
 					{
 						String row2 = String.format("%d,%s", termid, attribute.dataRow());
-						ps2.println(row2);
-						//String comment2 = term.comment();
-						//ps.printf("%s -- %s%n", row2, comment2);
+						String comment2 = term.comment();
+						ps2.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
+						j++;
 					}
 				}
 				catch (NotFoundException ignored)
 				{
 				}
+				i++;
 			}
+			ps2.println(";");
 		}
 	}
 
 	public static void insertTermAttrs(final PrintStream ps, final Collection<Term> terms, final Kb kb, final String table, final String columns)
 	{
-		if (terms.size() > 0)
+		int n = terms.size();
+		if (n > 0)
 		{
+			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			for (final Term term : terms)
 			{
@@ -191,44 +208,53 @@ public class SumoProcessor extends Processor
 					{
 						String row2 = String.format("%d,%s", termid, attribute.dataRow());
 						String comment2 = term.comment();
-						ps.printf("%s -- %s%n", row2, comment2);
+						ps.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
+						j++;
 					}
 				}
 				catch (NotFoundException ignored)
 				{
 				}
 			}
+			ps.println(";");
 		}
 	}
 
 	public static void insertFormulas(final PrintStream ps, final Collection<Formula> formulas, final String table, final String columns)
 	{
-		if (formulas.size() > 0)
+		int n = formulas.size();
+		if (n > 0)
 		{
+			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			for (final Formula formula : formulas)
 			{
 				// formula
 				String row = formula.dataRow();
-				ps.println(row);
+				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
+				i++;
 			}
 		}
 	}
 
 	public static void insertFormulasAndArgs(final PrintStream ps, final PrintStream ps2, final Collection<Formula> formulas, final String table, final String columns, final String table2, final String columns2) throws NotFoundException, ParseException, IOException
 	{
-		if (formulas.size() > 0)
+		int n = formulas.size();
+		if (n > 0)
 		{
+			int i = 0;
+			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
 			for (final Formula formula : formulas)
 			{
 				// formula
 				String row = formula.dataRow();
-				ps.println(row);
+				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
 
 				// formula args
-				for (final Formula_Arg formula_arg : Formula_Arg.make(formula))
+				List<Formula_Arg> formulas_args = Formula_Arg.make(formula);
+				for (final Formula_Arg formula_arg : formulas_args)
 				{
 					String row2 = formula_arg.dataRow();
 					Arg arg = formula_arg.getArg();
@@ -236,42 +262,56 @@ public class SumoProcessor extends Processor
 					//Term term = formula_arg.getTerm();
 					//String commentTerm2 = term.comment();
 					String commentFormArg2 = formula_arg.comment();
-					ps2.printf("%s -- %s, %s%n", row2, commentArg2, /* commentTerm2,*/ commentFormArg2);
+					ps2.printf("%s(%s) /* %s, %s */", j == 0 ? "" : ",\n", row2, commentArg2, /* commentTerm2,*/ commentFormArg2);
+					j++;
 				}
+				i++;
 			}
+			ps2.println(";");
 		}
 	}
 
 	public static void insertFormulaArgs(final PrintStream ps, final Collection<Formula> formulas, final String table, final String columns) throws ParseException, IOException
 	{
-		if (formulas.size() > 0)
+		int n = formulas.size();
+		if (n > 0)
 		{
+			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			for (final Formula formula : formulas)
 			{
-				long formulaId = formula.resolve();
-
 				// formula args
-				for (final Formula_Arg formula_arg : Formula_Arg.make(formula))
+				List<Formula_Arg> formulas_args = Formula_Arg.make(formula);
+				for (final Formula_Arg formula_arg : formulas_args)
 				{
-					String row2 = String.format("%s", formula_arg.dataRow());
+					String row2 = formula_arg.dataRow();
 					String comment2 = formula_arg.comment();
-					ps.printf("%s -- %s%n", row2, comment2);
+					ps.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
+					j++;
 				}
 			}
+			ps.println(";");
 		}
 	}
 
-	public static void insertSenses(final PrintStream ps, final Collection<Term_Sense> terms_senses, final String table, final String columns)
+	public void processSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
 	{
-		if (terms_senses.size() > 0)
+		insertSynsets(ps, terms_synsets, table, columns);
+	}
+
+	public static void insertSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
+	{
+		int n = terms_synsets.size();
+		if (n > 0)
 		{
+			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Term_Sense map : terms_senses)
+			for (final Term_Synset map : terms_synsets)
 			{
 				String row = map.dataRow();
 				String comment = map.comment();
-				ps.printf("%s -- %s%n", row, comment);
+				ps.printf("(%s)%s -- %s%n", row, i == n - 1 ? ";" : ",", comment);
+				i++;
 			}
 		}
 	}
@@ -285,7 +325,7 @@ public class SumoProcessor extends Processor
 		collectFiles(KBLoader.kb);
 		collectTerms(KBLoader.kb);
 		collectFormulas(KBLoader.kb);
-		collectSenses(this.sumoHome + File.separator + SUMO_TEMPLATE, System.err);
+		collectSynsets(this.inDir + File.separator + SUMO_TEMPLATE, System.err);
 
 		try ( //
 		      var ignored1 = SUFile.COLLECTOR.open(); //
@@ -322,11 +362,11 @@ public class SumoProcessor extends Processor
 				insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR.keySet(), names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"));
 			}
 
-			// terms_senses
+			// terms_synsets
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8))
 			{
 				ps.println("-- " + header);
-				insertSenses(ps, Term_Sense.SET, names.table("terms_synsets"), names.columns("terms_synsets"));
+				processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), columns);
 			}
 		}
 		catch (NotFoundException | ParseException e)

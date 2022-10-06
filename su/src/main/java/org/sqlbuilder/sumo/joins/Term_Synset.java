@@ -13,11 +13,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sense>
+public class Term_Synset implements Insertable, Serializable, Comparable<Term_Synset>
 {
-	private static final Comparator<Term_Sense> COMPARATOR = Comparator.comparing(Term_Sense::getTerm).thenComparing(Term_Sense::getSynsetId).thenComparing(Term_Sense::getPosId).thenComparing(Term_Sense::getMapType);
+	private static final Comparator<Term_Synset> COMPARATOR = Comparator.comparing(Term_Synset::getTerm).thenComparing(Term_Synset::getSynsetId).thenComparing(Term_Synset::getPosId).thenComparing(Term_Synset::getMapType);
 
-	public static final Set<Term_Sense> SET = new TreeSet<>();
+	public static final Set<Term_Synset> SET = new TreeSet<>();
 
 	public final long synsetId;
 
@@ -29,7 +29,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 
 	// C O N S T R U C T
 
-	private Term_Sense(final Term term, final long synsetId, char pos, final String mapType)
+	private Term_Synset(final Term term, final long synsetId, char pos, final String mapType)
 	{
 		this.synsetId = synsetId;
 		this.posId = pos;
@@ -37,9 +37,9 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 		this.mapType = mapType;
 	}
 
-	public static Term_Sense make(final Term term, final long synsetId, char pos, final String mapType) throws AlreadyFoundException
+	public static Term_Synset make(final Term term, final long synsetId, char pos, final String mapType) throws AlreadyFoundException
 	{
-		Term_Sense map = new Term_Sense(term, synsetId, pos, mapType);
+		Term_Synset map = new Term_Synset(term, synsetId, pos, mapType);
 		boolean wasThere = !SET.add(map);
 		if (wasThere)
 		{
@@ -48,7 +48,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 		return map;
 	}
 
-	public static Term_Sense parse(final String termstr, final String line, final char pos) throws IllegalArgumentException
+	public static Term_Synset parse(final String termstr, final String line, final char pos) throws IllegalArgumentException
 	{
 		// split into fields
 		// Each SUMOTerm concept is designated with the prefix '&%'. Note
@@ -66,7 +66,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 		final long synsetId = Long.parseLong(offsetField);
 		final Term term = Term.make(termstr);
 		final String mapType = line.substring(line.length() - 1);
-		return Term_Sense.make(term, synsetId, pos, mapType);
+		return Term_Synset.make(term, synsetId, pos, mapType);
 	}
 
 	// A C C E S S
@@ -104,7 +104,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 		{
 			return false;
 		}
-		Term_Sense that = (Term_Sense) o;
+		Term_Synset that = (Term_Synset) o;
 		return synsetId == that.synsetId && posId == that.posId && term.equals(that.term);
 	}
 
@@ -117,7 +117,7 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 	// O R D E R
 
 	@Override
-	public int compareTo(@NotNull final Term_Sense that)
+	public int compareTo(@NotNull final Term_Synset that)
 	{
 		return COMPARATOR.compare(this, that);
 	}
@@ -135,29 +135,24 @@ public class Term_Sense implements Insertable, Serializable, Comparable<Term_Sen
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s','%s',%s", //
-				Utils.nullableInt(resolveTerm(term)), // 1
-				mapType, // 2
-				posId, // 3
-				Utils.nullableLong(resolveSynsetId(synsetId))); // 4
+		return String.format("%d,'%s','%s',%s", //
+				synsetId, // 1
+				posId, // 2
+				mapType, // 3
+				Utils.nullableInt(resolvedTermId()) // 4
+		);
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s, %d", getTerm().term, synsetId);
+		return getTerm().term;
 	}
 
 	// R E S O L V E
 
-	private Integer resolveTerm(final Term term)
+	public Integer resolvedTermId()
 	{
 		return term.resolve();
-	}
-
-	private Long resolveSynsetId(final long synsetId)
-	{
-		return -1L;
-		//return synsetId;
 	}
 }

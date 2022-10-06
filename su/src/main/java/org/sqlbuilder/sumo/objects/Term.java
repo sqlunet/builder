@@ -35,7 +35,10 @@ public class Term implements HasId, Insertable, Serializable, Comparable<Term>, 
 
 	public static Term make(final String term)
 	{
-		final Term t =new Term(term);
+		if (term.isEmpty())
+			throw new IllegalArgumentException("Empty term");
+
+		final Term t = new Term(term.trim());
 		COLLECTOR.add(t);
 		return t;
 	}

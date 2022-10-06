@@ -60,7 +60,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SumoProcessor.insertTerms(TestUtils.OUT, TestUtils.OUT, Term.COLLECTOR.keySet(), "terms", "sumoid,term");
+			SumoProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR.keySet(), "terms", "sumoid,term");
 		}
 		catch (Exception e)
 		{

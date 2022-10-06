@@ -39,7 +39,7 @@ public class SumoModule extends Module
 				default:
 			}
 		}
-		catch (IOException e)
+		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}

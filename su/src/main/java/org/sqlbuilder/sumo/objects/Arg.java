@@ -117,9 +117,9 @@ public class Arg implements Insertable, Serializable
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,'%s'", //
-				isArg ? argumentNum : "NULL", // 1
-				getType() // 2
+		return String.format("'%s',%s", //
+				getType(), // 1
+				isArg ? argumentNum : "NULL" // 2
 		);
 	}
 

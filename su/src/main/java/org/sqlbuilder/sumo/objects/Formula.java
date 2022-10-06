@@ -104,12 +104,17 @@ public class Formula implements HasId, Insertable, Serializable, Comparable<Form
 	@Override
 	public String dataRow()
 	{
-		return String.format("%d,%s,%s,%d", //
+		return String.format("%d,%s,%d", //
 				resolve(), // id 1
 				Utils.quotedEscapedString(toString()), // 2
-				Utils.quotedEscapedString(file.filename), // 3
-				resolveFile(file) // 4
+				resolveFile(file) // 3
 		);
+	}
+
+	@Override
+	public String comment()
+	{
+		return file.filename;
 	}
 
 	// R E S O L V E
