@@ -1,29 +1,26 @@
 package org.sqlbuilder.common;
 
-import org.sqlbuilder2.ser.Pair;
+import java.util.Map;
+import java.util.function.BiFunction;
 
-import java.util.function.Function;
-
-/*
-t->r
-u->s
-(t,u)->(r,s)
- */
-public class Resolver2<T, R, U, S> implements Function<Pair<T, U>, Pair<R, S>>
+public abstract class Resolver2<T, U, R> implements BiFunction<T, U, R>
 {
-	private final Function<T, R> r1;
+	public final Map<T, Map<U, R>> map;
 
-	private final Function<U, S> r2;
-
-	public Resolver2(final Function<T, R> r1, final Function<U, S> r2)
+	public Resolver2(final Map<T, Map<U, R>> map)
 	{
-		this.r1 = r1;
-		this.r2 = r2;
+		this.map = map;
 	}
 
+	@Nullable
 	@Override
-	public Pair<R, S> apply(final Pair<T, U> in)
+	public R apply(final T k, U k2)
 	{
-		return new Pair<>(r1.apply(in.first), r2.apply(in.second));
+		var m2 = map.get(k);
+		if (m2 == null)
+		{
+			return null;
+		}
+		return m2.get(k2);
 	}
 }

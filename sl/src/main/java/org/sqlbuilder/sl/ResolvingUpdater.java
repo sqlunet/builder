@@ -1,7 +1,7 @@
 package org.sqlbuilder.sl;
 
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.Resolver2;
+import org.sqlbuilder.common.FunctionResolver;
 import org.sqlbuilder.common.Update;
 import org.sqlbuilder.common.Utils;
 import org.sqlbuilder.sl.foreign.VnAlias;
@@ -46,7 +46,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		final String pbrolesetidCol = names.column("pbrolesets_vnclasses.pbrolesetid");
 		final String vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid");
 		Update.update(VnAlias.SET, new File(outDir, names.updateFile("pbrolesets_vnclasses")), header, names.table("pbrolesets_vnclasses"), //
-				new Resolver2<>(pbRoleSetResolver, vnClassResolver), //
+				new FunctionResolver<>(pbRoleSetResolver, vnClassResolver), //
 				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", pbrolesetidCol, vnclassidCol) : String.format("%s=%s,%s=%s", pbrolesetidCol, Utils.nullableInt(resolved.first), vnclassidCol, Utils.nullableInt(resolved.second)), //
 				resolving -> String.format("%s='%s' AND %s='%s'", pbrolesetCol, Utils.escape(resolving.first), vnclassCol, Utils.escape(resolving.second)));
 		Progress.traceDone();
@@ -82,7 +82,7 @@ public class ResolvingUpdater extends ResolvingInserter
 				String.format("%s='%s' AND %s='%s' AND %s='%s' AND %s='%s'", pbrolesetCol, Utils.escape(r.first.first), pbroleCol, Utils.escape(r.first.second), vnclassCol, Utils.escape(r.second.first), vnroleCol, Utils.escape(r.second.second));
 
 		Update.update(VnRoleAlias.SET, new File(outDir, names.updateFile("pbroles_vnroles")), header, names.table("pbroles_vnroles"), //
-				new Resolver2<>(pbRoleResolver, vnRoleResolver), //
+				new FunctionResolver<>(pbRoleResolver, vnRoleResolver), //
 				setStringifier, //
 				whereStringifier);
 		Progress.traceDone();
