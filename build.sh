@@ -17,7 +17,7 @@ if [ "${module}" == "" ]; then
 fi
 modules="${module}"
 if [ "${modules}" == "all" ]; then
-  modules="bnc sn vn pb fn sl pm"
+  modules="bnc sn vn pb fn sl su pm"
   echo "All modules: ${modules}"
 fi
 

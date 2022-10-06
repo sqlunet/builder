@@ -7,8 +7,8 @@
 
 dbmodules="$1"
 shift
-if [ -z "${dbmodules}" ]; then
-  dbmodules="bnc sn vn pb sl fn pm"
+if [ -z "${dbmodules}" -o "${dbmodules}" == "all" ]; then
+  dbmodules="bnc sn vn pb sl fn su pm"
 fi
 
 dbtag=$1

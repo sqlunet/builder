@@ -35,7 +35,7 @@
 
 	<!-- input -->
 	<target name="ask-dbmodule" unless="dbmodule" description="prompts for db module if necessary (not in command line arguments)">
-		<input addProperty="dbmodule" message="DB module (bnc,vn,pb,fn,sn,pm):"/>
+		<input addProperty="dbmodule" message="DB module (bnc,vn,pb,fn,sn,su,pm):"/>
 		<echo>dbmodule=${dbmodule}</echo>
 	</target>
 
