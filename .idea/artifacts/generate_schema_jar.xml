@@ -46,17 +46,17 @@
 				</element>
 				<element id="file-copy" path="$PROJECT_DIR$/fn/target/classes/fn/Names.properties"/>
 			</element>
+			<element id="directory" name="su">
+				<element id="directory" name="sqltemplates">
+					<element id="dir-copy" path="$PROJECT_DIR$/su/src/main/resources/su/sqltemplates"/>
+				</element>
+				<element id="file-copy" path="$PROJECT_DIR$/su/target/classes/su/Names.properties"/>
+			</element>
 			<element id="directory" name="pm">
 				<element id="directory" name="sqltemplates">
 					<element id="dir-copy" path="$PROJECT_DIR$/pm/src/main/resources/pm/sqltemplates"/>
 				</element>
 				<element id="file-copy" path="$PROJECT_DIR$/pm/target/classes/pm/Names.properties"/>
-			</element>
-			<element id="directory" name="sumo">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/sl/src/main/resources/su/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/sl/target/classes/sl/Names.properties"/>
 			</element>
 			<element id="module-output" name="variables"/>
 		</root>
