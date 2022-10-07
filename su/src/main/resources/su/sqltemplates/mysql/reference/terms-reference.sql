@@ -1,0 +1,1 @@
+-- ALTER TABLE ${terms.table} ADD CONSTRAINT `fk_@{terms.table}_@{terms.wordid}` FOREIGN KEY (${terms.wordid}) REFERENCES ${wnwords.table} (${wnwords.wordid});
