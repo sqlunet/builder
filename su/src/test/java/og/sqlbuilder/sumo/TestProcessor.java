@@ -77,7 +77,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SumoProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,parsetype,argnum");
+			SumoProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{
@@ -111,7 +111,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SumoProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas_args", "formulaid,sumoid,parsetype,argnum");
+			SumoProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{

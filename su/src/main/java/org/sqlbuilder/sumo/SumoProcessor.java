@@ -26,7 +26,9 @@ public class SumoProcessor extends Processor
 
 	protected String header;
 
-	protected String columns;
+	protected String termsColumns;
+
+	protected String synsetsColumns;
 
 	protected boolean resolve;
 
@@ -41,7 +43,8 @@ public class SumoProcessor extends Processor
 		this.names = new Names("su");
 		this.conf = conf;
 		this.header = conf.getProperty("su_header");
-		this.columns = names.columns("terms_synsets");
+		this.termsColumns = names.columns("terms");
+		this.synsetsColumns = names.columns("terms_synsets");
 		this.inDir = new File(conf.getProperty("su_home", System.getenv().get("SUMOHOME")));
 		this.outDir = new File(conf.getProperty("su_outdir", "sql/data"));
 		if (!this.outDir.exists())
@@ -294,11 +297,6 @@ public class SumoProcessor extends Processor
 		}
 	}
 
-	public void processSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
-	{
-		insertSynsets(ps, terms_synsets, table, columns);
-	}
-
 	public static void insertSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
 	{
 		int n = terms_synsets.size();
@@ -314,6 +312,21 @@ public class SumoProcessor extends Processor
 				i++;
 			}
 		}
+	}
+
+	public void processTerms(final PrintStream ps, final Collection<Term> terms, final String table, final String columns)
+	{
+		insertTerms(ps, terms, table, columns);
+	}
+
+	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
+	{
+		insertTermsAndAttrs(ps, ps2, terms, kb, table, columns, table2, columns2);
+	}
+
+	public void processSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
+	{
+		insertSynsets(ps, terms_synsets, table, columns);
 	}
 
 	// R U N
@@ -348,7 +361,7 @@ public class SumoProcessor extends Processor
 			{
 				ps.println("-- " + header);
 				ps2.println("-- " + header);
-				insertTermsAndAttrs(ps, ps2, Term.COLLECTOR.keySet(), KBLoader.kb, names.table("terms"), names.columns("terms"), names.table("terms_attrs"), names.columns("terms_attrs"));
+				processTermsAndAttrs(ps, ps2, Term.COLLECTOR.keySet(), KBLoader.kb, names.table("terms"), termsColumns, names.table("terms_attrs"), names.columns("terms_attrs"));
 			}
 
 			// formulas + args
@@ -366,7 +379,7 @@ public class SumoProcessor extends Processor
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8))
 			{
 				ps.println("-- " + header);
-				processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), columns);
+				processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns);
 			}
 		}
 		catch (NotFoundException | ParseException e)
