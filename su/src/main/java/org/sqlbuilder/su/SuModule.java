@@ -1,15 +1,15 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.common.NotFoundException;
 
 import java.io.IOException;
 
-public class SumoModule extends Module
+public class SuModule extends Module
 {
 	public static final String MODULE_ID = "sumo";
 
-	protected SumoModule(final String conf, final Mode mode)
+	protected SuModule(final String conf, final Mode mode)
 	{
 		super(MODULE_ID, conf, mode);
 	}
@@ -24,15 +24,15 @@ public class SumoModule extends Module
 			switch (mode)
 			{
 				case PLAIN:
-					new SumoProcessor(props).run();
+					new SuProcessor(props).run();
 					break;
 
 				case RESOLVE:
-					new SumoResolvingProcessor(props).run();
+					new SuResolvingProcessor(props).run();
 					break;
 
 				case UPDATE:
-					new SumoUpdatingProcessor(props).run();
+					new SuUpdatingProcessor(props).run();
 					break;
 
 				case EXPORT:
@@ -70,6 +70,6 @@ public class SumoModule extends Module
 			mode = Mode.read(args[i++]);
 		}
 		String conf = args[i];
-		new SumoModule(conf, mode).run();
+		new SuModule(conf, mode).run();
 	}
 }

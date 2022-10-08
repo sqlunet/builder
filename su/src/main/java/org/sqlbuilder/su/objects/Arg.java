@@ -1,4 +1,4 @@
-package org.sqlbuilder.sumo.objects;
+package org.sqlbuilder.su.objects;
 
 import org.sqlbuilder.common.Insertable;
 

@@ -4,10 +4,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.sqlbuilder.sumo.KBLoader;
-import org.sqlbuilder.sumo.SumoProcessor;
-import org.sqlbuilder.sumo.joins.Term_Synset;
-import org.sqlbuilder.sumo.objects.Term;
+import org.sqlbuilder.su.KBLoader;
+import org.sqlbuilder.su.SuProcessor;
+import org.sqlbuilder.su.joins.Term_Synset;
+import org.sqlbuilder.su.objects.Term;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class TestMappings
 	{
 		try
 		{
-			SumoProcessor.insertSynsets(TestUtils.OUT, Term_Synset.SET, "terms_senses", "terms_senses");
+			SuProcessor.insertSynsets(TestUtils.OUT, Term_Synset.SET, "terms_senses", "terms_senses");
 		}
 		catch (Exception e)
 		{
@@ -34,8 +34,8 @@ public class TestMappings
 	public static void init() throws IOException
 	{
 		String kbPath = KBLoader.getPath();
-		SumoProcessor.collectTerms(KBLoader.kb);
-		SumoProcessor.collectSynsets(kbPath + File.separator + SumoProcessor.SUMO_TEMPLATE, TestUtils.OUT_WARN);
+		SuProcessor.collectTerms(KBLoader.kb);
+		SuProcessor.collectSynsets(kbPath + File.separator + SuProcessor.SUMO_TEMPLATE, TestUtils.OUT_WARN);
 
 		Term.COLLECTOR.open();
 	}

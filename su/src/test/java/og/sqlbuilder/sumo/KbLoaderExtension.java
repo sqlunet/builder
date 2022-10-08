@@ -3,7 +3,7 @@ package og.sqlbuilder.sumo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.sqlbuilder.sumo.KBLoader;
+import org.sqlbuilder.su.KBLoader;
 
 public class KbLoaderExtension extends KBLoader implements BeforeAllCallback, ExtensionContext.Store.CloseableResource
 {

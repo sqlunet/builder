@@ -1,12 +1,12 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
-import org.sqlbuilder.common.Resolver2;
+import org.sqlbuilder.common.Resolver;
 import org.sqlbuilder2.ser.DeSerialize;
 
 import java.io.File;
 import java.io.IOException;
 
-public class SuSynsetResolver extends Resolver2<Character, Long, Long>
+public class SuSynsetResolver extends Resolver<String, Integer>
 {
 	public SuSynsetResolver(final String ser) throws IOException, ClassNotFoundException
 	{

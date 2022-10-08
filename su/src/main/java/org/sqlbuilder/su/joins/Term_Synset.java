@@ -1,11 +1,11 @@
-package org.sqlbuilder.sumo.joins;
+package org.sqlbuilder.su.joins;
 
 import com.articulate.sigma.NotNull;
 
 import org.sqlbuilder.common.AlreadyFoundException;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.sumo.Utils;
-import org.sqlbuilder.sumo.objects.Term;
+import org.sqlbuilder.su.Utils;
+import org.sqlbuilder.su.objects.Term;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -48,7 +48,7 @@ public class Term_Synset implements Insertable, Serializable, Comparable<Term_Sy
 		return map;
 	}
 
-	public static Term_Synset parse(final String termstr, final String line, final char pos) throws IllegalArgumentException
+	public static Term_Synset parse(final String termstr, final String line) throws IllegalArgumentException
 	{
 		// split into fields
 		// Each SUMOTerm concept is designated with the prefix '&%'. Note
@@ -60,7 +60,8 @@ public class Term_Synset implements Insertable, Serializable, Comparable<Term_Sy
 		// complements of those relations. For example, a mapping expressed as
 		// ; (%ComplementFn &%Motion)+ now appears as &%Motion[
 		// Note also that ']' has not currently been needed.
-
+		// 00003939 00 a
+		final char pos = line.charAt(12);
 		final int breakPos = line.indexOf(' ');
 		final String offsetField = line.substring(0, breakPos);
 		final long synsetId = Long.parseLong(offsetField);

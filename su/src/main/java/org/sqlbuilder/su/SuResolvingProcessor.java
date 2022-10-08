@@ -1,9 +1,9 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.sumo.joins.Term_Synset;
-import org.sqlbuilder.sumo.objects.Term;
-import org.sqlbuilder.sumo.objects.TermAttr;
+import org.sqlbuilder.su.joins.Term_Synset;
+import org.sqlbuilder.su.objects.Term;
+import org.sqlbuilder.su.objects.TermAttr;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,12 +12,14 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
 
-public class SumoResolvingProcessor extends SumoProcessor
+public class SuResolvingProcessor extends SuProcessor
 {
 	protected final SuWordResolver wordResolver;
 	protected final SuSynsetResolver synsetResolver;
 
-	public SumoResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	protected final SuSynset31Resolver synset31Resolver;
+
+	public SuResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
@@ -40,8 +42,10 @@ public class SumoResolvingProcessor extends SumoProcessor
 		this.resolve = true;
 		String wordSerFile = conf.getProperty("word_nids");
 		this.wordResolver = new SuWordResolver(wordSerFile);
-		String synsetSerFile = conf.getProperty("synsets30_to_synsets");
+		String synsetSerFile = conf.getProperty("synset_nids");
 		this.synsetResolver = new SuSynsetResolver(synsetSerFile);
+		String synset31SerFile = conf.getProperty("synsets30_to_synsets31");
+		this.synset31Resolver = new SuSynset31Resolver(synset31SerFile);
 	}
 
 	@Override
@@ -110,11 +114,21 @@ public class SumoResolvingProcessor extends SumoProcessor
 			for (final Term_Synset map : terms_synsets)
 			{
 				String row = map.dataRow();
-				char posId = map.posId;
-				long synsetId = map.synsetId;
-				Long resolvedSynsetId = synsetResolver.apply(posId, synsetId);
+
+				// 30 to 31
+				char posId = map.posId; // {n,v,a,r,s}
+				long synset30Id = map.synsetId;
+				Long synset31Id = synset31Resolver.apply(posId, synset30Id);
+
+				// 31 to XX
+				Integer resolvedSynsetId = null;
+				if (synset31Id != null)
+				{
+					String synsetId = String.format("%08d-%c", synset31Id, posId);
+					resolvedSynsetId = synsetResolver.apply(synsetId);
+				}
 				String comment = map.comment();
-				ps.printf("(%s,%s)%s -- %s%n", row, Utils.nullableLong(resolvedSynsetId), i == n - 1 ? ";" : ",", comment);
+				ps.printf("(%s,%s)%s -- %s%n", row, Utils.nullableInt(resolvedSynsetId), i == n - 1 ? ";" : ",", comment);
 				i++;
 			}
 		}

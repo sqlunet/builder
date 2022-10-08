@@ -1,4 +1,4 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 import org.sqlbuilder.common.DeSerialize;
 import org.sqlbuilder.common.Resolver;

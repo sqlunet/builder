@@ -1,13 +1,12 @@
-package org.sqlbuilder.sumo.joins;
+package org.sqlbuilder.su.joins;
 
 import com.articulate.sigma.NotNull;
 
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.sumo.FormulaParser;
-import org.sqlbuilder.sumo.objects.Arg;
-import org.sqlbuilder.sumo.objects.Formula;
-import org.sqlbuilder.sumo.objects.Term;
+import org.sqlbuilder.su.FormulaParser;
+import org.sqlbuilder.su.objects.Arg;
+import org.sqlbuilder.su.objects.Formula;
+import org.sqlbuilder.su.objects.Term;
 
 import java.io.IOException;
 import java.io.Serializable;

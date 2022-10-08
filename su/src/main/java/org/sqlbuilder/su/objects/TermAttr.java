@@ -1,10 +1,10 @@
-package org.sqlbuilder.sumo.objects;
+package org.sqlbuilder.su.objects;
 
 import com.articulate.sigma.Formula;
 
 import org.sqlbuilder.common.NotFoundException;
 import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.sumo.Kb;
+import org.sqlbuilder.su.Kb;
 
 import java.util.ArrayList;
 import java.util.Collection;

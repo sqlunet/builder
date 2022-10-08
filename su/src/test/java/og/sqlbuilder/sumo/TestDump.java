@@ -4,12 +4,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.sqlbuilder.sumo.Dump;
-import org.sqlbuilder.sumo.KBLoader;
-import org.sqlbuilder.sumo.SumoProcessor;
-import org.sqlbuilder.sumo.objects.Formula;
-import org.sqlbuilder.sumo.objects.SUFile;
-import org.sqlbuilder.sumo.objects.Term;
+import org.sqlbuilder.su.Dump;
+import org.sqlbuilder.su.KBLoader;
+import org.sqlbuilder.su.SuProcessor;
+import org.sqlbuilder.su.objects.Formula;
+import org.sqlbuilder.su.objects.SUFile;
+import org.sqlbuilder.su.objects.Term;
 
 @ExtendWith({KbLoaderExtension.class})
 public class TestDump
@@ -35,9 +35,9 @@ public class TestDump
 	@BeforeAll
 	public static void init()
 	{
-		SumoProcessor.collectFiles(KBLoader.kb);
-		SumoProcessor.collectTerms(KBLoader.kb);
-		SumoProcessor.collectFormulas(KBLoader.kb);
+		SuProcessor.collectFiles(KBLoader.kb);
+		SuProcessor.collectTerms(KBLoader.kb);
+		SuProcessor.collectFormulas(KBLoader.kb);
 
 		SUFile.COLLECTOR.open();
 		Term.COLLECTOR.open();

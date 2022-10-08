@@ -1,7 +1,7 @@
 package og.sqlbuilder.sumo;
 
-import org.sqlbuilder.sumo.Kb;
-import org.sqlbuilder.sumo.SumoModule;
+import org.sqlbuilder.su.Kb;
+import org.sqlbuilder.su.SuModule;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -29,7 +29,7 @@ public class TestUtils
 
 	public static void turnOffLogging()
 	{
-		SumoModule.turnOffLogging();
+		SuModule.turnOffLogging();
 
 		boolean silent = System.getProperties().containsKey("SILENT");
 		if (silent)

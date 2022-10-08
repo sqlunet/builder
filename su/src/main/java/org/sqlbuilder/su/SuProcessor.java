@@ -1,20 +1,21 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 import org.sqlbuilder.common.*;
-import org.sqlbuilder.sumo.joins.Formula_Arg;
-import org.sqlbuilder.sumo.joins.Term_Synset;
-import org.sqlbuilder.sumo.objects.*;
+import org.sqlbuilder.su.joins.Formula_Arg;
+import org.sqlbuilder.su.joins.Term_Synset;
+import org.sqlbuilder.su.objects.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-public class SumoProcessor extends Processor
+public class SuProcessor extends Processor
 {
 	private static final String[] POSES = {"noun", "verb", "adj", "adv"};
 
@@ -36,7 +37,7 @@ public class SumoProcessor extends Processor
 
 	protected final Properties conf;
 
-	public SumoProcessor(final Properties conf)
+	public SuProcessor(final Properties conf)
 	{
 		super("sumo");
 		this.resolve = false;
@@ -85,15 +86,15 @@ public class SumoProcessor extends Processor
 		for (final String posName : POSES)
 		{
 			final String filename = String.format(fileTemplate, posName);
-			final char pos = posName.charAt(0);
-			collectSynsets(pos, filename, pse);
+			collectFileSynsets(filename, pse);
 		}
 	}
 
-	public static void collectSynsets(final char pos, final String filename, final PrintStream pse) throws IOException
+	public static void collectFileSynsets(final String filename, final PrintStream pse) throws IOException
 	{
 		// iterate on synsets
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filename)))))
+		final Path path = Paths.get(filename);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(path))))
 		{
 			int lineno = 0;
 			String line;
@@ -111,15 +112,15 @@ public class SumoProcessor extends Processor
 				{
 					final String term = Term.parse(line);
 					/* final Term_Sense mapping = */
-					Term_Synset.parse(term, line, pos); // side effect: term mapping collected into set
+					Term_Synset.parse(term, line); // side effect: term mapping collected into set
 				}
 				catch (IllegalArgumentException iae)
 				{
-					pse.println("line " + lineno + '-' + pos + " " + ": ILLEGAL [" + iae.getMessage() + "] : " + line);
+					pse.println(path.getFileName().toString() + ':' + lineno + " " + ": ILLEGAL [" + iae.getMessage() + "] : " + line);
 				}
 				catch (AlreadyFoundException afe)
 				{
-					pse.println("line " + lineno + '-' + pos + " " + ": DUPLICATE [" + afe.getMessage() + "] : " + line);
+					pse.println(path.getFileName().toString() + ':' + lineno + " " + ": DUPLICATE [" + afe.getMessage() + "] : " + line);
 				}
 			}
 		}

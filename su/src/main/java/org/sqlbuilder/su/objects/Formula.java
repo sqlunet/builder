@@ -1,4 +1,4 @@
-package org.sqlbuilder.sumo.objects;
+package org.sqlbuilder.su.objects;
 
 import com.articulate.sigma.NotNull;
 

@@ -1,4 +1,4 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 import com.articulate.sigma.Formula;
 import com.articulate.sigma.KB;

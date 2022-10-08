@@ -1,10 +1,10 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 import com.articulate.sigma.IterableFormula;
 import com.articulate.sigma.kif.StreamTokenizer_s;
 
-import org.sqlbuilder.sumo.objects.Arg;
-import org.sqlbuilder.sumo.objects.Formula;
+import org.sqlbuilder.su.objects.Arg;
+import org.sqlbuilder.su.objects.Formula;
 
 import java.io.IOException;
 import java.io.Reader;

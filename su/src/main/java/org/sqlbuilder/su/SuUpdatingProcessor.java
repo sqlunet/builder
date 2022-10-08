@@ -1,10 +1,7 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.sumo.joins.Term_Synset;
-import org.sqlbuilder.sumo.objects.Term;
-import org.sqlbuilder.sumo.objects.TermAttr;
+import org.sqlbuilder.su.joins.Term_Synset;
+import org.sqlbuilder.su.objects.Term;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,9 +12,9 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
 
-public class SumoUpdatingProcessor extends SumoResolvingProcessor
+public class SuUpdatingProcessor extends SuResolvingProcessor
 {
-	public SumoUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
+	public SuUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{
 		super(conf);
 
@@ -113,15 +110,24 @@ public class SumoUpdatingProcessor extends SumoResolvingProcessor
 
 	private void updateMapRow(final PrintStream ps, final String table, final Integer index, final Term_Synset map, final String... columns)
 	{
-		var resolvedSynset = synsetResolver.apply(map.posId, map.synsetId);
-		if (resolvedSynset != null)
+		// 30 to 31
+		char posId = map.posId; // {n,v,a,r}
+		long synset30Id = map.synsetId;
+		var synset31Id = synset31Resolver.apply(posId, synset30Id);
+		if (synset31Id != null)
 		{
-			String setClause = String.format("%s=%d", columns[0], resolvedSynset);
-			String whereClause = String.format("%s=%s AND %s='%s'", //
-					columns[1], map.synsetId, //
-					columns[2], map.posId //
-			);
-			ps.printf("UPDATE %s SET %s WHERE %s; -- %d %s%n", table, setClause, whereClause, index + 1, map.comment());
+			// 31 to XX
+			var synsetId = String.format("%08d-%c", synset31Id, posId);
+			Integer resolvedSynsetId = synsetResolver.apply(synsetId);
+			if (resolvedSynsetId != null)
+			{
+				String setClause = String.format("%s=%d", columns[0], resolvedSynsetId);
+				String whereClause = String.format("%s=%s AND %s='%s'", //
+						columns[1], synsetId, //
+						columns[2], posId //
+				);
+				ps.printf("UPDATE %s SET %s WHERE %s; -- %d %s%n", table, setClause, whereClause, index + 1, map.comment());
+			}
 		}
 	}
 }

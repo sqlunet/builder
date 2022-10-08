@@ -1,4 +1,4 @@
-package org.sqlbuilder.sumo;
+package org.sqlbuilder.su;
 
 public class KBLoader
 {

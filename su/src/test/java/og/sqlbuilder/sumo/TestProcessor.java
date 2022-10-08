@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.sumo.KBLoader;
-import org.sqlbuilder.sumo.SumoProcessor;
-import org.sqlbuilder.sumo.objects.Formula;
-import org.sqlbuilder.sumo.objects.SUFile;
-import org.sqlbuilder.sumo.objects.Term;
+import org.sqlbuilder.su.KBLoader;
+import org.sqlbuilder.su.SuProcessor;
+import org.sqlbuilder.su.objects.Formula;
+import org.sqlbuilder.su.objects.SUFile;
+import org.sqlbuilder.su.objects.Term;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -21,7 +21,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOFile> ignored = SUMOFile.COLLECTOR.open())
 		{
-			SumoProcessor.insertFiles(TestUtils.OUT, SUFile.COLLECTOR.keySet(), "files", "fileid,file,version,date");
+			SuProcessor.insertFiles(TestUtils.OUT, SUFile.COLLECTOR.keySet(), "files", "fileid,file,version,date");
 		}
 		catch (Exception e)
 		{
@@ -34,7 +34,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SumoProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.OUT, Term.COLLECTOR.keySet(), KBLoader.kb, "terms", "sumoid,term", "terms_attr", "sumoid,attr");
+			SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.OUT, Term.COLLECTOR.keySet(), KBLoader.kb, "terms", "sumoid,term", "terms_attr", "sumoid,attr");
 		}
 		catch (Exception e)
 		{
@@ -47,7 +47,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SumoProcessor.insertTermAttrs(TestUtils.OUT, Term.COLLECTOR.keySet(), KBLoader.kb, "terms_attr", "sumoid,attr");
+			SuProcessor.insertTermAttrs(TestUtils.OUT, Term.COLLECTOR.keySet(), KBLoader.kb, "terms_attr", "sumoid,attr");
 		}
 		catch (Exception e)
 		{
@@ -60,7 +60,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SumoProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR.keySet(), "terms", "sumoid,term");
+			SuProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR.keySet(), "terms", "sumoid,term");
 		}
 		catch (Exception e)
 		{
@@ -77,7 +77,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SumoProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
+			SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{
@@ -94,7 +94,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SumoProcessor.insertFormulas(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid");
+			SuProcessor.insertFormulas(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid");
 		}
 		catch (Exception e)
 		{
@@ -111,7 +111,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SumoProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas_args", "formulaid,sumoid,argtype,argnum");
+			SuProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{
@@ -122,9 +122,9 @@ public class TestProcessor
 	@BeforeAll
 	public static void init()
 	{
-		SumoProcessor.collectFiles(KBLoader.kb);
-		SumoProcessor.collectTerms(KBLoader.kb);
-		SumoProcessor.collectFormulas(KBLoader.kb);
+		SuProcessor.collectFiles(KBLoader.kb);
+		SuProcessor.collectTerms(KBLoader.kb);
+		SuProcessor.collectFormulas(KBLoader.kb);
 
 		SUFile.COLLECTOR.open();
 		Term.COLLECTOR.open();
