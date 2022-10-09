@@ -1,6 +1,6 @@
 SELECT 'VerbNet' AS section;
 
-CREATE OR REPLACE VIEW vnexamplesets AS 
+CREATE OR REPLACE VIEW vn_examplesets AS
 SELECT frameid,GROUP_CONCAT(example ORDER BY exampleid ASC separator '|') AS exampleset 
 FROM vn_frames_examples INNER JOIN vn_examples USING (exampleid) GROUP BY frameid;
 
@@ -219,7 +219,7 @@ LEFT JOIN vn_framesubnames USING (framesubnameid)
 LEFT JOIN vn_frames_examples USING (frameid) 
 LEFT JOIN vn_examples USING (exampleid) 
 INNER JOIN vn_classes USING (classid) 
-LEFT JOIN vnexamplesets USING (frameid)
+LEFT JOIN vn_examplesets USING (frameid)
 WHERE sensekey LIKE 'guide%%2:38%'
 GROUP BY sensekey,synsetid,class,frameid,framename,framesubname,number,xtag,syntax,semantics,exampleset,roletypeid,roletype,restrs
 ORDER BY synsetid,class ASC,frameid ASC,roletypeid ASC;
