@@ -43,7 +43,7 @@ pushd ${pdfdir} > /dev/null
 echo -e "${M}rotate pdfs${Z}"
 rm *rotated.pdf
 
-wnfiles=$(ls sql-wn*.pdf)
+wnfiles=$(ls sql-*.pdf)
 allpdfs="${wnfiles}"
 
 allpdfs2=

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 db=sqlunet2
-sections="wn-basic wn-dict wn-cased wn-relations wn-misc wn-morph wn-pronunciation wn-legacy wn-vframe wn-cardinality bnc sn vn pb fn-frame fn-lu fn-semtype fn-realisation fn-annotation fn-fulltext"
+sections="wn-basic wn-dict wn-cased wn-relations wn-misc wn-morph wn-pronunciation wn-legacy wn-vframe wn-cardinality bnc sn vn pb fn-frame fn-lu fn-semtype fn-realisation fn-annotation fn-fulltext su"
 
 # P A R A M S
 

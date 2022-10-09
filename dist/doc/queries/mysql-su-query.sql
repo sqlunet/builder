@@ -100,7 +100,7 @@ SELECT 'relation, attribute, predicate, function' AS comment;
 SELECT * 
 FROM su_terms
 LEFT JOIN su_terms_attrs USING (sumoid)
-WHERE attr IN ('r','a','p','f');
+WHERE attr IN ('r','a','p','f') AND term LIKE 'a%' OR term LIKE 'A%' ;
 
 SELECT 'relations' AS subsection;
 
