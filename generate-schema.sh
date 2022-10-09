@@ -61,7 +61,7 @@ for module in ${modules}; do
     # all sqls
     echo -e "${C}$(readlink -f ${outdir})${Z}"
     for db in mysql sqlite; do
-      for type in create index reference anchor cleanup; do
+      for type in create index reference anchor cleanup views; do
         echo -e "${M}${db}/${type}${Z}"
         java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
       done
