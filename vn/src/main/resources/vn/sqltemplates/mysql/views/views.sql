@@ -1,0 +1,1 @@
+CREATE OR REPLACE VIEW `vn_examplesets` AS SELECT ${frames_examples.frameid},GROUP_CONCAT(${examples.example} ORDER BY ${examples.exampleid} SEPARATOR '|') AS `exampleset` FROM ${frames_examples.table} INNER JOIN ${examples.table} USING (${examples.exampleid}) GROUP BY ${frames_examples.frameid};
