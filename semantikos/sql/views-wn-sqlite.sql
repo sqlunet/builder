@@ -10,4 +10,3 @@ CREATE VIEW IF NOT EXISTS dict AS
 	LEFT JOIN casedwords USING (wordid,casedwordid) 
 	LEFT JOIN synsets USING (synsetid) 
 	LEFT JOIN samplesets USING (synsetid);
-
