@@ -29,12 +29,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="dummy" target="11" />
       <module name="dummy.generated" target="11" />
-      <module name="dummy.main" target="11" />
       <module name="dummy.origin" target="11" />
-      <module name="dummy.proto" target="11" />
-      <module name="dummy.test" target="11" />
       <module name="org.example.dummy.generated" target="11" />
       <module name="org.example.dummy.origin" target="11" />
       <module name="org.example.querybuilder-gradle" target="11" />
