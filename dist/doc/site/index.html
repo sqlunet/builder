@@ -50,8 +50,11 @@
 <p align="center" class="pickarea"><strong>SQL unified database</strong>
 <div style="text-align: center;">
 	<ul>
-		<li>generates relational tables from the following NLP databases</li>
-		<li>makes the tables joinable, thereby unifying them</li>
+		<li>all NLP databases are converted to tabular form so that a relational database can handle the data</li>
+		<li>the targeted form is SQL, and specifically but not exclusively MySql and Sqlite</li>
+		<li>the tables are made joinable and reference each other, foreign keys are resolved</li>
+		<li>the end result is an interconnection of databases (NETs) which are thus unified (U) and can be queried with SQL, hence 'SqlUNet'</li>
+		<li>proof of concept is the <a href="https://play.google.com/store/apps/details?id=org.sqlunet.browser">Semantikos</a> Android application</li>
 	</ul>
 </div>
 </p>
@@ -105,6 +108,12 @@
 		<td class="dbver">1.3</td>
 		<td class="dburl"><a href="http://adimen.si.ehu.es/web/PredicateMatrix">source</a></td>
 		<td class="dbrole">semantic roles</td>
+	</tr>
+	<tr class="dbrow">
+		<td class="dbname">SUMO</td>
+		<td class="dbver">2022</td>
+		<td class="dburl"><a href="https://github.com/ontologyportal/sumo">source</a></td>
+		<td class="dbrole">ontology, inference</td>
 	</tr>
 	<tr class="dbrow">
 		<td class="dbname">British National Corpus statistical data</td>
