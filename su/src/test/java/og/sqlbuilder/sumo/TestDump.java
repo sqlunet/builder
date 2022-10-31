@@ -32,9 +32,23 @@ public class TestDump
 		Dump.dumpPredicates(KBLoader.kb, TestUtils.OUT);
 	}
 
+	@Test
+	public void testDumpFunctions()
+	{
+		Dump.dumpFunctions(KBLoader.kb, TestUtils.OUT);
+	}
+
+	@Test
+	public void testDumpRelations()
+	{
+		Dump.dumpFunctions(KBLoader.kb, TestUtils.OUT);
+	}
+
 	@BeforeAll
 	public static void init()
 	{
+		KBLoader.kb.buildRelationCaches();
+
 		SuProcessor.collectFiles(KBLoader.kb);
 		SuProcessor.collectTerms(KBLoader.kb);
 		SuProcessor.collectFormulas(KBLoader.kb);
@@ -55,6 +69,7 @@ public class TestDump
 	public static void main(String[] args)
 	{
 		new KBLoader().load();
+
 		init();
 		TestDump d = new TestDump();
 		d.testDumpTerms();

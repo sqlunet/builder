@@ -32,8 +32,8 @@ public class FormulaParser
 	 * @param formula formula
 	 * @return parses
 	 * @throws IllegalArgumentException illegal
-	 * @throws ParseException           parse
-	 * @throws IOException              io exception
+	 * @throws ParseException parse
+	 * @throws IOException io exception
 	 */
 	public static Map<String, Arg> parse(final com.articulate.sigma.Formula formula) throws IllegalArgumentException, ParseException, IOException
 	{
@@ -55,8 +55,8 @@ public class FormulaParser
 	 * @param reader reader
 	 * @return parses
 	 * @throws IllegalArgumentException illegal
-	 * @throws ParseException           parse
-	 * @throws IOException              io
+	 * @throws ParseException parse
+	 * @throws IOException io
 	 */
 	public static Map<String, Arg> parse(final Reader reader) throws IllegalArgumentException, ParseException, IOException
 	{
@@ -167,7 +167,7 @@ public class FormulaParser
 					}
 					if (errors != null)
 					{
-						throw new ParseException("Parsing error in : Invalid number of arguments", startLine);
+						throw new ParseException("Parsing error in : Invalid arguments " + errors, startLine);
 					}
 
 					// reset state

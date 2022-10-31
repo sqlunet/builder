@@ -34,7 +34,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.OUT, Term.COLLECTOR.keySet(), KBLoader.kb, "terms", "sumoid,term", "terms_attr", "sumoid,attr");
+			SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.ERR, Term.COLLECTOR.keySet(), KBLoader.kb, "terms", "sumoid,term", "terms_attr", "sumoid,attr");
 		}
 		catch (Exception e)
 		{
@@ -77,7 +77,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
+			SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.ERR, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{

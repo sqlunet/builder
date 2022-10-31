@@ -5,22 +5,24 @@ import com.articulate.sigma.KB;
 
 import java.io.PrintStream;
 import java.util.Collection;
-import java.util.List;
 
 public class Dump
 {
+	private static final String UP = "\uD83E\uDC45";
+
+	private static final String DOWN = "\uD83E\uDC47";
+
 	public static void dumpTerms(final KB kb, final PrintStream ps)
 	{
-		int i = 0;
 		for (final String term : kb.terms)
 		{
-			i++;
-			ps.print("term " + i + "=" + term);
-			ps.println(" doc=" + Dump.getDoc(kb, term));
+			var doc = getDoc(kb, term);
+			ps.printf("%s %s%n", term, doc == null ? "" : doc);
 
 			Dump.dumpParents(kb, term, ps);
 			Dump.dumpChildren(kb, term, ps);
 		}
+		ps.println(kb.terms.size());
 	}
 
 	public static void dumpParents(final KB kb, final String term, final PrintStream ps)
@@ -33,8 +35,7 @@ public class Dump
 			{
 				i++;
 				final String formulaString = formula.getArgument(2);
-				ps.print("\tparent" + i + "=" + formulaString);
-				ps.println(" doc=" + Dump.getDoc(kb, formulaString));
+				ps.println("\t" + UP + " " + i + " " + formulaString);
 			}
 		}
 	}
@@ -49,31 +50,37 @@ public class Dump
 			{
 				i++;
 				final String formulaString = formula.getArgument(1);
-				ps.print("\tchild" + i + "=" + formulaString);
-				ps.println(" doc=" + Dump.getDoc(kb, formulaString));
+				ps.println("\t"+ DOWN + " " + i + " " + formulaString);
 			}
 		}
 	}
 
 	public static void dumpFormulas(final KB kb, final PrintStream ps)
 	{
-		int i = 0;
-		for (final Formula formula : kb.formulas.values())
-		{
-			i++;
-			ps.println(i + " " + formula);
-		}
+		Collection<Formula> formulas = kb.formulas.values();
+		formulas.stream().sorted().forEach(ps::println);
+		ps.println(formulas.size());
+	}
+
+	public static void dumpFunctions(final KB kb, final PrintStream ps)
+	{
+		Collection<String> functions = kb.collectFunctions();
+		functions.stream().sorted().forEach(ps::println);
+		ps.println(functions.size());
+	}
+
+	public static void dumpRelations(final KB kb, final PrintStream ps)
+	{
+		Collection<String> relations = kb.collectRelations();
+		relations.stream().sorted().forEach(ps::println);
+		ps.println(relations.size());
 	}
 
 	public static void dumpPredicates(final KB kb, final PrintStream ps)
 	{
-		final Collection<String> predicates = kb.collectPredicates();
-		int i = 0;
-		for (final String predicate : predicates)
-		{
-			i++;
-			ps.println(i + " " + predicate);
-		}
+		Collection<String> predicates = kb.collectPredicates();
+		predicates.stream().sorted().forEach(ps::println);
+		ps.println(predicates.size());
 	}
 
 	private static String getDoc(final KB kb, final String term)

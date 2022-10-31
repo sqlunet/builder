@@ -1,9 +1,14 @@
 package org.sqlbuilder.su;
 
+import com.articulate.sigma.Logging;
+import com.articulate.sigma.Nullable;
+
 import org.sqlbuilder.common.Module;
 import org.sqlbuilder.common.NotFoundException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
 
 public class SuModule extends Module
 {
@@ -45,11 +50,25 @@ public class SuModule extends Module
 		}
 	}
 
+	private static void setLogging()
+	{
+		try (@Nullable InputStream is = Logging.class.getClassLoader().getResourceAsStream("logging.properties"))
+		{
+			//Properties props = new Properties();
+			//props.load(is);
+			//System.out.println(props.getProperty("java.util.logging.SimpleFormatter.format"));
+
+			LogManager.getLogManager().readConfiguration(is);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void turnOffLogging()
 	{
-		final String pathKey = "java.util.logging.config.file";
-		final String pathValue = "logging.properties";
-		System.setProperty(pathKey, pathValue);
+		setLogging();
 
 		final String classKey = "java.util.logging.config.class";
 		final String classValue = System.getProperty(classKey);
