@@ -32,8 +32,8 @@ public class FormulaParser
 	 * @param formula formula
 	 * @return parses
 	 * @throws IllegalArgumentException illegal
-	 * @throws ParseException parse
-	 * @throws IOException io exception
+	 * @throws ParseException           parse
+	 * @throws IOException              io exception
 	 */
 	public static Map<String, Arg> parse(final com.articulate.sigma.Formula formula) throws IllegalArgumentException, ParseException, IOException
 	{
@@ -55,14 +55,16 @@ public class FormulaParser
 	 * @param reader reader
 	 * @return parses
 	 * @throws IllegalArgumentException illegal
-	 * @throws ParseException parse
-	 * @throws IOException io
+	 * @throws ParseException           parse
+	 * @throws IOException              io
 	 */
 	public static Map<String, Arg> parse(final Reader reader) throws IllegalArgumentException, ParseException, IOException
 	{
 		// reader
 		if (reader == null)
+		{
 			throw new IllegalArgumentException("Null reader");
+		}
 
 		final Map<String, Arg> map = new HashMap<>();
 		final StringBuilder sb = new StringBuilder(40);
@@ -99,7 +101,9 @@ public class FormulaParser
 					// two line separators in a row, shows a new KIF statement is to start.
 					// check if a new statement has already been generated, otherwise report error
 					if (sb.length() > 0)
+					{
 						throw new ParseException("Parsing error : possible missed closing parenthesis", tokenizer.lineno());
+					}
 					continue;
 				}
 				// Found a first end of line character.
@@ -156,13 +160,15 @@ public class FormulaParser
 					f.endLine = tokenizer.lineno();
 
 					// check argument validity
-					String validArgs = f.validArgs(null, null);
-					if (validArgs.equals(""))
+					String errors = f.hasValidArgs(null, null);
+					if (errors == null)
 					{
-						validArgs = f.badQuantification();
+						errors = f.hasValidQuantification();
 					}
-					if (!validArgs.equals(""))
+					if (errors != null)
+					{
 						throw new ParseException("Parsing error in : Invalid number of arguments", startLine);
+					}
 
 					// reset state
 					inConsequent = false;
@@ -172,7 +178,9 @@ public class FormulaParser
 					sb.delete(0, sb.length());
 				}
 				else if (parenLevel < 0)
+				{
 					throw new ParseException("Parsing error : Extra closing parenthesis found.", startLine);
+				}
 			}
 
 			// Q U O T E
@@ -236,7 +244,9 @@ public class FormulaParser
 				}
 				sb.append(tokenizer.sval);
 				if (sb.length() > 64000)
+				{
 					throw new ParseException("Parsing error : Sentence over 64000 characters", startLine);
+				}
 
 				// Build the terms list and create special keys
 				// Variables are not terms
@@ -255,12 +265,16 @@ public class FormulaParser
 
 			// E O F
 			else if (tokenizer.ttype != StreamTokenizer.TT_EOF)
+			{
 				throw new ParseException("Parsing error : Illegal character", startLine);
+			}
 		}
 		while (tokenizer.ttype != StreamTokenizer.TT_EOF);
 
 		if (sb.length() > 0)
+		{
 			throw new ParseException("Parsing error : Missed closing parenthesis", startLine);
+		}
 
 		return map;
 	}

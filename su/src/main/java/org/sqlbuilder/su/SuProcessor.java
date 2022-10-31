@@ -75,7 +75,7 @@ public class SuProcessor extends Processor
 
 	public static void collectFormulas(final Kb kb)
 	{
-		for (final com.articulate.sigma.Formula formula : kb.formulaMap.values())
+		for (final com.articulate.sigma.Formula formula : kb.formulas.values())
 		{
 			Formula.make(formula);
 		}
