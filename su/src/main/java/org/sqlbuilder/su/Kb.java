@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static com.articulate.sigma.FileUtil.basename;
+
 public class Kb extends KB implements Serializable
 {
 	private static final long serialVersionUID = 3120000480284537868L;
@@ -47,7 +49,7 @@ public class Kb extends KB implements Serializable
 	{
 		for (final String filePath : filePaths)
 		{
-			System.out.println("\n" + filePath);
+			System.err.println(basename(filePath));
 			kb.addConstituent(filePath);
 		}
 	}
@@ -63,7 +65,7 @@ public class Kb extends KB implements Serializable
 				f.getClausalForms();
 				if (!silent)
 				{
-					if ((count++ % 100L) == 0)
+					if ((count++ % 100L) == 1)
 					{
 						System.out.println();
 					}

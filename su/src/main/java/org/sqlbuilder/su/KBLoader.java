@@ -46,10 +46,10 @@ public class KBLoader
 	{
 		String kbPath = getPath();
 		Kb kb = new Kb(kbPath);
-		System.out.printf("Kb building%n");
+		System.err.printf("Kb building%n");
 		boolean result = kb.make(files);
 		assert result;
-		System.out.printf("%nKb built%n");
+		System.err.printf("%nKb built%n");
 		return kb;
 	}
 
