@@ -1,0 +1,105 @@
+[R] [C] AntisymmetricRelation
+[R] [C] AsymmetricRelation
+[R] [C] BinaryPredicate
+[R] [C] BinaryRelation
+[R] [C] CaseRole
+[R] [C] EconomicRelation
+[R] [C] EquivalenceRelation
+[R] [C] IntransitiveRelation
+[R] [C] IrreflexiveRelation
+[R] [C] OneToOneFunction
+[R] [C] PartialOrderingRelation
+[R] [C] PropositionalAttitude
+[R] [C] ReflexiveRelation
+[R] [C] SequenceFunction
+[R] [C] SymmetricRelation
+[R] [C] TotalOrderingRelation
+[R] [C] TransitiveRelation
+[R] [C] TrichotomizingRelation
+[R] [C] UnaryFunction
+[R] [C] UnitOfMeasureMultiplier
+
+[R] [I] physicalEnd
+[R] [I] suffers
+
+
+[R] [C] AntisymmetricRelation
+[R] [C] AsymmetricRelation
+[R] [C] BinaryPredicate
+[R] [C] BinaryRelation
+[R] [C] BinaryRelationExtendedToQuantities
+[R] [C] CaseRole
+[R] [C] EconomicRelation
+[R] [C] EquivalenceRelation
+[R] [C] IntransitiveRelation
+[R] [C] IrreflexiveRelation
+[R] [C] OneToOneFunction
+[R] [C] PartialOrderingRelation
+[R] [C] PropositionalAttitude
+[R] [C] ReflexiveRelation
+[R] [C] SequenceFunction
+[R] [C] SymmetricRelation
+[R] [C] TotalOrderingRelation
+[R] [C] TransitiveRelation
+[R] [C] TrichotomizingRelation
+[R] [C] UnaryFunction
+[R] [C] UnitOfMeasureMultiplier
+[R] [C] cellShape
+
+[R] [I] actionTendency
+[R] [I] automatedNotification
+[R] [I] burnInPeriod
+[R] [I] catalogItem
+[R] [I] catalyst
+[R] [I] categoryID
+[R] [I] coding
+[R] [I] connectedInSocialNetwork
+[R] [I] containsFormula
+[R] [I] deviceOS
+[R] [I] emotionTendency
+[R] [I] experimentID
+[R] [I] filename
+[R] [I] follows
+[R] [I] hardwareType
+[R] [I] hazardous
+[R] [I] inhibits
+[R] [I] instance
+[R] [I] listingBidder
+[R] [I] listingBuyer
+[R] [I] listingSeller
+[R] [I] located
+[R] [I] locationMeasuringList
+[R] [I] measuringListDuration
+[R] [I] measuringListInterval
+[R] [I] measuringResult
+[R] [I] medicine
+[R] [I] mimeSubType
+[R] [I] mimeType
+[R] [I] parents
+[R] [I] permits
+[R] [I] physicalEnd
+[R] [I] prohibits
+[R] [I] punishes
+[R] [I] range
+[R] [I] recordForAgremeent
+[R] [I] recoveryKey
+[R] [I] rewards
+[R] [I] softwareVersion
+[R] [I] subclass
+[R] [I] suffers
+[R] [I] userIDString
+
+<owl:ObjectProperty rdf:ID="AsymmetricRelation">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  <rdfs:subClassOf rdf:resource="IrreflexiveRelation"/>
+  <rdfs:subClassOf rdf:resource="AntisymmetricRelation"/>
+  <rdfs:comment>"A BinaryRelation is asymmetric if and only if it is both an AntisymmetricRelation and an IrreflexiveRelation."</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="AsymmetricRelation">
+  <rdfs:comment>"A BinaryRelation is asymmetric if and only if it is both an AntisymmetricRelation and an IrreflexiveRelation."</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="IrreflexiveRelation"/>
+  <rdfs:subClassOf rdf:resource="AntisymmetricRelation"/>
+</owl:Class>
+
+
