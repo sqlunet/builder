@@ -44,7 +44,7 @@ for f in ${files}; do
 	fi
 	c2=${G}
 	if [ -e "${bitbucketdir}/${f}" ];then
-		c2=${R}
+		c2=${M}
 	fi
 	echo -e "${B}${f}${Z} from ${c1}${datadir}${Z}  to ${c2}${bitbucketdir}${Z}"
 done
@@ -61,29 +61,4 @@ for f in ${files}; do
 	echo -e "${B}${f}${Z}"
 	cp -P ${datadir}/${f} ${bitbucketdir}/
 done
-exit
-
-read -p "Are you sure you want to commit to bitbucket? " -n 1 -r
-echo    # (optional) move to a new line
-echo -e "${Z}"
-if ! [[ $REPLY =~ ^[Yy]$ ]]; then
-    exit 2
-fi
-echo 'Committing ...'
-echo -e "${Y}commit${Z}"
-pushd ${bitbucketdir} > /dev/null
-git status
-git add .
-git commit -m 'Rebuild'
-
-read -p "Are you sure you want to push to bitbucket? " -n 1 -r
-echo    # (optional) move to a new line
-echo -e "${Z}"
-if ! [[ $REPLY =~ ^[Yy]$ ]]; then
-    exit 2
-fi
-echo 'Pushing ...'
-echo -e "${Y}push${Z}"
-git push origin master
-popd > /dev/null
 
