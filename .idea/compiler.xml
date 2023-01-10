@@ -40,10 +40,7 @@
       <module name="org.sqlunet.querybuilder-gradle.test" target="11" />
       <module name="org.sqlunet.querybuilder.main" target="11" />
       <module name="org.sqlunet.querybuilder.test" target="11" />
-      <module name="querybuilder" target="11" />
       <module name="querybuilder-gradle" target="11" />
-      <module name="querybuilder.main" target="11" />
-      <module name="querybuilder.test" target="11" />
       <module name="reqprovtest" target="11" />
       <module name="sqlbuilder2.querybuilder-gradle" target="11" />
       <module name="sqlbuilder2.querybuilder-gradle.main" target="11" />
