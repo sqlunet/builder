@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/bnc" />
+      <excludeFolder url="file://$MODULE_DIR$/fn" />
+      <excludeFolder url="file://$MODULE_DIR$/out" />
+      <excludeFolder url="file://$MODULE_DIR$/pb" />
+      <excludeFolder url="file://$MODULE_DIR$/pm" />
+      <excludeFolder url="file://$MODULE_DIR$/sn" />
+      <excludeFolder url="file://$MODULE_DIR$/vn" />
+      <excludeFolder url="file://$MODULE_DIR$/wn" />
+      <excludeFolder url="file://$MODULE_DIR$/xnet" />
+    </content>
+  </component>
+</module>
