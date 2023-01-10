@@ -14,7 +14,7 @@ c_cs2=r''
 c_bc1=r'COLLATE\s+utf8_bin\s*'
 c_bc2=r''
 
-c_cc1=r'COLLATE\s+utf8mb4_0900_as_cs\s*'
+c_cc1=r'COLLATE\s+utf8mb4_0900_as_c[si]\s*'
 c_cc2=r''
 
 c_dcs1=r'DEFAULT\s+CHARSET=utf8mb4'
@@ -38,6 +38,7 @@ k_l1=r'\([0-9]+\)'
 k_l2=r''
 
 # VIEWS
+
 v1=r'CREATE\s+OR\s+REPLACE\s+VIEW\s+([^\s]+)'
 v2=r'DROP VIEW IF EXISTS \1; CREATE VIEW IF NOT EXISTS \1'
 
