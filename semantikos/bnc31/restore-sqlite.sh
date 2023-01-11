@@ -136,11 +136,11 @@ function process()
 	#echo "${base}"
 	case ${op} in
     create|index|cleanup|anchor|reference|data)
-      sqlite3 -init "${sqlfile}" "${db}" .quit
+      sqlite3 -bail -init "${sqlfile}" "${db}" .quit 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"
       ;;
     other|*)
       local sqlfile2=$(fast_to_temp "${sqlfile}")
-      sqlite3 -init "${sqlfile2}" "${db}" .quit
+      sqlite3 -bail -init "${sqlfile2}" "${db}" .quit 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"
       ;;
 	esac
 }

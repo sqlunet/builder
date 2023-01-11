@@ -42,10 +42,11 @@ fi # ------------------------------------------------------------------END-SKIP
 
 echo -e "${Y}U N Z I P${Z}"
 
+echo -e "${M}clean up${Z}"
 rm -fR wn
 rm -fR bnc
 
-echo -e "${Y}A D D${Z}"
+echo -e "${M}unzip${Z}"
 unzip -q ${wn} -d wn
 unzip -q ${bnc} -d bnc
 
@@ -55,6 +56,8 @@ rm -f bnc/sql/sqlite/index/*
 
 echo -e "${M}tweaking restore script${Z}"
 sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' wn/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' bnc/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 

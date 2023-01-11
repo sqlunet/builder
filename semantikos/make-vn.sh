@@ -43,22 +43,30 @@ fi # ------------------------------------------------------------------END-SKIP
 
 echo -e "${Y}U N Z I P${Z}"
 
+echo -e "${M}clean up${Z}"
 rm -fR wn
 rm -fR vn
 rm -fR pb
+rm -fR bnc
 
-echo -e "${Y}A D D${Z}"
+echo -e "${M}unzip${Z}"
 unzip -q ${wn} -d wn
 unzip -q ${vn} -d vn
 unzip -q ${pb} -d pb
+unzip -q ${pb} -d bnc
 
 echo -e "${M}removing indexes${Z}"
 rm -f wn/sql/sqlite/index/*
 rm -f vn/sql/sqlite/index/*
 rm -f pb/sql/sqlite/index/*
+rm -f bnc/sql/sqlite/index/*
 
 echo -e "${M}tweaking restore script${Z}"
 sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' wn/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' vn/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' pb/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' bnc/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 

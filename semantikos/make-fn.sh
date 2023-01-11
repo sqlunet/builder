@@ -41,13 +41,17 @@ fi # ------------------------------------------------------------------END-SKIP
 
 echo -e "${Y}U N Z I P${Z}"
 
+echo -e "${M}clean up${Z}"
 rm -fR fn
 
-echo -e "${Y}A D D${Z}"
+echo -e "${M}unzip${Z}"
 unzip -q ${fn} -d fn
 
 echo -e "${M}removing indexes${Z}"
 rm -f fn/sql/sqlite/index/*
+
+echo -e "${M}tweaking restore script${Z}"
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' fn/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 

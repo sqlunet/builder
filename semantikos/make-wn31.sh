@@ -16,7 +16,7 @@ fi
 
 # C O N S T S
 
-wn=zip/oewn-${tag}-sqlite-${version}.zip
+wn=zip/wn-${tag}-sqlite-${version}.zip
 bnc=zip/bnc-data_resolved-wn${tag}-sqlite-${version}.zip
 db=sqlunet-wn.sqlite
 semantikos_db=sqlunet-wn.db
@@ -42,10 +42,11 @@ fi # ------------------------------------------------------------------END-SKIP
 
 echo -e "${Y}U N Z I P${Z}"
 
+echo -e "${M}clean up${Z}"
 rm -fR wn${tag}
 rm -fR bnc${tag}
 
-echo -e "${Y}A D D${Z}"
+echo -e "${M}unzip${Z}"
 unzip -q ${wn} -d wn${tag}
 unzip -q ${bnc} -d bnc${tag}
 
@@ -55,6 +56,8 @@ rm -f bnc${tag}/sql/sqlite/index/*
 
 echo -e "${M}tweaking restore script${Z}"
 sed -i 's/-a "${op}" == "reference"/-a "${op}" == "index" -o "${op}" == "reference"/' wn${tag}/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' wn${tag}/restore-sqlite.sh
+sed -i -r 's/sqlite3 (.*)$/sqlite3 -bail \1 2>>LOG || echo -e "${R}FAILED ${sqlfile}${Z}"/g' bnc${tag}/restore-sqlite.sh
 
 echo -e "${Y}R E S T O R E${Z}"
 
