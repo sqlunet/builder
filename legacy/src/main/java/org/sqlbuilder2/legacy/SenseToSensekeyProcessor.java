@@ -9,7 +9,6 @@ import org.sqlbuilder2.ser.Triplet;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
@@ -74,7 +73,7 @@ public class SenseToSensekeyProcessor extends Processor
 				r -> String.format("'%s','%s',%s,'%s'", Utils.escape(r.getKey().first), r.getKey().second, r.getKey().third, Utils.escape(r.getValue())));
 	}
 
-	private static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekey(final File file) throws IOException
+	static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekey(final File file) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
@@ -93,7 +92,12 @@ public class SenseToSensekeyProcessor extends Processor
 		}
 	}
 
-	private static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekeyOrdered(final File file) throws IOException
+	static Comparator<Triplet<String, Character, Integer>> tripletComparator = Comparator //
+			.<Triplet<String, Character, Integer>, String>comparing(Triplet::getFirst) //
+			.thenComparing(Triplet::getSecond) //
+			.thenComparing(Triplet::getThird);
+
+	static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekeyOrdered(final File file) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
@@ -108,11 +112,11 @@ public class SenseToSensekeyProcessor extends Processor
 					.filter(line -> !line.isEmpty() && line.charAt(0) != '#') //
 					.map(line -> line.split("\\s")) //
 					.map(fields -> new SimpleEntry<>(new Triplet<>(getLemmaFromSensekey(fields[0]), getPosFromSensekey(fields[0]), Integer.parseInt(fields[1])), fields[0])) //
-					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (p,n)->p, () -> new TreeMap<>(Comparator.comparing(Triplet::getFirst))));
+					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (p, n) -> p, () -> new TreeMap<>(tripletComparator)));
 		}
 	}
 
-	private static Map<String, Integer> getSensekeyToOffset(final File file) throws IOException
+	static Map<String, Integer> getSensekeyToOffset(final File file) throws IOException
 	{
 		try (Stream<String> stream = Files.lines(file.toPath()))
 		{
