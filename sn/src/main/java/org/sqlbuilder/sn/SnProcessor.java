@@ -35,9 +35,9 @@ public class SnProcessor extends Processor
 
 	protected final Properties conf;
 
-	private Map<Triplet<String, Character, Long>, String> toSenseKeys;
+	private Map<Triplet<String, Character, Integer>, String> toSenseKeys;
 
-	protected final Function<Triplet<String, Character, Long>, String> sensekeyResolver = lpo -> toSenseKeys.get(lpo);
+	protected final Function<Triplet<String, Character, Integer>, String> sensekeyResolver = lpo -> toSenseKeys.get(lpo);
 
 	public SnProcessor(final Properties conf) throws IOException, ClassNotFoundException
 	{

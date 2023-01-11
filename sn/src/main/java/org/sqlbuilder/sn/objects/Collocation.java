@@ -11,13 +11,13 @@ import java.util.function.Function;
 
 public class Collocation implements Insertable, Resolvable<Pair<String, String>, Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>>
 {
-	public final long offset1;
+	public final int offset1;
 
 	public final char pos1;
 
 	public final String word1;
 
-	public final long offset2;
+	public final int offset2;
 
 	public final char pos2;
 
@@ -29,12 +29,12 @@ public class Collocation implements Insertable, Resolvable<Pair<String, String>,
 
 	// C O N S T R U C T O R
 
-	public static Collocation make(final long offset1, final char pos1, final String lemma1, final long offset2, final char pos2, final String lemma2)
+	public static Collocation make(final int offset1, final char pos1, final String lemma1, final int offset2, final char pos2, final String lemma2)
 	{
 		return new Collocation(offset1, pos1, makeLemma(lemma1), offset2, pos2, makeLemma(lemma2));
 	}
 
-	protected Collocation(final long offset1, final char pos1, final String word1, final long offset2, final char pos2, final String word2)
+	protected Collocation(final int offset1, final char pos1, final String word1, final int offset2, final char pos2, final String word2)
 	{
 		this.offset1 = offset1;
 		this.pos1 = pos1;
@@ -50,8 +50,8 @@ public class Collocation implements Insertable, Resolvable<Pair<String, String>,
 		{
 			String[] fields = line.split("\\s");
 
-			long synset1Id = Long.parseLong(fields[0].substring(0, fields[0].length() - 1));
-			long synset2Id = Long.parseLong(fields[1].substring(0, fields[1].length() - 1));
+			int synset1Id = Integer.parseInt(fields[0].substring(0, fields[0].length() - 1));
+			int synset2Id = Integer.parseInt(fields[1].substring(0, fields[1].length() - 1));
 			String lemma1 = fields[2];
 			char pos1 = fields[3].charAt(0);
 			String lemma2 = fields[4];
@@ -108,7 +108,7 @@ public class Collocation implements Insertable, Resolvable<Pair<String, String>,
 
 	// R E S O L V E
 
-	public boolean resolveOffsets(final Function<Triplet<String, Character, Long>, String> skResolver)
+	public boolean resolveOffsets(final Function<Triplet<String, Character, Integer>, String> skResolver)
 	{
 		String sk1 = skResolver.apply(new Triplet<>(word1, pos1, offset1));
 		boolean resolved1 = sk1 != null;
