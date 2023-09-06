@@ -6,13 +6,13 @@
 
 	<artifactId>reqprovtest</artifactId>
 	<groupId>org.sqlbuilder2</groupId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.sqlbuilder2</groupId>
 			<artifactId>reqprov</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
