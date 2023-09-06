@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/cases" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/mwb/archive" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/mwb/mwb1" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/pages" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/queries/html" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/queries/pdf" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/site/pdf" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/site/sql" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/doc/svg/archive" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/oewn2022" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/wn31" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/build" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/dummy/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/dummy/build" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/dummy/gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/target" />
+      <excludeFolder url="file://$MODULE_DIR$/querybuilder/target" />
+      <excludeFolder url="file://$MODULE_DIR$/reqprovtest/target" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31/META-INF" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31/legal" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31/sql" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-fn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-oewn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-sn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-vn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-wn31" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/fn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/pb" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/pm" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/sl" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/sn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/vn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/wn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/wn31/META-INF" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/wn31/legal" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/wn31/sql" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/zip" />
+    </content>
+  </component>
+</module>
