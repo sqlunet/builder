@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#./sql-find-duplicates.sh /opt/devel/oewn/oewn-grind_wndb2sql/sql31/temp-sqlite/oewn31-work.sqlite senses sensekey senseid synsetid wordid
-
+#./sql-find-duplicates.sh /opt/devel/oewn/oewn-grind_wndb2sql/sql31/temp-sqlite/oewnXX.sqlite senses sensekey senseid synsetid wordid
 
 db="$1"
 table="$2"

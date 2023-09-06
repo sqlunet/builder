@@ -1,9 +1,14 @@
 #!/bin/bash
 
+# S O U R C E S
+
+source define_colors.sh
+source define_build.sh
+
 # P A R A M S
 
 # Usage modules                  dbtag        dbdir
-# Usage [bnc|sn|vn|pb|sl|fn|pm]  oewn21|other sql|other
+# Usage [bnc|sn|vn|pb|sl|fn|pm]  oewn2X|other sql|other
 
 dbmodules="$1"
 shift
@@ -15,7 +20,7 @@ fi
 dbtag=$1
 shift
 if [ -z "${dbtag}" ]; then
-  dbtag=wn31
+  dbtag="wn${TAG31}"
 fi
 
 dbdir=$1
@@ -27,17 +32,13 @@ fi
 version=$1
 shift
 if [ -z "${version}" ]; then
-  version=2.0.0
+  version="${BUILD}"
 fi
 
 # D I R S
 
 distdir=$(readlink -m "dist/${dbtag}")
 mkdir -p "${distdir}"
-
-# S O U R C E S
-
-source define_colors.sh
 
 # M A I N
 

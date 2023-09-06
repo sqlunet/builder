@@ -1,23 +1,18 @@
 #!/bin/bash
 # 1313ou@gmail.com
 
-db=sqlunet2
-dbtag=2022
+# S O U R C E S
 
-# C O L O R S
-
-export R='\u001b[31m'
-export G='\u001b[32m'
-export B='\u001b[34m'
-export Y='\u001b[33m'
-export M='\u001b[35m'
-export C='\u001b[36m'
-export Z='\u001b[0m'
-
-# C R E D E N T I A L S
-
+source define_colors.sh
+source define_build.sh
+# credentials
 source define_user.sh
- 
+
+#L O C A L
+
+db=sqlunet2
+dbtag="${TAG}"
+
 # D I R S
 
 thisdir=$(dirname $(readlink -m $0))

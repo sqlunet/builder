@@ -1,8 +1,13 @@
 #!/bin/bash
 
+# S O U R C E S
+
+source define_colors.sh
+source define_build.sh
+
 # L O C A L
 
-FROM=dist/oewn2022
+FROM="dist/oewn${TAG}"
 
 # R E M O T E
 
@@ -10,16 +15,6 @@ VERSION="2"
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
 REMOTEDIR=/home/frs/project/s/sq/sqlunet/sqlunet2/${VERSION}
-
-# C O L O R S
-
-R='\u001b[31m'
-G='\u001b[32m'
-B='\u001b[34m'
-Y='\u001b[33m'
-M='\u001b[35m'
-C='\u001b[36m'
-Z='\u001b[0m'
 
 # M A I N
 
