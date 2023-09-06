@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/all.iml" filepath="$PROJECT_DIR$/all.iml" />
       <module fileurl="file://$PROJECT_DIR$/bnc/bnc.iml" filepath="$PROJECT_DIR$/bnc/bnc.iml" />
       <module fileurl="file://$PROJECT_DIR$/fn/fn.iml" filepath="$PROJECT_DIR$/fn/fn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/legacy/legacy.iml" filepath="$PROJECT_DIR$/legacy/legacy.iml" />
       <module fileurl="file://$PROJECT_DIR$/pb/pb.iml" filepath="$PROJECT_DIR$/pb/pb.iml" />
       <module fileurl="file://$PROJECT_DIR$/pm/pm.iml" filepath="$PROJECT_DIR$/pm/pm.iml" />
       <module fileurl="file://$PROJECT_DIR$/queries/queries.iml" filepath="$PROJECT_DIR$/queries/queries.iml" />

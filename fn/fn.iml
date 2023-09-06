@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
-  <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
       <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/sers" />
       <excludeFolder url="file://$MODULE_DIR$/sers_out" />
       <excludeFolder url="file://$MODULE_DIR$/sql" />
       <excludeFolder url="file://$MODULE_DIR$/sql31" />
-      <excludeFolder url="file://$MODULE_DIR$/sers" />
     </content>
   </component>
 </module>
