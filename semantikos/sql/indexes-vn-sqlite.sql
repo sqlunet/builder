@@ -75,8 +75,8 @@ CREATE INDEX IF NOT EXISTS `pk_lexes_morphs_wordid` ON `lexes_morphs` (`wordid`)
 
 -- bnc
 
-CREATE INDEX IF NOT EXISTS `k_bnc_bncs_wordid_posid` ON `bnc_bncs` (`wordid`,`posid`);
-CREATE INDEX IF NOT EXISTS `k_bnc_spwrs_wordid_posid` ON `bnc_spwrs` (`wordid`,`posid`);
-CREATE INDEX IF NOT EXISTS `k_bnc_convtasks_wordid_posid` ON `bnc_convtasks` (`wordid`,`posid`);
-CREATE INDEX IF NOT EXISTS `k_bnc_imaginfs_wordid_posid` ON `bnc_imaginfs` (`wordid`,`posid`);
+-- CREATE INDEX IF NOT EXISTS `k_bnc_bncs_wordid_posid` ON `bnc_bncs` (`wordid`,`posid`);
+-- CREATE INDEX IF NOT EXISTS `k_bnc_spwrs_wordid_posid` ON `bnc_spwrs` (`wordid`,`posid`);
+-- CREATE INDEX IF NOT EXISTS `k_bnc_convtasks_wordid_posid` ON `bnc_convtasks` (`wordid`,`posid`);
+-- CREATE INDEX IF NOT EXISTS `k_bnc_imaginfs_wordid_posid` ON `bnc_imaginfs` (`wordid`,`posid`);
 
