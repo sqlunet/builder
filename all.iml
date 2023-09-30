@@ -13,6 +13,7 @@
       <excludeFolder url="file://$MODULE_DIR$/dist/doc/site/sql" />
       <excludeFolder url="file://$MODULE_DIR$/dist/doc/svg/archive" />
       <excludeFolder url="file://$MODULE_DIR$/dist/oewn2022" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/oewn2023" />
       <excludeFolder url="file://$MODULE_DIR$/dist/wn31" />
       <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/build" />
@@ -23,14 +24,18 @@
       <excludeFolder url="file://$MODULE_DIR$/querybuilder-gradle/target" />
       <excludeFolder url="file://$MODULE_DIR$/querybuilder/target" />
       <excludeFolder url="file://$MODULE_DIR$/reqprovtest/target" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31/META-INF" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31/legal" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/bnc31/sql" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/db" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-ewn" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/db-fn" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/db-oewn" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/db-sn" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/db-vn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos/db-wn" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/db-wn31" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/dist" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos/fn" />
