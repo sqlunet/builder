@@ -1,8 +1,22 @@
 #!/bin/bash
-#origin="https://semantikos@bitbucket.org/semantikos/semantikos2.git"
+
+ms="$@"
+if [ -z "${ms}" ]; then
+	ms="xn wn ewn sn vn fn"
+fi
 
 REPODIR='dist/repos/bitbucket'
 MAKE_REPO=true
+
+declare -A repos
+repos=(
+[xn]=repo1
+[wn]=repo3
+[ewn]=repo3
+[sn]=repo3
+[vn]=repo3
+[fn]=repo2
+)
 
 # C O L O R S
 
@@ -14,29 +28,43 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
-# D A T A   S E T U P
-
-echo -e "${Y}F I L L   R E P O S${Z}"
-./_copy_to_bitbucket_repos.sh
-
 # S O U R C E
 
 source _reset-git.sh
 
-# R E M O T E   R E P O
+# D A T A   S E T U P
 
-for repo in repo1 repo2 repo3; do
-	echo -e "${Y}${repo}${Z}"
+echo -e "${Y}F I L L   R E P O S${Z}"
+./_copy_to_bitbucket_repos.sh ${ms}
+
+# R E M O T E   R E P O
+echo -e "${Y}R E S E T   R E P O S${Z}"
+
+rs=
+for m in ${ms}; do
+
+	r=${repos[${m}]}
+	#echo "m=${m}"
+	#echo "repo=${r}"
+	if [[ "${rs}" != *"${r}"* ]]; then
+		rs="${rs} ${r}"
+	fi
+
+done
+
+for r in ${rs}; do
+	echo -e "${Y}${r}${Z}"
 	
-	read -p "Are you sure you want to reset bitbucket repo? " -n 1 -r
+	echo -e "${R}Reset ${r}${Z} ..."
+	read -p "Are you sure you want to reset bitbucket repo '${r}'? " -n 1 -r
 	echo # (optional) move to a new line
 	echo -e "${Z}"
 	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
 		continue
 	fi
-	echo 'Resetting ...'
+	echo -e "Resetting ${G}${r}${Z} ..."
 
-	pushd "${REPODIR}/${repo}" > /dev/null
+	pushd "${REPODIR}/${r}" > /dev/null
 
 	if [ "true" == "${MAKE_REPO}" ]; then
 		full_reset	

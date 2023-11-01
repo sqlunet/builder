@@ -2,5 +2,6 @@
 
 ./_upload-sourceforge.sh
 
-./_upload-bitbucket-reset.sh
+./_upload-bitbucket.sh 			wn ewn sn vn
+./_upload-bitbucket-reset.sh 	xn fn
 

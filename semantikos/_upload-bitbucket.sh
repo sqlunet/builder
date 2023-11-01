@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#origin="https://semantikos2@bitbucket.org/semantikos2/semantikos22.git"
-ms="$1"
+ms="$@"
 if [ -z "${ms}" ]; then
 	ms="xn wn ewn sn vn fn"
 fi
@@ -89,11 +88,12 @@ for m in ${ms}; do
 		echo -e "${B}${f}${Z} from ${c1}${datadir}${Z}  to ${c2}${bitbucketdir}${Z}"
 	done
 
-	read -p "Are you sure you want to copy to bitbucket repo '${bitbucketrepo}' ? " -n 1 -r
+	read -p "Are you sure you want to copy '${m}' to bitbucket repo '${bitbucketrepo}' ? " -n 1 -r
 	echo    # (optional) move to a new line
 	echo -e "${Z}"
 	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
-		exit 2
+		echo
+		continue
 	fi
 	echo 'Proceeding ...'
 	echo -e "${Y}upload to ${m}${Z}"
@@ -102,7 +102,7 @@ for m in ${ms}; do
 		cp -P ${datadir}/${f} ${bitbucketdir}/
 	done
 
-	read -p "Are you sure you want to upload to bitbucket? " -n 1 -r
+	read -p "Are you sure you want to upload '${m}' to bitbucket? " -n 1 -r
 	echo    # (optional) move to a new line
 	echo -e "${Z}"
 	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -113,9 +113,9 @@ for m in ${ms}; do
 	echo -e "${Y}upload${Z}"
 	pushd ${bitbucketdir} > /dev/null
 	git status
-	#git add .
-	#git commit -m 'Rebuild'
-	#git push origin master
+	git add .
+	git commit -m 'Rebuild'
+	git push origin master
 	popd > /dev/null
 	echo
 done

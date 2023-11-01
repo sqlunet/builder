@@ -1,9 +1,34 @@
 #!/bin/bash
 # 06/09/2023
 
+ms="$@"
+if [ -z "${ms}" ]; then
+	ms="xn wn ewn sn vn fn"
+fi
+
 REPODIR='dist/repos/bitbucket'
 options="-i"
 options=""
+
+declare -A repos
+repos=(
+[xn]=repo1
+[wn]=repo3
+[ewn]=repo3
+[sn]=repo3
+[vn]=repo3
+[fn]=repo2
+)
+
+declare -A suffixes
+suffixes=(
+[xn]=""
+[wn]="-wn"
+[ewn]="-ewn"
+[sn]="-sn"
+[vn]="-vn"
+[fn]="-fn"
+)
 
 # C O L O R S
 
@@ -21,7 +46,7 @@ function confirm()
 {
 	local from="$1"
 	local to="$2"
-	echo -en "Copy ${C}$(basename $1)${Z} to $(basename $2) ? "
+	echo -en "Copy ${C}$(basename $1)${Z} to ${M}$(basename $2)${Z} ? "
 	read -n 1 -r
 	#echo    # (optional) move to a new line
 	echo -e "${Z}"
@@ -53,35 +78,28 @@ function copy()
 
 # M A I N
 
-echo -e "${Y}xn${Z}"
-from="db"
-to="${REPODIR}/repo1"
-copy "${from}" "${to}"
+for m in ${ms}; do
 
+	echo -e "${Y}${m}${Z}"
 
-echo -e "${Y}wn31${Z}"
-from="db-wn31"
-to="${REPODIR}/repo2"
-copy "${from}" "${to}"
+	repo=${repos[${m}]}
+	suffix=${suffixes[${m}]}
+	echo "m=${m}"
+	echo "repo=${repo}"
+	echo "suffix=${suffix}"
+	
+	# D I R S
 
-echo -e "${Y}oewn${Z}"
-from="db-oewn"
-to="${REPODIR}/repo2"
-copy "${from}" "${to}"
+	datadir="db${suffix}"
+	datadir="$(readlink -m ${datadir})"
+	echo "datadir=${datadir}"
 
-echo -e "${Y}vn${Z}"
-from="db-vn"
-to="${REPODIR}/repo2"
-copy "${from}" "${to}"
+	bitbucketrepo=${repo}
+	bitbucketdir="${REPODIR}/${bitbucketrepo}"
+	bitbucketdir="$(readlink -m ${bitbucketdir})"
+	echo "bitbucketdir=${bitbucketdir}"
 
-echo -e "${Y}sn${Z}"
-from="db-sn"
-to="${REPODIR}/repo2"
-copy "${from}" "${to}"
+	copy "${datadir}" "${bitbucketdir}"
 
-
-echo -e "${Y}fn${Z}"
-from="db-fn"
-to="${REPODIR}/repo3"
-copy "${from}" "${to}"
+done
 
