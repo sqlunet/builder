@@ -6,29 +6,12 @@ if [ -z "${ms}" ]; then
 	ms="xn wn ewn sn vn fn"
 fi
 
-REPODIR='dist/repos/bitbucket'
 options="-i"
 options=""
 
-declare -A repos
-repos=(
-[xn]=repo1
-[wn]=repo3
-[ewn]=repo3
-[sn]=repo3
-[vn]=repo3
-[fn]=repo2
-)
+# S O U R C E
 
-declare -A suffixes
-suffixes=(
-[xn]=""
-[wn]="-wn"
-[ewn]="-ewn"
-[sn]="-sn"
-[vn]="-vn"
-[fn]="-fn"
-)
+source _bitbucket_repos.sh
 
 # C O L O R S
 

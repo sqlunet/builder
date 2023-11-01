@@ -5,18 +5,11 @@ if [ -z "${ms}" ]; then
 	ms="xn wn ewn sn vn fn"
 fi
 
-REPODIR='dist/repos/bitbucket'
 MAKE_REPO=true
 
-declare -A repos
-repos=(
-[xn]=repo1
-[wn]=repo3
-[ewn]=repo3
-[sn]=repo3
-[vn]=repo3
-[fn]=repo2
-)
+# S O U R C E
+
+source _bitbucket_repos.sh
 
 # C O L O R S
 
@@ -30,7 +23,7 @@ Z='\u001b[0m'
 
 # S O U R C E
 
-source _reset-git.sh
+source _reset-git.sh ${ms}
 
 # D A T A   S E T U P
 
@@ -42,15 +35,14 @@ echo -e "${Y}R E S E T   R E P O S${Z}"
 
 rs=
 for m in ${ms}; do
-
 	r=${repos[${m}]}
 	#echo "m=${m}"
 	#echo "repo=${r}"
 	if [[ "${rs}" != *"${r}"* ]]; then
 		rs="${rs} ${r}"
 	fi
-
 done
+rs=$(echo $rs | xargs -n1 | sort | xargs)
 
 for r in ${rs}; do
 	echo -e "${Y}${r}${Z}"

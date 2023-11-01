@@ -11,10 +11,9 @@ FROM="dist/oewn${TAG}"
 
 # R E M O T E
 
-VERSION="2"
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
-REMOTEDIR=/home/frs/project/s/sq/sqlunet/sqlunet2/${VERSION}
+REMOTEDIR=/home/frs/project/s/sq/sqlunet/sqlunet2/${BUILDMAJOR}
 
 # M A I N
 
