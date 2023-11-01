@@ -6,7 +6,7 @@ FROM=dist
 
 # R E M O T E
 
-VERSION="2"
+VERSION="3"
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
 REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos2/${VERSION}
@@ -25,17 +25,17 @@ Z='\u001b[0m'
 
 echo -e "${Y}S E M A N T I K O S  T O  S O U R C E F O R G E${Z}"
 
-for m in '' -ewn -vn -fn -sn -wn; do
+for suffix in '' -ewn -vn -fn -sn -wn; do
 
 	# D I R S
 
-	datadir=${FROM}/db${m}
+	datadir=${FROM}/db${suffix}
 	datadir="$(readlink -m ${datadir})"
 	echo ${datadir}
 
 	# S F T P
 
-	echo -e "${C}m=${m}${Z}"
+	echo -e "${C}suffix=${suffix}${Z}"
 
 	pushd ${datadir} > /dev/null
 	echo -e ${G}
@@ -49,28 +49,25 @@ for m in '' -ewn -vn -fn -sn -wn; do
 	echo    # (optional) move to a new line
 	echo -e "${Z}"
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-	echo 'Proceeding ...'
-
-	echo -e "${Y}upload${Z}"
-
-	sftp $USER@$SITE <<EOF
+		echo 'Proceeding ...'
+		echo -e "${Y}upload${Z}"
+		sftp $USER@$SITE <<EOF
 
 lcd ${datadir}
-lls -l *${m}.*
+lls -l *${suffix}.*
 
 -mkdir $REMOTEDIR
 cd $REMOTEDIR
-ls -l *${m}.*
-put distrib${m}.hsize
-put distrib${m}.md5
-put distrib${m}.size
-put sqlunet${m}.db.zip
-put sqlunet${m}.db.zip.md5
-ls -l *${m}.*
+ls -l *${suffix}.*
+put distrib${suffix}.hsize
+put distrib${suffix}.md5
+put distrib${suffix}.size
+put sqlunet${suffix}.db.zip
+put sqlunet${suffix}.db.zip.md5
+ls -l *${suffix}.*
 
 quit
 EOF
 
 	fi
-
 done
