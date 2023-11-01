@@ -1,0 +1,36 @@
+OEWN
+	./_mymake.sh	
+		./_sync_all.sh
+			sync with upstream github
+		./make.sh
+			make OEWN wndb,mysql,sqlite
+			pack
+			load into mysql server or sqlite file
+		./_upload-sourceforge.sh
+			mysql,sqlite -> sqlunet/oewn2/2 @ sourceforge
+		./_upload-github.sh
+			mysql -> x-englishwordnet/mysql @ github
+			sqlite -> x-englishwordnet/sqlite @ github
+			wndbx -> x-englishwordnet/wndb @ github
+			
+SQLUNET2
+	_/mymake.sh
+		generate legacy maps
+		generate schema
+		./build.sh 
+			generate bnc sn vn pb fn sl su pm modules
+		pack
+	./_upload_sourceforge.sh
+		mysql,sqlite -> sqlunet/oewn2/2 @ sourceforge
+		
+SEMANTIKOS
+	_/mymake.sh
+		build data for xn,ewn,wn,sn,vn,fn
+	-/upload.sh
+		sourceforge
+			-> sqlunet/semantikos2/3
+		bitbucket
+			xn -> semantikos/semantikos2 @ bitbucket ()
+			fn -> semantikos3/semantikos23 @ bitbucket (fn)
+			ewn,wn,sn,vn -> semantikos3/semantikos23 @ bitbucket (other) 
+
