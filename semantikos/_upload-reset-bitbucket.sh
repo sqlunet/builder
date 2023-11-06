@@ -11,6 +11,7 @@ MAKE_REPO=true
 
 source _bitbucket_repos.sh
 source _reset-git.sh
+source _confirm.sh
 
 # C O L O R S
 
@@ -50,25 +51,29 @@ for r in ${rs}; do
 	echo -e "${Y}${r}${Z}"
 	
 	# prompt
-	echo -e "${R}Reset ${r}${Z} ..."
-	read -p "Are you sure you want to reset bitbucket repo '${r}'? " -n 1 -r
-	echo # (optional) move to a new line
-	echo -e "${Z}"
-	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+	if ! confirm "Rebuilding '${G}${r}${Z}'" "Are you sure you want to rebuild bitbucket repo '${G}${r}${Z}'?" "Rebuilding '${G}${r}${Z}'"; then
 		continue
 	fi
-	echo -e "Resetting ${G}${r}${Z} ..."
 
 	# action
 	pushd "${REPODIR}/${r}" > /dev/null
 	if [ "true" == "${MAKE_REPO}" ]; then
-		full_reset	
+		rebuild_local	
 		commit="$(get_head_commit)"
-		echo -e "${G}${commit}${Z}"
-	else
-		commit="$(get_head_commit)"
-		echo -e "${M}${commit}${Z}"	
 	fi
+	commit="$(get_head_commit)"
+	echo -e "${M}${commit}${Z}"	
+	popd > /dev/null
+		
+	# prompt
+	echo "${R}Past this point the repository is not recoverable from remote copy !${Z}"
+	if confirm "Mirroring '${G}${r}${Z}'" "Are you sure you want to mirror bitbucket repo '${G}${r}${Z}' to remote?" "Mirroring '${G}${r}${Z}'"; then
+		continue
+	fi
+
+	# action
+	pushd "${REPODIR}/${r}" > /dev/null
+	mirror_to_remote
 	popd > /dev/null
 	
 done

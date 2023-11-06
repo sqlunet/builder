@@ -17,7 +17,6 @@ function recreate_git()
 	git remote add origin "${origin}"
 	# mirror local to remote
 	git gc
-	git push --force --mirror
 }
 
 # extract git remote url
@@ -40,12 +39,17 @@ function get_head_commit()
 # recreate git local repo
 # force push to remote
 # read head commit
-function full_reset()
+function rebuild_local()
 {
 	origin=$(get_git_remote_url)
 	recreate_git "${origin}"
 	commit=$(get_head_commit)
 	echo "head commit: ${commit}"
+}
+
+function mirror_to_remote()
+{
+	git push --force --mirror
 }
 
 echo "sourced reset_git"
