@@ -6,24 +6,28 @@
 function recreate_git()
 {
 	local origin="$1"
+	# delete repo control but not data
 	rm -fR .git
+	# meke init
 	git init
 	git branch -M main
 	git add .
 	git commit -m "Initial"
+	# attach to given origin
 	git remote add origin "${origin}"
+	# mirror local to remote
 	git gc
 	git push --force --mirror
 }
 
-# get git remote url
+# extract git remote url
 function get_git_remote_url()
 {
 	export origin=$(git config --get remote.origin.url)
 	echo "${origin}"
 }
 
-# get git head commit
+# extract git head commit
 function get_head_commit()
 {
 	export commit="$(git rev-parse HEAD)"

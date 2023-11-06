@@ -10,6 +10,7 @@ MAKE_REPO=true
 # S O U R C E
 
 source _bitbucket_repos.sh
+source _reset-git.sh
 
 # C O L O R S
 
@@ -21,17 +22,7 @@ M='\u001b[35m'
 C='\u001b[36m'
 Z='\u001b[0m'
 
-# S O U R C E
-
-source _reset-git.sh ${ms}
-
-# D A T A   S E T U P
-
-echo -e "${Y}F I L L   R E P O S${Z}"
-./_copy_to_bitbucket_repos.sh ${ms}
-
-# R E M O T E   R E P O
-echo -e "${Y}R E S E T   R E P O S${Z}"
+# C O L L E C T   R E P O S
 
 rs=
 for m in ${ms}; do
@@ -43,10 +34,22 @@ for m in ${ms}; do
 	fi
 done
 rs=$(echo $rs | xargs -n1 | sort | xargs)
+echo -e "${C}repos=${rs}${Z}"
+
+# L O C A L   D A T A   C O P Y
+
+echo -e "${Y}L O C A L   R E P O S${Z}"
+
+./_copy_to_bitbucket_repos.sh ${ms}
+
+# R E M O T E   R E P O
+
+echo -e "${Y}R E M O T E   R E P O S${Z}"
 
 for r in ${rs}; do
 	echo -e "${Y}${r}${Z}"
 	
+	# prompt
 	echo -e "${R}Reset ${r}${Z} ..."
 	read -p "Are you sure you want to reset bitbucket repo '${r}'? " -n 1 -r
 	echo # (optional) move to a new line
@@ -56,8 +59,8 @@ for r in ${rs}; do
 	fi
 	echo -e "Resetting ${G}${r}${Z} ..."
 
+	# action
 	pushd "${REPODIR}/${r}" > /dev/null
-
 	if [ "true" == "${MAKE_REPO}" ]; then
 		full_reset	
 		commit="$(get_head_commit)"
@@ -66,7 +69,7 @@ for r in ${rs}; do
 		commit="$(get_head_commit)"
 		echo -e "${M}${commit}${Z}"	
 	fi
-	
 	popd > /dev/null
+	
 done
 
