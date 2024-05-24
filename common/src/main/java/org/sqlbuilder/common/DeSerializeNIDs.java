@@ -21,6 +21,8 @@ public class DeSerializeNIDs
 
 	static final String SYNSETS_FILE = "synsets";
 
+	static final String SER_EXTENSION = ".ser";
+
 	/**
 	 * Deserialize id-to_nid maps
 	 *
@@ -32,17 +34,17 @@ public class DeSerializeNIDs
 	public static Map<String, Map<String, Integer>> deserializeAllNIDs(final File inDir) throws IOException, ClassNotFoundException
 	{
 		Map<String, Map<String, Integer>> maps = new HashMap<>();
-		try (InputStream is = new FileInputStream(new File(inDir, NID_PREFIX + WORDS_FILE)))
+		try (InputStream is = new FileInputStream(new File(inDir, NID_PREFIX + WORDS_FILE + SER_EXTENSION)))
 		{
 			var m = DeSerializeNIDs.deSerializeNIDs(is);
 			maps.put(WORDS_FILE, m);
 		}
-		try (InputStream is = new FileInputStream(new File(inDir, NID_PREFIX + SENSES_FILE)))
+		try (InputStream is = new FileInputStream(new File(inDir, NID_PREFIX + SENSES_FILE + SER_EXTENSION)))
 		{
 			var m = DeSerializeNIDs.deSerializeNIDs(is);
 			maps.put(SENSES_FILE, m);
 		}
-		try (InputStream is = new FileInputStream(new File(inDir, NID_PREFIX + SYNSETS_FILE)))
+		try (InputStream is = new FileInputStream(new File(inDir, NID_PREFIX + SYNSETS_FILE + SER_EXTENSION)))
 		{
 			var m = DeSerializeNIDs.deSerializeNIDs(is);
 			maps.put(SYNSETS_FILE, m);
@@ -113,7 +115,10 @@ public class DeSerializeNIDs
 
 		Map<String, Map<String, Integer>> maps = deserializeAllNIDs(inDir);
 		System.out.printf("%s %d%n", WORDS_FILE, maps.get(WORDS_FILE).size());
+		System.out.println(maps.get(WORDS_FILE).entrySet().iterator().next().getClass());
 		System.out.printf("%s %d%n", SENSES_FILE, maps.get(SENSES_FILE).size());
+		System.out.println(maps.get(SENSES_FILE).entrySet().iterator().next().getClass());
 		System.out.printf("%s %d%n", SYNSETS_FILE, maps.get(SYNSETS_FILE).size());
+		System.out.println(maps.get(SYNSETS_FILE).entrySet().iterator().next().getClass());
 	}
 }
