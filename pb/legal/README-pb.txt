@@ -1,4 +1,4 @@
 This includes
-- the PropBank 3.1 database (2022 02 17)
+- the PropBank 3.4 database (2024 05)
 
 see https://github.com/propbank/propbank-frames
