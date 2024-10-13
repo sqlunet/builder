@@ -51,7 +51,11 @@ public class SnResolvingProcessor extends SnProcessor
 				var r2 = senseResolver.apply(collocation.sensekey2); // (word,synsetid)
 				if (r1 != null && r2 != null)
 				{
-					var values = String.format("%s,%s,%s,%s,%s", unresolved, Utils.nullableInt(r1.getKey()), Utils.nullableInt(r1.getValue()), Utils.nullableInt(r2.getKey()), Utils.nullableInt(r2.getValue()));
+					var word1nid = Utils.nullableInt(r1.getKey());
+					var synset1nid = Utils.nullableInt(r1.getValue());
+					var word2nid = Utils.nullableInt(r2.getKey());
+					var synset2nid = Utils.nullableInt(r2.getValue());
+					var values = String.format("%s,%s,%s,%s,%s", unresolved, word1nid, synset1nid, word2nid, synset2nid);
 					insertRow(ps, i, values);
 				}
 			});
