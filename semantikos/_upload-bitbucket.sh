@@ -110,7 +110,9 @@ for repo in ${BITBUCKETREPOS}; do
 	git status
 	git add .
 	git commit -m "${mesg}"
-	
+	echo -en "${C}"
+	git rev-parse HEAD
+	echo -en "${Z}"
 	read -p "Are you sure you want to push '${repo}' to bitbucket? " -n 1 -r
 	echo    # (optional) move to a new line
 	echo -e "${Z}"
