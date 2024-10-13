@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # S O U R C E S
 
 source define_colors.sh

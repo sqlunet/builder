@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 R='\u001b[31m'
 G='\u001b[32m'
 B='\u001b[34m'

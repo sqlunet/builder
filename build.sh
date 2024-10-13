@@ -4,6 +4,8 @@
 
 # Usage [all|wn|bnc|sn|vn|pb|sl|fn] (-resolve|-update)
 
+set -e
+
 source define_colors.sh
 
 vmargs='-Xmx9G -ea'
