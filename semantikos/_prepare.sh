@@ -1,6 +1,8 @@
 #!/bin/bash
 # 13/10/2024
 
+set -e
+
 source define_build.sh
 
 R='\u001b[31m'

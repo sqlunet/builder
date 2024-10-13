@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 dbfile="$1"
 buildtag="$2"
 echo "file $dbfile"

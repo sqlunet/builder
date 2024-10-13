@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 ms="$@"
 if [ -z "${ms}" ]; then
 	ms="xn wn ewn sn vn fn"

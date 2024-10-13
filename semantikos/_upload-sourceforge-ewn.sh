@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # L O C A L
 
 FROM=dist

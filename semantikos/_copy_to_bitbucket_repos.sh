@@ -1,6 +1,8 @@
 #!/bin/bash
 # 06/09/2023
 
+set -e
+
 ms="$@"
 if [ -z "${ms}" ]; then
 	ms="xn wn ewn sn vn fn"

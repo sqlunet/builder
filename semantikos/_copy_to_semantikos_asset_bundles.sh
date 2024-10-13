@@ -1,6 +1,8 @@
 #!/bin/bash
 # 06/09/2023
 
+set -e
+
 PROJECTDIR='/opt/devel/android-sqlunet-as/semantikos'
 options="-i"
 options=""

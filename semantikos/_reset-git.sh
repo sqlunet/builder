@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # reset git local and remote repositories using the same git remote url
 # nothing local is deleted in working directory
 # attach to remote url in $1 parameter

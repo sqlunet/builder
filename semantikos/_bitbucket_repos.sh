@@ -1,6 +1,8 @@
 #!/bin/bash
 # 06/09/2023
 
+set -e
+
 REPODIR='dist/repos/bitbucket'
 
 declare -A repos

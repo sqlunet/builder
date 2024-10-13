@@ -1,6 +1,8 @@
 #!/bin/bash
 # 06/09/2023
 
+set -e
+
 # P A R A M S
 
 tag=$1
