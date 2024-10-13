@@ -7,32 +7,38 @@ set -e
 source define_colors.sh
 source define_build.sh
 
+safe_shift() {
+    if [ "$#" -gt 0 ]; then
+        shift
+    fi
+}
+
 # P A R A M S
 
 # Usage modules                  dbtag        dbdir
 # Usage [bnc|sn|vn|pb|sl|fn|pm]  oewn2X|other sql|other
 
 dbmodules="$1"
-shift
+safe_shift
 if [ -z "${dbmodules}" -o "${dbmodules}" == "all" ]; then
   # dbmodules="bnc sn vn pb sl fn su pm"
   dbmodules="bnc"
 fi
 
 dbtag=$1
-shift
+safe_shift
 if [ -z "${dbtag}" ]; then
   dbtag="wn${TAG31}"
 fi
 
 dbdir=$1
-shift
+safe_shift
 if [ -z "${dbdir}" ]; then
   dbdir=sql31
 fi
 
 version=$1
-shift
+safe_shift
 if [ -z "${version}" ]; then
   version="${BUILD}"
 fi
@@ -49,7 +55,7 @@ echo "ant pack with dbtag=${dbtag}"
 
 for dbmodule in ${dbmodules}; do
   pushd ${dbmodule} > /dev/null
-    wd=$(readlink - m .)
+    wd=$(readlink -m .)
     rm -f *.zip
     echo -e "${Y}${wd}${Z}"
     for dbdata in data data_resolved data_updated; do

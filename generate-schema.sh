@@ -9,6 +9,12 @@ set -e
 
 source define_colors.sh
 
+safe_shift() {
+    if [ "$#" -gt 0 ]; then
+        shift
+    fi
+}
+
 # -compat
 if [ "$1" == "-compat" ]; then
   compatswitch="-compat"
@@ -20,28 +26,27 @@ fi
 
 # module
 module="$1"
-shift
 if [ "${module}" == "" ]; then
   echo "No module. You may use 'all'."
   exit 1
 fi
+shift
 modules="${module}"
 if [ "${modules}" == "all" ]; then
   modules="bnc sn vn pb sl fn su pm"
   echo "All modules: ${modules}"
 fi
-shift
 
 # outdir
 outbase="$1"
 if [ "${outbase}" == "" ]; then
   outbase="sql"
 fi
-shift
+safe_shift
 
 # inputs
 indir="$1"
-shift
+safe_shift
 inputs="$*"
 
 for module in ${modules}; do
@@ -57,6 +62,7 @@ for module in ${modules}; do
     # specified sqls
     for sql in ${inputs}; do
       base=$(basename ${sql})
+      echo -e "${M}${sql}/${type}${Z}"
       java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
     done
   else

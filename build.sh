@@ -8,15 +8,21 @@ set -e
 
 source define_colors.sh
 
+safe_shift() {
+    if [ "$#" -gt 0 ]; then
+        shift
+    fi
+}
+
 vmargs='-Xmx9G -ea'
 
 # module
 module="$1"
-shift
 if [ "${module}" == "" ]; then
   echo "No module. You may use 'all'."
   exit 1
 fi
+shift
 modules="${module}"
 if [ "${modules}" == "all" ]; then
   modules="bnc sn vn pb fn sl su pm"
@@ -25,7 +31,7 @@ fi
 
 # module
 targets="$1"
-shift
+safe_shift
 if [ "${targets}" == "" ]; then
   targets="-base -resolve -update"
   echo "All targets: ${targets}"
