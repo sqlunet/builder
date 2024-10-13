@@ -1,6 +1,8 @@
 #!/bin/bash
 # 05/09/2023
 
+set -e
+
 source define_build.sh
 
 tag="${TAG}"
@@ -24,6 +26,7 @@ export BG_M='\u001b[45m'
 export BG_C='\u001b[46m'
 export BG_W='\u001b[47m'
 
+./_prepare.sh
 echo -e "${BG_B}${W} OEWN ${tag} ${version} ${Z}"
 ./make-oewn.sh "${tag}" "${version}"
 

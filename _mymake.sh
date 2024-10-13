@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # C O L O R S
 
 R='\u001b[31m'

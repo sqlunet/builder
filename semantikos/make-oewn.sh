@@ -1,6 +1,8 @@
 #!/bin/bash
 # 06/09/2023
 
+set -e
+
 # P A R A M S
 
 tag=$1
@@ -46,7 +48,8 @@ echo -e "${M}clean up${Z}"
 rm -fR wn
 rm -fR bnc
 
-echo -e "${M}unzip${Z}"
+pwd
+echo -e "${M}unzip ${wn}${Z}"
 unzip -q ${wn} -d wn
 unzip -q ${bnc} -d bnc
 
