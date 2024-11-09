@@ -4,14 +4,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +14,13 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XmlDocument
 {
@@ -37,9 +38,10 @@ public class XmlDocument
 		factory.setIgnoringComments(true);
 		factory.setNamespaceAware(false);
 		factory.setIgnoringElementContentWhitespace(true);
-		factory.setValidating(false);
 		factory.setExpandEntityReferences(false);
-		//factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+		factory.setValidating(false);
+		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+		factory.setFeature("http://xml.org/sax/features/validation", false);
 
 		return factory.newDocumentBuilder();
 	}
@@ -47,6 +49,7 @@ public class XmlDocument
 	private void load(final String filePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		final DocumentBuilder builder = XmlDocument.makeDocumentBuilder();
+		builder.setEntityResolver((publicId, SystemId) -> new InputSource(new StringReader("")));
 		setDocument(builder.parse(filePath));
 	}
 
