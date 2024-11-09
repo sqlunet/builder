@@ -27,8 +27,8 @@ export BG_M='\u001b[45m'
 export BG_C='\u001b[46m'
 export BG_W='\u001b[47m'
 
-#echo -e "${BG_B}${W} WN31 ${tag31} ${version} ${Z}"
-#./make-wn31.sh "${tag31}" "${version}"
+echo -e "${BG_B}${W} WN31 ${tag31} ${version} ${Z}"
+./make-wn31.sh "${tag31}" "${version}"
 
 echo -e "${BG_B}${W} OEWN ${tag} ${version} ${Z}"
 ./make-oewn.sh "${tag}" "${version}"
