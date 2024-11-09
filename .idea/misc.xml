@@ -177,7 +177,7 @@
     <option name="myDefaultNotNull" value="org.sqlbuilder.common.NotNull" />
     <option name="myNullables">
       <value>
-        <list size="15">
+        <list size="17">
           <item index="0" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
           <item index="1" class="java.lang.String" itemvalue="androidx.annotation.Nullable" />
           <item index="2" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNullable" />
@@ -193,12 +193,14 @@
           <item index="12" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
           <item index="13" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
           <item index="14" class="java.lang.String" itemvalue="org.sqlbuilder.common.Nullable" />
+          <item index="15" class="java.lang.String" itemvalue="org.jspecify.annotations.Nullable" />
+          <item index="16" class="java.lang.String" itemvalue="jakarta.annotation.Nullable" />
         </list>
       </value>
     </option>
     <option name="myNotNulls">
       <value>
-        <list size="15">
+        <list size="17">
           <item index="0" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
           <item index="1" class="java.lang.String" itemvalue="androidx.annotation.NonNull" />
           <item index="2" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNonNull" />
@@ -214,9 +216,14 @@
           <item index="12" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
           <item index="13" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
           <item index="14" class="java.lang.String" itemvalue="org.sqlbuilder.common.NotNull" />
+          <item index="15" class="java.lang.String" itemvalue="org.jspecify.annotations.NonNull" />
+          <item index="16" class="java.lang.String" itemvalue="jakarta.annotation.Nonnull" />
         </list>
       </value>
     </option>
+  </component>
+  <component name="ProjectResources">
+    <resource url="http://propbank.org/specification/dtds/v3.4/frameset.dtd" location="$PROJECT_DIR$/../../data/nlp/propbank/frameset.dtd" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

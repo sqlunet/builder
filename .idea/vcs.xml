@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+    <mapping directory="/mnt/data2/devel/sqlbuilder2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/resources" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo1" vcs="Git" />
