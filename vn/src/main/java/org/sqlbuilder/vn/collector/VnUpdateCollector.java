@@ -10,6 +10,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -17,9 +19,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 
 public class VnUpdateCollector extends VnCollector
 {
@@ -37,7 +36,7 @@ public class VnUpdateCollector extends VnCollector
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
 		{
-			return;
+			throw new RuntimeException("Dir:" + this.verbNetHome + " is empty");
 		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));

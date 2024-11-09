@@ -44,7 +44,7 @@ public class VnCollector extends Processor
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
 		{
-			return;
+			throw new RuntimeException("Dir:" + this.verbNetHome + " is empty");
 		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));

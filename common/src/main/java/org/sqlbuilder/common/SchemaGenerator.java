@@ -193,6 +193,10 @@ public class SchemaGenerator
 							}
 						}
 					}
+					else
+					{
+						throw new RuntimeException("Dir:" + dir + " is empty");
+					}
 				}
 				catch (URISyntaxException ex)
 				{

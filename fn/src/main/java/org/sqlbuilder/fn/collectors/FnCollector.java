@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public abstract class FnCollector extends Processor
 {
-	protected final String fnHome;
+	protected final String frameNetHome;
 
 	protected final String fnDir;
 
@@ -21,21 +21,21 @@ public abstract class FnCollector extends Processor
 	public FnCollector(final String subDir, final Properties props, final String tag)
 	{
 		super(tag);
-		this.fnHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
+		this.frameNetHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
 		this.fnDir = subDir;
 	}
 
 	@Override
 	public void run()
 	{
-		final String folderName = this.fnHome + File.separatorChar + this.fnDir;
+		final String folderName = this.frameNetHome + File.separatorChar + this.fnDir;
 		final File folder = new File(folderName);
 		final FilenameFilter filter = (dir, filename2) -> filename2.endsWith(".xml");
 
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
 		{
-			return;
+			throw new RuntimeException("Dir:" + this.frameNetHome + " is empty");
 		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));

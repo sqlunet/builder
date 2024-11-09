@@ -9,13 +9,12 @@ import org.sqlbuilder.pb.objects.Predicate;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 
 public class PbUpdateCollector extends PbCollector
 {
@@ -32,7 +31,7 @@ public class PbUpdateCollector extends PbCollector
 		final File[] fileArray = folder.listFiles(filter);
 		if (fileArray == null)
 		{
-			return;
+			throw new RuntimeException("Dir:" + this.propBankHome + " is empty");
 		}
 		final List<File> files = Arrays.asList(fileArray);
 		files.sort(Comparator.comparing(File::getName));
