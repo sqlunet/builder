@@ -55,7 +55,7 @@ public class PbCollector extends Processor
 		Progress.traceTailer(fileCount);
 	}
 
-	private void processPropBankFile(final String fileName, final String name)
+	public void processPropBankFile(final String fileName, final String name)
 	{
 		final String head = name.split("\\.")[0];
 		try
