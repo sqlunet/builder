@@ -26,7 +26,7 @@ open class Inserter(conf: Properties) {
     protected val names: Names = Names("pb")
 
     @JvmField
-    protected var header: String? = conf.getProperty("pb_header")
+    protected var header: String = conf.getProperty("pb_header")
 
     @JvmField
     protected var outDir: File = File(conf.getProperty("pb_outdir", "sql/data"))
@@ -73,39 +73,39 @@ open class Inserter(conf: Properties) {
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "func")
-                                                            Insert.insert<Func?>(Func.COLLECTOR, File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"), header)
+                                                            Insert.insert<Func>(Func.COLLECTOR, File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "theta")
-                                                            Insert.insert<Theta?>(Theta.COLLECTOR, File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"), header)
+                                                            Insert.insert<Theta>(Theta.COLLECTOR, File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("set", "argtype")
-                                                            Insert.insert<ArgType?>(ArgType.SET, ArgType.COMPARATOR, File(outDir, names.file("argtypes")), names.table("argtypes"), names.columns("argtypes"), header)
+                                                            Insert.insert<ArgType>(ArgType.SET, ArgType.COMPARATOR, File(outDir, names.file("argtypes")), names.table("argtypes"), names.columns("argtypes"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "roleset")
-                                                            Insert.insert<RoleSet?>(RoleSet.COLLECTOR, File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"), header)
+                                                            Insert.insert<RoleSet>(RoleSet.COLLECTOR, File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "role")
-                                                            Insert.insert<Role?>(Role.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                                                            Insert.insert<Role>(Role.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "example")
-                                                            Insert.insert<Example?>(Example.COLLECTOR, File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header)
+                                                            Insert.insert<Example>(Example.COLLECTOR, File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "arg")
-                                                            Insert.insert<Arg?>(Arg.COLLECTOR, File(outDir, names.file("args")), names.table("args"), names.columns("args"), header)
+                                                            Insert.insert<Arg>(Arg.COLLECTOR, File(outDir, names.file("args")), names.table("args"), names.columns("args"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "rel")
-                                                            Insert.insert<Rel?>(Rel.COLLECTOR, File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"), header)
+                                                            Insert.insert<Rel>(Rel.COLLECTOR, File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("set", "member")
-                                                            Insert.insert<Member?>(Member.SET, Member.COMPARATOR, File(outDir, names.file("members")), names.table("members"), names.columns("members"), header)
+                                                            Insert.insert<Member>(Member.SET, Member.COMPARATOR, File(outDir, names.file("members")), names.table("members"), names.columns("members"), header)
                                                             Progress.traceDone()
 
                                                             // R E S O L V A B L E
@@ -131,28 +131,28 @@ open class Inserter(conf: Properties) {
     @Throws(FileNotFoundException::class)
     protected open fun insertWords() {
         Progress.tracePending("collector", "word")
-        Insert.insert<Word?>(Word.COLLECTOR, File(outDir, names.file("words")), names.table("words"), names.columns("words"), header)
+        Insert.insert<Word>(Word.COLLECTOR, File(outDir, names.file("words")), names.table("words"), names.columns("words"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertFnAliases() {
         Progress.tracePending("collector", "fnalias")
-        Insert.insert<FnAlias?>(FnAlias.SET, FnAlias.COMPARATOR, File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header)
+        Insert.insert<FnAlias>(FnAlias.SET, FnAlias.COMPARATOR, File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnAliases() {
         Progress.tracePending("set", "vnalias")
-        Insert.insert<VnAlias?>(VnAlias.SET, VnAlias.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
+        Insert.insert<VnAlias>(VnAlias.SET, VnAlias.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
-        Insert.insert<VnRoleAlias?>(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
+        Insert.insert<VnRoleAlias>(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
         Progress.traceDone()
     }
 }

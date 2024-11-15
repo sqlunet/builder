@@ -1,10 +1,13 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
 import java.util.*
 
-class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Insertable {
+class Func private constructor(funcName: String) : HasId, Comparable<Func>, Insertable {
 
     val func: String = normalize(funcName)
 
@@ -15,14 +18,14 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Ins
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Func?): Int {
+    override fun compareTo(that: Func): Int {
         return COMPARATOR.compare(this, that)
     }
 
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s',%s", func, Utils.nullableQuotedString<String?>(DESCRIPTIONS.getProperty(func, null)))
+        return String.format("'%s',%s", func, Utils.nullableQuotedString<String>(DESCRIPTIONS.getProperty(func, null)))
     }
 
     override fun toString(): String {
@@ -31,12 +34,12 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Ins
 
     companion object {
 
-        val COMPARATOR: Comparator<Func?> = Comparator.comparing<Func?, String?> { it!!.func }
+        val COMPARATOR: Comparator<Func> = Comparator.comparing<Func, String> { it.func }
 
         @JvmField
-        val COLLECTOR: SetCollector<Func?> = SetCollector<Func?>(COMPARATOR)
+        val COLLECTOR: SetCollector<Func> = SetCollector<Func>(COMPARATOR)
 
-        private val PREDEFINED: Array<String> = arrayOf<String>("ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP")
+        private val PREDEFINED = arrayOf("ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP")
 
         private val DESCRIPTIONS = Properties()
 
@@ -59,10 +62,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Ins
         }
 
         @JvmStatic
-        fun make(f: String?): Func? {
-            if (f == null || f.isEmpty()) {
-                return null
-            }
+        fun make(f: String): Func {
             val fn = Func(f)
             COLLECTOR.add(fn)
             return fn
@@ -78,8 +78,8 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Ins
         }
 
         @RequiresIdFrom(type = Func::class)
-        fun getIntId(func: Func?): Int? {
-            return if (func == null) null else COLLECTOR[func]
+        fun getIntId(func: Func): Int {
+            return COLLECTOR[func]!!
         }
     }
 }

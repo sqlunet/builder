@@ -21,12 +21,12 @@ import org.w3c.dom.Node
 import java.util.ArrayList
 import javax.xml.xpath.XPathExpressionException
 
-class PbDocument(filePath: String?) : XmlDocument(filePath) {
+class PbDocument(filePath: String) : XmlDocument(filePath) {
     companion object {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun getPredicates(head: String, start: Node): MutableCollection<Predicate>? {
+        fun getPredicates(head: String, start: Node): Collection<Predicate>? {
             var result: MutableList<Predicate>? = null
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
@@ -43,7 +43,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun getAliasPredicates(start: Node): MutableCollection<LexItem>? {
+        fun getAliasPredicates(start: Node): Collection<LexItem>? {
             var result: MutableList<LexItem>? = null
             val aliasNodes = getXPaths(start, ".//alias")
             for (i in 0 until aliasNodes.length) {
@@ -60,7 +60,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeRoleSets(head: String, start: Node): MutableCollection<RoleSet>? {
+        fun makeRoleSets(head: String, start: Node): Collection<RoleSet>? {
             var result: MutableList<RoleSet>? = null
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
@@ -147,7 +147,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeRoles(head: String, start: Node): MutableCollection<Role>? {
+        fun makeRoles(head: String, start: Node): Collection<Role>? {
             var result: MutableList<Role>? = null
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
@@ -215,7 +215,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeExamples(head: String, start: Node?): MutableCollection<Example>? {
+        fun makeExamples(head: String, start: Node): Collection<Example>? {
             var result: MutableList<Example>? = null
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
@@ -289,7 +289,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeExampleArgs(head: String, start: Node?): MutableCollection<Arg>? {
+        fun makeExampleArgs(head: String, start: Node): Collection<Arg>? {
             var result: MutableList<Arg>? = null
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {

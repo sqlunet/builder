@@ -57,7 +57,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("pbrolesets_fnframes"),
             fnFrameResolver,
-            { resolved: Int? -> String.format("%s=%s", fnframeidCol, Utils.nullableInt(resolved)) },
+            { resolved -> String.format("%s=%s", fnframeidCol, Utils.nullableInt(resolved)) },
             { resolving: String -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)) })
         Progress.traceDone()
     }
