@@ -16,7 +16,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
 
     @RequiresIdFrom(type = Rel::class)
     override fun getIntId(): Int {
-        return COLLECTOR.get(this)!!
+        return COLLECTOR[this]!!
     }
 
     // O R D E R

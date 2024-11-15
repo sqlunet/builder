@@ -38,11 +38,11 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
 
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Word::class)
-    override fun dataRow(): kotlin.String? {
+    override fun dataRow(): String? {
         return String.format("%s,%s", roleSet.intId, word.intId)
     }
 
-    override fun comment(): kotlin.String? {
+    override fun comment(): String? {
         return String.format("%s,%s", roleSet.name, word.word)
     }
 

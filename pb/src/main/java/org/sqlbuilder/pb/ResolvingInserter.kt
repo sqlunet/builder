@@ -85,7 +85,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_fnframes"),
             header,
             fnFrameResolver,
-            { r: Int? -> Utils.nullable<Int?>(r, { o: Int? -> Objects.toString(o) }) },
+            { r: Int? -> Utils.nullable<Int?>(r) { o: Int? -> Objects.toString(o) } },
             names.column("pbrolesets_fnframes.fnframeid")
         )
         Progress.traceDone()
@@ -102,7 +102,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_vnclasses"),
             header,
             vnClassResolver,
-            { r: Int? -> Utils.nullable<Int?>(r, { o: Int? -> Objects.toString(o) }) },
+            { r: Int? -> Utils.nullable<Int?>(r) { o: Int? -> Objects.toString(o) } },
             names.column("pbrolesets_vnclasses.vnclassid")
         )
         Progress.traceDone()

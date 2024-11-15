@@ -7,11 +7,9 @@ import org.sqlbuilder.pb.foreign.FnAlias
 import org.sqlbuilder.pb.foreign.VnAlias
 import org.sqlbuilder.pb.foreign.VnRoleAlias
 import org.sqlbuilder.pb.objects.Word
-import org.sqlbuilder2.ser.Pair
-import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.FileNotFoundException
-import java.util.Properties
+import java.util.*
 
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {

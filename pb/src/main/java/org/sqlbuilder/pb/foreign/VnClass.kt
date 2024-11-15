@@ -10,7 +10,7 @@ class VnClass private constructor(
 ) : Comparable<VnClass?> {
 
     val className: String
-        get() = String.format("%s-%s", if (head == null) "%" else head, classTag)
+        get() = String.format("%s-%s", head ?: "%", classTag)
 
     // I D E N T I T Y
     override fun equals(o: Any?): Boolean {

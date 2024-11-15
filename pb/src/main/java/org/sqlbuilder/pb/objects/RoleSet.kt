@@ -19,7 +19,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun getIntId(): Int {
-        return COLLECTOR.get(this)!!
+        return COLLECTOR[this]!!
     }
 
     val head: String ?

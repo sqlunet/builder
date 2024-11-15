@@ -1,16 +1,9 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.HasId
-import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
-import org.sqlbuilder.common.Nullable
-import org.sqlbuilder.common.SetCollector
-import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
-import java.util.Comparator
-import java.util.Locale
-import java.util.function.Function
+import java.util.*
 
 class Arg private constructor(example: Example, text: String, n: String, f: String?) : HasId, Insertable, Comparable<Arg?> {
 
@@ -18,16 +11,14 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
 
     private val text: String
 
-    @NotNull
     private val n: ArgType?
 
-    @Nullable
     private val f: Func?
 
     // C O N S T R U C T O R
 
     init {
-        assert(n != null && !n.isEmpty())
+        assert(!n.isEmpty())
         this.example = example
         this.text = PbNormalizer.normalize(text)
         this.n = ArgType.make(n)
@@ -35,24 +26,6 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
     }
 
     // A C C E S S
-
-    fun getExample(): Example {
-        return this.example
-    }
-
-    fun getText(): String {
-        return this.text
-    }
-
-    @Nullable
-    fun getF(): Func? {
-        return this.f
-    }
-
-    @NotNull
-    fun getN(): ArgType? {
-        return this.n
-    }
 
     override fun getIntId(): Int {
         return COLLECTOR[this]!!
@@ -92,10 +65,10 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
     companion object {
 
         private val COMPARATOR: Comparator<Arg?> = Comparator
-            .comparing<Arg?, Example?>(Function { obj: Arg? -> obj!!.getExample() })
-            .thenComparing<String?>(Function { obj: Arg? -> obj!!.getText() })
-            .thenComparing<ArgType?>(Function { obj: Arg? -> obj!!.getN() })
-            .thenComparing<Func?>(Function { obj: Arg? -> obj!!.getF() }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
+            .comparing<Arg?, Example?> { it.example }
+            .thenComparing<String?> { it.text }
+            .thenComparing<ArgType?> { it.n }
+            .thenComparing<Func?>({ it!!.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
         val COLLECTOR: SetCollector<Arg?> = SetCollector<Arg?>(COMPARATOR)

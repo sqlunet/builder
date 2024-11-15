@@ -8,12 +8,10 @@ import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder2.ser.Pair
 import org.sqlbuilder2.ser.Triplet
 import java.util.*
-import java.util.function.Function
 
 class VnRoleAlias private constructor(
-// A C C E S S
     val role: Role, val vnRole: VnRole
-) : Insertable, Resolvable<Pair<kotlin.String?, kotlin.String?>?, Triplet<Int?, Int?, Int?>?> {
+) : Insertable, Resolvable<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
 
     // I D E N T I T Y
     override fun equals(o: Any?): Boolean {
@@ -24,7 +22,7 @@ class VnRoleAlias private constructor(
             return false
         }
         val that = o as VnRoleAlias
-        return role.equals(that.role) && vnRole == that.vnRole
+        return role == that.role && vnRole == that.vnRole
     }
 
     override fun hashCode(): Int {

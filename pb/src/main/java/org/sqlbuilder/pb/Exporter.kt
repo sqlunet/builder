@@ -207,7 +207,7 @@ open class Exporter(conf: Properties) {
             .map {
                 val r = it.key
                 val rs = r!!.roleSet
-                (rs.name to r.argType) to (it.value to rs.intId!!)
+                (rs.name to r.argType) to (it.value to rs.intId)
             }
             .toMap()
     }
@@ -223,7 +223,7 @@ open class Exporter(conf: Properties) {
             .map {
                 val r = it.key
                 val rs = r!!.roleSet
-                (rs.name to r.argType) to (it.value to rs.intId!!)
+                (rs.name to r.argType) to (it.value to rs.intId)
             }
             .toMap()
             .toSortedMap(COMPARATOR)

@@ -6,7 +6,6 @@ import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder.pb.objects.Word
 import java.util.*
-import java.util.function.Function
 
 abstract class Alias protected constructor(
 	@JvmField val ref: String,
@@ -20,7 +19,7 @@ abstract class Alias protected constructor(
     }
 
     @JvmField
-    val pos: String = (if ("j" == pos) "a" else pos)!!
+    val pos: String = (if ("j" == pos) "a" else pos)
 
     // I D E N T I T Y
 
