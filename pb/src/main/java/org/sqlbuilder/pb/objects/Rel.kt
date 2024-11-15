@@ -1,88 +1,58 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.pb.PbNormalizer;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
+import org.sqlbuilder.pb.PbNormalizer
+import java.util.Comparator
+import java.util.function.Function
 
-import java.util.Comparator;
+class Rel private constructor(val example: Example, text: String, val f: Func?) : HasId, Insertable, Comparable<Rel?> {
 
-public class Rel implements HasId, Insertable, Comparable<Rel>
-{
-	private static final Comparator<Rel> COMPARATOR = Comparator //
-			.comparing(Rel::getExample) //
-			.thenComparing(Rel::getText) //
-			.thenComparing(Rel::getF, Comparator.nullsFirst(Comparator.naturalOrder()));
+    val text: String = PbNormalizer.normalize(text)
 
-	public static final SetCollector<Rel> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @RequiresIdFrom(type = Rel::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.get(this)!!
+    }
 
-	private final String text;
+    // O R D E R
 
-	private final Func f;
+    override fun compareTo(@NotNull that: Rel?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private final Example example;
+    override fun dataRow(): String {
+        // (relid),rel,func,exampleid
+        return String.format(
+            "'%s',%s,%s",
+            Utils.escape(text),
+            Utils.nullable<Func?>(f, Function { obj: Func? -> obj!!.getSqlId() }),
+            example.getSqlId()
+        )
+    }
 
-	// C O N S T R U C T O R
+    override fun toString(): String {
+        return String.format("rel %s[%s][%s]", text, example, f)
+    }
 
-	public static Rel make(final Example example, final String text, final Func f)
-	{
-		var r = new Rel(example, text, f);
-		COLLECTOR.add(r);
-		return r;
-	}
+    companion object {
 
-	private Rel(final Example example, final String text, final Func f)
-	{
-		this.text = PbNormalizer.normalize(text);
-		this.f = f;
-		this.example = example;
-	}
+        private val COMPARATOR: Comparator<Rel?> = Comparator
+            .comparing<Rel?, Example?>(Function { obj: Rel? -> obj!!.example })
+            .thenComparing<String?>(Function { obj: Rel? -> obj!!.text })
+            .thenComparing<Func?>(Function { obj: Rel? -> obj!!.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
-	// A C C E S S
+        @JvmField
+        val COLLECTOR: SetCollector<Rel?> = SetCollector<Rel?>(COMPARATOR)
 
-	public Example getExample()
-	{
-		return example;
-	}
-
-	public String getText()
-	{
-		return text;
-	}
-
-	public Func getF()
-	{
-		return f;
-	}
-
-	@RequiresIdFrom(type = Rel.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.get(this);
-	}
-
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final Rel that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	@Override
-	public String dataRow()
-	{
-		// (relid),rel,func,exampleid
-		return String.format("'%s',%s,%s", //
-				Utils.escape(text), //
-				Utils.nullable(f, Func::getSqlId), //
-				example.getSqlId() //
-		);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("rel %s[%s][%s]", text, example, f);
-	}
+        fun make(example: Example, text: String, f: Func?): Rel {
+            val r = Rel(example, text, f)
+            COLLECTOR.add(r)
+            return r
+        }
+    }
 }

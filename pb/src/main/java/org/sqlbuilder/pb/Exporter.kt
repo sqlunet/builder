@@ -1,269 +1,249 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb
 
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.pb.objects.Role;
-import org.sqlbuilder.pb.objects.RoleSet;
-import org.sqlbuilder.pb.objects.Theta;
-import org.sqlbuilder.pb.objects.Word;
-import org.sqlbuilder2.ser.Pair;
-import org.sqlbuilder2.ser.Serialize;
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.pb.objects.Role
+import org.sqlbuilder.pb.objects.RoleSet
+import org.sqlbuilder.pb.objects.Theta
+import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder2.ser.Serialize
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
+import java.util.function.Function
+import java.util.stream.Collectors
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
-import java.util.function.Function;
+open class Exporter(conf: Properties) {
 
-import static java.util.stream.Collectors.*;
+    protected val names: Names = Names("pb")
 
-public class Exporter
-{
-	//private static final Comparator<Pair<String, String>> NONSERIALIZABLE_COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
-	//private static final Comparator<Pair<String, String>> COMPARATOR = (Comparator<Pair<String, String>> & Serializable) (p1, p2) -> NONSERIALIZABLE_COMPARATOR.compare(p1, p2);
+    protected val outDir: File = File(conf.getProperty("pb_outdir_ser", "sers"))
 
-	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
+    init {
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-	protected final Names names;
+    @Throws(IOException::class)
+    fun run() {
+        System.out.printf("%s %d%n", "thetas", Theta.COLLECTOR.size)
+        System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size)
+        System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size)
+        System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
+        duplicateRoles()
 
-	protected final File outDir;
+        Theta.COLLECTOR.open().use { ignored1 ->
+            Role.COLLECTOR.open().use { ignored2 ->
+                RoleSet.COLLECTOR.open().use { ignored3 ->
+                    Word.COLLECTOR.open().use { ignored4 ->
+                        serialize()
+                        export()
+                    }
+                }
+            }
+        }
+    }
 
-	public Exporter(final Properties conf)
-	{
-		this.names = new Names("pb");
-		this.outDir = new File(conf.getProperty("pb_outdir_ser", "sers"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(IOException::class)
+    fun serialize() {
+        serializeThetas()
+        serializeRoleSets()
+        serializeRolesBare()
+        serializeRoles()
+        serializeWords()
+    }
 
-	public void run() throws IOException
-	{
-		System.out.printf("%s %d%n", "thetas", Theta.COLLECTOR.size());
-		System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size());
-		System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size());
-		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
-		duplicateRoles();
+    @Throws(IOException::class)
+    fun export() {
+        exportThetas()
+        exportRoleSets()
+        exportRolesBare()
+        exportRoles()
+        exportWords()
+    }
 
-		try ( //
-		      @ProvidesIdTo(type = Theta.class) var ignored1 = Theta.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = Role.class) var ignored2 = Role.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = RoleSet.class) var ignored3 = RoleSet.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = Word.class) var ignored4 = Word.COLLECTOR.open() //
-		)
-		{
-			serialize();
-			export();
-		}
-	}
+    @Throws(IOException::class)
+    fun serializeThetas() {
+        val m = makeThetasMap()
+        Serialize.serialize(m, File(outDir, names.serFile("thetas", ".resolve_[theta]-[thetaid]")))
+    }
 
-	public void serialize() throws IOException
-	{
-		serializeThetas();
-		serializeRoleSets();
-		serializeRolesBare();
-		serializeRoles();
-		serializeWords();
-	}
+    @Throws(IOException::class)
+    fun serializeRoleSets() {
+        val m = makeRoleSetsMap()
+        Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
+    }
 
-	public void export() throws IOException
-	{
-		exportThetas();
-		exportRoleSets();
-		exportRolesBare();
-		exportRoles();
-		exportWords();
-	}
+    @Throws(IOException::class)
+    fun serializeRolesBare() {
+        val m = makeRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")))
+    }
 
-	public void serializeThetas() throws IOException
-	{
-		var m = makeThetasMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("thetas", ".resolve_[theta]-[thetaid]")));
-	}
+    @Throws(IOException::class)
+    private fun serializeRoles() {
+        val m = makeRolesFromArgTypeToFullMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")))
+    }
 
-	public void serializeRoleSets() throws IOException
-	{
-		var m = makeRoleSetsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")));
-	}
+    @Throws(IOException::class)
+    fun serializeWords() {
+        val m = makeWordMap()
+        Serialize.serialize(m, File(outDir, names.serFile("words", ".resolve_[word]-[pbwordid]")))
+    }
 
-	public void serializeRolesBare() throws IOException
-	{
-		var m = makeRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")));
-	}
+    @Throws(IOException::class)
+    fun exportThetas() {
+        val m = makeThetasMap()
+        export(m, File(outDir, names.mapFile("thetas.resolve", "_[theta]-[thetaid]")))
+    }
 
-	private void serializeRoles() throws IOException
-	{
-		var m = makeRolesFromArgTypeToFullMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")));
-	}
+    @Throws(IOException::class)
+    fun exportRoleSets() {
+        val m = makeRoleSetsMap()
+        export(m, File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")))
+    }
 
-	public void serializeWords() throws IOException
-	{
-		var m = makeWordMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("words", ".resolve_[word]-[pbwordid]")));
-	}
+    @Throws(IOException::class)
+    fun exportRolesBare() {
+        val m = makeRolesTreeMap()
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
+    }
 
-	public void exportThetas() throws IOException
-	{
-		var m = makeThetasMap();
-		export(m, new File(outDir, names.mapFile("thetas.resolve", "_[theta]-[thetaid]")));
-	}
+    @Throws(IOException::class)
+    fun exportRoles() {
+        val m = makeRolesFromArgTypeToFullTreeMap()
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid,rolesetid]")))
+    }
 
-	public void exportRoleSets() throws IOException
-	{
-		var m = makeRoleSetsMap();
-		export(m, new File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")));
-	}
+    @Throws(IOException::class)
+    fun exportWords() {
+        val m = makeWordMap()
+        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
+    }
 
-	public void exportRolesBare() throws IOException
-	{
-		var m = makeRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")));
-	}
+    fun duplicateRoles() {
+        Role.COLLECTOR.keys.stream()
+            .map { r -> r!!.roleSet.name to r.argType }
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+            .entries.stream()
+            .filter { e -> e!!.value!! > 1 }
+            .map { p -> p.key }
+            .forEach { p -> System.err.printf("%s is duplicated in %s%n", p.second, p.first) }
+    }
 
-	public void exportRoles() throws IOException
-	{
-		var m = makeRolesFromArgTypeToFullTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid,rolesetid]")));
-	}
+    // M A P S
 
-	public void exportWords() throws IOException
-	{
-		var m = makeWordMap();
-		export(m, new File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")));
-	}
+    /**
+     * Make word to wordid map
+     *
+     * @return word to wordid
+     */
+    fun makeWordMap(): Map<String, Int> {
+        return Word.COLLECTOR.entries
+            .asSequence()
+            .map { it.key.word to it.value }
+            .toMap()
+            .toSortedMap()
+    }
 
-	public static <K, V> void export(Map<K, V> m, File file) throws IOException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file), true, StandardCharsets.UTF_8))
-		{
-			export(ps, m);
-		}
-	}
+    fun makeRoleSetsMap(): Map<String, Int> {
+        return RoleSet.COLLECTOR.entries
+            .asSequence()
+            .map { it.key.name to it.value }
+            .toMap()
+            .toSortedMap()
+    }
 
-	public static <K, V> void export(PrintStream ps, Map<K, V> m)
-	{
-		m.forEach((strs, nids) -> ps.printf("%s -> %s%n", strs, nids));
-	}
+    fun makeThetasMap(): Map<String, Int> {
+        return Theta.COLLECTOR.entries
+            .asSequence()
+            .map { it.key.theta to it.value }
+            .toMap()
+            .toSortedMap()
+    }
 
-	void duplicateRoles()
-	{
-		Role.COLLECTOR.keySet().stream() //
-				.map(r -> new Pair<>(r.getRoleSet().getName(), r.getArgType())) //
-				.collect(groupingBy(Function.identity(), counting())) //
-				.entrySet().stream() //
-				.filter(e -> e.getValue() > 1).map(Map.Entry::getKey).forEach(p -> System.err.printf("%s is duplicated in %s%n", p.second, p.first));
-	}
+    fun makeRolesMap(): Map<Pair<String, String>, Int> {
+        Role.COLLECTOR.entries
+            .groupBy { it.key }
+            .forEach { (key, values) ->
+                if (values.size > 1) {
+                    println("Warning: Duplicate role '$key' found.")
+                }
+            }
+        return Role.COLLECTOR.entries
+            .asSequence()
+            .map {
+                val r = it.key
+                val rs = r.roleSet
+                (rs.name to r.argType) to it.value
+            }
+            .toMap()
+    }
 
-	// M A P S
+    fun makeRolesTreeMap(): Map<Pair<String, String>, Int> {
+        return Role.COLLECTOR.entries
+            .asSequence()
+            .map {
+                val r = it.key
+                val rs = r.roleSet
+                (rs.name to r.argType) to it.value
+            }
+            .toMap()
+            .toSortedMap(COMPARATOR)
+    }
 
-	/**
-	 * Make word to wordid map
-	 *
-	 * @return word to wordid
-	 */
-	public Map<String, Integer> makeWordMap()
-	{
-		return Word.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getWord(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    /**
+     * Detailed role maps
+     *
+     * @return (rolesetname, argtype) -> (roleid, rolesetid)
+     */
+    fun makeRolesFromArgTypeToFullMap(): Map<Pair<String, String>, Pair<Int, Int>> {
+        return Role.COLLECTOR.entries
+            .asSequence()
+            .map {
+                val r = it.key
+                val rs = r!!.roleSet
+                (rs.name to r.argType) to (it.value to rs.intId!!)
+            }
+            .toMap()
+    }
 
-	public Map<String, Integer> makeRoleSetsMap()
-	{
-		return RoleSet.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getName(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    /**
+     * Detailed role maps
+     *
+     * @return (rolesetname, argtype) -> (roleid, rolesetid)
+     */
+    fun makeRolesFromArgTypeToFullTreeMap(): Map<Pair<String, String>, Pair<Int, Int>> {
+        return Role.COLLECTOR.entries
+            .asSequence()
+            .map {
+                val r = it.key
+                val rs = r!!.roleSet
+                (rs.name to r.argType) to (it.value to rs.intId!!)
+            }
+            .toMap()
+            .toSortedMap(COMPARATOR)
+    }
 
-	public Map<String, Integer> makeThetasMap()
-	{
-		return Theta.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getTheta(), e.getValue())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    companion object {
 
-	public Map<Pair<String, String>, Integer> makeRolesMap()
-	{
-		return Role.COLLECTOR.entrySet().stream() //
-				.map(e -> {
-					var r = e.getKey(); //
-					var rs = r.getRoleSet();
-					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgType()), //
-							e.getValue());
-				}) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					System.err.println("duplicate roleid for roleset: " + x + " / " + r);
-					return x;
-				}));
-	}
+        private val COMPARATOR: Comparator<Pair<String, String>> =
+            Comparator.comparing { p: Pair<String, String> -> p.first }
+                .thenComparing<String> { it.second }
 
-	public Map<Pair<String, String>, Integer> makeRolesTreeMap()
-	{
-		return Role.COLLECTOR.entrySet().stream() //
-				.map(e -> {
-					var r = e.getKey(); //
-					var rs = r.getRoleSet();
-					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgType()), //
-							e.getValue());
-				}) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					// System.err.println("duplicate roleid for roleset: " + x + " / " + r);
-					return x;
-				}, () -> new TreeMap<>(COMPARATOR)));
-	}
+        @Throws(IOException::class)
+        fun <K, V> export(m: Map<K, V>, file: File) {
+            PrintStream(FileOutputStream(file), true, StandardCharsets.UTF_8).use { ps ->
+                export<K, V>(ps, m)
+            }
+        }
 
-	/**
-	 * Detailed role maps
-	 *
-	 * @return (rolesetname, argtype) -> (roleid, rolesetid)
-	 */
-	public Map<Pair<String, String>, Pair<Integer, Integer>> makeRolesFromArgTypeToFullMap()
-	{
-		return Role.COLLECTOR.entrySet().stream() //
-				.map(e -> {
-					var r = e.getKey(); //
-					var rs = r.getRoleSet();
-					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgType()), //
-							new Pair<>(e.getValue(), rs.getIntId()));
-				}) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					// System.err.println("duplicate roleid for roleset: " + x + " / " + r);
-					return x;
-				}));
-	}
-
-	/**
-	 * Detailed role maps
-	 *
-	 * @return (rolesetname, argtype) -> (roleid, rolesetid)
-	 */
-	public Map<Pair<String, String>, Pair<Integer, Integer>> makeRolesFromArgTypeToFullTreeMap()
-	{
-		return Role.COLLECTOR.entrySet().stream() //
-				.map(e -> {
-					var r = e.getKey(); //
-					var rs = r.getRoleSet();
-					return new Pair<>( //
-							new Pair<>(rs.getName(), r.getArgType()), //
-							new Pair<>(e.getValue(), rs.getIntId()));
-				}) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (x, r) -> {
-					// System.err.println("duplicate roleid for roleset: " + x + " / " + r);
-					return x;
-				}, () -> new TreeMap<>(COMPARATOR)));
-	}
+        fun <K, V> export(ps: PrintStream, m: Map<K, V>) {
+            m.forEach { (strs: K, nids: V) -> ps.printf("%s -> %s%n", strs, nids) }
+        }
+    }
 }

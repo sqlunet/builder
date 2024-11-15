@@ -1,113 +1,109 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.pb.PbNormalizer;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.Nullable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
+import org.sqlbuilder.pb.PbNormalizer
+import java.util.Comparator
+import java.util.Locale
+import java.util.function.Function
 
-import java.util.Comparator;
+class Arg private constructor(example: Example, text: String, n: String, f: String?) : HasId, Insertable, Comparable<Arg?> {
 
-public class Arg implements HasId, Insertable, Comparable<Arg>
-{
-	private static final Comparator<Arg> COMPARATOR = Comparator //
-			.comparing(Arg::getExample) //
-			.thenComparing(Arg::getText) //
-			.thenComparing(Arg::getN) //
-			.thenComparing(Arg::getF, Comparator.nullsFirst(Comparator.naturalOrder()));
+    private val example: Example
 
-	public static final SetCollector<Arg> COLLECTOR = new SetCollector<>(COMPARATOR);
+    private val text: String
 
-	private final Example example;
+    @NotNull
+    private val n: ArgType?
 
-	private final String text;
+    @Nullable
+    private val f: Func?
 
-	@NotNull
-	private final ArgType n;
+    // C O N S T R U C T O R
 
-	@Nullable
-	private final Func f;
+    init {
+        assert(n != null && !n.isEmpty())
+        this.example = example
+        this.text = PbNormalizer.normalize(text)
+        this.n = ArgType.make(n)
+        this.f = if (f == null || f.isEmpty()) null else Func.make(f.lowercase(Locale.getDefault()))
+    }
 
-	// C O N S T R U C T O R
+    // A C C E S S
 
-	private Arg(final Example example, final String text, final String n, final String f)
-	{
-		assert n != null && !n.isEmpty();
-		this.example = example;
-		this.text = PbNormalizer.normalize(text);
-		this.n = ArgType.make(n);
-		this.f = f == null || f.isEmpty() ? null : Func.make(f.toLowerCase());
-	}
+    fun getExample(): Example {
+        return this.example
+    }
 
-	public static Arg make(final Example example, final String text, @NotNull final String n, final String f)
-	{
-		var a = new Arg(example, text, n, f);
-		COLLECTOR.add(a);
-		return a;
-	}
+    fun getText(): String {
+        return this.text
+    }
 
-	// A C C E S S
+    @Nullable
+    fun getF(): Func? {
+        return this.f
+    }
 
-	public Example getExample()
-	{
-		return this.example;
-	}
+    @NotNull
+    fun getN(): ArgType? {
+        return this.n
+    }
 
-	public String getText()
-	{
-		return this.text;
-	}
+    override fun getIntId(): Int {
+        return COLLECTOR[this]!!
+    }
 
-	@Nullable
-	public Func getF()
-	{
-		return this.f;
-	}
+    // O R D E R
 
-	@NotNull
-	public ArgType getN()
-	{
-		return this.n;
-	}
+    override fun compareTo(@NotNull that: Arg?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.get(this);
-	}
+    // T O S T R I N G
 
-	// O R D E R
+    override fun toString(): String {
+        return String.format("arg %s[%s][%s]", example, n, f)
+    }
 
-	@Override
-	public int compareTo(@NotNull final Arg that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+    // I N S E R T
 
-	// T O S T R I N G
+    @RequiresIdFrom(type = Func::class)
+    @RequiresIdFrom(type = Example::class)
+    override fun dataRow(): String {
+        // (argid),text,n,f,exampleid
+        return String.format(
+            "'%s','%s',%s,%s",
+            Utils.escape(text),
+            n!!.argType,
+            Func.getIntId(f),
+            example.intId
+        )
+    }
 
-	@Override
-	public String toString()
-	{
-		return String.format("arg %s[%s][%s]", example, n, f);
-	}
+    override fun comment(): String {
+        return String.format("%s,%s", n!!.argType, f?.func)
+    }
 
-	// I N S E R T
+    companion object {
 
-	@RequiresIdFrom(type = Func.class)
-	@RequiresIdFrom(type = Example.class)
-	@Override
-	public String dataRow()
-	{
-		// (argid),text,n,f,exampleid
-		return String.format("'%s','%s',%s,%s", //
-				Utils.escape(text), //
-				n.getArgType(), //
-				Func.getIntId(f), //
-				example.getIntId());
-	}
+        private val COMPARATOR: Comparator<Arg?> = Comparator
+            .comparing<Arg?, Example?>(Function { obj: Arg? -> obj!!.getExample() })
+            .thenComparing<String?>(Function { obj: Arg? -> obj!!.getText() })
+            .thenComparing<ArgType?>(Function { obj: Arg? -> obj!!.getN() })
+            .thenComparing<Func?>(Function { obj: Arg? -> obj!!.getF() }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s", n.getArgType(), f == null ? null : f.getFunc());
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<Arg?> = SetCollector<Arg?>(COMPARATOR)
+
+        fun make(example: Example, text: String, @NotNull n: String?, f: String?): Arg {
+            val a = Arg(example, text, n!!, f)
+            COLLECTOR.add(a)
+            return a
+        }
+    }
 }

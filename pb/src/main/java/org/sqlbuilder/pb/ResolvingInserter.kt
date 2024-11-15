@@ -1,109 +1,131 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb
 
-import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.pb.foreign.FnAlias;
-import org.sqlbuilder.pb.foreign.VnAlias;
-import org.sqlbuilder.pb.foreign.VnRoleAlias;
-import org.sqlbuilder.pb.objects.Word;
+import org.sqlbuilder.common.Insert
+import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.Utils
+import org.sqlbuilder.pb.foreign.FnAlias
+import org.sqlbuilder.pb.foreign.VnAlias
+import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder2.ser.Pair
+import org.sqlbuilder2.ser.Triplet
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Properties;
+open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
-public class ResolvingInserter extends Inserter
-{
-	protected final String wordSerFile;
+    protected val wordSerFile: String?
 
-	protected final String vnClassSerFile;
+    protected val vnClassSerFile: String?
 
-	protected final String vnClassRoleSerFile;
+    protected val vnClassRoleSerFile: String?
 
-	protected final String fnFrameSerFile;
+    protected val fnFrameSerFile: String?
 
-	protected final WordResolver wordResolver;
+    @JvmField
+    protected val wordResolver: WordResolver
 
-	protected final VnClassResolver vnClassResolver;
+    @JvmField
+    protected val vnClassResolver: VnClassResolver
 
-	protected final VnClassRoleResolver vnClassRoleResolver;
+    @JvmField
+    protected val vnClassRoleResolver: VnClassRoleResolver
 
-	protected final FnFrameResolver fnFrameResolver;
+    @JvmField
+    protected val fnFrameResolver: FnFrameResolver
 
-	public ResolvingInserter(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    init {
+        // header
+        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
+        this.header += "\n-- " + conf.getProperty("vn_resolve_against")
+        this.header += "\n-- " + conf.getProperty("fn_resolve_against")
 
-		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
-		this.header += "\n-- " + conf.getProperty("vn_resolve_against");
-		this.header += "\n-- " + conf.getProperty("fn_resolve_against");
+        // output
+        this.outDir = File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
 
-		// output
-		this.outDir = new File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
+        // resolve
+        this.wordSerFile = conf.getProperty("word_nids")
+        this.vnClassSerFile = conf.getProperty("vnclass_nids")
+        this.vnClassRoleSerFile = conf.getProperty("vnrole_nids")
+        this.fnFrameSerFile = conf.getProperty("fnframe_nids")
 
-		// resolve
-		this.wordSerFile = conf.getProperty("word_nids");
-		this.vnClassSerFile = conf.getProperty("vnclass_nids");
-		this.vnClassRoleSerFile = conf.getProperty("vnrole_nids");
-		this.fnFrameSerFile = conf.getProperty("fnframe_nids");
+        this.wordResolver = WordResolver(wordSerFile)
+        this.vnClassResolver = VnClassResolver(vnClassSerFile)
+        this.vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
+        this.fnFrameResolver = FnFrameResolver(this.fnFrameSerFile)
+    }
 
-		this.wordResolver = new WordResolver(wordSerFile);
-		this.vnClassResolver = new VnClassResolver(vnClassSerFile);
-		this.vnClassRoleResolver = new VnClassRoleResolver(vnClassRoleSerFile);
-		this.fnFrameResolver = new FnFrameResolver(this.fnFrameSerFile);
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertWords() {
+        Progress.tracePending("collector", "word")
+        Insert.resolveAndInsert(
+            Word.COLLECTOR,
+            File(outDir, names.file("words")),
+            names.table("words"),
+            names.columns("words"),
+            header,
+            true,
+            wordResolver,
+            { o: Int? -> Objects.toString(o) },
+            names.column("words.wordid")
+        )
+        Progress.traceDone()
+    }
 
-	@Override
-	protected void insertWords() throws FileNotFoundException
-	{
-		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
-				wordResolver, //
-				Objects::toString, //
-				names.column("words.wordid"));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertFnAliases() {
+        Progress.tracePending("set", "fnalias")
+        Insert.resolveAndInsert(
+            FnAlias.SET,
+            FnAlias.COMPARATOR,
+            File(outDir, names.file("pbrolesets_fnframes")),
+            names.table("pbrolesets_fnframes"),
+            names.columns("pbrolesets_fnframes"),
+            header,
+            fnFrameResolver,
+            { r: Int? -> Utils.nullable<Int?>(r, { o: Int? -> Objects.toString(o) }) },
+            names.column("pbrolesets_fnframes.fnframeid")
+        )
+        Progress.traceDone()
+    }
 
-	@Override
-	protected void insertFnAliases() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "fnalias");
-		Insert.resolveAndInsert(FnAlias.SET, FnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header, //
-				fnFrameResolver, //
-				r -> Utils.nullable(r, Objects::toString), //
-				names.column("pbrolesets_fnframes.fnframeid"));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertVnAliases() {
+        Progress.tracePending("set", "vnalias")
+        Insert.resolveAndInsert(
+            VnAlias.SET,
+            VnAlias.COMPARATOR,
+            File(outDir, names.file("pbrolesets_vnclasses")),
+            names.table("pbrolesets_vnclasses"),
+            names.columns("pbrolesets_vnclasses"),
+            header,
+            vnClassResolver,
+            { r: Int? -> Utils.nullable<Int?>(r, { o: Int? -> Objects.toString(o) }) },
+            names.column("pbrolesets_vnclasses.vnclassid")
+        )
+        Progress.traceDone()
+    }
 
-	@Override
-	protected void insertVnAliases() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "vnalias");
-		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header, //
-				vnClassResolver, //
-				r -> Utils.nullable(r, Objects::toString), //
-				names.column("pbrolesets_vnclasses.vnclassid"));
-		Progress.traceDone();
-	}
-
-	@Override
-	protected void insertVnRoleAliases() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "vnaliasrole");
-		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header, //
-				vnClassRoleResolver, //
-				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
-				names.column("pbroles_vnroles.vnroleid"), //
-				names.column("pbroles_vnroles.vnclassid"), //
-				names.column("pbroles_vnroles.vnroletypeid"));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertVnRoleAliases() {
+        Progress.tracePending("set", "vnaliasrole")
+        Insert.resolveAndInsert(
+            VnRoleAlias.SET,
+            VnRoleAlias.COMPARATOR,
+            File(outDir, names.file("pbroles_vnroles")),
+            names.table("pbroles_vnroles"),
+            names.columns("pbroles_vnroles"),
+            header,
+            vnClassRoleResolver,
+            VnRoleAlias.RESOLVE_RESULT_STRINGIFIER,
+            names.column("pbroles_vnroles.vnroleid"),
+            names.column("pbroles_vnroles.vnclassid"),
+            names.column("pbroles_vnroles.vnroletypeid")
+        )
+        Progress.traceDone()
+    }
 }

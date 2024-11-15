@@ -1,15 +1,7 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb
 
-import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Resolver;
+import org.sqlbuilder.common.DeSerialize
+import org.sqlbuilder.common.Resolver
+import java.io.File
 
-import java.io.File;
-import java.io.IOException;
-
-public class FnFrameResolver extends Resolver<String, Integer>
-{
-	public FnFrameResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class FnFrameResolver(ser: String) : Resolver<String, Int>(DeSerialize.deserialize<Map<String, Int>>(File(ser)))

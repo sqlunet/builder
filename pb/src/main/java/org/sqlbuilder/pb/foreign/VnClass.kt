@@ -1,84 +1,50 @@
-package org.sqlbuilder.pb.foreign;
+package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.NotNull;
+import org.sqlbuilder.common.NotNull
+import java.util.*
+import java.util.function.Function
 
-import java.util.Comparator;
-import java.util.Objects;
+class VnClass private constructor(
+// A C C E S S
+    val head: String?, val classTag: String
+) : Comparable<VnClass?> {
 
-public class VnClass implements Comparable<VnClass>
-{
-	static public final Comparator<VnClass> COMPARATOR = Comparator.comparing(VnClass::getClassName);
+    val className: String
+        get() = String.format("%s-%s", if (head == null) "%" else head, classTag)
 
-	private final String head;
+    // I D E N T I T Y
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as VnClass
+        return head == that.head && classTag == that.classTag
+    }
 
-	private final String classTag;
+    override fun hashCode(): Int {
+        return Objects.hash(head, classTag)
+    }
 
-	// C O N S T R U C T O R
+    // O R D E R I N G
+    override fun compareTo(@NotNull that: VnClass?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public static VnClass make(final String head, final String classTag)
-	{
-		return new VnClass(head, classTag);
-	}
+    // T O S T R I N G
+    override fun toString(): String {
+        return String.format("<%s>", classTag)
+    }
 
-	private VnClass(final String head, final String className)
-	{
-		this.head = head;
-		this.classTag = className;
-	}
+    companion object {
 
-	// A C C E S S
+        val COMPARATOR: Comparator<VnClass?> = Comparator.comparing<VnClass?, String?>(Function { obj: VnClass? -> obj!!.className })
 
-	public String getHead()
-	{
-		return this.head;
-	}
-
-	public String getClassTag()
-	{
-		return this.classTag;
-	}
-
-	public String getClassName()
-	{
-		return String.format("%s-%s", head == null ? "%" : head, classTag);
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		VnClass that = (VnClass) o;
-		return Objects.equals(head, that.head) && classTag.equals(that.classTag);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(head, classTag);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final VnClass that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("<%s>", classTag);
-	}
+        // C O N S T R U C T O R
+        fun make(head: String?, classTag: String): VnClass {
+            return VnClass(head, classTag)
+        }
+    }
 }

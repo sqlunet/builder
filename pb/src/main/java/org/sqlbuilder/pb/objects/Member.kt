@@ -1,99 +1,63 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.annotations.RequiresIdFrom;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Member private constructor(val roleSet: RoleSet, val word: Word) : Insertable, Comparable<Member?> {
 
-public class Member implements Insertable, Comparable<Member>
-{
-	public static final Comparator<Member> COMPARATOR = Comparator //
-			.comparing(Member::getWord) //
-			.thenComparing(Member::getRoleSet);
+    init {
+        SET.add(this)
+    }
 
-	public static final Set<Member> SET = new HashSet<>();
+    // I D E N T I T Y
 
-	final RoleSet roleSet;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Member
+        return roleSet == that.roleSet && word == that.word
+    }
 
-	final Word word;
+    override fun hashCode(): Int {
+        return Objects.hash(roleSet, word)
+    }
 
-	// C O N S T R U C T O R
+    // O R D E R
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Member make(final RoleSet roleSet, final Word word)
-	{
-		var m = new Member(roleSet, word);
-		SET.add(m);
-		return m;
-	}
+    override fun compareTo(@NotNull that: Member?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private Member(final RoleSet roleSet, final Word word)
-	{
-		this.roleSet = roleSet;
-		this.word = word;
-		SET.add(this);
-	}
+    // I N S E R T
 
-	// A C C E S S
+    @RequiresIdFrom(type = RoleSet::class)
+    @RequiresIdFrom(type = Word::class)
+    override fun dataRow(): kotlin.String? {
+        return String.format("%s,%s", roleSet.intId, word.intId)
+    }
 
-	public RoleSet getRoleSet()
-	{
-		return roleSet;
-	}
+    override fun comment(): kotlin.String? {
+        return String.format("%s,%s", roleSet.name, word.word)
+    }
 
-	// I D E N T I T Y
+    companion object {
 
-	public Word getWord()
-	{
-		return word;
-	}
+        val COMPARATOR: Comparator<Member> = Comparator
+            .comparing<Member, Word> { it.word }
+            .thenComparing<RoleSet> { it.roleSet }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Member that = (Member) o;
-		return roleSet.equals(that.roleSet) && word.equals(that.word);
-	}
+        val SET: MutableSet<Member> = HashSet<Member>()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(roleSet, word);
-	}
-
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final Member that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = RoleSet.class)
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s", roleSet.getIntId(), word.getIntId());
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s", roleSet.getName(), word.getWord());
-	}
+        fun make(roleSet: RoleSet, word: Word): Member {
+            val m = Member(roleSet, word)
+            SET.add(m)
+            return m
+        }
+    }
 }

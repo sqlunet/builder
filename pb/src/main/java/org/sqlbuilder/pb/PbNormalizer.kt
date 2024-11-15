@@ -1,12 +1,11 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb
 
-public class PbNormalizer
-{
-	public static String normalize(final String str0)
-	{
-		String str = str0.trim();
-		str = str.replace('\n', ' ');
-		str = str.replaceAll("\\s\\s+", " ");
-		return str;
-	}
+object PbNormalizer {
+
+    fun normalize(str0: String): String {
+        var str = str0.trim { it <= ' ' }
+        str = str.replace('\n', ' ')
+        str = str.replace("\\s\\s+".toRegex(), " ")
+        return str
+    }
 }

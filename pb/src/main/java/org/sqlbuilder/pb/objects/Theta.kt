@@ -1,102 +1,74 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.*
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, Insertable {
 
-public class Theta implements HasId, Comparable<Theta>, Insertable
-{
-	public static final Comparator<Theta> COMPARATOR = Comparator.comparing(Theta::getTheta);
+    val theta: String = normalize(thetaName)
 
-	public static final SetCollector<Theta> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @RequiresIdFrom(type = Theta::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.get(this)!!
+    }
 
-	private final String theta;
+    // I D E N T I T Y
 
-	// C O N S T R U C T O R
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val theta1 = o as Theta
+        return theta == theta1.theta
+    }
 
-	public static Theta make(final String thetaName)
-	{
-		var t = new Theta(Utils.camelCase(thetaName));
-		COLLECTOR.add(t);
-		return t;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(theta)
+    }
 
-	private Theta(final String thetaName)
-	{
-		this.theta = normalize(thetaName);
-	}
+    // O R D E R
 
-	// A C C E S S
+    override fun compareTo(@NotNull that: Theta?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getTheta()
-	{
-		return theta;
-	}
+    // I N S E R T
 
-	@RequiresIdFrom(type = Theta.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.get(this);
-	}
+    override fun dataRow(): String {
+        return String.format("'%s'", theta)
+    }
 
-	@RequiresIdFrom(type = Theta.class)
-	public static Integer getIntId(final Theta theta)
-	{
-		return theta == null ? null : COLLECTOR.get(theta);
-	}
+    // T O S T R I N G
 
-	// I D E N T I T Y
+    override fun toString(): String {
+        return theta
+    }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Theta theta1 = (Theta) o;
-		return theta.equals(theta1.theta);
-	}
+    companion object {
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(theta);
-	}
+        val COMPARATOR: Comparator<Theta> = Comparator.comparing<Theta, String> { it.theta }
 
-	// O R D E R
+        @JvmField
+        val COLLECTOR: SetCollector<Theta> = SetCollector<Theta>(COMPARATOR)
 
-	@Override
-	public int compareTo(@NotNull final Theta that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        @JvmStatic
+        fun make(thetaName: String): Theta {
+            val t = Theta(Utils.camelCase(thetaName))
+            COLLECTOR.add(t)
+            return t
+        }
 
-	// I N S E R T
+        @RequiresIdFrom(type = Theta::class)
+        fun getIntId(theta: Theta?): Int? {
+            return if (theta == null) null else COLLECTOR[theta]
+        }
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s'", theta);
-	}
-
-	private static String normalize(final String thetaName)
-	{
-		return thetaName.substring(0, 1).toUpperCase() + thetaName.substring(1).toLowerCase();
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return theta;
-	}
+        private fun normalize(thetaName: String): String {
+            return thetaName.substring(0, 1).uppercase(Locale.getDefault()) + thetaName.substring(1).lowercase(Locale.getDefault())
+        }
+    }
 }

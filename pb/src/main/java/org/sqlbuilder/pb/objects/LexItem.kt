@@ -1,52 +1,38 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*
 
-public class LexItem implements Comparable<LexItem>
-{
-	protected static final Map<LexItem, Word> map = new TreeMap<>();
+open class LexItem(lemma: String) : Comparable<LexItem> {
 
-	protected final String word;
+    val word: String = lemma
 
-	public LexItem(final String lemma)
-	{
-		this.word = lemma;
-	}
+    fun put() {
+        val keyExisted = map.containsKey(this)
+        map.put(this, Word.make(this.word))
+        if (keyExisted) {
+            throw RuntimeException(toString())
+        }
+    }
 
-	public static LexItem make(final String lemma)
-	{
-		return new LexItem(lemma);
-	}
+    // O R D E R
 
-	public String getWord()
-	{
-		return this.word;
-	}
+    override fun compareTo(p: LexItem): Int {
+        return this.word.compareTo(p.word)
+    }
 
-	public void put()
-	{
-		final boolean keyExisted = LexItem.map.containsKey(this);
-		LexItem.map.put(this, Word.make(this.word));
-		if (keyExisted)
-		{
-			throw new RuntimeException(toString());
-		}
-	}
+    // T O S T R I N G
 
-	// O R D E R
+    override fun toString(): String {
+        return String.format("%s", this.word)
+    }
 
-	@Override
-	public int compareTo(final LexItem p)
-	{
-		return this.word.compareTo(p.word);
-	}
+    companion object {
 
-	// T O S T R I N G
+        @JvmField
+        val map: MutableMap<LexItem?, Word?> = TreeMap<LexItem?, Word?>()
 
-	@Override
-	public String toString()
-	{
-		return String.format("%s", this.word);
-	}
+        fun make(lemma: String): LexItem {
+            return LexItem(lemma)
+        }
+    }
 }

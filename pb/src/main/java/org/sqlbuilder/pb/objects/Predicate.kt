@@ -1,23 +1,11 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-public class Predicate extends LexItem
-{
-	private final String head;
+class Predicate private constructor(val head: String, lemma: String) : LexItem(lemma) {
 
-	public static Predicate make(final String head, final String lemma)
-	{
-		//assert head.equals(lemma) : head + "!=" + lemma;
-		return new Predicate(head, lemma);
-	}
+    companion object {
 
-	private Predicate(final String head, final String lemma)
-	{
-		super(lemma);
-		this.head = head;
-	}
-
-	public String getHead()
-	{
-		return this.head;
-	}
+        fun make(head: String, lemma: String): Predicate {
+            return Predicate(head, lemma)
+        }
+    }
 }

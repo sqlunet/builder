@@ -1,149 +1,100 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.pb.foreign.Alias;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
+import org.sqlbuilder.pb.foreign.Alias
+import java.io.Serializable
+import java.util.ArrayList
+import java.util.Comparator
+import java.util.Objects
+import java.util.function.Function
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String?) : HasId, Insertable, Comparable<RoleSet?>, Serializable {
 
-public class RoleSet implements HasId, Insertable, Comparable<RoleSet>, Serializable
-{
-	public static final Comparator<RoleSet> COMPARATOR = Comparator //
-			.comparing(RoleSet::getPredicate) //
-			.thenComparing(RoleSet::getName) //
-			//.thenComparing(RoleSet::getAliases)
-			;
+    internal val aliases: MutableList<Alias> = ArrayList<Alias>()
 
-	public static final SetCollector<RoleSet> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @RequiresIdFrom(type = RoleSet::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.get(this)!!
+    }
 
-	private final Predicate predicate;
+    val head: String ?
+        get() {
+        return this.predicate.head
+    }
 
-	private final String name;
+    // I D E N T I T Y
 
-	private final String descr;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as RoleSet
+        return predicate == that.predicate && name == that.name && aliases == that.aliases
+    }
 
-	private final List<Alias> aliases;
+    override fun hashCode(): Int {
+        return Objects.hash(predicate, name)
+    }
 
-	// C O N S T R U C T O R
+    // O R D E R I N G
 
-	public static RoleSet make(final Predicate predicate, final String roleSetId, final String name)
-	{
-		var s = new RoleSet(predicate, roleSetId, name);
-		COLLECTOR.add(s);
-		return s;
-	}
+    override fun compareTo(@NotNull that: RoleSet?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private RoleSet(final Predicate predicate, final String name, final String descr)
-	{
-		this.predicate = predicate;
-		this.name = name;
-		this.descr = descr;
-		this.aliases = new ArrayList<>();
-	}
+    // I N S E R T
 
-	// A C C E S S
+    @RequiresIdFrom(type = RoleSet::class)
+    @RequiresIdFrom(type = Word::class)
+    override fun dataRow(): String {
+        val predicate2 = predicate
+        val word = LexItem.map[predicate2]
 
-	public Predicate getPredicate()
-	{
-		return this.predicate;
-	}
+        // (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
+        return String.format(
+            "'%s',%s,'%s',%s",
+            Utils.escape(name),
+            Utils.nullableQuotedEscapedString<String?>(descr),
+            Utils.escape(predicate.head),
+            Utils.nullable<Word?>(word, Function { obj: Word? -> obj!!.getSqlId() })
+        )
+    }
 
-	public String getHead()
-	{
-		return this.predicate.getHead();
-	}
+    // T O S T R I N G
 
-	public String getName()
-	{
-		return this.name;
-	}
+    override fun toString(): String {
+        if (this.descr == null) {
+            return String.format("<%s-%s>", head, this.name)
+        }
+        return String.format("<%s-%s-{%s}>", head, this.name, this.descr)
+    }
 
-	public String getDescr()
-	{
-		return this.descr;
-	}
+    companion object {
 
-	public List<Alias> getAliases()
-	{
-		return this.aliases;
-	}
+        val COMPARATOR: Comparator<RoleSet> = Comparator
+            .comparing<RoleSet, Predicate> { it.predicate }
+            .thenComparing<String> { it.name }
 
-	@RequiresIdFrom(type = RoleSet.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.get(this);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<RoleSet> = SetCollector<RoleSet>(COMPARATOR)
 
-	@RequiresIdFrom(type = RoleSet.class)
-	public static Integer getIntId(final RoleSet roleset)
-	{
-		return roleset == null ? null : COLLECTOR.get(roleset);
-	}
+        fun make(predicate: Predicate, roleSetId: String, name: String?): RoleSet {
+            val s = RoleSet(predicate, roleSetId, name)
+            COLLECTOR.add(s)
+            return s
+        }
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		RoleSet that = (RoleSet) o;
-		return predicate.equals(that.predicate) && name.equals(that.name) && Objects.equals(aliases, that.aliases);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(predicate, name);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final RoleSet that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = RoleSet.class)
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String dataRow()
-	{
-		final Predicate predicate2 = getPredicate();
-		final Word word = LexItem.map.get(predicate2);
-
-		// (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
-		return String.format("'%s',%s,'%s',%s", //
-				Utils.escape(name), //
-				Utils.nullableQuotedEscapedString(descr), //
-				Utils.escape(predicate.getHead()), //
-				Utils.nullable(word, HasId::getSqlId) //
-		);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		if (this.descr == null)
-		{
-			return String.format("<%s-%s>", getHead(), this.name);
-		}
-		return String.format("<%s-%s-{%s}>", getHead(), this.name, this.descr);
-	}
+        @RequiresIdFrom(type = RoleSet::class)
+        fun getIntId(roleset: RoleSet): Int {
+            return COLLECTOR[roleset]!!
+        }
+    }
 }

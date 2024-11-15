@@ -1,126 +1,90 @@
-package org.sqlbuilder.pb.foreign;
+package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.pb.objects.Role;
-import org.sqlbuilder.pb.objects.RoleSet;
-import org.sqlbuilder2.ser.Pair;
-import org.sqlbuilder2.ser.Triplet;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.pb.objects.Role
+import org.sqlbuilder.pb.objects.RoleSet
+import org.sqlbuilder2.ser.Pair
+import org.sqlbuilder2.ser.Triplet
+import java.util.*
+import java.util.function.Function
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
+class VnRoleAlias private constructor(
+// A C C E S S
+    val role: Role, val vnRole: VnRole
+) : Insertable, Resolvable<Pair<kotlin.String?, kotlin.String?>?, Triplet<Int?, Int?, Int?>?> {
 
-public class VnRoleAlias implements Insertable, Resolvable<Pair<String, String>, Triplet<Integer, Integer, Integer>>
-{
-	static public final Comparator<VnRoleAlias> COMPARATOR = Comparator.comparing(VnRoleAlias::getRole).thenComparing(VnRoleAlias::getVnRole);
+    // I D E N T I T Y
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as VnRoleAlias
+        return role.equals(that.role) && vnRole == that.vnRole
+    }
 
-	public static final Set<VnRoleAlias> SET = new HashSet<>();
+    override fun hashCode(): Int {
+        return Objects.hash(role, vnRole)
+    }
 
-	public static final Function<Triplet<Integer, Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
-			r == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", r.first, r.second, r.third);
+    // I N S E R T
+    @RequiresIdFrom(type = Role::class)
+    @RequiresIdFrom(type = RoleSet::class)
+    override fun dataRow(): String {
+        // rolesetid,roleid,vnclassid,vnroleid,vnclass,vntheta
+        return String.format(
+            "%d,%d,'%s','%s'",
+            role.roleSet.intId,
+            role.intId,
+            vnRole.vnClass.classTag,
+            vnRole.vnTheta.theta
+        )
+    }
 
-	private final Role role;
+    override fun comment(): String? {
+        return String.format(
+            "%s,%s,%s",
+            role.roleSet.name,
+            role.argType, role.theta
+        )
+    }
 
-	private final VnRole vnRole;
+    // R E S O L V E
 
-	// C O N S T R U C T O R
+    override fun resolving(): Pair<String?, String?> {
+        return Pair<String?, String?>(vnRole.vnClass.classTag, vnRole.vnTheta.theta)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static VnRoleAlias make(final Role role, final VnRole vnRole)
-	{
-		var m = new VnRoleAlias(role, vnRole);
-		/* boolean wasThere = ! */
-		SET.add(m);
-		/*
-		if (wasThere)
-		{
-			System.err.printf("%nduplicate %s%n", m);
-		}
-		*/
-		return m;
-	}
+    // T O S T R I N G
 
-	private VnRoleAlias(final Role role, final VnRole vnRole)
-	{
-		this.role = role;
-		this.vnRole = vnRole;
-	}
+    override fun toString(): String {
+        return String.format("%s > %s", role, vnRole)
+    }
 
-	// A C C E S S
+    companion object {
 
-	public Role getRole()
-	{
-		return role;
-	}
+        val COMPARATOR: Comparator<VnRoleAlias> = Comparator
+            .comparing<VnRoleAlias, Role> { obj: VnRoleAlias -> obj.role }
+            .thenComparing<VnRole> { obj: VnRoleAlias -> obj.vnRole }
 
-	public VnRole getVnRole()
-	{
-		return vnRole;
-	}
+        val SET: MutableSet<VnRoleAlias> = HashSet<VnRoleAlias>()
 
-	// I D E N T I T Y
+        val RESOLVE_RESULT_STRINGIFIER: Function<Triplet<Int, Int, Int>?, String> = Function { r: Triplet<Int, Int, Int>? -> if (r == null) "NULL,NULL,NULL" else String.format("%s,%s,%s", r.first, r.second, r.third) }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		VnRoleAlias that = (VnRoleAlias) o;
-		return role.equals(that.role) && vnRole.equals(that.vnRole);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(role, vnRole);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = Role.class)
-	@RequiresIdFrom(type = RoleSet.class)
-	@Override
-	public String dataRow()
-	{
-		// rolesetid,roleid,vnclassid,vnroleid,vnclass,vntheta
-		return String.format("%d,%d,'%s','%s'", //
-				role.getRoleSet().getIntId(), //
-				role.getIntId(), //
-				vnRole.getVnClass().getClassTag(), //
-				vnRole.getVnTheta().getTheta());
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s,%s", //
-				role.getRoleSet().getName(), //
-				role.getArgType(), role.getTheta());
-	}
-
-	// R E S O L V E
-
-	@Override
-	public Pair<String, String> resolving()
-	{
-		return new Pair<>(vnRole.getVnClass().getClassTag(), vnRole.getVnTheta().getTheta());
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("%s > %s", role, vnRole);
-	}
+        fun make(role: Role, vnRole: VnRole): VnRoleAlias {
+            val m = VnRoleAlias(role, vnRole)
+            /* boolean wasThere = ! */
+            SET.add(m)
+            /*
+			if (wasThere) {
+				System.err.printf("%nduplicate %s%n", m);
+			}
+			*/
+            return m
+        }
+    }
 }

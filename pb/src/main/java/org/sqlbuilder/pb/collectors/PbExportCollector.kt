@@ -1,81 +1,57 @@
-package org.sqlbuilder.pb.collectors;
+package org.sqlbuilder.pb.collectors
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.XmlDocument;
-import org.sqlbuilder.pb.PbModule;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.XmlDocument
+import org.sqlbuilder.pb.PbModule
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeRoleSets
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeRoles
+import org.w3c.dom.Node
+import java.io.File
+import java.io.FilenameFilter
+import java.util.*
+import javax.xml.xpath.XPathExpressionException
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
+class PbExportCollector(conf: Properties) : PbCollector(conf) {
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
+    override fun run() {
+        val folder = File(this.propBankHome)
+        val filter = FilenameFilter { dir: File?, name: String? -> name!!.endsWith(".xml") }
+        val fileArray = folder.listFiles(filter)
+        if (fileArray == null) {
+            throw RuntimeException("Dir:" + this.propBankHome + " is empty")
+        }
+        Progress.traceHeader("propbank", "reading files")
+        var fileCount = 0
+        listOf<File>(*fileArray)
+            .sortedWith(Comparator.comparing<File?, String?> { obj: File? -> obj!!.getName() })
+            .forEach {
+                fileCount++
+                processPropBankFile(it.absolutePath, it.name)
+                Progress.trace(fileCount.toLong())
+            }
+        Progress.traceTailer(fileCount.toLong())
+    }
 
-public class PbExportCollector extends PbCollector
-{
-	public PbExportCollector(final Properties conf)
-	{
-		super(conf);
-	}
+    override fun processPropBankFile(fileName: String, name: String) {
+        val head = name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        try {
+            val document = PbDocument(fileName)
+            processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head)
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+        }
+    }
 
-	@Override
-	public void run()
-	{
-		final File folder = new File(this.propBankHome);
-		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
-		final File[] fileArray = folder.listFiles(filter);
-		if (fileArray == null)
-		{
-			throw new RuntimeException("Dir:" + this.propBankHome + " is empty");
-		}
-		final List<File> files = Arrays.asList(fileArray);
-		files.sort(Comparator.comparing(File::getName));
-		int fileCount = 0;
-		Progress.traceHeader("propbank", "reading files");
-		for (final File file : files)
-		{
-			fileCount++;
-			processPropBankFile(file.getAbsolutePath(), file.getName());
+    override fun processFrameset(document: PbDocument, start: Node, head: String) {
+        try {
+            // rolesets
+            makeRoleSets(head, start)
 
-			Progress.trace(fileCount);
-		}
-		Progress.traceTailer(fileCount);
-	}
-
-	public void processPropBankFile(final String fileName, final String name)
-	{
-		final String head = name.split("\\.")[0];
-		try
-		{
-			final PbDocument document = new PbDocument(fileName);
-			processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head);
-		}
-		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
-		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e);
-		}
-	}
-
-	protected void processFrameset(final PbDocument document, final Node start, final String head)
-	{
-		try
-		{
-			// rolesets
-			PbDocument.makeRoleSets(head, start);
-
-			// roles
-			PbDocument.makeRoles(head, start);
-		}
-		catch (XPathExpressionException e)
-		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e);
-		}
-	}
+            // roles
+            makeRoles(head, start)
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e)
+        }
+    }
 }

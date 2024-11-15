@@ -29,6 +29,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="all" target="11" />
       <module name="dummy.generated" target="11" />
       <module name="dummy.origin" target="11" />
       <module name="org.example.dummy.generated" target="11" />

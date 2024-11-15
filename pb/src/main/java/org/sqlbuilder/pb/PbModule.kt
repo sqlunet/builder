@@ -1,81 +1,68 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb
 
-import org.sqlbuilder.common.Module;
-import org.sqlbuilder.pb.collectors.PbCollector;
-import org.sqlbuilder.pb.collectors.PbExportCollector;
-import org.sqlbuilder.pb.collectors.PbUpdateCollector;
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.pb.collectors.PbCollector
+import org.sqlbuilder.pb.collectors.PbExportCollector
+import org.sqlbuilder.pb.collectors.PbUpdateCollector
+import java.io.IOException
 
-import java.io.IOException;
+open class PbModule protected constructor(conf: String?, mode: Mode?) : Module(MODULE_ID, conf, mode) {
 
-public class PbModule extends Module
-{
-	public static final String MODULE_ID = "pb";
+    override fun run() {
+        checkNotNull(props)
 
-	protected PbModule(final String conf, final Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+        when (mode) {
+            Mode.PLAIN, Mode.RESOLVE -> {
+                PbCollector(props).run()
+                try {
+                    val inserter = if (mode == Mode.PLAIN) Inserter(props) else ResolvingInserter(props)
+                    inserter.insert()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
+            Mode.UPDATE              -> {
+                PbUpdateCollector(props).run()
+                try {
+                    val inserter: Inserter = ResolvingUpdater(props)
+                    inserter.insert()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
 
-		switch (mode)
-		{
-			case PLAIN:
-			case RESOLVE:
-				new PbCollector(props).run();
-				try
-				{
-					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
-					inserter.insert();
-				}
-				catch (IOException | ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+            Mode.EXPORT              -> {
+                PbExportCollector(props).run()
+                try {
+                    val exporter = Exporter(props)
+                    exporter.run()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
 
-			case UPDATE:
-				new PbUpdateCollector(props).run();
-				try
-				{
-					Inserter inserter = new ResolvingUpdater(props);
-					inserter.insert();
-				}
-				catch (IOException | ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+            else                     -> {}
+        }
+    }
 
-			case EXPORT:
-				new PbExportCollector(props).run();
-				try
-				{
-					Exporter exporter = new Exporter(props);
-					exporter.run();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+    companion object {
 
-			default:
-		}
-	}
+        const val MODULE_ID: String = "pb"
 
-	public static void main(final String[] args)
-	{
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new PbModule(conf, mode).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var i = 0
+            var mode: Mode? = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = Mode.read(args[i++])
+            }
+            val conf: String? = args[i]
+            PbModule(conf, mode).run()
+        }
+    }
 }

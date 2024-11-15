@@ -1,116 +1,92 @@
-package org.sqlbuilder.pb.collectors;
+package org.sqlbuilder.pb.collectors
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.XmlDocument;
-import org.sqlbuilder.pb.PbModule;
-import org.sqlbuilder.pb.objects.LexItem;
-import org.sqlbuilder.pb.objects.Predicate;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.XmlDocument
+import org.sqlbuilder.pb.PbModule
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.getAliasPredicates
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.getPredicates
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeExampleArgs
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeExamples
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeRoleSets
+import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeRoles
+import org.w3c.dom.Node
+import java.io.File
+import java.io.FilenameFilter
+import java.lang.RuntimeException
+import java.util.Comparator
+import java.util.Properties
+import java.util.function.Function
+import javax.xml.xpath.XPathExpressionException
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.*;
+class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
 
-public class PbUpdateCollector extends PbCollector
-{
-	public PbUpdateCollector(final Properties conf)
-	{
-		super(conf);
-	}
+    override fun run() {
+        val folder = File(this.propBankHome)
+        val filter = FilenameFilter { dir: File?, name: String? -> name!!.endsWith(".xml") }
+        val fileArray = folder.listFiles(filter)
+        if (fileArray == null) {
+            throw RuntimeException("Dir:" + this.propBankHome + " is empty")
+        }
+        Progress.traceHeader("propbank", "reading files")
+        var fileCount = 0
+        listOf<File>(*fileArray)
+            .sortedWith(Comparator.comparing<File?, String?>(Function { obj: File? -> obj!!.getName() }))
+            .forEach {
+                fileCount++
+                processPropBankFile(it.absolutePath, it.name)
+                Progress.trace(fileCount.toLong())
+            }
+        Progress.traceTailer(fileCount.toLong())
+    }
 
-	@Override
-	public void run()
-	{
-		final File folder = new File(this.propBankHome);
-		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
-		final File[] fileArray = folder.listFiles(filter);
-		if (fileArray == null)
-		{
-			throw new RuntimeException("Dir:" + this.propBankHome + " is empty");
-		}
-		final List<File> files = Arrays.asList(fileArray);
-		files.sort(Comparator.comparing(File::getName));
-		int fileCount = 0;
-		Progress.traceHeader("propbank", "reading files");
-		for (final File file : files)
-		{
-			fileCount++;
-			processPropBankFile(file.getAbsolutePath(), file.getName());
-			Progress.trace(fileCount);
-		}
-		Progress.traceTailer(fileCount);
-	}
+    override fun processPropBankFile(fileName: String, name: String) {
+        val head = name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        try {
+            val document = PbDocument(fileName)
+            processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head)
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+        }
+    }
 
-	public void processPropBankFile(final String fileName, final String name)
-	{
-		final String head = name.split("\\.")[0];
-		try
-		{
-			final PbDocument document = new PbDocument(fileName);
-			processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head);
-		}
-		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
-		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e);
-		}
-	}
+    override fun processFrameset(document: PbDocument, start: Node, head: String) {
+        try {
+            // predicates
+            val predicates = getPredicates(head, start)
+            if (predicates != null) {
+                for (predicate in predicates) {
+                    try {
+                        predicate.put()
+                    } catch (_: RuntimeException) {
+                        // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+                    }
+                }
+            }
+            val aliasLexItems = getAliasPredicates(start)
+            if (aliasLexItems != null) {
+                for (lexItem in aliasLexItems) {
+                    try {
+                        lexItem.put()
+                    } catch (_: RuntimeException) {
+                        // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+                    }
+                }
+            }
 
-	protected void processFrameset(final PbDocument document, final Node start, final String head)
-	{
-		try
-		{
-			// predicates
-			final Collection<Predicate> predicates = PbDocument.getPredicates(head, start);
-			if (predicates != null)
-			{
-				for (final Predicate predicate : predicates)
-				{
-					try
-					{
-						predicate.put();
-					}
-					catch (RuntimeException e)
-					{
-						// Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
-					}
-				}
-			}
-			final Collection<LexItem> aliasLexItems = PbDocument.getAliasPredicates(start);
-			if (aliasLexItems != null)
-			{
-				for (final LexItem lexItem : aliasLexItems)
-				{
-					try
-					{
-						lexItem.put();
-					}
-					catch (RuntimeException e)
-					{
-						// Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
-					}
-				}
-			}
+            // rolesets
+            makeRoleSets(head, start)
 
-			// rolesets
-			PbDocument.makeRoleSets(head, start);
+            // roles
+            makeRoles(head, start)
 
-			// roles
-			PbDocument.makeRoles(head, start);
+            // examples
+            makeExamples(head, start)
 
-			// examples
-			PbDocument.makeExamples(head, start);
-
-			// args
-			PbDocument.makeExampleArgs(head, start);
-		}
-		catch (XPathExpressionException e)
-		{
-			Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e);
-		}
-	}
+            // args
+            makeExampleArgs(head, start)
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e)
+        }
+    }
 }

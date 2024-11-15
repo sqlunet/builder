@@ -1,95 +1,75 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.Utils
+import java.util.Comparator
+import java.util.HashSet
+import java.util.Objects
+import java.util.Properties
+import java.util.function.Function
 
-import java.util.*;
+class ArgType private constructor(n: String) : Comparable<ArgType?>, Insertable {
 
-public class ArgType implements Comparable<ArgType>, Insertable
-{
-	public static final Comparator<ArgType> COMPARATOR = Comparator.comparing(ArgType::getArgType);
+    val argType: String = n.uppercase()
 
-	public static final Set<ArgType> SET = new HashSet<>();
+    // I D E N T I T Y
 
-	private static final Properties DESCRIPTIONS = new Properties();
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as ArgType
+        return argType == that.argType
+    }
 
-	static
-	{
-		DESCRIPTIONS.setProperty("0", "[0]");
-		DESCRIPTIONS.setProperty("1", "[1]");
-		DESCRIPTIONS.setProperty("2", "[2]");
-		DESCRIPTIONS.setProperty("3", "[3]");
-		DESCRIPTIONS.setProperty("4", "[4]");
-		DESCRIPTIONS.setProperty("5", "[5]");
-		DESCRIPTIONS.setProperty("6", "[6]");
-		DESCRIPTIONS.setProperty("M", "modifier");
-		DESCRIPTIONS.setProperty("A", "agent");
-		DESCRIPTIONS.setProperty("@", "?");
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(argType)
+    }
 
-	private final String argType;
+    // O R D E R
 
-	// C O N S T R U C T O R
+    override fun compareTo(@NotNull that: ArgType?): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public static ArgType make(final String n)
-	{
-		if (n == null || n.isEmpty())
-		{
-			return null;
-		}
-		var a = new ArgType(n);
-		SET.add(a);
-		return a;
-	}
+    // I N S E R T
 
-	private ArgType(final String n)
-	{
-		this.argType = n.toUpperCase(Locale.ENGLISH);
-	}
+    override fun dataRow(): String {
+        return String.format("'%s',%s", argType, Utils.nullableQuotedString<String?>(DESCRIPTIONS.getProperty(argType, null)))
+    }
 
-	// A C C E S S
+    companion object {
 
-	public String getArgType()
-	{
-		return argType;
-	}
+        val COMPARATOR: Comparator<ArgType?> = Comparator.comparing<ArgType?, String?>(Function { obj: ArgType? -> obj!!.argType })
 
-	// I D E N T I T Y
+        val SET: MutableSet<ArgType?> = HashSet<ArgType?>()
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		ArgType that = (ArgType) o;
-		return argType.equals(that.argType);
-	}
+        private val DESCRIPTIONS = Properties()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(argType);
-	}
-	// O R D E R
+        init {
+            DESCRIPTIONS.setProperty("0", "[0]")
+            DESCRIPTIONS.setProperty("1", "[1]")
+            DESCRIPTIONS.setProperty("2", "[2]")
+            DESCRIPTIONS.setProperty("3", "[3]")
+            DESCRIPTIONS.setProperty("4", "[4]")
+            DESCRIPTIONS.setProperty("5", "[5]")
+            DESCRIPTIONS.setProperty("6", "[6]")
+            DESCRIPTIONS.setProperty("M", "modifier")
+            DESCRIPTIONS.setProperty("A", "agent")
+            DESCRIPTIONS.setProperty("@", "?")
+        }
 
-	@Override
-	public int compareTo(@NotNull final ArgType that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s',%s", argType, Utils.nullableQuotedString(DESCRIPTIONS.getProperty(argType, null)));
-	}
+        fun make(n: String?): ArgType? {
+            if (n == null || n.isEmpty()) {
+                return null
+            }
+            val a = ArgType(n)
+            SET.add(a)
+            return a
+        }
+    }
 }

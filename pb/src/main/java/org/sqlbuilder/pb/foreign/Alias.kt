@@ -1,127 +1,83 @@
-package org.sqlbuilder.pb.foreign;
+package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.pb.objects.RoleSet;
-import org.sqlbuilder.pb.objects.Word;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.pb.objects.RoleSet
+import org.sqlbuilder.pb.objects.Word
+import java.util.*
+import java.util.function.Function
 
-import java.util.Comparator;
-import java.util.Objects;
+abstract class Alias protected constructor(
+	@JvmField val ref: String,
+    pos: String,
+	@JvmField val pbRoleSet: RoleSet,
+    val pbWord: Word
+) : Insertable, Resolvable<String, Int> {
 
-public abstract class Alias implements Insertable, Resolvable<String, Integer>
-{
-	public static final Comparator<? extends Alias> COMPARATOR = Comparator //
-			.comparing(Alias::getPbRoleSet) //
-			.thenComparing(Alias::getPbWord) //
-			.thenComparing(Alias::getRef) //
-			.thenComparing(Alias::getPos);
+    enum class Db {
+        VERBNET, FRAMENET
+    }
 
-	public enum Db
-	{
-		VERBNET, FRAMENET
-	}
+    @JvmField
+    val pos: String = (if ("j" == pos) "a" else pos)!!
 
-	protected final String ref;
+    // I D E N T I T Y
 
-	protected final String pos;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Alias
+        return ref == that.ref && pos == that.pos && pbRoleSet == that.pbRoleSet && pbWord == that.pbWord
+    }
 
-	protected final RoleSet pbRoleSet;
+    override fun hashCode(): Int {
+        return Objects.hash(ref, pos, pbRoleSet, this.pbWord)
+    }
 
-	protected final Word word;
+    // I N S E R T
 
-	// C O N S T R U C T O R
+    @RequiresIdFrom(type = RoleSet::class)
+    @RequiresIdFrom(type = Word::class)
+    override fun dataRow(): String {
+        // rolesetid,refid,ref,pos,pbwordid
+        return String.format(
+            "%d,'%s',%d,'%s'",
+            pbRoleSet.intId,
+            pos,
+            pbWord.intId,
+            ref
+        )
+    }
 
-	public static Alias make(final Db db, final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
-	{
-		return db.equals(Db.VERBNET) ? VnAlias.make(clazz, pos, pbRoleSet, word) : (db.equals(Db.FRAMENET) ? FnAlias.make(clazz, pos, pbRoleSet, word) : null);
-	}
+    override fun comment(): String {
+        return String.format("%s,%s", pbRoleSet.name, pbWord.word)
+    }
 
-	protected Alias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
-	{
-		this.ref = clazz;
-		this.pos = "j".equals(pos) ? "a" : pos;
-		this.pbRoleSet = pbRoleSet;
-		this.word = word;
-	}
+    // R E S O L V E
 
-	// A C C E S S
+    override fun resolving(): String {
+        return ref
+    }
 
-	public RoleSet getPbRoleSet()
-	{
-		return pbRoleSet;
-	}
+    override fun toString(): String {
+        return String.format("%s,%s,%s", ref, pos, pbWord.word)
+    }
 
-	public Word getPbWord()
-	{
-		return word;
-	}
+    companion object {
 
-	public String getRef()
-	{
-		return ref;
-	}
+        val COMPARATOR: Comparator<Alias?> = Comparator
+            .comparing<Alias?, RoleSet?>{ it!!.pbRoleSet }
+            .thenComparing<Word?> { it!!.pbWord }
+            .thenComparing<String?> { it.ref }
+            .thenComparing<String?> { it.pos }
 
-	public String getPos()
-	{
-		return pos;
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Alias that = (Alias) o;
-		return ref.equals(that.ref) && pos.equals(that.pos) && pbRoleSet.equals(that.pbRoleSet) && word.equals(that.word);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(ref, pos, pbRoleSet, word);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = RoleSet.class)
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String dataRow()
-	{
-		// rolesetid,refid,ref,pos,pbwordid
-		return String.format("%d,'%s',%d,'%s'", //
-				pbRoleSet.getIntId(), //
-				pos, //
-				word.getIntId(), //
-				ref);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s", pbRoleSet.getName(), word.word);
-	}
-
-	// R E S O L V E
-
-	@Override
-	public String resolving()
-	{
-		return ref;
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("%s,%s,%s", ref, pos, word.word);
-	}
+        fun make(db: Db, clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): Alias {
+            return if (db == Db.VERBNET) VnAlias.make(clazz, pos, pbRoleSet, word) else (if (db == Db.FRAMENET) FnAlias.make(clazz, pos, pbRoleSet, word) else throw IllegalArgumentException(db.name))
+        }
+    }
 }

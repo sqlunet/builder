@@ -1,33 +1,23 @@
-package org.sqlbuilder.pb.foreign;
+package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.pb.objects.RoleSet;
-import org.sqlbuilder.pb.objects.Word;
+import org.sqlbuilder.pb.objects.RoleSet
+import org.sqlbuilder.pb.objects.Word
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class FnAlias private constructor(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word) : Alias(clazz, pos, pbRoleSet, word) {
+    companion object {
 
-public class FnAlias extends Alias
-{
-	public static final Comparator<FnAlias> COMPARATOR = Comparator //
-			.comparing(FnAlias::getPbRoleSet) //
-			.thenComparing(FnAlias::getPbWord) //
-			.thenComparing(FnAlias::getRef) //
-			.thenComparing(FnAlias::getPos);
+        val COMPARATOR: Comparator<FnAlias> = Comparator
+            .comparing<FnAlias, RoleSet> { it.pbRoleSet}
+            .thenComparing {it.pbWord}
+            .thenComparing {it.ref}
+            .thenComparing {it.pos}
 
-	public static final Set<FnAlias> SET = new HashSet<>();
+        val SET: MutableSet<FnAlias> = HashSet<FnAlias>()
 
-	// C O N S T R U C T O R
-
-	public static FnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
-	{
-		var a = new FnAlias(clazz, pos, pbRoleSet, word);
-		SET.add(a);
-		return a;
-	}
-
-	private FnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
-	{
-		super(clazz, pos, pbRoleSet, word);
-	}
+        fun make(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): FnAlias {
+            val a = FnAlias(clazz, pos, pbRoleSet, word)
+            SET.add(a)
+            return a
+        }
+    }
 }

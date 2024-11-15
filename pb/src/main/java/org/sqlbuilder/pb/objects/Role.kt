@@ -1,158 +1,102 @@
-package org.sqlbuilder.pb.objects;
+package org.sqlbuilder.pb.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.*
+import java.io.Serializable
+import java.util.*
+import java.util.function.Function
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Objects;
+class Role private constructor(
+    val roleSet: RoleSet,
+    val argType: String,
+    func: String?,
+    descriptor: String?,
+    theta: String?,
+) : HasId, Insertable, Comparable<Role>, Serializable {
 
-public class Role implements HasId, Insertable, Comparable<Role>, Serializable
-{
-	public static final Comparator<Role> COMPARATOR = Comparator //
-			.comparing(Role::getRoleSet) //
-			.thenComparing(Role::getArgType) //
-			.thenComparing(Role::getFunc, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			;
+    val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
 
-	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
+    private val func: Func? = if (func == null || func.isEmpty()) null else Func.make(func)
 
-	private final RoleSet roleSet;
+    private val descr: String? = descriptor
 
-	private final String argType;
+    @RequiresIdFrom(type = Role::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.get(this)!!
+    }
 
-	@Nullable
-	private final Theta theta;
+    // I D E N T I T Y
 
-	@Nullable
-	private final Func func;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Role
+        return roleSet == that.roleSet && argType == that.argType && func == that.func
+    }
 
-	private final String descr;
+    override fun hashCode(): Int {
+        return Objects.hash(roleSet, argType, func)
+    }
 
-	// C O N S T R U C T O R
+    // O R D E R I N G
 
-	public static Role make(final RoleSet roleSet, final String n, final String f, final String descriptor, final String theta)
-	{
-		var r = new Role(roleSet, n, f, descriptor, theta);
-		COLLECTOR.add(r);
-		return r;
-	}
+    override fun compareTo(@NotNull that: Role): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private Role(final RoleSet roleSet, final String argType, final String func, final String descriptor, final String theta)
-	{
-		this.roleSet = roleSet;
-		this.argType = argType;
-		this.theta = theta == null || theta.isEmpty() ? null : Theta.make(theta);
-		this.func = func == null || func.isEmpty() ? null : Func.make(func);
-		this.descr = descriptor;
-	}
+    // I N S E R T
 
-	// A C C E S S
+    @RequiresIdFrom(type = RoleSet::class)
+    @RequiresIdFrom(type = Func::class)
+    @RequiresIdFrom(type = Theta::class)
+    override fun dataRow(): String {
+        // (roleid),argtype,theta,func,roledescr,rolesetid
+        return String.format(
+            "'%s',%s,%s,%s,%d",
+            argType,
+            Utils.nullable<Theta?>(theta, Function { obj: Theta? -> obj!!.getSqlId() }),
+            Utils.nullable<Func?>(func, Function { obj: Func? -> obj!!.getSqlId() }),
+            Utils.nullableQuotedEscapedString<String?>(descr),
+            roleSet.intId
+        )
+    }
 
-	public RoleSet getRoleSet()
-	{
-		return this.roleSet;
-	}
+    override fun comment(): String {
+        return String.format("%s,%s,%s", roleSet.name, theta?.theta ?: "∅", func?.func ?: "∅")
+    }
 
-	public String getArgType()
-	{
-		return this.argType;
-	}
+    // T O S T R I N G
 
-	@Nullable
-	public Func getFunc()
-	{
-		return func;
-	}
+    override fun toString(): String {
+        if (this.descr == null) {
+            return String.format("%s[%s-%s]", roleSet, argType, func)
+        }
+        return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr)
+    }
 
-	@Nullable
-	public Theta getTheta()
-	{
-		return theta;
-	}
+    companion object {
 
-	public String getDescr()
-	{
-		return this.descr;
-	}
+        val COMPARATOR: Comparator<Role> = Comparator
+            .comparing<Role, RoleSet> { it.roleSet }
+            .thenComparing<String> { it.argType }
+            .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
-	@RequiresIdFrom(type = Role.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.get(this);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
 
-	@RequiresIdFrom(type = Role.class)
-	public static Integer getIntId(final Role role)
-	{
-		return role == null ? null : COLLECTOR.get(role);
-	}
+        fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
+            val r = Role(roleSet, n, f, descriptor, theta)
+            COLLECTOR.add(r)
+            return r
+        }
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Role that = (Role) o;
-		return roleSet.equals(that.roleSet) && argType.equals(that.argType) && Objects.equals(func, that.func);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(roleSet, argType, func);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final Role that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = RoleSet.class)
-	@RequiresIdFrom(type = Func.class)
-	@RequiresIdFrom(type = Theta.class)
-	@Override
-	public String dataRow()
-	{
-		// (roleid),argtype,theta,func,roledescr,rolesetid
-		return String.format("'%s',%s,%s,%s,%d", //
-				argType, //
-				Utils.nullable(theta, HasId::getSqlId), //
-				Utils.nullable(func, HasId::getSqlId), //
-				Utils.nullableQuotedEscapedString(descr), //
-				roleSet.getIntId() //
-		);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s,%s", roleSet.getName(), theta != null ? theta.getTheta() : "∅", func != null ? func.getFunc() : "∅");
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		if (this.descr == null)
-		{
-			return String.format("%s[%s-%s]", roleSet, argType, func);
-		}
-		return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr);
-	}
+        @RequiresIdFrom(type = Role::class)
+        fun getIntId(role: Role?): Int? {
+            return if (role == null) null else COLLECTOR.get(role)
+        }
+    }
 }

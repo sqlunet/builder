@@ -1,34 +1,24 @@
-package org.sqlbuilder.pb.foreign;
+package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.pb.objects.RoleSet;
-import org.sqlbuilder.pb.objects.Word;
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.pb.objects.RoleSet
+import org.sqlbuilder.pb.objects.Word
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+open class VnAlias protected constructor(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word) : Alias(clazz, pos, pbRoleSet, word), Insertable {
+    companion object {
 
-public class VnAlias extends Alias implements Insertable
-{
-	public static final Comparator<VnAlias> COMPARATOR = Comparator //
-			.comparing(VnAlias::getPbRoleSet) //
-			.thenComparing(VnAlias::getPbWord) //
-			.thenComparing(VnAlias::getRef) //
-			.thenComparing(VnAlias::getPos);
+        val COMPARATOR: Comparator<VnAlias> = Comparator
+            .comparing<VnAlias, RoleSet> { it.pbRoleSet }
+            .thenComparing { it.pbWord }
+            .thenComparing { it.ref }
+            .thenComparing { it.pos }
 
-	static public final Set<VnAlias> SET = new HashSet<>();
+        val SET: MutableSet<VnAlias> = HashSet<VnAlias>()
 
-	// C O N S T R U C T O R
-
-	public static VnAlias make(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
-	{
-		var a = new VnAlias(clazz, pos, pbRoleSet, word);
-		SET.add(a);
-		return a;
-	}
-
-	protected VnAlias(final String clazz, final String pos, final RoleSet pbRoleSet, final Word word)
-	{
-		super(clazz, pos, pbRoleSet, word);
-	}
+        fun make(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): VnAlias {
+            val a = VnAlias(clazz, pos, pbRoleSet, word)
+            SET.add(a)
+            return a
+        }
+    }
 }
