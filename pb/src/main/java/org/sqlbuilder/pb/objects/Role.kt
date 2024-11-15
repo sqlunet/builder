@@ -8,16 +8,17 @@ import java.util.*
 class Role private constructor(
     val roleSet: RoleSet,
     val argType: String,
-    func: String?,
-    descriptor: String?,
+    func: String,
+    descriptor: String,
     theta: String?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
+    private val func: Func = Func.make(func)
+
+    private val descr: String = descriptor
+
+    // role name for VerbNet
     val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
-
-    private val func: Func? = if (func == null || func.isEmpty()) null else Func.make(func)
-
-    private val descr: String? = descriptor
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
@@ -58,14 +59,14 @@ class Role private constructor(
             "'%s',%s,%s,%s,%d",
             argType,
             Utils.nullable<Theta?>(theta) { it!!.sqlId },
-            Utils.nullable<Func?>(func) { it!!.sqlId },
+            Utils.nullable<Func>(func) { it.sqlId },
             Utils.nullableQuotedEscapedString(descr),
             roleSet.intId
         )
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s", roleSet.name, theta?.theta ?: "∅", func?.func ?: "∅")
+        return String.format("%s,%s,%s", roleSet.name, theta?.theta ?: "∅", func)
     }
 
     // T O S T R I N G
@@ -82,12 +83,12 @@ class Role private constructor(
         val COMPARATOR: Comparator<Role> = Comparator
             .comparing<Role, RoleSet> { it.roleSet }
             .thenComparing<String> { it.argType }
-            .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
+            .thenComparing<Func>({ it.func }, Comparator.nullsFirst<Func>(Comparator.naturalOrder<Func>()))
 
         @JvmField
         val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
-        fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
+        fun make(roleSet: RoleSet, n: String, f: String, descriptor: String, theta: String?): Role {
             val r = Role(roleSet, n, f, descriptor, theta)
             COLLECTOR.add(r)
             return r
