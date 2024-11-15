@@ -59,8 +59,8 @@ class Role private constructor(
             "'%s',%s,%s,%s,%d",
             argType,
             Utils.nullable<Theta?>(theta) { it!!.sqlId },
-            Utils.nullable<Func>(func) { it.sqlId },
-            Utils.nullableQuotedEscapedString(descr),
+            func.sqlId,
+            Utils.quotedEscapedString(descr),
             roleSet.intId
         )
     }

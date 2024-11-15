@@ -10,7 +10,7 @@ import org.sqlbuilder2.ser.Triplet
 import java.util.*
 
 class VnRoleAlias private constructor(
-    val role: Role, val vnRole: VnRole
+    val role: Role, val vnRole: VnRole,
 ) : Insertable, Resolvable<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
 
     // I D E N T I T Y
