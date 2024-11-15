@@ -1,15 +1,8 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.HasId
-import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
-import org.sqlbuilder.common.SetCollector
-import org.sqlbuilder.common.Utils
-import java.util.Comparator
-import java.util.Locale
-import java.util.Properties
-import java.util.function.Function
+import org.sqlbuilder.common.*
+import java.util.*
 
 class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Insertable {
 
@@ -38,7 +31,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func?>, Ins
 
     companion object {
 
-        val COMPARATOR: Comparator<Func?> = Comparator.comparing<Func?, String?>(Function { obj: Func? -> obj!!.func })
+        val COMPARATOR: Comparator<Func?> = Comparator.comparing<Func?, String?> { it!!.func }
 
         @JvmField
         val COLLECTOR: SetCollector<Func?> = SetCollector<Func?>(COMPARATOR)

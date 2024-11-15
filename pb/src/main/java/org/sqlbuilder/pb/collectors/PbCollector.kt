@@ -16,10 +16,7 @@ import org.xml.sax.SAXException
 import java.io.File
 import java.io.FilenameFilter
 import java.io.IOException
-import java.lang.RuntimeException
-import java.util.Comparator
-import java.util.Properties
-import java.util.function.Function
+import java.util.*
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.xpath.XPathExpressionException
 
@@ -38,7 +35,7 @@ open class PbCollector(conf: Properties) : Processor("pb") {
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
         listOf<File>(*fileArray)
-            .sortedWith(Comparator.comparing<File?, String?>(Function { obj: File? -> obj!!.getName() }))
+            .sortedWith(Comparator.comparing<File?, String?> { it!!.name })
             .forEach {
                 fileCount++
                 processPropBankFile(it.absolutePath, it.name)

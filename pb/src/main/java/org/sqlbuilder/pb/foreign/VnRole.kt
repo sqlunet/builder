@@ -3,7 +3,6 @@ package org.sqlbuilder.pb.foreign
 import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.pb.objects.Theta
 import java.util.*
-import java.util.function.Function
 
 class VnRole private constructor(
     val vnClass: VnClass, val vnTheta: Theta,
@@ -37,7 +36,9 @@ class VnRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnRole?> = Comparator.comparing<VnRole?, VnClass?>(Function { obj: VnRole? -> obj!!.vnClass }).thenComparing<Theta?>(Function { obj: VnRole? -> obj!!.vnTheta })
+        val COMPARATOR: Comparator<VnRole?> = Comparator
+            .comparing<VnRole?, VnClass?> { it!!.vnClass }
+            .thenComparing{ it!!.vnTheta }
 
         fun make(vnClass: VnClass, vnTheta: Theta): VnRole {
             return VnRole(vnClass, vnTheta)

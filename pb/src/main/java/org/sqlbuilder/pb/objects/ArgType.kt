@@ -3,11 +3,7 @@ package org.sqlbuilder.pb.objects
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.common.Utils
-import java.util.Comparator
-import java.util.HashSet
-import java.util.Objects
-import java.util.Properties
-import java.util.function.Function
+import java.util.*
 
 class ArgType private constructor(n: String) : Comparable<ArgType?>, Insertable {
 
@@ -44,7 +40,7 @@ class ArgType private constructor(n: String) : Comparable<ArgType?>, Insertable 
 
     companion object {
 
-        val COMPARATOR: Comparator<ArgType?> = Comparator.comparing<ArgType?, String?>(Function { obj: ArgType? -> obj!!.argType })
+        val COMPARATOR: Comparator<ArgType?> = Comparator.comparing<ArgType?, String?> { obj: ArgType? -> obj!!.argType }
 
         val SET: MutableSet<ArgType?> = HashSet<ArgType?>()
 

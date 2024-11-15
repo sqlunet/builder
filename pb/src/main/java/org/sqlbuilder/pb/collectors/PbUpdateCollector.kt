@@ -13,10 +13,7 @@ import org.sqlbuilder.pb.collectors.PbDocument.Companion.makeRoles
 import org.w3c.dom.Node
 import java.io.File
 import java.io.FilenameFilter
-import java.lang.RuntimeException
-import java.util.Comparator
-import java.util.Properties
-import java.util.function.Function
+import java.util.*
 import javax.xml.xpath.XPathExpressionException
 
 class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
@@ -31,7 +28,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
         listOf<File>(*fileArray)
-            .sortedWith(Comparator.comparing<File?, String?>(Function { obj: File? -> obj!!.getName() }))
+            .sortedWith(Comparator.comparing<File?, String?> { it!!.name })
             .forEach {
                 fileCount++
                 processPropBankFile(it.absolutePath, it.name)

@@ -4,7 +4,6 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import java.io.Serializable
 import java.util.*
-import java.util.function.Function
 
 class Role private constructor(
     val roleSet: RoleSet,
@@ -58,9 +57,9 @@ class Role private constructor(
         return String.format(
             "'%s',%s,%s,%s,%d",
             argType,
-            Utils.nullable<Theta?>(theta, Function { obj: Theta? -> obj!!.getSqlId() }),
-            Utils.nullable<Func?>(func, Function { obj: Func? -> obj!!.getSqlId() }),
-            Utils.nullableQuotedEscapedString<String?>(descr),
+            Utils.nullable<Theta?>(theta) { it!!.sqlId },
+            Utils.nullable<Func?>(func) { it!!.sqlId },
+            Utils.nullableQuotedEscapedString(descr),
             roleSet.intId
         )
     }

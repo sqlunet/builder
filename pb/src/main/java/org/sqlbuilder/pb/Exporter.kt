@@ -12,8 +12,7 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.Function
-import java.util.stream.Collectors
+import kotlin.Throws
 
 open class Exporter(conf: Properties) {
 
@@ -126,13 +125,13 @@ open class Exporter(conf: Properties) {
     }
 
     fun duplicateRoles() {
-        Role.COLLECTOR.keys.stream()
-            .map { r -> r!!.roleSet.name to r.argType }
-            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-            .entries.stream()
-            .filter { e -> e!!.value!! > 1 }
-            .map { p -> p.key }
-            .forEach { p -> System.err.printf("%s is duplicated in %s%n", p.second, p.first) }
+        Role.COLLECTOR.entries
+            .groupBy { it.key }
+            .forEach { (role, instances) ->
+                if (instances.size > 1) {
+                    println("Warning: Duplicate role: ${instances.size} instances for  role '$role' (rs=${role.roleSet} argt=${role.argType}) found.")
+                }
+            }
     }
 
     // M A P S
@@ -167,13 +166,7 @@ open class Exporter(conf: Properties) {
     }
 
     fun makeRolesMap(): Map<Pair<String, String>, Int> {
-        Role.COLLECTOR.entries
-            .groupBy { it.key }
-            .forEach { (key, values) ->
-                if (values.size > 1) {
-                    println("Warning: Duplicate role '$key' found.")
-                }
-            }
+        duplicateRoles()
         return Role.COLLECTOR.entries
             .asSequence()
             .map {

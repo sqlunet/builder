@@ -1,14 +1,8 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.HasId
-import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
-import org.sqlbuilder.common.SetCollector
-import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
-import java.util.Comparator
-import java.util.function.Function
 
 class Rel private constructor(val example: Example, text: String, val f: Func?) : HasId, Insertable, Comparable<Rel?> {
 
@@ -30,7 +24,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
         return String.format(
             "'%s',%s,%s",
             Utils.escape(text),
-            Utils.nullable<Func?>(f, Function { obj: Func? -> obj!!.getSqlId() }),
+            Utils.nullable<Func?>(f) { it!!.sqlId },
             example.getSqlId()
         )
     }
@@ -42,9 +36,9 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
     companion object {
 
         private val COMPARATOR: Comparator<Rel?> = Comparator
-            .comparing<Rel?, Example?>(Function { obj: Rel? -> obj!!.example })
-            .thenComparing<String?>(Function { obj: Rel? -> obj!!.text })
-            .thenComparing<Func?>(Function { obj: Rel? -> obj!!.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
+            .comparing<Rel?, Example?> { it!!.example }
+            .thenComparing<String?> { it!!.text }
+            .thenComparing<Func?>( { it!!.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
         val COLLECTOR: SetCollector<Rel?> = SetCollector<Rel?>(COMPARATOR)

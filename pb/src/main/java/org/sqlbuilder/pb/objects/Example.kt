@@ -1,18 +1,8 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.HasId
-import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
-import org.sqlbuilder.common.Nullable
-import org.sqlbuilder.common.SetCollector
-import org.sqlbuilder.common.SqlId
-import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
-import java.lang.CharSequence
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.function.Function
 
 class Example private constructor(
     @property:NotNull @NotNull private val roleSet: RoleSet, private val name: String, text: String,
@@ -67,16 +57,17 @@ class Example private constructor(
 
     companion object {
 
-        private val COMPARATOR: Comparator<Example?> = Comparator.comparing<Example?, RoleSet?>(Function { obj: Example? -> obj!!.roleSet })
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.name })
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.aspect }, Comparator.nullsFirst<String?>(Comparator.naturalOrder<String?>()))
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.form }, Comparator.nullsFirst<String?>(Comparator.naturalOrder<String?>()))
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.person }, Comparator.nullsFirst<String?>(Comparator.naturalOrder<String?>()))
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.tense }, Comparator.nullsFirst<String?>(Comparator.naturalOrder<String?>()))
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.voice }, Comparator.nullsFirst<String?>(Comparator.naturalOrder<String?>()))
-            .thenComparing<String?>(Function { obj: Example? -> obj!!.text })
+        private val COMPARATOR: Comparator<Example?> = Comparator
+            .comparing<Example?, RoleSet?> { it!!.roleSet }
+            .thenComparing { it!!.name }
+            .thenComparing({ it!!.aspect }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it!!.form }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it!!.person }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it!!.tense }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it!!.voice }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing { it!!.text }
 
-        private val NULLABLE_STRING_COMPARATOR: Comparator<String?> = Comparator.nullsFirst<String?>(Comparator { cs1: String?, cs2: String? -> CharSequence.compare(cs1, cs2) })
+        private val NULLABLE_STRING_COMPARATOR: Comparator<String?> = Comparator.nullsFirst<String?>(Comparator { s1: String, s2: String -> s1.compareTo(s2) })
 
         @JvmField
         val COLLECTOR: SetCollector<Example?> = SetCollector<Example?>(COMPARATOR)

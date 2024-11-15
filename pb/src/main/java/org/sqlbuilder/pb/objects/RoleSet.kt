@@ -1,17 +1,10 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.HasId
-import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
-import org.sqlbuilder.common.SetCollector
-import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.foreign.Alias
 import java.io.Serializable
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.Objects
-import java.util.function.Function
+import java.util.*
 
 class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String?) : HasId, Insertable, Comparable<RoleSet?>, Serializable {
 
@@ -22,10 +15,10 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
         return COLLECTOR[this]!!
     }
 
-    val head: String ?
+    val head: String?
         get() {
-        return this.predicate.head
-    }
+            return this.predicate.head
+        }
 
     // I D E N T I T Y
 
@@ -64,7 +57,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             Utils.escape(name),
             Utils.nullableQuotedEscapedString<String?>(descr),
             Utils.escape(predicate.head),
-            Utils.nullable<Word?>(word, Function { obj: Word? -> obj!!.getSqlId() })
+            Utils.nullable(word) { it!!.sqlId }
         )
     }
 

@@ -2,10 +2,8 @@ package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.common.NotNull
 import java.util.*
-import java.util.function.Function
 
 class VnClass private constructor(
-// A C C E S S
     val head: String?, val classTag: String
 ) : Comparable<VnClass?> {
 
@@ -29,20 +27,21 @@ class VnClass private constructor(
     }
 
     // O R D E R I N G
+
     override fun compareTo(@NotNull that: VnClass?): Int {
         return COMPARATOR.compare(this, that)
     }
 
     // T O S T R I N G
+
     override fun toString(): String {
         return String.format("<%s>", classTag)
     }
 
     companion object {
 
-        val COMPARATOR: Comparator<VnClass?> = Comparator.comparing<VnClass?, String?>(Function { obj: VnClass? -> obj!!.className })
+        val COMPARATOR: Comparator<VnClass?> = Comparator.comparing<VnClass?, String?> { it!!.className }
 
-        // C O N S T R U C T O R
         fun make(head: String?, classTag: String): VnClass {
             return VnClass(head, classTag)
         }
