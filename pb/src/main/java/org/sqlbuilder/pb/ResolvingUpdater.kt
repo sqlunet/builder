@@ -12,7 +12,6 @@ import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.Properties
-import java.util.function.Function
 
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {

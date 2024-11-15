@@ -6,5 +6,5 @@ import org.sqlbuilder2.ser.Pair
 import org.sqlbuilder2.ser.Triplet
 import java.io.File
 
-class VnClassRoleResolver(ser: String) : Resolver<Pair<String, String>?, Triplet<Int, Int, Int>?>(DeSerialize.deserialize<Map<Pair<String, String>, Triplet<Int, Int, Int>>>(File(ser)))
+class VnClassRoleResolver(ser: String) : Resolver<Pair<String?, String?>, Triplet<Int?, Int?, Int?>>(DeSerialize.deserialize<Map<Pair<String?, String?>, Triplet<Int?, Int?, Int?>>>(File(ser)))
 

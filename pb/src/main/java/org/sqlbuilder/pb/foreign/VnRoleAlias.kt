@@ -73,7 +73,7 @@ class VnRoleAlias private constructor(
 
         val SET: MutableSet<VnRoleAlias> = HashSet<VnRoleAlias>()
 
-        val RESOLVE_RESULT_STRINGIFIER: Function<Triplet<Int, Int, Int>?, String> = Function { r: Triplet<Int, Int, Int>? -> if (r == null) "NULL,NULL,NULL" else String.format("%s,%s,%s", r.first, r.second, r.third) }
+        val RESOLVE_RESULT_STRINGIFIER = { r: Triplet<Int?, Int?, Int?>? -> if (r == null) "NULL,NULL,NULL" else String.format("%s,%s,%s", r.first, r.second, r.third) }
 
         fun make(role: Role, vnRole: VnRole): VnRoleAlias {
             val m = VnRoleAlias(role, vnRole)
