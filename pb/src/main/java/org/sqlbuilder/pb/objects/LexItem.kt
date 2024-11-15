@@ -29,7 +29,7 @@ open class LexItem(lemma: String) : Comparable<LexItem> {
     companion object {
 
         @JvmField
-        val map: MutableMap<LexItem?, Word?> = TreeMap<LexItem?, Word?>()
+        val map: MutableMap<LexItem, Word> = TreeMap<LexItem, Word>()
 
         fun make(lemma: String): LexItem {
             return LexItem(lemma)

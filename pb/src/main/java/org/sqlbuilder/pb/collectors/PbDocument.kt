@@ -21,21 +21,18 @@ import org.w3c.dom.Node
 import java.util.ArrayList
 import javax.xml.xpath.XPathExpressionException
 
-class PbDocument(filePath: String?) : XmlDocument(filePath) {
+class PbDocument(filePath: String) : XmlDocument(filePath) {
     companion object {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun getPredicates(head: String, start: Node): MutableCollection<Predicate>? {
-            var result: MutableList<Predicate>? = null
+        fun getPredicates(head: String, start: Node): Collection<Predicate> {
+            var result: MutableList<Predicate> = ArrayList<Predicate>()
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
                 val predicateElement = predicateNodes.item(i) as Element
                 val lemmaAttribute = predicateElement.getAttribute("lemma")
                 val predicate = Predicate.make(head, lemmaAttribute)
-                if (result == null) {
-                    result = ArrayList<Predicate>()
-                }
                 result.add(predicate)
             }
             return result
@@ -43,16 +40,13 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun getAliasPredicates(start: Node): MutableCollection<LexItem>? {
-            var result: MutableList<LexItem>? = null
+        fun getAliasPredicates(start: Node): Collection<LexItem> {
+            var result: MutableList<LexItem> = ArrayList<LexItem>()
             val aliasNodes = getXPaths(start, ".//alias")
             for (i in 0 until aliasNodes.length) {
                 val aliasElement = aliasNodes.item(i) as Element
                 val lemma = aliasElement.textContent // $NON-NLS-1$
                 val predicate = LexItem.make(lemma)
-                if (result == null) {
-                    result = ArrayList<LexItem>()
-                }
                 result.add(predicate)
             }
             return result
@@ -60,8 +54,8 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeRoleSets(head: String, start: Node): MutableCollection<RoleSet>? {
-            var result: MutableList<RoleSet>? = null
+        fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
+            var result: MutableList<RoleSet> = ArrayList<RoleSet>()
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
                 val predicateElement = predicateNodes.item(i) as Element
@@ -80,9 +74,6 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
                     // roleset
                     val roleSet = RoleSet.make(predicate, roleSetIdAttribute, roleSetNameAttribute)
-                    if (result == null) {
-                        result = ArrayList<RoleSet>()
-                    }
                     result.add(roleSet)
 
                     // roleset member
@@ -147,8 +138,8 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeRoles(head: String, start: Node): MutableCollection<Role>? {
-            var result: MutableList<Role>? = null
+        fun makeRoles(head: String, start: Node): Collection<Role> {
+            var result: MutableList<Role> = ArrayList<Role>()
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
                 val predicateElement = predicateNodes.item(i) as Element
@@ -157,6 +148,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
                 val roleSetNodes = getXPaths(predicateElement, "./roleset")
                 for (j in 0 until roleSetNodes.length) {
+
                     // roleset data
                     val roleSetElement = roleSetNodes.item(j) as Element
                     val roleSetIdAttribute = roleSetElement.getAttribute("id")
@@ -170,21 +162,18 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
                         val roleElement = roleNodes.item(k) as Element
 
                         // attributes
-                        val nAttribute = roleElement.getAttribute("n")
-                        val fAttribute = roleElement.getAttribute("f")
-                        val descriptorAttribute = roleElement.getAttribute("descr")
-                        var thetaAttribute: String? = null
+                        val n = roleElement.getAttribute("n")
+                        val f = roleElement.getAttribute("f")
+                        val descriptor = roleElement.getAttribute("descr")
+                        var theta: String? = null
                         val vnRoleNodes = getXPaths(roleElement, "./vnrole")
                         if (vnRoleNodes != null && vnRoleNodes.length > 0) {
                             val vnRoleElement = vnRoleNodes.item(0) as Element
-                            thetaAttribute = vnRoleElement.getAttribute("vntheta")
+                            theta = vnRoleElement.getAttribute("vntheta")
                         }
 
                         // role
-                        val role = Role.make(roleSet, nAttribute, fAttribute, descriptorAttribute, thetaAttribute)
-                        if (result == null) {
-                            result = ArrayList<Role>()
-                        }
+                        val role = Role.make(roleSet, n, f, descriptor, theta)
                         result.add(role)
 
                         // role-vnrole maps
@@ -215,8 +204,8 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeExamples(head: String, start: Node?): MutableCollection<Example>? {
-            var result: MutableList<Example>? = null
+        fun makeExamples(head: String, start: Node): Collection<Example> {
+            var result: MutableList<Example> = ArrayList<Example>()
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
                 val predicateElement = predicateNodes.item(i) as Element
@@ -276,10 +265,6 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
                             val arg = Arg.make(example, argText, n, f)
                             example.args.add(arg)
                         }
-
-                        if (result == null) {
-                            result = ArrayList<Example>()
-                        }
                         result.add(example)
                     }
                 }
@@ -289,8 +274,8 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeExampleArgs(head: String, start: Node?): MutableCollection<Arg>? {
-            var result: MutableList<Arg>? = null
+        fun makeExampleArgs(head: String, start: Node): Collection<Arg> {
+            var result: MutableList<Arg> = ArrayList<Arg>()
             val predicateNodes = getXPaths(start, "./predicate")
             for (i in 0 until predicateNodes.length) {
                 val predicateElement = predicateNodes.item(i) as Element
@@ -336,10 +321,7 @@ class PbDocument(filePath: String?) : XmlDocument(filePath) {
                             val n = argElement.getAttribute("n")
                             val argText: String = argElement.textContent.trim { it <= ' ' }
                             val arg = Arg.make(example, argText, n, f)
-                            if (result == null) {
-                                result = ArrayList<Arg>()
-                            }
-                            result.add(arg)
+                           result.add(arg)
                         }
                     }
                 }

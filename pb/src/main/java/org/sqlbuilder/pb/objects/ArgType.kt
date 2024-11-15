@@ -1,11 +1,10 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.common.Utils
 import java.util.*
 
-class ArgType private constructor(n: String) : Comparable<ArgType?>, Insertable {
+class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
 
     val argType: String = n.uppercase()
 
@@ -28,21 +27,21 @@ class ArgType private constructor(n: String) : Comparable<ArgType?>, Insertable 
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: ArgType?): Int {
+    override fun compareTo(that: ArgType): Int {
         return COMPARATOR.compare(this, that)
     }
 
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s',%s", argType, Utils.nullableQuotedString<String?>(DESCRIPTIONS.getProperty(argType, null)))
+        return String.format("'%s',%s", argType, Utils.nullableQuotedString<String>(DESCRIPTIONS.getProperty(argType, null)))
     }
 
     companion object {
 
-        val COMPARATOR: Comparator<ArgType?> = Comparator.comparing<ArgType?, String?> { obj: ArgType? -> obj!!.argType }
+        val COMPARATOR: Comparator<ArgType> = Comparator.comparing<ArgType, String> { it.argType }
 
-        val SET: MutableSet<ArgType?> = HashSet<ArgType?>()
+        val SET: MutableSet<ArgType> = HashSet<ArgType>()
 
         private val DESCRIPTIONS = Properties()
 
@@ -59,10 +58,7 @@ class ArgType private constructor(n: String) : Comparable<ArgType?>, Insertable 
             DESCRIPTIONS.setProperty("@", "?")
         }
 
-        fun make(n: String?): ArgType? {
-            if (n == null || n.isEmpty()) {
-                return null
-            }
+        fun make(n: String): ArgType {
             val a = ArgType(n)
             SET.add(a)
             return a

@@ -20,7 +20,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
 
     override fun run() {
         val folder = File(this.propBankHome)
-        val filter = FilenameFilter { dir: File?, name: String? -> name!!.endsWith(".xml") }
+        val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
         val fileArray = folder.listFiles(filter)
         if (fileArray == null) {
             throw RuntimeException("Dir:" + this.propBankHome + " is empty")
@@ -28,7 +28,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
         listOf<File>(*fileArray)
-            .sortedWith(Comparator.comparing<File?, String?> { it!!.name })
+            .sortedWith(Comparator.comparing<File, String> { it!!.name })
             .forEach {
                 fileCount++
                 processPropBankFile(it.absolutePath, it.name)
@@ -51,23 +51,19 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         try {
             // predicates
             val predicates = getPredicates(head, start)
-            if (predicates != null) {
-                for (predicate in predicates) {
-                    try {
-                        predicate.put()
-                    } catch (_: RuntimeException) {
-                        // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
-                    }
+            for (predicate in predicates) {
+                try {
+                    predicate.put()
+                } catch (_: RuntimeException) {
+                    // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
                 }
             }
             val aliasLexItems = getAliasPredicates(start)
-            if (aliasLexItems != null) {
-                for (lexItem in aliasLexItems) {
-                    try {
-                        lexItem.put()
-                    } catch (_: RuntimeException) {
-                        // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
-                    }
+            for (lexItem in aliasLexItems) {
+                try {
+                    lexItem.put()
+                } catch (_: RuntimeException) {
+                    // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
                 }
             }
 

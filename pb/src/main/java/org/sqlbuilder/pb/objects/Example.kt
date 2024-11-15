@@ -5,18 +5,20 @@ import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
 
 class Example private constructor(
-    @property:NotNull @NotNull private val roleSet: RoleSet, private val name: String, text: String,
-    @property:Nullable @Nullable private val aspect: String?, @property:Nullable @Nullable private val form: String?, @property:Nullable @Nullable private val person: String?,
-    @property:Nullable @Nullable private val tense: String?, @property:Nullable @Nullable private val voice: String?,
-) : HasId, Insertable,
-    Comparable<Example?> {
+    private val roleSet: RoleSet,
+    private val name: String,
+    text: String,
+    private val aspect: String?,
+    private val form: String?,
+    private val person: String?,
+    private val tense: String?,
+    private val voice: String?,
+) : HasId, Insertable, Comparable<Example> {
 
     private val text: String = PbNormalizer.normalize(text)
 
-    @NotNull
     val rels: MutableList<Rel> = ArrayList<Rel>()
 
-    @NotNull
     val args: MutableList<Arg> = ArrayList<Arg>()
 
     @RequiresIdFrom(type = Func::class)
@@ -26,7 +28,7 @@ class Example private constructor(
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Example?): Int {
+    override fun compareTo(that: Example): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -57,35 +59,35 @@ class Example private constructor(
 
     companion object {
 
-        private val COMPARATOR: Comparator<Example?> = Comparator
-            .comparing<Example?, RoleSet?> { it!!.roleSet }
-            .thenComparing { it!!.name }
-            .thenComparing({ it!!.aspect }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
-            .thenComparing({ it!!.form }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
-            .thenComparing({ it!!.person }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
-            .thenComparing({ it!!.tense }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
-            .thenComparing({ it!!.voice }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
-            .thenComparing { it!!.text }
+        private val COMPARATOR: Comparator<Example> = Comparator
+            .comparing<Example, RoleSet> { it.roleSet }
+            .thenComparing { it.name }
+            .thenComparing({ it.aspect }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it.form }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it.person }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it.tense }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing({ it.voice }, Comparator.nullsFirst<String?>(Comparator.naturalOrder()))
+            .thenComparing { it.text }
 
         private val NULLABLE_STRING_COMPARATOR: Comparator<String?> = Comparator.nullsFirst<String?>(Comparator { s1: String, s2: String -> s1.compareTo(s2) })
 
         @JvmField
-        val COLLECTOR: SetCollector<Example?> = SetCollector<Example?>(COMPARATOR)
+        val COLLECTOR = SetCollector<Example>(COMPARATOR)
 
         @JvmField
-        val ASPECT_COLLECTOR: SetCollector<String?> = SetCollector<String?>(NULLABLE_STRING_COMPARATOR)
+        val ASPECT_COLLECTOR = SetCollector<String>(NULLABLE_STRING_COMPARATOR)
 
         @JvmField
-        val FORM_COLLECTOR: SetCollector<String?> = SetCollector<String?>(NULLABLE_STRING_COMPARATOR)
+        val FORM_COLLECTOR = SetCollector<String>(NULLABLE_STRING_COMPARATOR)
 
         @JvmField
-        val PERSON_COLLECTOR: SetCollector<String?> = SetCollector<String?>(NULLABLE_STRING_COMPARATOR)
+        val PERSON_COLLECTOR = SetCollector<String>(NULLABLE_STRING_COMPARATOR)
 
         @JvmField
-        val TENSE_COLLECTOR: SetCollector<String?> = SetCollector<String?>(NULLABLE_STRING_COMPARATOR)
+        val TENSE_COLLECTOR = SetCollector<String>(NULLABLE_STRING_COMPARATOR)
 
         @JvmField
-        val VOICE_COLLECTOR: SetCollector<String?> = SetCollector<String?>(NULLABLE_STRING_COMPARATOR)
+        val VOICE_COLLECTOR = SetCollector<String>(NULLABLE_STRING_COMPARATOR)
 
         fun make(roleSet: RoleSet, name: String, text: String, aspect: String?, form: String?, person: String?, tense: String?, voice: String?): Example {
             val e = Example(roleSet, name, text, aspect, form, person, tense, voice)
@@ -111,8 +113,8 @@ class Example private constructor(
 
         @Suppress("unused")
         @RequiresIdFrom(type = Func::class)
-        fun getIntId(example: Example?): Int? {
-            return if (example == null) null else COLLECTOR[example]
+        fun getIntId(example: Example): Int {
+            return COLLECTOR[example]!!
         }
     }
 }

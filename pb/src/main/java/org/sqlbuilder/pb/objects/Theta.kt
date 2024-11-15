@@ -4,7 +4,7 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import java.util.*
 
-class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, Insertable {
+class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, Insertable {
 
     val theta: String = normalize(thetaName)
 
@@ -32,7 +32,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, 
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Theta?): Int {
+    override fun compareTo(that: Theta): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -53,7 +53,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, 
         val COMPARATOR: Comparator<Theta> = Comparator.comparing<Theta, String> { it.theta }
 
         @JvmField
-        val COLLECTOR: SetCollector<Theta> = SetCollector<Theta>(COMPARATOR)
+        val COLLECTOR = SetCollector<Theta>(COMPARATOR)
 
         @JvmStatic
         fun make(thetaName: String): Theta {
@@ -64,8 +64,8 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, 
 
         @Suppress("unused")
         @RequiresIdFrom(type = Theta::class)
-        fun getIntId(theta: Theta?): Int? {
-            return if (theta == null) null else COLLECTOR[theta]
+        fun getIntId(theta: Theta): Int {
+            return COLLECTOR[theta]!!
         }
 
         private fun normalize(thetaName: String): String {

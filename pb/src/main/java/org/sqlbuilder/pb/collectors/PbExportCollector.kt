@@ -16,7 +16,7 @@ class PbExportCollector(conf: Properties) : PbCollector(conf) {
 
     override fun run() {
         val folder = File(this.propBankHome)
-        val filter = FilenameFilter { dir: File?, name: String? -> name!!.endsWith(".xml") }
+        val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
         val fileArray = folder.listFiles(filter)
         if (fileArray == null) {
             throw RuntimeException("Dir:" + this.propBankHome + " is empty")
@@ -24,7 +24,7 @@ class PbExportCollector(conf: Properties) : PbCollector(conf) {
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
         listOf<File>(*fileArray)
-            .sortedWith(Comparator.comparing<File?, String?> { obj: File? -> obj!!.getName() })
+            .sortedWith(Comparator.comparing<File, String> { it.name })
             .forEach {
                 fileCount++
                 processPropBankFile(it.absolutePath, it.name)

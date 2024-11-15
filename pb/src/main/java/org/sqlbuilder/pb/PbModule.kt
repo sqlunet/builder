@@ -6,7 +6,7 @@ import org.sqlbuilder.pb.collectors.PbExportCollector
 import org.sqlbuilder.pb.collectors.PbUpdateCollector
 import java.io.IOException
 
-open class PbModule protected constructor(conf: String?, mode: Mode?) : Module(MODULE_ID, conf, mode) {
+open class PbModule protected constructor(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
         checkNotNull(props)
@@ -57,11 +57,11 @@ open class PbModule protected constructor(conf: String?, mode: Mode?) : Module(M
         @JvmStatic
         fun main(args: Array<String>) {
             var i = 0
-            var mode: Mode? = Mode.PLAIN
+            var mode: Mode = Mode.PLAIN
             if (args[i].startsWith("-")) {
                 mode = Mode.read(args[i++])
             }
-            val conf: String? = args[i]
+            val conf: String = args[i]
             PbModule(conf, mode).run()
         }
     }

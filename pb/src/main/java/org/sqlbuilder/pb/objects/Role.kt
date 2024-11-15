@@ -13,11 +13,12 @@ class Role private constructor(
     theta: String?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
-    val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
-
     private val func: Func? = if (func == null || func.isEmpty()) null else Func.make(func)
 
     private val descr: String? = descriptor
+
+    // role name for VerbNet
+    val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
@@ -85,7 +86,7 @@ class Role private constructor(
             .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
         @JvmField
-        val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
+        val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
         fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
             val r = Role(roleSet, n, f, descriptor, theta)

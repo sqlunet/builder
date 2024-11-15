@@ -5,7 +5,7 @@ import org.sqlbuilder.common.*
 import java.io.Serializable
 import java.util.*
 
-class Word private constructor(@JvmField val word: String) : HasId, Insertable, Resolvable<String?, Int?>, Comparable<Word?>, Serializable {
+class Word private constructor(@JvmField val word: String) : HasId, Insertable, Resolvable<String, Int>, Comparable<Word>, Serializable {
 
     @RequiresIdFrom(type = Word::class)
     override fun getIntId(): Int {
@@ -31,7 +31,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Word?): Int {
+    override fun compareTo(that: Word): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -59,10 +59,10 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     companion object {
 
-        val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String?> { it.word }
+        val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
 
         @JvmField
-        val COLLECTOR: SetCollector<Word> = SetCollector<Word>(COMPARATOR)
+        val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
         @JvmStatic
         fun make(word: String): Word {

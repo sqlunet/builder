@@ -69,11 +69,11 @@ abstract class Alias protected constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Alias?> = Comparator
-            .comparing<Alias?, RoleSet?>{ it!!.pbRoleSet }
-            .thenComparing<Word?> { it!!.pbWord }
-            .thenComparing<String?> { it.ref }
-            .thenComparing<String?> { it.pos }
+        val COMPARATOR: Comparator<Alias> = Comparator
+            .comparing<Alias, RoleSet>{ it.pbRoleSet }
+            .thenComparing<Word> { it.pbWord }
+            .thenComparing<String> { it.ref }
+            .thenComparing<String> { it.pos }
 
         fun make(db: Db, clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): Alias {
             return if (db == Db.VERBNET) VnAlias.make(clazz, pos, pbRoleSet, word) else (if (db == Db.FRAMENET) FnAlias.make(clazz, pos, pbRoleSet, word) else throw IllegalArgumentException(db.name))

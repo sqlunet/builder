@@ -4,7 +4,7 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
 
-class Rel private constructor(val example: Example, text: String, val f: Func?) : HasId, Insertable, Comparable<Rel?> {
+class Rel private constructor(val example: Example, text: String, val f: Func?) : HasId, Insertable, Comparable<Rel> {
 
     val text: String = PbNormalizer.normalize(text)
 
@@ -15,7 +15,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Rel?): Int {
+    override fun compareTo(that: Rel): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -35,13 +35,13 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
 
     companion object {
 
-        private val COMPARATOR: Comparator<Rel?> = Comparator
-            .comparing<Rel?, Example?> { it!!.example }
-            .thenComparing<String?> { it!!.text }
-            .thenComparing<Func?>( { it!!.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
+        private val COMPARATOR: Comparator<Rel> = Comparator
+            .comparing<Rel, Example> { it.example }
+            .thenComparing<String> { it.text }
+            .thenComparing<Func?>( { it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
-        val COLLECTOR: SetCollector<Rel?> = SetCollector<Rel?>(COMPARATOR)
+        val COLLECTOR = SetCollector<Rel>(COMPARATOR)
 
         fun make(example: Example, text: String, f: Func?): Rel {
             val r = Rel(example, text, f)
