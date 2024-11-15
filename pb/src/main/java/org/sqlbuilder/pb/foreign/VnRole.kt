@@ -6,9 +6,10 @@ import java.util.*
 
 class VnRole private constructor(
     val vnClass: VnClass, val vnTheta: Theta,
-) : Comparable<VnRole?> {
+) : Comparable<VnRole> {
 
     // I D E N T I T Y
+
     override fun equals(o: Any?): Boolean {
         if (this === o) {
             return true
@@ -25,7 +26,8 @@ class VnRole private constructor(
     }
 
     // O R D E R I N G
-    override fun compareTo(@NotNull that: VnRole?): Int {
+
+    override fun compareTo(that: VnRole): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -36,9 +38,9 @@ class VnRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnRole?> = Comparator
-            .comparing<VnRole?, VnClass?> { it!!.vnClass }
-            .thenComparing{ it!!.vnTheta }
+        val COMPARATOR: Comparator<VnRole> = Comparator
+            .comparing<VnRole, VnClass> { it.vnClass }
+            .thenComparing{ it.vnTheta }
 
         fun make(vnClass: VnClass, vnTheta: Theta): VnRole {
             return VnRole(vnClass, vnTheta)

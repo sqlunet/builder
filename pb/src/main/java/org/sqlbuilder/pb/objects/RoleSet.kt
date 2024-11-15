@@ -1,12 +1,15 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
 import org.sqlbuilder.pb.foreign.Alias
 import java.io.Serializable
 import java.util.*
 
-class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String?) : HasId, Insertable, Comparable<RoleSet?>, Serializable {
+class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String) : HasId, Insertable, Comparable<RoleSet>, Serializable {
 
     internal val aliases: MutableList<Alias> = ArrayList<Alias>()
 
@@ -15,7 +18,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
         return COLLECTOR[this]!!
     }
 
-    val head: String?
+    val head: String
         get() {
             return this.predicate.head
         }
@@ -39,7 +42,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     // O R D E R I N G
 
-    override fun compareTo(@NotNull that: RoleSet?): Int {
+    override fun compareTo(that: RoleSet): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -55,7 +58,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
         return String.format(
             "'%s',%s,'%s',%s",
             Utils.escape(name),
-            Utils.nullableQuotedEscapedString<String?>(descr),
+            Utils.nullableQuotedEscapedString(descr),
             Utils.escape(predicate.head),
             Utils.nullable(word) { it!!.sqlId }
         )
@@ -77,9 +80,9 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             .thenComparing<String> { it.name }
 
         @JvmField
-        val COLLECTOR: SetCollector<RoleSet> = SetCollector<RoleSet>(COMPARATOR)
+        val COLLECTOR = SetCollector<RoleSet>(COMPARATOR)
 
-        fun make(predicate: Predicate, roleSetId: String, name: String?): RoleSet {
+        fun make(predicate: Predicate, roleSetId: String, name: String): RoleSet {
             val s = RoleSet(predicate, roleSetId, name)
             COLLECTOR.add(s)
             return s

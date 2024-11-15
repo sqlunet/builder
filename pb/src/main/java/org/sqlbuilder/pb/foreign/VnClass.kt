@@ -5,12 +5,13 @@ import java.util.*
 
 class VnClass private constructor(
     val head: String?, val classTag: String
-) : Comparable<VnClass?> {
+) : Comparable<VnClass> {
 
     val className: String
         get() = String.format("%s-%s", head ?: "%", classTag)
 
     // I D E N T I T Y
+
     override fun equals(o: Any?): Boolean {
         if (this === o) {
             return true
@@ -28,7 +29,7 @@ class VnClass private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(@NotNull that: VnClass?): Int {
+    override fun compareTo(that: VnClass): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -40,7 +41,7 @@ class VnClass private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnClass?> = Comparator.comparing<VnClass?, String?> { it!!.className }
+        val COMPARATOR: Comparator<VnClass> = Comparator.comparing<VnClass, String> { it.className }
 
         fun make(head: String?, classTag: String): VnClass {
             return VnClass(head, classTag)

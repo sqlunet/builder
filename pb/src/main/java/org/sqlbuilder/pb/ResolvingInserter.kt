@@ -13,13 +13,13 @@ import java.util.*
 
 open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
-    protected val wordSerFile: String?
+    protected val wordSerFile: String
 
-    protected val vnClassSerFile: String?
+    protected val vnClassSerFile: String
 
-    protected val vnClassRoleSerFile: String?
+    protected val vnClassRoleSerFile: String
 
-    protected val fnFrameSerFile: String?
+    protected val fnFrameSerFile: String
 
     @JvmField
     protected val wordResolver: WordResolver
@@ -68,7 +68,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             header,
             true,
             wordResolver,
-            { o: Int? -> Objects.toString(o) },
+            { Objects.toString(it) },
             names.column("words.wordid")
         )
         Progress.traceDone()
@@ -85,7 +85,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_fnframes"),
             header,
             fnFrameResolver,
-            { r: Int? -> Utils.nullable<Int?>(r) { o: Int? -> Objects.toString(o) } },
+            { r -> Utils.nullable(r) { Objects.toString(it) } },
             names.column("pbrolesets_fnframes.fnframeid")
         )
         Progress.traceDone()
@@ -102,7 +102,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_vnclasses"),
             header,
             vnClassResolver,
-            { r: Int? -> Utils.nullable<Int?>(r) { o: Int? -> Objects.toString(o) } },
+            { r -> Utils.nullable(r) { Objects.toString(it) } },
             names.column("pbrolesets_vnclasses.vnclassid")
         )
         Progress.traceDone()

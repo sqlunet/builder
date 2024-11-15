@@ -43,7 +43,7 @@ class VnRoleAlias private constructor(
         )
     }
 
-    override fun comment(): String? {
+    override fun comment(): String {
         return String.format(
             "%s,%s,%s",
             role.roleSet.name,

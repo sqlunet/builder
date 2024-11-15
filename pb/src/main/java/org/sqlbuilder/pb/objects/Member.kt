@@ -5,7 +5,7 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.NotNull
 import java.util.*
 
-class Member private constructor(val roleSet: RoleSet, val word: Word) : Insertable, Comparable<Member?> {
+class Member private constructor(val roleSet: RoleSet, val word: Word) : Insertable, Comparable<Member> {
 
     init {
         SET.add(this)
@@ -30,7 +30,7 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Member?): Int {
+    override fun compareTo(@NotNull that: Member): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -38,11 +38,11 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
 
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Word::class)
-    override fun dataRow(): String? {
+    override fun dataRow(): String {
         return String.format("%s,%s", roleSet.intId, word.intId)
     }
 
-    override fun comment(): String? {
+    override fun comment(): String {
         return String.format("%s,%s", roleSet.name, word.word)
     }
 

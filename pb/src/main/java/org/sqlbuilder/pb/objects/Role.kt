@@ -85,7 +85,7 @@ class Role private constructor(
             .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
         @JvmField
-        val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
+        val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
         fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
             val r = Role(roleSet, n, f, descriptor, theta)
@@ -95,8 +95,8 @@ class Role private constructor(
 
         @Suppress("unused")
         @RequiresIdFrom(type = Role::class)
-        fun getIntId(role: Role?): Int? {
-            return if (role == null) null else COLLECTOR.get(role)
+        fun getIntId(role: Role): Int {
+            return COLLECTOR[role]!!
         }
     }
 }
