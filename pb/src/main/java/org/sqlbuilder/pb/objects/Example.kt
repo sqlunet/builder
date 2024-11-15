@@ -31,7 +31,7 @@ class Example private constructor(
 
     @RequiresIdFrom(type = Func::class)
     override fun getIntId(): Int {
-        return COLLECTOR.get(this)!!
+        return COLLECTOR[this]!!
     }
 
     // O R D E R
@@ -49,10 +49,10 @@ class Example private constructor(
             "'%s','%s',%s,%s,%s,%s,%s,%d", Utils.escape(name),
             Utils.escape(text),
             SqlId.getSqlId(ASPECT_COLLECTOR[aspect]),
-            SqlId.getSqlId(FORM_COLLECTOR.get(form)),
-            SqlId.getSqlId(TENSE_COLLECTOR.get(tense)),
-            SqlId.getSqlId(VOICE_COLLECTOR.get(voice)),
-            SqlId.getSqlId(PERSON_COLLECTOR.get(person)),
+            SqlId.getSqlId(FORM_COLLECTOR[form]),
+            SqlId.getSqlId(TENSE_COLLECTOR[tense]),
+            SqlId.getSqlId(VOICE_COLLECTOR[voice]),
+            SqlId.getSqlId(PERSON_COLLECTOR[person]),
             roleSet.intId
         )
     }
@@ -96,7 +96,6 @@ class Example private constructor(
         @JvmField
         val VOICE_COLLECTOR: SetCollector<String?> = SetCollector<String?>(NULLABLE_STRING_COMPARATOR)
 
-        // C O N S T R U C T O R
         fun make(roleSet: RoleSet, name: String, text: String, aspect: String?, form: String?, person: String?, tense: String?, voice: String?): Example {
             val e = Example(roleSet, name, text, aspect, form, person, tense, voice)
 
@@ -119,6 +118,7 @@ class Example private constructor(
             return e
         }
 
+        @Suppress("unused")
         @RequiresIdFrom(type = Func::class)
         fun getIntId(example: Example?): Int? {
             return if (example == null) null else COLLECTOR[example]

@@ -9,7 +9,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     @RequiresIdFrom(type = Word::class)
     override fun getIntId(): Int {
-        return COLLECTOR.get(this)!!
+        return COLLECTOR[this]!!
     }
 
     // I D E N T I T Y

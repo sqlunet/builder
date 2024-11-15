@@ -94,6 +94,7 @@ class Role private constructor(
             return r
         }
 
+        @Suppress("unused")
         @RequiresIdFrom(type = Role::class)
         fun getIntId(role: Role?): Int? {
             return if (role == null) null else COLLECTOR.get(role)

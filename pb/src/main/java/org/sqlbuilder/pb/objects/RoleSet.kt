@@ -92,6 +92,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             return s
         }
 
+        @Suppress("unused")
         @RequiresIdFrom(type = RoleSet::class)
         fun getIntId(roleset: RoleSet): Int {
             return COLLECTOR[roleset]!!

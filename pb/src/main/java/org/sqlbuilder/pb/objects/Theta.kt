@@ -10,7 +10,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, 
 
     @RequiresIdFrom(type = Theta::class)
     override fun getIntId(): Int {
-        return COLLECTOR.get(this)!!
+        return COLLECTOR[this]!!
     }
 
     // I D E N T I T Y
@@ -62,6 +62,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta?>, 
             return t
         }
 
+        @Suppress("unused")
         @RequiresIdFrom(type = Theta::class)
         fun getIntId(theta: Theta?): Int? {
             return if (theta == null) null else COLLECTOR[theta]
