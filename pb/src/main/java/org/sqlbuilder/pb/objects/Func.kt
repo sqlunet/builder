@@ -62,10 +62,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
         }
 
         @JvmStatic
-        fun make(f: String?): Func? {
-            if (f == null || f.isEmpty()) {
-                return null
-            }
+        fun make(f: String): Func {
             val fn = Func(f)
             COLLECTOR.add(fn)
             return fn
