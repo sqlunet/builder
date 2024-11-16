@@ -67,9 +67,6 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
     // T O S T R I N G
 
     override fun toString(): String {
-        if (this.descr == null) {
-            return String.format("<%s-%s>", head, this.name)
-        }
         return String.format("<%s-%s-{%s}>", head, this.name, this.descr)
     }
 
