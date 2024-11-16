@@ -37,98 +37,96 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         @JvmStatic
         @Throws(XPathExpressionException::class)
         fun getAliasPredicates(start: Node): Collection<LexItem> {
-            var result: MutableList<LexItem> = ArrayList<LexItem>()
-            val aliasNodes = getXPaths(start, ".//alias")
-            for (i in 0 until aliasNodes.length) {
-                val aliasElement = aliasNodes.item(i) as Element
-                val lemma = aliasElement.textContent // $NON-NLS-1$
-                val predicate = LexItem.make(lemma)
-                result.add(predicate)
-            }
-            return result
+            return getXPaths(start, ".//alias")
+                .asSequence()
+                .map {
+                    val lemma = it.textContent
+                    LexItem.make(lemma)
+                }
+                .toList()
         }
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
             var result: MutableList<RoleSet> = ArrayList<RoleSet>()
-            val predicateNodes = getXPaths(start, "./predicate")
-            for (i in 0 until predicateNodes.length) {
-                val predicateElement = predicateNodes.item(i) as Element
-                val lemmaAttribute = predicateElement.getAttribute("lemma")
-                val predicate = Predicate.make(head, lemmaAttribute)
+            getXPaths(start, "./predicate")
+                .asSequence()
+                .forEach { predicateElement ->
+                    val lemmaAttribute = predicateElement.getAttribute("lemma")
+                    val predicate = Predicate.make(head, lemmaAttribute)
 
-                // predicate as roleset member
-                val pbword = Word.make(predicate.word)
+                    // predicate as roleset member
+                    val pbword = Word.make(predicate.word)
 
-                val roleSetNodes = getXPaths(predicateElement, "./roleset")
-                for (j in 0 until roleSetNodes.length) {
-                    // roleset data
-                    val roleSetElement = roleSetNodes.item(j) as Element
-                    val roleSetIdAttribute = roleSetElement.getAttribute("id")
-                    val roleSetNameAttribute = roleSetElement.getAttribute("name")
+                    getXPaths(predicateElement, "./roleset")
+                        .asSequence()
+                        .forEach { roleSetElement ->
 
-                    // roleset
-                    val roleSet = RoleSet.make(predicate, roleSetIdAttribute, roleSetNameAttribute)
-                    result.add(roleSet)
+                            // roleset data
+                            val roleSetIdAttribute = roleSetElement.getAttribute("id")
+                            val roleSetNameAttribute = roleSetElement.getAttribute("name")
 
-                    // roleset member
-                    Member.make(roleSet, pbword)
+                            // roleset
+                            val roleSet = RoleSet.make(predicate, roleSetIdAttribute, roleSetNameAttribute)
+                            result.add(roleSet)
 
-                    // roleset aliases
-                    val aliases = roleSet.aliases
-                    val aliasRoleNodes = getXPaths(roleSetElement, "./aliases/alias")
-                    if (aliasRoleNodes != null && aliasRoleNodes.length > 0) {
-                        for (l in 0 until aliasRoleNodes.length) {
-                            val aliasElement = aliasRoleNodes.item(l) as Element
-                            val pos: String = aliasElement.getAttribute("pos").trim { it <= ' ' }
-                            val word2: String = aliasElement.textContent.trim { it <= ' ' }
+                            // roleset member
+                            Member.make(roleSet, pbword)
 
-                            // alias word
-                            val pbword2 = Word.make(word2)
+                            // roleset aliases
+                            val aliases = roleSet.aliases
+                            getXPaths(roleSetElement, "./aliases/alias")
+                                .asSequence()
+                                .forEach { aliasElement ->
 
-                            // alias word as roleset member
-                            Member.make(roleSet, pbword2)
+                                    val pos: String = aliasElement.getAttribute("pos").trim { it <= ' ' }
+                                    val word2: String = aliasElement.textContent.trim { it <= ' ' }
 
-                            // v e r b n e t
-                            val verbNet: String = aliasElement.getAttribute("verbnet").trim { it <= ' ' }
-                            if (!verbNet.isEmpty()) {
-                                val classes: Array<String> = verbNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                for (clazz in classes) {
-                                    var clazz = clazz
-                                    clazz = clazz.trim { it <= ' ' }
-                                    if (clazz.isEmpty() || "-" == clazz) {
-                                        continue
+                                    // alias word
+                                    val pbword2 = Word.make(word2)
+
+                                    // alias word as roleset member
+                                    Member.make(roleSet, pbword2)
+
+                                    // v e r b n e t
+                                    val verbNet: String = aliasElement.getAttribute("verbnet").trim { it <= ' ' }
+                                    if (!verbNet.isEmpty()) {
+                                        val classes: Array<String> = verbNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                                        for (clazz in classes) {
+                                            var clazz = clazz
+                                            clazz = clazz.trim { it <= ' ' }
+                                            if (clazz.isEmpty() || "-" == clazz) {
+                                                continue
+                                            }
+                                            if (clazz.matches("^[a-z]+-.*$".toRegex())) {
+                                                //System.err.print('\n' + clazz);
+                                                clazz = clazz.replaceFirst("^[a-z]+-".toRegex(), "")
+                                                //System.err.println('>' + clazz);
+                                            }
+
+                                            val alias = Alias.make(Alias.Db.VERBNET, clazz, pos, roleSet, pbword2)
+                                            aliases.add(alias)
+                                        }
                                     }
-                                    if (clazz.matches("^[a-z]+-.*$".toRegex())) {
-                                        //System.err.print('\n' + clazz);
-                                        clazz = clazz.replaceFirst("^[a-z]+-".toRegex(), "")
-                                        //System.err.println('>' + clazz);
-                                    }
 
-                                    val alias = Alias.make(Alias.Db.VERBNET, clazz, pos, roleSet, pbword2)
-                                    aliases.add(alias)
+                                    // f r a m e n e t
+                                    val frameNet: String = aliasElement.getAttribute("framenet").trim { it <= ' ' }
+                                    if (!frameNet.isEmpty()) {
+                                        val frames: Array<String> = frameNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                                        for (frame in frames) {
+                                            var frame = frame
+                                            frame = frame.trim { it <= ' ' }
+                                            if (frame.isEmpty() || "-" == frame) {
+                                                continue
+                                            }
+                                            val alias = Alias.make(Alias.Db.FRAMENET, frame, pos, roleSet, pbword2)
+                                            aliases.add(alias)
+                                        }
+                                    }
                                 }
-                            }
-
-                            // f r a m e n e t
-                            val frameNet: String = aliasElement.getAttribute("framenet").trim { it <= ' ' }
-                            if (!frameNet.isEmpty()) {
-                                val frames: Array<String> = frameNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                for (frame in frames) {
-                                    var frame = frame
-                                    frame = frame.trim { it <= ' ' }
-                                    if (frame.isEmpty() || "-" == frame) {
-                                        continue
-                                    }
-                                    val alias = Alias.make(Alias.Db.FRAMENET, frame, pos, roleSet, pbword2)
-                                    aliases.add(alias)
-                                }
-                            }
                         }
-                    }
                 }
-            }
             return result
         }
 
@@ -136,44 +134,45 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         @Throws(XPathExpressionException::class)
         fun makeRoles(head: String, start: Node): Collection<Role> {
             var result: MutableList<Role> = ArrayList<Role>()
-            val predicateNodes = getXPaths(start, "./predicate")
-            for (i in 0 until predicateNodes.length) {
-                val predicateElement = predicateNodes.item(i) as Element
-                val lemmaAttribute = predicateElement.getAttribute("lemma")
-                val predicate = Predicate.make(head, lemmaAttribute)
+            getXPaths(start, "./predicate")
+                .asSequence()
+                .forEach { predicateElement ->
+                    val lemmaAttribute = predicateElement.getAttribute("lemma")
+                    val predicate = Predicate.make(head, lemmaAttribute)
 
-                val roleSetNodes = getXPaths(predicateElement, "./roleset")
-                for (j in 0 until roleSetNodes.length) {
+                    getXPaths(predicateElement, "./roleset")
+                        .asSequence()
+                        .forEach { roleSetElement ->
 
-                    // roleset data
-                    val roleSetElement = roleSetNodes.item(j) as Element
-                    val roleSetIdAttribute = roleSetElement.getAttribute("id")
-                    val nameAttribute = roleSetElement.getAttribute("name")
+                            // roleset data
+                            val roleSetIdAttribute = roleSetElement.getAttribute("id")
+                            val nameAttribute = roleSetElement.getAttribute("name")
 
-                    // roleset
-                    val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
+                            // roleset
+                            val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
 
-                    val roleNodes = getXPaths(roleSetElement, "./roles/role")
-                    for (k in 0 until roleNodes.length) {
-                        val roleElement = roleNodes.item(k) as Element
+                            // roles
+                            getXPaths(roleSetElement, "./roles/role")
+                                .asSequence()
+                                .forEach { roleElement ->
 
-                        // attributes
-                        val n = roleElement.getAttribute("n")
-                        val f = roleElement.getAttribute("f")
-                        val descriptor = roleElement.getAttribute("descr")
+                                    // attributes
+                                    val n = roleElement.getAttribute("n")
+                                    val f = roleElement.getAttribute("f")
+                                    val descriptor = roleElement.getAttribute("descr")
 
-                        // theta
-                        var theta: List<String>? = makeThetas(roleElement)
+                                    // theta
+                                    var theta: List<String>? = makeThetas(roleElement)
 
-                        // role
-                        val role = Role.make(roleSet, n, f, descriptor, theta?.joinToString(separator = " "))
-                        result.add(role)
+                                    // role
+                                    val role = Role.make(roleSet, n, f, descriptor, theta?.joinToString(separator = " "))
+                                    result.add(role)
 
-                        // role-vnrole maps
-                        makeVnRoleMaps(head, role, roleElement)
-                    }
+                                    // role-vnrole maps
+                                    makeVnRoleMaps(head, role, roleElement)
+                                }
+                        }
                 }
-            }
             return result
         }
 
@@ -188,11 +187,11 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         private fun makeVnRoleMaps(head: String, role: Role, roleElement: Element) {
-            val vnRoleNodes = getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet']")
-            if (vnRoleNodes != null)
-                for (l in 0 until vnRoleNodes.length) {
+            getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet']")
+                .asSequence()
+                .forEach { vnRoleElement ->
+
                     // extract
-                    val vnRoleElement = vnRoleNodes.item(l) as Element
                     val vnClassAttribute = vnRoleElement.getAttribute("class")
                     val thetaContent = vnRoleElement.textContent.trim { it <= ' ' }
 
@@ -212,122 +211,126 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         @Throws(XPathExpressionException::class)
         fun makeExamples(head: String, start: Node): Collection<Example> {
             var result: MutableList<Example> = ArrayList<Example>()
-            val predicateNodes = getXPaths(start, "./predicate")
-            for (i in 0 until predicateNodes.length) {
-                val predicateElement = predicateNodes.item(i) as Element
-                val lemmaAttribute = predicateElement.getAttribute("lemma")
-                val predicate = Predicate.make(head, lemmaAttribute)
+            getXPaths(start, "./predicate")
+                .asSequence()
+                .forEach { predicateElement ->
 
-                val roleSetNodes = getXPaths(predicateElement, "./roleset")
-                for (j in 0 until roleSetNodes.length) {
-                    val roleSetElement = roleSetNodes.item(j) as Element
-                    val roleSetIdAttribute = roleSetElement.getAttribute("id")
-                    val nameAttribute = roleSetElement.getAttribute("name")
-                    val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
+                    val lemmaAttribute = predicateElement.getAttribute("lemma")
+                    val predicate = Predicate.make(head, lemmaAttribute)
 
-                    val exampleNodes = getXPaths(roleSetElement, "./example")
-                    for (k in 0 until exampleNodes.length) {
-                        val exampleElement = exampleNodes.item(k) as Element
+                    getXPaths(predicateElement, "./roleset")
+                        .asSequence()
+                        .forEach { roleSetElement ->
 
-                        val exampleName = exampleElement.getAttribute("name")
-                        val exampleText = getXPathText(exampleElement, "./text")
+                            val roleSetIdAttribute = roleSetElement.getAttribute("id")
+                            val nameAttribute = roleSetElement.getAttribute("name")
+                            val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
 
-                        var aspect: String? = null
-                        var form: String? = null
-                        var person: String? = null
-                        var tense: String? = null
-                        var voice: String? = null
-                        val inflectionNode = getXPath(exampleElement, "./inflection")
-                        if (inflectionNode != null) {
-                            val inflectionElement = inflectionNode as Element
-                            aspect = inflectionElement.getAttribute("aspect")
-                            form = inflectionElement.getAttribute("form")
-                            person = inflectionElement.getAttribute("person")
-                            tense = inflectionElement.getAttribute("tense")
-                            voice = inflectionElement.getAttribute("voice")
+                            getXPaths(roleSetElement, "./example")
+                                .asSequence()
+                                .forEach { exampleElement ->
+
+                                    val exampleName = exampleElement.getAttribute("name")
+                                    val exampleText = getXPathText(exampleElement, "./text")
+
+                                    var aspect: String? = null
+                                    var form: String? = null
+                                    var person: String? = null
+                                    var tense: String? = null
+                                    var voice: String? = null
+                                    val inflectionNode = getXPath(exampleElement, "./inflection")
+                                    if (inflectionNode != null) {
+                                        val inflectionElement = inflectionNode as Element
+                                        aspect = inflectionElement.getAttribute("aspect")
+                                        form = inflectionElement.getAttribute("form")
+                                        person = inflectionElement.getAttribute("person")
+                                        tense = inflectionElement.getAttribute("tense")
+                                        voice = inflectionElement.getAttribute("voice")
+                                    }
+                                    var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
+
+                                    // relations
+                                    getXPaths(exampleElement, "./propbank/rel")
+                                        .asSequence()
+                                        .forEach { relElement ->
+
+                                            val relText: String = relElement.textContent.trim { it <= ' ' }
+                                            val rel = Rel.make(example, relText)
+                                            example.rels.add(rel)
+                                        }
+
+                                    // arguments
+                                    getXPaths(exampleElement, "./propbank/arg")
+                                        .asSequence()
+                                        .forEach { argElement ->
+
+                                            val type = argElement.getAttribute("type")
+                                            val argText: String = argElement.textContent.trim { it <= ' ' }
+                                            val arg = Arg.make(example, argText, type)
+                                            example.args.add(arg)
+                                        }
+                                    result.add(example)
+                                }
                         }
-                        var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
-
-                        // relations
-                        val relNodes = getXPaths(exampleElement, "./propbank/rel")
-                        for (l in 0 until relNodes.length) {
-                            val relElement = relNodes.item(l) as Element
-
-                            val relText: String = relElement.textContent.trim { it <= ' ' }
-                            val rel = Rel.make(example, relText)
-                            example.rels.add(rel)
-                        }
-
-                        // arguments
-                        val argNodes = getXPaths(exampleElement, "./propbank/arg")
-                        for (m in 0 until argNodes.length) {
-                            val argElement = argNodes.item(m) as Element
-
-                            val type = argElement.getAttribute("type")
-                            val argText: String = argElement.textContent.trim { it <= ' ' }
-                            val arg = Arg.make(example, argText, type)
-                            example.args.add(arg)
-                        }
-                        result.add(example)
-                    }
                 }
-            }
             return result
         }
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeExampleArgs(head: String, start: Node): Collection<Arg> {
-            var result: MutableList<Arg> = ArrayList<Arg>()
-            val predicateNodes = getXPaths(start, "./predicate")
-            for (i in 0 until predicateNodes.length) {
-                val predicateElement = predicateNodes.item(i) as Element
-                val lemmaAttribute = predicateElement.getAttribute("lemma")
-                val predicate = Predicate.make(head, lemmaAttribute)
+            var result = ArrayList<Arg>()
+            getXPaths(start, "./predicate")
+                .asSequence()
+                .forEach { predicateElement ->
 
-                val roleSetNodes = getXPaths(predicateElement, "./roleset")
-                for (j in 0 until roleSetNodes.length) {
-                    val roleSetElement = roleSetNodes.item(j) as Element
-                    val roleSetIdAttribute = roleSetElement.getAttribute("id")
-                    val nameAttribute = roleSetElement.getAttribute("name")
-                    val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
+                    val lemmaAttribute = predicateElement.getAttribute("lemma")
+                    val predicate = Predicate.make(head, lemmaAttribute)
 
-                    val exampleNodes = getXPaths(roleSetElement, "./example")
-                    for (k in 0 until exampleNodes.length) {
-                        val exampleElement = exampleNodes.item(k) as Element
+                    getXPaths(predicateElement, "./roleset")
+                        .asSequence()
+                        .forEach { roleSetElement ->
 
-                        val exampleName = exampleElement.getAttribute("name")
-                        val exampleText = getXPathText(exampleElement, "./text")
+                            val roleSetIdAttribute = roleSetElement.getAttribute("id")
+                            val nameAttribute = roleSetElement.getAttribute("name")
+                            val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
 
-                        var aspect: String? = null
-                        var form: String? = null
-                        var person: String? = null
-                        var tense: String? = null
-                        var voice: String? = null
-                        val inflectionNode = getXPath(exampleElement, "./inflection")
-                        if (inflectionNode != null) {
-                            val inflectionElement = inflectionNode as Element
-                            aspect = inflectionElement.getAttribute("aspect")
-                            form = inflectionElement.getAttribute("form")
-                            person = inflectionElement.getAttribute("person")
-                            tense = inflectionElement.getAttribute("tense")
-                            voice = inflectionElement.getAttribute("voice")
+                            getXPaths(roleSetElement, "./example")
+                                .asSequence()
+                                .forEach { exampleElement ->
+
+                                    val exampleName = exampleElement.getAttribute("name")
+                                    val exampleText = getXPathText(exampleElement, "./text")
+
+                                    var aspect: String? = null
+                                    var form: String? = null
+                                    var person: String? = null
+                                    var tense: String? = null
+                                    var voice: String? = null
+                                    val inflectionNode = getXPath(exampleElement, "./inflection")
+                                    if (inflectionNode != null) {
+                                        val inflectionElement = inflectionNode as Element
+                                        aspect = inflectionElement.getAttribute("aspect")
+                                        form = inflectionElement.getAttribute("form")
+                                        person = inflectionElement.getAttribute("person")
+                                        tense = inflectionElement.getAttribute("tense")
+                                        voice = inflectionElement.getAttribute("voice")
+                                    }
+                                    var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
+
+                                    // args
+                                    getXPaths(exampleElement, "./propbank/arg")
+                                        .asSequence()
+                                        .forEach { argElement ->
+
+                                            val type = argElement.getAttribute("type")
+                                            val argText: String = argElement.textContent.trim { it <= ' ' }
+                                            val arg = Arg.make(example, argText, type)
+                                            result.add(arg)
+                                        }
+                                }
                         }
-                        var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
-
-                        // args
-                        val argNodes = getXPaths(exampleElement, "./propbank/arg")
-                        for (l in 0 until argNodes.length) {
-                            val argElement = argNodes.item(l) as Element
-
-                            val type = argElement.getAttribute("type")
-                            val argText: String = argElement.textContent.trim { it <= ' ' }
-                            val arg = Arg.make(example, argText, type)
-                            result.add(arg)
-                        }
-                    }
                 }
-            }
             return result
         }
     }
