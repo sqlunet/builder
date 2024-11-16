@@ -148,6 +148,43 @@
     <pattern value="org.sqlbuilder.common.Progress" method="traceTailer" />
     <pattern value="org.sqlbuilder.common.ThrowingConsumer" />
     <pattern value="org.sqlbuilder.common.Module" method="getId" />
+    <pattern value="org.sqlbuilder.pb.foreign.Alias" />
+    <pattern value="org.sqlbuilder.pb.objects.Arg" />
+    <pattern value="org.sqlbuilder.pb.collectors.PbDocument.Companion" />
+    <pattern value="org.sqlbuilder.pb.Exporter.Companion" />
+    <pattern value="org.sqlbuilder.pb.PbModule.Companion" />
+    <pattern value="org.sqlbuilder.pb.objects.Example" />
+    <pattern value="org.sqlbuilder.pb.Exporter" />
+    <pattern value="org.sqlbuilder.pb.Exporter" method="Exporter" />
+    <pattern value="org.sqlbuilder.pb.FnFrameResolver" />
+    <pattern value="org.sqlbuilder.pb.FnFrameResolver" method="FnFrameResolver" />
+    <pattern value="org.sqlbuilder.pb.objects.Func" />
+    <pattern value="org.sqlbuilder.pb.Inserter" />
+    <pattern value="org.sqlbuilder.pb.Inserter" method="Inserter" />
+    <pattern value="org.sqlbuilder.pb.PbModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.pb.objects.Member" />
+    <pattern value="org.sqlbuilder.pb.collectors.PbDocument" />
+    <pattern value="org.sqlbuilder.pb.PbModule" />
+    <pattern value="org.sqlbuilder.pb.objects.Rel" />
+    <pattern value="org.sqlbuilder.pb.ResolvingInserter" />
+    <pattern value="org.sqlbuilder.pb.ResolvingInserter" method="ResolvingInserter" />
+    <pattern value="org.sqlbuilder.pb.ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.pb.ResolvingUpdater" method="ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.pb.objects.Role" />
+    <pattern value="org.sqlbuilder.pb.objects.RoleSet" />
+    <pattern value="org.sqlbuilder.pb.TestNames" />
+    <pattern value="org.sqlbuilder.pb.TestNames" method="testNames" />
+    <pattern value="org.sqlbuilder.pb.TestParseFile" method="testParse" />
+    <pattern value="org.sqlbuilder.pb.TestParseFile" />
+    <pattern value="org.sqlbuilder.pb.objects.Theta" />
+    <pattern value="org.sqlbuilder.pb.VnClassResolver" />
+    <pattern value="org.sqlbuilder.pb.VnClassResolver" method="VnClassResolver" />
+    <pattern value="org.sqlbuilder.pb.VnClassRoleResolver" />
+    <pattern value="org.sqlbuilder.pb.VnClassRoleResolver" method="VnClassRoleResolver" />
+    <pattern value="org.sqlbuilder.pb.foreign.VnRoleAlias" />
+    <pattern value="org.sqlbuilder.pb.objects.Word" />
+    <pattern value="org.sqlbuilder.pb.WordResolver" />
+    <pattern value="org.sqlbuilder.pb.WordResolver" method="WordResolver" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
