@@ -8,23 +8,30 @@ import org.sqlbuilder.pb.foreign.VnRoleAlias
 import org.sqlbuilder.pb.objects.*
 import org.w3c.dom.Element
 import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 import javax.xml.xpath.XPathExpressionException
 
 class PbDocument(filePath: String) : XmlDocument(filePath) {
     companion object {
 
+        fun NodeList.asSequence(): Sequence<Element> {
+            return sequence {
+                for (i in 0 until length) {
+                    yield(item(i) as Element)
+                }
+            }
+        }
+
         @JvmStatic
         @Throws(XPathExpressionException::class)
         fun getPredicates(head: String, start: Node): Collection<Predicate> {
-            var result: MutableList<Predicate> = ArrayList<Predicate>()
-            val predicateNodes = getXPaths(start, "./predicate")
-            for (i in 0 until predicateNodes.length) {
-                val predicateElement = predicateNodes.item(i) as Element
-                val lemmaAttribute = predicateElement.getAttribute("lemma")
-                val predicate = Predicate.make(head, lemmaAttribute)
-                result.add(predicate)
-            }
-            return result
+            return getXPaths(start, "./predicate")
+                .asSequence()
+                .map {
+                    val lemmaAttribute = it.getAttribute("lemma")
+                    Predicate.make(head, lemmaAttribute)
+                }
+                .toList()
         }
 
         @JvmStatic
@@ -154,15 +161,12 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                         val n = roleElement.getAttribute("n")
                         val f = roleElement.getAttribute("f")
                         val descriptor = roleElement.getAttribute("descr")
-                        var theta: String? = null
-                        val vnRoleNodes = getXPaths(roleElement, "./vnrole")
-                        if (vnRoleNodes != null && vnRoleNodes.length > 0) {
-                            val vnRoleElement = vnRoleNodes.item(0) as Element
-                            theta = vnRoleElement.getAttribute("vntheta")
-                        }
+
+                        // theta
+                        var theta: List<String>? = makeThetas(roleElement)
 
                         // role
-                        val role = Role.make(roleSet, n, f, descriptor, theta)
+                        val role = Role.make(roleSet, n, f, descriptor, theta?.joinToString(separator = " "))
                         result.add(role)
 
                         // role-vnrole maps
@@ -173,22 +177,35 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             return result
         }
 
+        @JvmStatic
+        @Throws(XPathExpressionException::class)
+        fun makeThetas(roleElement: Element): List<String>? {
+            return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet']")
+                .asSequence()
+                .map { it.textContent.trim { it <= ' ' } }
+                .toList()
+        }
+
         @Throws(XPathExpressionException::class)
         private fun makeVnRoleMaps(head: String, role: Role, roleElement: Element) {
-            val vnRoleNodes = getXPaths(roleElement, "./vnrole")
-            for (l in 0 until vnRoleNodes.length) {
-                val vnRoleElement = vnRoleNodes.item(l) as Element
-                val vnClassAttribute = vnRoleElement.getAttribute("vncls")
-                val vnClass = VnClass.make(head, vnClassAttribute)
-                val thetaAttribute = vnRoleElement.getAttribute("vntheta")
-                val theta = Theta.make(thetaAttribute)
+            val vnRoleNodes = getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet']")
+            if (vnRoleNodes != null)
+                for (l in 0 until vnRoleNodes.length) {
+                    // extract
+                    val vnRoleElement = vnRoleNodes.item(l) as Element
+                    val vnClassAttribute = vnRoleElement.getAttribute("class")
+                    val thetaContent = vnRoleElement.textContent.trim { it <= ' ' }
 
-                // verbnet role
-                val vnRole = VnRole.make(vnClass, theta)
+                    // objects
+                    val vnClass = VnClass.make(head, vnClassAttribute)
+                    val theta = Theta.make(thetaContent)
 
-                // propbank role -> verbnet roles
-                VnRoleAlias.make(role, vnRole)
-            }
+                    // verbnet role
+                    val vnRole = VnRole.make(vnClass, theta)
+
+                    // propbank role -> verbnet roles
+                    VnRoleAlias.make(role, vnRole)
+                }
         }
 
         @JvmStatic
@@ -232,7 +249,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                         var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
 
                         // relations
-                        val relNodes = getXPaths(exampleElement, "./rel")
+                        val relNodes = getXPaths(exampleElement, "./propbank/rel")
                         for (l in 0 until relNodes.length) {
                             val relElement = relNodes.item(l) as Element
 
@@ -242,14 +259,13 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                         }
 
                         // arguments
-                        val argNodes = getXPaths(exampleElement, "./arg")
+                        val argNodes = getXPaths(exampleElement, "./propbank/arg")
                         for (m in 0 until argNodes.length) {
                             val argElement = argNodes.item(m) as Element
 
-                            val f = argElement.getAttribute("f")
-                            val n = argElement.getAttribute("n")
+                            val type = argElement.getAttribute("type")
                             val argText: String = argElement.textContent.trim { it <= ' ' }
-                            val arg = Arg.make(example, argText, n, f)
+                            val arg = Arg.make(example, argText, type)
                             example.args.add(arg)
                         }
                         result.add(example)
@@ -300,15 +316,14 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                         var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
 
                         // args
-                        val argNodes = getXPaths(exampleElement, "./arg")
+                        val argNodes = getXPaths(exampleElement, "./propbank/arg")
                         for (l in 0 until argNodes.length) {
                             val argElement = argNodes.item(l) as Element
 
-                            val f = argElement.getAttribute("f")
-                            val n = argElement.getAttribute("n")
+                            val type = argElement.getAttribute("type")
                             val argText: String = argElement.textContent.trim { it <= ' ' }
-                            val arg = Arg.make(example, argText, n, f)
-                           result.add(arg)
+                            val arg = Arg.make(example, argText, type)
+                            result.add(arg)
                         }
                     }
                 }
