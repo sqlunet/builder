@@ -1,6 +1,5 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.pb.objects.Theta
 import java.util.*
 

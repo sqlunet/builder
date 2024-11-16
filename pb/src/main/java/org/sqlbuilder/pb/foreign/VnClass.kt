@@ -1,6 +1,5 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.NotNull
 import java.util.*
 
 class VnClass private constructor(
