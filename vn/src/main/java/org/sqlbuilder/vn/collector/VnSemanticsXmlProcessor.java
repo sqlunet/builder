@@ -181,6 +181,7 @@ public class VnSemanticsXmlProcessor extends XmlProcessor
 					}
 					else if (t.equalsIgnoreCase("PredSpecific"))
 					{
+						// eat
 					}
 					else
 					{
