@@ -3,9 +3,8 @@ package org.sqlbuilder.pb.objects
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
-import java.util.*
 
-class Arg private constructor(example: Example, text: String, n: String, f: String) : HasId, Insertable, Comparable<Arg> {
+class Arg private constructor(example: Example, text: String, type: String) : HasId, Insertable, Comparable<Arg> {
 
     private val example: Example
 
@@ -13,16 +12,17 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
 
     private val n: ArgType
 
-    private val f: Func
+    private val f: Func?
 
     // C O N S T R U C T O R
 
     init {
-        assert(!n.isEmpty())
+        assert(!type.isEmpty())
         this.example = example
         this.text = PbNormalizer.normalize(text)
-        this.n = ArgType.make(n)
-        this.f = Func.make(f.lowercase())
+        val fields = type.split("-")
+        this.n = ArgType.make(fields[0])
+        this.f = if (fields.size > 1) Func.make(fields[1].lowercase()) else null
     }
 
     // A C C E S S
@@ -53,13 +53,13 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
             "'%s','%s',%s,%s",
             Utils.escape(text),
             n.argType,
-            Func.getIntId(f),
+            if (f == null) "NULL" else Func.getIntId(f),
             example.intId
         )
     }
 
     override fun comment(): String {
-        return String.format("%s,%s", n.argType, f.func)
+        return String.format("%s,%s", n.argType, f?.func)
     }
 
     companion object {
@@ -73,8 +73,8 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
         @JvmField
         val COLLECTOR = SetCollector<Arg>(COMPARATOR)
 
-        fun make(example: Example, text: String, n: String, f: String): Arg {
-            val a = Arg(example, text, n, f)
+        fun make(example: Example, text: String, type: String): Arg {
+            val a = Arg(example, text, type)
             COLLECTOR.add(a)
             return a
         }
