@@ -4,7 +4,7 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
 
-class Rel private constructor(val example: Example, text: String, val f: Func) : HasId, Insertable, Comparable<Rel> {
+class Rel private constructor(val example: Example, text: String, val f: Func?) : HasId, Insertable, Comparable<Rel> {
 
     val text: String = PbNormalizer.normalize(text)
 
@@ -24,7 +24,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func) :
         return String.format(
             "'%s',%s,%s",
             Utils.escape(text),
-            Utils.nullable<Func>(f) { it!!.sqlId },
+            Utils.nullable<Func?>(f) { it!!.sqlId },
             example.getSqlId()
         )
     }
@@ -38,12 +38,12 @@ class Rel private constructor(val example: Example, text: String, val f: Func) :
         private val COMPARATOR: Comparator<Rel> = Comparator
             .comparing<Rel, Example> { it.example }
             .thenComparing<String> { it.text }
-            .thenComparing<Func>( { it.f }, Comparator.nullsFirst(Comparator.naturalOrder()))
+            .thenComparing<Func?>( { it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
         val COLLECTOR = SetCollector<Rel>(COMPARATOR)
 
-        fun make(example: Example, text: String, f: Func): Rel {
+        fun make(example: Example, text: String, f: Func?): Rel {
             val r = Rel(example, text, f)
             COLLECTOR.add(r)
             return r
