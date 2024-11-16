@@ -5,20 +5,9 @@ import org.sqlbuilder.pb.foreign.Alias
 import org.sqlbuilder.pb.foreign.VnClass
 import org.sqlbuilder.pb.foreign.VnRole
 import org.sqlbuilder.pb.foreign.VnRoleAlias
-import org.sqlbuilder.pb.objects.Arg
-import org.sqlbuilder.pb.objects.Example
-import org.sqlbuilder.pb.objects.Func
-import org.sqlbuilder.pb.objects.LexItem
-import org.sqlbuilder.pb.objects.Member
-import org.sqlbuilder.pb.objects.Predicate
-import org.sqlbuilder.pb.objects.Rel
-import org.sqlbuilder.pb.objects.Role
-import org.sqlbuilder.pb.objects.RoleSet
-import org.sqlbuilder.pb.objects.Theta
-import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder.pb.objects.*
 import org.w3c.dom.Element
 import org.w3c.dom.Node
-import java.util.ArrayList
 import javax.xml.xpath.XPathExpressionException
 
 class PbDocument(filePath: String) : XmlDocument(filePath) {
@@ -247,10 +236,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                         for (l in 0 until relNodes.length) {
                             val relElement = relNodes.item(l) as Element
 
-                            val f = relElement.getAttribute("f")
                             val relText: String = relElement.textContent.trim { it <= ' ' }
-                            val func = Func.make(f)
-                            val rel = Rel.make(example, relText, func)
+                            val rel = Rel.make(example, relText)
                             example.rels.add(rel)
                         }
 

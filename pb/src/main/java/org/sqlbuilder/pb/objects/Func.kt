@@ -40,6 +40,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
         val COLLECTOR = SetCollector<Func>(COMPARATOR)
 
         private val PREDEFINED = arrayOf("ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP")
+        //ANC | ANC1 | ANC2 | ANG | DOM | AXS | AXSx | AXSy | AXSz | AXSp | AXSc | AXS1 | AXS2 | ORT | ORGN | WHL | SEQ | SET | SRC | SE1 | SE2 | SE3 | SE4 | SE5 | SE6 | SE7 | SE8 | SE9 | SCL | PAG | PLN | PLN1 | PLN2 | PPT | PRT | PRT1 | PRT2 | GOL | CXN | VSP | COM | ADJ | CAU | PRP | MNR | EXT | LOC | REC | DIR | ADV | TMP | adv | tmp | pag | ppt | gol | vsp | com | adj | cau | prp | rec | mnr | ext | loc | dir | prd | PRD
 
         private val DESCRIPTIONS = Properties()
 
