@@ -75,59 +75,71 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             Member.make(roleSet, pbword)
 
                             // roleset aliases
-                            val aliases = roleSet.aliases
-                            getXPaths(roleSetElement, "./aliases/alias")
+                            val m = getXPaths(roleSetElement, "./aliases/alias")
                                 .asSequence()
-                                .forEach { aliasElement ->
+                                .map { aliasElement ->
 
+                                    val alias: String = aliasElement.textContent.trim { it <= ' ' }
                                     val pos: String = aliasElement.getAttribute("pos").trim { it <= ' ' }
-                                    val word2: String = aliasElement.textContent.trim { it <= ' ' }
+                                    Word.make(alias) to pos
+                                }
+                                .toMap()
+                            m.keys
+                                .asSequence()
+                                .forEach {
+                                    Member.make(roleSet, it)
+                                }
 
-                                    // alias word
-                                    val pbword2 = Word.make(word2)
-
-                                    // alias word as roleset member
-                                    Member.make(roleSet, pbword2)
-
-                                    // v e r b n e t
-                                    val verbNet: String = aliasElement.getAttribute("verbnet").trim { it <= ' ' }
-                                    if (!verbNet.isEmpty()) {
-                                        val classes: Array<String> = verbNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                        for (clazz in classes) {
-                                            var clazz = clazz
-                                            clazz = clazz.trim { it <= ' ' }
-                                            if (clazz.isEmpty() || "-" == clazz) {
-                                                continue
+                            // v e r b n e t
+                            makeVnRoleSetLinks(roleSetElement)
+                                ?.asSequence()
+                                ?.forEach {
+                                    var clazz = it.trim { it <= ' ' }
+                                    if (!clazz.isEmpty() && "-" != clazz) {
+                                        m.entries
+                                            .asSequence()
+                                            .forEach {
+                                                val alias = Alias.make(Alias.Db.VERBNET, clazz, it.value, roleSet, it.key)
+                                                roleSet.aliases.add(alias)
                                             }
-                                            if (clazz.matches("^[a-z]+-.*$".toRegex())) {
-                                                //System.err.print('\n' + clazz);
-                                                clazz = clazz.replaceFirst("^[a-z]+-".toRegex(), "")
-                                                //System.err.println('>' + clazz);
-                                            }
-
-                                            val alias = Alias.make(Alias.Db.VERBNET, clazz, pos, roleSet, pbword2)
-                                            aliases.add(alias)
-                                        }
                                     }
+                                }
 
-                                    // f r a m e n e t
-                                    val frameNet: String = aliasElement.getAttribute("framenet").trim { it <= ' ' }
-                                    if (!frameNet.isEmpty()) {
-                                        val frames: Array<String> = frameNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                        for (frame in frames) {
-                                            var frame = frame
-                                            frame = frame.trim { it <= ' ' }
-                                            if (frame.isEmpty() || "-" == frame) {
-                                                continue
+                            // f r a m e n e t
+                            makeFnRoleSetLinks(roleSetElement)
+                                ?.asSequence()
+                                ?.forEach {
+                                    var frame = it.trim { it <= ' ' }
+                                    if (!frame.isEmpty() && "-" != frame) {
+                                        m
+                                            .asSequence()
+                                            .forEach {
+                                                val alias = Alias.make(Alias.Db.FRAMENET, frame, it.value, roleSet, it.key)
+                                                roleSet.aliases.add(alias)
                                             }
-                                            val alias = Alias.make(Alias.Db.FRAMENET, frame, pos, roleSet, pbword2)
-                                            aliases.add(alias)
-                                        }
                                     }
                                 }
                         }
                 }
             return result
+        }
+
+        @JvmStatic
+        @Throws(XPathExpressionException::class)
+        fun makeVnRoleSetLinks(roleSetElement: Element): Set<String>? {
+            return getXPaths(roleSetElement, "./roles/role/rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
+                .asSequence()
+                .map { it.getAttribute("class").trim { it <= ' ' } }
+                .toSet()
+        }
+
+        @JvmStatic
+        @Throws(XPathExpressionException::class)
+        fun makeFnRoleSetLinks(roleElement: Element): Set<String>? {
+            return getXPaths(roleElement, "./roles/role/rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
+                .asSequence()
+                .map { it.getAttribute("class").trim { it <= ' ' } }
+                .toSet()
         }
 
         @JvmStatic
@@ -162,7 +174,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val descriptor = roleElement.getAttribute("descr")
 
                                     // theta
-                                    var theta: Set<String>? = makeThetas(roleElement)
+                                    var theta: Set<String>? = makeVnRoleLinks(roleElement)
 
                                     // role
                                     val role = Role.make(roleSet, n, f, descriptor, theta?.joinToString(separator = " "))
@@ -178,8 +190,17 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeThetas(roleElement: Element): Set<String>? {
-            return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet']")
+        fun makeVnRoleLinks(roleElement: Element): Set<String>? {
+            return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
+                .asSequence()
+                .map { it.textContent.trim { it <= ' ' } }
+                .toSet()
+        }
+
+        @JvmStatic
+        @Throws(XPathExpressionException::class)
+        fun makeFnRoleLinks(roleElement: Element): Set<String>? {
+            return getXPaths(roleElement, "./rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
                 .asSequence()
                 .map { it.textContent.trim { it <= ' ' } }
                 .toSet()
