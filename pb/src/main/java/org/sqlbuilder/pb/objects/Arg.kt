@@ -4,7 +4,65 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
 
-class Arg private constructor(example: Example, text: String, type: String) : HasId, Insertable, Comparable<Arg> {
+class Arg private constructor(example: Example, text: String, val type: String) : HasId, Insertable, Comparable<Arg> {
+    /*
+    FOUND TYPES:
+    ------------
+    ARG0
+    ARG1
+    ARG2
+    ARG3
+    ARG4
+    ARG5
+    ARG6
+    ARGA
+    ARGM-ADJ
+    ARGM-ADV
+    ARGM-CAU
+    ARGM-COM
+    ARGM-CXN
+    ARGM-DIR
+    ARGM-DIS
+    ARGM-DSP
+    ARGM-EXT
+    ARGM-GOL
+    ARGM-LOC
+    ARGM-LVB
+    ARGM-MNR
+    ARGM-MOD
+    ARGM-NEG
+    ARGM-PNC
+    ARGM-PRD
+    ARGM-PRP
+    ARGM-PRR
+    ARGM-REC
+    ARGM-TMP
+    ARGM-TOP
+
+    C-ARG0
+    C-ARG1
+    C-ARG2
+    C-ARG3
+    C-ARG4
+    C-ARGM-ADV
+    C-ARGM-CAU
+    C-ARGM-CXN
+    C-ARGM-DSP
+    C-ARGM-LOC
+    C-ARGM-TMP
+
+    R-ARG0
+    R-ARG1
+    R-ARG2
+    R-ARG3
+    R-ARG4
+    R-ARGM-DIR
+    R-ARGM-LOC
+    R-ARGM-MNR
+    R-ARGM-TMP
+    R-C-ARG2
+    keep pace
+    */
 
     private val example: Example
 
@@ -20,9 +78,15 @@ class Arg private constructor(example: Example, text: String, type: String) : Ha
         assert(!type.isEmpty())
         this.example = example
         this.text = PbNormalizer.normalize(text)
-        val fields = type.split("-")
-        this.n = ArgType.make(fields[0])
-        this.f = if (fields.size > 1) Func.make(fields[1].lowercase()) else null
+        val fields = this.type.split("-")
+        val nFields = fields.size
+        var i = 0
+        for (i in 0 until nFields) {
+            if (fields[i].startsWith("ARG"))
+                break
+        }
+        this.n = ArgType.make(fields[i].replace("ARG", ""))
+        this.f = if (nFields > i + 1) Func.make(fields[i + 1]) else null
     }
 
     // A C C E S S

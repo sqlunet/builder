@@ -39,27 +39,155 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
         @JvmField
         val COLLECTOR = SetCollector<Func>(COMPARATOR)
 
-        private val PREDEFINED = arrayOf("ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP")
+        private val PREDEFINED = arrayOf("ADJ", "ADV", "AV", "CAU", "COM", "DIR", "DIS", "DSP", "EXT", "GOL", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRR", "Q", "RCL", "REC", "SLC", "STR", "TMP")
         //ANC | ANC1 | ANC2 | ANG | DOM | AXS | AXSx | AXSy | AXSz | AXSp | AXSc | AXS1 | AXS2 | ORT | ORGN | WHL | SEQ | SET | SRC | SE1 | SE2 | SE3 | SE4 | SE5 | SE6 | SE7 | SE8 | SE9 | SCL | PAG | PLN | PLN1 | PLN2 | PPT | PRT | PRT1 | PRT2 | GOL | CXN | VSP | COM | ADJ | CAU | PRP | MNR | EXT | LOC | REC | DIR | ADV | TMP | adv | tmp | pag | ppt | gol | vsp | com | adj | cau | prp | rec | mnr | ext | loc | dir | prd | PRD
+
+        /*
+        FOUND
+        -----
+        -
+        ADJ
+        ADV
+        ANC
+        ANC1
+        ANC2
+        ANG
+        AXS
+        AXS1
+        AXS2
+        AXSc
+        AXSp
+        CAU
+        COM
+        DIR
+        DOM
+        DOM
+        EXT
+        GOL
+        LOC
+        MNR
+        ORT
+        pag
+        PAG
+        PLN
+        ppt
+        PPT
+        PRD
+        PRP
+        PRT
+        PRT1
+        PRT2
+        REC
+        SCL
+        SE1
+        SE2
+        SE3
+        SET
+        SRC
+        TMP
+        VSP
+        WHL
+        */
+
+        /*
+        roles have a number (or an "M" associated
+        with them, for common adjuncts that don't qualify for number argument status).
+        Both numbered arguments and adjuncts are labeled with the function tags from the list below:
+
+        EXT
+        LOC
+        DIR
+        NEG
+        MOD
+        ADV
+        MNR
+        PRD
+        REC
+        TMP
+        PRP
+        PNC
+        CAU
+        CXN
+        ADJ
+        COM
+        DIS
+        DSP
+        GOL
+        PAG
+        PPT
+        RCL
+        SLC
+        VSP
+        LVB
+
+        // Function tags for spatial arguments
+        SE1  first thing (UNVERIFIED)
+        SE2  second thing (UNVERIFIED)
+        SE3  third thing (UNVERIFIED)
+        SE4  fourth thing (UNVERIFIED)
+        SE5  fifth thing (UNVERIFIED)
+        SE6  sixth thing (UNVERIFIED)
+
+        SCL  Scale (UNVERIFIED)
+
+        DOM  Domain (UNVERIFIED)
+
+        # Added from the spatial relations ontology https://docs.google.com/spreadsheets/d/1b_CJUsyGptG0RtZQ5qnuJjF0wHKyiahLJ83RhHRwgCE/edit#gid=154847108
+
+        ANC  anchor
+        ANC1 first anchor
+        ANC2 second anchor
+
+        ANG angle
+
+        AXS  axis
+        AXSp perpendicular axis
+        AXSc central axis
+        AXS1 axis of spatial entity 1
+        AXS2 axis of spatial entity 2
+
+        WHL  whole spatial entity
+
+        SEQ  sequence
+
+        PSN  position
+
+        // Others
+        SET
+        SRC  Source (UNVERIFIED)
+        PRT
+        */
 
         private val DESCRIPTIONS = Properties()
 
         init {
-            DESCRIPTIONS.setProperty("ADV", "adverbial modification")
+            DESCRIPTIONS.setProperty("ADJ", "adjectival")
+            DESCRIPTIONS.setProperty("ADV", "adverbial")
             DESCRIPTIONS.setProperty("CAU", "cause")
-            DESCRIPTIONS.setProperty("DIR", "direction")
+            DESCRIPTIONS.setProperty("COM", "comitative")
+            DESCRIPTIONS.setProperty("CXN", "constructional pattern (adjectival comparative marker)")
+            DESCRIPTIONS.setProperty("DIR", "directional")
+            DESCRIPTIONS.setProperty("DIS", "discourse marker")
+            DESCRIPTIONS.setProperty("DSP", "direct speech")
             DESCRIPTIONS.setProperty("EXT", "extent")
+            DESCRIPTIONS.setProperty("GOL", "goal")
             DESCRIPTIONS.setProperty("LOC", "location")
+            DESCRIPTIONS.setProperty("LVB", "light verb (for nouns)")
             DESCRIPTIONS.setProperty("MNR", "manner")
             DESCRIPTIONS.setProperty("MOD", "general modification")
             DESCRIPTIONS.setProperty("NEG", "negation")
-            DESCRIPTIONS.setProperty("PNC", "purpose no cause")
+            DESCRIPTIONS.setProperty("PAG", "purpose no cause (deprecated)")
+            DESCRIPTIONS.setProperty("PAG", "prototypical agent (for arg1)")
+            DESCRIPTIONS.setProperty("PPT", "prototypical patient (for arg1)")
             DESCRIPTIONS.setProperty("PRD", "secondary predication")
-            DESCRIPTIONS.setProperty("PRP", "purpose (deprecated)")
+            DESCRIPTIONS.setProperty("PRP", "purpose ")
+            DESCRIPTIONS.setProperty("PRR", "Nominal predicates in light verb constructions")
             DESCRIPTIONS.setProperty("Q", "quantity")
-            DESCRIPTIONS.setProperty("RCL", "relative clause")
+            DESCRIPTIONS.setProperty("RCL", "relative clause (deprecated)")
             DESCRIPTIONS.setProperty("REC", "reciprocal")
+            DESCRIPTIONS.setProperty("SLC", "selectional constraint link")
             DESCRIPTIONS.setProperty("TMP", "temporal")
+            DESCRIPTIONS.setProperty("VSP", "verb specific (for nouns)")
         }
 
         @JvmStatic

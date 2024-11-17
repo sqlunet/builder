@@ -59,6 +59,19 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
         }
         // n ( 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | m | M | x | y | z | FR | orientation | range-start | range-trajectory | axis | framework | op1 | rise | rotation | run | unit | value )
 
+        /*
+        // FOUND
+        0
+        1
+        2
+        3
+        4
+        5
+        6
+        m
+        M
+        */
+
         fun make(n: String): ArgType {
             val a = ArgType(n)
             SET.add(a)
