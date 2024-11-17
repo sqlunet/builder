@@ -162,7 +162,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val descriptor = roleElement.getAttribute("descr")
 
                                     // theta
-                                    var theta: List<String>? = makeThetas(roleElement)
+                                    var theta: Set<String>? = makeThetas(roleElement)
 
                                     // role
                                     val role = Role.make(roleSet, n, f, descriptor, theta?.joinToString(separator = " "))
@@ -178,11 +178,11 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeThetas(roleElement: Element): List<String>? {
+        fun makeThetas(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet']")
                 .asSequence()
                 .map { it.textContent.trim { it <= ' ' } }
-                .toList()
+                .toSet()
         }
 
         @Throws(XPathExpressionException::class)
