@@ -39,27 +39,50 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
         @JvmField
         val COLLECTOR = SetCollector<Func>(COMPARATOR)
 
-        private val PREDEFINED = arrayOf("ADV", "AV", "CAU", "DIR", "DIS", "DS", "DSP", "EXT", "LOC", "MNR", "MOD", "NEG", "PNC", "PRD", "PRED", "PRP", "Q", "RCL", "REC", "SLC", "STR", "TMP")
+        private val PREDEFINED = arrayOf("ADJ", "ADV", "CAU", "COM", "CXN", "DIR", "DIS", "DSP", "EXT", "GOL", "LOC", "LVB", "MNR", "MOD", "NEG", "PAG", "PNC", "PPT", "PRD", "PRP", "PRR", "RCL", "REC", "SLC", "TMP", "VSP")
 
         private val DESCRIPTIONS = Properties()
 
         init {
-            DESCRIPTIONS.setProperty("ADV", "adverbial modification")
+            DESCRIPTIONS.setProperty("ADJ", "adjectival")
+            DESCRIPTIONS.setProperty("ADV", "adverbial")
             DESCRIPTIONS.setProperty("CAU", "cause")
-            DESCRIPTIONS.setProperty("DIR", "direction")
+            DESCRIPTIONS.setProperty("COM", "comitative")
+            DESCRIPTIONS.setProperty("CXN", "constructional pattern (adjectival comparative marker)")
+            DESCRIPTIONS.setProperty("DIR", "directional")
+            DESCRIPTIONS.setProperty("DIS", "discourse marker")
+            DESCRIPTIONS.setProperty("DSP", "direct speech")
             DESCRIPTIONS.setProperty("EXT", "extent")
+            DESCRIPTIONS.setProperty("GOL", "goal")
             DESCRIPTIONS.setProperty("LOC", "location")
+            DESCRIPTIONS.setProperty("LVB", "light verb (for nouns)")
             DESCRIPTIONS.setProperty("MNR", "manner")
-            DESCRIPTIONS.setProperty("MOD", "general modification")
+            DESCRIPTIONS.setProperty("MOD", "modal")
             DESCRIPTIONS.setProperty("NEG", "negation")
-            DESCRIPTIONS.setProperty("PNC", "purpose no cause")
+            DESCRIPTIONS.setProperty("PAG", "prototypical agent (for arg1)")
+            DESCRIPTIONS.setProperty("PNC", "purpose no cause (deprecated)")
+            DESCRIPTIONS.setProperty("PPT", "prototypical patient (for arg1)")
             DESCRIPTIONS.setProperty("PRD", "secondary predication")
-            DESCRIPTIONS.setProperty("PRP", "purpose (deprecated)")
-            DESCRIPTIONS.setProperty("Q", "quantity")
-            DESCRIPTIONS.setProperty("RCL", "relative clause")
+            DESCRIPTIONS.setProperty("PRP", "purpose ")
+            DESCRIPTIONS.setProperty("PRR", "nominal predicates in light verb constructions")
+            DESCRIPTIONS.setProperty("RCL", "relative clause (deprecated)")
             DESCRIPTIONS.setProperty("REC", "reciprocal")
+            DESCRIPTIONS.setProperty("SLC", "selectional constraint link")
             DESCRIPTIONS.setProperty("TMP", "temporal")
+            DESCRIPTIONS.setProperty("VSP", "verb specific (for nouns)")
         }
+
+        /*
+         as
+         at
+         by
+         for
+         from
+         in
+         of
+         to
+         with
+         */
 
         @JvmStatic
         fun make(f: String): Func {
