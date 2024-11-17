@@ -90,7 +90,7 @@ class Arg private constructor(example: Example, text: String, val type: String) 
         var index = fields.indexOfFirst { it.startsWith("ARG") }
         // make
         val n = ArgType.make(fields[index].replace("ARG", ""))
-        val f = if (nFields > index + 1) Func.make(fields[index + 1]) else null
+        val f = if (nFields > index + 1) Func.makeOrNull(fields[index + 1]) else null
         return n to f
     }
 
