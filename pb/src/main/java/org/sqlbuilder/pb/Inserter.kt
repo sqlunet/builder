@@ -6,19 +6,10 @@ import org.sqlbuilder.common.Progress
 import org.sqlbuilder.pb.foreign.FnAlias
 import org.sqlbuilder.pb.foreign.VnAlias
 import org.sqlbuilder.pb.foreign.VnRoleAlias
-import org.sqlbuilder.pb.objects.Arg
-import org.sqlbuilder.pb.objects.ArgType
-import org.sqlbuilder.pb.objects.Example
-import org.sqlbuilder.pb.objects.Func
-import org.sqlbuilder.pb.objects.Member
-import org.sqlbuilder.pb.objects.Rel
-import org.sqlbuilder.pb.objects.Role
-import org.sqlbuilder.pb.objects.RoleSet
-import org.sqlbuilder.pb.objects.Theta
-import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder.pb.objects.*
 import java.io.File
 import java.io.FileNotFoundException
-import java.util.Properties
+import java.util.*
 
 open class Inserter(conf: Properties) {
 
@@ -39,19 +30,19 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     open fun insert() {
-        Example.ASPECT_COLLECTOR.open().use { ignored1 ->
-            Example.FORM_COLLECTOR.open().use { ignored2 ->
-                Example.PERSON_COLLECTOR.open().use { ignored3 ->
-                    Example.TENSE_COLLECTOR.open().use { ignored4 ->
-                        Example.VOICE_COLLECTOR.open().use { ignored5 ->
-                            Func.COLLECTOR.open().use { ignored6 ->
-                                Theta.COLLECTOR.open().use { ignored8 ->
-                                    RoleSet.COLLECTOR.open().use { ignored10 ->
-                                        Role.COLLECTOR.open().use { ignored11 ->
-                                            Example.COLLECTOR.open().use { ignored14 ->
-                                                Rel.COLLECTOR.open().use { ignored15 ->
-                                                    Arg.COLLECTOR.open().use { ignored16 ->
-                                                        Word.COLLECTOR.open().use { ignored20 ->
+        Example.ASPECT_COLLECTOR.open().use {
+            Example.FORM_COLLECTOR.open().use {
+                Example.PERSON_COLLECTOR.open().use {
+                    Example.TENSE_COLLECTOR.open().use {
+                        Example.VOICE_COLLECTOR.open().use {
+                            Func.COLLECTOR.open().use {
+                                Theta.COLLECTOR.open().use {
+                                    RoleSet.COLLECTOR.open().use {
+                                        Role.COLLECTOR.open().use {
+                                            Example.COLLECTOR.open().use {
+                                                Rel.COLLECTOR.open().use {
+                                                    Arg.COLLECTOR.open().use {
+                                                        Word.COLLECTOR.open().use {
                                                             Progress.tracePending("collector", "aspect")
                                                             Insert.insertStringMap(Example.ASPECT_COLLECTOR, File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"), header)
                                                             Progress.traceDone()

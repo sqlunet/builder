@@ -33,10 +33,10 @@ open class Exporter(conf: Properties) {
         System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
         duplicateRoles()
 
-        Theta.COLLECTOR.open().use { ignored1 ->
-            Role.COLLECTOR.open().use { ignored2 ->
-                RoleSet.COLLECTOR.open().use { ignored3 ->
-                    Word.COLLECTOR.open().use { ignored4 ->
+        Theta.COLLECTOR.open().use {
+            Role.COLLECTOR.open().use {
+                RoleSet.COLLECTOR.open().use {
+                    Word.COLLECTOR.open().use {
                         serialize()
                         export()
                     }

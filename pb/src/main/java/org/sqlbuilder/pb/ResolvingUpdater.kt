@@ -22,7 +22,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insert() {
-        Word.COLLECTOR.open().use { ignored30 ->
+        Word.COLLECTOR.open().use {
             insertWords()
             insertFnAliases()
             insertVnAliases()
