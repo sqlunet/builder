@@ -78,18 +78,23 @@ class Arg private constructor(example: Example, text: String, val type: String) 
         assert(!type.isEmpty())
         this.example = example
         this.text = PbNormalizer.normalize(text)
-        val fields = this.type.split("-")
-        val nFields = fields.size
-        var i = 0
-        for (i in 0 until nFields) {
-            if (fields[i].startsWith("ARG"))
-                break
-        }
-        this.n = ArgType.make(fields[i].replace("ARG", ""))
-        this.f = if (nFields > i + 1) Func.make(fields[i + 1]) else null
+        val fn = extractFN(type)
+        this.n = fn.first
+        this.f = fn.second
     }
 
-    // A C C E S S
+    private fun extractFN(type: String): Pair<ArgType, Func?> {
+        val fields = this.type.split("-")
+        val nFields = fields.size
+        // find first field starting with 'ARG'
+        var index = fields.indexOfFirst { it.startsWith("ARG") }
+        // make
+        val n = ArgType.make(fields[index].replace("ARG", ""))
+        val f = if (nFields > index + 1) Func.make(fields[index + 1]) else null
+        return n to f
+    }
+
+    // N I D
 
     override fun getIntId(): Int {
         return COLLECTOR[this]!!
