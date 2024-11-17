@@ -8,6 +8,8 @@ class Rel private constructor(val example: Example, text: String) : HasId, Inser
 
     val text: String = PbNormalizer.normalize(text)
 
+    // N I D
+
     @RequiresIdFrom(type = Rel::class)
     override fun getIntId(): Int {
         return COLLECTOR[this]!!

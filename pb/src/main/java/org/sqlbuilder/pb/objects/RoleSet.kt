@@ -13,15 +13,17 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     internal val aliases: MutableList<Alias> = ArrayList<Alias>()
 
-    @RequiresIdFrom(type = RoleSet::class)
-    override fun getIntId(): Int {
-        return COLLECTOR[this]!!
-    }
-
     val head: String
         get() {
             return this.predicate.head
         }
+
+    // N I D
+
+    @RequiresIdFrom(type = RoleSet::class)
+    override fun getIntId(): Int {
+        return COLLECTOR[this]!!
+    }
 
     // I D E N T I T Y
 

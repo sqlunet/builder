@@ -20,6 +20,8 @@ class Role private constructor(
     // role name for VerbNet
     val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
 
+    // N I D
+
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
         return COLLECTOR.get(this)!!
@@ -72,9 +74,6 @@ class Role private constructor(
     // T O S T R I N G
 
     override fun toString(): String {
-        if (this.descr == null) {
-            return String.format("%s[%s-%s]", roleSet, argType, func)
-        }
         return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr)
     }
 

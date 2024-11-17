@@ -7,6 +7,8 @@ import java.util.*
 
 class Word private constructor(@JvmField val word: String) : HasId, Insertable, Resolvable<String, Int>, Comparable<Word>, Serializable {
 
+    // N I D
+
     @RequiresIdFrom(type = Word::class)
     override fun getIntId(): Int {
         return COLLECTOR[this]!!

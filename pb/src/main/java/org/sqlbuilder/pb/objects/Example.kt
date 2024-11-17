@@ -21,6 +21,8 @@ class Example private constructor(
 
     val args: MutableList<Arg> = ArrayList<Arg>()
 
+    // N I D
+
     @RequiresIdFrom(type = Func::class)
     override fun getIntId(): Int {
         return COLLECTOR[this]!!

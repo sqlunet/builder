@@ -8,6 +8,8 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, I
 
     val theta: String = normalize(thetaName)
 
+    // N I D
+
     @RequiresIdFrom(type = Theta::class)
     override fun getIntId(): Int {
         return COLLECTOR[this]!!
