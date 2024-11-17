@@ -34,7 +34,7 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s',%s", argType, Utils.nullableQuotedString<String>(DESCRIPTIONS.getProperty(argType, null)))
+        return String.format("'%s',%s", argType, Utils.nullableQuotedString<String>(PREDEFINED[argType]))
     }
 
     companion object {
@@ -43,39 +43,21 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
 
         val SET: MutableSet<ArgType> = HashSet<ArgType>()
 
-        private val DESCRIPTIONS = Properties()
-
-        init {
-            DESCRIPTIONS.setProperty("0", "[0]")
-            DESCRIPTIONS.setProperty("1", "[1]")
-            DESCRIPTIONS.setProperty("2", "[2]")
-            DESCRIPTIONS.setProperty("3", "[3]")
-            DESCRIPTIONS.setProperty("4", "[4]")
-            DESCRIPTIONS.setProperty("5", "[5]")
-            DESCRIPTIONS.setProperty("6", "[6]")
-            DESCRIPTIONS.setProperty("M", "modifier")
-            DESCRIPTIONS.setProperty("A", "agent")
-            DESCRIPTIONS.setProperty("@", "?")
-        }
-        // n ( 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | m | M | x | y | z | FR | orientation | range-start | range-trajectory | axis | framework | op1 | rise | rotation | run | unit | value )
-
-        /*
-        // FOUND
-        0
-        1
-        2
-        3
-        4
-        5
-        6
-        m
-        M
-        */
+        private val PREDEFINED = mapOf(
+            "0" to "[0]",
+            "1" to "[1]",
+            "2" to "[2]",
+            "3" to "[3]",
+            "4" to "[4]",
+            "5" to "[5]",
+            "6" to "[6]",
+            "M" to "modifier",
+        )
 
         fun make(n: String): ArgType {
-            val a = ArgType(n)
-            SET.add(a)
-            return a
+            val argType = ArgType(n.uppercase())
+            SET.add(argType)
+            return argType
         }
     }
 }
