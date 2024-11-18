@@ -26,32 +26,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="dummy" target="11" />
-      <module name="dummy.generated" target="11" />
-      <module name="dummy.main" target="11" />
-      <module name="dummy.origin" target="11" />
-      <module name="dummy.proto" target="11" />
-      <module name="dummy.test" target="11" />
-      <module name="org.example.dummy.generated" target="11" />
-      <module name="org.example.dummy.origin" target="11" />
-      <module name="org.example.querybuilder-gradle" target="11" />
-      <module name="org.sqlunet.querybuilder" target="11" />
-      <module name="org.sqlunet.querybuilder-gradle" target="11" />
-      <module name="org.sqlunet.querybuilder-gradle.main" target="11" />
-      <module name="org.sqlunet.querybuilder-gradle.test" target="11" />
-      <module name="org.sqlunet.querybuilder.main" target="11" />
-      <module name="org.sqlunet.querybuilder.test" target="11" />
-      <module name="queries" target="11" />
-      <module name="querybuilder" target="11" />
-      <module name="querybuilder-gradle" target="11" />
-      <module name="querybuilder-maven" target="11" />
-      <module name="querybuilder.main" target="11" />
-      <module name="querybuilder.test" target="11" />
       <module name="reqprovtest" target="11" />
-      <module name="sqlbuilder2.querybuilder-gradle" target="11" />
-      <module name="sqlbuilder2.querybuilder-gradle.main" target="11" />
-      <module name="sqlbuilder2.querybuilder-gradle.test" target="11" />
-      <module name="variables" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
