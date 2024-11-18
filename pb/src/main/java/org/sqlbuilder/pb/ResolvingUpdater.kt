@@ -41,8 +41,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("words"),
             wordResolver,
-            { resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)) },
-            { resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)) })
+            { resolved -> "$wordidCol=${Utils.nullableInt(resolved)}" },
+            { resolving -> "%$wordCol='${Utils.escape(resolving)}'" })
         Progress.traceDone()
     }
 
@@ -57,8 +57,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("pbrolesets_fnframes"),
             fnFrameResolver,
-            { resolved -> String.format("%s=%s", fnframeidCol, Utils.nullableInt(resolved)) },
-            { resolving: String -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)) })
+            { resolved -> "$fnframeidCol=${Utils.nullableInt(resolved)}" },
+            { resolving -> "$vnclassCol='${Utils.escape(resolving)}'" })
         Progress.traceDone()
     }
 
@@ -73,8 +73,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("pbrolesets_vnclasses"),
             vnClassResolver,
-            { resolved -> String.format("%s=%s", vnclassidCol, Utils.nullableInt(resolved)) },
-            { resolving -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)) })
+            { resolved -> "$vnclassidCol=${Utils.nullableInt(resolved)}" },
+            { resolving -> "$vnclassCol='${Utils.escape(resolving)}'" })
         Progress.traceDone()
     }
 
@@ -94,24 +94,12 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             vnClassRoleResolver,
             { resolved ->
                 if (resolved == null)
-                    String.format("%s=NULL,%s=NULL,%s=NULL", vnclassidCol, vnroleidCol, vnroletypeidCol)
+                    "$vnclassidCol=NULL,$vnroleidCol=NULL,$vnroletypeidCol=NULL"
                 else
-                    String.format("%s=%s,%s=%s,%s=%s",
-                    vnclassidCol,
-                    Utils.nullableInt(resolved.first),
-                    vnroleidCol,
-                    Utils.nullableInt(resolved.second),
-                    vnroletypeidCol,
-                    Utils.nullableInt(resolved.third)
-                )
+                    "$vnclassidCol=${Utils.nullableInt(resolved.first)},$vnroleidCol=${Utils.nullableInt(resolved.second)},$vnroletypeidCol=${Utils.nullableInt(resolved.third)}"
             },
             { resolving ->
-                String.format("%s='%s' AND %s='%s'",
-                    vnclassCol,
-                    Utils.escape(resolving!!.first),
-                    vnroleCol,
-                    Utils.escape(resolving.second)
-                )
+                "$vnclassCol='${Utils.escape(resolving!!.first)}' AND $vnroleCol='${Utils.escape(resolving.second)}'"
             })
         Progress.traceDone()
     }

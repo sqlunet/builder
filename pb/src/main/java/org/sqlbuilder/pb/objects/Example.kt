@@ -38,25 +38,15 @@ class Example private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
-        // (exampleid),examplename,text,aspect,form,tense,voice,person,rolesetid
-        return String.format(
-            "'%s','%s',%s,%s,%s,%s,%s,%d", Utils.escape(name),
-            Utils.escape(text),
-            SqlId.getSqlId(ASPECT_COLLECTOR[aspect]),
-            SqlId.getSqlId(FORM_COLLECTOR[form]),
-            SqlId.getSqlId(TENSE_COLLECTOR[tense]),
-            SqlId.getSqlId(VOICE_COLLECTOR[voice]),
-            SqlId.getSqlId(PERSON_COLLECTOR[person]),
-            roleSet.intId
-        )
+        return "'${Utils.escape(text)}','${SqlId.getSqlId(ASPECT_COLLECTOR[aspect])}',${SqlId.getSqlId(FORM_COLLECTOR[form])},${SqlId.getSqlId(TENSE_COLLECTOR[tense])},${SqlId.getSqlId(VOICE_COLLECTOR[voice])},${SqlId.getSqlId(PERSON_COLLECTOR[person])},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s,%s,%s,%s", aspect, form, tense, voice, person, roleSet.name)
+        return "$aspect,$form,$tense,$voice,$person,${roleSet.name}"
     }
 
     override fun toString(): String {
-        return String.format("%s[%s]", this.roleSet, this.name)
+        return "$roleSet[$name]"
     }
 
     companion object {

@@ -3,11 +3,11 @@ package org.sqlbuilder.pb.foreign
 import java.util.*
 
 class VnClass private constructor(
-    val head: String?, val classTag: String
+    val head: String?, val classTag: String,
 ) : Comparable<VnClass> {
 
     val className: String
-        get() = String.format("%s-%s", head ?: "%", classTag)
+        get() = "${head ?: "%"}-$classTag"
 
     // I D E N T I T Y
 
@@ -35,7 +35,7 @@ class VnClass private constructor(
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("<%s>", classTag)
+        return "<$classTag>"
     }
 
     companion object {

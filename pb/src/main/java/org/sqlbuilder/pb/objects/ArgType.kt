@@ -34,7 +34,7 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s',%s", argType, Utils.nullableQuotedString<String>(PREDEFINED[argType]))
+        return "'$argType',${Utils.nullableQuotedString(PREDEFINED[argType])}"
     }
 
     companion object {

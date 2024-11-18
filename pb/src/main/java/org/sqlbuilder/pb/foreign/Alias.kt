@@ -8,10 +8,10 @@ import org.sqlbuilder.pb.objects.Word
 import java.util.*
 
 abstract class Alias protected constructor(
-	@JvmField val ref: String,
+    @JvmField val ref: String,
     pos: String,
-	@JvmField val pbRoleSet: RoleSet,
-    val pbWord: Word
+    @JvmField val pbRoleSet: RoleSet,
+    val pbWord: Word,
 ) : Insertable, Resolvable<String, Int> {
 
     enum class Db {
@@ -43,18 +43,11 @@ abstract class Alias protected constructor(
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Word::class)
     override fun dataRow(): String {
-        // rolesetid,refid,ref,pos,pbwordid
-        return String.format(
-            "%d,'%s',%d,'%s'",
-            pbRoleSet.intId,
-            pos,
-            pbWord.intId,
-            ref
-        )
+        return "${pbRoleSet.intId},'$pos',${pbWord.intId},'$ref'"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s", pbRoleSet.name, pbWord.word)
+        return "${pbRoleSet.name},${pbWord.word}"
     }
 
     // R E S O L V E
@@ -64,13 +57,13 @@ abstract class Alias protected constructor(
     }
 
     override fun toString(): String {
-        return String.format("%s,%s,%s", ref, pos, pbWord.word)
+        return "$ref,$pos,${pbWord.word}"
     }
 
     companion object {
 
         val COMPARATOR: Comparator<Alias> = Comparator
-            .comparing<Alias, RoleSet>{ it.pbRoleSet }
+            .comparing<Alias, RoleSet> { it.pbRoleSet }
             .thenComparing<Word> { it.pbWord }
             .thenComparing<String> { it.ref }
             .thenComparing<String> { it.pos }

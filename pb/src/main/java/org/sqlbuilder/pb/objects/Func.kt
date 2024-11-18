@@ -26,7 +26,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s',%s", func, Utils.nullableQuotedString<String>(PREDEFINED[func]))
+        return "'$func',${Utils.nullableQuotedString<String>(PREDEFINED[func])}"
     }
 
     override fun toString(): String {

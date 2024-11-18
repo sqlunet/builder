@@ -31,14 +31,14 @@ class VnRole private constructor(
 
     // T O S T R I N G
     override fun toString(): String {
-        return String.format("%s[%s]", this.vnClass, this.vnTheta)
+        return "$vnClass[$vnTheta]"
     }
 
     companion object {
 
         val COMPARATOR: Comparator<VnRole> = Comparator
             .comparing<VnRole, VnClass> { it.vnClass }
-            .thenComparing{ it.vnTheta }
+            .thenComparing { it.vnTheta }
 
         fun make(vnClass: VnClass, vnTheta: VnLinks): VnRole {
             return VnRole(vnClass, vnTheta)

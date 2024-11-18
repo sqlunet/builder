@@ -44,7 +44,7 @@ class VnLinks private constructor(links: Collection<String>) : HasId, Comparable
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s'", names)
+        return "'${names.joinToString(separator = ",")}'"
     }
 
     // T O S T R I N G

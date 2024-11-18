@@ -109,7 +109,7 @@ class Arg private constructor(example: Example, text: String, val type: String) 
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("arg %s[%s][%s]", example, n, f)
+        return "arg $example[$n][$f]"
     }
 
     // I N S E R T
@@ -117,18 +117,11 @@ class Arg private constructor(example: Example, text: String, val type: String) 
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = Example::class)
     override fun dataRow(): String {
-        // (argid),text,n,f,exampleid
-        return String.format(
-            "'%s','%s',%s,%s",
-            Utils.escape(text),
-            n.argType,
-            if (f == null) "NULL" else Func.getIntId(f),
-            example.intId
-        )
+        return "'${Utils.escape(text)}','${n.argType}',${if (f == null) "NULL" else Func.getIntId(f)},${example.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s", n.argType, f?.func)
+        return "${n.argType},${f?.func}"
     }
 
     companion object {

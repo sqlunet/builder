@@ -35,22 +35,11 @@ class VnRoleAlias private constructor(
     @RequiresIdFrom(type = Role::class)
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
-        // rolesetid,roleid,vnclassid,vnroleid,vnclass,vntheta
-        return String.format(
-            "%d,%d,'%s','%s'",
-            role.roleSet.intId,
-            role.intId,
-            vnRole.vnClass.classTag,
-            vnRole.vnTheta.names
-        )
+        return "${role.roleSet.intId}, ${role.intId},'${vnRole.vnClass.classTag}','${vnRole.vnTheta.names}'"
     }
 
     override fun comment(): String {
-        return String.format(
-            "%s,%s,%s",
-            role.roleSet.name,
-            role.argType, role.vnLinks
-        )
+        return "${role.roleSet.name},${role.argType},${role.vnLinks}"
     }
 
     // R E S O L V E
@@ -62,18 +51,18 @@ class VnRoleAlias private constructor(
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("%s > %s", role, vnRole)
+        return "$role > $vnRole"
     }
 
     companion object {
 
         val COMPARATOR: Comparator<VnRoleAlias> = Comparator
-            .comparing<VnRoleAlias, Role> { obj: VnRoleAlias -> obj.role }
-            .thenComparing<VnRole> { obj: VnRoleAlias -> obj.vnRole }
+            .comparing<VnRoleAlias, Role> { it.role }
+            .thenComparing<VnRole> { it.vnRole }
 
         val SET: MutableSet<VnRoleAlias> = HashSet<VnRoleAlias>()
 
-        val RESOLVE_RESULT_STRINGIFIER = { r: Triplet<Int?, Int?, Int?>? -> if (r == null) "NULL,NULL,NULL" else String.format("%s,%s,%s", r.first, r.second, r.third) }
+        val RESOLVE_RESULT_STRINGIFIER = { r: Triplet<Int?, Int?, Int?>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second};${r.third}" }
 
         fun make(role: Role, vnRole: VnRole): VnRoleAlias {
             val m = VnRoleAlias(role, vnRole)

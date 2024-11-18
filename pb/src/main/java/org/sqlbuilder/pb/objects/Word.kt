@@ -41,10 +41,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     @RequiresIdFrom(type = Word::class)
     override fun dataRow(): String {
-        return String.format(
-            "'%s'",
-            Utils.escape(word)
-        )
+        return "'${Utils.escape(word)}'"
     }
 
     // R E S O L V E

@@ -60,25 +60,17 @@ class Role private constructor(
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = VnLinks::class)
     override fun dataRow(): String {
-        // (roleid),argtype,theta,func,roledescr,rolesetid
-        return String.format(
-            "'%s',%s,%s,%s,%d",
-            argType,
-            Utils.nullable<VnLinks?>(vnLinks) { it!!.sqlId },
-            func.sqlId,
-            Utils.quotedEscapedString(descr),
-            roleSet.intId
-        )
+        return "'$argType',${Utils.nullable(vnLinks) { it!!.sqlId }},${func.sqlId},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s,%s", roleSet.name, vnLinks?.names ?: "∅", fnLinks?.names ?: "∅", func)
+        return "${roleSet.name}, ${vnLinks?.names ?: "∅"}, ${fnLinks?.names ?: "∅"}, $func"
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr)
+        return "$roleSet[$argType-$func '$descr']"
     }
 
     companion object {

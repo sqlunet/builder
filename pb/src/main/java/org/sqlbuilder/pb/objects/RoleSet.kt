@@ -55,21 +55,13 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
     override fun dataRow(): String {
         val predicate2 = predicate
         val word = LexItem.map[predicate2]
-
-        // (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
-        return String.format(
-            "'%s',%s,'%s',%s",
-            Utils.escape(name),
-            Utils.nullableQuotedEscapedString(descr),
-            Utils.escape(predicate.head),
-            Utils.nullable(word) { it!!.sqlId }
-        )
+        return "'${Utils.escape(name)}',${Utils.nullableQuotedEscapedString(descr)},'${Utils.escape(predicate.head)}',${Utils.nullable(word) { it!!.sqlId }}"
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("<%s-%s-{%s}>", head, this.name, this.descr)
+        return "<$head-$name-{$descr}>"
     }
 
     companion object {

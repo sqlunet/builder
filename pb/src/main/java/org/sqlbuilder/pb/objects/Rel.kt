@@ -1,7 +1,10 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
 import org.sqlbuilder.pb.PbNormalizer
 
 class Rel private constructor(val example: Example, text: String) : HasId, Insertable, Comparable<Rel> {
@@ -22,16 +25,11 @@ class Rel private constructor(val example: Example, text: String) : HasId, Inser
     }
 
     override fun dataRow(): String {
-        // (relid),rel,func,exampleid
-        return String.format(
-            "'%s',%s",
-            Utils.escape(text),
-            example.getSqlId()
-        )
+        return "'${Utils.escape(text)}',${example.getSqlId()}"
     }
 
     override fun toString(): String {
-        return String.format("rel %s[%s]", text, example)
+        return "rel $text[$example]"
     }
 
     companion object {
