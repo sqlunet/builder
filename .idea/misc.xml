@@ -201,11 +201,12 @@
         <option value="$PROJECT_DIR$/foreign/pom.xml" />
         <option value="$PROJECT_DIR$/queries/pom.xml" />
         <option value="$PROJECT_DIR$/su/pom.xml" />
+        <option value="$PROJECT_DIR$/querybuilder/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/querybuilder/pom.xml" />
+        <option value="$PROJECT_DIR$/queries/pom.xml" />
       </set>
     </option>
   </component>
