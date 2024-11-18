@@ -77,7 +77,7 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun serializeFnLinks() {
-        val m = makeVnLinksMap()
+        val m = makeFnLinksMap()
         Serialize.serialize(m, File(outDir, names.serFile("fntheta", ".resolve_[theta]-[thetaid]")))
     }
 
@@ -113,7 +113,7 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun exportFnLinks() {
-        val m = makeVnLinksMap()
+        val m = makeFnLinksMap()
         export(m, File(outDir, names.mapFile("fnthetas.resolve", "_[theta]-[thetaid]")))
     }
 
