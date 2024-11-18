@@ -10,7 +10,6 @@
 	<version>1.0.0</version>
 	<modules>
 		<module>common</module>
-		<module>variables</module>
 		<module>foreign</module>
 		<module>bnc</module>
 		<module>fn-beans</module>
@@ -21,10 +20,9 @@
 		<module>sn</module>
 		<module>pm</module>
 		<module>legacy</module>
-		<module>sl</module>
+    <module>sl</module>
+    <module>su</module>
 		<module>reqprov</module>
-		<module>querybuilder</module>
-		<module>querybuilder-maven</module>
 	</modules>
 
 	<properties>
