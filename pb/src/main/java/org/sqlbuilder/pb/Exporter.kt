@@ -1,9 +1,10 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Names
+import org.sqlbuilder.pb.foreign.FnLinks
+import org.sqlbuilder.pb.foreign.VnLinks
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
-import org.sqlbuilder.pb.objects.Theta
 import org.sqlbuilder.pb.objects.Word
 import org.sqlbuilder2.ser.Serialize
 import java.io.File
@@ -27,18 +28,21 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun run() {
-        System.out.printf("%s %d%n", "thetas", Theta.COLLECTOR.size)
+        System.out.printf("%s %d%n", "vnlinks", VnLinks.COLLECTOR.size)
+        System.out.printf("%s %d%n", "fnlinks", FnLinks.COLLECTOR.size)
         System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size)
         System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size)
         System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
         duplicateRoles()
 
-        Theta.COLLECTOR.open().use {
-            Role.COLLECTOR.open().use {
-                RoleSet.COLLECTOR.open().use {
-                    Word.COLLECTOR.open().use {
-                        serialize()
-                        export()
+        VnLinks.COLLECTOR.open().use {
+            FnLinks.COLLECTOR.open().use {
+                Role.COLLECTOR.open().use {
+                    RoleSet.COLLECTOR.open().use {
+                        Word.COLLECTOR.open().use {
+                            serialize()
+                            export()
+                        }
                     }
                 }
             }
@@ -47,7 +51,8 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun serialize() {
-        serializeThetas()
+        serializeVnLinks()
+        serializeFnLinks()
         serializeRoleSets()
         serializeRolesBare()
         serializeRoles()
@@ -56,7 +61,8 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun export() {
-        exportThetas()
+        exportVnLinks()
+        exportFnLinks()
         exportRoleSets()
         exportRolesBare()
         exportRoles()
@@ -64,9 +70,15 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun serializeThetas() {
-        val m = makeThetasMap()
-        Serialize.serialize(m, File(outDir, names.serFile("thetas", ".resolve_[theta]-[thetaid]")))
+    fun serializeVnLinks() {
+        val m = makeVnLinksMap()
+        Serialize.serialize(m, File(outDir, names.serFile("vnthetas", ".resolve_[theta]-[thetaid]")))
+    }
+
+    @Throws(IOException::class)
+    fun serializeFnLinks() {
+        val m = makeVnLinksMap()
+        Serialize.serialize(m, File(outDir, names.serFile("fntheta", ".resolve_[theta]-[thetaid]")))
     }
 
     @Throws(IOException::class)
@@ -94,9 +106,15 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportThetas() {
-        val m = makeThetasMap()
-        export(m, File(outDir, names.mapFile("thetas.resolve", "_[theta]-[thetaid]")))
+    fun exportVnLinks() {
+        val m = makeVnLinksMap()
+        export(m, File(outDir, names.mapFile("vnthetas.resolve", "_[theta]-[thetaid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportFnLinks() {
+        val m = makeVnLinksMap()
+        export(m, File(outDir, names.mapFile("fnthetas.resolve", "_[theta]-[thetaid]")))
     }
 
     @Throws(IOException::class)
@@ -156,10 +174,18 @@ open class Exporter(conf: Properties) {
             .toSortedMap()
     }
 
-    fun makeThetasMap(): Map<String, Int> {
-        return Theta.COLLECTOR.entries
+    fun makeVnLinksMap(): Map<String, Int> {
+        return VnLinks.COLLECTOR.entries
             .asSequence()
-            .map { it.key.theta to it.value }
+            .map { it.key.names.toString() to it.value }
+            .toMap()
+            .toSortedMap()
+    }
+
+    fun makeFnLinksMap(): Map<String, Int> {
+        return FnLinks.COLLECTOR.entries
+            .asSequence()
+            .map { it.key.names.toString() to it.value }
             .toMap()
             .toSortedMap()
     }

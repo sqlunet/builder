@@ -1,10 +1,9 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.pb.objects.Theta
 import java.util.*
 
 class VnRole private constructor(
-    val vnClass: VnClass, val vnTheta: Theta,
+    val vnClass: VnClass, val vnTheta: VnLinks,
 ) : Comparable<VnRole> {
 
     // I D E N T I T Y
@@ -41,7 +40,7 @@ class VnRole private constructor(
             .comparing<VnRole, VnClass> { it.vnClass }
             .thenComparing{ it.vnTheta }
 
-        fun make(vnClass: VnClass, vnTheta: Theta): VnRole {
+        fun make(vnClass: VnClass, vnTheta: VnLinks): VnRole {
             return VnRole(vnClass, vnTheta)
         }
     }

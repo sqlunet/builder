@@ -2,6 +2,7 @@ package org.sqlbuilder.pb.collectors
 
 import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.pb.foreign.Alias
+import org.sqlbuilder.pb.foreign.VnLinks
 import org.sqlbuilder.pb.foreign.VnClass
 import org.sqlbuilder.pb.foreign.VnRole
 import org.sqlbuilder.pb.foreign.VnRoleAlias
@@ -173,11 +174,12 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val f = roleElement.getAttribute("f")
                                     val descriptor = roleElement.getAttribute("descr")
 
-                                    // theta
-                                    var theta: Set<String>? = makeVnRoleLinks(roleElement)
+                                    // links
+                                    var vnLinks: Set<String>? = makeVnRoleLinks(roleElement)
+                                    var fnLinks: Set<String>? = makeFnRoleLinks(roleElement)
 
                                     // role
-                                    val role = Role.make(roleSet, n, f, descriptor, theta?.joinToString(separator = " "))
+                                    val role = Role.make(roleSet, n, f, descriptor, vnLinks, fnLinks)
                                     result.add(role)
 
                                     // role-vnrole maps
@@ -218,7 +220,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                     // objects
                     val vnClass = VnClass.make(head, vnClassAttribute)
-                    val theta = Theta.make(thetaContent)
+                    val theta = VnLinks.make(listOf(thetaContent))
 
                     // verbnet role
                     val vnRole = VnRole.make(vnClass, theta)

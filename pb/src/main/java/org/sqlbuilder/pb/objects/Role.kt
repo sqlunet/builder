@@ -2,6 +2,8 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
+import org.sqlbuilder.pb.foreign.FnLinks
+import org.sqlbuilder.pb.foreign.VnLinks
 import java.io.Serializable
 import java.util.*
 
@@ -10,15 +12,17 @@ class Role private constructor(
     val argType: String,
     func: String,
     descriptor: String,
-    theta: String?,
+    vnLinks: Collection<String>?,
+    fnLinks: Collection<String>?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
     private val func: Func = Func.make(func)
 
     private val descr: String = descriptor
 
-    // role name for VerbNet
-    val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
+    // role names for VerbNet and FrameNet
+    val vnLinks: VnLinks? = if (vnLinks == null || vnLinks.isEmpty()) null else VnLinks.make(vnLinks)
+    val fnLinks: FnLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else FnLinks.make(fnLinks)
 
     // N I D
 
@@ -54,13 +58,13 @@ class Role private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Func::class)
-    @RequiresIdFrom(type = Theta::class)
+    @RequiresIdFrom(type = VnLinks::class)
     override fun dataRow(): String {
         // (roleid),argtype,theta,func,roledescr,rolesetid
         return String.format(
             "'%s',%s,%s,%s,%d",
             argType,
-            Utils.nullable<Theta?>(theta) { it!!.sqlId },
+            Utils.nullable<VnLinks?>(vnLinks) { it!!.sqlId },
             func.sqlId,
             Utils.quotedEscapedString(descr),
             roleSet.intId
@@ -68,7 +72,7 @@ class Role private constructor(
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s", roleSet.name, theta?.theta ?: "∅", func)
+        return String.format("%s,%s,%s,%s", roleSet.name, vnLinks?.names ?: "∅", fnLinks?.names ?: "∅", func)
     }
 
     // T O S T R I N G
@@ -87,8 +91,8 @@ class Role private constructor(
         @JvmField
         val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
-        fun make(roleSet: RoleSet, n: String, f: String, descriptor: String, theta: String?): Role {
-            val r = Role(roleSet, n, f, descriptor, theta)
+        fun make(roleSet: RoleSet, n: String, f: String, descriptor: String, vnLinks: Collection<String>?, fnLinks: Collection<String>?): Role {
+            val r = Role(roleSet, n, f, descriptor, vnLinks, fnLinks)
             COLLECTOR.add(r)
             return r
         }

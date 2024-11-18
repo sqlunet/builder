@@ -3,9 +3,7 @@ package org.sqlbuilder.pb
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Progress
-import org.sqlbuilder.pb.foreign.FnAlias
-import org.sqlbuilder.pb.foreign.VnAlias
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.foreign.*
 import org.sqlbuilder.pb.objects.*
 import java.io.File
 import java.io.FileNotFoundException
@@ -36,74 +34,80 @@ open class Inserter(conf: Properties) {
                     Example.TENSE_COLLECTOR.open().use {
                         Example.VOICE_COLLECTOR.open().use {
                             Func.COLLECTOR.open().use {
-                                Theta.COLLECTOR.open().use {
-                                    RoleSet.COLLECTOR.open().use {
-                                        Role.COLLECTOR.open().use {
-                                            Example.COLLECTOR.open().use {
-                                                Rel.COLLECTOR.open().use {
-                                                    Arg.COLLECTOR.open().use {
-                                                        Word.COLLECTOR.open().use {
-                                                            Progress.tracePending("collector", "aspect")
-                                                            Insert.insertStringMap(Example.ASPECT_COLLECTOR, File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"), header)
-                                                            Progress.traceDone()
+                                VnLinks.COLLECTOR.open().use {
+                                    FnLinks.COLLECTOR.open().use {
+                                        RoleSet.COLLECTOR.open().use {
+                                            Role.COLLECTOR.open().use {
+                                                Example.COLLECTOR.open().use {
+                                                    Rel.COLLECTOR.open().use {
+                                                        Arg.COLLECTOR.open().use {
+                                                            Word.COLLECTOR.open().use {
+                                                                Progress.tracePending("collector", "aspect")
+                                                                Insert.insertStringMap(Example.ASPECT_COLLECTOR, File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "form")
-                                                            Insert.insertStringMap(Example.FORM_COLLECTOR, File(outDir, names.file("forms")), names.table("forms"), names.columns("forms"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "form")
+                                                                Insert.insertStringMap(Example.FORM_COLLECTOR, File(outDir, names.file("forms")), names.table("forms"), names.columns("forms"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "person")
-                                                            Insert.insertStringMap(Example.PERSON_COLLECTOR, File(outDir, names.file("persons")), names.table("persons"), names.columns("persons"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "person")
+                                                                Insert.insertStringMap(Example.PERSON_COLLECTOR, File(outDir, names.file("persons")), names.table("persons"), names.columns("persons"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "tense")
-                                                            Insert.insertStringMap(Example.TENSE_COLLECTOR, File(outDir, names.file("tenses")), names.table("tenses"), names.columns("tenses"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "tense")
+                                                                Insert.insertStringMap(Example.TENSE_COLLECTOR, File(outDir, names.file("tenses")), names.table("tenses"), names.columns("tenses"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "voice")
-                                                            Insert.insertStringMap(Example.VOICE_COLLECTOR, File(outDir, names.file("voices")), names.table("voices"), names.columns("voices"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "voice")
+                                                                Insert.insertStringMap(Example.VOICE_COLLECTOR, File(outDir, names.file("voices")), names.table("voices"), names.columns("voices"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "func")
-                                                            Insert.insert<Func>(Func.COLLECTOR, File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "func")
+                                                                Insert.insert<Func>(Func.COLLECTOR, File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "theta")
-                                                            Insert.insert<Theta>(Theta.COLLECTOR, File(outDir, names.file("thetas")), names.table("thetas"), names.columns("thetas"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "vntheta")
+                                                                Insert.insert<VnLinks>(VnLinks.COLLECTOR, File(outDir, names.file("vnthetas")), names.table("vnthetas"), names.columns("vnthetas"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("set", "argtype")
-                                                            Insert.insert<ArgType>(ArgType.SET, ArgType.COMPARATOR, File(outDir, names.file("argtypes")), names.table("argtypes"), names.columns("argtypes"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "fntheta")
+                                                                Insert.insert<FnLinks>(FnLinks.COLLECTOR, File(outDir, names.file("fnthetas")), names.table("fnthetas"), names.columns("fnthetas"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "roleset")
-                                                            Insert.insert<RoleSet>(RoleSet.COLLECTOR, File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("set", "argtype")
+                                                                Insert.insert<ArgType>(ArgType.SET, ArgType.COMPARATOR, File(outDir, names.file("argtypes")), names.table("argtypes"), names.columns("argtypes"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "role")
-                                                            Insert.insert<Role>(Role.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "roleset")
+                                                                Insert.insert<RoleSet>(RoleSet.COLLECTOR, File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "example")
-                                                            Insert.insert<Example>(Example.COLLECTOR, File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "role")
+                                                                Insert.insert<Role>(Role.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "arg")
-                                                            Insert.insert<Arg>(Arg.COLLECTOR, File(outDir, names.file("args")), names.table("args"), names.columns("args"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "example")
+                                                                Insert.insert<Example>(Example.COLLECTOR, File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("collector", "rel")
-                                                            Insert.insert<Rel>(Rel.COLLECTOR, File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "arg")
+                                                                Insert.insert<Arg>(Arg.COLLECTOR, File(outDir, names.file("args")), names.table("args"), names.columns("args"), header)
+                                                                Progress.traceDone()
 
-                                                            Progress.tracePending("set", "member")
-                                                            Insert.insert<Member>(Member.SET, Member.COMPARATOR, File(outDir, names.file("members")), names.table("members"), names.columns("members"), header)
-                                                            Progress.traceDone()
+                                                                Progress.tracePending("collector", "rel")
+                                                                Insert.insert<Rel>(Rel.COLLECTOR, File(outDir, names.file("rels")), names.table("rels"), names.columns("rels"), header)
+                                                                Progress.traceDone()
 
-                                                            // R E S O L V A B L E
-                                                            insertWords()
-                                                            insertFnAliases()
-                                                            insertVnAliases()
-                                                            insertVnRoleAliases()
+                                                                Progress.tracePending("set", "member")
+                                                                Insert.insert<Member>(Member.SET, Member.COMPARATOR, File(outDir, names.file("members")), names.table("members"), names.columns("members"), header)
+                                                                Progress.traceDone()
+
+                                                                // R E S O L V A B L E
+                                                                insertWords()
+                                                                insertFnAliases()
+                                                                insertVnAliases()
+                                                                insertVnRoleAliases()
+                                                            }
                                                         }
                                                     }
                                                 }

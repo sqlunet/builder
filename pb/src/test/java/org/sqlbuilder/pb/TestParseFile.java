@@ -3,6 +3,8 @@ package org.sqlbuilder.pb;
 import org.junit.Test;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.pb.collectors.PbCollector;
+import org.sqlbuilder.pb.foreign.VnLinks;
+import org.sqlbuilder.pb.foreign.FnLinks;
 import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
@@ -26,8 +28,8 @@ public class TestParseFile
 		var tenses = Example.TENSE_COLLECTOR;
 		var voices = Example.VOICE_COLLECTOR;
 		var funcs = Func.COLLECTOR;
-		var thetas = Theta.COLLECTOR;
-
+		var vnLinks = VnLinks.COLLECTOR;
+		var fnLinks = FnLinks.COLLECTOR;
 		var rolesets = RoleSet.COLLECTOR;
 		var roles = Role.COLLECTOR;
 		var examples = Example.COLLECTOR;
@@ -36,8 +38,8 @@ public class TestParseFile
 
 		var words = Word.COLLECTOR;
 
-		var names = new String[]{"aspects", "forms", "persons", "tenses", "voices", "funcs", "thetas", "rolesets", "roles", "examples", "rels", "args", "words",};
-		var collectors = new SetCollector[]{aspects, forms, persons, tenses, voices, funcs, thetas, rolesets, roles, examples, rels, args, words,};
+		var names = new String[]{"aspects", "forms", "persons", "tenses", "voices", "funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words",};
+		var collectors = new SetCollector[]{aspects, forms, persons, tenses, voices, funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words,};
 		var i = 0;
 		for (var c : collectors)
 		{

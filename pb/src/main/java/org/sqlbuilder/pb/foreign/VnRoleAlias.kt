@@ -14,6 +14,7 @@ class VnRoleAlias private constructor(
 ) : Insertable, Resolvable<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
 
     // I D E N T I T Y
+
     override fun equals(o: Any?): Boolean {
         if (this === o) {
             return true
@@ -30,6 +31,7 @@ class VnRoleAlias private constructor(
     }
 
     // I N S E R T
+
     @RequiresIdFrom(type = Role::class)
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
@@ -39,7 +41,7 @@ class VnRoleAlias private constructor(
             role.roleSet.intId,
             role.intId,
             vnRole.vnClass.classTag,
-            vnRole.vnTheta.theta
+            vnRole.vnTheta.names
         )
     }
 
@@ -47,14 +49,14 @@ class VnRoleAlias private constructor(
         return String.format(
             "%s,%s,%s",
             role.roleSet.name,
-            role.argType, role.theta
+            role.argType, role.vnLinks
         )
     }
 
     // R E S O L V E
 
     override fun resolving(): Pair<String?, String?> {
-        return Pair<String?, String?>(vnRole.vnClass.classTag, vnRole.vnTheta.theta)
+        return Pair<String?, String?>(vnRole.vnClass.classTag, vnRole.vnTheta.names.toString())
     }
 
     // T O S T R I N G
