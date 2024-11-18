@@ -5,64 +5,6 @@ import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
 
 class Arg private constructor(example: Example, text: String, val type: String) : HasId, Insertable, Comparable<Arg> {
-    /*
-    FOUND TYPES:
-    ------------
-    ARG0
-    ARG1
-    ARG2
-    ARG3
-    ARG4
-    ARG5
-    ARG6
-    ARGA
-    ARGM-ADJ
-    ARGM-ADV
-    ARGM-CAU
-    ARGM-COM
-    ARGM-CXN
-    ARGM-DIR
-    ARGM-DIS
-    ARGM-DSP
-    ARGM-EXT
-    ARGM-GOL
-    ARGM-LOC
-    ARGM-LVB
-    ARGM-MNR
-    ARGM-MOD
-    ARGM-NEG
-    ARGM-PNC
-    ARGM-PRD
-    ARGM-PRP
-    ARGM-PRR
-    ARGM-REC
-    ARGM-TMP
-    ARGM-TOP
-
-    C-ARG0
-    C-ARG1
-    C-ARG2
-    C-ARG3
-    C-ARG4
-    C-ARGM-ADV
-    C-ARGM-CAU
-    C-ARGM-CXN
-    C-ARGM-DSP
-    C-ARGM-LOC
-    C-ARGM-TMP
-
-    R-ARG0
-    R-ARG1
-    R-ARG2
-    R-ARG3
-    R-ARG4
-    R-ARGM-DIR
-    R-ARGM-LOC
-    R-ARGM-MNR
-    R-ARGM-TMP
-    R-C-ARG2
-    keep pace
-    */
 
     private val example: Example
 
