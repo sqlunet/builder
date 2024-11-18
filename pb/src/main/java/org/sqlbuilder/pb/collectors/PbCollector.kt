@@ -26,11 +26,11 @@ open class PbCollector(conf: Properties) : Processor("pb") {
     protected val propBankHome: String = conf.getProperty("pb_home", System.getenv()["PBHOME"])
 
     override fun run() {
-        val folder = File(this.propBankHome)
+        val folder = File(propBankHome)
         val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
         val fileArray = folder.listFiles(filter)
         if (fileArray == null) {
-            throw RuntimeException("Dir:" + this.propBankHome + " is empty")
+            throw RuntimeException("Dir:$propBankHome is empty")
         }
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
@@ -68,7 +68,7 @@ open class PbCollector(conf: Properties) : Processor("pb") {
                 try {
                     predicate.put()
                 } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+                    // Logger.logger.logException(PbModule.id, logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
                 }
             }
 
@@ -77,7 +77,7 @@ open class PbCollector(conf: Properties) : Processor("pb") {
                 try {
                     lexItem.put()
                 } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+                    // Logger.logger.logException(PbModule.id, logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
                 }
             }
 

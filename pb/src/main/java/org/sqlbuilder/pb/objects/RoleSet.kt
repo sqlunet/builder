@@ -15,7 +15,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     val head: String
         get() {
-            return this.predicate.head
+            return predicate.head
         }
 
     // N I D

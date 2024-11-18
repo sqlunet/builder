@@ -79,12 +79,12 @@ class Arg private constructor(example: Example, text: String, val type: String) 
         this.example = example
         this.text = PbNormalizer.normalize(text)
         val fn = extractFN(type)
-        this.n = fn.first
-        this.f = fn.second
+        n = fn.first
+        f = fn.second
     }
 
     private fun extractFN(type: String): Pair<ArgType, Func?> {
-        val fields = this.type.split("-")
+        val fields = type.split("-")
         val nFields = fields.size
         // find first field starting with 'ARG'
         var index = fields.indexOfFirst { it.startsWith("ARG") }

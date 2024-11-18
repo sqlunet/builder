@@ -35,26 +35,26 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     init {
         // header
-        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
-        this.header += "\n-- " + conf.getProperty("vn_resolve_against")
-        this.header += "\n-- " + conf.getProperty("fn_resolve_against")
+        header += "\n-- " + conf.getProperty("wn_resolve_against")
+        header += "\n-- " + conf.getProperty("vn_resolve_against")
+        header += "\n-- " + conf.getProperty("fn_resolve_against")
 
         // output
-        this.outDir = File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
 
         // resolve
-        this.wordSerFile = conf.getProperty("word_nids")
-        this.vnClassSerFile = conf.getProperty("vnclass_nids")
-        this.vnClassRoleSerFile = conf.getProperty("vnrole_nids")
-        this.fnFrameSerFile = conf.getProperty("fnframe_nids")
+        wordSerFile = conf.getProperty("word_nids")
+        vnClassSerFile = conf.getProperty("vnclass_nids")
+        vnClassRoleSerFile = conf.getProperty("vnrole_nids")
+        fnFrameSerFile = conf.getProperty("fnframe_nids")
 
-        this.wordResolver = WordResolver(wordSerFile)
-        this.vnClassResolver = VnClassResolver(vnClassSerFile)
-        this.vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
-        this.fnFrameResolver = FnFrameResolver(this.fnFrameSerFile)
+        wordResolver = WordResolver(wordSerFile)
+        vnClassResolver = VnClassResolver(vnClassSerFile)
+        vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
+        fnFrameResolver = FnFrameResolver(fnFrameSerFile)
     }
 
     @Throws(FileNotFoundException::class)

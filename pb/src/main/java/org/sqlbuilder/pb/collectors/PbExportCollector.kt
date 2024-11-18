@@ -15,11 +15,11 @@ import javax.xml.xpath.XPathExpressionException
 class PbExportCollector(conf: Properties) : PbCollector(conf) {
 
     override fun run() {
-        val folder = File(this.propBankHome)
+        val folder = File(propBankHome)
         val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
         val fileArray = folder.listFiles(filter)
         if (fileArray == null) {
-            throw RuntimeException("Dir:" + this.propBankHome + " is empty")
+            throw RuntimeException("Dir:$propBankHome is empty")
         }
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0

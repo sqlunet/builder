@@ -35,7 +35,7 @@ abstract class Alias protected constructor(
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(ref, pos, pbRoleSet, this.pbWord)
+        return Objects.hash(ref, pos, pbRoleSet, pbWord)
     }
 
     // I N S E R T
