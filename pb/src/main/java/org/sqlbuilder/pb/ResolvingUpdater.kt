@@ -86,7 +86,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnRoleidCol = names.column("pbroles_vnroles.vnroleid")
         val vnRoletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
         val vnClassCol = names.column("pbroles_vnroles.vnclass")
-        val vnRoleCol = names.column("pbroles_vnroles.fnfe")
+        val vnRoleCol = names.column("pbroles_vnroles.vnrole")
         Update.update(
             RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
