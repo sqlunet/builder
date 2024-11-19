@@ -56,7 +56,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
         vnClassSerFile = conf.getProperty("vnclass_nids")
         vnClassRoleSerFile = conf.getProperty("vnrole_nids")
         fnFrameSerFile = conf.getProperty("fnframe_nids")
-        fnFrameFeSerFile = conf.getProperty("fnfes_nids")
+        fnFrameFeSerFile = conf.getProperty("fnfe_nids")
 
         wordResolver = WordResolver(wordSerFile)
         vnClassResolver = VnClassResolver(vnClassSerFile)
