@@ -1,7 +1,9 @@
 package org.sqlbuilder.pb.collectors
 
+import org.sqlbuilder.common.Utils
 import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.pb.foreign.*
+import org.sqlbuilder.pb.foreign.AliasClass.Companion.toTag
 import org.sqlbuilder.pb.objects.*
 import org.w3c.dom.Element
 import org.w3c.dom.Node
@@ -215,12 +217,12 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 .forEach { vnRoleElement ->
 
                     // extract
-                    val vnClassAttribute = vnRoleElement.getAttribute("class")
+                    val vnClassAttribute = vnRoleElement.getAttribute("class").trim { it <= ' ' }
                     val vnRoleContent = vnRoleElement.textContent.trim { it <= ' ' }
 
                     // objects
-                    val aliasVnClass = AliasClass.make(head, vnClassAttribute)
-                    val aliasVnRoleLink = vnRoleContent
+                    val aliasVnClass = AliasClass.make(head, toTag(vnClassAttribute))
+                    val aliasVnRoleLink = Utils.camelCase(vnRoleContent)
 
                     // verbnet role
                     val aliasVnRole = AliasRole.make(aliasVnClass, aliasVnRoleLink)
@@ -237,12 +239,12 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 .forEach { fnLinkElement ->
 
                     // extract
-                    val vnClassAttribute = fnLinkElement.getAttribute("class")
+                    val vnClassAttribute = fnLinkElement.getAttribute("class").trim { it <= ' ' }
                     val vnRoleContent = fnLinkElement.textContent.trim { it <= ' ' }
 
                     // objects
                     val aliasFnFrame = AliasClass.make(head, vnClassAttribute)
-                    val aliasFnFeLink = vnRoleContent
+                    val aliasFnFeLink = Utils.camelCase(vnRoleContent)
 
                     // framenet role
                     val aliasFnFe = AliasRole.make(aliasFnFrame, aliasFnFeLink)

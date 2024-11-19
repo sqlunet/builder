@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.pb.foreign.AliasClass.Companion.toTag
 import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder.pb.objects.Word
 
@@ -10,6 +11,12 @@ open class RoleSetToVn protected constructor(
     pbRoleSet: RoleSet,
     word: Word,
 ) : RoleSetTo(clazz, pos, pbRoleSet, word), Insertable {
+
+    // R E S O L V E
+
+    override fun resolving(): String {
+        return toTag(ref)
+    }
 
     companion object {
 

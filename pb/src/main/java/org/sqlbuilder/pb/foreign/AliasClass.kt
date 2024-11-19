@@ -46,5 +46,9 @@ class AliasClass private constructor(
         fun make(head: String?, classTag: String): AliasClass {
             return AliasClass(head, classTag)
         }
+
+        fun toTag(className: String): String{
+            return className.substring(className.indexOf('-') + 1)
+        }
     }
 }
