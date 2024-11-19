@@ -149,7 +149,7 @@ public class Insert
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
 			ps.println("-- " + header);
-			if (map.size() > 0)
+			if (!map.isEmpty())
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 				int[] i = {0};
@@ -176,7 +176,7 @@ public class Insert
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
 			ps.println("-- " + header);
-			if (set.size() > 0)
+			if (!set.isEmpty())
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 				// private static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
@@ -210,7 +210,7 @@ public class Insert
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
 			ps.println("-- " + header);
-			if (set.size() > 0)
+			if (!set.isEmpty())
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 				// private static <T extends Insertable> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
@@ -251,7 +251,7 @@ public class Insert
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
 			ps.println("-- " + header);
-			if (set.size() > 0)
+			if (!set.isEmpty())
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 				// private static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
@@ -289,7 +289,7 @@ public class Insert
 		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
 		{
 			ps.println("-- " + header);
-			if (set.size() > 0)
+			if (!set.isEmpty())
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + String.join(",", resolvedColumns));
 				// private static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
