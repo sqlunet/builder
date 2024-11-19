@@ -10,6 +10,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="su" />
+        <module name="variables" />
         <module name="legacy" />
         <module name="fn" />
         <module name="reqprov" />

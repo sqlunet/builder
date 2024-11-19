@@ -58,6 +58,7 @@
         </element>
         <element id="file-copy" path="$PROJECT_DIR$/pm/target/classes/pm/Names.properties" />
       </element>
+      <element id="module-output" name="variables" />
     </root>
   </artifact>
 </component>
