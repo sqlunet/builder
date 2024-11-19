@@ -61,11 +61,11 @@ class Role private constructor(
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = AliasRoleLinks::class)
     override fun dataRow(): String {
-        return "'$argType',${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnFeLinks) { it!!.sqlId }},${func.sqlId},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
+        return "'$argType',${func.sqlId},${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnFeLinks) { it!!.sqlId }},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return "${roleSet.name}, ${aliasVnRoleLinks?.names ?: "∅"}, ${aliasFnFeLinks?.names ?: "∅"}, $func"
+        return "$func, ${roleSet.name}, ${aliasVnRoleLinks?.names ?: "∅"}, ${aliasFnFeLinks?.names ?: "∅"}"
     }
 
     // T O S T R I N G
