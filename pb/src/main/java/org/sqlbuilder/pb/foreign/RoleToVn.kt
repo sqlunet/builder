@@ -10,7 +10,7 @@ class RoleToVn private constructor(
 
     companion object {
 
-        val RESOLVE_RESULT_STRINGIFIER = { r: Triplet<Int?, Int?, Int?>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second};${r.third}" }
+        val RESOLVE_RESULT_STRINGIFIER = { r: Triplet<Int?, Int?, Int?>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 
         val COMPARATOR: Comparator<RoleToVn> = Comparator
             .comparing<RoleToVn, Role> { it.role }
@@ -20,11 +20,11 @@ class RoleToVn private constructor(
 
         fun make(role: Role, aliasRole: AliasRole): RoleToVn {
             val m = RoleToVn(role, aliasRole)
-            /* boolean wasThere = ! */
+            /* val wasThere = ! */
             SET.add(m)
             /*
 			if (wasThere) {
-				System.err.printf("%nduplicate %s%n", m);
+				print("%nduplicate $m%n")
 			}
 			*/
             return m

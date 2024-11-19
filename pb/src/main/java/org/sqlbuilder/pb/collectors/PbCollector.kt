@@ -68,7 +68,7 @@ open class PbCollector(conf: Properties) : Processor("pb") {
                 try {
                     predicate.put()
                 } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+                    // Logger.logger.logException(PbModule.id, logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e)
                 }
             }
 
@@ -77,7 +77,7 @@ open class PbCollector(conf: Properties) : Processor("pb") {
                 try {
                     lexItem.put()
                 } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+                    // Logger.logger.logException(PbModule.id, logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e)
                 }
             }
 

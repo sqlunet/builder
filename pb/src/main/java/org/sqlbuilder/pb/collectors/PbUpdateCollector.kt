@@ -55,7 +55,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
                 try {
                     predicate.put()
                 } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+                    // Logger.logger.logException(PbModule.id, logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e)
                 }
             }
             val aliasLexItems = getAliasPredicates(start)
@@ -63,7 +63,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
                 try {
                     lexItem.put()
                 } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+                    // Logger.logger.logException(PbModule.id, logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e)
                 }
             }
 
