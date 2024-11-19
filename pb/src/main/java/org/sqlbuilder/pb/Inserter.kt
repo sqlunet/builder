@@ -67,11 +67,11 @@ open class Inserter(conf: Properties) {
                                                                 Progress.traceDone()
 
                                                                 Progress.tracePending("collector", "vnroles")
-                                                                Insert.insert<AliasRoleLinks>(AliasVnRoleLinks.COLLECTOR, File(outDir, names.file("vnthetas")), names.table("vnthetas"), names.columns("vnthetas"), header)
+                                                                Insert.insert<AliasRoleLinks>(AliasVnRoleLinks.COLLECTOR, File(outDir, names.file("vnroles")), names.table("vnroles"), names.columns("vnroles"), header)
                                                                 Progress.traceDone()
 
                                                                 Progress.tracePending("collector", "fnfes")
-                                                                Insert.insert<AliasRoleLinks>(AliasFnRoleLinks.COLLECTOR, File(outDir, names.file("fnthetas")), names.table("fnthetas"), names.columns("fnthetas"), header)
+                                                                Insert.insert<AliasRoleLinks>(AliasFnRoleLinks.COLLECTOR, File(outDir, names.file("fnfes")), names.table("fnfes"), names.columns("fnfes"), header)
                                                                 Progress.traceDone()
 
                                                                 Progress.tracePending("set", "argtype")
@@ -104,8 +104,8 @@ open class Inserter(conf: Properties) {
 
                                                                 // R E S O L V A B L E
                                                                 insertWords()
-                                                                insertFnAliases()
-                                                                insertVnAliases()
+                                                                insertFnFrameAliases()
+                                                                insertVnClassAliases()
                                                                 insertVnRoleAliases()
                                                             }
                                                         }
@@ -131,14 +131,14 @@ open class Inserter(conf: Properties) {
     }
 
     @Throws(FileNotFoundException::class)
-    protected open fun insertFnAliases() {
+    protected open fun insertFnFrameAliases() {
         Progress.tracePending("collector", "fnalias")
         Insert.insert<RoleSetToFn>(RoleSetToFn.SET, RoleSetToFn.COMPARATOR, File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
-    protected open fun insertVnAliases() {
+    protected open fun insertVnClassAliases() {
         Progress.tracePending("set", "vnalias")
         Insert.insert<RoleSetToVn>(RoleSetToVn.SET, RoleSetToVn.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
         Progress.traceDone()

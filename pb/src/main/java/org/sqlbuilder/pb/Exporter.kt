@@ -2,7 +2,6 @@ package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.pb.foreign.AliasFnRoleLinks
-import org.sqlbuilder.pb.foreign.AliasRoleLinks
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
@@ -14,7 +13,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import kotlin.Throws
 
 open class Exporter(conf: Properties) {
 
@@ -53,8 +51,8 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun serialize() {
-        serializeVnLinks()
-        serializeFnLinks()
+        serializeVnRoles()
+        serializeFnFes()
         serializeRoleSets()
         serializeRolesBare()
         serializeRoles()
@@ -63,42 +61,12 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun export() {
-        exportVnLinks()
-        exportFnLinks()
+        exportVnRoles()
+        exportFnFes()
         exportRoleSets()
         exportRolesBare()
         exportRoles()
         exportWords()
-    }
-
-    @Throws(IOException::class)
-    fun serializeVnLinks() {
-        val m = makeVnLinksMap()
-        Serialize.serialize(m, File(outDir, names.serFile("vnthetas", ".resolve_[theta]-[thetaid]")))
-    }
-
-    @Throws(IOException::class)
-    fun serializeFnLinks() {
-        val m = makeFnLinksMap()
-        Serialize.serialize(m, File(outDir, names.serFile("fntheta", ".resolve_[theta]-[thetaid]")))
-    }
-
-    @Throws(IOException::class)
-    fun serializeRoleSets() {
-        val m = makeRoleSetsMap()
-        Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
-    }
-
-    @Throws(IOException::class)
-    fun serializeRolesBare() {
-        val m = makeRolesMap()
-        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")))
-    }
-
-    @Throws(IOException::class)
-    private fun serializeRoles() {
-        val m = makeRolesFromArgTypeToFullMap()
-        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -108,15 +76,15 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportVnLinks() {
-        val m = makeVnLinksMap()
-        export(m, File(outDir, names.mapFile("vnthetas.resolve", "_[theta]-[thetaid]")))
+    fun exportWords() {
+        val m = makeWordMap()
+        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
     }
 
     @Throws(IOException::class)
-    fun exportFnLinks() {
-        val m = makeFnLinksMap()
-        export(m, File(outDir, names.mapFile("fnthetas.resolve", "_[theta]-[thetaid]")))
+    fun serializeRoleSets() {
+        val m = makeRoleSetsMap()
+        Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -125,10 +93,10 @@ open class Exporter(conf: Properties) {
         export(m, File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")))
     }
 
-    @Throws(IOException::class)
-    fun exportRolesBare() {
-        val m = makeRolesTreeMap()
-        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
+   @Throws(IOException::class)
+    private fun serializeRoles() {
+        val m = makeRolesFromArgTypeToFullMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -138,9 +106,39 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportWords() {
-        val m = makeWordMap()
-        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
+    fun serializeRolesBare() {
+        val m = makeRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportRolesBare() {
+        val m = makeRolesTreeMap()
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun serializeVnRoles() {
+        val m = makeVnRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("vnroles", ".resolve_[fe]-[feid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportVnRoles() {
+        val m = makeVnRolesMap()
+        export(m, File(outDir, names.mapFile("vnroles.resolve", "_[vnrole]-[vnroleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun serializeFnFes() {
+        val m = makeFnRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("fnfes", ".resolve_[fe]-[feid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportFnFes() {
+        val m = makeFnRolesMap()
+        export(m, File(outDir, names.mapFile("fnfes.resolve", "_[fe]-[feid]")))
     }
 
     fun duplicateRoles() {
@@ -176,7 +174,7 @@ open class Exporter(conf: Properties) {
             .toSortedMap()
     }
 
-    fun makeVnLinksMap(): Map<String, Int> {
+    fun makeVnRolesMap(): Map<String, Int> {
         return AliasVnRoleLinks.COLLECTOR.entries
             .asSequence()
             .map { it.key.names.toString() to it.value }
@@ -184,7 +182,7 @@ open class Exporter(conf: Properties) {
             .toSortedMap()
     }
 
-    fun makeFnLinksMap(): Map<String, Int> {
+    fun makeFnRolesMap(): Map<String, Int> {
         return AliasFnRoleLinks.COLLECTOR.entries
             .asSequence()
             .map { it.key.names.toString() to it.value }

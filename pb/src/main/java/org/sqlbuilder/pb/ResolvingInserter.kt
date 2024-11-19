@@ -83,7 +83,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertFnAliases() {
+    override fun insertFnFrameAliases() {
         Progress.tracePending("set", "fnalias")
         Insert.resolveAndInsert(
             RoleSetToFn.SET,
@@ -100,7 +100,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertVnAliases() {
+    override fun insertVnClassAliases() {
         Progress.tracePending("set", "vnalias")
         Insert.resolveAndInsert(
             RoleSetToVn.SET,

@@ -42,8 +42,8 @@ class AliasRole private constructor(
             .comparing<AliasRole, AliasClass> { it.aliasClass }
             .thenComparing { it.linksRoles }
 
-        fun make(aliasVnClass: AliasClass, vnTheta: AliasRoleLinks): AliasRole {
-            return AliasRole(aliasVnClass, vnTheta)
+        fun make(aliasVnClass: AliasClass, vnRoleLinks: AliasRoleLinks): AliasRole {
+            return AliasRole(aliasVnClass, vnRoleLinks)
         }
     }
 }
