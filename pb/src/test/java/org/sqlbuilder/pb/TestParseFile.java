@@ -3,8 +3,8 @@ package org.sqlbuilder.pb;
 import org.junit.Test;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.pb.collectors.PbCollector;
-import org.sqlbuilder.pb.foreign.VnLinks;
-import org.sqlbuilder.pb.foreign.FnLinks;
+import org.sqlbuilder.pb.foreign.AliasFnRoleLinks;
+import org.sqlbuilder.pb.foreign.AliasVnRoleLinks;
 import org.sqlbuilder.pb.objects.*;
 
 import java.io.File;
@@ -28,8 +28,8 @@ public class TestParseFile
 		var tenses = Example.TENSE_COLLECTOR;
 		var voices = Example.VOICE_COLLECTOR;
 		var funcs = Func.COLLECTOR;
-		var vnLinks = VnLinks.COLLECTOR;
-		var fnLinks = FnLinks.COLLECTOR;
+		var vnLinks = AliasVnRoleLinks.COLLECTOR;
+		var fnLinks = AliasFnRoleLinks.COLLECTOR;
 		var rolesets = RoleSet.COLLECTOR;
 		var roles = Role.COLLECTOR;
 		var examples = Example.COLLECTOR;

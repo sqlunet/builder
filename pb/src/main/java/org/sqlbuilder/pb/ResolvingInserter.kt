@@ -3,9 +3,10 @@ package org.sqlbuilder.pb
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Utils
-import org.sqlbuilder.pb.foreign.FnAlias
-import org.sqlbuilder.pb.foreign.VnAlias
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.foreign.RoleSetToFn
+import org.sqlbuilder.pb.foreign.RoleSetToVn
+import org.sqlbuilder.pb.foreign.RoleToFn
+import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
 import java.io.File
 import java.io.FileNotFoundException
@@ -21,6 +22,8 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     protected val fnFrameSerFile: String
 
+    protected val fnFrameFeSerFile: String
+
     @JvmField
     protected val wordResolver: WordResolver
 
@@ -32,6 +35,9 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @JvmField
     protected val fnFrameResolver: FnFrameResolver
+
+    @JvmField
+    protected val fnFrameFeResolver: FnFrameFeResolver
 
     init {
         // header
@@ -50,11 +56,13 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
         vnClassSerFile = conf.getProperty("vnclass_nids")
         vnClassRoleSerFile = conf.getProperty("vnrole_nids")
         fnFrameSerFile = conf.getProperty("fnframe_nids")
+        fnFrameFeSerFile = conf.getProperty("fnfes_nids")
 
         wordResolver = WordResolver(wordSerFile)
         vnClassResolver = VnClassResolver(vnClassSerFile)
         vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
         fnFrameResolver = FnFrameResolver(fnFrameSerFile)
+        fnFrameFeResolver = FnFrameFeResolver(fnFrameFeSerFile)
     }
 
     @Throws(FileNotFoundException::class)
@@ -78,8 +86,8 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     override fun insertFnAliases() {
         Progress.tracePending("set", "fnalias")
         Insert.resolveAndInsert(
-            FnAlias.SET,
-            FnAlias.COMPARATOR,
+            RoleSetToFn.SET,
+            RoleSetToFn.COMPARATOR,
             File(outDir, names.file("pbrolesets_fnframes")),
             names.table("pbrolesets_fnframes"),
             names.columns("pbrolesets_fnframes"),
@@ -95,8 +103,8 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     override fun insertVnAliases() {
         Progress.tracePending("set", "vnalias")
         Insert.resolveAndInsert(
-            VnAlias.SET,
-            VnAlias.COMPARATOR,
+            RoleSetToVn.SET,
+            RoleSetToVn.COMPARATOR,
             File(outDir, names.file("pbrolesets_vnclasses")),
             names.table("pbrolesets_vnclasses"),
             names.columns("pbrolesets_vnclasses"),
@@ -112,17 +120,36 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     override fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
         Insert.resolveAndInsert(
-            VnRoleAlias.SET,
-            VnRoleAlias.COMPARATOR,
+            RoleToVn.SET,
+            RoleToVn.COMPARATOR,
             File(outDir, names.file("pbroles_vnroles")),
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
             vnClassRoleResolver,
-            VnRoleAlias.RESOLVE_RESULT_STRINGIFIER,
+            RoleToVn.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.vnroleid"),
             names.column("pbroles_vnroles.vnclassid"),
             names.column("pbroles_vnroles.vnroletypeid")
+        )
+        Progress.traceDone()
+    }
+
+    @Throws(FileNotFoundException::class)
+    override fun insertFnRoleAliases() {
+        Progress.tracePending("set", "fnaliasrole")
+        Insert.resolveAndInsert(
+            RoleToFn.SET,
+            RoleToFn.COMPARATOR,
+            File(outDir, names.file("pbroles_fnfes")),
+            names.table("pbroles_fnfes"),
+            names.columns("pbroles_fnfes"),
+            header,
+            fnFrameFeResolver,
+            RoleToFn.RESOLVE_RESULT_STRINGIFIER,
+            names.column("pbroles_fnfes.fnfeid"),
+            names.column("pbroles_fnfes.fnframeid"),
+            names.column("pbroles_fnfes.fnfetypeid")
         )
         Progress.traceDone()
     }

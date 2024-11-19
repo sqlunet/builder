@@ -2,8 +2,9 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
-import org.sqlbuilder.pb.foreign.FnLinks
-import org.sqlbuilder.pb.foreign.VnLinks
+import org.sqlbuilder.pb.foreign.AliasFnRoleLinks
+import org.sqlbuilder.pb.foreign.AliasRoleLinks
+import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import java.io.Serializable
 import java.util.*
 
@@ -21,8 +22,8 @@ class Role private constructor(
     private val descr: String = descriptor
 
     // role names for VerbNet and FrameNet
-    val vnLinks: VnLinks? = if (vnLinks == null || vnLinks.isEmpty()) null else VnLinks.make(vnLinks)
-    val fnLinks: FnLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else FnLinks.make(fnLinks)
+    val aliasVnRoleLinks: AliasRoleLinks? = if (vnLinks == null || vnLinks.isEmpty()) null else AliasVnRoleLinks.make(vnLinks)
+    val aliasFnRoleLinks: AliasRoleLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else AliasFnRoleLinks.make(fnLinks)
 
     // N I D
 
@@ -58,13 +59,13 @@ class Role private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Func::class)
-    @RequiresIdFrom(type = VnLinks::class)
+    @RequiresIdFrom(type = AliasRoleLinks::class)
     override fun dataRow(): String {
-        return "'$argType',${Utils.nullable(vnLinks) { it!!.sqlId }},${func.sqlId},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
+        return "'$argType',${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnRoleLinks) { it!!.sqlId }},${func.sqlId},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return "${roleSet.name}, ${vnLinks?.names ?: "∅"}, ${fnLinks?.names ?: "∅"}, $func"
+        return "${roleSet.name}, ${aliasVnRoleLinks?.names ?: "∅"}, ${aliasFnRoleLinks?.names ?: "∅"}, $func"
     }
 
     // T O S T R I N G

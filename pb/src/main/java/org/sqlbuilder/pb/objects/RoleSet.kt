@@ -5,13 +5,13 @@ import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
-import org.sqlbuilder.pb.foreign.Alias
+import org.sqlbuilder.pb.foreign.RoleSetTo
 import java.io.Serializable
 import java.util.*
 
 class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String) : HasId, Insertable, Comparable<RoleSet>, Serializable {
 
-    internal val aliases: MutableList<Alias> = ArrayList<Alias>()
+    internal val roleSetTos: MutableList<RoleSetTo> = ArrayList<RoleSetTo>()
 
     val head: String
         get() {
@@ -35,7 +35,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             return false
         }
         val that = o as RoleSet
-        return predicate == that.predicate && name == that.name && aliases == that.aliases
+        return predicate == that.predicate && name == that.name && roleSetTos == that.roleSetTos
     }
 
     override fun hashCode(): Int {

@@ -7,16 +7,11 @@ import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
 import java.util.*
 
-class VnLinks private constructor(links: Collection<String>) : HasId, Comparable<VnLinks>, Insertable {
+abstract class AliasRoleLinks internal constructor(
+    links: Collection<String>,
+) : HasId, Comparable<AliasRoleLinks>, Insertable {
 
     val names: Set<String> = normalize(links)
-
-    // N I D
-
-    @RequiresIdFrom(type = VnLinks::class)
-    override fun getIntId(): Int {
-        return COLLECTOR[this]!!
-    }
 
     // I D E N T I T Y
 
@@ -27,7 +22,7 @@ class VnLinks private constructor(links: Collection<String>) : HasId, Comparable
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val links = o as VnLinks
+        val links = o as AliasRoleLinks
         return names == links.names
     }
 
@@ -37,7 +32,7 @@ class VnLinks private constructor(links: Collection<String>) : HasId, Comparable
 
     // O R D E R
 
-    override fun compareTo(that: VnLinks): Int {
+    override fun compareTo(that: AliasRoleLinks): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -55,29 +50,14 @@ class VnLinks private constructor(links: Collection<String>) : HasId, Comparable
 
     companion object {
 
-        val COMPARATOR: Comparator<VnLinks> = Comparator.comparing<VnLinks, String> { it.names.toString() }
+        val COMPARATOR: Comparator<AliasRoleLinks> = Comparator.comparing<AliasRoleLinks, String> { it.names.toString() }
 
-        @JvmField
-        val COLLECTOR = SetCollector<VnLinks>(COMPARATOR)
-
-        @JvmStatic
-        fun make(links: Collection<String>): VnLinks {
-            val t = VnLinks(normalize(links))
-            COLLECTOR.add(t)
-            return t
-        }
-
-        @Suppress("unused")
-        @RequiresIdFrom(type = VnLinks::class)
-        fun getIntId(links: VnLinks): Int {
-            return COLLECTOR[links]!!
-        }
-
-        private fun normalize(link: String): String {
+        protected fun normalize(link: String): String {
             return Utils.camelCase(link)
         }
 
-        private fun normalize(links: Collection<String>): Set<String> {
+        @JvmStatic
+        protected fun normalize(links: Collection<String>): Set<String> {
             return links
                 .asSequence()
                 .map { normalize(it) }

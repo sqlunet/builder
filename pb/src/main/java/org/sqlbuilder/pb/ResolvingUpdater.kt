@@ -3,9 +3,9 @@ package org.sqlbuilder.pb
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Update
 import org.sqlbuilder.common.Utils
-import org.sqlbuilder.pb.foreign.FnAlias
-import org.sqlbuilder.pb.foreign.VnAlias
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.foreign.RoleSetToFn
+import org.sqlbuilder.pb.foreign.RoleSetToVn
+import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
 import java.io.File
 import java.io.FileNotFoundException
@@ -52,7 +52,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
         val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
         Update.update(
-            FnAlias.SET,
+            RoleSetToFn.SET,
             File(outDir, names.updateFile("pbrolesets_fnframes")),
             header,
             names.table("pbrolesets_fnframes"),
@@ -68,7 +68,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         Update.update(
-            VnAlias.SET,
+            RoleSetToVn.SET,
             File(outDir, names.updateFile("pbrolesets_vnclasses")),
             header,
             names.table("pbrolesets_vnclasses"),
@@ -87,7 +87,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnclassCol = names.column("pbroles_vnroles.vnclass")
         val vnroleCol = names.column("pbroles_vnroles.vntheta")
         Update.update(
-            VnRoleAlias.SET,
+            RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header!!,
             names.table("pbroles_vnroles")!!,

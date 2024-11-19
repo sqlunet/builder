@@ -34,8 +34,8 @@ open class Inserter(conf: Properties) {
                     Example.TENSE_COLLECTOR.open().use {
                         Example.VOICE_COLLECTOR.open().use {
                             Func.COLLECTOR.open().use {
-                                VnLinks.COLLECTOR.open().use {
-                                    FnLinks.COLLECTOR.open().use {
+                                AliasVnRoleLinks.COLLECTOR.open().use {
+                                    AliasFnRoleLinks.COLLECTOR.open().use {
                                         RoleSet.COLLECTOR.open().use {
                                             Role.COLLECTOR.open().use {
                                                 Example.COLLECTOR.open().use {
@@ -66,12 +66,12 @@ open class Inserter(conf: Properties) {
                                                                 Insert.insert<Func>(Func.COLLECTOR, File(outDir, names.file("funcs")), names.table("funcs"), names.columns("funcs"), header)
                                                                 Progress.traceDone()
 
-                                                                Progress.tracePending("collector", "vntheta")
-                                                                Insert.insert<VnLinks>(VnLinks.COLLECTOR, File(outDir, names.file("vnthetas")), names.table("vnthetas"), names.columns("vnthetas"), header)
+                                                                Progress.tracePending("collector", "vnroles")
+                                                                Insert.insert<AliasRoleLinks>(AliasVnRoleLinks.COLLECTOR, File(outDir, names.file("vnthetas")), names.table("vnthetas"), names.columns("vnthetas"), header)
                                                                 Progress.traceDone()
 
-                                                                Progress.tracePending("collector", "fntheta")
-                                                                Insert.insert<FnLinks>(FnLinks.COLLECTOR, File(outDir, names.file("fnthetas")), names.table("fnthetas"), names.columns("fnthetas"), header)
+                                                                Progress.tracePending("collector", "fnfes")
+                                                                Insert.insert<AliasRoleLinks>(AliasFnRoleLinks.COLLECTOR, File(outDir, names.file("fnthetas")), names.table("fnthetas"), names.columns("fnthetas"), header)
                                                                 Progress.traceDone()
 
                                                                 Progress.tracePending("set", "argtype")
@@ -133,21 +133,28 @@ open class Inserter(conf: Properties) {
     @Throws(FileNotFoundException::class)
     protected open fun insertFnAliases() {
         Progress.tracePending("collector", "fnalias")
-        Insert.insert<FnAlias>(FnAlias.SET, FnAlias.COMPARATOR, File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header)
+        Insert.insert<RoleSetToFn>(RoleSetToFn.SET, RoleSetToFn.COMPARATOR, File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnAliases() {
         Progress.tracePending("set", "vnalias")
-        Insert.insert<VnAlias>(VnAlias.SET, VnAlias.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
+        Insert.insert<RoleSetToVn>(RoleSetToVn.SET, RoleSetToVn.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
-        Insert.insert<VnRoleAlias>(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
+        Insert.insert<RoleToVn>(RoleToVn.SET, RoleToVn.COMPARATOR , File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
+        Progress.traceDone()
+    }
+
+    @Throws(FileNotFoundException::class)
+    protected open fun insertFnRoleAliases() {
+        Progress.tracePending("set", "fnaliasrole")
+        Insert.insert<RoleToFn>(RoleToFn.SET, RoleToFn.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
         Progress.traceDone()
     }
 }

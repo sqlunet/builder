@@ -5,7 +5,7 @@ rem 03/12/2021
 set /P DB=Enter database name:
 
 set DBTYPE=sqlite
-set TABLES=argtypes args aspects examples forms funcs persons rels restrainedRoles members rolesets tenses thetas voices words pbrolesets_fnframes pbrolesets_vnclasses pbroles_vnroles
+set TABLES=rolesets roles argtypes funcs members words examples rels args vnroles fnfes pbrolesets_vnclasses pbrolesets_fnframes pbroles_vnroles pbroles_fnfes
 
 if "%1"=="-d" call :deletedb
 call :dbexists

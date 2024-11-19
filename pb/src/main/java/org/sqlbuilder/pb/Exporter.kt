@@ -1,8 +1,9 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Names
-import org.sqlbuilder.pb.foreign.FnLinks
-import org.sqlbuilder.pb.foreign.VnLinks
+import org.sqlbuilder.pb.foreign.AliasFnRoleLinks
+import org.sqlbuilder.pb.foreign.AliasRoleLinks
+import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder.pb.objects.Word
@@ -13,6 +14,7 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
+import kotlin.Throws
 
 open class Exporter(conf: Properties) {
 
@@ -28,15 +30,15 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun run() {
-        System.out.printf("%s %d%n", "vnlinks", VnLinks.COLLECTOR.size)
-        System.out.printf("%s %d%n", "fnlinks", FnLinks.COLLECTOR.size)
+        System.out.printf("%s %d%n", "vn links", AliasFnRoleLinks.COLLECTOR.size)
+        System.out.printf("%s %d%n", "fn links", AliasFnRoleLinks.COLLECTOR.size)
         System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size)
         System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size)
         System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
         duplicateRoles()
 
-        VnLinks.COLLECTOR.open().use {
-            FnLinks.COLLECTOR.open().use {
+        AliasFnRoleLinks.COLLECTOR.open().use {
+            AliasVnRoleLinks.COLLECTOR.open().use {
                 Role.COLLECTOR.open().use {
                     RoleSet.COLLECTOR.open().use {
                         Word.COLLECTOR.open().use {
@@ -175,7 +177,7 @@ open class Exporter(conf: Properties) {
     }
 
     fun makeVnLinksMap(): Map<String, Int> {
-        return VnLinks.COLLECTOR.entries
+        return AliasVnRoleLinks.COLLECTOR.entries
             .asSequence()
             .map { it.key.names.toString() to it.value }
             .toMap()
@@ -183,7 +185,7 @@ open class Exporter(conf: Properties) {
     }
 
     fun makeFnLinksMap(): Map<String, Int> {
-        return FnLinks.COLLECTOR.entries
+        return AliasFnRoleLinks.COLLECTOR.entries
             .asSequence()
             .map { it.key.names.toString() to it.value }
             .toMap()
