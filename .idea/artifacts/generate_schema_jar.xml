@@ -1,64 +1,63 @@
 <component name="ArtifactManager">
-	<artifact type="jar" build-on-make="true" name="generate-schema:jar">
-		<output-path>$PROJECT_DIR$</output-path>
-		<root id="archive" name="generate-schema.jar">
-			<element id="directory" name="org">
-				<element id="directory" name="sqlbuilder">
-					<element id="directory" name="common">
-						<element id="file-copy" path="$PROJECT_DIR$/common/target/classes/org/sqlbuilder/common/SchemaGenerator.class"/>
-						<element id="file-copy" path="$PROJECT_DIR$/common/target/classes/org/sqlbuilder/common/Names.class"/>
-					</element>
-				</element>
-			</element>
-			<element id="directory" name="bnc">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/bnc/target/classes/bnc/Names.properties"/>
-			</element>
-			<element id="directory" name="sn">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/sn/src/main/resources/sn/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/sn/target/classes/sn/Names.properties"/>
-			</element>
-			<element id="directory" name="vn">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/vn/target/classes/vn/Names.properties"/>
-			</element>
-			<element id="directory" name="pb">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/pb/src/main/resources/pb/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/pb/target/classes/pb/Names.properties"/>
-			</element>
-			<element id="directory" name="sl">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/sl/src/main/resources/sl/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/sl/target/classes/sl/Names.properties"/>
-			</element>
-			<element id="directory" name="fn">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/fn/src/main/resources/fn/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/fn/target/classes/fn/Names.properties"/>
-			</element>
-			<element id="directory" name="su">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/su/src/main/resources/su/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/su/target/classes/su/Names.properties"/>
-			</element>
-			<element id="directory" name="pm">
-				<element id="directory" name="sqltemplates">
-					<element id="dir-copy" path="$PROJECT_DIR$/pm/src/main/resources/pm/sqltemplates"/>
-				</element>
-				<element id="file-copy" path="$PROJECT_DIR$/pm/target/classes/pm/Names.properties"/>
-			</element>
-			<element id="module-output" name="variables"/>
-		</root>
-	</artifact>
+  <artifact type="jar" build-on-make="true" name="generate-schema:jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="generate-schema.jar">
+      <element id="directory" name="org">
+        <element id="directory" name="sqlbuilder">
+          <element id="directory" name="common">
+            <element id="file-copy" path="$PROJECT_DIR$/common/target/classes/org/sqlbuilder/common/SchemaGenerator.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/common/target/classes/org/sqlbuilder/common/Names.class" />
+          </element>
+        </element>
+      </element>
+      <element id="directory" name="bnc">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/bnc/target/classes/bnc/Names.properties" />
+      </element>
+      <element id="directory" name="sn">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/sn/src/main/resources/sn/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/sn/target/classes/sn/Names.properties" />
+      </element>
+      <element id="directory" name="vn">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/vn/target/classes/vn/Names.properties" />
+      </element>
+      <element id="directory" name="pb">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/pb/src/main/resources/pb/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/pb/target/classes/pb/Names.properties" />
+      </element>
+      <element id="directory" name="sl">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/sl/src/main/resources/sl/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/sl/target/classes/sl/Names.properties" />
+      </element>
+      <element id="directory" name="fn">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/fn/src/main/resources/fn/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/fn/target/classes/fn/Names.properties" />
+      </element>
+      <element id="directory" name="su">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/su/src/main/resources/su/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/su/target/classes/su/Names.properties" />
+      </element>
+      <element id="directory" name="pm">
+        <element id="directory" name="sqltemplates">
+          <element id="dir-copy" path="$PROJECT_DIR$/pm/src/main/resources/pm/sqltemplates" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/pm/target/classes/pm/Names.properties" />
+      </element>
+    </root>
+  </artifact>
 </component>
