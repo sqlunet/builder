@@ -36,7 +36,7 @@ abstract class RoleTo protected constructor(
     @RequiresIdFrom(type = Role::class)
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
-        return "${role.roleSet.intId}, ${role.intId},'${aliasRole.aliasClass.classTag}','${aliasRole.linksRoles.names}'"
+        return "${role.roleSet.intId}, ${role.intId},'${aliasRole.aliasClass.classTag}','${aliasRole.aliasLink}'"
     }
 
     override fun comment(): String {
@@ -46,16 +46,12 @@ abstract class RoleTo protected constructor(
     // R E S O L V E
 
     override fun resolving(): Pair<String?, String?> {
-        return Pair<String?, String?>(aliasRole.aliasClass.classTag, aliasRole.linksRoles.names.toString())
+        return Pair<String?, String?>(aliasRole.aliasClass.classTag, aliasRole.aliasLink)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
         return "$role > $aliasRole"
-    }
-
-    companion object {
-
     }
 }

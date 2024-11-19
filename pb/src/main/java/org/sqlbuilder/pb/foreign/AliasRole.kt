@@ -4,7 +4,7 @@ import java.util.*
 
 class AliasRole private constructor(
     val aliasClass: AliasClass,
-    val linksRoles: AliasRoleLinks,
+    val aliasLink: String,
 ) : Comparable<AliasRole> {
 
     // I D E N T I T Y
@@ -17,11 +17,11 @@ class AliasRole private constructor(
             return false
         }
         val aliasRole = o as AliasRole
-        return aliasClass == aliasRole.aliasClass && this@AliasRole.linksRoles == aliasRole.linksRoles
+        return aliasClass == aliasRole.aliasClass && aliasLink == aliasRole.aliasLink
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(aliasClass, linksRoles)
+        return Objects.hash(aliasClass, aliasLink)
     }
 
     // O R D E R I N G
@@ -33,17 +33,17 @@ class AliasRole private constructor(
     // T O S T R I N G
 
     override fun toString(): String {
-        return "$aliasClass[$linksRoles]"
+        return "$aliasClass[$aliasLink]"
     }
 
     companion object {
 
         val COMPARATOR: Comparator<AliasRole> = Comparator
             .comparing<AliasRole, AliasClass> { it.aliasClass }
-            .thenComparing { it.linksRoles }
+            .thenComparing { it.aliasLink }
 
-        fun make(aliasVnClass: AliasClass, vnRoleLinks: AliasRoleLinks): AliasRole {
-            return AliasRole(aliasVnClass, vnRoleLinks)
+        fun make(aliasVnClass: AliasClass, aliasLink: String): AliasRole {
+            return AliasRole(aliasVnClass, aliasLink)
         }
     }
 }

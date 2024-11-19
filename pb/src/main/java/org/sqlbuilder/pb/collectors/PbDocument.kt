@@ -194,6 +194,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeVnRoleLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
                 .asSequence()
+                .sortedBy { it.getAttribute("version").substring(7) }
                 .map { it.textContent.trim { it <= ' ' } }
                 .toSet()
         }
@@ -219,19 +220,13 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                     // objects
                     val aliasVnClass = AliasClass.make(head, vnClassAttribute)
-                    val aliasVnRoleLinks = AliasVnRoleLinks.make(listOf(vnRoleContent))
+                    val aliasVnRoleLink = vnRoleContent
 
                     // verbnet role
-                    val aliasVnRole = AliasRole.make(aliasVnClass, aliasVnRoleLinks)
+                    val aliasVnRole = AliasRole.make(aliasVnClass, aliasVnRoleLink)
 
                     // propbank role -> verbnet roles
                     RoleToVn.make(role, aliasVnRole)
-
-                    // framenet role
-                    val aliasFnFe = AliasRole.make(aliasVnClass, aliasVnRoleLinks)
-
-                    // propbank role -> framenet roles
-                    RoleToFn.make(role, aliasFnFe)
                 }
         }
 
@@ -247,10 +242,10 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                     // objects
                     val aliasFnFrame = AliasClass.make(head, vnClassAttribute)
-                    val aliasFnFeLinks = AliasFnFeLinks.make(listOf(vnRoleContent))
+                    val aliasFnFeLink = vnRoleContent
 
                     // framenet role
-                    val aliasFnFe = AliasRole.make(aliasFnFrame, aliasFnFeLinks)
+                    val aliasFnFe = AliasRole.make(aliasFnFrame, aliasFnFeLink)
 
                     // propbank role -> framenet roles
                     RoleToFn.make(role, aliasFnFe)
