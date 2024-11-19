@@ -1,4 +1,4 @@
 CREATE TABLE IF NOT EXISTS ${fnfes.table} (
-    ${fnfes.fnfeid} INTEGER NOT NULL,
-    ${fnfes.fnfe} VARCHAR (128) NOT NULL
+    ${fnfes.feid} INTEGER NOT NULL,
+    ${fnfes.fe} VARCHAR (128) NOT NULL
 );

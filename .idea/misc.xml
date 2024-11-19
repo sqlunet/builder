@@ -185,6 +185,7 @@
     <pattern value="org.sqlbuilder.pb.objects.Word" />
     <pattern value="org.sqlbuilder.pb.WordResolver" />
     <pattern value="org.sqlbuilder.pb.WordResolver" method="WordResolver" />
+    <pattern value="org.sqlbuilder.pb.Exporter" method="makeFnLinksMap" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
