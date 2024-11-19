@@ -8,17 +8,17 @@ public class VnRoleAlias implements Resolvable<Pair<String, String>, Pair<Intege
 {
 	public String clazz;
 
-	public String theta;
+	public String role;
 
 	@Override
 	public String dataRow()
 	{
-		return String.format("%s,%s", Utils.nullableQuotedEscapedString(clazz), Utils.nullableQuotedEscapedString(theta));
+		return String.format("%s,%s", Utils.nullableQuotedEscapedString(clazz), Utils.nullableQuotedEscapedString(role));
 	}
 
 	@Override
 	public Pair<String, String> resolving()
 	{
-		return new Pair<>(clazz, theta);
+		return new Pair<>(clazz, role);
 	}
 }

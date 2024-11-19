@@ -83,7 +83,7 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		var vnWordid = this.vnWordResolver.apply(entry.word);
 		var pbWordid = this.pbWordResolver.apply(entry.word);
 		var fnWordid = this.fnWordResolver.apply(entry.word);
-		var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.theta));
+		var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.role));
 		var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
 		var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
 
@@ -101,7 +101,7 @@ public class PmUpdatingProcessor extends PmResolvingProcessor
 		var whereClause = String.format("%s=%s AND %s=%s AND %s=%s AND %s=%s AND %s=%s AND %s=%s AND %s=%s", //
 				columns[10], Utils.nullable(entry.word, x -> Utils.quote(Utils.escape(x))), //
 				columns[11], Utils.nullable(entry.vn.clazz, x -> Utils.quote(Utils.escape(x))), //
-				columns[12], Utils.nullable(entry.vn.theta, x -> Utils.quote(Utils.escape(x))), //
+				columns[12], Utils.nullable(entry.vn.role, x -> Utils.quote(Utils.escape(x))), //
 				columns[13], Utils.nullable(entry.pb.roleset, x -> Utils.quote(Utils.escape(x))), //
 				columns[14], Utils.nullable(entry.pb.arg, x -> Utils.quote(Utils.escape(x))), //
 				columns[15], Utils.nullable(entry.fn.frame, x -> Utils.quote(Utils.escape(x))), //
