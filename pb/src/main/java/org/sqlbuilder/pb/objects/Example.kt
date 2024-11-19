@@ -38,7 +38,7 @@ class Example private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
-        return "'${Utils.escape(text)}','${SqlId.getSqlId(ASPECT_COLLECTOR[aspect])}',${SqlId.getSqlId(FORM_COLLECTOR[form])},${SqlId.getSqlId(TENSE_COLLECTOR[tense])},${SqlId.getSqlId(VOICE_COLLECTOR[voice])},${SqlId.getSqlId(PERSON_COLLECTOR[person])},${roleSet.intId}"
+        return "'${Utils.escape(name)}','${Utils.escape(text)}','${SqlId.getSqlId(ASPECT_COLLECTOR[aspect])}',${SqlId.getSqlId(FORM_COLLECTOR[form])},${SqlId.getSqlId(TENSE_COLLECTOR[tense])},${SqlId.getSqlId(VOICE_COLLECTOR[voice])},${SqlId.getSqlId(PERSON_COLLECTOR[person])},${roleSet.intId}"
     }
 
     override fun comment(): String {
