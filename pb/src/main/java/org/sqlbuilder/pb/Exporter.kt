@@ -1,7 +1,7 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Names
-import org.sqlbuilder.pb.foreign.AliasFnRoleLinks
+import org.sqlbuilder.pb.foreign.AliasFnFeLinks
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
@@ -28,14 +28,14 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun run() {
-        System.out.printf("%s %d%n", "vn links", AliasFnRoleLinks.COLLECTOR.size)
-        System.out.printf("%s %d%n", "fn links", AliasFnRoleLinks.COLLECTOR.size)
+        System.out.printf("%s %d%n", "vn links", AliasFnFeLinks.COLLECTOR.size)
+        System.out.printf("%s %d%n", "fn links", AliasFnFeLinks.COLLECTOR.size)
         System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size)
         System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size)
         System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
         duplicateRoles()
 
-        AliasFnRoleLinks.COLLECTOR.open().use {
+        AliasFnFeLinks.COLLECTOR.open().use {
             AliasVnRoleLinks.COLLECTOR.open().use {
                 Role.COLLECTOR.open().use {
                     RoleSet.COLLECTOR.open().use {
@@ -131,13 +131,13 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun serializeFnFes() {
-        val m = makeFnRolesMap()
+        val m = makeFnFesMap()
         Serialize.serialize(m, File(outDir, names.serFile("fnfes", ".resolve_[fe]-[feid]")))
     }
 
     @Throws(IOException::class)
     fun exportFnFes() {
-        val m = makeFnRolesMap()
+        val m = makeFnFesMap()
         export(m, File(outDir, names.mapFile("fnfes.resolve", "_[fe]-[feid]")))
     }
 
@@ -182,8 +182,8 @@ open class Exporter(conf: Properties) {
             .toSortedMap()
     }
 
-    fun makeFnRolesMap(): Map<String, Int> {
-        return AliasFnRoleLinks.COLLECTOR.entries
+    fun makeFnFesMap(): Map<String, Int> {
+        return AliasFnFeLinks.COLLECTOR.entries
             .asSequence()
             .map { it.key.names.toString() to it.value }
             .toMap()

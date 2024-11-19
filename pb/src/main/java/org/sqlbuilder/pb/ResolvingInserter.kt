@@ -136,7 +136,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertFnRoleAliases() {
+    override fun insertFnFeAliases() {
         Progress.tracePending("set", "fnaliasrole")
         Insert.resolveAndInsert(
             RoleToFn.SET,

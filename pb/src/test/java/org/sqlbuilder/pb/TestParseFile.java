@@ -3,7 +3,7 @@ package org.sqlbuilder.pb;
 import org.junit.Test;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.pb.collectors.PbCollector;
-import org.sqlbuilder.pb.foreign.AliasFnRoleLinks;
+import org.sqlbuilder.pb.foreign.AliasFnFeLinks;
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks;
 import org.sqlbuilder.pb.objects.*;
 
@@ -29,7 +29,7 @@ public class TestParseFile
 		var voices = Example.VOICE_COLLECTOR;
 		var funcs = Func.COLLECTOR;
 		var vnLinks = AliasVnRoleLinks.COLLECTOR;
-		var fnLinks = AliasFnRoleLinks.COLLECTOR;
+		var fnLinks = AliasFnFeLinks.COLLECTOR;
 		var rolesets = RoleSet.COLLECTOR;
 		var roles = Role.COLLECTOR;
 		var examples = Example.COLLECTOR;

@@ -40,7 +40,7 @@ abstract class RoleTo protected constructor(
     }
 
     override fun comment(): String {
-        return "${role.roleSet.name},${role.argType},${role.aliasVnRoleLinks},${role.aliasFnRoleLinks}"
+        return "${role.roleSet.name},${role.argType},${role.aliasVnRoleLinks},${role.aliasFnFeLinks}"
     }
 
     // R E S O L V E

@@ -1,13 +1,7 @@
 package org.sqlbuilder.pb.collectors
 
 import org.sqlbuilder.common.XmlDocument
-import org.sqlbuilder.pb.foreign.RoleSetTo
-import org.sqlbuilder.pb.foreign.AliasRoleLinks
-import org.sqlbuilder.pb.foreign.AliasClass
-import org.sqlbuilder.pb.foreign.AliasRole
-import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
-import org.sqlbuilder.pb.foreign.RoleToFn
-import org.sqlbuilder.pb.foreign.RoleToVn
+import org.sqlbuilder.pb.foreign.*
 import org.sqlbuilder.pb.objects.*
 import org.w3c.dom.Element
 import org.w3c.dom.Node
@@ -109,7 +103,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                 }
 
                             // f r a m e n e t
-                            makeFnRoleSetLinks(roleSetElement)
+                            makeFnFrameLinks(roleSetElement)
                                 ?.asSequence()
                                 ?.forEach {
                                     var frame = it.trim { it <= ' ' }
@@ -138,7 +132,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeFnRoleSetLinks(roleElement: Element): Set<String>? {
+        fun makeFnFrameLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./roles/role/rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
                 .asSequence()
                 .map { it.getAttribute("class").trim { it <= ' ' } }
@@ -178,7 +172,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                                     // links
                                     var vnLinks: Set<String>? = makeVnRoleLinks(roleElement)
-                                    var fnLinks: Set<String>? = makeFnRoleLinks(roleElement)
+                                    var fnLinks: Set<String>? = makeFnFeLinks(roleElement)
 
                                     // role
                                     val role = Role.make(roleSet, n, f, descriptor, vnLinks, fnLinks)
@@ -187,8 +181,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     // role-vnrole maps
                                     makeVnRoleMaps(head, role, roleElement)
 
-                                    // role-fnrole maps
-                                    makeFnRoleMaps(head, role, roleElement)
+                                    // role-fnfe maps
+                                    makeFnFeMaps(head, role, roleElement)
                                 }
                         }
                 }
@@ -206,7 +200,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @JvmStatic
         @Throws(XPathExpressionException::class)
-        fun makeFnRoleLinks(roleElement: Element): Set<String>? {
+        fun makeFnFeLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
                 .asSequence()
                 .map { it.textContent.trim { it <= ' ' } }
@@ -234,32 +228,32 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                     RoleToVn.make(role, aliasVnRole)
 
                     // framenet role
-                    val aliasFnRole = AliasRole.make(aliasVnClass, aliasVnRoleLinks)
+                    val aliasFnFe = AliasRole.make(aliasVnClass, aliasVnRoleLinks)
 
                     // propbank role -> framenet roles
-                    RoleToFn.make(role, aliasFnRole)
+                    RoleToFn.make(role, aliasFnFe)
                 }
         }
 
         @Throws(XPathExpressionException::class)
-        private fun makeFnRoleMaps(head: String, role: Role, roleElement: Element) {
+        private fun makeFnFeMaps(head: String, role: Role, roleElement: Element) {
             getXPaths(roleElement, "./rolelinks/rolelink[@resource='FrameNet']")
                 .asSequence()
-                .forEach { fnRoleElement ->
+                .forEach { fnLinkElement ->
 
-                    //// extract
-                    //val vnClassAttribute = fnRoleElement.getAttribute("class")
-                    //val vnRoleContent = fnRoleElement.textContent.trim { it <= ' ' }
-//
-                    //// objects
-                    //val aliasFnFrame = AliasFnFrame.make(head, vnClassAttribute)
-                    //val aliasLinksFnRole = AliasLinksVnRole.make(listOf(vnRoleContent))
-//
-                    //// verbnet role
-                    //val aliasVnRole = AliasVnRole.make(aliasVnClass, aliasLinksVnRole)
-//
-                    //// propbank role -> verbnet roles
-                    //RoleToFn.make(role, aliasVnRole)
+                    // extract
+                    val vnClassAttribute = fnLinkElement.getAttribute("class")
+                    val vnRoleContent = fnLinkElement.textContent.trim { it <= ' ' }
+
+                    // objects
+                    val aliasFnFrame = AliasClass.make(head, vnClassAttribute)
+                    val aliasFnFeLinks = AliasFnFeLinks.make(listOf(vnRoleContent))
+
+                    // framenet role
+                    val aliasFnFe = AliasRole.make(aliasFnFrame, aliasFnFeLinks)
+
+                    // propbank role -> framenet roles
+                    RoleToFn.make(role, aliasFnFe)
                 }
         }
 

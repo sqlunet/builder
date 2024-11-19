@@ -27,6 +27,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             insertFnFrameAliases()
             insertVnClassAliases()
             insertVnRoleAliases()
+            insertFnFeAliases()
         }
     }
 
@@ -105,7 +106,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertFnRoleAliases() {
+    override fun insertFnFeAliases() {
         Progress.tracePending("set", "fnaliasrole")
         val fnframeidCol = names.column("pbroles_fnfes.fnframeid")
         val fnfeidCol = names.column("pbroles_fnfes.fnfeid")

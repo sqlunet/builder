@@ -2,7 +2,7 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
-import org.sqlbuilder.pb.foreign.AliasFnRoleLinks
+import org.sqlbuilder.pb.foreign.AliasFnFeLinks
 import org.sqlbuilder.pb.foreign.AliasRoleLinks
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import java.io.Serializable
@@ -23,7 +23,7 @@ class Role private constructor(
 
     // role names for VerbNet and FrameNet
     val aliasVnRoleLinks: AliasRoleLinks? = if (vnLinks == null || vnLinks.isEmpty()) null else AliasVnRoleLinks.make(vnLinks)
-    val aliasFnRoleLinks: AliasRoleLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else AliasFnRoleLinks.make(fnLinks)
+    val aliasFnFeLinks: AliasRoleLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else AliasFnFeLinks.make(fnLinks)
 
     // N I D
 
@@ -61,11 +61,11 @@ class Role private constructor(
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = AliasRoleLinks::class)
     override fun dataRow(): String {
-        return "'$argType',${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnRoleLinks) { it!!.sqlId }},${func.sqlId},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
+        return "'$argType',${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnFeLinks) { it!!.sqlId }},${func.sqlId},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return "${roleSet.name}, ${aliasVnRoleLinks?.names ?: "∅"}, ${aliasFnRoleLinks?.names ?: "∅"}, $func"
+        return "${roleSet.name}, ${aliasVnRoleLinks?.names ?: "∅"}, ${aliasFnFeLinks?.names ?: "∅"}, $func"
     }
 
     // T O S T R I N G

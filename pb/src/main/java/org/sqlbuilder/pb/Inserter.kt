@@ -35,7 +35,7 @@ open class Inserter(conf: Properties) {
                         Example.VOICE_COLLECTOR.open().use {
                             Func.COLLECTOR.open().use {
                                 AliasVnRoleLinks.COLLECTOR.open().use {
-                                    AliasFnRoleLinks.COLLECTOR.open().use {
+                                    AliasFnFeLinks.COLLECTOR.open().use {
                                         RoleSet.COLLECTOR.open().use {
                                             Role.COLLECTOR.open().use {
                                                 Example.COLLECTOR.open().use {
@@ -71,7 +71,7 @@ open class Inserter(conf: Properties) {
                                                                 Progress.traceDone()
 
                                                                 Progress.tracePending("collector", "fnfes")
-                                                                Insert.insert<AliasRoleLinks>(AliasFnRoleLinks.COLLECTOR, File(outDir, names.file("fnfes")), names.table("fnfes"), names.columns("fnfes"), header)
+                                                                Insert.insert<AliasRoleLinks>(AliasFnFeLinks.COLLECTOR, File(outDir, names.file("fnfes")), names.table("fnfes"), names.columns("fnfes"), header)
                                                                 Progress.traceDone()
 
                                                                 Progress.tracePending("set", "argtype")
@@ -107,6 +107,7 @@ open class Inserter(conf: Properties) {
                                                                 insertFnFrameAliases()
                                                                 insertVnClassAliases()
                                                                 insertVnRoleAliases()
+                                                                insertFnFeAliases()
                                                             }
                                                         }
                                                     }
@@ -132,29 +133,29 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertFnFrameAliases() {
-        Progress.tracePending("collector", "fnalias")
+        Progress.tracePending("set", "fnframealias")
         Insert.insert<RoleSetToFn>(RoleSetToFn.SET, RoleSetToFn.COMPARATOR, File(outDir, names.file("pbrolesets_fnframes")), names.table("pbrolesets_fnframes"), names.columns("pbrolesets_fnframes"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnClassAliases() {
-        Progress.tracePending("set", "vnalias")
+        Progress.tracePending("set", "vnclassalias")
         Insert.insert<RoleSetToVn>(RoleSetToVn.SET, RoleSetToVn.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnRoleAliases() {
-        Progress.tracePending("set", "vnaliasrole")
+        Progress.tracePending("set", "vnrolealias")
         Insert.insert<RoleToVn>(RoleToVn.SET, RoleToVn.COMPARATOR , File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
-    protected open fun insertFnRoleAliases() {
-        Progress.tracePending("set", "fnaliasrole")
-        Insert.insert<RoleToFn>(RoleToFn.SET, RoleToFn.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
+    protected open fun insertFnFeAliases() {
+        Progress.tracePending("set", "fnfealias")
+        Insert.insert<RoleToFn>(RoleToFn.SET, RoleToFn.COMPARATOR, File(outDir, names.file("pbroles_fnfes")), names.table("pbroles_fnfes"), names.columns("pbroles_fnfes"), header)
         Progress.traceDone()
     }
 }

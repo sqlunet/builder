@@ -3,13 +3,13 @@ package org.sqlbuilder.pb.foreign
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.SetCollector
 
-class AliasFnRoleLinks private constructor(
+class AliasFnFeLinks private constructor(
     links: Collection<String>,
 ) : AliasRoleLinks(links) {
 
     // N I D
 
-    @RequiresIdFrom(type = AliasFnRoleLinks::class)
+    @RequiresIdFrom(type = AliasFnFeLinks::class)
     override fun getIntId(): Int {
         return COLLECTOR[this]!!
     }
@@ -19,15 +19,15 @@ class AliasFnRoleLinks private constructor(
         @JvmField
         val COLLECTOR = SetCollector<AliasRoleLinks>(COMPARATOR)
         @JvmStatic
-        fun make(links: Collection<String>): AliasFnRoleLinks {
-            val t = AliasFnRoleLinks(normalize(links))
+        fun make(links: Collection<String>): AliasFnFeLinks {
+            val t = AliasFnFeLinks(normalize(links))
             COLLECTOR.add(t)
             return t
         }
 
         @Suppress("unused")
-        @RequiresIdFrom(type = AliasFnRoleLinks::class)
-        fun getIntId(links: AliasFnRoleLinks): Int {
+        @RequiresIdFrom(type = AliasFnFeLinks::class)
+        fun getIntId(links: AliasFnFeLinks): Int {
             return COLLECTOR[links]!!
         }
     }
