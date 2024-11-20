@@ -36,3 +36,4 @@
 /querybuilder-gradle/dummy/build/
 /querybuilder/target/
 /querybuilder-gradle/target/
+/dist/test*
