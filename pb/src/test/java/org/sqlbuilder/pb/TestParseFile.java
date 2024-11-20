@@ -22,11 +22,6 @@ public class TestParseFile
 		assert props != null;
 		new PbCollector(props).processPropBankFile(file.getAbsolutePath(), file.getName());
 
-		var aspects = Example.ASPECT_COLLECTOR;
-		var forms = Example.FORM_COLLECTOR;
-		var persons = Example.PERSON_COLLECTOR;
-		var tenses = Example.TENSE_COLLECTOR;
-		var voices = Example.VOICE_COLLECTOR;
 		var funcs = Func.COLLECTOR;
 		var vnLinks = AliasVnRoleLinks.COLLECTOR;
 		var fnLinks = AliasFnFeLinks.COLLECTOR;
@@ -38,8 +33,8 @@ public class TestParseFile
 
 		var words = Word.COLLECTOR;
 
-		var names = new String[]{"aspects", "forms", "persons", "tenses", "voices", "funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words",};
-		var collectors = new SetCollector[]{aspects, forms, persons, tenses, voices, funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words,};
+		var names = new String[]{"funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words",};
+		var collectors = new SetCollector[]{funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words,};
 		var i = 0;
 		for (var c : collectors)
 		{

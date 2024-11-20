@@ -280,21 +280,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val exampleName = exampleElement.getAttribute("name")
                                     val exampleText = getXPathText(exampleElement, "./text")
 
-                                    var aspect: String? = null
-                                    var form: String? = null
-                                    var person: String? = null
-                                    var tense: String? = null
-                                    var voice: String? = null
-                                    val inflectionNode = getXPath(exampleElement, "./inflection")
-                                    if (inflectionNode != null) {
-                                        val inflectionElement = inflectionNode as Element
-                                        aspect = inflectionElement.getAttribute("aspect")
-                                        form = inflectionElement.getAttribute("form")
-                                        person = inflectionElement.getAttribute("person")
-                                        tense = inflectionElement.getAttribute("tense")
-                                        voice = inflectionElement.getAttribute("voice")
-                                    }
-                                    var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
+                                    var example = Example.make(roleSet, exampleName, exampleText)
 
                                     // relations
                                     getXPaths(exampleElement, "./propbank/rel")
@@ -349,21 +335,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val exampleName = exampleElement.getAttribute("name")
                                     val exampleText = getXPathText(exampleElement, "./text")
 
-                                    var aspect: String? = null
-                                    var form: String? = null
-                                    var person: String? = null
-                                    var tense: String? = null
-                                    var voice: String? = null
-                                    val inflectionNode = getXPath(exampleElement, "./inflection")
-                                    if (inflectionNode != null) {
-                                        val inflectionElement = inflectionNode as Element
-                                        aspect = inflectionElement.getAttribute("aspect")
-                                        form = inflectionElement.getAttribute("form")
-                                        person = inflectionElement.getAttribute("person")
-                                        tense = inflectionElement.getAttribute("tense")
-                                        voice = inflectionElement.getAttribute("voice")
-                                    }
-                                    var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
+                                    var example = Example.make(roleSet, exampleName, exampleText)
 
                                     // args
                                     getXPaths(exampleElement, "./propbank/arg")
