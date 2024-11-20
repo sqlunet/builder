@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS ${roles.table} (
     ${roles.funcid} INTEGER NULL,
     ${roles.vnroleid} INTEGER NULL,
     ${roles.fnfeid} INTEGER NULL,
-    ${roles.roledescr} VARCHAR (100) NULL
+    ${roles.roledescr} VARCHAR (180) NULL
 );
