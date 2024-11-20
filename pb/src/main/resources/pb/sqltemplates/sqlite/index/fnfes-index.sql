@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `pk_@{fnfes.table}` ON ${fnfes.table} (${fnfes.feid});
+CREATE UNIQUE INDEX `pk_@{fnfes.table}` ON ${fnfes.table} (${fnfes.fnfeid});
