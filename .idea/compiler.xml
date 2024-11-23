@@ -27,6 +27,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="queries" target="11" />
       <module name="reqprovtest" target="11" />
     </bytecodeTargetLevel>
   </component>

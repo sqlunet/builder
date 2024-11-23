@@ -5,5 +5,5 @@ ${roles.argtypeid} VARCHAR (1 ) NOT NULL,
 ${roles.funcid} INTEGER NULL,
 ${roles.vnroleid} INTEGER NULL,
 ${roles.fnfeid} INTEGER NULL,
-${roles.roledescr} VARCHAR (100) NULL
+${roles.roledescr} VARCHAR (180) NULL
 );
