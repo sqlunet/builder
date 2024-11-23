@@ -4,20 +4,18 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/querybuilder-gradle" />
         <option name="modules">
           <set>
-            <option value="/mnt/data2/devel/sqlbuilder2/querybuilder-gradle" />
+            <option value="/mnt/data2/devel/sqlbuilder/sqlbuilder2/querybuilder-gradle" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/querybuilder-gradle/dummy" />
         <option name="modules">
           <set>
-            <option value="/mnt/data2/devel/sqlbuilder2/querybuilder-gradle/dummy" />
+            <option value="/mnt/data2/devel/sqlbuilder/sqlbuilder2/querybuilder-gradle/dummy" />
           </set>
         </option>
       </GradleProjectSettings>

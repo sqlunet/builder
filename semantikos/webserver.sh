@@ -1,1 +1,0 @@
-/mnt/data2/devel/sqlbuilder/sqlbuilder/dist/data/webserver.sh

@@ -13,7 +13,6 @@
       <element id="module-output" name="pm" />
       <element id="module-output" name="foreign" />
       <element id="module-output" name="legacy" />
-      <element id="module-output" name="variables" />
       <element id="module-output" name="fn-jaxb" />
       <element id="module-output" name="fn-beans" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar" path-in-jar="/" />
@@ -26,6 +25,7 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/sqlunet/sigma-core/2.10.2-SNAPSHOT/sigma-core-2.10.2-SNAPSHOT.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$/fn-beans/target/generated-resources" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/2.0.21/kotlin-stdlib-2.0.21.jar" path-in-jar="/" />
+      <element id="module-output" name="variables" />
     </root>
   </artifact>
 </component>

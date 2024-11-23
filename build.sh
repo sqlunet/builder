@@ -8,12 +8,6 @@ set -e
 
 source define_colors.sh
 
-safe_shift() {
-    if [ "$#" -gt 0 ]; then
-        shift
-    fi
-}
-
 vmargs='-Xmx9G -ea'
 
 # module
@@ -31,7 +25,7 @@ fi
 
 # module
 targets="$1"
-safe_shift
+[ "$#" -eq 0 ] || shift
 if [ "${targets}" == "" ]; then
   targets="-base -resolve -update"
   echo "All targets: ${targets}"
