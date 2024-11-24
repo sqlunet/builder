@@ -151,7 +151,6 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file:///mnt/data2/devel/sqlbuilder2/querybuilder-gradle" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -162,14 +161,10 @@
         <option value="$PROJECT_DIR$/fn-jaxb/pom.xml" />
         <option value="$PROJECT_DIR$/fn-beans/pom.xml" />
         <option value="$PROJECT_DIR$/foreign/pom.xml" />
-        <option value="$PROJECT_DIR$/queries/pom.xml" />
         <option value="$PROJECT_DIR$/su/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/querybuilder/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="NullableNotNullManager">
