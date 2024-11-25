@@ -2,9 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" procOnly="true">
-        <processorPath useClasspath="false" />
-      </profile>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -22,13 +19,9 @@
         <module name="sl" />
         <module name="fn-jaxb" />
         <module name="sn" />
-        <module name="pm" />
         <module name="fn-beans" />
+        <module name="pm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="queries" target="11" />
-      <module name="reqprovtest" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
