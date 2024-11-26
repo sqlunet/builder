@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn;
 
-import org.sqlbuilder.common.Names;
 import org.sqlbuilder.annotations.ProvidesIdTo;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.vn.objects.Role;
 import org.sqlbuilder.vn.objects.RoleType;
 import org.sqlbuilder.vn.objects.VnClass;
@@ -16,10 +16,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -47,10 +45,10 @@ public class Exporter
 
 	public void run() throws IOException
 	{
-		System.out.printf("%s %d%n", "classes", VnClass.COLLECTOR.size());
-		System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size());
-		System.out.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.size());
-		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
+		System.out.printf("%s %d%n", "classes", VnClass.COLLECTOR.getSize());
+		System.out.printf("%s %d%n", "roles", Role.COLLECTOR.getSize());
+		System.out.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.getSize());
+		System.out.printf("%s %d%n", "words", Word.COLLECTOR.getSize());
 
 		try ( //
 		      @ProvidesIdTo(type = RoleType.class) var ignored1 = RoleType.COLLECTOR.open(); //
@@ -178,8 +176,9 @@ public class Exporter
 	 */
 	public Map<String, Integer> makeWordMap()
 	{
-		return Word.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getWord(), e.getValue())) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(w -> new SimpleEntry<>(w.getWord(), Word.COLLECTOR.apply(w))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -190,8 +189,9 @@ public class Exporter
 	 */
 	public Map<String, Integer> makeClassesMap()
 	{
-		return VnClass.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getName(), e.getValue())) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(VnClass.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(c -> new SimpleEntry<>(c.getName(), VnClass.COLLECTOR.apply(c))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -203,8 +203,9 @@ public class Exporter
 
 	public Map<String, Integer> makeClassTagsMap()
 	{
-		return VnClass.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getTag(), e.getValue())) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(VnClass.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(c -> new SimpleEntry<>(c.getTag(), VnClass.COLLECTOR.apply(c))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -215,8 +216,9 @@ public class Exporter
 	 */
 	public Map<String, Integer> makeRoleTypesMap()
 	{
-		return RoleType.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getType(), e.getValue())) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(RoleType.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(t -> new SimpleEntry<>(t.getType(), RoleType.COLLECTOR.apply(t))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -227,10 +229,11 @@ public class Exporter
 	 */
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesMap()
 	{
-		return Role.COLLECTOR.keySet().stream() //
-				.map(p -> new Pair<>( //
-						new Pair<>(p.getClazz().getTag(), p.getRestrRole().getRoleType().getType()), //
-						new Triplet<>(p.getIntId(), p.getClazz().getIntId(), p.getRestrRole().getRoleType().getIntId()))) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(r -> new Pair<>( //
+						new Pair<>(r.getClazz().getTag(), r.getRestrRole().getRoleType().getType()), //
+						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond));
 	}
 
@@ -241,10 +244,11 @@ public class Exporter
 	 */
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesTreeMap()
 	{
-		return Role.COLLECTOR.keySet().stream() //
-				.map(p -> new Pair<>( //
-						new Pair<>(p.getClazz().getTag(), p.getRestrRole().getRoleType().getType()), //
-						new Triplet<>(p.getIntId(), p.getClazz().getIntId(), p.getRestrRole().getRoleType().getIntId()))) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(r -> new Pair<>( //
+						new Pair<>(r.getClazz().getTag(), r.getRestrRole().getRoleType().getType()), //
+						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
 					throw new RuntimeException(existing + " > " + replacement);
 				}, () -> new TreeMap<>(COMPARATOR)));
@@ -257,7 +261,8 @@ public class Exporter
 	 */
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesMap()
 	{
-		return Role.COLLECTOR.keySet().stream() //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
 				.map(r -> new Pair<>( //
 						new Pair<>(r.getClazz().getName(), r.getRestrRole().getRoleType().getType()), //
 						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
@@ -271,7 +276,8 @@ public class Exporter
 	 */
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesTreeMap()
 	{
-		return Role.COLLECTOR.keySet().stream() //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
 				.map(r -> new Pair<>( //
 						new Pair<>(r.getClazz().getName(), r.getRestrRole().getRoleType().getType()), //
 						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //

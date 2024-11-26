@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 
 import java.util.Comparator;
 
@@ -11,11 +11,12 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 {
 	public static final Comparator<FrameName> COMPARATOR = Comparator.comparing(FrameName::getName);
 
-	public static final SetCollector<FrameName> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<FrameName> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String name;
 
 	// C O N S T R U C T O R
+
 	public static FrameName make(final String name)
 	{
 		var n = new FrameName(name);
@@ -38,7 +39,7 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,7 +9,7 @@ public class RestrType implements HasId, Insertable, Comparable<RestrType>
 {
 	public static final Comparator<RestrType> COMPARATOR = Comparator.comparing(RestrType::getType).thenComparing(RestrType::getValue).thenComparing(RestrType::isSyntactic);
 
-	public static final SetCollector<RestrType> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<RestrType> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String value;
 
@@ -55,7 +52,7 @@ public class RestrType implements HasId, Insertable, Comparable<RestrType>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

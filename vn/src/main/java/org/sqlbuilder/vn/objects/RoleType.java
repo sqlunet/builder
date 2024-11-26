@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,7 +12,7 @@ public class RoleType implements HasId, Insertable, Comparable<RoleType>
 {
 	public static final Comparator<RoleType> COMPARATOR = Comparator.comparing(RoleType::getType);
 
-	public static final SetCollector<RoleType> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<RoleType> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String type;
 
@@ -39,7 +39,7 @@ public class RoleType implements HasId, Insertable, Comparable<RoleType>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

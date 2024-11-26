@@ -51,51 +51,51 @@ public class Inserter
 		)
 		{
 			Progress.tracePending("collector", "class");
-			Insert.insert(VnClass.COLLECTOR, new File(outDir, names.file("classes")), names.table("classes"), names.columns("classes"), header);
+			Insert.insert2(VnClass.COLLECTOR, VnClass.COLLECTOR, new File(outDir, names.file("classes")), names.table("classes"), names.columns("classes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "roletype");
-			Insert.insert(RoleType.COLLECTOR, new File(outDir, names.file("roletypes")), names.table("roletypes"), names.columns("roletypes"), header);
+			Insert.insert2(RoleType.COLLECTOR, RoleType.COLLECTOR, new File(outDir, names.file("roletypes")), names.table("roletypes"), names.columns("roletypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "role");
-			Insert.insert(Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
+			Insert.insert2(Role.COLLECTOR, Role.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "restrtype");
-			Insert.insert(RestrType.COLLECTOR, new File(outDir, names.file("restrtypes")), names.table("restrtypes"), names.columns("restrtypes"), header);
+			Insert.insert2(RestrType.COLLECTOR, RestrType.COLLECTOR, new File(outDir, names.file("restrtypes")), names.table("restrtypes"), names.columns("restrtypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "restrs");
-			Insert.insert(Restrs.COLLECTOR, new File(outDir, names.file("restrs")), names.table("restrs"), names.columns("restrs"), header);
+			Insert.insert2(Restrs.COLLECTOR, Restrs.COLLECTOR, new File(outDir, names.file("restrs")), names.table("restrs"), names.columns("restrs"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "name");
-			Insert.insert(FrameName.COLLECTOR, new File(outDir, names.file("framenames")), names.table("framenames"), names.columns("framenames"), header);
+			Insert.insert2(FrameName.COLLECTOR, FrameName.COLLECTOR, new File(outDir, names.file("framenames")), names.table("framenames"), names.columns("framenames"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "subname");
-			Insert.insert(FrameSubName.COLLECTOR, new File(outDir, names.file("framesubnames")), names.table("framesubnames"), names.columns("framesubnames"), header);
+			Insert.insert2(FrameSubName.COLLECTOR, FrameSubName.COLLECTOR, new File(outDir, names.file("framesubnames")), names.table("framesubnames"), names.columns("framesubnames"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "frame example");
-			Insert.insert(FrameExample.COLLECTOR, new File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header);
+			Insert.insert2(FrameExample.COLLECTOR, FrameExample.COLLECTOR, new File(outDir, names.file("examples")), names.table("examples"), names.columns("examples"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "syntax");
-			Insert.insert(Syntax.COLLECTOR, new File(outDir, names.file("syntaxes")), names.table("syntaxes"), names.columns("syntaxes"), header);
+			Insert.insert2(Syntax.COLLECTOR, Syntax.COLLECTOR, new File(outDir, names.file("syntaxes")), names.table("syntaxes"), names.columns("syntaxes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "semantics");
-			Insert.insert(Semantics.COLLECTOR, new File(outDir, names.file("semantics")), names.table("semantics"), names.columns("semantics"), header);
+			Insert.insert2(Semantics.COLLECTOR, Semantics.COLLECTOR, new File(outDir, names.file("semantics")), names.table("semantics"), names.columns("semantics"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "predicate");
-			Insert.insert(Predicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
+			Insert.insert2(Predicate.COLLECTOR, Predicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "frame");
-			Insert.insert(Frame.COLLECTOR, new File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"), header);
+			Insert.insert2(Frame.COLLECTOR, Frame.COLLECTOR, new File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "frame example");
@@ -115,7 +115,7 @@ public class Inserter
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "grouping");
-			Insert.insert(Grouping.COLLECTOR, new File(outDir, names.file("groupings")), names.table("groupings"), names.columns("groupings"), header);
+			Insert.insert2(Grouping.COLLECTOR, Grouping.COLLECTOR, new File(outDir, names.file("groupings")), names.table("groupings"), names.columns("groupings"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "member grouping");
@@ -131,7 +131,7 @@ public class Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header);
+		Insert.insert2(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header);
 		Progress.traceDone();
 	}
 

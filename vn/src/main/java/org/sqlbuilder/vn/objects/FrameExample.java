@@ -9,11 +9,12 @@ public class FrameExample implements HasId, Insertable, Comparable<FrameExample>
 {
 	public static final Comparator<FrameExample> COMPARATOR = Comparator.comparing(FrameExample::getExample);
 
-	public static final SetCollector<FrameExample> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<FrameExample> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String example;
 
 	// C O N S T R U C T O R
+
 	public static FrameExample make(final String example)
 	{
 		var e = new FrameExample(example);
@@ -36,7 +37,7 @@ public class FrameExample implements HasId, Insertable, Comparable<FrameExample>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

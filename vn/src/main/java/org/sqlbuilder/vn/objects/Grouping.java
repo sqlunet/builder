@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,7 +9,7 @@ public class Grouping implements HasId, Insertable, Comparable<Grouping>
 {
 	public static final Comparator<Grouping> COMPARATOR = Comparator.comparing(Grouping::getName);
 
-	public static final SetCollector<Grouping> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Grouping> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String name;
 
@@ -38,7 +35,7 @@ public class Grouping implements HasId, Insertable, Comparable<Grouping>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y
