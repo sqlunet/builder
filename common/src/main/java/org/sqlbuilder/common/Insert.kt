@@ -4,11 +4,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.PrintStream
-import java.util.*
 import java.util.function.BiFunction
-import java.util.function.Consumer
 import java.util.function.Function
-import java.util.stream.StreamSupport
 import kotlin.Throws
 
 object Insert {
@@ -28,17 +25,18 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                val i = intArrayOf(0)
-                items.forEach(Consumer { item: T ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                items.forEach { item: T ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println(",")
                     }
                     val values = item.dataRow()
                     val comment = item.comment()
                     val row = if (comment != null) String.format("(%s) /* %s */", values, comment) else String.format("(%s)", values)
                     ps.print(row)
-                    i[0]++
-                })
+                }
                 ps.println(";")
             }
         }
@@ -58,20 +56,21 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                var stream = StreamSupport.stream<T>(Spliterators.spliteratorUnknownSize<T>(items.iterator(), Spliterator.ORDERED), false)
+                var seq = items.asSequence()
                 if (comparator != null) {
-                    stream = stream!!.sorted(comparator)
+                    seq = seq.sortedWith(comparator)
                 }
-                val i = intArrayOf(0)
-                stream!!.forEach { e: T ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                seq.forEach { e: T ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println(",")
                     }
                     val values = e.dataRow()
                     val comment = e.comment()
                     val row = if (comment != null) String.format("(%s) /* %s */", values, comment) else String.format("(%s)", values)
                     ps.print(row)
-                    i[0]++
                 }
                 ps.println(";")
             }
@@ -100,28 +99,29 @@ object Insert {
         table: String,
         columns: String,
         header: String,
-        withNumber: Boolean,
+        withNumber: Boolean = true,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                val i = intArrayOf(0)
-                items.forEach(Consumer { key: T ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                items.forEach { key: T ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println(",")
                     }
                     val id = resolver.apply(key)
-                    val values = key!!.dataRow()
+                    val values = key.dataRow()
                     val comment = key.comment()
-                    val row = if (withNumber) (if (comment != null) String.format("(%d,%s) /* %s */", id, values, comment) else String.format("(%d,%s)", id, values)) else (if (comment != null) String.format(
-                        "(%s) /* %s */",
-                        values,
-                        comment
-                    ) else String.format("(%s)", values))
+                    val row =
+                        if (withNumber)
+                            (if (comment != null) "($id,$values) /* $comment */" else "($id,$values)")
+                        else
+                            (if (comment != null) "($values) /* $comment */" else "($values)")
                     ps.print(row)
-                    i[0]++
-                })
+                }
                 ps.println(";")
             }
         }
@@ -141,20 +141,20 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                var stream = StreamSupport.stream<T>(Spliterators.spliteratorUnknownSize<T>(items.iterator(), Spliterator.ORDERED), false)
+                var seq = items.asSequence()
                 if (comparator != null) {
-                    stream = stream!!.sorted(comparator)
+                    seq = seq.sortedWith(comparator)
                 }
-                val i = intArrayOf(1)
-                stream!!.forEach { e: T ->
-                    if (i[0] != 1) {
-                        ps.print(",\n")
+                var i = 0
+                seq.forEach { e: T ->
+                    if (i > 0) {
+                        ps.println(",")
                     }
                     val values = e.dataRow()
                     val comment = e.comment()
-                    val row = if (comment != null) String.format("(%d,%s) /* %s */", i[0], values, comment) else String.format("(%s)", values)
+                    val row = if (comment != null) String.format("(%d,%s) /* %s */", i, values, comment) else String.format("(%s)", values)
                     ps.print(row)
-                    i[0]++
+                    i++
                 }
                 ps.println(";")
             }
@@ -175,26 +175,25 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                var stream = StreamSupport.stream<T>(Spliterators.spliteratorUnknownSize<T>(items.iterator(), Spliterator.ORDERED), false)
+                var seq = items.asSequence()
                 if (comparator != null) {
-                    stream = stream!!.sorted(comparator)
+                    seq = seq.sortedWith(comparator)
                 }
-                val i = intArrayOf(0, 0)
-                stream!!.forEach { e: T ->
-                    if (i[1] == 100000) {
+                var i = 0
+                seq.forEach { e: T ->
+                    if (i == 100000) {
                         ps.println(";")
                         ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                        i[1] = 0
+                        i = 0
                     }
-                    if (i[1] != 0) {
-                        ps.print(",\n")
+                    if (i > 0) {
+                        ps.println(",")
                     }
-                    val values = e!!.dataRow()
+                    val values = e.dataRow()
                     val comment = e.comment()
-                    val row = if (comment != null) String.format("(%d,%s) /* %s */", i[0], values, comment) else String.format("(%s)", values)
+                    val row = if (comment != null) String.format("(%d,%s) /* %s */", i, values, comment) else String.format("(%s)", values)
                     ps.print(row)
-                    i[0]++
-                    i[1]++
+                    i++
                 }
                 ps.println(";")
             }
@@ -217,16 +216,17 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                val i = intArrayOf(0)
-                items.forEach(Consumer { key: String ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                items.forEach { key: String ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
                     }
                     val id = resolver.apply(key)
                     val row = String.format("(%d,'%s')", id, Utils.escape(key))
                     ps.print(row)
-                    i[0]++
-                })
+                }
                 ps.println(";")
             }
         }
@@ -249,17 +249,18 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                val i = intArrayOf(0)
-                items.forEach(Consumer { k: K ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                items.forEach { k: K ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
                     }
                     val v = resolver.apply(k)
                     val values = stringifier.apply(k, v)
                     val row = String.format("(%s)", values)
                     ps.print(row)
-                    i[0]++
-                })
+                }
                 ps.println(";")
             }
         }
@@ -284,14 +285,16 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + resolvedColumns.joinToString(separator = ","))
-                var stream = StreamSupport.stream<T>(Spliterators.spliteratorUnknownSize<T>(items.iterator(), Spliterator.ORDERED), false)
+                var seq = items.asSequence()
                 if (comparator != null) {
-                    stream = stream!!.sorted(comparator)
+                    seq = seq.sortedWith(comparator)
                 }
-                val i = intArrayOf(0)
-                stream!!.forEach { e: T ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                seq.forEach { e: T ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
                     }
                     val resolved = e.resolve(foreignResolver)
                     val sqlResolved = stringifier.apply(resolved)
@@ -299,7 +302,6 @@ object Insert {
                     val comment = e.comment()
                     val row = if (comment != null) String.format("(%s,%s) /* %s */", values, sqlResolved, comment) else String.format("(%s,%s)", values, sqlResolved)
                     ps.print(row)
-                    i[0]++
                 }
                 ps.println(";")
             }
@@ -324,13 +326,15 @@ object Insert {
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + resolvedColumns.joinToString(separator = ","))
-                val i = intArrayOf(0)
-                items.forEach(Consumer { key: T ->
-                    if (i[0] != 0) {
-                        ps.print(",\n")
+                var first = true
+                items.forEach { key: T ->
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
                     }
                     val id = resolver.apply(key)
-                    val resolved = key!!.resolve(foreignResolver)
+                    val resolved = key.resolve(foreignResolver)
                     val sqlResolved = stringifier.apply(resolved)
                     val values = key.dataRow()
                     val comment = key.comment()
@@ -341,8 +345,7 @@ object Insert {
                         sqlResolved
                     )) else (if (comment != null) String.format("(%s,%s) /* %s */", values, sqlResolved, comment) else String.format("(%s,%s)", values, sqlResolved))
                     ps.print(row)
-                    i[0]++
-                })
+                }
                 ps.println(";")
             }
         }
