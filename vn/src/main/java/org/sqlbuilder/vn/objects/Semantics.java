@@ -3,6 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor;
 import org.xml.sax.SAXException;
 
@@ -16,13 +17,14 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 {
 	public static final Comparator<Semantics> COMPARATOR = Comparator.comparing(Semantics::getSemantics);
 
-	public static final SetCollector<Semantics> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Semantics> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private static final VnSemanticsXmlProcessor SEMANTICS_PROCESSOR = new VnSemanticsXmlProcessor();
 
 	private final String semantics;
 
 	// C O N S T R U C T O R
+
 	public static Semantics make(final String semantics) throws IOException, SAXException, ParserConfigurationException
 	{
 		String semantics2 = semantics.replaceFirst("^<SEMANTICS>", "").replaceFirst("</SEMANTICS>$", "");
@@ -55,7 +57,7 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor;
 import org.xml.sax.SAXException;
 
@@ -17,7 +14,7 @@ public class Syntax implements HasId, Insertable, Comparable<Syntax>
 {
 	public static final Comparator<Syntax> COMPARATOR = Comparator.comparing(Syntax::getSyntax);
 
-	public static final SetCollector<Syntax> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Syntax> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private static final VnSyntaxXmlProcessor SYNTAX_XML_PROCESSOR = new VnSyntaxXmlProcessor();
 
@@ -57,7 +54,7 @@ public class Syntax implements HasId, Insertable, Comparable<Syntax>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

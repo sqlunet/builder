@@ -2,15 +2,14 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.vn.collector.VnRestrsXmlProcessor;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Objects;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class Restrs implements HasId, Insertable, Comparable<Restrs>
 {
@@ -18,7 +17,7 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 
 	public static final Comparator<Restrs> COMPARATOR = Comparator.comparing(Restrs::getValue).thenComparing(Restrs::isSyntactic);
 
-	public static final SetCollector<Restrs> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Restrs> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private static final VnRestrsXmlProcessor RESTRS_XML_PROCESSOR = new VnRestrsXmlProcessor();
 
@@ -27,6 +26,7 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 	final boolean isSyntactic;
 
 	// C O N S T R U C T O R
+
 	public static Restrs make(final String value, final boolean isSyntactic) throws IOException, SAXException, ParserConfigurationException
 	{
 		String value2;
@@ -76,7 +76,7 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

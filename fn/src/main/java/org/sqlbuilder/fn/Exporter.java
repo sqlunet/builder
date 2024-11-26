@@ -45,9 +45,9 @@ public class Exporter
 	{
 		System.out.printf("%s %d%n", "frames", Frame.SET.size());
 		System.out.printf("%s %d%n", "fes", FE.SET.size());
-		System.out.printf("%s %d%n", "fetypes", StreamSupport.stream(Spliterators.spliteratorUnknownSize(FeType.COLLECTOR.iterator(), Spliterator.ORDERED), false).count());
+		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.getSize());
 		System.out.printf("%s %d%n", "lexunits", LexUnit.SET.size());
-		System.out.printf("%s %d%n", "words", StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false).count());
+		System.out.printf("%s %d%n", "words", Word.COLLECTOR.getSize());
 
 		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
@@ -131,7 +131,6 @@ public class Exporter
 	public Map<String, Integer> makeWordMap()
 	{
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-
 		return stream //
 				.map(w -> new SimpleEntry<>(w.getWord(), Word.COLLECTOR.apply(w))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));

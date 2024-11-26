@@ -6,7 +6,7 @@ import java.util.TreeMap
 
 class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int> , Closeable {
 
-    val map = TreeMap<T, Int?>(comparator)
+    private val map = TreeMap<T, Int?>(comparator)
 
     private var isOpen = false
 
@@ -33,6 +33,8 @@ class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int
         }
         return map.put(item, null) == null // null if there was no mapping
     }
+
+    val size = map.size
 
     override fun iterator(): Iterator<T> {
         return map.keys.iterator()
