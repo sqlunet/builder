@@ -15,7 +15,7 @@ public class Insert
 {
 	// I N S E R T A B L E S
 
-	public static <T extends Insertable> void insert2(
+	public static <T extends Insertable> void insert(
 			final Iterable<T> items,
 			final File file,
 			final String table,
@@ -46,7 +46,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insert2(
+	public static <T extends Insertable> void insert(
 			final Iterable<T> items,
 			final Comparator<T> comparator,
 			final File file,
@@ -83,7 +83,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insert2(
+	public static <T extends Insertable> void insert(
 			final Iterable<T> items,
 			final Function<T, Integer> resolver,
 			final File file,
@@ -92,10 +92,10 @@ public class Insert
 			final String header
 	) throws FileNotFoundException
 	{
-		insert2(items, resolver, file, table, columns, header, true);
+		insert(items, resolver, file, table, columns, header, true);
 	}
 
-	public static <T extends Insertable> void insert2(
+	public static <T extends Insertable> void insert(
 			final Iterable<T> items,
 			final Function<T, Integer> resolver,
 			final File file,
@@ -131,7 +131,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insertAndIncrement2(
+	public static <T extends Insertable> void insertAndIncrement(
 			final Iterable<T> items,
 			final Comparator<T> comparator,
 			final File file,
@@ -168,7 +168,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Insertable> void insertFragmented2(
+	public static <T extends Insertable> void insertFragmented(
 			final Iterable<T> items,
 			final Comparator<T> comparator,
 			final File file,
@@ -214,7 +214,7 @@ public class Insert
 
 	// S T R I N G
 
-	public static void insertStringMap2(
+	public static void insertStrings(
 			final Iterable<String> items,
 			final Function<String, Integer> resolver,
 			final File file,
@@ -247,7 +247,7 @@ public class Insert
 
 	// G E N E R I C
 
-	public static <K, V> void insert2(
+	public static <K, V> void insert(
 			final Iterable<K> items,
 			final Function<K, V> resolver,
 			final File file,
@@ -282,7 +282,7 @@ public class Insert
 
 	// R E S O L V A L B L E
 
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert2(
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(
 			final Iterable<T> items,
 			final Comparator<T> comparator,
 			final File file,
@@ -324,7 +324,7 @@ public class Insert
 		}
 	}
 
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert2(
+	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(
 			final Iterable<T> items,
 			final Function<T, Integer> resolver,
 			final File file,

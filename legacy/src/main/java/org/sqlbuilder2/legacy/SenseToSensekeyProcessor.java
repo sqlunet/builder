@@ -66,7 +66,7 @@ public class SenseToSensekeyProcessor extends Processor
 		Serialize.serialize(m, new File(outDir, outFile + ".ser"));
 
 		var m2 = getLemmaPosOffsetToSensekeyOrdered(new File(inDir, inFile));
-		Insert.insert2(m2.keySet(),
+		Insert.insert(m2.keySet(),
 				m2::get,
 				new File(outDir, outFile + ".sql"), names.table("senses_to_sensekeys").replaceAll("\\$\\{from}", from),  //
 				names.columns("senses_to_sensekeys"),  //

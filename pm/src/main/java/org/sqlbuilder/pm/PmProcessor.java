@@ -94,11 +94,11 @@ public class PmProcessor extends Processor
 
 		try (@ProvidesIdTo(type = PmPredicate.class) var ignored1 = PmPredicate.COLLECTOR.open())
 		{
-			Insert.insert2(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
+			Insert.insert(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
 
 			try (@ProvidesIdTo(type = PmRole.class) var ignored2 = PmRole.COLLECTOR.open())
 			{
-				Insert.insert2(PmRole.COLLECTOR, PmRole.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
+				Insert.insert(PmRole.COLLECTOR, PmRole.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
 
 				try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
 				{

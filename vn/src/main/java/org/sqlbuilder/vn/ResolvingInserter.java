@@ -47,7 +47,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert2(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
+		Insert.resolveAndInsert(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
 				wordResolver, //
 				Objects::toString, //
 				names.column("words.wordid"));
@@ -58,7 +58,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertMemberSenses() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "member sense");
-		Insert.resolveAndInsert2(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header, //
+		Insert.resolveAndInsert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header, //
 				sensekeyResolver, //
 				Member_Sense.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("members_senses.wordid"),  //

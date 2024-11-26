@@ -5,12 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="insert iterable with resolver function">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/ResolvingInserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/ResolvingInserter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Inserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingInserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmResolvingProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmResolvingProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.java" afterDir="false" />
+    </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
+      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuResolvingProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuResolvingProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuUpdatingProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuUpdatingProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sqlbuilder2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +77,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="" />
+      <changelist id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
       <created>1732528262398</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -183,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732619195147</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="insert iterable with resolver function">
+      <option name="closed" value="true" />
+      <created>1732640697774</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1732640697774</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

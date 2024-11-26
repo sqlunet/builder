@@ -60,7 +60,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
         Progress.tracePending("collector", "word")
-        Insert.resolveAndInsert2(
+        Insert.resolveAndInsert(
             Word.COLLECTOR,
             Word.COLLECTOR,
             File(outDir, names.file("words")),
@@ -78,7 +78,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertFnAliases() {
         Progress.tracePending("set", "fnalias")
-        Insert.resolveAndInsert2(
+        Insert.resolveAndInsert(
             FnAlias.SET,
             FnAlias.COMPARATOR,
             File(outDir, names.file("pbrolesets_fnframes")),
@@ -95,7 +95,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertVnAliases() {
         Progress.tracePending("set", "vnalias")
-        Insert.resolveAndInsert2(
+        Insert.resolveAndInsert(
             VnAlias.SET,
             VnAlias.COMPARATOR,
             File(outDir, names.file("pbrolesets_vnclasses")),
@@ -112,7 +112,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
-        Insert.resolveAndInsert2(
+        Insert.resolveAndInsert(
             VnRoleAlias.SET,
             VnRoleAlias.COMPARATOR,
             File(outDir, names.file("pbroles_vnroles")),
