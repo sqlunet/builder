@@ -149,7 +149,7 @@ public class Inserter
 				Progress.traceDone();
 
 				Progress.tracePending("set", "label");
-				Insert.insertFragmented(Label.SET, Label.COMPARATOR, new File(outDir, names.file("labels")), names.table("labels"), names.columns("labels"), header);
+				Insert.insertFragmented2(Label.SET, Label.COMPARATOR, new File(outDir, names.file("labels")), names.table("labels"), names.columns("labels"), header);
 				Label.SET.clear();
 				Progress.traceDone();
 			}
@@ -178,7 +178,7 @@ public class Inserter
 				try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
 				{
 					Progress.tracePending("set", "lexeme");
-					Insert.insertAndIncrement(Lexeme.SET, Lexeme.COMPARATOR, new File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"), header);
+					Insert.insertAndIncrement2(Lexeme.SET, Lexeme.COMPARATOR, new File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"), header);
 					Lexeme.SET.clear();
 					Progress.traceDone();
 
