@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Explain OEWN wn" type="Application" factoryName="Application" folderName="Explain">
+    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.Explain" />
+    <module name="queries" />
+    <option name="PROGRAM_PARAMETERS" value="wn $PROJECT_DIR$/semantikos/sqlunet-ewn.sqlite" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.sqlbuilder.common.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
