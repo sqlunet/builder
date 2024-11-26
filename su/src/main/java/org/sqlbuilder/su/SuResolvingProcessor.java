@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -49,38 +50,39 @@ public class SuResolvingProcessor extends SuProcessor
 	}
 
 	@Override
-	public void processTerms(final PrintStream ps, final Collection<Term> terms, final String table, final String columns)
+	public void processTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
 	{
-		int n = terms.size();
-		if (n > 0)
+		Iterator<Term> iterator = terms.iterator();
+		if (iterator.hasNext())
 		{
-			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Term term : terms)
+			while (iterator.hasNext())
 			{
+				final Term term = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = term.dataRow();
 				Integer wordId = wordResolver.apply(term.term.toLowerCase(Locale.ENGLISH));
-				ps.printf("(%s,%s)%s%n", row, Utils.nullableInt(wordId), i == n - 1 ? ";" : ",");
-				i++;
+				ps.printf("(%s,%s)%s%n", row, Utils.nullableInt(wordId), isLast ? ";" : ",");
 			}
 		}
 	}
 
 	@Override
-	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
+	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
 	{
-		int n = terms.size();
-		if (n > 0)
+		Iterator<Term> iterator = terms.iterator();
+		if (iterator.hasNext())
 		{
 			int i = 0;
-			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
-			for (final Term term : terms)
+			while (iterator.hasNext())
 			{
+				final Term term = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = term.dataRow();
 				Integer wordId = wordResolver.apply(term.term.toLowerCase(Locale.ENGLISH));
-				ps.printf("(%s,%s)%s%n", row, Utils.nullableInt(wordId), i == n - 1 ? ";" : ",");
+				ps.printf("(%s,%s)%s%n", row, Utils.nullableInt(wordId), isLast ? ";" : ",");
 
 				int termid = term.resolve();
 				try
@@ -90,29 +92,29 @@ public class SuResolvingProcessor extends SuProcessor
 					{
 						String row2 = String.format("%d,%s", termid, attribute.dataRow());
 						String comment2 = term.comment();
-						ps2.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
-						j++;
+						ps2.printf("%s(%s) /* %s */", i == 0 ? "" : ",\n", row2, comment2);
+						i++;
 					}
 				}
 				catch (NotFoundException ignored)
 				{
 				}
-				i++;
 			}
 			ps2.println(";");
 		}
 	}
 
 	@Override
-	public void processSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
+	public void processSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
 	{
-		int n = terms_synsets.size();
-		if (n > 0)
+		Iterator<Term_Synset> iterator = terms_synsets.iterator();
+		if (iterator.hasNext())
 		{
-			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Term_Synset map : terms_synsets)
+			while (iterator.hasNext())
 			{
+				final Term_Synset map = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = map.dataRow();
 
 				// 30 to 31
@@ -128,8 +130,7 @@ public class SuResolvingProcessor extends SuProcessor
 					resolvedSynsetId = synsetResolver.apply(synsetId);
 				}
 				String comment = map.comment();
-				ps.printf("(%s,%s)%s -- %s%n", row, Utils.nullableInt(resolvedSynsetId), i == n - 1 ? ";" : ",", comment);
-				i++;
+				ps.printf("(%s,%s)%s -- %s%n", row, Utils.nullableInt(resolvedSynsetId), isLast ? ";" : ",", comment);
 			}
 		}
 	}

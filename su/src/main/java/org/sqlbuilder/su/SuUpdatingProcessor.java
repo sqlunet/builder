@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -35,14 +35,14 @@ public class SuUpdatingProcessor extends SuResolvingProcessor
 		collectSynsets(this.inDir + File.separator + SUMO_TEMPLATE, System.err);
 
 		try ( //
-		      var ignored = Term.COLLECTOR.open(); //
+		      var ignored = Term.COLLECTOR.open() //
 		) //
 		{
 			// terms
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8))
 			{
 				ps.println("-- " + header);
-				processTerms(ps, Term.COLLECTOR.keySet(), names.table("terms"), termsColumns);
+				processTerms(ps, Term.COLLECTOR, names.table("terms"), termsColumns);
 			}
 
 			// terms_senses
@@ -55,10 +55,10 @@ public class SuUpdatingProcessor extends SuResolvingProcessor
 	}
 
 	@Override
-	public void processTerms(final PrintStream ps, final Collection<Term> terms, final String table, final String columns)
+	public void processTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
 	{
-		int n = terms.size();
-		if (n > 0)
+		Iterator<Term> iterator = terms.iterator();
+		if (iterator.hasNext())
 		{
 			final String colWordId = names.column("terms.wordid");
 			final String colTermId = names.column("terms.termid");
@@ -72,7 +72,7 @@ public class SuUpdatingProcessor extends SuResolvingProcessor
 	}
 
 	@Override
-	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
+	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
 	{
 		processTerms(ps, terms, table, columns);
 	}
@@ -92,9 +92,9 @@ public class SuUpdatingProcessor extends SuResolvingProcessor
 	}
 
 	@Override
-	public void processSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
+	public void processSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
 	{
-		if (terms_synsets.size() > 0)
+		if (terms_synsets.iterator().hasNext())
 		{
 			final String colMapId = names.column("terms_synsets.mapid");
 			final String colPosId = names.column("terms_synsets.posid");
