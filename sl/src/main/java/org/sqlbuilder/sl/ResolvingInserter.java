@@ -61,7 +61,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnalias");
-		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header, //
+		Insert.resolveAndInsert2(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header, //
 				new FunctionResolver<>(pbRoleSetResolver, vnClassResolver), //
 				VnAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbrolesets_vnclasses.pbrolesetid"), //
@@ -73,7 +73,7 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header, //
+		Insert.resolveAndInsert2(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header, //
 				new FunctionResolver<>(pbRoleResolver, vnRoleResolver), //
 				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbroles_vnroles.pbroleid"), //
