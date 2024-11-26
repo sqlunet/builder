@@ -2,6 +2,7 @@ package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.common.SqlId;
 
 import java.util.Comparator;
@@ -10,7 +11,7 @@ public class LabelType
 {
 	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<String> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	public static void add(String type)
 	{
@@ -20,7 +21,7 @@ public class LabelType
 	@RequiresIdFrom(type = LabelType.class)
 	public static Integer getIntId(String value)
 	{
-		return value == null ? null : COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.apply(value);
 	}
 
 	@RequiresIdFrom(type = LabelType.class)

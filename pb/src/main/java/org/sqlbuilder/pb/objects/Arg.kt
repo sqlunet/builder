@@ -28,7 +28,7 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
     // A C C E S S
 
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     // O R D E R
@@ -71,7 +71,7 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
             .thenComparing<Func?>({ it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
-        val COLLECTOR = SetCollector<Arg>(COMPARATOR)
+        val COLLECTOR = SetCollector2<Arg>(COMPARATOR)
 
         fun make(example: Example, text: String, n: String, f: String?): Arg {
             val a = Arg(example, text, n, f)

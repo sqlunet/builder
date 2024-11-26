@@ -1,9 +1,10 @@
 package org.sqlbuilder.common
 
 import java.io.Closeable
-import java.util.*
+import java.util.function.Function
+import java.util.TreeMap
 
-class SetCollector2<T>(comparator: Comparator<T>) : Resolve<T, Int> , Closeable {
+class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int> , Closeable {
 
     val map = TreeMap<T, Int?>(comparator)
 
@@ -33,7 +34,11 @@ class SetCollector2<T>(comparator: Comparator<T>) : Resolve<T, Int> , Closeable 
         return map.put(item, null) == null // null if there was no mapping
     }
 
-    override fun resolve(key: T): Int {
+    override fun iterator(): Iterator<T> {
+        return map.keys.iterator()
+    }
+
+    override fun apply(key: T): Int {
         check(isOpen) { "$this not open" }
         return map.get(key)!!
     }

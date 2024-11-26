@@ -11,7 +11,7 @@ public class SubCorpus implements HasId, Insertable
 {
 	public static final Comparator<SubCorpus> COMPARATOR = Comparator.comparing(SubCorpus::getName).thenComparing(SubCorpus::getLuid);
 
-	public static final SetCollector<SubCorpus> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<SubCorpus> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String name;
 
@@ -46,7 +46,7 @@ public class SubCorpus implements HasId, Insertable
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I N S E R T

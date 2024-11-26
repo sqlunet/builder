@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.junit.Test;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -12,9 +12,9 @@ public class TestCollector
 
 	private static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	private static final SetCollector<String> C = new SetCollector<>(COMPARATOR);
+	private static final SetCollector2<String> C = new SetCollector2<>(COMPARATOR);
 
-	private static final SetCollector<String> D = new SetCollector<>(COMPARATOR);
+	private static final SetCollector2<String> D = new SetCollector2<>(COMPARATOR);
 
 	@Test
 	public void test()
@@ -28,16 +28,16 @@ public class TestCollector
 		try (var ignored = C.open())
 		{
 			System.err.println("[ACTIVE]" + C.status());
-			System.out.println(C.get("one"));
-			System.out.println(C.get("two"));
-			System.out.println(C.get("three"));
-			System.out.println(C.get("four"));
+			System.out.println(C.apply("one"));
+			System.out.println(C.apply("two"));
+			System.out.println(C.apply("three"));
+			System.out.println(C.apply("four"));
 		}
 		System.err.println("[AFTER]" + C.status());
-		try { System.out.println(C.get("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println(C.get("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println(C.get("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println(C.get("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println(C.apply("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println(C.apply("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println(C.apply("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println(C.apply("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
 	}
 
 	@Test(expected=IllegalStateException.class)
@@ -52,13 +52,13 @@ public class TestCollector
 		try (var ignored = C.open())
 		{
 			System.err.println("[ACTIVE]" + C.status());
-			System.out.println(C.get("one"));
-			System.out.println(C.get("two"));
-			System.out.println(C.get("three"));
-			System.out.println(C.get("four"));
+			System.out.println(C.apply("one"));
+			System.out.println(C.apply("two"));
+			System.out.println(C.apply("three"));
+			System.out.println(C.apply("four"));
 		}
 		System.err.println("[AFTER]" + C.status());
-		System.out.println(C.get("one"));
+		System.out.println(C.apply("one"));
 	}
 
 	@Test
@@ -74,24 +74,24 @@ public class TestCollector
 		try (var ignored = C.open(); var ignored2 = D.open())
 		{
 			System.err.println("[ACTIVE]" + C.status() + D.status());
-			System.out.println("c " + C.get("one"));
-			System.out.println("c " + C.get("two"));
-			System.out.println("c " + C.get("three"));
-			System.out.println("c " + C.get("four"));
-			System.out.println("d " + D.get("one"));
-			System.out.println("d " + D.get("two"));
-			System.out.println("d " + D.get("three"));
-			System.out.println("d " + D.get("four"));
+			System.out.println("c " + C.apply("one"));
+			System.out.println("c " + C.apply("two"));
+			System.out.println("c " + C.apply("three"));
+			System.out.println("c " + C.apply("four"));
+			System.out.println("d " + D.apply("one"));
+			System.out.println("d " + D.apply("two"));
+			System.out.println("d " + D.apply("three"));
+			System.out.println("d " + D.apply("four"));
 		}
 		System.err.println("[AFTER]" + C.status());
-		try { System.out.println("c " + C.get("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("c " + C.get("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("c " + C.get("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("c " + C.get("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.get("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.get("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.get("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.get("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("c " + C.apply("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("c " + C.apply("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("c " + C.apply("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("c " + C.apply("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("d " + D.apply("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("d " + D.apply("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("d " + D.apply("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
+		try { System.out.println("d " + D.apply("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
 	}
 
 	@Test(expected=IllegalStateException.class)
@@ -107,16 +107,16 @@ public class TestCollector
 		try (var ignored = C.open(); var ignored2 = D.open())
 		{
 			System.err.println("[ACTIVE]" + C.status() + D.status());
-			System.out.println("c " + C.get("one"));
-			System.out.println("c " + C.get("two"));
-			System.out.println("c " + C.get("three"));
-			System.out.println("c " + C.get("four"));
-			System.out.println("d " + D.get("one"));
-			System.out.println("d " + D.get("two"));
-			System.out.println("d " + D.get("three"));
-			System.out.println("d " + D.get("four"));
+			System.out.println("c " + C.apply("one"));
+			System.out.println("c " + C.apply("two"));
+			System.out.println("c " + C.apply("three"));
+			System.out.println("c " + C.apply("four"));
+			System.out.println("d " + D.apply("one"));
+			System.out.println("d " + D.apply("two"));
+			System.out.println("d " + D.apply("three"));
+			System.out.println("d " + D.apply("four"));
 		}
 		System.err.println("[AFTER]" + C.status());
-		System.out.println("c " + C.get("one"));
+		System.out.println("c " + C.apply("one"));
 	}
 }

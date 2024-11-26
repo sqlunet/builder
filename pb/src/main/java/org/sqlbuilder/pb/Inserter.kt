@@ -97,7 +97,7 @@ open class Inserter(conf: Properties) {
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "arg")
-                                                            Insert.insert<Arg>(Arg.COLLECTOR, File(outDir, names.file("args")), names.table("args"), names.columns("args"), header)
+                                                            Insert.insert2<Arg>(Arg.COLLECTOR.map.keys, Arg.COLLECTOR, File(outDir, names.file("args")), names.table("args"), names.columns("args"), header)
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "rel")
