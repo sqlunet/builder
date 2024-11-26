@@ -6,7 +6,6 @@ import java.io.FileOutputStream
 import java.io.PrintStream
 import java.util.function.BiFunction
 import java.util.function.Function
-import kotlin.Throws
 
 object Insert {
 
@@ -34,7 +33,7 @@ object Insert {
                     }
                     val values = item.dataRow()
                     val comment = item.comment()
-                    val row = if (comment != null) String.format("(%s) /* %s */", values, comment) else String.format("(%s)", values)
+                    val row = if (comment != null) "($values) /* $comment */" else "($values)"
                     ps.print(row)
                 }
                 ps.println(";")
@@ -55,7 +54,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 var seq = items.asSequence()
                 if (comparator != null) {
                     seq = seq.sortedWith(comparator)
@@ -69,7 +68,7 @@ object Insert {
                     }
                     val values = e.dataRow()
                     val comment = e.comment()
-                    val row = if (comment != null) String.format("(%s) /* %s */", values, comment) else String.format("(%s)", values)
+                    val row = if (comment != null) "($values) /* $comment */" else "($values)"
                     ps.print(row)
                 }
                 ps.println(";")
@@ -104,7 +103,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 var first = true
                 items.forEach { key: T ->
                     if (first) {
@@ -140,7 +139,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 var seq = items.asSequence()
                 if (comparator != null) {
                     seq = seq.sortedWith(comparator)
@@ -152,7 +151,7 @@ object Insert {
                     }
                     val values = e.dataRow()
                     val comment = e.comment()
-                    val row = if (comment != null) String.format("(%d,%s) /* %s */", i, values, comment) else String.format("(%s)", values)
+                    val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
                     ps.print(row)
                     i++
                 }
@@ -174,7 +173,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 var seq = items.asSequence()
                 if (comparator != null) {
                     seq = seq.sortedWith(comparator)
@@ -183,7 +182,7 @@ object Insert {
                 seq.forEach { e: T ->
                     if (i == 100000) {
                         ps.println(";")
-                        ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                        ps.println("INSERT INTO $table ($columns) VALUES")
                         i = 0
                     }
                     if (i > 0) {
@@ -191,7 +190,7 @@ object Insert {
                     }
                     val values = e.dataRow()
                     val comment = e.comment()
-                    val row = if (comment != null) String.format("(%d,%s) /* %s */", i, values, comment) else String.format("(%s)", values)
+                    val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
                     ps.print(row)
                     i++
                 }
@@ -215,7 +214,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 var first = true
                 items.forEach { key: String ->
                     if (first) {
@@ -224,7 +223,7 @@ object Insert {
                         ps.println("")
                     }
                     val id = resolver.apply(key)
-                    val row = String.format("(%d,'%s')", id, Utils.escape(key))
+                    val row = "($id,'${Utils.escape(key)}')"
                     ps.print(row)
                 }
                 ps.println(";")
@@ -248,7 +247,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 var first = true
                 items.forEach { k: K ->
                     if (first) {
@@ -258,7 +257,7 @@ object Insert {
                     }
                     val v = resolver.apply(k)
                     val values = stringifier.apply(k, v)
-                    val row = String.format("(%s)", values)
+                    val row = "($values)"
                     ps.print(row)
                 }
                 ps.println(";")
@@ -284,7 +283,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + resolvedColumns.joinToString(separator = ","))
+                ps.println("INSERT INTO $table ($columns,${resolvedColumns.joinToString(separator = ",")}) VALUES")
                 var seq = items.asSequence()
                 if (comparator != null) {
                     seq = seq.sortedWith(comparator)
@@ -300,7 +299,7 @@ object Insert {
                     val sqlResolved = stringifier.apply(resolved)
                     val values = e.dataRow()
                     val comment = e.comment()
-                    val row = if (comment != null) String.format("(%s,%s) /* %s */", values, sqlResolved, comment) else String.format("(%s,%s)", values, sqlResolved)
+                    val row = if (comment != null) "($values,$sqlResolved) /* $comment */" else "($values,$sqlResolved)"
                     ps.print(row)
                 }
                 ps.println(";")
@@ -325,7 +324,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + resolvedColumns.joinToString(separator = ","))
+                ps.println("INSERT INTO $table ($columns,${resolvedColumns.joinToString(separator = ",")}) VALUES")
                 var first = true
                 items.forEach { key: T ->
                     if (first) {
@@ -338,12 +337,11 @@ object Insert {
                     val sqlResolved = stringifier.apply(resolved)
                     val values = key.dataRow()
                     val comment = key.comment()
-                    val row = if (withNumber) (if (comment != null) String.format("(%d,%s,%s) /* %s */", id, values, sqlResolved, comment) else String.format(
-                        "(%d,%s,%s)",
-                        id,
-                        values,
-                        sqlResolved
-                    )) else (if (comment != null) String.format("(%s,%s) /* %s */", values, sqlResolved, comment) else String.format("(%s,%s)", values, sqlResolved))
+                    val row =
+                        if (withNumber)
+                            (if (comment != null) "($id,$values,$sqlResolved) /* $comment */" else "($id,$values,$sqlResolved)")
+                        else
+                            (if (comment != null) "($values,$sqlResolved) /* $comment */" else "($values,$sqlResolved)")
                     ps.print(row)
                 }
                 ps.println(";")
