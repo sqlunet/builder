@@ -68,7 +68,7 @@ public class Inserter
 		try (@ProvidesIdTo(type = FrameRelation.class) var ignored = FrameRelation.COLLECTOR.open())
 		{
 			Progress.tracePending("collector", "frame_relations");
-			Insert.insertStringMap(FrameRelation.COLLECTOR, new File(outDir, names.file("framerelations")), names.table("framerelations"), names.columns("framerelations"), header);
+			Insert.insertStringMap2(FrameRelation.COLLECTOR, FrameRelation.COLLECTOR, new File(outDir, names.file("framerelations")), names.table("framerelations"), names.columns("framerelations"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "frame_related");
@@ -107,19 +107,19 @@ public class Inserter
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "gf");
-			Insert.insertStringMap(GfType.COLLECTOR, new File(outDir, names.file("gftypes")), names.table("gftypes"), names.columns("gftypes"), header);
+			Insert.insertStringMap2(GfType.COLLECTOR, GfType.COLLECTOR, new File(outDir, names.file("gftypes")), names.table("gftypes"), names.columns("gftypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "pt");
-			Insert.insertStringMap(PtType.COLLECTOR, new File(outDir, names.file("pttypes")), names.table("pttypes"), names.columns("pttypes"), header);
+			Insert.insertStringMap2(PtType.COLLECTOR, PtType.COLLECTOR, new File(outDir, names.file("pttypes")), names.table("pttypes"), names.columns("pttypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "layertypes");
-			Insert.insertStringMap(LayerType.COLLECTOR, new File(outDir, names.file("layertypes")), names.table("layertypes"), names.columns("layertypes"), header);
+			Insert.insertStringMap2(LayerType.COLLECTOR, LayerType.COLLECTOR, new File(outDir, names.file("layertypes")), names.table("layertypes"), names.columns("layertypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "labeltypes");
-			Insert.insertStringMap(LabelType.COLLECTOR, new File(outDir, names.file("labeltypes")), names.table("labeltypes"), names.columns("labeltypes"), header);
+			Insert.insertStringMap2(LabelType.COLLECTOR, LabelType.COLLECTOR, new File(outDir, names.file("labeltypes")), names.table("labeltypes"), names.columns("labeltypes"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "annoset");
@@ -145,7 +145,7 @@ public class Inserter
 			try (@ProvidesIdTo(type = Layer.class) var ignored20 = Layer.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "layer");
-				Insert.insert(Layer.COLLECTOR, new File(outDir, names.file("layers")), names.table("layers"), names.columns("layers"), header, false);
+				Insert.insert2(Layer.COLLECTOR, Layer.COLLECTOR, new File(outDir, names.file("layers")), names.table("layers"), names.columns("layers"), header, false);
 				Progress.traceDone();
 
 				Progress.tracePending("set", "label");
@@ -157,7 +157,7 @@ public class Inserter
 			try (@ProvidesIdTo(type = FeType.class) var ignored21 = FeType.COLLECTOR.open())
 			{
 				Progress.tracePending("collector", "fetype");
-				Insert.insertStringMap(FeType.COLLECTOR, new File(outDir, names.file("fetypes")), names.table("fetypes"), names.columns("fetypes"), header);
+				Insert.insertStringMap2(FeType.COLLECTOR, FeType.COLLECTOR, new File(outDir, names.file("fetypes")), names.table("fetypes"), names.columns("fetypes"), header);
 				Progress.traceDone();
 
 				Progress.tracePending("set", "lexunit");
@@ -215,7 +215,7 @@ public class Inserter
 								Progress.traceDone();
 
 								Progress.tracePending("collector", "valenceunit");
-								Insert.insert(ValenceUnit.COLLECTOR, new File(outDir, names.file("valenceunits")), names.table("valenceunits"), names.columns("valenceunits"), header);
+								Insert.insert2(ValenceUnit.COLLECTOR, ValenceUnit.COLLECTOR, new File(outDir, names.file("valenceunits")), names.table("valenceunits"), names.columns("valenceunits"), header);
 								Progress.traceDone();
 
 								Progress.tracePending("collector", "grouppattern");
@@ -242,7 +242,7 @@ public class Inserter
 						try (@ProvidesIdTo(type = Governor.class) var ignored42 = Governor.COLLECTOR.open())
 						{
 							Progress.tracePending("collector", "governor");
-							Insert.insert(Governor.COLLECTOR, new File(outDir, names.file("governors")), names.table("governors"), names.columns("governors"), header);
+							Insert.insert2(Governor.COLLECTOR, Governor.COLLECTOR, new File(outDir, names.file("governors")), names.table("governors"), names.columns("governors"), header);
 							Progress.traceDone();
 
 							Progress.tracePending("set", "lexunit_governor");
@@ -264,7 +264,7 @@ public class Inserter
 						try (@ProvidesIdTo(type = SubCorpus.class) var ignored50 = SubCorpus.COLLECTOR.open())
 						{
 							Progress.tracePending("set", "subcorpus_sentence");
-							Insert.insert(SubCorpus.COLLECTOR, new File(outDir, names.file("subcorpuses")), names.table("subcorpuses"), names.columns("subcorpuses"), header);
+							Insert.insert2(SubCorpus.COLLECTOR, SubCorpus.COLLECTOR, new File(outDir, names.file("subcorpuses")), names.table("subcorpuses"), names.columns("subcorpuses"), header);
 							Progress.traceDone();
 
 							Progress.tracePending("set", "subcorpus_sentence");
@@ -288,7 +288,7 @@ public class Inserter
 	protected void insertWords() throws FileNotFoundException
 	{
 		Progress.tracePending("collector", "word");
-		Insert.insert(Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header);
+		Insert.insert2(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header);
 		Progress.traceDone();
 	}
 

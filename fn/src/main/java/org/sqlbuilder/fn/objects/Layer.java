@@ -4,6 +4,7 @@ import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.fn.types.LayerType;
 
 import java.util.Comparator;
@@ -12,7 +13,7 @@ public class Layer implements HasId, Insertable
 {
 	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(Layer::getName).thenComparing(Layer::getAnnosetid);
 
-	public static final SetCollector<Layer> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Layer> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String name;
 
@@ -49,7 +50,7 @@ public class Layer implements HasId, Insertable
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@RequiresIdFrom(type = Layer.class)
