@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
@@ -26,22 +27,51 @@ public class Insert
 			if (!list.isEmpty())
 			{
 				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// private static <T extends Insertable> void insert(final List<T> list, final PrintStream ps)
-				{
-					int[] i = {0};
-					list.forEach(item -> {
+				int[] i = {0};
+				list.forEach(item -> {
 
-						if (i[0] != 0)
-						{
-							ps.print(",\n");
-						}
-						String values = item.dataRow();
-						String comment = item.comment();
-						String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
-						ps.print(row);
-						i[0]++;
-					});
-				}
+					if (i[0] != 0)
+					{
+						ps.print(",\n");
+					}
+					String values = item.dataRow();
+					String comment = item.comment();
+					String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
+					ps.print(row);
+					i[0]++;
+				});
+				ps.println(";");
+			}
+		}
+	}
+
+	public static <T extends Insertable> void insert2(
+			final Iterable<T> items,
+			final File file,
+			final String table,
+			final String columns,
+			final String header
+	) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			ps.println("-- " + header);
+			if (items.iterator().hasNext())
+			{
+				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+				int[] i = {0};
+				items.forEach(item -> {
+
+					if (i[0] != 0)
+					{
+						ps.print(",\n");
+					}
+					String values = item.dataRow();
+					String comment = item.comment();
+					String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
+					ps.print(row);
+					i[0]++;
+				});
 				ps.println(";");
 			}
 		}
@@ -326,6 +356,40 @@ public class Insert
 						ps.print(",\n");
 					}
 					String values = stringifier.apply(e);
+					String row = String.format("(%s)", values);
+					ps.print(row);
+					i[0]++;
+				});
+				ps.println(";");
+			}
+		}
+	}
+
+	public static <K, V> void insert2(
+			final Iterable<K> items,
+			final Function<K, V> resolver,
+			final File file,
+			final String table,
+			final String columns,
+			final String header,
+			final BiFunction<K, V, String> stringifier
+	) throws FileNotFoundException
+	{
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
+		{
+			ps.println("-- " + header);
+			if (items.iterator().hasNext())
+			{
+				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
+				int[] i = {0};
+				items.forEach(k -> {
+
+					if (i[0] != 0)
+					{
+						ps.print(",\n");
+					}
+					var v = resolver.apply(k);
+					String values = stringifier.apply(k, v);
 					String row = String.format("(%s)", values);
 					ps.print(row);
 					i[0]++;

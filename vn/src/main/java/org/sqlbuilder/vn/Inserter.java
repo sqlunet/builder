@@ -9,6 +9,7 @@ import org.sqlbuilder.vn.objects.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 import java.util.Properties;
 
 public class Inserter
@@ -99,19 +100,19 @@ public class Inserter
 			Progress.traceDone();
 
 			Progress.tracePending("set", "frame example");
-			Insert.insert(Frame_Example.SET, null, new File(outDir, names.file("frames_examples")), names.table("frames_examples"), names.columns("frames_examples"), header);
+			Insert.insert2(Frame_Example.SET, (Comparator<Frame_Example>) null, new File(outDir, names.file("frames_examples")), names.table("frames_examples"), names.columns("frames_examples"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "predicate semantics");
-			Insert.insert(Predicate_Semantics.SET, null, new File(outDir, names.file("predicates_semantics")), names.table("predicates_semantics"), names.columns("predicates_semantics"), header);
+			Insert.insert2(Predicate_Semantics.SET, (Comparator<Predicate_Semantics>) null, new File(outDir, names.file("predicates_semantics")), names.table("predicates_semantics"), names.columns("predicates_semantics"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "class word");
-			Insert.insert(Class_Word.SET, Class_Word.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"), header);
+			Insert.insert2(Class_Word.SET, Class_Word.COMPARATOR, new File(outDir, names.file("members")), names.table("members"), names.columns("members"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("set", "class frame");
-			Insert.insert(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, names.file("classes_frames")), names.table("classes_frames"), names.columns("classes_frames"), header);
+			Insert.insert2(Class_Frame.SET, Class_Frame.COMPARATOR, new File(outDir, names.file("classes_frames")), names.table("classes_frames"), names.columns("classes_frames"), header);
 			Progress.traceDone();
 
 			Progress.tracePending("collector", "grouping");
@@ -119,7 +120,7 @@ public class Inserter
 			Progress.traceDone();
 
 			Progress.tracePending("set", "member grouping");
-			Insert.insert(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, names.file("members_groupings")), names.table("members_groupings"), names.columns("members_groupings"), header);
+			Insert.insert2(Member_Grouping.SET, Member_Grouping.COMPARATOR, new File(outDir, names.file("members_groupings")), names.table("members_groupings"), names.columns("members_groupings"), header);
 			Progress.traceDone();
 
 			// R E S O L V A B L E
@@ -138,7 +139,7 @@ public class Inserter
 	protected void insertMemberSenses() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "member sense");
-		Insert.insert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header);
+		Insert.insert2(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header);
 		Progress.traceDone();
 	}
 }
