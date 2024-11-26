@@ -2,16 +2,14 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Objects;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class Semantics implements HasId, Insertable, Comparable<Semantics>
 {

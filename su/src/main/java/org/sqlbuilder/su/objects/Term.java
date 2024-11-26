@@ -1,7 +1,6 @@
 package org.sqlbuilder.su.objects;
 
 import com.articulate.sigma.NotNull;
-
 import org.sqlbuilder.common.*;
 
 import java.io.Serializable;
@@ -12,7 +11,7 @@ public class Term implements HasId, Insertable, Serializable, Comparable<Term>, 
 {
 	public static final Comparator<Term> COMPARATOR = Comparator.comparing(Term::getTerm);
 
-	public static final SetCollector<Term> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Term> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	protected static final String[] wellKnownTerms = new String[]{"subclass", "subrelation", "instance", "disjoint", //
 			"domain", "partition", //
@@ -145,7 +144,7 @@ public class Term implements HasId, Insertable, Serializable, Comparable<Term>, 
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@Override

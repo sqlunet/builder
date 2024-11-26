@@ -1,7 +1,6 @@
 package org.sqlbuilder.fn.types;
 
 import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.common.SqlId;
 

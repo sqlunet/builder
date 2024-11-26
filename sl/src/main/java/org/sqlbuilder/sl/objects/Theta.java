@@ -10,7 +10,7 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 {
 	public static final Comparator<Theta> COMPARATOR = Comparator.comparing(Theta::getTheta);
 
-	public static final SetCollector<Theta> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<Theta> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	private final String theta;
 
@@ -39,13 +39,13 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@RequiresIdFrom(type = Theta.class)
 	public static Integer getIntId(final Theta theta)
 	{
-		return theta == null ? null : COLLECTOR.get(theta);
+		return theta == null ? null : COLLECTOR.apply(theta);
 	}
 
 	// I D E N T I T Y

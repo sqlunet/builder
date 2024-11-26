@@ -1,7 +1,6 @@
 package org.sqlbuilder.pb;
 
 import org.junit.Test;
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.pb.collectors.PbCollector;
 import org.sqlbuilder.pb.objects.*;

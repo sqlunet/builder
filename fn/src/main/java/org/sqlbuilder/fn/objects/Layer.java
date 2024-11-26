@@ -1,9 +1,8 @@
 package org.sqlbuilder.fn.objects;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.common.SetCollector2;
 import org.sqlbuilder.fn.types.LayerType;
 

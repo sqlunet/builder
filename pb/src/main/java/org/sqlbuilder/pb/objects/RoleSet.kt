@@ -3,7 +3,6 @@ package org.sqlbuilder.pb.objects
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.SetCollector2
 import org.sqlbuilder.common.Utils
 import org.sqlbuilder.pb.foreign.Alias
