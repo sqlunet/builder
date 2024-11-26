@@ -22,7 +22,7 @@ class Role private constructor(
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
-        return COLLECTOR.get(this)!!
+        return COLLECTOR.apply(this)
     }
 
     // I D E N T I T Y
@@ -86,7 +86,7 @@ class Role private constructor(
             .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
         @JvmField
-        val COLLECTOR = SetCollector<Role>(COMPARATOR)
+        val COLLECTOR = SetCollector2<Role>(COMPARATOR)
 
         fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
             val r = Role(roleSet, n, f, descriptor, theta)
@@ -97,7 +97,7 @@ class Role private constructor(
         @Suppress("unused")
         @RequiresIdFrom(type = Role::class)
         fun getIntId(role: Role?): Int? {
-            return if (role == null) null else COLLECTOR.get(role)
+            return if (role == null) null else COLLECTOR.apply(role)
         }
     }
 }

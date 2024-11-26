@@ -38,11 +38,11 @@ public class TestParseFile
 		var words = Word.COLLECTOR;
 
 		var names = new String[]{"aspects", "forms", "persons", "tenses", "voices", "funcs", "thetas", "rolesets", "roles", "examples", "rels", "args", "words",};
-		var collectors = new SetCollector[]{aspects, forms, persons, tenses, voices, funcs, thetas, rolesets, roles, examples, rels, words,};
+		var collectors = new SetCollector2[]{aspects, forms, persons, tenses, voices, funcs, thetas, rolesets, roles, examples, rels, words,};
 		var i = 0;
 		for (var c : collectors)
 		{
-			System.out.println(names[i] + " " + c.size());
+			System.out.println(names[i] + " " + c.getSize());
 			i++;
 		}
 		var collectors2 = new SetCollector2[]{ args,};

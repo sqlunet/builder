@@ -4,6 +4,7 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.SetCollector2
 import org.sqlbuilder.common.Utils
 import org.sqlbuilder.pb.foreign.Alias
 import java.io.Serializable
@@ -15,7 +16,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     val head: String
@@ -77,7 +78,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             .thenComparing<String> { it.name }
 
         @JvmField
-        val COLLECTOR = SetCollector<RoleSet>(COMPARATOR)
+        val COLLECTOR = SetCollector2<RoleSet>(COMPARATOR)
 
         fun make(predicate: Predicate, roleSetId: String, name: String): RoleSet {
             val s = RoleSet(predicate, roleSetId, name)
@@ -88,7 +89,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
         @Suppress("unused")
         @RequiresIdFrom(type = RoleSet::class)
         fun getIntId(roleset: RoleSet): Int {
-            return COLLECTOR[roleset]!!
+            return COLLECTOR.apply(roleset)
         }
     }
 }

@@ -12,6 +12,7 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
+import kotlin.Throws
 
 open class Exporter(conf: Properties) {
 
@@ -124,8 +125,8 @@ open class Exporter(conf: Properties) {
     }
 
     fun duplicateRoles() {
-        Role.COLLECTOR.entries
-            .groupBy { it.key }
+        Role.COLLECTOR
+            .groupBy { it }
             .forEach { (role, instances) ->
                 if (instances.size > 1) {
                     println("Warning: Duplicate role: ${instances.size} instances for  role '$role' (rs=${role.roleSet} argt=${role.argType}) found.")
@@ -141,48 +142,36 @@ open class Exporter(conf: Properties) {
      * @return word to wordid
      */
     fun makeWordMap(): Map<String, Int> {
-        return Word.COLLECTOR.entries
-            .asSequence()
-            .map { it.key.word to it.value }
-            .toMap()
-            .toSortedMap()
+        return Word.COLLECTOR.toMap { it.word }
     }
 
     fun makeRoleSetsMap(): Map<String, Int> {
-        return RoleSet.COLLECTOR.entries
-            .asSequence()
-            .map { it.key.name to it.value }
-            .toMap()
-            .toSortedMap()
+        return RoleSet.COLLECTOR.toMap { it.name }
     }
 
     fun makeThetasMap(): Map<String, Int> {
-        return Theta.COLLECTOR.entries
-            .asSequence()
-            .map { it.key.theta to it.value }
-            .toMap()
-            .toSortedMap()
+        return Theta.COLLECTOR.toMap { it.theta }
     }
 
     fun makeRolesMap(): Map<Pair<String, String>, Int> {
         duplicateRoles()
-        return Role.COLLECTOR.entries
+        return Role.COLLECTOR
             .asSequence()
             .map {
-                val r = it.key
+                val r = it
                 val rs = r.roleSet
-                (rs.name to r.argType) to it.value
+                (rs.name to r.argType) to Role.COLLECTOR.apply(r)
             }
             .toMap()
     }
 
     fun makeRolesTreeMap(): Map<Pair<String, String>, Int> {
-        return Role.COLLECTOR.entries
+        return Role.COLLECTOR
             .asSequence()
             .map {
-                val r = it.key
+                val r = it
                 val rs = r.roleSet
-                (rs.name to r.argType) to it.value
+                (rs.name to r.argType) to Role.COLLECTOR.apply(r)
             }
             .toMap()
             .toSortedMap(COMPARATOR)
@@ -194,12 +183,11 @@ open class Exporter(conf: Properties) {
      * @return (rolesetname, argtype) -> (roleid, rolesetid)
      */
     fun makeRolesFromArgTypeToFullMap(): Map<Pair<String, String>, Pair<Int, Int>> {
-        return Role.COLLECTOR.entries
+        return Role.COLLECTOR
             .asSequence()
             .map {
-                val r = it.key
-                val rs = r!!.roleSet
-                (rs.name to r.argType) to (it.value to rs.intId)
+                val rs = it.roleSet
+                (rs.name to it.argType) to (Role.COLLECTOR.apply(it) to rs.intId)
             }
             .toMap()
     }
@@ -210,12 +198,11 @@ open class Exporter(conf: Properties) {
      * @return (rolesetname, argtype) -> (roleid, rolesetid)
      */
     fun makeRolesFromArgTypeToFullTreeMap(): Map<Pair<String, String>, Pair<Int, Int>> {
-        return Role.COLLECTOR.entries
+        return Role.COLLECTOR
             .asSequence()
             .map {
-                val r = it.key
-                val rs = r!!.roleSet
-                (rs.name to r.argType) to (it.value to rs.intId)
+                val rs = it.roleSet
+                (rs.name to it.argType) to (Role.COLLECTOR.apply(it) to rs.intId)
             }
             .toMap()
             .toSortedMap(COMPARATOR)

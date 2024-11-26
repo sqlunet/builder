@@ -10,7 +10,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
 
     @RequiresIdFrom(type = Rel::class)
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     // O R D E R
@@ -41,7 +41,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
             .thenComparing<Func?>( { it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
-        val COLLECTOR = SetCollector<Rel>(COMPARATOR)
+        val COLLECTOR = SetCollector2<Rel>(COMPARATOR)
 
         fun make(example: Example, text: String, f: Func?): Rel {
             val r = Rel(example, text, f)

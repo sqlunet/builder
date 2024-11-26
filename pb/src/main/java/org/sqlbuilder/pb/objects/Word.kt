@@ -9,7 +9,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     @RequiresIdFrom(type = Word::class)
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     // I D E N T I T Y
@@ -62,7 +62,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
         val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
 
         @JvmField
-        val COLLECTOR = SetCollector<Word>(COMPARATOR)
+        val COLLECTOR = SetCollector2<Word>(COMPARATOR)
 
         @JvmStatic
         fun make(word: String): Word {

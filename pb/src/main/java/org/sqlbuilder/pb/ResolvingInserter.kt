@@ -60,7 +60,8 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
         Progress.tracePending("collector", "word")
-        Insert.resolveAndInsert(
+        Insert.resolveAndInsert2(
+            Word.COLLECTOR,
             Word.COLLECTOR,
             File(outDir, names.file("words")),
             names.table("words"),

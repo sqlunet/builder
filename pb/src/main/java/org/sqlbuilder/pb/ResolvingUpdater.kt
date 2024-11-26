@@ -35,8 +35,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         Progress.tracePending("collector", "word")
         val wordidCol = names.column("words.wordid")
         val wordCol = names.column("words.word")
-        Update.update(
-            Word.COLLECTOR.keys,
+        Update.update2(
+            Word.COLLECTOR,
             File(outDir, names.updateFile("words")),
             header,
             names.table("words"),

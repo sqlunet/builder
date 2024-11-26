@@ -1,10 +1,10 @@
 package org.sqlbuilder.common
 
 import java.io.Closeable
+import java.util.*
 import java.util.function.Function
-import java.util.TreeMap
 
-class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int> , Closeable {
+class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>, Closeable {
 
     private val map = TreeMap<T, Int?>(comparator)
 
@@ -52,5 +52,13 @@ class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int
 
     fun status(): String {
         return "#${map.size}"
+    }
+
+    fun toMap(toString: (T) -> String): Map<String, Int> {
+        return this
+            .asSequence()
+            .map { toString(it) to apply(it) }
+            .toMap()
+            .toSortedMap()
     }
 }
