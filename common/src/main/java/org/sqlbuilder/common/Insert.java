@@ -571,50 +571,6 @@ public class Insert
 		}
 	}
 
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(
-			final Set<T> set,
-			final Comparator<T> comparator,
-			final File file,
-			final String table,
-			final String columns,
-			final String header,
-			final Function<U, R> foreignResolver,
-			final Function<R, String> stringifier,
-			final String... resolvedColumns
-	) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!set.isEmpty())
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + String.join(",", resolvedColumns));
-
-				int[] i = {0};
-				var stream = set.stream();
-				if (comparator != null)
-				{
-					stream = stream.sorted(comparator);
-				}
-				stream.forEach(e -> {
-
-					if (i[0] != 0)
-					{
-						ps.print(",\n");
-					}
-					R resolved = e.resolve(foreignResolver);
-					String sqlResolved = stringifier.apply(resolved);
-					String values = e.dataRow();
-					String comment = e.comment();
-					String row = comment != null ? String.format("(%s,%s) /* %s */", values, sqlResolved, comment) : String.format("(%s,%s)", values, sqlResolved);
-					ps.print(row);
-					i[0]++;
-				});
-				ps.println(";");
-			}
-		}
-	}
-
 	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert2(
 			final Iterable<T> items, final Comparator<T> comparator,
 			final File file,
