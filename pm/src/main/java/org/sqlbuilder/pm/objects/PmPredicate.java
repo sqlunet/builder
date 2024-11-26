@@ -3,7 +3,7 @@ package org.sqlbuilder.pm.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.SetCollector2;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,7 +12,7 @@ public class PmPredicate implements HasId, Insertable, Comparable<PmPredicate>
 {
 	public static final Comparator<PmPredicate> COMPARATOR = Comparator.comparing(PmPredicate::getPredicate);
 
-	public static final SetCollector<PmPredicate> COLLECTOR = new SetCollector<>(COMPARATOR);
+	public static final SetCollector2<PmPredicate> COLLECTOR = new SetCollector2<>(COMPARATOR);
 
 	public final String predicate;
 
@@ -43,7 +43,7 @@ public class PmPredicate implements HasId, Insertable, Comparable<PmPredicate>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y
