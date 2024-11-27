@@ -1,9 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class IgnoreException extends CommonException
-{
-	public IgnoreException(String message)
-	{
-		super(message);
-	}
-}
+class IgnoreException(message: String) : CommonException(message)
+

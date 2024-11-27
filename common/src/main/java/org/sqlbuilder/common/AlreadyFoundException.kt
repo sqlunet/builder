@@ -1,9 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class AlreadyFoundException extends RuntimeException
-{
-	public AlreadyFoundException(final String message)
-	{
-		super(message);
-	}
-}
+class AlreadyFoundException(message: String) : RuntimeException(message)
+
