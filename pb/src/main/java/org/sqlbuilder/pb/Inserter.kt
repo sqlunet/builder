@@ -30,19 +30,19 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     open fun insert() {
-        Example.ASPECT_COLLECTOR.open().use { ignored1 ->
-            Example.FORM_COLLECTOR.open().use { ignored2 ->
-                Example.PERSON_COLLECTOR.open().use { ignored3 ->
-                    Example.TENSE_COLLECTOR.open().use { ignored4 ->
-                        Example.VOICE_COLLECTOR.open().use { ignored5 ->
-                            Func.COLLECTOR.open().use { ignored6 ->
-                                Theta.COLLECTOR.open().use { ignored8 ->
-                                    RoleSet.COLLECTOR.open().use { ignored10 ->
-                                        Role.COLLECTOR.open().use { ignored11 ->
-                                            Example.COLLECTOR.open().use { ignored14 ->
-                                                Rel.COLLECTOR.open().use { ignored15 ->
-                                                    Arg.COLLECTOR.open().use { ignored16 ->
-                                                        Word.COLLECTOR.open().use { ignored20 ->
+        Example.ASPECT_COLLECTOR.open().use {
+            Example.FORM_COLLECTOR.open().use {
+                Example.PERSON_COLLECTOR.open().use {
+                    Example.TENSE_COLLECTOR.open().use {
+                        Example.VOICE_COLLECTOR.open().use {
+                            Func.COLLECTOR.open().use {
+                                Theta.COLLECTOR.open().use {
+                                    RoleSet.COLLECTOR.open().use {
+                                        Role.COLLECTOR.open().use {
+                                            Example.COLLECTOR.open().use {
+                                                Rel.COLLECTOR.open().use {
+                                                    Arg.COLLECTOR.open().use {
+                                                        Word.COLLECTOR.open().use {
                                                             Progress.tracePending("collector", "aspect")
                                                             Insert.insertStrings(Example.ASPECT_COLLECTOR, Example.ASPECT_COLLECTOR, File(outDir, names.file("aspects")), names.table("aspects"), names.columns("aspects"), header)
                                                             Progress.traceDone()

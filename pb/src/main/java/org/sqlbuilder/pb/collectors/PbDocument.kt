@@ -45,7 +45,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             val aliasNodes = getXPaths(start, ".//alias")
             for (i in 0 until aliasNodes.length) {
                 val aliasElement = aliasNodes.item(i) as Element
-                val lemma = aliasElement.textContent // $NON-NLS-1$
+                val lemma = aliasElement.textContent
                 val predicate = LexItem.make(lemma)
                 result.add(predicate)
             }
