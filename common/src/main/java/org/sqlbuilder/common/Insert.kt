@@ -6,6 +6,7 @@ import java.io.FileOutputStream
 import java.io.PrintStream
 import java.util.function.BiFunction
 import java.util.function.Function
+import kotlin.Throws
 
 object Insert {
 
@@ -25,14 +26,14 @@ object Insert {
             if (items.iterator().hasNext()) {
                 ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
                 var first = true
-                items.forEach { item: T ->
+                items.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println(",")
                     }
-                    val values = item.dataRow()
-                    val comment = item.comment()
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row = if (comment != null) "($values) /* $comment */" else "($values)"
                     ps.print(row)
                 }
@@ -60,14 +61,14 @@ object Insert {
                     seq = seq.sortedWith(comparator)
                 }
                 var first = true
-                seq.forEach { e: T ->
+                seq.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println(",")
                     }
-                    val values = e.dataRow()
-                    val comment = e.comment()
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row = if (comment != null) "($values) /* $comment */" else "($values)"
                     ps.print(row)
                 }
@@ -105,15 +106,15 @@ object Insert {
             if (items.iterator().hasNext()) {
                 ps.println("INSERT INTO $table ($columns) VALUES")
                 var first = true
-                items.forEach { key: T ->
+                items.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println(",")
                     }
-                    val id = resolver.apply(key)
-                    val values = key.dataRow()
-                    val comment = key.comment()
+                    val id = resolver.apply(it)
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row =
                         if (withNumber)
                             (if (comment != null) "($id,$values) /* $comment */" else "($id,$values)")
@@ -145,12 +146,12 @@ object Insert {
                     seq = seq.sortedWith(comparator)
                 }
                 var i = 0
-                seq.forEach { e: T ->
+                seq.forEach {
                     if (i > 0) {
                         ps.println(",")
                     }
-                    val values = e.dataRow()
-                    val comment = e.comment()
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
                     ps.print(row)
                     i++
@@ -179,7 +180,7 @@ object Insert {
                     seq = seq.sortedWith(comparator)
                 }
                 var i = 0
-                seq.forEach { e: T ->
+                seq.forEach {
                     if (i == 100000) {
                         ps.println(";")
                         ps.println("INSERT INTO $table ($columns) VALUES")
@@ -188,8 +189,8 @@ object Insert {
                     if (i > 0) {
                         ps.println(",")
                     }
-                    val values = e.dataRow()
-                    val comment = e.comment()
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
                     ps.print(row)
                     i++
@@ -216,14 +217,14 @@ object Insert {
             if (items.iterator().hasNext()) {
                 ps.println("INSERT INTO $table ($columns) VALUES")
                 var first = true
-                items.forEach { key: String ->
+                items.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println("")
                     }
-                    val id = resolver.apply(key)
-                    val row = "($id,'${Utils.escape(key)}')"
+                    val id = resolver.apply(it)
+                    val row = "($id,'${Utils.escape(it)}')"
                     ps.print(row)
                 }
                 ps.println(";")
@@ -249,14 +250,14 @@ object Insert {
             if (items.iterator().hasNext()) {
                 ps.println("INSERT INTO $table ($columns) VALUES")
                 var first = true
-                items.forEach { k: K ->
+                items.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println("")
                     }
-                    val v = resolver.apply(k)
-                    val values = stringifier.apply(k, v)
+                    val v = resolver.apply(it)
+                    val values = stringifier.apply(it, v)
                     val row = "($values)"
                     ps.print(row)
                 }
@@ -289,16 +290,16 @@ object Insert {
                     seq = seq.sortedWith(comparator)
                 }
                 var first = true
-                seq.forEach { e: T ->
+                seq.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println("")
                     }
-                    val resolved = e.resolve(foreignResolver)
+                    val resolved = it.resolve(foreignResolver)
                     val sqlResolved = stringifier.apply(resolved)
-                    val values = e.dataRow()
-                    val comment = e.comment()
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row = if (comment != null) "($values,$sqlResolved) /* $comment */" else "($values,$sqlResolved)"
                     ps.print(row)
                 }
@@ -326,17 +327,17 @@ object Insert {
             if (items.iterator().hasNext()) {
                 ps.println("INSERT INTO $table ($columns,${resolvedColumns.joinToString(separator = ",")}) VALUES")
                 var first = true
-                items.forEach { key: T ->
+                items.forEach {
                     if (first) {
                         first = false
                     } else {
                         ps.println("")
                     }
-                    val id = resolver.apply(key)
-                    val resolved = key.resolve(foreignResolver)
+                    val id = resolver.apply(it)
+                    val resolved = it.resolve(foreignResolver)
                     val sqlResolved = stringifier.apply(resolved)
-                    val values = key.dataRow()
-                    val comment = key.comment()
+                    val values = it.dataRow()
+                    val comment = it.comment()
                     val row =
                         if (withNumber)
                             (if (comment != null) "($id,$values,$sqlResolved) /* $comment */" else "($id,$values,$sqlResolved)")
