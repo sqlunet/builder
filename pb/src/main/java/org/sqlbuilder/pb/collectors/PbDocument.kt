@@ -1,5 +1,7 @@
 package org.sqlbuilder.pb.collectors
 
+import org.sqlbuilder.common.XPathUtils.getXPath
+import org.sqlbuilder.common.XPathUtils.getXPaths
 import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.common.XmlTextUtils.getXPathText
 import org.sqlbuilder.pb.foreign.Alias

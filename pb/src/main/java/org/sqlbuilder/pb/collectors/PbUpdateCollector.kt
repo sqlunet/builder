@@ -2,6 +2,7 @@ package org.sqlbuilder.pb.collectors
 
 import org.sqlbuilder.common.Logger
 import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.XPathUtils.getXPath
 import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.pb.PbModule
 import org.sqlbuilder.pb.collectors.PbDocument.Companion.getAliasPredicates
@@ -41,7 +42,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         val head = name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         try {
             val document = PbDocument(fileName)
-            val start =  XmlDocument.getXPath(document.document, "./frameset")!!
+            val start =  getXPath(document.document, "./frameset")!!
             processFrameset(document, start, head)
         } catch (e: XPathExpressionException) {
             Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)

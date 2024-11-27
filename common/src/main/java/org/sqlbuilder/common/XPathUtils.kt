@@ -19,35 +19,16 @@ object XPathUtils {
 
     @JvmStatic
     @Throws(XPathExpressionException::class)
-    fun getXPath(start: Node, xpathExpr: String): Node {
+    fun getXPath(start: Node, xpathExpr: String): Node? {
         val xpath = XPathFactory.newInstance().newXPath()
-        return xpath.evaluate(xpathExpr, start, XPathConstants.NODE) as Node
+        return xpath.evaluate(xpathExpr, start, XPathConstants.NODE) as Node?
     }
 
     @JvmStatic
     @Throws(XPathExpressionException::class)
-    fun getXPaths(start: Node, xpathExpr: String): NodeList {
+    fun getXPaths(start: Node, xpathExpr: String): NodeList? {
         val xpath = XPathFactory.newInstance().newXPath()
-        return xpath.evaluate(xpathExpr, start, XPathConstants.NODESET) as NodeList
-    }
-
-    @JvmStatic
-    @Throws(XPathExpressionException::class)
-    fun getXPathTexts(start: Node, xpathExpr: String): List<String>? {
-        var result: MutableList<String>? = null
-        val nodes = getXPaths(start, xpathExpr)
-        for (i in 0..<nodes.length) {
-            if (result == null) {
-                result = ArrayList<String>()
-            }
-            val element = nodes.item(i) as Element
-            var text = element.textContent.trim { it <= ' ' }
-            text = text.replaceFirst("^\"*".toRegex(), "")
-            text = text.replaceFirst("\"*$".toRegex(), "")
-            text = text.replaceFirst("[.;]*$".toRegex(), "")
-            result.add(text)
-        }
-        return result
+        return xpath.evaluate(xpathExpr, start, XPathConstants.NODESET) as NodeList?
     }
 
     // X M L   A S   T E X T

@@ -8,16 +8,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.java" beforeDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="simplify">
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlTextUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlTextUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbCollector.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbDocument.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbExportCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbExportCollector.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbUpdateCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/collectors/PbUpdateCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkUpdatingProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkUpdatingProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.java" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
@@ -293,7 +295,23 @@
       <option name="project" value="LOCAL" />
       <updated>1732687743633</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732689861396</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1732689861396</updated>
+    </task>
+    <task id="LOCAL-00028" summary="simplify">
+      <option name="closed" value="true" />
+      <created>1732690537393</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1732690537393</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -322,9 +340,9 @@
     <MESSAGE value="rename insert functions" />
     <MESSAGE value="rename SetCollector" />
     <MESSAGE value="rename" />
-    <MESSAGE value="simplify" />
     <MESSAGE value="to kotlin" />
-    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
+    <MESSAGE value="simplify" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplify" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

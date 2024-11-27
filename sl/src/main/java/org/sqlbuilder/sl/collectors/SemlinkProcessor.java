@@ -1,9 +1,6 @@
 package org.sqlbuilder.sl.collectors;
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.XmlDocument;
+import org.sqlbuilder.common.*;
 import org.sqlbuilder.sl.SlModule;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -31,7 +28,7 @@ public class SemlinkProcessor extends Processor
 		try
 		{
 			final SemlinkDocument document = new SemlinkDocument(this.semlinkFile);
-			processSemlinks(XmlDocument.getXPath(document.document, "./pbvn-typemap"));
+			processSemlinks(XPathUtils.getXPath(document.document, "./pbvn-typemap"));
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{
