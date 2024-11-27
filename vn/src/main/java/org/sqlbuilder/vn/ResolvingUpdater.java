@@ -43,7 +43,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
 		final String wordCol = names.column("words.word");
-		Update.update2(Word.COLLECTOR, new File(outDir, names.updateFile("words")), header, names.table("words"), //
+		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				wordResolver, //
 				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
 				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));
@@ -57,7 +57,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		final String wordidCol = names.column("members_senses.wordid");
 		final String synsetidCol = names.column("members_senses.synsetid");
 		final String sensekeyCol = names.column("members_senses.sensekey");
-		Update.update2(Sense.SET, new File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"), //
+		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"), //
 				sensekeyResolver, //
 				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", wordidCol, synsetidCol) : String.format("%s=%s,%s=%s", wordidCol, Utils.nullableInt(resolved.getKey()), synsetidCol, Utils.nullableInt(resolved.getValue())), //
 				resolving -> String.format("%s='%s'", sensekeyCol, Utils.escape(resolving)));
