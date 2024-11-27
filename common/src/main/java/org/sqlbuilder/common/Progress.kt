@@ -1,72 +1,63 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class Progress
-{
-	public static void tracePending(final String tag, final String message)
-	{
-		System.out.print(tag + " " + message);
-	}
+object Progress {
 
-	public static void traceDone()
-	{
-		traceDone(null);
-	}
+    @JvmStatic
+    fun tracePending(tag: String, message: String?) {
+        print("$tag $message")
+    }
 
-	public static void traceDone(final String message)
-	{
-		if (message == null)
-		{
-			System.out.println(" ✓");
-		}
-		else
-		{
-			System.err.println(" ✘ " + message);
-		}
-	}
+    @JvmStatic
+    @JvmOverloads
+    fun traceDone(message: String? = null) {
+        if (message == null) {
+            println(" ✓")
+        } else {
+            System.err.println(" ✘ $message")
+        }
+    }
 
-	public static void traceHeader(final String tag, final String message)
-	{
-		System.err.println(">" + tag + " " + message);
-	}
+    @JvmStatic
+    fun traceHeader(tag: String, message: String) {
+        System.err.println(">$tag $message")
+    }
 
-	public static void traceTailer(final String tag, final String message)
-	{
-		System.err.println("<" + tag + " " + message);
-	}
+    @JvmStatic
+    fun traceTailer(tag: String, message: String) {
+        System.err.println("<$tag $message")
+    }
 
-	public static void trace(final String tag, final String message)
-	{
-		System.err.println(tag + " " + message);
-	}
+    @JvmStatic
+    fun traceTailer(count: Long) {
+        System.err.println("<$count")
+    }
 
-	public static void trace(final String message)
-	{
-		System.err.println("mess: " + message);
-	}
+    @JvmStatic
+    fun trace(tag: String, message: String?) {
+        System.err.println("$tag $message")
+    }
 
-	private static final long GRANULARITY = 10;
+    @JvmStatic
+    fun trace(message: String) {
+        System.err.println("mesg: $message")
+    }
 
-	private static final long PERLINE = 100;
+    private const val GRANULARITY: Long = 10
 
-	public static void trace(final long count)
-	{
-		if (count % GRANULARITY == 0)
-		{
-			System.err.print('.');
-		}
-		if (count % (GRANULARITY * PERLINE) == 0)
-		{
-			System.err.print('\n');
-		}
-	}
+    private const val PERLINE: Long = 100
 
-	public static void traceTailer(final long count)
-	{
-		System.err.println("<" + count);
-	}
+    @JvmStatic
+    fun trace(count: Long) {
+        if (count % GRANULARITY == 0L) {
+            System.err.print('.')
+        }
+        if (count % (GRANULARITY * PERLINE) == 0L) {
+            System.err.print('\n')
+        }
+    }
 
-	public static void info(final String message)
-	{
-		System.err.println(message);
-	}
+    @JvmStatic
+    fun info(message: String) {
+        System.err.println(message)
+    }
 }
