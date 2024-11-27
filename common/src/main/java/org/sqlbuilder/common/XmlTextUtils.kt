@@ -17,19 +17,28 @@ import javax.xml.xpath.XPathExpressionException
 object XmlTextUtils {
 
     @Throws(XPathExpressionException::class)
+    fun getXPathText(start: Node, xpathExpr: String): String? {
+        val node = XPathUtils.getXPath(start, xpathExpr)
+        val element = node as Element
+        return element.textContent.trim { it <= ' ' }
+    }
+
+    @Throws(XPathExpressionException::class)
     fun getXPathTexts(start: Node, xpathExpr: String): List<String>? {
         var result: MutableList<String>? = null
-        val nodes = getXPaths(start, xpathExpr)
-        for (i in 0..<nodes.length) {
-            if (result == null) {
-                result = ArrayList<String>()
+        val nodes: NodeList? = getXPaths(start, xpathExpr)
+        if (nodes != null) {
+            for (i in 0..<nodes.length) {
+                if (result == null) {
+                    result = ArrayList<String>()
+                }
+                val element = nodes.item(i) as Element
+                var text = element.textContent.trim { it <= ' ' }
+                text = text.replaceFirst("^\"*".toRegex(), "")
+                text = text.replaceFirst("\"*$".toRegex(), "")
+                text = text.replaceFirst("[.;]*$".toRegex(), "")
+                result.add(text)
             }
-            val element = nodes.item(i) as Element
-            var text = element.getTextContent().trim { it <= ' ' }
-            text = text.replaceFirst("^\"*".toRegex(), "")
-            text = text.replaceFirst("\"*$".toRegex(), "")
-            text = text.replaceFirst("[.;]*$".toRegex(), "")
-            result.add(text)
         }
         return result
     }
