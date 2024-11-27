@@ -31,7 +31,7 @@ public class SemlinkProcessor extends Processor
 		try
 		{
 			final SemlinkDocument document = new SemlinkDocument(this.semlinkFile);
-			processSemlinks(XmlDocument.getXPath(document.getDocument(), "./pbvn-typemap"));
+			processSemlinks(XmlDocument.getXPath(document.document, "./pbvn-typemap"));
 		}
 		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
 		{

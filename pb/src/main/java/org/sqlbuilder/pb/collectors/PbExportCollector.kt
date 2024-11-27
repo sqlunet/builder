@@ -37,7 +37,8 @@ class PbExportCollector(conf: Properties) : PbCollector(conf) {
         val head = name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         try {
             val document = PbDocument(fileName)
-            processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head)
+            val start = XmlDocument.getXPath(document.document, "./frameset")!!
+            processFrameset(document, start, head)
         } catch (e: XPathExpressionException) {
             Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
         }
@@ -51,7 +52,7 @@ class PbExportCollector(conf: Properties) : PbCollector(conf) {
             // roles
             makeRoles(head, start)
         } catch (e: XPathExpressionException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e)
+            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.fileName, e)
         }
     }
 }

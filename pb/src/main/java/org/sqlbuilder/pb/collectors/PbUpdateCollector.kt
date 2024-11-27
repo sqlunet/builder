@@ -41,7 +41,8 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         val head = name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         try {
             val document = PbDocument(fileName)
-            processFrameset(document, XmlDocument.getXPath(document.getDocument(), "./frameset"), head)
+            val start =  XmlDocument.getXPath(document.document, "./frameset")!!
+            processFrameset(document, start, head)
         } catch (e: XPathExpressionException) {
             Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
         }
@@ -51,19 +52,23 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         try {
             // predicates
             val predicates = getPredicates(head, start)
-            for (predicate in predicates) {
-                try {
-                    predicate.put()
-                } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+            if (predicates != null) {
+                for (predicate in predicates) {
+                    try {
+                        predicate.put()
+                    } catch (_: RuntimeException) {
+                        // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
+                    }
                 }
             }
             val aliasLexItems = getAliasPredicates(start)
-            for (lexItem in aliasLexItems) {
-                try {
-                    lexItem.put()
-                } catch (_: RuntimeException) {
-                    // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+            if (aliasLexItems != null) {
+                for (lexItem in aliasLexItems) {
+                    try {
+                        lexItem.put()
+                    } catch (_: RuntimeException) {
+                        // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
+                    }
                 }
             }
 
@@ -79,7 +84,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
             // args
             makeExampleArgs(head, start)
         } catch (e: XPathExpressionException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.getFileName(), e)
+            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.fileName, e)
         }
     }
 }
