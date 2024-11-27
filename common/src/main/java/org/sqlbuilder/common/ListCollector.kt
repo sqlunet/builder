@@ -1,39 +1,25 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.io.Closeable;
-import java.util.ArrayList;
+import java.io.Closeable
 
-public class ListCollector<T extends SetId> extends ArrayList<T> implements Closeable
-{
-	private final boolean isOpen = false;
+class ListCollector<T : SetId> : ArrayList<T>(), Closeable {
 
-	private int allocator = 0;
+    private var allocator = 0
 
-	public ListCollector()
-	{
-		super();
-	}
+    fun open(): ListCollector<T> {
+        return this
+    }
 
-	public ListCollector<T> open()
-	{
-		return this;
-	}
+    override fun add(item: T): Boolean {
+        item.setId(++allocator)
+        return super.add(item)
+    }
 
-	@Override
-	public boolean add(T item)
-	{
-		item.setId(++allocator);
-		return super.add(item);
-	}
+    override fun close() {
+        clear()
+    }
 
-	@Override
-	public void close()
-	{
-		clear();
-	}
-
-	public String status()
-	{
-		return ":" + size();
-	}
+    fun status(): String {
+        return ":$size"
+    }
 }
