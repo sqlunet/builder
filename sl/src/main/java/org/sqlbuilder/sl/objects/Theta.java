@@ -6,6 +6,8 @@ import org.sqlbuilder.common.*;
 import java.util.Comparator;
 import java.util.Objects;
 
+import static org.sqlbuilder.common.Utils.camelCase;
+
 public class Theta implements HasId, Comparable<Theta>, Insertable
 {
 	public static final Comparator<Theta> COMPARATOR = Comparator.comparing(Theta::getTheta);
@@ -18,7 +20,7 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 
 	public static Theta make(final String thetaName)
 	{
-		var t = new Theta(Utils.camelCase(thetaName));
+		var t = new Theta(camelCase(thetaName));
 		COLLECTOR.add(t);
 		return t;
 	}

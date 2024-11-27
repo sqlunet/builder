@@ -5,6 +5,7 @@ import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.camelCase
 import java.util.*
 
 class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, Insertable {
@@ -60,7 +61,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, I
 
         @JvmStatic
         fun make(thetaName: String): Theta {
-            val t = Theta(Utils.camelCase(thetaName))
+            val t = Theta(camelCase(thetaName))
             COLLECTOR.add(t)
             return t
         }

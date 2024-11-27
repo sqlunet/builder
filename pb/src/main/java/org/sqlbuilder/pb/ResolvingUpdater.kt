@@ -108,9 +108,9 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             { resolving ->
                 String.format("%s='%s' AND %s='%s'",
                     vnclassCol,
-                    Utils.escape(resolving!!.first),
+                    Utils.escape(resolving!!.first!!),
                     vnroleCol,
-                    Utils.escape(resolving.second)
+                    Utils.escape(resolving.second!!)
                 )
             })
         Progress.traceDone()
