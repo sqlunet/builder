@@ -1,7 +1,6 @@
 package org.sqlbuilder.common
 
 import java.util.*
-import java.util.function.Function
 
 object Utils {
 
@@ -60,8 +59,8 @@ object Utils {
      * @return SQL string
      */
     @JvmStatic
-    fun <T> nullable(obj: T?, toString: Function<T, String>): String {
-        return if (obj == null) NULLSTR else toString.apply(obj)
+    fun <T> nullable(obj: T?, toString: (T) -> String): String {
+        return if (obj == null) NULLSTR else toString(obj)
     }
 
     // Q U O T E D   +   E S C A P E D
@@ -85,8 +84,8 @@ object Utils {
      * @return SQL string
      */
     @JvmStatic
-    fun <T> quotedEscapedString(obj: T, toString: Function<T, String>): String {
-        return quote(escape(toString.apply(obj)))
+    fun <T> quotedEscapedString(obj: T, toString: (T) -> String): String {
+        return quote(escape(toString(obj)))
     }
 
     // N U L L A B L E   +   Q U O T E D   +   E S C A P E D
@@ -99,8 +98,8 @@ object Utils {
      * @return SQL string
      */
     @JvmStatic
-    fun <T> nullableQuotedString(obj: T?, toString: Function<T, String>): String {
-        return nullable(obj, Function { quote(toString.apply(it)) })
+    fun <T> nullableQuotedString(obj: T?, toString: (T) -> String): String {
+        return nullable(obj) { quote(toString(it)) }
     }
 
     /**
@@ -111,8 +110,8 @@ object Utils {
      * @return SQL string
      */
     @JvmStatic
-    fun <T> nullableQuotedEscapedString(obj: T?, toString: Function<T, String>): String {
-        return nullable(obj, Function { quote(escape(toString.apply(it))) })
+    fun <T> nullableQuotedEscapedString(obj: T?, toString: (T) -> String): String {
+        return nullable(obj) { quote(escape(toString(it))) }
     }
 
     /**
@@ -123,7 +122,7 @@ object Utils {
      */
     @JvmStatic
     fun <T> nullableQuotedString(obj: T?): String {
-        return nullableQuotedString(obj, Function { it.toString() })
+        return nullableQuotedString(obj) { it.toString() }
     }
 
     /**
@@ -134,7 +133,7 @@ object Utils {
      */
     @JvmStatic
     fun <T> nullableQuotedEscapedString(obj: T?): String {
-        return nullableQuotedEscapedString(obj, Function { it.toString() })
+        return nullableQuotedEscapedString(obj) { it.toString() }
     }
 
     // C H A R  A N D   I N T
@@ -147,7 +146,7 @@ object Utils {
      */
     @JvmStatic
     fun nullableQuotedChar(c: Char?): String {
-        return nullable(c, Function { o: Char -> quote(c.toString()) })
+        return nullable(c) { quote(it.toString()) }
     }
 
     /**
@@ -158,7 +157,7 @@ object Utils {
      */
     @JvmStatic
     fun nullableInt(i: Int?): String {
-        return nullable(i, Function { it.toString() })
+        return nullable(i) { it.toString() }
     }
 
     /**
@@ -169,7 +168,7 @@ object Utils {
      */
     @JvmStatic
     fun nullableLong(l: Long?): String {
-        return nullable(l, Function { it.toString() })
+        return nullable(l) { it.toString() }
     }
 
     /**
@@ -180,7 +179,7 @@ object Utils {
      */
     @JvmStatic
     fun nullableFloat(f: Float?): String {
-        return nullable(f, Function { it.toString() })
+        return nullable(f) { it.toString() }
     }
 
     /**
@@ -191,7 +190,7 @@ object Utils {
      */
     @JvmStatic
     fun nullableDate(date: Date?): String {
-        return nullable(date, Function { it.time.toString() })
+        return nullable(date) { it.time.toString() }
     }
 
     //
