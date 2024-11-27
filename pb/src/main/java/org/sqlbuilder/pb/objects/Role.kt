@@ -86,7 +86,7 @@ class Role private constructor(
             .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
 
         @JvmField
-        val COLLECTOR = SetCollector2<Role>(COMPARATOR)
+        val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
         fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
             val r = Role(roleSet, n, f, descriptor, theta)

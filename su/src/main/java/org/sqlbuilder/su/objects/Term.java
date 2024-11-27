@@ -11,7 +11,7 @@ public class Term implements HasId, Insertable, Serializable, Comparable<Term>, 
 {
 	public static final Comparator<Term> COMPARATOR = Comparator.comparing(Term::getTerm);
 
-	public static final SetCollector2<Term> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Term> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	protected static final String[] wellKnownTerms = new String[]{"subclass", "subrelation", "instance", "disjoint", //
 			"domain", "partition", //

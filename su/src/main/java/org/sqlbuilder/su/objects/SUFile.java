@@ -13,7 +13,7 @@ public class SUFile implements HasId, Insertable, Serializable, Comparable<SUFil
 {
 	public static final Comparator<SUFile> COMPARATOR = Comparator.comparing(SUFile::getFilename);
 
-	public static final SetCollector2<SUFile> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<SUFile> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final String filename;
 

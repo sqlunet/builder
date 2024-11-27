@@ -10,7 +10,7 @@ public class Theta implements HasId, Comparable<Theta>, Insertable
 {
 	public static final Comparator<Theta> COMPARATOR = Comparator.comparing(Theta::getTheta);
 
-	public static final SetCollector2<Theta> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Theta> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String theta;
 

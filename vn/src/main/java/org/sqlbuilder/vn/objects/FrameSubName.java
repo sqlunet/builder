@@ -9,7 +9,7 @@ public class FrameSubName implements HasId, Insertable, Comparable<FrameSubName>
 {
 	public static final Comparator<FrameSubName> COMPARATOR = Comparator.comparing(FrameSubName::getSubName);
 
-	public static final SetCollector2<FrameSubName> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<FrameSubName> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String subName;
 

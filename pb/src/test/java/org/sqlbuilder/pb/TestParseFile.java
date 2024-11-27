@@ -1,7 +1,7 @@
 package org.sqlbuilder.pb;
 
 import org.junit.Test;
-import org.sqlbuilder.common.SetCollector2;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.pb.collectors.PbCollector;
 import org.sqlbuilder.pb.objects.*;
 
@@ -37,14 +37,14 @@ public class TestParseFile
 		var words = Word.COLLECTOR;
 
 		var names = new String[]{"aspects", "forms", "persons", "tenses", "voices", "funcs", "thetas", "rolesets", "roles", "examples", "rels", "args", "words",};
-		var collectors = new SetCollector2[]{aspects, forms, persons, tenses, voices, funcs, thetas, rolesets, roles, examples, rels, words,};
+		var collectors = new SetCollector[]{aspects, forms, persons, tenses, voices, funcs, thetas, rolesets, roles, examples, rels, words,};
 		var i = 0;
 		for (var c : collectors)
 		{
 			System.out.println(names[i] + " " + c.getSize());
 			i++;
 		}
-		var collectors2 = new SetCollector2[]{ args,};
+		var collectors2 = new SetCollector[]{ args,};
 		for (var c : collectors2)
 		{
 			System.out.println(names[i]);

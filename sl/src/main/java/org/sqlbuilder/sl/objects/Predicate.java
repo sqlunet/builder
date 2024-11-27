@@ -9,7 +9,7 @@ public class Predicate implements HasId, Comparable<Predicate>, Insertable
 {
 	public static final Comparator<Predicate> COMPARATOR = Comparator.comparing(Predicate::getPredicate);
 
-	public static final SetCollector2<Predicate> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Predicate> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final String predicate;
 

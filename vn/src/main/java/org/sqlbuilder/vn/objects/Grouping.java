@@ -9,7 +9,7 @@ public class Grouping implements HasId, Insertable, Comparable<Grouping>
 {
 	public static final Comparator<Grouping> COMPARATOR = Comparator.comparing(Grouping::getName);
 
-	public static final SetCollector2<Grouping> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Grouping> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String name;
 

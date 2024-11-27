@@ -1,6 +1,5 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 
@@ -11,7 +10,7 @@ public class Role implements Insertable, HasId
 {
 	public static final Comparator<Role> COMPARATOR = Comparator.comparing(Role::getClazz).thenComparing(Role::getRestrRole);
 
-	public static final SetCollector2<Role> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final RestrainedRole restrainedRole;
 

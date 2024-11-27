@@ -10,7 +10,7 @@ public class PmRole implements HasId, Insertable, Comparable<PmRole>
 {
 	public static final Comparator<PmRole> COMPARATOR = Comparator.comparing(PmRole::getPredicate).thenComparing(PmRole::getRole).thenComparing(PmRole::getPos);
 
-	public static final SetCollector2<PmRole> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<PmRole> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final PmPredicate predicate;
 

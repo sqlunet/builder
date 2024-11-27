@@ -3,7 +3,7 @@ package org.sqlbuilder.pb.objects
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.SetCollector2
+import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
 import java.util.*
 
@@ -56,7 +56,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, I
         val COMPARATOR: Comparator<Theta> = Comparator.comparing<Theta, String> { it.theta }
 
         @JvmField
-        val COLLECTOR = SetCollector2<Theta>(COMPARATOR)
+        val COLLECTOR = SetCollector<Theta>(COMPARATOR)
 
         @JvmStatic
         fun make(thetaName: String): Theta {

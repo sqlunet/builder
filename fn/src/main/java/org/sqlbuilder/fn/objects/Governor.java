@@ -11,7 +11,7 @@ public class Governor implements HasId, Insertable
 {
 	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
 
-	public static final SetCollector2<Governor> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Governor> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String type;
 

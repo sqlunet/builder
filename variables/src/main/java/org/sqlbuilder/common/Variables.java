@@ -264,7 +264,7 @@ public class Variables
 	 * Check for remaining variable pattern in in string
 	 *
 	 * @param input input string
-	 * @throws IllegalStateException illagal state exception
+	 * @throws IllegalStateException illegal state exception
 	 */
 	public void check(String input)
 	{

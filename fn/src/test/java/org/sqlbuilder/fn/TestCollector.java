@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn;
 
 import org.junit.Test;
-import org.sqlbuilder.common.SetCollector2;
+import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -12,9 +12,9 @@ public class TestCollector
 
 	private static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
 
-	private static final SetCollector2<String> C = new SetCollector2<>(COMPARATOR);
+	private static final SetCollector<String> C = new SetCollector<>(COMPARATOR);
 
-	private static final SetCollector2<String> D = new SetCollector2<>(COMPARATOR);
+	private static final SetCollector<String> D = new SetCollector<>(COMPARATOR);
 
 	@Test
 	public void test()

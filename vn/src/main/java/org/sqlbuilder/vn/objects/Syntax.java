@@ -14,7 +14,7 @@ public class Syntax implements HasId, Insertable, Comparable<Syntax>
 {
 	public static final Comparator<Syntax> COMPARATOR = Comparator.comparing(Syntax::getSyntax);
 
-	public static final SetCollector2<Syntax> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Syntax> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private static final VnSyntaxXmlProcessor SYNTAX_XML_PROCESSOR = new VnSyntaxXmlProcessor();
 

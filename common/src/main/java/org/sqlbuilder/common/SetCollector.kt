@@ -4,13 +4,13 @@ import java.io.Closeable
 import java.util.*
 import java.util.function.Function
 
-class SetCollector2<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>, Closeable {
+class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>, Closeable {
 
     private val map = TreeMap<T, Int?>(comparator)
 
     private var isOpen = false
 
-    fun open(): SetCollector2<T> {
+    fun open(): SetCollector<T> {
         var i = 1
         for (k in map.keys) {
             map.put(k, i++)

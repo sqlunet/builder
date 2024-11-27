@@ -62,7 +62,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
         val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
 
         @JvmField
-        val COLLECTOR = SetCollector2<Word>(COMPARATOR)
+        val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
         @JvmStatic
         fun make(word: String): Word {

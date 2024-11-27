@@ -9,7 +9,7 @@ public class RestrType implements HasId, Insertable, Comparable<RestrType>
 {
 	public static final Comparator<RestrType> COMPARATOR = Comparator.comparing(RestrType::getType).thenComparing(RestrType::getValue).thenComparing(RestrType::isSyntactic);
 
-	public static final SetCollector2<RestrType> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<RestrType> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String value;
 

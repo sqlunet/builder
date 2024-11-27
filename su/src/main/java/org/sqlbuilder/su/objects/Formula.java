@@ -12,7 +12,7 @@ public class Formula implements HasId, Insertable, Serializable, Comparable<Form
 {
 	public static final Comparator<Formula> COMPARATOR = Comparator.comparing(Formula::getFormulaText);
 
-	public static final SetCollector2<Formula> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Formula> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final com.articulate.sigma.Formula formula;
 

@@ -2,7 +2,7 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector2;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor;
 import org.xml.sax.SAXException;
 
@@ -15,7 +15,7 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 {
 	public static final Comparator<Semantics> COMPARATOR = Comparator.comparing(Semantics::getSemantics);
 
-	public static final SetCollector2<Semantics> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Semantics> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private static final VnSemanticsXmlProcessor SEMANTICS_PROCESSOR = new VnSemanticsXmlProcessor();
 

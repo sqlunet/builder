@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector2;
+import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,7 +12,7 @@ public class VnClass implements HasId, Insertable, Comparable<VnClass>
 {
 	public static final Comparator<VnClass> COMPARATOR = Comparator.comparing(VnClass::getName);
 
-	public static final SetCollector2<VnClass> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<VnClass> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String name;
 

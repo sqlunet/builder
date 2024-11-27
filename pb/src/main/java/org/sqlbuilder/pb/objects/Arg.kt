@@ -71,7 +71,7 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
             .thenComparing<Func?>({ it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
 
         @JvmField
-        val COLLECTOR = SetCollector2<Arg>(COMPARATOR)
+        val COLLECTOR = SetCollector<Arg>(COMPARATOR)
 
         fun make(example: Example, text: String, n: String, f: String?): Arg {
             val a = Arg(example, text, n, f)

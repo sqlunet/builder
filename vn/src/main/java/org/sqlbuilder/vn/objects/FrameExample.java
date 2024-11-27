@@ -9,7 +9,7 @@ public class FrameExample implements HasId, Insertable, Comparable<FrameExample>
 {
 	public static final Comparator<FrameExample> COMPARATOR = Comparator.comparing(FrameExample::getExample);
 
-	public static final SetCollector2<FrameExample> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<FrameExample> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String example;
 

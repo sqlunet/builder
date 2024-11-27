@@ -19,7 +19,7 @@ public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable
 			.thenComparing(ValenceUnit::getPT, nullsFirst(naturalOrder())) //
 			.thenComparing(ValenceUnit::getGF, nullsFirst(naturalOrder()));
 
-	public static final SetCollector2<ValenceUnit> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<ValenceUnit> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	public final String fe;
 

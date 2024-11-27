@@ -3,7 +3,7 @@ package org.sqlbuilder.pb.objects
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.SetCollector2
+import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
 import java.util.*
 
@@ -37,7 +37,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
         val COMPARATOR: Comparator<Func> = Comparator.comparing<Func, String> { it.func }
 
         @JvmField
-        val COLLECTOR = SetCollector2<Func>(COMPARATOR)
+        val COLLECTOR = SetCollector<Func>(COMPARATOR)
 
         private val PREDEFINED = arrayOf("ADJ", "ADV", "CAU", "COM", "CXN", "DIR", "DIS", "DSP", "EXT", "GOL", "LOC", "LVB", "MNR", "MOD", "NEG", "PAG", "PNC", "PPT", "PRD", "PRP", "PRR", "RCL", "REC", "SLC", "TMP", "VSP")
 

@@ -12,7 +12,7 @@ public class Word implements HasId, Insertable, Resolvable<String, Integer>, Com
 {
 	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
 
-	public static final SetCollector2<Word> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Word> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String word;
 

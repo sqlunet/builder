@@ -19,7 +19,7 @@ public class Frame implements HasId, Insertable, Comparable<Frame>
 			.thenComparing(Frame::getSyntax) //
 			.thenComparing(Frame::getSemantics);
 
-	public static final SetCollector2<Frame> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Frame> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String descriptionNumber;
 

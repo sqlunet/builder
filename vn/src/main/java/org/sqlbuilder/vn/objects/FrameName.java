@@ -3,7 +3,7 @@ package org.sqlbuilder.vn.objects;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
 import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector2;
+import org.sqlbuilder.common.SetCollector;
 
 import java.util.Comparator;
 
@@ -11,7 +11,7 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 {
 	public static final Comparator<FrameName> COMPARATOR = Comparator.comparing(FrameName::getName);
 
-	public static final SetCollector2<FrameName> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<FrameName> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private final String name;
 

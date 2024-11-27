@@ -2,7 +2,7 @@ package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector2;
+import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.vn.collector.VnRestrsXmlProcessor;
 import org.xml.sax.SAXException;
 
@@ -17,7 +17,7 @@ public class Restrs implements HasId, Insertable, Comparable<Restrs>
 
 	public static final Comparator<Restrs> COMPARATOR = Comparator.comparing(Restrs::getValue).thenComparing(Restrs::isSyntactic);
 
-	public static final SetCollector2<Restrs> COLLECTOR = new SetCollector2<>(COMPARATOR);
+	public static final SetCollector<Restrs> COLLECTOR = new SetCollector<>(COMPARATOR);
 
 	private static final VnRestrsXmlProcessor RESTRS_XML_PROCESSOR = new VnRestrsXmlProcessor();
 
