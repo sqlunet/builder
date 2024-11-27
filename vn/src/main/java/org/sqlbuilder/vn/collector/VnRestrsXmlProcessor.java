@@ -1,6 +1,6 @@
 package org.sqlbuilder.vn.collector;
 
-import org.sqlbuilder.common.Checker;
+import org.sqlbuilder.common.XmlChecker;
 import org.sqlbuilder.common.XmlProcessor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,7 +64,7 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			final Node node2 = nodes2.item(j);
 			if (!(node2 instanceof Element))
 			{
-				Checker.checkEmpty(node2, "RESTR: non-empty non-element at root", LOG_ONLY);
+				XmlChecker.checkEmpty(node2, "RESTR: non-empty non-element at root", LOG_ONLY);
 				continue;
 			}
 			final Element e2 = (Element) node2;
@@ -87,18 +87,18 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 
 		// name
 		final String name2 = e2.getNodeName();
-		Checker.checkElementName(name2, RESTRS, "RESTR: " + name2 + " found, expected: " + RESTRS);
+		XmlChecker.checkElementName(name2, RESTRS, "RESTR: " + name2 + " found, expected: " + RESTRS);
 		// sb.append(" = ");
 		// sb.append(name2);
 
 		// attribute check
-		Checker.checkAttributeName(e2, "logic", "RESTR: " + name2 + " has no 'logic' attribute", LOG_ONLY);
+		XmlChecker.checkAttributeName(e2, "logic", "RESTR: " + name2 + " has no 'logic' attribute", LOG_ONLY);
 
 		// 'Value' attribute value
 		String logic = e2.getAttribute("logic").trim();
 		if (!logic.isEmpty())
 		{
-			Checker.checkAttributeValue(logic, "or|and", "RESTR: " + name2 + " has 'logic' attribute value outside or|and", LOG_ONLY);
+			XmlChecker.checkAttributeValue(logic, "or|and", "RESTR: " + name2 + " has 'logic' attribute value outside or|and", LOG_ONLY);
 		}
 
 		// SELRESTR|SYNRESTR
@@ -118,7 +118,7 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			final boolean isSynRestr = name3.equals("SYNRESTR");
 			final boolean isSelRestr = name3.equals("SELRESTR");
 
-			Checker.checkElementName(name3, RESTRS2, "RESTR: " + name2 + " has unexpected element " + name3 + ", expected: " + RESTRS2);
+			XmlChecker.checkElementName(name3, RESTRS2, "RESTR: " + name2 + " has unexpected element " + name3 + ", expected: " + RESTRS2);
 			// sb.append(" - ");
 			// sb.append(name3);
 
@@ -132,13 +132,13 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			else
 			{
 				// attribute check
-				Checker.checkAttributeName(e3, "Value|type", "RESTR: " + name3 + " has no 'Value'|'type' attribute", LOG_ONLY);
+				XmlChecker.checkAttributeName(e3, "Value|type", "RESTR: " + name3 + " has no 'Value'|'type' attribute", LOG_ONLY);
 
 				// 'Value' attribute value
 				final String value3 = e3.getAttribute("Value").trim();
 				if (!value3.isEmpty())
 				{
-					Checker.checkAttributeValue(value3, "(\\+|\\-)", "RESTR: " + name3 + " has 'value' not in (+/-)", LOG_ONLY);
+					XmlChecker.checkAttributeValue(value3, "(\\+|\\-)", "RESTR: " + name3 + " has 'value' not in (+/-)", LOG_ONLY);
 				}
 
 				// 'type' attribute value
@@ -147,12 +147,12 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 				{
 					if (isSynRestr)
 					{
-						Checker.checkAttributeValue(type3, SYNRESTR_PATTERN, "SYNRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SYNRESTR_PATTERN.pattern(), LOG_ONLY);
+						XmlChecker.checkAttributeValue(type3, SYNRESTR_PATTERN, "SYNRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SYNRESTR_PATTERN.pattern(), LOG_ONLY);
 						//System.out.println("@SYN " + type3);
 					}
 					if (isSelRestr)
 					{
-						Checker.checkAttributeValue(type3, SELRESTR_PATTERN, "SELRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SELRESTR_PATTERN.pattern(), LOG_ONLY);
+						XmlChecker.checkAttributeValue(type3, SELRESTR_PATTERN, "SELRESTR: " + name3 + " has no 'type' in " + name3 + ", expected: " + SELRESTR_PATTERN.pattern(), LOG_ONLY);
 						//System.out.println("@SEL " + type3);
 					}
 				}

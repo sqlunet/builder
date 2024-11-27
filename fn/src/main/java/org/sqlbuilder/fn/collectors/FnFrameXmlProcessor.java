@@ -1,6 +1,6 @@
 package org.sqlbuilder.fn.collectors;
 
-import org.sqlbuilder.common.Checker;
+import org.sqlbuilder.common.XmlChecker;
 import org.sqlbuilder.common.XmlProcessor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -65,20 +65,20 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						e2.getOwnerDocument().renameNode(node, null, "em");
 						name2 = node.getNodeName();
 					}
-					Checker.checkElementName(name2, "(fen|t|ex|ment|em)", "top");
+					XmlChecker.checkElementName(name2, "(fen|t|ex|ment|em)", "top");
 
 					switch (name2)
 					{
 						case "ex":
-							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String example = FnFrameXmlProcessor.processExample(e2);
 							sb.append("<ex>").append(example).append("</ex>");
 							break;
 						case "fen":
 						{
-							Checker.checkSubElements(e2, null, name2, LOG_ONLY);
-							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkSubElements(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append("<fen>").append(value).append("</fen>");
@@ -86,8 +86,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						}
 						case "t":
 						{
-							Checker.checkSubElements(e2, null, name2, LOG_ONLY);
-							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkSubElements(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append("<t>").append(value).append("</t>");
@@ -97,8 +97,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						{
 							// TODO only one error
 							// Checker.check_SubElements(e2, null, name2);
-							Checker.checkSubElements(e2, "(fen)", name2, LOG_ONLY);
-							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkSubElements(e2, "(fen)", name2, LOG_ONLY);
+							XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append(value);
@@ -107,8 +107,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 						}
 						case "em":
 						{
-							Checker.checkSubElements(e2, null, name2, LOG_ONLY);
-							Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkSubElements(e2, null, name2, LOG_ONLY);
+							XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 							final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 							sb.append(value);
@@ -145,14 +145,14 @@ public class FnFrameXmlProcessor extends XmlProcessor
 			{
 				final Element e2 = (Element) node;
 				final String name2 = node.getNodeName();
-				Checker.checkElementName(name2, "(fex|t|m|ment|gov|x|target)", "ex");
+				XmlChecker.checkElementName(name2, "(fex|t|m|ment|gov|x|target)", "ex");
 
 				switch (name2)
 				{
 					case "fex":
 					{
-						Checker.checkSubElements(e2, "(t)", name2, LOG_ONLY);
-						Checker.checkAttributeName(e2, "(name)", name2, LOG_ONLY);
+						XmlChecker.checkSubElements(e2, "(t)", name2, LOG_ONLY);
+						XmlChecker.checkAttributeName(e2, "(name)", name2, LOG_ONLY);
 
 						// attribute
 						final String attr = e2.getAttribute("name");
@@ -167,8 +167,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					}
 					case "t":
 					{
-						Checker.checkSubElements(e2, "(fex)", name2, LOG_ONLY);
-						Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+						XmlChecker.checkSubElements(e2, "(fex)", name2, LOG_ONLY);
+						XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 						final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 						sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>');
@@ -176,8 +176,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					}
 					case "x":
 					{
-						Checker.checkSubElements(e2, "(fex|t)", "x", LOG_ONLY);
-						Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+						XmlChecker.checkSubElements(e2, "(fex|t)", "x", LOG_ONLY);
+						XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 						final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 						sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>');
@@ -190,8 +190,8 @@ public class FnFrameXmlProcessor extends XmlProcessor
 					 */
 					default:
 					{
-						Checker.checkSubElements(e2, null, name2, LOG_ONLY);
-						Checker.checkAttributeName(e2, null, name2, LOG_ONLY);
+						XmlChecker.checkSubElements(e2, null, name2, LOG_ONLY);
+						XmlChecker.checkAttributeName(e2, null, name2, LOG_ONLY);
 
 						final String value = e2.getTextContent().replaceAll("\n\n+", "\n");
 						// sb.append('<').append(name2).append('>').append(value).append("</").append(name2).append('>');
