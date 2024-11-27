@@ -8,9 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.java" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="rename SetCollector">
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
@@ -230,7 +230,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732650519281</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="rename SetCollector">
+      <option name="closed" value="true" />
+      <created>1732685326921</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1732685326921</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -258,7 +266,8 @@
     <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="rename insert functions" />
     <MESSAGE value="to kotlin" />
-    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
+    <MESSAGE value="rename SetCollector" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename SetCollector" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

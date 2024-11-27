@@ -51,7 +51,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         Progress.tracePending("set", "fnalias")
         val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
         val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
-        Update.update(
+        Update.update2(
             FnAlias.SET,
             File(outDir, names.updateFile("pbrolesets_fnframes")),
             header,
@@ -67,7 +67,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         Progress.tracePending("set", "vnalias")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
-        Update.update(
+        Update.update2(
             VnAlias.SET,
             File(outDir, names.updateFile("pbrolesets_vnclasses")),
             header,
@@ -86,7 +86,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnroletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
         val vnclassCol = names.column("pbroles_vnroles.vnclass")
         val vnroleCol = names.column("pbroles_vnroles.vntheta")
-        Update.update(
+        Update.update2(
             VnRoleAlias.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header!!,

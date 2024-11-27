@@ -1,83 +1,43 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.function.Function;
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.PrintStream
+import java.util.function.Consumer
+import java.util.function.Function
 
-public class Update
-{
-	public static <T extends Resolvable<U, R>, U, R> void update(
-			final Collection<T> collection,
-			final File file,
-			final String header,
-			final String table,
-			final Function<U, R> resolver,
-			final Function<R, String> setStringifier,
-			final Function<U, String> whereStringifier
-	) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!collection.isEmpty())
-			{
-				collection.forEach(item -> {
+object Update {
 
-					R resolved = item.resolve(resolver);
-					if (resolved != null)
-					{
-						U resolving = item.resolving();
-						String sqlResolving = whereStringifier.apply(resolving);
-						String sqlResolved = setStringifier.apply(resolved);
-						String comment = item.comment();
-						String row = String.format("UPDATE %s SET %s WHERE %s;", table, sqlResolved, sqlResolving);
-						if (comment != null)
-						{
-							row = String.format("%s /* %s */", row, comment);
-						}
-						ps.println(row);
-					}
-				});
-			}
-		}
-	}
-
-	public static <T extends Resolvable<U, R>, U, R> void update2(
-			final Iterable<T> items,
-			final File file,
-			final String header,
-			final String table,
-			final Function<U, R> resolver,
-			final Function<R, String> setStringifier,
-			final Function<U, String> whereStringifier
-	) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (items.iterator().hasNext())
-			{
-				items.forEach(item -> {
-
-					R resolved = item.resolve(resolver);
-					if (resolved != null)
-					{
-						U resolving = item.resolving();
-						String sqlResolving = whereStringifier.apply(resolving);
-						String sqlResolved = setStringifier.apply(resolved);
-						String comment = item.comment();
-						String row = String.format("UPDATE %s SET %s WHERE %s;", table, sqlResolved, sqlResolving);
-						if (comment != null)
-						{
-							row = String.format("%s /* %s */", row, comment);
-						}
-						ps.println(row);
-					}
-				});
-			}
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Resolvable<U, R>, U, R> update2(
+        items: Iterable<T>,
+        file: File,
+        header: String,
+        table: String,
+        resolver: Function<U, R>,
+        setStringifier: Function<R, String>,
+        whereStringifier: Function<U, String>
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                items.forEach(Consumer { item: T? ->
+                    val resolved = item!!.resolve(resolver)
+                    if (resolved != null) {
+                        val resolving = item.resolving()
+                        val sqlResolving = whereStringifier.apply(resolving)
+                        val sqlResolved = setStringifier.apply(resolved)
+                        val comment = item.comment()
+                        var row = String.format("UPDATE %s SET %s WHERE %s;", table, sqlResolved, sqlResolving)
+                        if (comment != null) {
+                            row = String.format("%s /* %s */", row, comment)
+                        }
+                        ps.println(row)
+                    }
+                })
+            }
+        }
+    }
 }
