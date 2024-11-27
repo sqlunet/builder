@@ -89,8 +89,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         Update.update(
             VnRoleAlias.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
-            header!!,
-            names.table("pbroles_vnroles")!!,
+            header,
+            names.table("pbroles_vnroles"),
             vnClassRoleResolver,
             { resolved ->
                 if (resolved == null)
