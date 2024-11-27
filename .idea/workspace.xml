@@ -2,15 +2,20 @@
 <project version="4">
   <component name="AnalysisUIOptions">
     <option name="ANALYZE_INJECTED_CODE" value="false" />
-    <option name="SCOPE_TYPE" value="3" />
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="Open Files" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="optimize">
-      <change afterPath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.java" beforeDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerialize.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerializeNIDs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerialize.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerializeNIDs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/MapFactory.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
@@ -334,7 +339,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732695445453</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732698522103</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1732698522103</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -364,9 +377,9 @@
     <MESSAGE value="rename SetCollector" />
     <MESSAGE value="rename" />
     <MESSAGE value="simplify" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="optimize" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimize" />
+    <MESSAGE value="to kotlin" />
+    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
