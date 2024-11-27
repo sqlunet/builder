@@ -50,7 +50,7 @@ object XPathUtils {
         return result
     }
 
-    // X M L A S T E X T
+    // X M L   A S   T E X T
 
     @Throws(TransformerException::class)
     fun getXML(nodes: NodeList): MutableList<String> {
