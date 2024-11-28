@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <entry_points version="2.0">
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pb.foreign.Alias COMPARATOR" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.joins.FEGroupPattern COMPARATOR" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.objects.FERealization COMPARATOR" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.objects.Frame COMPARATOR" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.ListCollector isOpen" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pb.collectors.PbCollector conf" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pm.PmProcessor conf" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.sn.SnProcessor conf" />
+    </entry_points>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -8,5 +20,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
 </project>

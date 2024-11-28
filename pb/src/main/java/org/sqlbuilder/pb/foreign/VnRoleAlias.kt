@@ -11,9 +11,10 @@ import java.util.*
 
 class VnRoleAlias private constructor(
     val role: Role, val vnRole: VnRole,
-) : Insertable, Resolvable<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+) : Insertable, Resolvable<Pair<String?, String?>, Triplet<Int?, Int?, Int?>?> {
 
     // I D E N T I T Y
+
     override fun equals(o: Any?): Boolean {
         if (this === o) {
             return true
@@ -30,6 +31,7 @@ class VnRoleAlias private constructor(
     }
 
     // I N S E R T
+
     @RequiresIdFrom(type = Role::class)
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {

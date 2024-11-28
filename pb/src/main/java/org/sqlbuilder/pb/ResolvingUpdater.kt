@@ -7,6 +7,7 @@ import org.sqlbuilder.pb.foreign.FnAlias
 import org.sqlbuilder.pb.foreign.VnAlias
 import org.sqlbuilder.pb.foreign.VnRoleAlias
 import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder2.ser.Pair
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
@@ -91,24 +92,26 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
             names.table("pbroles_vnroles"),
-            vnClassRoleResolver,
+            { p: Pair<String?, String?> -> vnClassRoleResolver.apply(p) },
             { resolved ->
                 if (resolved == null)
                     String.format("%s=NULL,%s=NULL,%s=NULL", vnclassidCol, vnroleidCol, vnroletypeidCol)
                 else
-                    String.format("%s=%s,%s=%s,%s=%s",
-                    vnclassidCol,
-                    Utils.nullableInt(resolved.first),
-                    vnroleidCol,
-                    Utils.nullableInt(resolved.second),
-                    vnroletypeidCol,
-                    Utils.nullableInt(resolved.third)
-                )
+                    String.format(
+                        "%s=%s,%s=%s,%s=%s",
+                        vnclassidCol,
+                        Utils.nullableInt(resolved.first),
+                        vnroleidCol,
+                        Utils.nullableInt(resolved.second),
+                        vnroletypeidCol,
+                        Utils.nullableInt(resolved.third)
+                    )
             },
             { resolving ->
-                String.format("%s='%s' AND %s='%s'",
+                String.format(
+                    "%s='%s' AND %s='%s'",
                     vnclassCol,
-                    Utils.escape(resolving!!.first!!),
+                    Utils.escape(resolving.first!!),
                     vnroleCol,
                     Utils.escape(resolving.second!!)
                 )
