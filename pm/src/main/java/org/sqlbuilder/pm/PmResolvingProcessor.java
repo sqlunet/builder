@@ -100,7 +100,7 @@ public class PmResolvingProcessor extends PmProcessor
 						var sk = sensekeyResolver.apply(entry.sensekey);
 
 						var vnWordid = this.vnWordResolver.apply(entry.word);
-						var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.theta));
+						var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.role));
 						var pbWordid = this.pbWordResolver.apply(entry.word);
 						var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
 						var fnWordid = this.fnWordResolver.apply(entry.word);

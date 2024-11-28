@@ -27,7 +27,7 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 	static final String CATS = "ADJ|ADV|LEX|NP|PREP|VERB|VP";
 
 	private static String NP_REGEX33 = "Affector|Agent|Asset|Attribute|Axis|Beneficiary|Causer|Co-Agent|Context|Co-Patient|Co-Theme|Destination|Duration|Experiencer|Extent|Goal|Initial_Location|Initial_State|Instrument|Location|Manner|Material|Path|Patient|Pivot|Precondition|Predicate|Product|Recipient|Reflexive|Result|Source|Stimulus|Theme|Time|Topic|Trajectory|Value";
-	private static String NP_REGEX34 = "Affector|Agent|Asset|Attribute|Axis|Beneficiary|Causer|Circumstance|Co-Agent|Co-Patient|Co-Theme|Destination|Duration|Eventuality|Experiencer|Extent|Goal|Initial_Location|Initial_State|Instrument|Location|Maleficiary|Manner|Material|Path|Patient|Pivot|Precondition|Product|Recipient|Reflexive|Result|Result|Source|Stimulus|Subeventuality|Theme|Topic|Trajectory|Value";
+	private static String NP_REGEX34 = "Affector|Agent|Asset|Attribute|Axis|Beneficiary|Causer|Circumstance|Co-Agent|Co-Patient|Co-Theme|Destination|Duration|Eventuality|Experiencer|Extent|Goal|Initial_Location|Initial_State|Instrument|Location|Maleficiary|Manner|Material|Path|Patient|Pivot|Precondition|Product|Recipient|Reflexive|Result|Source|Stimulus|Subeventuality|Theme|Topic|Trajectory|Value";
 
 	private static String PREP_REGEX33 = "about|after|against|among|as|as_if|as_though|at|before|between|by|concerning|for|from|in|in_between|into|like|of|off|on|onto|out_of|over|regarding|respecting|through|to|towards|under|until|upon|with";
 	private static String PREP_REGEX34 = "about|after|against|among|as|as_if|as_though|at|before|between|by|concerning|for|from|in|in_between|into|like|of|off|on|onto|out_of|over|regarding|respecting|through|to|toward|towards|under|upon|with";
@@ -163,7 +163,7 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 				final Node node2 = nodes2.item(j);
 				if (!(node2 instanceof Element))
 				{
-					// TODO Checker.checkEmpty(node2, "SYNTAX found non element as child of " + name, LOG_ONLY);
+					// TODO XmlChecker.checkEmpty(node2, "SYNTAX found non element as child of " + name, LOG_ONLY);
 					continue;
 				}
 				final Element e2 = (Element) node2;
@@ -191,7 +191,7 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					final Node node3 = nodes3.item(k);
 					if (!(node3 instanceof Element))
 					{
-						//TODO Checker.checkEmpty(node3, "SYNTAX " + "found non element as child of " + name2, LOG_ONLY);
+						//TODO XmlChecker.checkEmpty(node3, "SYNTAX " + "found non element as child of " + name2, LOG_ONLY);
 						continue;
 					}
 					final Element e3 = (Element) node3;

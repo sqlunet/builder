@@ -122,7 +122,7 @@ public class PmEntry implements Insertable
 		// verbnet
 		String vnsubclass = columns[PmEntry.VN_SUBCLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_SUBCLASS]) ? null : columns[PmEntry.VN_SUBCLASS].trim().substring(3);
 		entry.vn.clazz = vnsubclass != null ? vnsubclass : columns[PmEntry.VN_CLASS] == null || "vn:NULL".equals(columns[PmEntry.VN_CLASS]) ? null : columns[PmEntry.VN_CLASS].trim().substring(3);
-		entry.vn.theta = columns[PmEntry.VN_ROLE] == null || "vn:NULL".equals(columns[PmEntry.VN_ROLE]) ? null : columns[PmEntry.VN_ROLE].trim().substring(3);
+		entry.vn.role = columns[PmEntry.VN_ROLE] == null || "vn:NULL".equals(columns[PmEntry.VN_ROLE]) ? null : columns[PmEntry.VN_ROLE].trim().substring(3);
 
 		// propbank
 		entry.pb.roleset = columns[PmEntry.PB_ROLESET] == null || "pb:NULL".equals(columns[PmEntry.PB_ROLESET]) ? null : columns[PmEntry.PB_ROLESET].trim().substring(3);

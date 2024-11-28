@@ -108,7 +108,7 @@ public class VnRestrsXmlProcessor extends XmlProcessor
 			final Node node3 = nodes3.item(k);
 			if (!(node3 instanceof Element))
 			{
-				//Checker.checkEmpty(node3, "RESTR: " + name2 + " has non-empty non-element " + node3, LOG_ONLY);
+				//XmlChecker.checkEmpty(node3, "RESTR: " + name2 + " has non-empty non-element " + node3, LOG_ONLY);
 				continue;
 			}
 			final Element e3 = (Element) node3;
