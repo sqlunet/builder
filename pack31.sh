@@ -7,38 +7,32 @@ set -e
 source define_colors.sh
 source define_build.sh
 
-safe_shift() {
-    if [ "$#" -gt 0 ]; then
-        shift
-    fi
-}
-
 # P A R A M S
 
 # Usage modules                  dbtag        dbdir
 # Usage [bnc|sn|vn|pb|sl|fn|pm]  oewn2X|other sql|other
 
 dbmodules="$1"
-safe_shift
+[ "$#" -eq 0 ] || shift
 if [ -z "${dbmodules}" -o "${dbmodules}" == "all" ]; then
   # dbmodules="bnc sn vn pb sl fn su pm"
   dbmodules="bnc"
 fi
 
 dbtag=$1
-safe_shift
+[ "$#" -eq 0 ] || shift
 if [ -z "${dbtag}" ]; then
   dbtag="wn${TAG31}"
 fi
 
 dbdir=$1
-safe_shift
+[ "$#" -eq 0 ] || shift
 if [ -z "${dbdir}" ]; then
   dbdir=sql31
 fi
 
 version=$1
-safe_shift
+[ "$#" -eq 0 ] || shift
 if [ -z "${version}" ]; then
   version="${BUILD}"
 fi
