@@ -1,150 +1,116 @@
-package org.sqlbuilder.bnc;
+package org.sqlbuilder.bnc
 
-import org.sqlbuilder.bnc.objects.BncExtendedRecord;
-import org.sqlbuilder.bnc.objects.BncRecord;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.bnc.objects.BncExtendedRecord
+import org.sqlbuilder.bnc.objects.BncRecord
+import org.sqlbuilder.common.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.stream.Stream;
+open class BncProcessor(@JvmField protected val conf: Properties) : Processor("bnc") {
 
-public class BncProcessor extends Processor
-{
-	protected final File bncHome;
+    @JvmField
+    protected val bncHome: File = File(conf.getProperty("bnc_home", System.getenv()["BNCHOME"]))
 
-	protected final Names names;
+    @JvmField
+    protected val names: Names = Names("bnc")
 
-	protected String header;
+    @JvmField
+    protected var header: String = conf.getProperty("bnc_header")
 
-	protected File outDir;
+    @JvmField
+    protected var outDir: File = File(conf.getProperty("bnc_outdir", "sql/data"))
 
-	protected final Properties conf;
+    init {
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-	public BncProcessor(final Properties conf)
-	{
-		super("bnc");
-		this.names = new Names("bnc");
-		this.conf = conf;
-		this.header = conf.getProperty("bnc_header");
-		this.bncHome = new File(conf.getProperty("bnc_home", System.getenv().get("BNCHOME")));
-		this.outDir = new File(conf.getProperty("bnc_outdir", "sql/data"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(IOException::class)
+    override fun run() {
+        // main
+        val bNCMain = conf.getProperty("bnc_main", "bnc.txt")
+        PrintStream(FileOutputStream(File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCFile(ps, File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs"), ThrowingBiConsumer { record: BncRecord, i: Int -> insertRow(ps, i.toLong(), record.dataRow()) })
+        }
+        // subfiles
+        val bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt")
+        PrintStream(FileOutputStream(File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCSubFile(ps, File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs"), ThrowingBiConsumer { record: BncRecord, i: Int -> insertRow(ps, i.toLong(), record.dataRow()) })
+        }
+        val bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt")
+        PrintStream(FileOutputStream(File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCSubFile(ps, File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks"), ThrowingBiConsumer { record: BncRecord, i: Int -> insertRow(ps, i.toLong(), record.dataRow()) })
+        }
+        val bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt")
+        PrintStream(FileOutputStream(File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCSubFile(ps, File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs"), ThrowingBiConsumer { record: BncRecord, i: Int -> insertRow(ps, i.toLong(), record.dataRow()) })
+        }
+    }
 
-	@Override
-	public void run() throws IOException
-	{
-		// main
-		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCFile(ps, new File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs"), (record, i) -> insertRow(ps, i, record.dataRow()));
-		}
+    @Throws(IOException::class)
+    protected open fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: ThrowingBiConsumer<BncRecord, Int>) {
+        ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+        process(file, ThrowingFunction { BncRecord.Companion.parse(it) }, consumer)
+        ps.print(';')
+    }
 
-		// subfiles
-		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs"), (record, i) -> insertRow(ps, i, record.dataRow()));
-		}
+    @Throws(IOException::class)
+    protected open fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: ThrowingBiConsumer<BncRecord, Int>) {
+        ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+        process(file, ThrowingFunction { BncExtendedRecord.Companion.parse(it) }, consumer)
+        ps.print(';')
+    }
 
-		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks"), (record, i) -> insertRow(ps, i, record.dataRow()));
-		}
+    @Throws(IOException::class)
+    protected fun process(file: File, producer: ThrowingFunction<String, BncRecord>, consumer: ThrowingBiConsumer<BncRecord, Int>) {
+        file.useLines {
+            var lineNum = 0
+            var count = 0
+            it
+                .also { ++lineNum }
+                .filter { !it.isEmpty() && it[0] == '\t' }
+                .map {
+                    try {
+                        return@map producer.applyThrows(it)
+                    } catch (e: CommonException) {
+                        val cause = e.cause
+                        if (cause is ParseException) {
+                            Logger.instance.logParseException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
+                        } else if (cause is NotFoundException) {
+                            //  Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
+                        } else if (cause is IgnoreException) {
+                            // // ignore
+                        }
+                    }
+                    null
+                }  //
+                .filter { it != null }
+                .forEach {
+                    try {
+                        consumer.acceptThrows(it, count.toInt())
+                        count++
+                    } catch (_: NotFoundException) {
+                        // Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), null, nfe)
+                    } catch (other: CommonException) {
+                        System.err.println(other.cause!!.message)
+                    }
+                }
+        }
+    }
 
-		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs"), (record, i) -> insertRow(ps, i, record.dataRow()));
-		}
-	}
-
-	protected void processBNCFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
-	{
-		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BncRecord::parse, consumer);
-		ps.print(';');
-	}
-
-	protected void processBNCSubFile(final PrintStream ps, final File file, final String table, final String columns, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
-	{
-		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, BncExtendedRecord::parse, consumer);
-		ps.print(';');
-	}
-
-	protected void process(final File file, final ThrowingFunction<String, BncRecord> producer, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
-	{
-		try (Stream<String> stream = Files.lines(file.toPath()))
-		{
-			final int[] count = {0, 0};
-			stream //
-					.peek(line -> ++count[1]) //
-					.filter(line -> !line.isEmpty() && line.charAt(0) == '\t') //
-					.map(line -> {
-						try
-						{
-							return producer.applyThrows(line);
-						}
-						catch (CommonException e)
-						{
-							var cause = e.getCause();
-							if (cause instanceof ParseException)
-							{
-								Logger.instance.logParseException(BncModule.MODULE_ID, tag, file.getName(), count[1], line, (ParseException) cause);
-							}
-							else if (cause instanceof NotFoundException)
-							{
-								// Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.getName(), count[1], line, (NotFoundException) cause);
-							}
-							// else if (cause instanceof IgnoreException)
-							// {
-							//	// ignore
-							// }
-						}
-						return null;
-					}) //
-					.filter(Objects::nonNull) //
-					.forEach(r -> {
-						try
-						{
-							consumer.acceptThrows(r, count[0]);
-							count[0]++;
-						}
-						catch (NotFoundException nfe)
-						{
-							// Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.getName(), count[1], null, nfe);
-						}
-						catch (CommonException other)
-						{
-							System.err.println(other.getCause().getMessage());
-						}
-					});
-		}
-	}
-
-	protected void insertRow(PrintStream ps, long index, String values)
-	{
-		if (index != 0)
-		{
-			ps.print(",\n");
-		}
-		ps.printf("(%s)", values);
-	}
+    protected fun insertRow(ps: PrintStream, index: Long, values: String) {
+        if (index != 0L) {
+            ps.print(",\n")
+        }
+        ps.printf("(%s)", values)
+    }
 }

@@ -1,84 +1,67 @@
-package org.sqlbuilder.bnc;
+package org.sqlbuilder.bnc
 
-import org.sqlbuilder.bnc.objects.BncExtendedRecord;
-import org.sqlbuilder.bnc.objects.BncRecord;
-import org.sqlbuilder.common.ThrowingBiConsumer;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.bnc.objects.BncExtendedRecord
+import org.sqlbuilder.bnc.objects.BncRecord
+import org.sqlbuilder.common.ThrowingBiConsumer
+import org.sqlbuilder.common.ThrowingFunction
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.quote
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
+class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
+    init {
+        // output
+        this.outDir = File(conf.getProperty("bnc_outdir_updated", "sql/data_updated"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-public class BncUpdatingProcessor extends BncResolvingProcessor
-{
-	public BncUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    @Throws(IOException::class)
+    override fun run() {
+        // main
+        val bNCMain = conf.getProperty("bnc_main", "bnc.txt")
+        PrintStream(FileOutputStream(File(outDir, names.updateFile("bncs"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCFile(ps, File(bncHome, bNCMain), ThrowingBiConsumer { record: BncRecord, i: Int -> updateRow(ps, names.table("bncs"), i, record, names.column("bncs.wordid"), names.column("bncs.word")) })
+        }
+        // subfiles
+        val bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt")
+        PrintStream(FileOutputStream(File(outDir, names.updateFile("spwrs"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCSubFile(ps, File(bncHome, bNCSpWr), ThrowingBiConsumer { record: BncRecord, i: Int -> updateRow(ps, names.table("spwrs"), i, record, names.column("spwrs.wordid"), names.column("spwrs.word")) })
+        }
+        val bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt")
+        PrintStream(FileOutputStream(File(outDir, names.updateFile("convtasks"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCSubFile(ps, File(bncHome, bNCConvTask), ThrowingBiConsumer { record: BncRecord, i: Int -> updateRow(ps, names.table("convtasks"), i, record, names.column("convtasks.wordid"), names.column("convtasks.word")) })
+        }
+        val bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt")
+        PrintStream(FileOutputStream(File(outDir, names.updateFile("imaginfs"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processBNCSubFile(ps, File(bncHome, bNCImagInf), ThrowingBiConsumer { record: BncRecord, i: Int -> updateRow(ps, names.table("imaginfs"), i, record, names.column("imaginfs.wordid"), names.column("imaginfs.word")) })
+        }
+    }
 
-		// output
-		this.outDir = new File(conf.getProperty("bnc_outdir_updated", "sql/data_updated"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(IOException::class)
+    private fun processBNCFile(ps: PrintStream, file: File, consumer: ThrowingBiConsumer<BncRecord, Int>) {
+        process(file, ThrowingFunction { BncRecord.Companion.parse(it) }, consumer)
+    }
 
-	@Override
-	public void run() throws IOException
-	{
-		// main
-		String bNCMain = conf.getProperty("bnc_main", "bnc.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("bncs"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCFile(ps, new File(bncHome, bNCMain), (record, i) -> updateRow(ps, names.table("bncs"), i, record, names.column("bncs.wordid"), names.column("bncs.word")));
-		}
+    @Throws(IOException::class)
+    private fun processBNCSubFile(ps: PrintStream, file: File, consumer: ThrowingBiConsumer<BncRecord, Int>) {
+        process(file, ThrowingFunction { BncExtendedRecord.Companion.parse(it) }, consumer)
+    }
 
-		// subfiles
-		String bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("spwrs"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCSpWr), (record, i) -> updateRow(ps, names.table("spwrs"), i, record, names.column("spwrs.wordid"), names.column("spwrs.word")));
-		}
-
-		String bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("convtasks"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCConvTask), (record, i) -> updateRow(ps, names.table("convtasks"), i, record, names.column("convtasks.wordid"), names.column("convtasks.word")));
-		}
-
-		String bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("imaginfs"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processBNCSubFile(ps, new File(bncHome, bNCImagInf), (record, i) -> updateRow(ps, names.table("imaginfs"), i, record, names.column("imaginfs.wordid"), names.column("imaginfs.word")));
-		}
-	}
-
-	private void processBNCFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
-	{
-		process(file, BncRecord::parse, consumer);
-	}
-
-	private void processBNCSubFile(final PrintStream ps, final File file, final ThrowingBiConsumer<BncRecord, Integer> consumer) throws IOException
-	{
-		process(file, BncExtendedRecord::parse, consumer);
-	}
-
-	private void updateRow(final PrintStream ps, final String table, final int index, final BncRecord bncRecord, final String... columns)
-	{
-		Integer wordid = wordResolver.apply(bncRecord.word);
-		if (wordid != null)
-		{
-			var setClause = String.format("%s=%d", columns[0], wordid);
-			var whereClause = String.format("%s=%s", columns[1], Utils.quote(Utils.escape(bncRecord.word)));
-			ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
-		}
-	}
+    private fun updateRow(ps: PrintStream, table: String, index: Int, bncRecord: BncRecord, vararg columns: String) {
+        val wordid: Int = wordResolver.apply(bncRecord.word)
+        val setClause = String.format("%s=%d", columns[0], wordid)
+        val whereClause = String.format("%s=%s", columns[1], quote(escape(bncRecord.word)))
+        ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1)
+    }
 }

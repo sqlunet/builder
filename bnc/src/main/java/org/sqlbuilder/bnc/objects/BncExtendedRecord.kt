@@ -1,95 +1,81 @@
-package org.sqlbuilder.bnc.objects;
+package org.sqlbuilder.bnc.objects
 
-import org.sqlbuilder.common.IgnoreException;
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.common.ParseException;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.IgnoreException
+import org.sqlbuilder.common.NotFoundException
+import org.sqlbuilder.common.ParseException
+import org.sqlbuilder.common.Utils.escape
 
-public class BncExtendedRecord extends BncRecord
-{
-	protected final int freq2;
+class BncExtendedRecord(
+    lemma: String,
+    pos: Char,
+    freq: Int,
+    range: Int,
+    dispersion: Float,
+    val freq2: Int,
+    val range2: Int,
+    val dispersion2: Float,
+    val lL: Float
+) : BncRecord(lemma, pos, freq, range, dispersion) {
 
-	protected final int range2;
+    // I N S E R T
 
-	protected final float dispersion2;
+    override fun dataRow(): String {
+        return "'${escape(word)}','$pos',$freq,$range,$dispersion,$freq2,$range2,$dispersion2,$lL"
+    }
 
-	protected final float lL;
+    // T O S T R I N G
 
-	protected BncExtendedRecord(final String lemma, final char pos, final int freq, final int range, final float dispersion, final int freq2, final int range2, final float dispersion2, final float lL)
-	{
-		super(lemma, pos, freq, range, dispersion);
-		this.freq2 = freq2;
-		this.range2 = range2;
-		this.dispersion2 = dispersion2;
-		this.lL = lL;
-	}
+    override fun toString(): String {
+        return super.toString() + " " + freq2 + " " + range2 + " " + dispersion2 + " " + lL
+    }
 
-	public static BncExtendedRecord parse(final String line) throws ParseException, NotFoundException, IgnoreException
-	{
-		final String[] fields = line.split("\\t+");
-		if (fields.length != 12)
-		{
-			throw new ParseException("Number of fields is not 12");
-		}
+    companion object {
 
-		// fields
-		final String field1 = fields[1];
-		final String field2 = fields[2];
-		final String inflectedForm = fields[3];
+        @JvmStatic
+        @Throws(ParseException::class, NotFoundException::class, IgnoreException::class)
+        fun parse(line: String): BncExtendedRecord {
+            val fields = line.split("\\t+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (fields.size != 12) {
+                throw ParseException("Number of fields is not 12")
+            }
 
-		// expand placeholders (do not move: this is a reference to previous line/chain of lines)
-		final String word = "@".equals(field1) ? BncRecord.lastLemma : field1;
-		final String bncPos = "@".equals(field2) ? BncRecord.lastPos : field2;
+            // fields
+            val field1: String = fields[1]
+            val field2: String = fields[2]
+            val inflectedForm = fields[3]
 
-		BncRecord.lastLemma = word;
-		BncRecord.lastPos = bncPos;
+            // expand placeholders (do not move: this is a reference to previous line/chain of lines)
+            val word = if ("@" == field1) lastLemma else field1
+            val bncPos = if ("@" == field2) lastPos else field2
 
-		// do not process variants
-		if (!"%".equals(inflectedForm) || "%".equals(field1))
-		{
-			throw new IgnoreException(inflectedForm);
-		}
+            lastLemma = word
+            lastPos = bncPos
 
-		// convert data
-		final String lemma = makeLemma(word);
-		final Character pos = BncRecord.posMap.get(bncPos);
-		if (pos == null)
-		{
-			throw new NotFoundException(bncPos);
-		}
+            // do not process variants
+            if ("%" != inflectedForm || "%" == field1) {
+                throw IgnoreException(inflectedForm)
+            }
 
-		// data
-		final int freq = Integer.parseInt(fields[4]);
-		final int range = Integer.parseInt(fields[5]);
-		final float dispersion = Float.parseFloat(fields[6]);
+            // convert data
+            val lemma = makeLemma(word!!)
+            val pos: Char = posMap[bncPos]!!
 
-		// xdata
-		final String comp = fields[7];
-		float lL = Float.parseFloat(fields[8]) * -1;
-		if (comp.equals("-"))
-		{
-			lL *= -1.f;
-		}
-		final int freq2 = Integer.parseInt(fields[9]);
-		final int range2 = Integer.parseInt(fields[10]);
-		final float dispersion2 = Float.parseFloat(fields[11]);
+            // data
+            val freq = fields[4].toInt()
+            val range = fields[5].toInt()
+            val dispersion = fields[6].toFloat()
 
-		return new BncExtendedRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
-	}
+            // xdata
+            val comp = fields[7]
+            var lL = fields[8].toFloat() * -1
+            if (comp == "-") {
+                lL *= -1f
+            }
+            val freq2 = fields[9].toInt()
+            val range2 = fields[10].toInt()
+            val dispersion2 = fields[11].toFloat()
 
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s','%c',%d,%d,%f,%d,%d,%f,%f", Utils.escape(word), pos, freq, range, dispersion, freq2, range2, dispersion2, lL);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return super.toString() + " " + freq2 + " " + range2 + " " + dispersion2 + " " + lL;
-	}
+            return BncExtendedRecord(lemma, pos, freq, range, dispersion, freq2, range2, dispersion2, lL)
+        }
+    }
 }

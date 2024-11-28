@@ -1,53 +1,43 @@
-package org.sqlbuilder.bnc;
+package org.sqlbuilder.bnc
 
-import org.sqlbuilder.common.Module;
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.common.Module.Mode.Companion.read
+import java.io.IOException
 
-import java.io.IOException;
+class BncModule(
+    conf: String,
+    mode: Mode,
+) : Module(MODULE_ID, conf, mode) {
 
-public class BncModule extends Module
-{
-	public static final String MODULE_ID = "bnc";
+    override fun run() {
+        checkNotNull(props)
+        try {
+            when (mode) {
+                Mode.PLAIN   -> BncProcessor(props).run()
+                Mode.RESOLVE -> BncResolvingProcessor(props).run()
+                Mode.UPDATE  -> BncUpdatingProcessor(props).run()
+                else         -> {}
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 
-	protected BncModule(final String conf, final Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+    companion object {
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
-		try
-		{
-			switch (mode)
-			{
-				case PLAIN:
-					new BncProcessor(props).run();
-					break;
-				case RESOLVE:
-					new BncResolvingProcessor(props).run();
-					break;
-				case UPDATE:
-					new BncUpdatingProcessor(props).run();
-					break;
-				default:
-			}
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
+        const val MODULE_ID: String = "bnc"
 
-	public static void main(final String[] args)
-	{
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new BncModule(conf, mode).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var i = 0
+            var mode = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = read(args[i++])
+            }
+            val conf = args[i]
+            BncModule(conf, mode).run()
+        }
+    }
 }

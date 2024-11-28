@@ -2,7 +2,7 @@
 <project version="4">
   <component name="AnalysisUIOptions">
     <option name="ANALYZE_INJECTED_CODE" value="false" />
-    <option name="SCOPE_TYPE" value="8" />
+    <option name="SCOPE_TYPE" value="4" />
     <option name="CUSTOM_SCOPE_NAME" value="Open Files" />
   </component>
   <component name="AutoImportSettings">
@@ -10,22 +10,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="sync fixes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/bnc.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncWordResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncExtendedRecord.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncRecord.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/bncs-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/bncs-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/convtasks-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/convtasks-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/imaginfs-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/imaginfs-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/spwrs-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/spwrs-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate-schema.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pack31.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pack31.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/resources/sn/sqltemplates/mysql/create/syntagms-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/resources/sn/sqltemplates/mysql/create/syntagms-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/examples-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/examples-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/semantics-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/semantics-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/syntaxes-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/syntaxes-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncWordResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncExtendedRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncRecord.java" beforeDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
+      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +63,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="devk34" />
+        <entry key="$PROJECT_DIR$" value="devkwip" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -88,12 +96,17 @@
     "Maven.reqprov [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "devkwip",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "devkwippb34",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bnc" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
