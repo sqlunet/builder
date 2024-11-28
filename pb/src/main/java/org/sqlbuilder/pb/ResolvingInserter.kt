@@ -8,6 +8,7 @@ import org.sqlbuilder.pb.foreign.RoleSetToVn
 import org.sqlbuilder.pb.foreign.RoleToFn
 import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder2.ser.Pair
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
@@ -70,6 +71,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
         Progress.tracePending("collector", "word")
         Insert.resolveAndInsert(
             Word.COLLECTOR,
+            Word.COLLECTOR,
             File(outDir, names.file("words")),
             names.table("words"),
             names.columns("words"),
@@ -126,7 +128,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
-            vnClassRoleResolver,
+            { p: Pair<String?, String?> -> vnClassRoleResolver.apply(p) },
             RoleToVn.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.vnroleid"),
             names.column("pbroles_vnroles.vnclassid"),
@@ -145,7 +147,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_fnfes"),
             names.columns("pbroles_fnfes"),
             header,
-            fnFrameFeResolver,
+            { p: Pair<String?, String?> -> fnFrameFeResolver.apply(p) },
             RoleToFn.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_fnfes.fnfeid"),
             names.column("pbroles_fnfes.fnframeid"),

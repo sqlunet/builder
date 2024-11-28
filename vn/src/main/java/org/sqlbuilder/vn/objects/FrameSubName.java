@@ -1,10 +1,7 @@
 package org.sqlbuilder.vn.objects;
 
 import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 
@@ -17,6 +14,7 @@ public class FrameSubName implements HasId, Insertable, Comparable<FrameSubName>
 	private final String subName;
 
 	// C O N S T R U C T O R
+
 	public static FrameSubName make(final String subname)
 	{
 		var s = new FrameSubName(subname);
@@ -39,13 +37,13 @@ public class FrameSubName implements HasId, Insertable, Comparable<FrameSubName>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@RequiresIdFrom(type = FrameSubName.class)
 	public static Integer getIntId(final FrameSubName subname)
 	{
-		return subname == null ? null : COLLECTOR.get(subname);
+		return subname == null ? null : COLLECTOR.apply(subname);
 	}
 
 	// I D E N T I T Y

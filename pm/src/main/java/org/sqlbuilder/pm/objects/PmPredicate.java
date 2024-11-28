@@ -43,7 +43,7 @@ public class PmPredicate implements HasId, Insertable, Comparable<PmPredicate>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

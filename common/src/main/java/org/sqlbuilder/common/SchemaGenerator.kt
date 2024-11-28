@@ -1,19 +1,16 @@
 /*
  * Copyright (c) 2021-2021. Bernard Bou.
  */
+package org.sqlbuilder.common
 
-package org.sqlbuilder.common;
-
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
-import java.util.function.BiConsumer;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import org.sqlbuilder.common.Variables.Companion.make
+import java.io.*
+import java.net.URISyntaxException
+import java.nio.file.Paths
+import java.util.*
+import java.util.function.BiConsumer
+import java.util.jar.JarFile
+import kotlin.system.exitProcess
 
 /**
  * Main class that generates the SQL schema by instantiating templates
@@ -21,213 +18,166 @@ import java.util.jar.JarFile;
  * @author Bernard Bou
  * @see "https://sqlunet.sourceforge.net/schema.html"
  */
-public class SchemaGenerator
-{
-	private Variables variables;
+class SchemaGenerator(private val variables: Variables) {
 
-	public SchemaGenerator(final Variables variables)
-	{
-		this.variables = variables;
-	}
+    /**
+     * Generate schema
+     *
+     * @param module      module
+     * @param output      output
+     * @param inputSubdir input subdir (from sqltemplates/)
+     * @param inputs      input files (or null if all)
+     * @throws IOException io exception
+     */
+    @Throws(IOException::class)
+    fun generate(module: String, output: String, inputSubdir: String, inputs: Array<String>) {
 
-	/**
-	 * Generate schema
-	 *
-	 * @param module      module
-	 * @param output      output
-	 * @param inputSubdir input subdir (from sqltemplates/)
-	 * @param inputs      input files (or null if all)
-	 * @throws IOException io exception
-	 */
-	public void generate(final String module, final String output, final String inputSubdir, final String[] inputs) throws IOException
-	{
-		File outputFileOrDir = null;
+        var outputFileOrDir: File? = null
 
-		// Output
-		if (!"-".equals(output))
-		{
-			// output is not console
-			if (output.endsWith(".sql"))
-			{
-				// output is plain sql file
-				System.err.println("Output to file " + output);
-				outputFileOrDir = new File(output);
-				if (outputFileOrDir.exists())
-				{
-					System.err.println("Overwrite " + outputFileOrDir.getAbsolutePath());
-					System.exit(1);
-				}
-				//noinspection ResultOfMethodCallIgnored
-				outputFileOrDir.createNewFile();
-			}
-			else
-			{
-				// multiple outputs as per inputs
-				outputFileOrDir = new File(output);
-				if (!outputFileOrDir.exists())
-				{
-					// System.err.println("Output to new dir " + arg1);
-					//noinspection ResultOfMethodCallIgnored
-					outputFileOrDir.mkdirs();
-				}
-			}
-		}
+        // Output
+        if ("-" != output) {
+            // output is not console
+            if (output.endsWith(".sql")) {
+                // output is plain sql file
+                System.err.println("Output to file $output")
+                outputFileOrDir = File(output)
+                if (outputFileOrDir.exists()) {
+                    System.err.println("Overwrite ${outputFileOrDir.absolutePath}")
+                    exitProcess(1)
+                }
+                outputFileOrDir.createNewFile()
+            } else {
+                // multiple outputs as per inputs
+                outputFileOrDir = File(output)
+                if (!outputFileOrDir.exists()) {
+                    outputFileOrDir.mkdirs()
+                }
+            }
+        }
 
-		// Input
-		// Single output if console or file
-		if (outputFileOrDir == null || outputFileOrDir.isFile())
-		{
-			try (PrintStream ps = outputFileOrDir == null ? System.out : new PrintStream(outputFileOrDir))
-			{
-				processTemplates(module, inputSubdir, inputs, (is, name) -> {
+        // Input
+        // Single output if console or file
+        if (outputFileOrDir == null || outputFileOrDir.isFile()) {
+            if (outputFileOrDir == null) System.out else PrintStream(outputFileOrDir).use {
+                processTemplates(module, inputSubdir, inputs) { input: InputStream, name: String ->
+                    try {
+                        variables.varSubstitutionInIS(input, it, true, true)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        } else if (outputFileOrDir.isDirectory()) {
+            val dir = outputFileOrDir
+            processTemplates(module, inputSubdir, inputs) { input: InputStream, name: String ->
+                System.err.println(name)
+                val output = File(dir, name)
+                try {
+                    PrintStream(output).use {
+                        variables.varSubstitutionInIS(input, it, true, true)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            System.err.println("Internal error")
+        }
+    }
 
-					try
-					{
-						variables.varSubstitutionInIS(is, ps, true, true);
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-				});
-			}
-		}
+    /**
+     * Process input template files
+     *
+     * @param module   module
+     * @param path     path of inputs
+     * @param inputs   inputs
+     * @param consumer string consumer
+     * @throws IOException io exception
+     */
+    @Throws(IOException::class)
+    private fun processTemplates(module: String, path: String, inputs: Array<String>?, consumer: BiConsumer<InputStream, String>) {
+        // external resources
+        if (inputs != null && inputs.isNotEmpty()) {
+            for (input in inputs) {
+                val file = File(path, input)
+                val fileName = Paths.get(input).fileName.toString()
+                FileInputStream(file).use { fis ->
+                    consumer.accept(fis, fileName)
+                }
+            }
+            return
+        }
 
-		// Multiple outputs if output is directory
-		else if (outputFileOrDir.isDirectory())
-		{
-			final File dir = outputFileOrDir;
-			processTemplates(module, inputSubdir, inputs, (is, name) -> {
+        // internal resources
+        val jarFile = File(javaClass.getProtectionDomain().codeSource.location.path)
+        if (jarFile.isFile()) {
+            // Run with JAR file
+            val prefix = "$module/sqltemplates/$path/"
+            JarFile(jarFile).use { jar ->
+                val entries = jar.entries() //gives ALL entries in jar
+                while (entries.hasMoreElements()) {
+                    val entry = entries.nextElement()
+                    if (entry.isDirectory) {
+                        continue
+                    }
 
-				System.err.println(name);
-				File output2 = new File(dir, name);
-				try (PrintStream ps = new PrintStream(output2))
-				{
-					variables.varSubstitutionInIS(is, ps, true, true);
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-			});
-		}
-		else
-		{
-			System.err.println("Internal error");
-		}
-	}
+                    val name = entry.getName()
+                    //filter according to the path
+                    if (name.startsWith(prefix)) {
+                        val fileName = Paths.get(name).fileName.toString()
+                        jar.getInputStream(entry).use { `is` ->
+                            consumer.accept(`is`, fileName)
+                        }
+                    }
+                }
+            }
+        } else {
+            // Run with IDE
+            val url = SchemaGenerator::class.java.getResource("/$module/sqltemplates/$path")
+            if (url != null) {
+                try {
+                    val dir = File(url.toURI())
+                    val files = dir.listFiles()
+                    if (files != null) {
+                        for (file in files) {
+                            FileInputStream(file).use { fis ->
+                                consumer.accept(fis, file.getName())
+                            }
+                        }
+                    } else {
+                        throw RuntimeException("Dir:$dir is empty")
+                    }
+                } catch (_: URISyntaxException) {
+                    // never happens
+                }
+            }
+        }
+    }
 
-	/**
-	 * Process input template files
-	 *
-	 * @param module   module
-	 * @param path     path of inputs
-	 * @param inputs   inputs
-	 * @param consumer string consumer
-	 * @throws IOException io exception
-	 */
-	private void processTemplates(final String module, final String path, final String[] inputs, final BiConsumer<InputStream, String> consumer) throws IOException
-	{
-		// external resources
-		if (inputs != null && inputs.length > 0)
-		{
-			for (String input : inputs)
-			{
-				File file = new File(path, input);
-				String fileName = Paths.get(input).getFileName().toString();
-				try (FileInputStream fis = new FileInputStream(file))
-				{
-					consumer.accept(fis, fileName);
-				}
-			}
-			return;
-		}
+    companion object {
 
-		// internal resources
-		final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-		if (jarFile.isFile())
-		{
-			// Run with JAR file
-			String prefix = module + "/sqltemplates/" + path + "/";
-			try (final JarFile jar = new JarFile(jarFile))
-			{
-				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-				while (entries.hasMoreElements())
-				{
-					final JarEntry entry = entries.nextElement();
-					if (entry.isDirectory())
-					{
-						continue;
-					}
-
-					final String name = entry.getName();
-					//filter according to the path
-					if (name.startsWith(prefix))
-					{
-						String fileName = Paths.get(name).getFileName().toString();
-						try (InputStream is = jar.getInputStream(entry))
-						{
-							consumer.accept(is, fileName);
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			// Run with IDE
-			final URL url = SchemaGenerator.class.getResource("/" + module + "/sqltemplates/" + path);
-			if (url != null)
-			{
-				try
-				{
-					final File dir = new File(url.toURI());
-					File[] files = dir.listFiles();
-					if (files != null)
-					{
-						for (File file : files)
-						{
-							try (FileInputStream fis = new FileInputStream(file))
-							{
-								consumer.accept(fis, file.getName());
-							}
-						}
-					}
-					else
-					{
-						throw new RuntimeException("Dir:" + dir + " is empty");
-					}
-				}
-				catch (URISyntaxException ex)
-				{
-					// never happens
-				}
-			}
-		}
-	}
-
-	/**
-	 * Main entry point
-	 *
-	 * @param args command-line arguments
-	 * @throws IOException io exception
-	 */
-	public static void main(String[] args) throws IOException
-	{
-		boolean compat = false;
-		if ("-compat".equals(args[0]))
-		{
-			compat = true;
-			args = Arrays.copyOfRange(args, 1, args.length);
-		}
-
-		String module = args[0];
-		String output = args[1];
-		String inputSubdir = args[2];
-		String[] inputs = Arrays.copyOfRange(args, 3, args.length);
-
-		ResourceBundle bundle = ResourceBundle.getBundle(module + "/" + (compat ? "NamesCompat" : "Names"));
-		var variables = Variables.make(bundle);
-		new SchemaGenerator(variables).generate(module, output, inputSubdir, inputs);
-	}
+        /**
+         * Main entry point
+         *
+         * @param args command-line arguments
+         * @throws IOException io exception
+         */
+        @Throws(IOException::class)
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var args = args
+            var compat = false
+            if ("-compat" == args[0]) {
+                compat = true
+                args = args.copyOfRange(1, args.size)
+            }
+            val module = args[0]
+            val output = args[1]
+            val inputSubdir = args[2]
+            val inputs = args.copyOfRange<String>(3, args.size)
+            val bundle = ResourceBundle.getBundle("$module/${if (compat) "NamesCompat" else "Names"}")
+            val variables = make(bundle)
+            SchemaGenerator(variables).generate(module, output, inputSubdir, inputs)
+        }
+    }
 }

@@ -1,6 +1,9 @@
 package org.sqlbuilder.su;
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.AlreadyFoundException;
+import org.sqlbuilder.common.Names;
+import org.sqlbuilder.common.NotFoundException;
+import org.sqlbuilder.common.Processor;
 import org.sqlbuilder.su.joins.Formula_Arg;
 import org.sqlbuilder.su.joins.Term_Synset;
 import org.sqlbuilder.su.objects.*;
@@ -12,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -128,51 +132,52 @@ public class SuProcessor extends Processor
 
 	// I N S E R T
 
-	public static void insertFiles(final PrintStream ps, final Collection<SUFile> files, final String table, final String columns)
+	public static void insertFiles(final PrintStream ps, final Iterable<SUFile> files, final String table, final String columns)
 	{
-		int n = files.size();
-		if (n > 0)
+		Iterator<SUFile> iterator = files.iterator();
+		if (iterator.hasNext())
 		{
-			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final SUFile file : files)
+			while (iterator.hasNext())
 			{
+				final SUFile file = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = file.dataRow();
-				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
-				i++;
+				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
 			}
 		}
 	}
 
-	public static void insertTerms(final PrintStream ps, final Collection<Term> terms, final String table, final String columns)
+	public static void insertTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
 	{
-		int n = terms.size();
-		if (n > 0)
+		Iterator<Term> iterator = terms.iterator();
+		if (iterator.hasNext())
 		{
-			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Term term : terms)
+			while (iterator.hasNext())
 			{
+				final Term term = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = term.dataRow();
-				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
-				i++;
+				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
 			}
 		}
 	}
 
-	public static void insertTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
+	public static void insertTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
 	{
-		int n = terms.size();
-		if (n > 0)
+		Iterator<Term> iterator = terms.iterator();
+		if (iterator.hasNext())
 		{
 			int i = 0;
-			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
-			for (final Term term : terms)
+			while (iterator.hasNext())
 			{
+				final Term term = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = term.dataRow();
-				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
+				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
 
 				int termid = term.resolve();
 				try
@@ -182,28 +187,28 @@ public class SuProcessor extends Processor
 					{
 						String row2 = String.format("%d,%s", termid, attribute.dataRow());
 						String comment2 = term.comment();
-						ps2.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
-						j++;
+						ps2.printf("%s(%s) /* %s */", i == 0 ? "" : ",\n", row2, comment2);
+						i++;
 					}
 				}
 				catch (NotFoundException ignored)
 				{
 				}
-				i++;
 			}
 			ps2.println(";");
 		}
 	}
 
-	public static void insertTermAttrs(final PrintStream ps, final Collection<Term> terms, final Kb kb, final String table, final String columns)
+	public static void insertTermAttrs(final PrintStream ps, final Iterable<Term> terms, final Kb kb, final String table, final String columns)
 	{
-		int n = terms.size();
-		if (n > 0)
+		Iterator<Term> iterator = terms.iterator();
+		if (iterator.hasNext())
 		{
 			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Term term : terms)
+			while (iterator.hasNext())
 			{
+				final Term term = iterator.next();
 				int termid = term.resolve();
 				try
 				{
@@ -224,37 +229,38 @@ public class SuProcessor extends Processor
 		}
 	}
 
-	public static void insertFormulas(final PrintStream ps, final Collection<Formula> formulas, final String table, final String columns)
+	public static void insertFormulas(final PrintStream ps, final Iterable<Formula> formulas, final String table, final String columns)
 	{
-		int n = formulas.size();
-		if (n > 0)
+		Iterator<Formula> iterator = formulas.iterator();
+		if (iterator.hasNext())
 		{
-			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Formula formula : formulas)
+			while (iterator.hasNext())
 			{
-				// formula
+				final Formula formula = iterator.next();
+				boolean isLast = !iterator.hasNext();
 				String row = formula.dataRow();
-				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
-				i++;
+				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
 			}
 		}
 	}
 
-	public static void insertFormulasAndArgs(final PrintStream ps, final PrintStream ps2, final Collection<Formula> formulas, final String table, final String columns, final String table2, final String columns2) throws NotFoundException, ParseException, IOException
+	public static void insertFormulasAndArgs(final PrintStream ps, final PrintStream ps2, final Iterable<Formula> formulas, final String table, final String columns, final String table2, final String columns2) throws NotFoundException, ParseException, IOException
 	{
-		int n = formulas.size();
-		if (n > 0)
+		Iterator<Formula> iterator = formulas.iterator();
+		if (iterator.hasNext())
 		{
 			int i = 0;
-			int j = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
 			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
-			for (final Formula formula : formulas)
+			while (iterator.hasNext())
 			{
+				final Formula formula = iterator.next();
+				boolean isLast = !iterator.hasNext();
+
 				// formula
 				String row = formula.dataRow();
-				ps.printf("(%s)%s%n", row, i == n - 1 ? ";" : ",");
+				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
 
 				// formula args
 				List<Formula_Arg> formulas_args = Formula_Arg.make(formula);
@@ -266,66 +272,68 @@ public class SuProcessor extends Processor
 					//Term term = formula_arg.getTerm();
 					//String commentTerm2 = term.comment();
 					String commentFormArg2 = formula_arg.comment();
-					ps2.printf("%s(%s) /* %s, %s */", j == 0 ? "" : ",\n", row2, commentArg2, /* commentTerm2,*/ commentFormArg2);
-					j++;
+					ps2.printf("%s(%s) /* %s, %s */", i == 0 ? "" : ",\n", row2, commentArg2, /* commentTerm2,*/ commentFormArg2);
+					i++;
 				}
-				i++;
 			}
 			ps2.println(";");
 		}
 	}
 
-	public static void insertFormulaArgs(final PrintStream ps, final Collection<Formula> formulas, final String table, final String columns) throws ParseException, IOException
+	public static void insertFormulaArgs(final PrintStream ps, final Iterable<Formula> formulas, final String table, final String columns) throws ParseException, IOException
 	{
-		int n = formulas.size();
-		if (n > 0)
+		Iterator<Formula> iterator = formulas.iterator();
+		if (iterator.hasNext())
 		{
-			int j = 0;
+			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Formula formula : formulas)
+			while (iterator.hasNext())
 			{
+				final Formula formula = iterator.next();
+
 				// formula args
 				List<Formula_Arg> formulas_args = Formula_Arg.make(formula);
 				for (final Formula_Arg formula_arg : formulas_args)
 				{
 					String row2 = formula_arg.dataRow();
 					String comment2 = formula_arg.comment();
-					ps.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
-					j++;
+					ps.printf("%s(%s) /* %s */", i == 0 ? "" : ",\n", row2, comment2);
+					i++;
 				}
 			}
 			ps.println(";");
 		}
 	}
 
-	public static void insertSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
+	public static void insertSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
 	{
-		int n = terms_synsets.size();
-		if (n > 0)
+		Iterator<Term_Synset> iterator = terms_synsets.iterator();
+		if (iterator.hasNext())
 		{
-			int i = 0;
 			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			for (final Term_Synset map : terms_synsets)
+			while (iterator.hasNext())
 			{
+				final Term_Synset map = iterator.next();
+				boolean isLast = !iterator.hasNext();
+
 				String row = map.dataRow();
 				String comment = map.comment();
-				ps.printf("(%s)%s -- %s%n", row, i == n - 1 ? ";" : ",", comment);
-				i++;
+				ps.printf("(%s)%s -- %s%n", row, isLast ? ";" : ",", comment);
 			}
 		}
 	}
 
-	public void processTerms(final PrintStream ps, final Collection<Term> terms, final String table, final String columns)
+	public void processTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
 	{
 		insertTerms(ps, terms, table, columns);
 	}
 
-	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Collection<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
+	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
 	{
 		insertTermsAndAttrs(ps, ps2, terms, kb, table, columns, table2, columns2);
 	}
 
-	public void processSynsets(final PrintStream ps, final Collection<Term_Synset> terms_synsets, final String table, final String columns)
+	public void processSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
 	{
 		insertSynsets(ps, terms_synsets, table, columns);
 	}
@@ -351,7 +359,7 @@ public class SuProcessor extends Processor
 			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("files"))), true, StandardCharsets.UTF_8))
 			{
 				ps.println("-- " + header);
-				insertFiles(ps, SUFile.COLLECTOR.keySet(), names.table("files"), names.columns("files"));
+				insertFiles(ps, SUFile.COLLECTOR, names.table("files"), names.columns("files"));
 			}
 
 			// terms + attrs
@@ -362,7 +370,7 @@ public class SuProcessor extends Processor
 			{
 				ps.println("-- " + header);
 				ps2.println("-- " + header);
-				processTermsAndAttrs(ps, ps2, Term.COLLECTOR.keySet(), KBLoader.kb, names.table("terms"), termsColumns, names.table("terms_attrs"), names.columns("terms_attrs"));
+				processTermsAndAttrs(ps, ps2, Term.COLLECTOR, KBLoader.kb, names.table("terms"), termsColumns, names.table("terms_attrs"), names.columns("terms_attrs"));
 			}
 
 			// formulas + args
@@ -373,7 +381,7 @@ public class SuProcessor extends Processor
 			{
 				ps.println("-- " + header);
 				ps2.println("-- " + header);
-				insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR.keySet(), names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"));
+				insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR, names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"));
 			}
 
 			// terms_synsets

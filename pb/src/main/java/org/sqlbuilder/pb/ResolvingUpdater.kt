@@ -7,6 +7,7 @@ import org.sqlbuilder.pb.foreign.RoleSetToFn
 import org.sqlbuilder.pb.foreign.RoleSetToVn
 import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
+import org.sqlbuilder2.ser.Pair
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
@@ -37,7 +38,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val wordidCol = names.column("words.wordid")
         val wordCol = names.column("words.word")
         Update.update(
-            Word.COLLECTOR.keys,
+            Word.COLLECTOR,
             File(outDir, names.updateFile("words")),
             header,
             names.table("words"),
@@ -91,8 +92,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
-            names.table("pbroles_vnroles")!!,
-            vnClassRoleResolver,
+            names.table("pbroles_vnroles"),
+            { p: Pair<String?, String?> -> vnClassRoleResolver.apply(p) },
             { resolved ->
                 if (resolved == null)
                     "$vnClassidCol=NULL,$vnRoleidCol=NULL,$vnRoletypeidCol=NULL"
@@ -100,7 +101,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                     "$vnClassidCol=${Utils.nullableInt(resolved.first)},$vnRoleidCol=${Utils.nullableInt(resolved.second)},$vnRoletypeidCol=${Utils.nullableInt(resolved.third)}"
             },
             { resolving ->
-                "$vnClassCol='${Utils.escape(resolving!!.first)}' AND $vnRoleCol='${Utils.escape(resolving.second)}'"
+                "$vnClassCol='${Utils.escape(resolving!!.first!!)}' AND $vnRoleCol='${Utils.escape(resolving.second!!)}'"
             })
         Progress.traceDone()
     }
@@ -117,8 +118,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_fnfes")),
             header,
-            names.table("pbroles_fnfes")!!,
-            fnFrameFeResolver,
+            names.table("pbroles_fnfes"),
+            { p: Pair<String?, String?> -> fnFrameFeResolver.apply(p) },
             { resolved ->
                 if (resolved == null)
                     "$fnframeidCol=NULL,$fnfeidCol=NULL,$fnfetypeidCol=NULL"
@@ -126,7 +127,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                     "$fnframeidCol=${Utils.nullableInt(resolved.first)},$fnfeidCol=${Utils.nullableInt(resolved.second)},$fnfetypeidCol=${Utils.nullableInt(resolved.third)}"
             },
             { resolving ->
-                "$fnframeCol='${Utils.escape(resolving!!.first)}' AND $fnfeCol='${Utils.escape(resolving.second)}'"
+                "$fnframeCol='${Utils.escape(resolving!!.first!!)}' AND $fnfeCol='${Utils.escape(resolving.second!!)}'"
             })
         Progress.traceDone()
     }

@@ -66,11 +66,12 @@ public class SenseToSensekeyProcessor extends Processor
 		Serialize.serialize(m, new File(outDir, outFile + ".ser"));
 
 		var m2 = getLemmaPosOffsetToSensekeyOrdered(new File(inDir, inFile));
-		Insert.insert(m2,  //
+		Insert.insert(m2.keySet(),
+				m2::get,
 				new File(outDir, outFile + ".sql"), names.table("senses_to_sensekeys").replaceAll("\\$\\{from}", from),  //
 				names.columns("senses_to_sensekeys"),  //
 				names.header("senses_to_sensekeys").replaceAll("\\$\\{from}", from), //
-				r -> String.format("'%s','%s',%s,'%s'", Utils.escape(r.getKey().first), r.getKey().second, r.getKey().third, Utils.escape(r.getValue())));
+				(k, v) -> String.format("'%s','%s',%s,'%s'", Utils.escape(k.first), k.second, k.third, Utils.escape(v)));
 	}
 
 	static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekey(final File file) throws IOException

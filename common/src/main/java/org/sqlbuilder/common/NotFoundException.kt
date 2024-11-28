@@ -1,9 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class NotFoundException extends CommonException
-{
-	public NotFoundException(final String message)
-	{
-		super(message);
-	}
-}
+class NotFoundException(message: String) : CommonException(message)
+

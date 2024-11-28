@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import static org.sqlbuilder.common.Utils.camelCase;
+
 public class VnSemanticsXmlProcessor extends XmlProcessor
 {
 	private static final boolean LOG_ONLY = false;
@@ -125,7 +127,7 @@ public class VnSemanticsXmlProcessor extends XmlProcessor
 						}
 						else if (EVENT_ASPECT_PATTERN.matcher(v2).matches())
 						{
-							v = Utils.camelCase(v);
+							v = camelCase(v);
 						}
 						else
 						{
@@ -181,7 +183,6 @@ public class VnSemanticsXmlProcessor extends XmlProcessor
 					}
 					else if (t.equalsIgnoreCase("PredSpecific"))
 					{
-						// eat
 					}
 					else
 					{

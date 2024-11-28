@@ -1,7 +1,6 @@
 package org.sqlbuilder.su.objects;
 
 import com.articulate.sigma.NotNull;
-
 import org.sqlbuilder.common.*;
 
 import java.io.File;
@@ -115,7 +114,7 @@ public class SUFile implements HasId, Insertable, Serializable, Comparable<SUFil
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@Override

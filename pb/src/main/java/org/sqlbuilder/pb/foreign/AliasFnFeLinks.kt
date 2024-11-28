@@ -11,7 +11,7 @@ class AliasFnFeLinks private constructor(
 
     @RequiresIdFrom(type = AliasFnFeLinks::class)
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     companion object {
@@ -28,7 +28,7 @@ class AliasFnFeLinks private constructor(
         @Suppress("unused")
         @RequiresIdFrom(type = AliasFnFeLinks::class)
         fun getIntId(links: AliasFnFeLinks): Int {
-            return COLLECTOR[links]!!
+            return COLLECTOR.apply(links)
         }
     }
 }

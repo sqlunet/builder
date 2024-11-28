@@ -1,128 +1,63 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
+import org.xml.sax.EntityResolver
+import org.xml.sax.InputSource
+import org.xml.sax.SAXException
+import java.io.File
+import java.io.IOException
+import java.io.StringReader
+import java.net.URI
+import java.net.URISyntaxException
+import javax.xml.parsers.DocumentBuilder
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.xpath.XPathExpressionException
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
+open class XmlDocument(filePath: String) {
 
-public class XmlDocument
-{
-	protected Document document;
+    @JvmField
+    var document: Document = load(filePath)
 
-	public XmlDocument(final String filePath) throws ParserConfigurationException, SAXException, IOException
-	{
-		load(filePath);
-	}
+    val fileName: String?
+        get() {
+            val uriString = this.document.documentURI
+            if (uriString != null) {
+                try {
+                    val uri = URI(uriString)
+                    val path = uri.getPath()
+                    val file = File(path)
+                    return file.getName()
+                } catch (_: URISyntaxException) {
+                    //
+                }
+            }
+            return null
+        }
 
-	private static DocumentBuilder makeDocumentBuilder() throws ParserConfigurationException
-	{
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setCoalescing(true);
-		factory.setIgnoringComments(true);
-		factory.setNamespaceAware(false);
-		factory.setIgnoringElementContentWhitespace(true);
-		factory.setExpandEntityReferences(false);
-		factory.setValidating(false);
-		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-		factory.setFeature("http://xml.org/sax/features/validation", false);
+    @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
+    private fun load(filePath: String): Document {
+        val builder: DocumentBuilder = makeDocumentBuilder()
+        builder.setEntityResolver(EntityResolver { publicId: String?, systemId: String? -> InputSource(StringReader("")) })
+        return builder.parse(filePath)
+    }
 
-		return factory.newDocumentBuilder();
-	}
+    companion object {
 
-	private void load(final String filePath) throws ParserConfigurationException, SAXException, IOException
-	{
-		final DocumentBuilder builder = XmlDocument.makeDocumentBuilder();
-		builder.setEntityResolver((publicId, SystemId) -> new InputSource(new StringReader("")));
-		setDocument(builder.parse(filePath));
-	}
-
-	public void setDocument(final Document document)
-	{
-		this.document = document;
-	}
-
-	public Document getDocument()
-	{
-		return this.document;
-	}
-
-	public static NodeList getXPaths(final Node start, final String xpathExpr) throws XPathExpressionException
-	{
-		final XPath xpath = XPathFactory.newInstance().newXPath();
-		return (NodeList) xpath.evaluate(xpathExpr, start, XPathConstants.NODESET);
-	}
-
-	public static Node getXPath(final Node start, final String xpathExpr) throws XPathExpressionException
-	{
-		final XPath xpath = XPathFactory.newInstance().newXPath();
-		return (Node) xpath.evaluate(xpathExpr, start, XPathConstants.NODE);
-	}
-
-	public static List<String> getXPathTexts(final Node start, final String xpathExpr) throws XPathExpressionException
-	{
-		List<String> result = null;
-		final NodeList nodes = XmlDocument.getXPaths(start, xpathExpr);
-		for (int i = 0; i < nodes.getLength(); i++)
-		{
-			if (result == null)
-			{
-				result = new ArrayList<>();
-			}
-			final Element element = (Element) nodes.item(i);
-			String text = element.getTextContent().trim();
-			text = text.replaceFirst("^\"*", "");
-			text = text.replaceFirst("\"*$", "");
-			text = text.replaceFirst("[.;]*$", "");
-			result.add(text);
-		}
-		return result;
-	}
-
-	public static String getXPathText(final Node start, final String xpathExpr) throws XPathExpressionException
-	{
-		final Node node = XPathUtils.getXPath(start, xpathExpr);
-		if (node == null)
-		{
-			return null;
-		}
-		final Element element = (Element) node;
-		return element.getTextContent().trim();
-	}
-
-	public String getFileName()
-	{
-		final String uriString = getDocument().getDocumentURI();
-		if (uriString != null)
-		{
-			try
-			{
-				final URI uri = new URI(uriString);
-				final String path = uri.getPath();
-				final File file = new File(path);
-				return file.getName();
-			}
-			catch (URISyntaxException localURISyntaxException)
-			{
-				//
-			}
-		}
-		return null;
-	}
+        @Throws(ParserConfigurationException::class)
+        private fun makeDocumentBuilder(): DocumentBuilder {
+            val factory = DocumentBuilderFactory.newInstance()
+            factory.isCoalescing = true
+            factory.isIgnoringComments = true
+            factory.isNamespaceAware = false
+            factory.isIgnoringElementContentWhitespace = true
+            factory.isExpandEntityReferences = false
+            factory.isValidating = false
+            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+            factory.setFeature("http://xml.org/sax/features/validation", false)
+            return factory.newDocumentBuilder()
+        }
+     }
 }

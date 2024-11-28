@@ -1,7 +1,7 @@
 package org.sqlbuilder.fn;
 
-import org.sqlbuilder.common.Names;
 import org.sqlbuilder.annotations.ProvidesIdTo;
+import org.sqlbuilder.common.Names;
 import org.sqlbuilder.fn.objects.FE;
 import org.sqlbuilder.fn.objects.Frame;
 import org.sqlbuilder.fn.objects.LexUnit;
@@ -17,10 +17,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -47,9 +45,9 @@ public class Exporter
 	{
 		System.out.printf("%s %d%n", "frames", Frame.SET.size());
 		System.out.printf("%s %d%n", "fes", FE.SET.size());
-		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.size());
+		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.getSize());
 		System.out.printf("%s %d%n", "lexunits", LexUnit.SET.size());
-		System.out.printf("%s %d%n", "words", Word.COLLECTOR.size());
+		System.out.printf("%s %d%n", "words", Word.COLLECTOR.getSize());
 
 		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); //
 		     @ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
@@ -132,8 +130,9 @@ public class Exporter
 	 */
 	public Map<String, Integer> makeWordMap()
 	{
-		return Word.COLLECTOR.entrySet().stream() //
-				.map(e -> new SimpleEntry<>(e.getKey().getWord(), e.getValue())) //
+		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
+		return stream //
+				.map(w -> new SimpleEntry<>(w.getWord(), Word.COLLECTOR.apply(w))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 

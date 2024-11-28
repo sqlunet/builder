@@ -1,73 +1,64 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.io.Closeable;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.io.Closeable
+import java.util.*
+import java.util.function.Function
 
-public class SetCollector<T> extends TreeMap<T, Integer> implements Closeable
-{
-	private boolean isOpen = false;
+class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>, Closeable {
 
-	public SetCollector(Comparator<T> comparator)
-	{
-		super(comparator);
-	}
+    private val map = TreeMap<T, Int?>(comparator)
 
-	public SetCollector<T> open()
-	{
-		int i = 1;
-		for (var k : keySet())
-		{
-			put(k, i++);
-		}
-		isOpen = true;
-		//System.err.println("[OPEN]:" + size());
-		return this;
-	}
+    private var isOpen = false
 
-	/**
-	 * Add item key to map
-	 *
-	 * @param item item key
-	 * @return false if already there
-	 */
-	public boolean add(T item)
-	{
-		// avoid changing value to null
-		// putIfAbsent(item, null) uses get and throw not-open exception
-		if (containsKey(item))
-		{
-			return false;
-		}
-		return put(item, null) == null; // null if there was no mapping
-	}
+    fun open(): SetCollector<T> {
+        var i = 1
+        for (k in map.keys) {
+            map.put(k, i++)
+        }
+        isOpen = true
+        return this
+    }
 
-	@Override
-	public Integer get(final Object key)
-	{
-		if (!isOpen)
-		{
-			throw new IllegalStateException(this + " not open");
-		}
-		return super.get(key);
-	}
+    /**
+     * Add item key to map
+     *
+     * @param item item key
+     * @return false if already there
+     */
+    fun add(item: T): Boolean {
+        // avoid changing value to null
+        // putIfAbsent(item, null) uses get and throw not-open exception
+        if (map.containsKey(item)) {
+            return false
+        }
+        return map.put(item, null) == null // null if there was no mapping
+    }
 
-	@Override
-	public void close()
-	{
-		isOpen = false;
-		clear();
-		// System.err.println("[CLOSE]:" + size());
-	}
+    val size = map.size
 
-	public String status()
-	{
-		return "#" + size();
-	}
+    override fun iterator(): Iterator<T> {
+        return map.keys.iterator()
+    }
 
-	public HashMap<T, Integer> toHashMap()
-	{
-		return new HashMap<>(this);
-	}
+    override fun apply(key: T): Int {
+        check(isOpen) { "$this not open" }
+        return map.get(key)!!
+    }
+
+    override fun close() {
+        isOpen = false
+        map.clear()
+    }
+
+    fun status(): String {
+        return "#${map.size}"
+    }
+
+    fun toMap(toString: (T) -> String): Map<String, Int> {
+        return this
+            .asSequence()
+            .map { toString(it) to apply(it) }
+            .toMap()
+            .toSortedMap()
+    }
 }

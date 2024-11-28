@@ -23,7 +23,7 @@ class Example private constructor(
 
     @RequiresIdFrom(type = Func::class)
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     // O R D E R
@@ -67,7 +67,7 @@ class Example private constructor(
         @Suppress("unused")
         @RequiresIdFrom(type = Func::class)
         fun getIntId(example: Example): Int {
-            return COLLECTOR[example]!!
+            return COLLECTOR.apply(example)
         }
     }
 }

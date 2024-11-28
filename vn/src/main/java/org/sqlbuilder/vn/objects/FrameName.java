@@ -16,6 +16,7 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 	private final String name;
 
 	// C O N S T R U C T O R
+
 	public static FrameName make(final String name)
 	{
 		var n = new FrameName(name);
@@ -38,7 +39,7 @@ public class FrameName implements HasId, Insertable, Comparable<FrameName>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

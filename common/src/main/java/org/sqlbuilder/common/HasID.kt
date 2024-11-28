@@ -1,5 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public interface HasID
-{
-}
+interface HasID
+

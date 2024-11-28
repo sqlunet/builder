@@ -1,8 +1,8 @@
 package org.sqlbuilder.sl;
 
+import org.sqlbuilder.common.CombinedResolver;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.FunctionResolver;
 import org.sqlbuilder.sl.foreign.VnAlias;
 import org.sqlbuilder.sl.foreign.VnRoleAlias;
 
@@ -61,8 +61,14 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnalias");
-		Insert.resolveAndInsert(VnAlias.SET, VnAlias.COMPARATOR, new File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header, //
-				new FunctionResolver<>(pbRoleSetResolver, vnClassResolver), //
+		Insert.resolveAndInsert(
+				VnAlias.SET,
+				VnAlias.COMPARATOR,
+				new File(outDir, names.file("pbrolesets_vnclasses")),
+				names.table("pbrolesets_vnclasses"),
+				names.columns("pbrolesets_vnclasses"),
+				header, //
+				new CombinedResolver<>(pbRoleSetResolver, vnClassResolver), //
 				VnAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbrolesets_vnclasses.pbrolesetid"), //
 				names.column("pbrolesets_vnclasses.vnclassid"));
@@ -73,8 +79,14 @@ public class ResolvingInserter extends Inserter
 	protected void insertVnRoleAliases() throws FileNotFoundException
 	{
 		Progress.tracePending("set", "vnaliasrole");
-		Insert.resolveAndInsert(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, new File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header, //
-				new FunctionResolver<>(pbRoleResolver, vnRoleResolver), //
+		Insert.resolveAndInsert(
+				VnRoleAlias.SET,
+				VnRoleAlias.COMPARATOR,
+				new File(outDir, names.file("pbroles_vnroles")),
+				names.table("pbroles_vnroles"),
+				names.columns("pbroles_vnroles"),
+				header, //
+				new CombinedResolver<>(pbRoleResolver, vnRoleResolver), //
 				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbroles_vnroles.pbroleid"), //
 				names.column("pbroles_vnroles.pbrolesetid"), //

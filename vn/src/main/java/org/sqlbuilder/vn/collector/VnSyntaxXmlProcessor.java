@@ -1,6 +1,6 @@
 package org.sqlbuilder.vn.collector;
 
-import org.sqlbuilder.common.Checker;
+import org.sqlbuilder.common.XmlChecker;
 import org.sqlbuilder.common.XmlProcessor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -95,11 +95,11 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 
 			// name
 			final String name = e.getNodeName();
-			Checker.checkElementName(name, CATS, "SYNTAX " + name + " element found, expected " + CATS);
+			XmlChecker.checkElementName(name, CATS, "SYNTAX " + name + " element found, expected " + CATS);
 			sb.append(name);
 
 			// attribute check
-			Checker.checkAttributeName(e, "value", "SYNTAX " + name + " has no 'value' attr", LOG_ONLY);
+			XmlChecker.checkAttributeName(e, "value", "SYNTAX " + name + " has no 'value' attr", LOG_ONLY);
 
 			// 'value' attribute value
 			String value = e.getAttribute("value").trim();
@@ -111,7 +111,7 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					{
 						String[] values = getAttrs(value.trim());
 						var values2 = Stream.of(values).map(s -> s.charAt(0) == '?' ? s.substring(1) : s).toArray(String[]::new); //
-						Checker.checkAttributeValues(values2, PREP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						XmlChecker.checkAttributeValues(values2, PREP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
 						value = String.join(" | ", values);
 						//System.out.println("@PREP " + value);
 						break;
@@ -119,25 +119,25 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					case "NP":
 					{
 						value = value.trim();
-						Checker.checkAttributeValue(value.charAt(0) == '?' ? value.substring(1) : value, NP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						XmlChecker.checkAttributeValue(value.charAt(0) == '?' ? value.substring(1) : value, NP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
 						//System.out.println("@NP " + value);
 						break;
 					}
 					case "LEX":
 					{
-						Checker.checkAttributeValue(value.trim(), LEX_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						XmlChecker.checkAttributeValue(value.trim(), LEX_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
 						//System.out.println("@LEX " + value);
 						break;
 					}
 					case "ADV":
 					{
-						Checker.checkAttributeValue(value.trim(), ADV_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						XmlChecker.checkAttributeValue(value.trim(), ADV_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
 						//System.out.println("@ADV " + value);
 						break;
 					}
 					case "VP":
 					{
-						Checker.checkAttributeValue(value.trim(), VP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
+						XmlChecker.checkAttributeValue(value.trim(), VP_PATTERN, "SYNTAX " + name + " has unexpected 'value' attr: " + value, LOG_ONLY);
 						//System.out.println("@VP " + value);
 						break;
 					}
@@ -163,25 +163,25 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 				final Node node2 = nodes2.item(j);
 				if (!(node2 instanceof Element))
 				{
-					// TODO Checker.checkEmpty(node2, "SYNTAX found non element as child of " + name, LOG_ONLY);
+					// TODO XmlChecker.checkEmpty(node2, "SYNTAX found non element as child of " + name, LOG_ONLY);
 					continue;
 				}
 				final Element e2 = (Element) node2;
 
 				// name
 				final String name2 = e2.getNodeName();
-				Checker.checkElementName(name2, "SELRESTRS|SYNRESTRS", "SYNTAX " + "SELRESTRS|SYNRESTRS expected, found element: " + name2);
+				XmlChecker.checkElementName(name2, "SELRESTRS|SYNRESTRS", "SYNTAX " + "SELRESTRS|SYNRESTRS expected, found element: " + name2);
 				// sb.append(" = ");
 				// sb.append(name2);
 
 				// attribute check
-				Checker.checkAttributeName(e2, "logic", "SYNTAX " + name + " has no 'logic' attr", LOG_ONLY);
+				XmlChecker.checkAttributeName(e2, "logic", "SYNTAX " + name + " has no 'logic' attr", LOG_ONLY);
 
 				// 'Value' attribute value
 				String logic = e2.getAttribute("logic").trim();
 				if (!logic.isEmpty())
 				{
-					Checker.checkAttributeValue(logic, "or|and", "SYNTAX " + name + " has unexpected 'logic' attr: " + logic, LOG_ONLY);
+					XmlChecker.checkAttributeValue(logic, "or|and", "SYNTAX " + name + " has unexpected 'logic' attr: " + logic, LOG_ONLY);
 				}
 
 				// SELRESTR|SYNRESTR
@@ -191,7 +191,7 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					final Node node3 = nodes3.item(k);
 					if (!(node3 instanceof Element))
 					{
-						//TODO Checker.checkEmpty(node3, "SYNTAX " + "found non element as child of " + name2, LOG_ONLY);
+						//TODO XmlChecker.checkEmpty(node3, "SYNTAX " + "found non element as child of " + name2, LOG_ONLY);
 						continue;
 					}
 					final Element e3 = (Element) node3;
@@ -201,18 +201,18 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					final boolean isSynRestr = name3.equals("SYNRESTR");
 					final boolean isSelRestr = name3.equals("SELRESTR");
 
-					Checker.checkElementName(name3, "SELRESTR|SYNRESTR", "SYNTAX " + "SELRESTR|SYNRESTR expected, found element: " + name3);
+					XmlChecker.checkElementName(name3, "SELRESTR|SYNRESTR", "SYNTAX " + "SELRESTR|SYNRESTR expected, found element: " + name3);
 					// sb.append(" - ");
 					// sb.append(name3);
 
 					// attribute check
-					Checker.checkAttributeName(e3, "Value|type", "SYNTAX " + name3 + " has no 'Value|type' attr", LOG_ONLY);
+					XmlChecker.checkAttributeName(e3, "Value|type", "SYNTAX " + name3 + " has no 'Value|type' attr", LOG_ONLY);
 
 					// 'Value' attribute value
 					final String value3 = e3.getAttribute("Value").trim();
 					if (!value3.isEmpty())
 					{
-						Checker.checkAttributeValue(value3, "(\\+|\\-)", "SYNTAX " + name3 + " has unexpected 'Value' attr: " + value3, LOG_ONLY);
+						XmlChecker.checkAttributeValue(value3, "(\\+|\\-)", "SYNTAX " + name3 + " has unexpected 'Value' attr: " + value3, LOG_ONLY);
 					}
 
 					// 'type' attribute value
@@ -221,12 +221,12 @@ public class VnSyntaxXmlProcessor extends XmlProcessor
 					{
 						if (isSynRestr)
 						{
-							Checker.checkAttributeValue(type3, VnSyntaxXmlProcessor.SYNRESTR, "SYNTAX " + name3 + " has unexpected synrestr 'Value' attr: " + type3, LOG_ONLY);
+							XmlChecker.checkAttributeValue(type3, VnSyntaxXmlProcessor.SYNRESTR, "SYNTAX " + name3 + " has unexpected synrestr 'Value' attr: " + type3, LOG_ONLY);
 							//System.out.println("@SYN " + type3);
 						}
 						if (isSelRestr)
 						{
-							Checker.checkAttributeValue(type3, VnSyntaxXmlProcessor.SELRESTR, "SYNTAX " + name3 + " has unexpected selrestr 'Value' attr: " + type3, LOG_ONLY);
+							XmlChecker.checkAttributeValue(type3, VnSyntaxXmlProcessor.SELRESTR, "SYNTAX " + name3 + " has unexpected selrestr 'Value' attr: " + type3, LOG_ONLY);
 							//System.out.println("@SEL " + type3);
 						}
 					}

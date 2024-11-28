@@ -1,6 +1,5 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
 import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 
@@ -54,7 +53,7 @@ public class Role implements Insertable, HasId
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

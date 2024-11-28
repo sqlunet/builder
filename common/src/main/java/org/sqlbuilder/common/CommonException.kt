@@ -1,9 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class CommonException extends Exception
-{
-	public CommonException(final String message)
-	{
-		super(message);
-	}
-}
+open class CommonException(message: String) : Exception(message)
+

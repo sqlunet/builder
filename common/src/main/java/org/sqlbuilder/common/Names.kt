@@ -1,115 +1,87 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import org.sqlbuilder.common.Utils.backtick
+import java.io.IOException
+import java.net.URL
+import java.util.*
 
-public class Names
-{
-	private final Properties props;
+class Names(module: String) {
 
-	public Names(final String module)
-	{
-		this.props = getProperties("/" + module + "/Names.properties");
-	}
+    private val props: Properties = getProperties("/$module/Names.properties")
 
-	private Properties getProperties(final String conf)
-	{
-		Properties props = new Properties();
-		URL url = Names.class.getResource(conf);
-		assert url != null;
-		try (InputStream fis = url.openStream())
-		{
-			props.load(fis);
-		}
-		catch (IOException e)
-		{
-			System.err.println(e.getMessage());
-		}
-		return props;
-	}
+    private fun getProperties(conf: String): Properties {
+        val props = Properties()
+        val url: URL = Names::class.java.getResource(conf)!!
+        try {
+            url.openStream().use {
+                props.load(it)
+            }
+        } catch (e: IOException) {
+            System.err.println(e.message)
+        }
+        return props
+    }
 
-	public String file(String key)
-	{
-		return get(key + ".file");
-	}
+    private fun get(key: String): String {
+        val v = props.getProperty(key)
+        requireNotNull(v) { "$key is not defined" }
+        return v
+    }
 
-	public String header(String key)
-	{
-		return get(key + ".header");
-	}
+    private fun getNullable(key: String): String? {
+        return props.getProperty(key)
+    }
 
-	public String updateFile(String key)
-	{
-		return "update_" + get(key + ".file");
-	}
+    fun file(key: String): String {
+        return get("$key.file")
+    }
 
-	public String updateFileNullable(String key)
-	{
-		var f = getNullable(key + ".file");
-		return f == null ? null : "update_" + f;
-	}
+    fun updateFile(key: String): String {
+        return "update_" + get("$key.file")
+    }
 
-	public String serFile(String key)
-	{
-		return serFile(key, "");
-	}
+    fun updateFileNullable(key: String): String? {
+        val f = getNullable("$key.file")
+        return if (f == null) null else "update_$f"
+    }
 
-	public String serFile(String name, String suffix)
-	{
-		return name + suffix + ".ser";
-	}
+    fun serFile(key: String): String {
+        return serFile(key, "")
+    }
 
-	public String mapFile(String key)
-	{
-		return mapFile(key, "");
-	}
+    fun serFile(name: String, suffix: String): String {
+        return "$name$suffix.ser"
+    }
 
-	public String mapFile(String name, String suffix)
-	{
-		return name + suffix + ".map";
-	}
+    fun mapFile(key: String): String {
+        return mapFile(key, "")
+    }
 
-	public String table(String key)
-	{
-		return Utils.backtick(get(key + ".table"));
-	}
+    fun mapFile(name: String, suffix: String): String {
+        return "$name$suffix.map"
+    }
 
-	public String columns(String key)
-	{
-		return columns(key, false);
-	}
+    fun header(key: String): String {
+        return get("$key.header")
+    }
 
-	public String columns(String key, boolean resolve)
-	{
-		return backtickColumns(get(key + (resolve ? ".columns.resolved" : ".columns")));
-	}
+    fun table(key: String): String {
+        return backtick(get("$key.table"))
+    }
 
-	public String column(String key)
-	{
-		return Utils.backtick(get(key));
-	}
+    @JvmOverloads
+    fun columns(key: String, resolve: Boolean = false): String {
+        return backtickAll(get(key + (if (resolve) ".columns.resolved" else ".columns")))
+    }
 
-	private String get(String key)
-	{
-		var v = props.getProperty(key);
-		if (v == null)
-		{
-			throw new IllegalArgumentException(key);
-		}
-		return v;
-	}
+    fun column(key: String): String {
+        return backtick(get(key))
+    }
 
-	private String getNullable(String key)
-	{
-		return props.getProperty(key);
-	}
-
-	private String backtickColumns(final String columns)
-	{
-		return Arrays.stream(columns.split(",")).map(Utils::backtick).collect(Collectors.joining(","));
-	}
+    private fun backtickAll(columns: String): String {
+        return columns
+            .split(",".toRegex())
+            .dropLastWhile { it.isEmpty() }
+            .joinToString(separator = ",") { backtick(it) }
+    }
 }

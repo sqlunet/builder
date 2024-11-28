@@ -39,7 +39,7 @@ public class RoleType implements HasId, Insertable, Comparable<RoleType>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

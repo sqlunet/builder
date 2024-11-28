@@ -19,7 +19,6 @@ public class TestParseFile
 		System.out.println(path);
 		File file = new File(path);
 		Properties props = org.sqlbuilder.common.Module.getProperties("pb.properties");
-		assert props != null;
 		new PbCollector(props).processPropBankFile(file.getAbsolutePath(), file.getName());
 
 		var funcs = Func.COLLECTOR;
@@ -38,7 +37,7 @@ public class TestParseFile
 		var i = 0;
 		for (var c : collectors)
 		{
-			System.out.println(names[i] + " " + c.size());
+			System.out.println(names[i] + " " + c.getSize());
 			i++;
 		}
 	}

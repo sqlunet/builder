@@ -132,7 +132,7 @@ public class Formula implements HasId, Insertable, Serializable, Comparable<Form
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@Override

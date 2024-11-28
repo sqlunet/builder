@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.sqlbuilder.common.NotFoundException;
 import org.sqlbuilder.su.KBLoader;
 import org.sqlbuilder.su.SuProcessor;
 import org.sqlbuilder.su.objects.Formula;
@@ -21,7 +20,7 @@ public class TestProcessor
 	{
 		try // (SetCollector<SUMOFile> ignored = SUMOFile.COLLECTOR.open())
 		{
-			SuProcessor.insertFiles(TestUtils.OUT, SUFile.COLLECTOR.keySet(), "files", "fileid,file,version,date");
+			SuProcessor.insertFiles(TestUtils.OUT, SUFile.COLLECTOR, "files", "fileid,file,version,date");
 		}
 		catch (Exception e)
 		{
@@ -30,11 +29,11 @@ public class TestProcessor
 	}
 
 	@Test
-	public void testProcessTermsAndAttrs() throws NotFoundException
+	public void testProcessTermsAndAttrs()
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.ERR, Term.COLLECTOR.keySet(), KBLoader.kb, "terms", "sumoid,term", "terms_attr", "sumoid,attr");
+			SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.ERR, Term.COLLECTOR, KBLoader.kb, "terms", "sumoid,term", "terms_attr", "sumoid,attr");
 		}
 		catch (Exception e)
 		{
@@ -43,11 +42,11 @@ public class TestProcessor
 	}
 
 	@Test
-	public void testProcessTermAttrs() throws NotFoundException
+	public void testProcessTermAttrs()
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SuProcessor.insertTermAttrs(TestUtils.OUT, Term.COLLECTOR.keySet(), KBLoader.kb, "terms_attr", "sumoid,attr");
+			SuProcessor.insertTermAttrs(TestUtils.OUT, Term.COLLECTOR, KBLoader.kb, "terms_attr", "sumoid,attr");
 		}
 		catch (Exception e)
 		{
@@ -56,11 +55,11 @@ public class TestProcessor
 	}
 
 	@Test
-	public void testProcessTerms() throws NotFoundException
+	public void testProcessTerms()
 	{
 		try // (SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open())
 		{
-			SuProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR.keySet(), "terms", "sumoid,term");
+			SuProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR, "terms", "sumoid,term");
 		}
 		catch (Exception e)
 		{
@@ -69,7 +68,7 @@ public class TestProcessor
 	}
 
 	@Test
-	public void testProcessFormulasAndArgs() throws NotFoundException
+	public void testProcessFormulasAndArgs()
 	{
 		try //(
 		//SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open(); //
@@ -77,7 +76,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.ERR, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
+			SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.ERR, Formula.COLLECTOR, "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{
@@ -86,7 +85,7 @@ public class TestProcessor
 	}
 
 	@Test
-	public void testProcessFormulas() throws NotFoundException
+	public void testProcessFormulas()
 	{
 		try //(
 		//SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open(); //
@@ -94,7 +93,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SuProcessor.insertFormulas(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas", "formulaid,formula,fileid");
+			SuProcessor.insertFormulas(TestUtils.OUT, Formula.COLLECTOR, "formulas", "formulaid,formula,fileid");
 		}
 		catch (Exception e)
 		{
@@ -103,7 +102,7 @@ public class TestProcessor
 	}
 
 	@Test
-	public void testProcessFormulasArgs() throws NotFoundException
+	public void testProcessFormulasArgs()
 	{
 		try //(
 		//SetCollector<SUMOTerm> ignored = SUMOTerm.COLLECTOR.open(); //
@@ -111,7 +110,7 @@ public class TestProcessor
 		//SetCollector<SUMOFormula> ignored3 = SUMOFormula.COLLECTOR.open(); //
 		//)
 		{
-			SuProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR.keySet(), "formulas_args", "formulaid,sumoid,argtype,argnum");
+			SuProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR, "formulas_args", "formulaid,sumoid,argtype,argnum");
 		}
 		catch (Exception e)
 		{
@@ -139,7 +138,7 @@ public class TestProcessor
 		Formula.COLLECTOR.close();
 	}
 
-	public static void main(String[] args) throws NotFoundException
+	public static void main(String[] args)
 	{
 		new KBLoader().load();
 		init();

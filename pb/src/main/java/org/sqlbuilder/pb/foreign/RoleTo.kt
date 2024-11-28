@@ -12,7 +12,7 @@ import java.util.*
 abstract class RoleTo protected constructor(
     val role: Role,
     val aliasRole: AliasRole,
-) : Insertable, Resolvable<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+) : Insertable, Resolvable<Pair<String?, String?>, Triplet<Int?, Int?, Int?>?> {
 
     // I D E N T I T Y
 

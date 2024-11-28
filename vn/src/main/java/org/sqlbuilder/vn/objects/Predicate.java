@@ -1,9 +1,6 @@
 package org.sqlbuilder.vn.objects;
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.*;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -17,6 +14,7 @@ public class Predicate implements HasId, Insertable, Comparable<Predicate>
 	private final String name;
 
 	// C O N S T R U C T O R
+
 	public static Predicate make(final String name)
 	{
 		var p = new Predicate(name);
@@ -39,7 +37,7 @@ public class Predicate implements HasId, Insertable, Comparable<Predicate>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

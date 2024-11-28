@@ -1,64 +1,44 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
 
-public abstract class Module
-{
-	public enum Mode
-	{
-		PLAIN, RESOLVE, UPDATE, EXPORT;
+abstract class Module protected constructor(val id: String?, conf: String, @JvmField protected val mode: Mode?) {
 
-		public static Mode read(final String arg)
-		{
-			switch (arg)
-			{
-				case "-resolve":
-					return Mode.RESOLVE;
-				case "-update":
-					return Mode.UPDATE;
-				case "-export":
-					return Mode.EXPORT;
-				default:
-					return Mode.PLAIN;
-			}
-		}
-	}
+    enum class Mode {
+        PLAIN, RESOLVE, UPDATE, EXPORT;
 
-	public final String id;
+        companion object {
 
-	protected final Properties props;
+            @JvmStatic
+            fun read(arg: String): Mode {
+                return when (arg) {
+                    "-resolve" -> RESOLVE
+                    "-update"  -> UPDATE
+                    "-export"  -> EXPORT
+                    else       -> PLAIN
+                }
+            }
+        }
+    }
 
-	protected final Mode mode;
+    @JvmField
+    protected val props: Properties = getProperties(conf)
 
-	protected Module(final String id, final String conf, final Mode mode)
-	{
-		this.id = id;
-		this.mode = mode;
-		this.props = getProperties(conf);
-	}
+    protected abstract fun run()
 
-	abstract protected void run();
+    companion object {
 
-	@Nullable
-	public static Properties getProperties(final String conf)
-	{
-		File confFile = new File(conf);
-		try (FileInputStream fis = new FileInputStream(confFile))
-		{
-			Properties props = new Properties();
-			props.load(fis);
-			return props;
-		}
-		catch (Exception ignored)
-		{
-		}
-		return null;
-	}
-
-	public String getId()
-	{
-		return id;
-	}
+        @JvmStatic
+        @Nullable
+        fun getProperties(conf: String): Properties {
+            val confFile = File(conf)
+            FileInputStream(confFile).use {
+                val props = Properties()
+                props.load(it)
+                return props
+            }
+        }
+    }
 }

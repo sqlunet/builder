@@ -337,7 +337,7 @@ public class VnDocument
 	public static Collection<FrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
 	{
 		final Collection<FrameExample> result = new ArrayList<>();
-		final List<String> examples = XPathUtils.getXPathTexts(start, "./FRAMES/FRAME/EXAMPLES/EXAMPLE");
+		final List<String> examples = XmlTextUtils.getXPathTexts(start, "./FRAMES/FRAME/EXAMPLES/EXAMPLE");
 		if (examples != null)
 		{
 			for (final String example : examples)
@@ -367,7 +367,7 @@ public class VnDocument
 
 			final Frame frame = Frame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
 
-			final List<String> examples = XPathUtils.getXPathTexts(frameElement, "./EXAMPLES/EXAMPLE");
+			final List<String> examples = XmlTextUtils.getXPathTexts(frameElement, "./EXAMPLES/EXAMPLE");
 			if (examples != null)
 			{
 				for (final String example : examples)

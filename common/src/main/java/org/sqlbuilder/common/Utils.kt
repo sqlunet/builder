@@ -1,236 +1,232 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.function.Function;
+import java.util.*
 
-public class Utils
-{
-	private static final String NULLSTR = "NULL";
+object Utils {
 
-	private static final String QUOTE = "'";
+    private const val NULLSTR = "NULL"
 
-	private static final String ESCAPED_QUOTE = "''";
+    private const val QUOTE = "'"
 
-	private static final char BACKTICK = '`';
+    private const val ESCAPED_QUOTE = "''"
 
-	// Q U O T E
+    private const val BACKTICK = '`'
 
-	/**
-	 * Quote string for it to be handled by SQL
-	 *
-	 * @param str string
-	 * @return SQL quoted string
-	 */
-	public static String quote(final String str)
-	{
-		return QUOTE + str + QUOTE;
-	}
+    // Q U O T E
 
-	// E S C A P E
+    /**
+     * Quote string for it to be handled by SQL
+     *
+     * @param str string
+     * @return SQL quoted string
+     */
+    @JvmStatic
+    fun quote(str: String): String {
+        return QUOTE + str + QUOTE
+    }
 
-	/**
-	 * Escape string for it to be handled by SQL
-	 *
-	 * @param str string
-	 * @return SQL escaped string
-	 */
-	public static String escape(final String str)
-	{
-		return str.replace(QUOTE, ESCAPED_QUOTE);
-	}
+    // E S C A P E
 
-	// N U L L A B L E
+    /**
+     * Escape string for it to be handled by SQL
+     *
+     * @param str string
+     * @return SQL escaped string
+     */
+    @JvmStatic
+    fun escape(str: String): String {
+        return str.replace(QUOTE, ESCAPED_QUOTE)
+    }
 
-	/**
-	 * Stringify nullable object for it to be handled by SQL
-	 *
-	 * @param object object
-	 * @return SQL string
-	 */
-	public static <T> String nullable(final T object)
-	{
-		return object == null ? NULLSTR : object.toString();
-	}
+    // N U L L A B L E
 
-	/**
-	 * Stringify nullable object for it to be handled by SQL
-	 *
-	 * @param object   object
-	 * @param toString stringifier
-	 * @return SQL string
-	 */
-	public static <T> String nullable(final T object, final Function<T, String> toString)
-	{
-		return object == null ? NULLSTR : toString.apply(object);
-	}
+    /**
+     * Stringify nullable object for it to be handled by SQL
+     *
+     * @param obj object
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> nullable(obj: T?): String {
+        return obj?.toString() ?: NULLSTR
+    }
 
-	// Q U O T E D   +   E S C A P E D
+    /**
+     * Stringify nullable object for it to be handled by SQL
+     *
+     * @param obj object
+     * @param toString stringifier
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> nullable(obj: T?, toString: (T) -> String): String {
+        return if (obj == null) NULLSTR else toString(obj)
+    }
 
-	/**
-	 * Quoted object string value for it to be handled by SQL
-	 *
-	 * @param object object
-	 * @return SQL string
-	 */
-	public static <T> String quotedEscapedString(final T object)
-	{
-		return quotedEscapedString(object, String::valueOf);
-	}
+    // Q U O T E D   +   E S C A P E D
 
-	/**
-	 * Quoted object string value for it to be handled by SQL
-	 *
-	 * @param object   object
-	 * @param toString string function
-	 * @return SQL string
-	 */
-	public static <T> String quotedEscapedString(final T object, final Function<T, String> toString)
-	{
-		return quote(escape(toString.apply(object)));
-	}
+    /**
+     * Quoted object string value for it to be handled by SQL
+     *
+     * @param obj object
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> quotedEscapedString(obj: T): String {
+        return quotedEscapedString(obj) { it.toString() }
+    }
 
-	// N U L L A B L E   +   Q U O T E D   +   E S C  A P E D
+    /**
+     * Quoted object string value for it to be handled by SQL
+     *
+     * @param obj object
+     * @param toString string function
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> quotedEscapedString(obj: T, toString: (T) -> String): String {
+        return quote(escape(toString(obj)))
+    }
 
-	/**
-	 * Nullable quoted object string value for it to be handled by SQL
-	 *
-	 * @param object   object
-	 * @param toString string function
-	 * @return SQL string
-	 */
-	public static <T> String nullableQuotedString(final T object, final Function<T, String> toString)
-	{
-		return nullable(object, o -> quote(toString.apply(o)));
-	}
+    // N U L L A B L E   +   Q U O T E D   +   E S C A P E D
 
-	/**
-	 * Nullable quoted escaped object string value for it to be handled by SQL
-	 *
-	 * @param object   object
-	 * @param toString string function
-	 * @return SQL string
-	 */
-	public static <T> String nullableQuotedEscapedString(final T object, final Function<T, String> toString)
-	{
-		return nullable(object, o -> quote(escape(toString.apply(o))));
-	}
+    /**
+     * Nullable quoted object string value for it to be handled by SQL
+     *
+     * @param obj   object
+     * @param toString string function
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> nullableQuotedString(obj: T?, toString: (T) -> String): String {
+        return nullable(obj) { quote(toString(it)) }
+    }
 
-	/**
-	 * Nullable quoted object string value for it to be handled by SQL
-	 *
-	 * @param object object
-	 * @return SQL string
-	 */
-	public static <T> String nullableQuotedString(final T object)
-	{
-		return nullableQuotedString(object, Object::toString);
-	}
+    /**
+     * Nullable quoted escaped object string value for it to be handled by SQL
+     *
+     * @param obj   object
+     * @param toString string function
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> nullableQuotedEscapedString(obj: T?, toString: (T) -> String): String {
+        return nullable(obj) { quote(escape(toString(it))) }
+    }
 
-	/**
-	 * Nullable quoted escaped object string value for it to be handled by SQL
-	 *
-	 * @param object object
-	 * @return SQL non-escaped string or NULL
-	 */
-	public static <T> String nullableQuotedEscapedString(final T object)
-	{
-		return nullableQuotedEscapedString(object, Object::toString);
-	}
+    /**
+     * Nullable quoted object string value for it to be handled by SQL
+     *
+     * @param obj object
+     * @return SQL string
+     */
+    @JvmStatic
+    fun <T> nullableQuotedString(obj: T?): String {
+        return nullableQuotedString(obj) { it.toString() }
+    }
 
-	// C H A R  A N D   I N T
+    /**
+     * Nullable quoted escaped object string value for it to be handled by SQL
+     *
+     * @param obj object
+     * @return SQL non-escaped string or NULL
+     */
+    @JvmStatic
+    fun <T> nullableQuotedEscapedString(obj: T?): String {
+        return nullableQuotedEscapedString(obj) { it.toString() }
+    }
 
-	/**
-	 * Nullable character for it to be handled by SQL
-	 *
-	 * @param c character
-	 * @return SQL char or NULL
-	 */
-	public static String nullableQuotedChar(final Character c)
-	{
-		return nullable(c, o -> quote(c.toString()));
-	}
+    // C H A R  A N D   I N T
 
-	/**
-	 * Nullable int for it to be handled by SQL
-	 *
-	 * @param i int
-	 * @return SQL int or NULL
-	 */
-	public static String nullableInt(final Integer i)
-	{
-		return nullable(i, String::valueOf);
-	}
+    /**
+     * Nullable character for it to be handled by SQL
+     *
+     * @param c character
+     * @return SQL char or NULL
+     */
+    @JvmStatic
+    fun nullableQuotedChar(c: Char?): String {
+        return nullable(c) { quote(it.toString()) }
+    }
 
-	/**
-	 * Nullable int for it to be handled by SQL
-	 *
-	 * @param l long
-	 * @return SQL long or NULL
-	 */
-	public static String nullableLong(final Long l)
-	{
-		return nullable(l, String::valueOf);
-	}
+    /**
+     * Nullable int for it to be handled by SQL
+     *
+     * @param i int
+     * @return SQL int or NULL
+     */
+    @JvmStatic
+    fun nullableInt(i: Int?): String {
+        return nullable(i) { it.toString() }
+    }
 
-	/**
-	 * Nullable date for it to be handled by SQL
-	 *
-	 * @param date date
-	 * @return SQL timestamp or NULL
-	 */
-	public static String nullableDate(final Date date)
-	{
-		return nullable(date, d -> Long.toString(date.getTime()));
-	}
+    /**
+     * Nullable int for it to be handled by SQL
+     *
+     * @param l long
+     * @return SQL long or NULL
+     */
+    @JvmStatic
+    fun nullableLong(l: Long?): String {
+        return nullable(l) { it.toString() }
+    }
 
-	/**
-	 * Nullable int for it to be handled by SQL
-	 *
-	 * @param f float
-	 * @return SQL float or NULL
-	 */
-	public static String nullableFloat(final Float f)
-	{
-		return nullable(f, String::valueOf);
-	}
+    /**
+     * Nullable float for it to be handled by SQL
+     *
+     * @param f float
+     * @return SQL float or NULL
+     */
+    @JvmStatic
+    fun nullableFloat(f: Float?): String {
+        return nullable(f) { it.toString() }
+    }
 
-	//
+    /**
+     * Nullable date for it to be handled by SQL
+     *
+     * @param date date
+     * @return SQL timestamp or NULL
+     */
+    @JvmStatic
+    fun nullableDate(date: Date?): String {
+        return nullable(date) { it.time.toString() }
+    }
 
-	/**
-	 * Escape zeroable int for it to be handled by SQL, zero interpreted as NULL
-	 *
-	 * @param i int
-	 * @return SQL escaped string or NULL
-	 */
-	public static String zeroableInt(final int i)
-	{
-		return i == 0 ? NULLSTR : String.valueOf(i);
-	}
+    //
+    /**
+     * Escape zeroable int for it to be handled by SQL, zero interpreted as NULL
+     *
+     * @param i int
+     * @return SQL escaped string or NULL
+     */
+    @JvmStatic
+    fun zeroableInt(i: Int): String {
+        return if (i == 0) NULLSTR else i.toString()
+    }
 
-	/**
-	 * Back tick
-	 *
-	 * @param value value to backtick
-	 * @return backticked string value
-	 */
-	public static String backtick(final String value)
-	{
-		return BACKTICK + value + BACKTICK;
-	}
+    /**
+     * Back tick
+     *
+     * @param value value to backtick
+     * @return backticked string value
+     */
+    @JvmStatic
+    fun backtick(value: String): String {
+        return "${BACKTICK}$value${BACKTICK}"
+    }
 
-	/**
-	 * Camel-case string
-	 *
-	 * @param str str
-	 * @return camel-cased string
-	 */
-	public static String camelCase(final String str)
-	{
-		if (str != null && !str.isEmpty())
-		{
-			return str.substring(0, 1).toUpperCase(Locale.ENGLISH) + str.substring(1).toLowerCase(Locale.ENGLISH);
-		}
-		return str;
-	}
+    /**
+     * Camel-case string
+     *
+     * @param str str
+     * @return camel-cased string
+     */
+    @JvmStatic
+    fun camelCase(str: String): String {
+        if (!str.isEmpty()) {
+            return "${str.substring(0, 1).uppercase()}${str.substring(1).lowercase()}"
+        }
+        return str
+    }
 }

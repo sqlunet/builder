@@ -4,11 +4,10 @@ import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.*;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Objects;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class Frame implements HasId, Insertable, Comparable<Frame>
 {
@@ -35,6 +34,7 @@ public class Frame implements HasId, Insertable, Comparable<Frame>
 	private final Semantics semantics;
 
 	// C O N S T R U C T O R
+
 	public static Frame make(final String descriptionNumber, final String descriptionXTag, final String descriptionPrimary, final String descriptionSecondary, final String syntax, final String semantics) throws ParserConfigurationException, SAXException, IOException
 	{
 		var f = new Frame(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
@@ -87,7 +87,7 @@ public class Frame implements HasId, Insertable, Comparable<Frame>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

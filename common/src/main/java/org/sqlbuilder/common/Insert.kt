@@ -1,322 +1,352 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.util.*;
-import java.util.function.Function;
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.PrintStream
+import java.util.function.BiFunction
+import java.util.function.Function
+import kotlin.Throws
 
-public class Insert
-{
-	// L I S T
+object Insert {
 
-	public static <T extends Insertable> void insert(final List<T> list, final File file, final String table, final String columns, final String header) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (list.size() > 0)
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// private static <T extends Insertable> void insert(final List<T> list, final PrintStream ps)
-				{
-					int[] i = {0};
-					list.forEach(item -> {
+    // I N S E R T A B L E S
 
-						if (i[0] != 0)
-						{
-							ps.print(",\n");
-						}
-						String values = item.dataRow();
-						String comment = item.comment();
-						String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
-						ps.print(row);
-						i[0]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Insertable> insert(
+        items: Iterable<T>,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                var first = true
+                items.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println(",")
+                    }
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row = if (comment != null) "($values) /* $comment */" else "($values)"
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-	// M A P
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Insertable> insert(
+        items: Iterable<T>,
+        comparator: Comparator<T>?,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                var seq = items.asSequence()
+                if (comparator != null) {
+                    seq = seq.sortedWith(comparator)
+                }
+                var first = true
+                seq.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println(",")
+                    }
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row = if (comment != null) "($values) /* $comment */" else "($values)"
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns, final String header, boolean withNumber) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (map.size() > 0)
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// private static <T extends Insertable> void insert(final Map<T, Integer> map, final PrintStream ps)
-				{
-					int[] i = {0};
-					map.forEach((key, id) -> {
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Insertable> insert(
+        items: Iterable<T>,
+        resolver: Function<T, Int>,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+    ) {
+        insert<T>(items, resolver, file, table, columns, header, true)
+    }
 
-						if (i[0] != 0)
-						{
-							ps.print(",\n");
-						}
-						String values = key.dataRow();
-						String comment = key.comment();
-						String row = withNumber ?
-								(comment != null ? String.format("(%d,%s) /* %s */", id, values, comment) : String.format("(%d,%s)", id, values)) :
-								(comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values));
-						ps.print(row);
-						i[0]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Insertable> insert(
+        items: Iterable<T>,
+        resolver: Function<T, Int>,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+        withNumber: Boolean = true,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                var first = true
+                items.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println(",")
+                    }
+                    val id = resolver.apply(it)
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row =
+                        if (withNumber)
+                            (if (comment != null) "($id,$values) /* $comment */" else "($id,$values)")
+                        else
+                            (if (comment != null) "($values) /* $comment */" else "($values)")
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-	public static <T extends Insertable> void insert(final Map<T, Integer> map, final File file, final String table, final String columns, final String header) throws FileNotFoundException
-	{
-		insert(map, file, table, columns, header, true);
-	}
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Insertable> insertAndIncrement(
+        items: Iterable<T>,
+        comparator: Comparator<T>?,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                var seq = items.asSequence()
+                if (comparator != null) {
+                    seq = seq.sortedWith(comparator)
+                }
+                var i = 0
+                seq.forEach {
+                    if (i > 0) {
+                        ps.println(",")
+                    }
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
+                    ps.print(row)
+                    i++
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Map<T, Integer> map, final File file, final String table, final String columns, final String header, boolean withNumber,  //
-			final Function<U, R> resolver, //
-			final Function<R, String> stringifier, //
-			final String... resolvedColumns)  //
-			throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (map.size() > 0)
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + String.join(",", resolvedColumns));
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Insertable> insertFragmented(
+        items: Iterable<T>,
+        comparator: Comparator<T>?,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                var seq = items.asSequence()
+                if (comparator != null) {
+                    seq = seq.sortedWith(comparator)
+                }
+                var i = 0
+                seq.forEach {
+                    if (i == 100000) {
+                        ps.println(";")
+                        ps.println("INSERT INTO $table ($columns) VALUES")
+                        i = 0
+                    }
+                    if (i > 0) {
+                        ps.println(",")
+                    }
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
+                    ps.print(row)
+                    i++
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-				int[] i = {0};
-				map.forEach((key, id) -> {
+    // S T R I N G
 
-					if (i[0] != 0)
-					{
-						ps.print(",\n");
-					}
-					R resolved = key.resolve(resolver);
-					String sqlResolved = stringifier.apply(resolved);
-					String values = key.dataRow();
-					String comment = key.comment();
-					String row = withNumber ?
-							(comment != null ? String.format("(%d,%s,%s) /* %s */", id, values, sqlResolved, comment) : String.format("(%d,%s,%s)", id, values, sqlResolved)) :
-							(comment != null ? String.format("(%s,%s) /* %s */", values, sqlResolved, comment) : String.format("(%s,%s)", values, sqlResolved));
-					ps.print(row);
-					i[0]++;
-				});
-				ps.println(";");
-			}
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun insertStrings(
+        items: Iterable<String>,
+        resolver: Function<String, Int>,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                var first = true
+                items.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
+                    }
+                    val id = resolver.apply(it)
+                    val row = "($id,'${Utils.escape(it)}')"
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-	// S T R I N G   M A P
+    // G E N E R I C
 
-	public static void insertStringMap(final Map<String, Integer> map, final File file, final String table, final String columns, final String header) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (map.size() > 0)
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// public static void insertStringMap(final Map<String, Integer> map, final PrintStream ps)
-				{
-					int[] i = {0};
-					map.forEach((key, id) -> {
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <K, V> insert(
+        items: Iterable<K>,
+        resolver: Function<K, V>,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+        stringifier: BiFunction<K, V, String>,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                var first = true
+                items.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
+                    }
+                    val v = resolver.apply(it)
+                    val values = stringifier.apply(it, v)
+                    val row = "($values)"
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-						if (i[0] != 0)
-						{
-							ps.print(",\n");
-						}
-						String row = String.format("(%d,'%s')", id, Utils.escape(key));
-						ps.print(row);
-						i[0]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
+    // R E S O L V A L B L E
 
-	// G E N E R I C   M A P
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Resolvable<U, R>, U, R> resolveAndInsert(
+        items: Iterable<T>,
+        comparator: Comparator<T>?,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+        foreignResolver: Function<U, R>,
+        stringifier: Function<R, String>,
+        vararg resolvedColumns: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns,${resolvedColumns.joinToString(separator = ",")}) VALUES")
+                var seq = items.asSequence()
+                if (comparator != null) {
+                    seq = seq.sortedWith(comparator)
+                }
+                var first = true
+                seq.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
+                    }
+                    val resolved = it.resolve(foreignResolver)
+                    val sqlResolved = stringifier.apply(resolved)
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row = if (comment != null) "($values,$sqlResolved) /* $comment */" else "($values,$sqlResolved)"
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 
-	public static <K, V> void insert(final Map<K, V> map, final File file, final String table, final String columns, final String header, final Function<Map.Entry<K, V>, String> stringifier) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!map.isEmpty())
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				int[] i = {0};
-				map.entrySet().forEach(e -> {
-
-					if (i[0] != 0)
-					{
-						ps.print(",\n");
-					}
-					String values = stringifier.apply(e);
-					String row = String.format("(%s)", values);
-					ps.print(row);
-					i[0]++;
-				});
-				ps.println(";");
-			}
-		}
-	}
-
-	// S E T
-
-	public static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!set.isEmpty())
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// private static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
-				{
-					int[] i = {0};
-					var stream = set.stream();
-					if (comparator != null)
-					{
-						stream = stream.sorted(comparator);
-					}
-					stream.forEach(e -> {
-
-						if (i[0] != 0)
-						{
-							ps.print(",\n");
-						}
-						String values = e.dataRow();
-						String comment = e.comment();
-						String row = comment != null ? String.format("(%s) /* %s */", values, comment) : String.format("(%s)", values);
-						ps.print(row);
-						i[0]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
-
-	public static <T extends Insertable> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!set.isEmpty())
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// private static <T extends Insertable> void insertFragmented(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
-				{
-					int[] i = {0, 0};
-					var stream = set.stream();
-					if (comparator != null)
-					{
-						stream = stream.sorted(comparator);
-					}
-					stream.forEach(e -> {
-
-						if (i[1] == 100000)
-						{
-							ps.println(";");
-							ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-							i[1] = 0;
-						}
-						if (i[1] != 0)
-						{
-							ps.print(",\n");
-						}
-						String values = e.dataRow();
-						String comment = e.comment();
-						String row = comment != null ? String.format("(%d,%s) /* %s */", i[0], values, comment) : String.format("(%s)", values);
-						ps.print(row);
-						i[0]++;
-						i[1]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
-
-	public static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header) throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!set.isEmpty())
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-				// private static <T extends Insertable> void insertAndIncrement(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
-				{
-					int[] i = {1};
-					var stream = set.stream();
-					if (comparator != null)
-					{
-						stream = stream.sorted(comparator);
-					}
-					stream.forEach(e -> {
-
-						if (i[0] != 1)
-						{
-							ps.print(",\n");
-						}
-						String values = e.dataRow();
-						String comment = e.comment();
-						String row = comment != null ? String.format("(%d,%s) /* %s */", i[0], values, comment) : String.format("(%s)", values);
-						ps.print(row);
-						i[0]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
-
-	public static <T extends Resolvable<U, R>, U, R> void resolveAndInsert(final Set<T> set, final Comparator<T> comparator, final File file, final String table, final String columns, final String header, //
-			final Function<U, R> resolver, //
-			final Function<R, String> stringifier, //
-			final String... resolvedColumns) //
-			throws FileNotFoundException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file)))
-		{
-			ps.println("-- " + header);
-			if (!set.isEmpty())
-			{
-				ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns + "," + String.join(",", resolvedColumns));
-				// private static <T extends Insertable> void insert(final Set<T> set, final Comparator<T> comparator, final PrintStream ps)
-				{
-					int[] i = {0};
-					var stream = set.stream();
-					if (comparator != null)
-					{
-						stream = stream.sorted(comparator);
-					}
-					stream.forEach(e -> {
-
-						if (i[0] != 0)
-						{
-							ps.print(",\n");
-						}
-						R resolved = e.resolve(resolver);
-						String sqlResolved = stringifier.apply(resolved);
-						String values = e.dataRow();
-						String comment = e.comment();
-						String row = comment != null ? String.format("(%s,%s) /* %s */", values, sqlResolved, comment) : String.format("(%s,%s)", values, sqlResolved);
-						ps.print(row);
-						i[0]++;
-					});
-				}
-				ps.println(";");
-			}
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    @JvmStatic
+    fun <T : Resolvable<U, R>, U, R> resolveAndInsert(
+        items: Iterable<T>,
+        resolver: Function<T, Int>,
+        file: File,
+        table: String,
+        columns: String,
+        header: String,
+        withNumber: Boolean,
+        foreignResolver: Function<U, R>,
+        stringifier: Function<R, String>,
+        vararg resolvedColumns: String,
+    ) {
+        PrintStream(FileOutputStream(file)).use { ps ->
+            ps.println("-- $header")
+            if (items.iterator().hasNext()) {
+                ps.println("INSERT INTO $table ($columns,${resolvedColumns.joinToString(separator = ",")}) VALUES")
+                var first = true
+                items.forEach {
+                    if (first) {
+                        first = false
+                    } else {
+                        ps.println("")
+                    }
+                    val id = resolver.apply(it)
+                    val resolved = it.resolve(foreignResolver)
+                    val sqlResolved = stringifier.apply(resolved)
+                    val values = it.dataRow()
+                    val comment = it.comment()
+                    val row =
+                        if (withNumber)
+                            (if (comment != null) "($id,$values,$sqlResolved) /* $comment */" else "($id,$values,$sqlResolved)")
+                        else
+                            (if (comment != null) "($values,$sqlResolved) /* $comment */" else "($values,$sqlResolved)")
+                    ps.print(row)
+                }
+                ps.println(";")
+            }
+        }
+    }
 }

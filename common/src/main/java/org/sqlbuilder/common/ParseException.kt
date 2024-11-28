@@ -1,9 +1,4 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class ParseException extends CommonException
-{
-	public ParseException(final String message)
-	{
-		super(message);
-	}
-}
+class ParseException(message: String) : CommonException(message)
+

@@ -6,11 +6,10 @@ import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Objects;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class Semantics implements HasId, Insertable, Comparable<Semantics>
 {
@@ -23,6 +22,7 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 	private final String semantics;
 
 	// C O N S T R U C T O R
+
 	public static Semantics make(final String semantics) throws IOException, SAXException, ParserConfigurationException
 	{
 		String semantics2 = semantics.replaceFirst("^<SEMANTICS>", "").replaceFirst("</SEMANTICS>$", "");
@@ -55,7 +55,7 @@ public class Semantics implements HasId, Insertable, Comparable<Semantics>
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I D E N T I T Y

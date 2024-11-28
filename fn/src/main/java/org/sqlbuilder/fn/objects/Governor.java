@@ -46,7 +46,7 @@ public class Governor implements HasId, Insertable
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	// I N S E R T

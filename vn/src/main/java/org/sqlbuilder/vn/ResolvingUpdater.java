@@ -43,7 +43,7 @@ public class ResolvingUpdater extends ResolvingInserter
 		Progress.tracePending("collector", "word");
 		final String wordidCol = names.column("words.wordid");
 		final String wordCol = names.column("words.word");
-		Update.update(Word.COLLECTOR.keySet(), new File(outDir, names.updateFile("words")), header, names.table("words"), //
+		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), header, names.table("words"), //
 				wordResolver, //
 				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
 				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));

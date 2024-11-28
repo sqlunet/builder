@@ -23,6 +23,7 @@ public class Predicate implements HasId, Comparable<Predicate>, Insertable
 	{
 		this.predicate = lemma;
 	}
+
 	// A C C E S S
 
 	public String getPredicate()
@@ -34,13 +35,13 @@ public class Predicate implements HasId, Comparable<Predicate>, Insertable
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@RequiresIdFrom(type = Predicate.class)
 	public static Integer getIntId(final Predicate predicate)
 	{
-		return predicate == null ? null : COLLECTOR.get(predicate);
+		return predicate == null ? null : COLLECTOR.apply(predicate);
 	}
 
 	// O R D E R

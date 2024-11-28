@@ -1,8 +1,8 @@
 package org.sqlbuilder.fn.objects;
 
+import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.HasId;
 import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
 import org.sqlbuilder.common.SetCollector;
 import org.sqlbuilder.fn.types.LayerType;
 
@@ -49,7 +49,7 @@ public class Layer implements HasId, Insertable
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@RequiresIdFrom(type = Layer.class)

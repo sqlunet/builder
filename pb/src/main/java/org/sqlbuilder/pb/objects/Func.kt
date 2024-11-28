@@ -14,7 +14,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
 
     @RequiresIdFrom(type = Func::class)
     override fun getIntId(): Int {
-        return COLLECTOR[this]!!
+        return COLLECTOR.apply(this)
     }
 
     // O R D E R

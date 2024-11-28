@@ -1,7 +1,6 @@
 package org.sqlbuilder.su.objects;
 
 import com.articulate.sigma.NotNull;
-
 import org.sqlbuilder.common.*;
 
 import java.io.Serializable;
@@ -145,7 +144,7 @@ public class Term implements HasId, Insertable, Serializable, Comparable<Term>, 
 	@Override
 	public Integer getIntId()
 	{
-		return COLLECTOR.get(this);
+		return COLLECTOR.apply(this);
 	}
 
 	@Override

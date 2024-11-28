@@ -1,5 +1,6 @@
 package org.sqlbuilder.sl.collectors;
 
+import org.sqlbuilder.common.XPathUtils;
 import org.sqlbuilder.common.XmlDocument;
 import org.sqlbuilder.sl.foreign.PbRole;
 import org.sqlbuilder.sl.foreign.VnAlias;
@@ -34,7 +35,7 @@ public class SemlinkDocument extends XmlDocument
 
 	public static void makeMappings(final Node start) throws XPathExpressionException
 	{
-		final NodeList predicateNodes = XmlDocument.getXPaths(start, "./predicate");
+		final NodeList predicateNodes = XPathUtils.getXPaths(start, "./predicate");
 		for (int i = 0; i < predicateNodes.getLength(); i++)
 		{
 			final Element predicateElement = (Element) predicateNodes.item(i);
@@ -42,7 +43,7 @@ public class SemlinkDocument extends XmlDocument
 			//noinspection ResultOfMethodCallIgnored
 			Predicate.make(lemmaAttribute);
 
-			final NodeList argmapNodes = XmlDocument.getXPaths(predicateElement, "./argmap");
+			final NodeList argmapNodes = XPathUtils.getXPaths(predicateElement, "./argmap");
 			for (int j = 0; j < argmapNodes.getLength(); j++)
 			{
 				final Element argmapElement = (Element) argmapNodes.item(j);
@@ -57,7 +58,7 @@ public class SemlinkDocument extends XmlDocument
 				VnAlias.make(roleSetAttribute, vnClassAttribute);
 
 				// roles
-				final NodeList roleNodes = XmlDocument.getXPaths(argmapElement, "./role");
+				final NodeList roleNodes = XPathUtils.getXPaths(argmapElement, "./role");
 				for (int k = 0; k < roleNodes.getLength(); k++)
 				{
 					// role element

@@ -20,7 +20,7 @@ public class LabelType
 	@RequiresIdFrom(type = LabelType.class)
 	public static Integer getIntId(String value)
 	{
-		return value == null ? null : COLLECTOR.get(value);
+		return value == null ? null : COLLECTOR.apply(value);
 	}
 
 	@RequiresIdFrom(type = LabelType.class)
