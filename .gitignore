@@ -24,7 +24,7 @@
 /dist/doc/site/pdf/
 /dist/doc/site/sql/
 /dist/doc/site/*.pdf
-
+/dist/test_*
 /bnc/bnc0.sqlite
 /fn/fn0.sqlite
 /pb/pb0.sqlite
@@ -36,4 +36,3 @@
 /querybuilder-gradle/dummy/build/
 /querybuilder/target/
 /querybuilder-gradle/target/
-/dist/test*
