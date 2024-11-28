@@ -1,6 +1,6 @@
 package org.sqlbuilder.sl;
 
-import org.sqlbuilder.common.FunctionResolver;
+import org.sqlbuilder.common.CombinedResolver;
 import org.sqlbuilder.common.Insert;
 import org.sqlbuilder.common.Progress;
 import org.sqlbuilder.sl.foreign.VnAlias;
@@ -68,7 +68,7 @@ public class ResolvingInserter extends Inserter
 				names.table("pbrolesets_vnclasses"),
 				names.columns("pbrolesets_vnclasses"),
 				header, //
-				new FunctionResolver<>(pbRoleSetResolver, vnClassResolver), //
+				new CombinedResolver<>(pbRoleSetResolver, vnClassResolver), //
 				VnAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbrolesets_vnclasses.pbrolesetid"), //
 				names.column("pbrolesets_vnclasses.vnclassid"));
@@ -86,7 +86,7 @@ public class ResolvingInserter extends Inserter
 				names.table("pbroles_vnroles"),
 				names.columns("pbroles_vnroles"),
 				header, //
-				new FunctionResolver<>(pbRoleResolver, vnRoleResolver), //
+				new CombinedResolver<>(pbRoleResolver, vnRoleResolver), //
 				VnRoleAlias.RESOLVE_RESULT_STRINGIFIER, //
 				names.column("pbroles_vnroles.pbroleid"), //
 				names.column("pbroles_vnroles.pbrolesetid"), //
