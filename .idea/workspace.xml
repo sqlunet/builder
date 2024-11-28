@@ -9,10 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="cosmetic">
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/FunctionResolver.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/HasID.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Logger.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/FunctionResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/HasID.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Logger.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
@@ -491,7 +493,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732782098840</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732782469816</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1732782469816</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -525,9 +535,9 @@
     <MESSAGE value="optimize" />
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="remove nonnull assert" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="cosmetic" />
-    <option name="LAST_COMMIT_MESSAGE" value="cosmetic" />
+    <MESSAGE value="to kotlin" />
+    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

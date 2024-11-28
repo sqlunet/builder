@@ -1,26 +1,26 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-public class Logger
-{
-	public static final Logger instance = new Logger();
+class Logger {
 
-	public void logParseException(final String moduleId, final String tag, final String filename, final long lineCount, final String line, final ParseException pe)
-	{
-		System.err.printf("%s %s %s:%d%s %s%n", moduleId, tag, filename, lineCount, line == null ? "" : String.format("='%s'", line), pe.getMessage());
-	}
+    fun logParseException(moduleId: String, tag: String, filename: String, lineNum: Long, line: String?, pe: ParseException) {
+        System.err.println("$moduleId $tag $filename:$lineNum ${if (line == null) "" else "='$line'"} ${pe.message}")
+    }
 
-	public void logNotFoundException(final String moduleId, final String tag, final String filename, final long lineCount, final String line, final NotFoundException nfe)
-	{
-		System.err.printf("%s %s %s:%d%s %s%n", moduleId, tag, filename, lineCount, line == null ? "" : String.format("='%s'", line), nfe.getMessage());
-	}
+    fun logNotFoundException(moduleId: String, tag: String, filename: String, lineNum: Long, line: String?, nfe: NotFoundException) {
+        System.err.println("$moduleId $tag $filename:$lineNum ${if (line == null) "" else "='$line'"} ${nfe.message}")
+    }
 
-	public void logXmlException(final String moduleId, final String tag, final String where, final Exception e)
-	{
-		System.err.printf("%s %s '%s' %s%n", moduleId, tag, where, e.getMessage());
-	}
+    fun logXmlException(moduleId: String, tag: String, where: String?, e: Exception) {
+        System.err.println("$moduleId $tag ${if (where != null) "'$where' " else ""}${e.message}")
+    }
 
-	public void logWarn(final String moduleId, final String tag, final String tag2, final String message)
-	{
-		System.err.printf("%s %s %s %s%n", moduleId, tag, tag2, message);
-	}
+    fun logWarn(moduleId: String, tag: String, tag2: String, message: String) {
+        System.err.println("$moduleId $tag $tag2 $message")
+    }
+
+    companion object {
+
+        @JvmField
+        val instance: Logger = Logger()
+    }
 }
