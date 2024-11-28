@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.sqlbuilder2</groupId>
-	<artifactId>all</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0.0</version>
-	<modules>
-		<module>common</module>
-		<module>foreign</module>
-		<module>bnc</module>
-		<module>fn-beans</module>
-		<module>fn-jaxb</module>
-		<module>fn</module>
-		<module>vn</module>
-		<module>pb</module>
-		<module>sn</module>
-		<module>pm</module>
-		<module>legacy</module>
-		<module>sl</module>
+  <groupId>org.sqlbuilder2</groupId>
+  <artifactId>all</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.0</version>
+  <modules>
+    <module>common</module>
+    <module>foreign</module>
+    <module>bnc</module>
+    <module>fn-beans</module>
+    <module>fn-jaxb</module>
+    <module>fn</module>
+    <module>vn</module>
+    <module>pb</module>
+    <module>sn</module>
+    <module>pm</module>
+    <module>legacy</module>
+    <module>sl</module>
     <module>su</module>
-		<module>reqprov</module>
+    <module>reqprov</module>
     <module>variables</module>
-	</modules>
+  </modules>
 
-	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <kotlin.version>2.0.21</kotlin.version>
   </properties>
 
