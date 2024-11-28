@@ -5,24 +5,21 @@
 
 modules="pb"
 tables="
-argtypes
-args
-aspects
-examples
-forms
-funcs
-persons
-rels
+rolesets
 roles
 members
-rolesets
-tenses
-thetas
-voices
 words
-pbrolesets_fnframes
+argtypes
+funcs
+vnroles
+fnfes
+examples
+rels
+args
 pbrolesets_vnclasses
 pbroles_vnroles
+pbrolesets_fnframes
+pbroles_fnfes
 "
 dbtype=sqlite
 ops="create index cleanup reference"

@@ -5,23 +5,25 @@ import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
-import org.sqlbuilder.pb.foreign.Alias
+import org.sqlbuilder.pb.foreign.RoleSetTo
 import java.io.Serializable
 import java.util.*
 
 class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String) : HasId, Insertable, Comparable<RoleSet>, Serializable {
 
-    internal val aliases: MutableList<Alias> = ArrayList<Alias>()
+    internal val roleSetTos: MutableList<RoleSetTo> = ArrayList<RoleSetTo>()
+
+    val head: String
+        get() {
+            return predicate.head
+        }
+
+    // N I D
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun getIntId(): Int {
         return COLLECTOR.apply(this)
     }
-
-    val head: String
-        get() {
-            return this.predicate.head
-        }
 
     // I D E N T I T Y
 
@@ -33,7 +35,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             return false
         }
         val that = o as RoleSet
-        return predicate == that.predicate && name == that.name && aliases == that.aliases
+        return predicate == that.predicate && name == that.name && roleSetTos == that.roleSetTos
     }
 
     override fun hashCode(): Int {
@@ -53,21 +55,13 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
     override fun dataRow(): String {
         val predicate2 = predicate
         val word = LexItem.map[predicate2]
-
-        // (rolesetid),rolesethead,rolesetname,rolesetdescr,pbwordid
-        return String.format(
-            "'%s',%s,'%s',%s",
-            Utils.escape(name),
-            Utils.nullableQuotedEscapedString(descr),
-            Utils.escape(predicate.head),
-            Utils.nullable(word) { it!!.sqlId }
-        )
+        return "'${Utils.escape(name)}',${Utils.nullableQuotedEscapedString(descr)},'${Utils.escape(predicate.head)}',${Utils.nullable(word) { it!!.sqlId }}"
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("<%s-%s-{%s}>", head, this.name, this.descr)
+        return "<$head-$name-{$descr}>"
     }
 
     companion object {

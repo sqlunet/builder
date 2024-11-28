@@ -1,1 +1,0 @@
-ALTER TABLE ${thetas.table} ADD CONSTRAINT `pk_@{thetas.table}` PRIMARY KEY (${thetas.thetaid});

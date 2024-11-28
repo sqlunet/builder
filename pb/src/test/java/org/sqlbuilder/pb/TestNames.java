@@ -7,7 +7,23 @@ import static org.junit.Assert.assertEquals;
 
 public class TestNames
 {
-	final String[] tables = {"argtypes", "args", "aspects", "examples", "forms", "funcs", "persons", "rels", "roles", "members", "rolesets", "tenses", "thetas", "voices", "words", "pbrolesets_fnframes", "pbrolesets_vnclasses", "pbroles_vnroles"};
+	final String[] tables = {
+			"rolesets",
+			"roles",
+			"members",
+			"words",
+			"argtypes",
+			"funcs",
+			"vnroles",
+			"fnfes",
+			"examples",
+			"rels",
+			"args",
+			"pbrolesets_vnclasses",
+			"pbroles_vnroles",
+			"pbrolesets_fnframes",
+			"pbroles_fnfes",
+	};
 
 	@Test
 	public void testNames()

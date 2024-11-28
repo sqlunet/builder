@@ -3,9 +3,9 @@ package org.sqlbuilder.pb
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Update
 import org.sqlbuilder.common.Utils
-import org.sqlbuilder.pb.foreign.FnAlias
-import org.sqlbuilder.pb.foreign.VnAlias
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.foreign.RoleSetToFn
+import org.sqlbuilder.pb.foreign.RoleSetToVn
+import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
 import org.sqlbuilder2.ser.Pair
 import java.io.File
@@ -15,19 +15,20 @@ import java.util.*
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {
         // output
-        this.outDir = File(conf.getProperty("pm_outdir_updated", "sql/data_updated"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("pm_outdir_updated", "sql/data_updated"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 
     @Throws(FileNotFoundException::class)
     override fun insert() {
-        Word.COLLECTOR.open().use { ignored30 ->
+        Word.COLLECTOR.open().use {
             insertWords()
-            insertFnAliases()
-            insertVnAliases()
+            insertFnFrameAliases()
+            insertVnClassAliases()
             insertVnRoleAliases()
+            insertFnFeAliases()
         }
     }
 
@@ -42,79 +43,91 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("words"),
             wordResolver,
-            { resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)) },
-            { resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)) })
+            { resolved -> "$wordidCol=${Utils.nullableInt(resolved)}" },
+            { resolving -> "%$wordCol='${Utils.escape(resolving)}'" })
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertFnAliases() {
-        Progress.tracePending("set", "fnalias")
-        val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
-        val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
-        Update.update(
-            FnAlias.SET,
-            File(outDir, names.updateFile("pbrolesets_fnframes")),
-            header,
-            names.table("pbrolesets_fnframes"),
-            fnFrameResolver,
-            { resolved -> String.format("%s=%s", fnframeidCol, Utils.nullableInt(resolved)) },
-            { resolving: String -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)) })
-        Progress.traceDone()
-    }
-
-    @Throws(FileNotFoundException::class)
-    override fun insertVnAliases() {
+    override fun insertVnClassAliases() {
         Progress.tracePending("set", "vnalias")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         Update.update(
-            VnAlias.SET,
+            RoleSetToVn.SET,
             File(outDir, names.updateFile("pbrolesets_vnclasses")),
             header,
             names.table("pbrolesets_vnclasses"),
             vnClassResolver,
-            { resolved -> String.format("%s=%s", vnclassidCol, Utils.nullableInt(resolved)) },
-            { resolving -> String.format("%s='%s'", vnclassCol, Utils.escape(resolving)) })
+            { resolved -> "$vnclassidCol=${Utils.nullableInt(resolved)}" },
+            { resolving -> "$vnclassCol='${Utils.escape(resolving)}'" })
+        Progress.traceDone()
+    }
+
+    @Throws(FileNotFoundException::class)
+    override fun insertFnFrameAliases() {
+        Progress.tracePending("set", "fnalias")
+        val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
+        val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
+        Update.update(
+            RoleSetToFn.SET,
+            File(outDir, names.updateFile("pbrolesets_fnframes")),
+            header,
+            names.table("pbrolesets_fnframes"),
+            fnFrameResolver,
+            { resolved -> "$fnframeidCol=${Utils.nullableInt(resolved)}" },
+            { resolving -> "$vnclassCol='${Utils.escape(resolving)}'" })
         Progress.traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
-        val vnclassidCol = names.column("pbroles_vnroles.vnclassid")
-        val vnroleidCol = names.column("pbroles_vnroles.vnroleid")
-        val vnroletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
-        val vnclassCol = names.column("pbroles_vnroles.vnclass")
-        val vnroleCol = names.column("pbroles_vnroles.vntheta")
+        val vnClassidCol = names.column("pbroles_vnroles.vnclassid")
+        val vnRoleidCol = names.column("pbroles_vnroles.vnroleid")
+        val vnRoletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
+        val vnClassCol = names.column("pbroles_vnroles.vnclass")
+        val vnRoleCol = names.column("pbroles_vnroles.vnrole")
         Update.update(
-            VnRoleAlias.SET,
+            RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
             names.table("pbroles_vnroles"),
             { p: Pair<String?, String?> -> vnClassRoleResolver.apply(p) },
             { resolved ->
                 if (resolved == null)
-                    String.format("%s=NULL,%s=NULL,%s=NULL", vnclassidCol, vnroleidCol, vnroletypeidCol)
+                    "$vnClassidCol=NULL,$vnRoleidCol=NULL,$vnRoletypeidCol=NULL"
                 else
-                    String.format(
-                        "%s=%s,%s=%s,%s=%s",
-                        vnclassidCol,
-                        Utils.nullableInt(resolved.first),
-                        vnroleidCol,
-                        Utils.nullableInt(resolved.second),
-                        vnroletypeidCol,
-                        Utils.nullableInt(resolved.third)
-                    )
+                    "$vnClassidCol=${Utils.nullableInt(resolved.first)},$vnRoleidCol=${Utils.nullableInt(resolved.second)},$vnRoletypeidCol=${Utils.nullableInt(resolved.third)}"
             },
             { resolving ->
-                String.format(
-                    "%s='%s' AND %s='%s'",
-                    vnclassCol,
-                    Utils.escape(resolving.first!!),
-                    vnroleCol,
-                    Utils.escape(resolving.second!!)
-                )
+                "$vnClassCol='${Utils.escape(resolving!!.first!!)}' AND $vnRoleCol='${Utils.escape(resolving.second!!)}'"
+            })
+        Progress.traceDone()
+    }
+
+    @Throws(FileNotFoundException::class)
+    override fun insertFnFeAliases() {
+        Progress.tracePending("set", "fnaliasrole")
+        val fnframeidCol = names.column("pbroles_fnfes.fnframeid")
+        val fnfeidCol = names.column("pbroles_fnfes.fnfeid")
+        val fnfetypeidCol = names.column("pbroles_fnfes.fnfetypeid")
+        val fnframeCol = names.column("pbroles_fnfes.fnframe")
+        val fnfeCol = names.column("pbroles_fnfes.fnfe")
+        Update.update(
+            RoleToVn.SET,
+            File(outDir, names.updateFile("pbroles_fnfes")),
+            header,
+            names.table("pbroles_fnfes"),
+            { p: Pair<String?, String?> -> fnFrameFeResolver.apply(p) },
+            { resolved ->
+                if (resolved == null)
+                    "$fnframeidCol=NULL,$fnfeidCol=NULL,$fnfetypeidCol=NULL"
+                else
+                    "$fnframeidCol=${Utils.nullableInt(resolved.first)},$fnfeidCol=${Utils.nullableInt(resolved.second)},$fnfetypeidCol=${Utils.nullableInt(resolved.third)}"
+            },
+            { resolving ->
+                "$fnframeCol='${Utils.escape(resolving!!.first!!)}' AND $fnfeCol='${Utils.escape(resolving.second!!)}'"
             })
         Progress.traceDone()
     }

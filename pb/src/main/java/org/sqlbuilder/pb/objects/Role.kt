@@ -2,23 +2,30 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
+import org.sqlbuilder.pb.foreign.AliasFnFeLinks
+import org.sqlbuilder.pb.foreign.AliasRoleLinks
+import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import java.io.Serializable
 import java.util.*
 
 class Role private constructor(
     val roleSet: RoleSet,
     val argType: String,
-    func: String?,
-    descriptor: String?,
-    theta: String?,
+    func: String,
+    descriptor: String,
+    vnLinks: Collection<String>?,
+    fnLinks: Collection<String>?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
-    private val func: Func? = if (func == null || func.isEmpty()) null else Func.make(func)
+    private val func: Func = Func.make(func)
 
-    private val descr: String? = descriptor
+    private val descr: String = descriptor
 
-    // role name for VerbNet
-    val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
+    // role names for VerbNet and FrameNet
+    val aliasVnRoleLinks: AliasRoleLinks? = if (vnLinks == null || vnLinks.isEmpty()) null else AliasVnRoleLinks.make(vnLinks)
+    val aliasFnFeLinks: AliasRoleLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else AliasFnFeLinks.make(fnLinks)
+
+    // N I D
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
@@ -52,30 +59,19 @@ class Role private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Func::class)
-    @RequiresIdFrom(type = Theta::class)
+    @RequiresIdFrom(type = AliasRoleLinks::class)
     override fun dataRow(): String {
-        // (roleid),argtype,theta,func,roledescr,rolesetid
-        return String.format(
-            "'%s',%s,%s,%s,%d",
-            argType,
-            Utils.nullable<Theta?>(theta) { it!!.sqlId },
-            Utils.nullable<Func?>(func) { it!!.sqlId },
-            Utils.nullableQuotedEscapedString(descr),
-            roleSet.intId
-        )
+        return "'$argType',${func.sqlId},${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnFeLinks) { it!!.sqlId }},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s", roleSet.name, theta?.theta ?: "∅", func?.func ?: "∅")
+        return "$func, ${roleSet.name}, ${aliasVnRoleLinks?.names ?: "∅"}, ${aliasFnFeLinks?.names ?: "∅"}"
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        if (this.descr == null) {
-            return String.format("%s[%s-%s]", roleSet, argType, func)
-        }
-        return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr)
+        return "$roleSet[$argType-$func '$descr']"
     }
 
     companion object {
@@ -83,21 +79,21 @@ class Role private constructor(
         val COMPARATOR: Comparator<Role> = Comparator
             .comparing<Role, RoleSet> { it.roleSet }
             .thenComparing<String> { it.argType }
-            .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
+            .thenComparing<Func>({ it.func }, Comparator.nullsFirst<Func>(Comparator.naturalOrder<Func>()))
 
         @JvmField
         val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
-        fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
-            val r = Role(roleSet, n, f, descriptor, theta)
+        fun make(roleSet: RoleSet, n: String, f: String, descriptor: String, vnLinks: Collection<String>?, fnLinks: Collection<String>?): Role {
+            val r = Role(roleSet, n, f, descriptor, vnLinks, fnLinks)
             COLLECTOR.add(r)
             return r
         }
 
         @Suppress("unused")
         @RequiresIdFrom(type = Role::class)
-        fun getIntId(role: Role?): Int? {
-            return if (role == null) null else COLLECTOR.apply(role)
+        fun getIntId(role: Role): Int {
+            return COLLECTOR.apply(role)
         }
     }
 }

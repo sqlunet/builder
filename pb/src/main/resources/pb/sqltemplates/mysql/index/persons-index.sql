@@ -1,1 +1,0 @@
-ALTER TABLE ${persons.table} ADD CONSTRAINT `pk_@{persons.table}` PRIMARY KEY (${persons.personid});

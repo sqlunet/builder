@@ -39,11 +39,11 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Word::class)
     override fun dataRow(): String {
-        return String.format("%s,%s", roleSet.intId, word.intId)
+        return "${roleSet.intId},${word.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s", roleSet.name, word.word)
+        return "${roleSet.name},${word.word}"
     }
 
     companion object {

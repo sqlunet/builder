@@ -5,5 +5,5 @@ ${pbroles_vnroles.vnclassid} INTEGER NULL,
 ${pbroles_vnroles.vnroleid} INTEGER NULL,
 ${pbroles_vnroles.vnroletypeid} INTEGER NULL,
 ${pbroles_vnroles.vnclass} VARCHAR(64) NOT NULL,
-${pbroles_vnroles.vntheta} VARCHAR(20) NOT NULL
+${pbroles_vnroles.vnrole} VARCHAR(20) NOT NULL
 );

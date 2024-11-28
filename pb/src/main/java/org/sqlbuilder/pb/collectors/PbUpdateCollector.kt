@@ -20,11 +20,11 @@ import javax.xml.xpath.XPathExpressionException
 class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
 
     override fun run() {
-        val folder = File(this.propBankHome)
+        val folder = File(propBankHome)
         val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
         val fileArray = folder.listFiles(filter)
         if (fileArray == null) {
-            throw RuntimeException("Dir:" + this.propBankHome + " is empty")
+            throw RuntimeException("Dir:$propBankHome is empty")
         }
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
@@ -42,8 +42,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         val head = name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         try {
             val document = PbDocument(fileName)
-            val start =  getXPath(document.document, "./frameset")!!
-            processFrameset(document, start, head)
+            processFrameset(document, getXPath(document.document, "./frameset")!!, head)
         } catch (e: XPathExpressionException) {
             Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
         }
@@ -53,23 +52,19 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         try {
             // predicates
             val predicates = getPredicates(head, start)
-            if (predicates != null) {
-                for (predicate in predicates) {
-                    try {
-                        predicate.put()
-                    } catch (_: RuntimeException) {
-                        // Logger.logger.logException(PbModule.id, this.logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e);
-                    }
+            for (predicate in predicates) {
+                try {
+                    predicate.put()
+                } catch (_: RuntimeException) {
+                    // Logger.logger.logException(PbModule.id, logTag, "predicate", document.getFileName(), -1, "predicate-duplicate", e)
                 }
             }
             val aliasLexItems = getAliasPredicates(start)
-            if (aliasLexItems != null) {
-                for (lexItem in aliasLexItems) {
-                    try {
-                        lexItem.put()
-                    } catch (_: RuntimeException) {
-                        // Logger.logger.logException(PbModule.id, this.logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e);
-                    }
+            for (lexItem in aliasLexItems) {
+                try {
+                    lexItem.put()
+                } catch (_: RuntimeException) {
+                    // Logger.logger.logException(PbModule.id, logTag, "lexitem", document.getFileName(), -1, "lexitem-duplicate", e)
                 }
             }
 

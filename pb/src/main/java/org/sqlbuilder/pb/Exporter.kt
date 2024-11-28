@@ -1,9 +1,10 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Names
+import org.sqlbuilder.pb.foreign.AliasFnFeLinks
+import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
-import org.sqlbuilder.pb.objects.Theta
 import org.sqlbuilder.pb.objects.Word
 import org.sqlbuilder2.ser.Serialize
 import java.io.File
@@ -12,7 +13,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import kotlin.Throws
 
 open class Exporter(conf: Properties) {
 
@@ -21,25 +21,28 @@ open class Exporter(conf: Properties) {
     protected val outDir: File = File(conf.getProperty("pb_outdir_ser", "sers"))
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 
     @Throws(IOException::class)
     fun run() {
-        System.out.printf("%s %d%n", "thetas", Theta.COLLECTOR.size)
+        System.out.printf("%s %d%n", "vn links", AliasFnFeLinks.COLLECTOR.size)
+        System.out.printf("%s %d%n", "fn links", AliasFnFeLinks.COLLECTOR.size)
         System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size)
         System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size)
         System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
         duplicateRoles()
 
-        Theta.COLLECTOR.open().use { ignored1 ->
-            Role.COLLECTOR.open().use { ignored2 ->
-                RoleSet.COLLECTOR.open().use { ignored3 ->
-                    Word.COLLECTOR.open().use { ignored4 ->
-                        serialize()
-                        export()
+        AliasFnFeLinks.COLLECTOR.open().use {
+            AliasVnRoleLinks.COLLECTOR.open().use {
+                Role.COLLECTOR.open().use {
+                    RoleSet.COLLECTOR.open().use {
+                        Word.COLLECTOR.open().use {
+                            serialize()
+                            export()
+                        }
                     }
                 }
             }
@@ -48,7 +51,8 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun serialize() {
-        serializeThetas()
+        serializeVnRoles()
+        serializeFnFes()
         serializeRoleSets()
         serializeRolesBare()
         serializeRoles()
@@ -57,35 +61,12 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun export() {
-        exportThetas()
+        exportVnRoles()
+        exportFnFes()
         exportRoleSets()
         exportRolesBare()
         exportRoles()
         exportWords()
-    }
-
-    @Throws(IOException::class)
-    fun serializeThetas() {
-        val m = makeThetasMap()
-        Serialize.serialize(m, File(outDir, names.serFile("thetas", ".resolve_[theta]-[thetaid]")))
-    }
-
-    @Throws(IOException::class)
-    fun serializeRoleSets() {
-        val m = makeRoleSetsMap()
-        Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
-    }
-
-    @Throws(IOException::class)
-    fun serializeRolesBare() {
-        val m = makeRolesMap()
-        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")))
-    }
-
-    @Throws(IOException::class)
-    private fun serializeRoles() {
-        val m = makeRolesFromArgTypeToFullMap()
-        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -95,9 +76,15 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportThetas() {
-        val m = makeThetasMap()
-        export(m, File(outDir, names.mapFile("thetas.resolve", "_[theta]-[thetaid]")))
+    fun exportWords() {
+        val m = makeWordMap()
+        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
+    }
+
+    @Throws(IOException::class)
+    fun serializeRoleSets() {
+        val m = makeRoleSetsMap()
+        Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -107,9 +94,9 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportRolesBare() {
-        val m = makeRolesTreeMap()
-        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
+    private fun serializeRoles() {
+        val m = makeRolesFromArgTypeToFullMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid,rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -119,9 +106,39 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportWords() {
-        val m = makeWordMap()
-        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
+    fun serializeRolesBare() {
+        val m = makeRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportRolesBare() {
+        val m = makeRolesTreeMap()
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun serializeVnRoles() {
+        val m = makeVnRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("vnroles", ".resolve_[fe]-[feid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportVnRoles() {
+        val m = makeVnRolesMap()
+        export(m, File(outDir, names.mapFile("vnroles.resolve", "_[vnrole]-[vnroleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun serializeFnFes() {
+        val m = makeFnFesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("fnfes", ".resolve_[fe]-[feid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportFnFes() {
+        val m = makeFnFesMap()
+        export(m, File(outDir, names.mapFile("fnfes.resolve", "_[fe]-[feid]")))
     }
 
     fun duplicateRoles() {
@@ -142,15 +159,35 @@ open class Exporter(conf: Properties) {
      * @return word to wordid
      */
     fun makeWordMap(): Map<String, Int> {
-        return Word.COLLECTOR.toMap { it.word }
+        return Word.COLLECTOR
+            .asSequence()
+            .map { it.word to Word.COLLECTOR.apply(it) }
+            .toMap()
+            .toSortedMap()
     }
 
     fun makeRoleSetsMap(): Map<String, Int> {
-        return RoleSet.COLLECTOR.toMap { it.name }
+        return RoleSet.COLLECTOR
+            .asSequence()
+            .map { it.name to RoleSet.COLLECTOR.apply(it) }
+            .toMap()
+            .toSortedMap()
     }
 
-    fun makeThetasMap(): Map<String, Int> {
-        return Theta.COLLECTOR.toMap { it.theta }
+    fun makeVnRolesMap(): Map<String, Int> {
+        return AliasVnRoleLinks.COLLECTOR
+            .asSequence()
+            .map { it.names.toString() to AliasVnRoleLinks.COLLECTOR.apply(it) }
+            .toMap()
+            .toSortedMap()
+    }
+
+    fun makeFnFesMap(): Map<String, Int> {
+        return AliasFnFeLinks.COLLECTOR
+            .asSequence()
+            .map { it.names.toString() to AliasFnFeLinks.COLLECTOR.apply(it) }
+            .toMap()
+            .toSortedMap()
     }
 
     fun makeRolesMap(): Map<Pair<String, String>, Int> {
@@ -158,9 +195,8 @@ open class Exporter(conf: Properties) {
         return Role.COLLECTOR
             .asSequence()
             .map {
-                val r = it
-                val rs = r.roleSet
-                (rs.name to r.argType) to Role.COLLECTOR.apply(r)
+                val rs = it.roleSet
+                (rs.name to it.argType) to Role.COLLECTOR.apply(it)
             }
             .toMap()
     }
@@ -169,9 +205,8 @@ open class Exporter(conf: Properties) {
         return Role.COLLECTOR
             .asSequence()
             .map {
-                val r = it
-                val rs = r.roleSet
-                (rs.name to r.argType) to Role.COLLECTOR.apply(r)
+                val rs = it.roleSet
+                (rs.name to it.argType) to Role.COLLECTOR.apply(it)
             }
             .toMap()
             .toSortedMap(COMPARATOR)

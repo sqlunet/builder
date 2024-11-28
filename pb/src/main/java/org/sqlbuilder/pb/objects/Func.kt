@@ -5,11 +5,12 @@ import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
-import java.util.*
 
 class Func private constructor(funcName: String) : HasId, Comparable<Func>, Insertable {
 
     val func: String = normalize(funcName)
+
+    // N I D
 
     @RequiresIdFrom(type = Func::class)
     override fun getIntId(): Int {
@@ -25,7 +26,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s',%s", func, Utils.nullableQuotedString<String>(DESCRIPTIONS.getProperty(func, null)))
+        return "'$func',${Utils.nullableQuotedString<String>(PREDEFINED[func])}"
     }
 
     override fun toString(): String {
@@ -39,70 +40,97 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
         @JvmField
         val COLLECTOR = SetCollector<Func>(COMPARATOR)
 
-        private val PREDEFINED = arrayOf("ADJ", "ADV", "CAU", "COM", "CXN", "DIR", "DIS", "DSP", "EXT", "GOL", "LOC", "LVB", "MNR", "MOD", "NEG", "PAG", "PNC", "PPT", "PRD", "PRP", "PRR", "RCL", "REC", "SLC", "TMP", "VSP")
+        private val PREDEFINED = mapOf(
+            "ADJ" to "adjectival",
+            "ADV" to "adverbial",
+            "CAU" to "cause",
+            "COM" to "comitative",
+            "CXN" to "constructional pattern (adjectival comparative marker)",
+            "DIR" to "directional",
+            "DIS" to "discourse marker",
+            "DSP" to "direct speech",
+            "EXT" to "extent",
+            "GOL" to "goal",
+            "LOC" to "location",
+            "LVB" to "light verb (for nouns,",
+            "MNR" to "manner",
+            "MOD" to "modal",
+            "NEG" to "negation",
+            "PAG" to "prototypical agent (for arg1,",
+            "PNC" to "purpose no cause (deprecated,",
+            "PPT" to "prototypical patient (for arg1,",
+            "PRD" to "secondary predication",
+            "PRP" to "purpose ",
+            "PRR" to "nominal predicates in light verb constructions",
+            "RCL" to "relative clause (deprecated,",
+            "REC" to "reciprocal",
+            "SLC" to "selectional constraint link",
+            "TMP" to "temporal",
+            "VSP" to "verb specific (for nouns,",
 
-        private val DESCRIPTIONS = Properties()
+            "SE1" to "1st spatial entity",
+            "SE2" to "2nd spatial entity",
+            "SE3" to "3rd spatial entity",
+            "SE4" to "4th spatial entity",
+            "SE5" to "5th spatial entity",
+            "SE6" to "6th spatial entity",
 
-        init {
-            DESCRIPTIONS.setProperty("ADJ", "adjectival")
-            DESCRIPTIONS.setProperty("ADV", "adverbial")
-            DESCRIPTIONS.setProperty("CAU", "cause")
-            DESCRIPTIONS.setProperty("COM", "comitative")
-            DESCRIPTIONS.setProperty("CXN", "constructional pattern (adjectival comparative marker)")
-            DESCRIPTIONS.setProperty("DIR", "directional")
-            DESCRIPTIONS.setProperty("DIS", "discourse marker")
-            DESCRIPTIONS.setProperty("DSP", "direct speech")
-            DESCRIPTIONS.setProperty("EXT", "extent")
-            DESCRIPTIONS.setProperty("GOL", "goal")
-            DESCRIPTIONS.setProperty("LOC", "location")
-            DESCRIPTIONS.setProperty("LVB", "light verb (for nouns)")
-            DESCRIPTIONS.setProperty("MNR", "manner")
-            DESCRIPTIONS.setProperty("MOD", "modal")
-            DESCRIPTIONS.setProperty("NEG", "negation")
-            DESCRIPTIONS.setProperty("PAG", "prototypical agent (for arg1)")
-            DESCRIPTIONS.setProperty("PNC", "purpose no cause (deprecated)")
-            DESCRIPTIONS.setProperty("PPT", "prototypical patient (for arg1)")
-            DESCRIPTIONS.setProperty("PRD", "secondary predication")
-            DESCRIPTIONS.setProperty("PRP", "purpose ")
-            DESCRIPTIONS.setProperty("PRR", "nominal predicates in light verb constructions")
-            DESCRIPTIONS.setProperty("RCL", "relative clause (deprecated)")
-            DESCRIPTIONS.setProperty("REC", "reciprocal")
-            DESCRIPTIONS.setProperty("SLC", "selectional constraint link")
-            DESCRIPTIONS.setProperty("TMP", "temporal")
-            DESCRIPTIONS.setProperty("VSP", "verb specific (for nouns)")
-        }
+            "ANC" to "anchor",
+            "ANC1" to "1st anchor",
+            "ANC2" to "2nd anchor",
+            "ANG" to "angle",
+            "AXS" to "axis",
+            "AXSp" to "perpendicular axis",
+            "AXSc" to "central axis",
+            "AXS1" to "axis of 1st spatial entity",
+            "AXS2" to "axis of 2nd spatial entity",
+            "PLN" to "plane",
+            "PLN1" to "plane of 1st spatial entity",
+            "PLN2" to "plane of 2nd spatial entity",
+            "PSN" to "position",
+            "TOP" to "top",
+            "ORT" to "orientation",
+            "SRC" to "source point",
+            "SCL" to "scale",
 
-        /*
-         as
-         at
-         by
-         for
-         from
-         in
-         of
-         to
-         with
-         */
+            "DOM" to "domain",
+            "WHL" to "whole spatial entity",
+            "PRT" to "part",
+            "PRT1" to "1st part",
+            "PRT2" to "2nd part",
+            "SET" to "set",
+            "SEQ" to "sequence of individual units",
+        )
 
         @JvmStatic
         fun make(f: String): Func {
-            val fn = Func(f)
-            COLLECTOR.add(fn)
-            return fn
+            if (f == "" || f == "_") {
+                print("'$f'")
+            }
+            val func = Func(f.uppercase().trim())
+            COLLECTOR.add(func)
+            return func
+        }
+
+        @JvmStatic
+        fun makeOrNull(f: String): Func? {
+            if (f == "" || f == "_")
+                return null
+            return make(f)
         }
 
         private fun normalize(funcName: String): String {
-            for (predefined in PREDEFINED) {
-                if (predefined.equals(funcName, ignoreCase = true)) {
-                    return predefined
+            for (k in PREDEFINED.keys) {
+                if (k.equals(funcName, ignoreCase = true)) {
+                    return k
                 }
             }
-            return funcName.lowercase(Locale.getDefault())
+            return funcName.lowercase()
         }
 
         @RequiresIdFrom(type = Func::class)
         fun getIntId(func: Func): Int {
-            return COLLECTOR.apply(func)
+            return func.intId
         }
     }
 }
