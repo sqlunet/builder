@@ -9,18 +9,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/HasID.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Logger.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="sync fixes">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/HasID.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Logger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/bncs-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/bncs-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/convtasks-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/convtasks-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/imaginfs-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/imaginfs-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/spwrs-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/resources/bnc/sqltemplates/mysql/create/spwrs-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pack31.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pack31.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/resources/sn/sqltemplates/mysql/create/syntagms-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/resources/sn/sqltemplates/mysql/create/syntagms-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/examples-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/examples-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/semantics-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/semantics-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/syntaxes-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/resources/vn/sqltemplates/mysql/create/syntaxes-create.sql" afterDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
-      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlbuilder2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
-    </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +33,6 @@
   </component>
   <component name="ChangesViewManager">
     <option name="groupingKeys">
-      <option value="directory" />
       <option value="module" />
     </option>
   </component>
@@ -68,26 +72,27 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2pKwq7CFLVUYlqeJGZSPiduKVs2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;devkwip&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.TestParseFile.executor": "Run",
+    "Maven.all [clean].executor": "Run",
+    "Maven.all [compile].executor": "Run",
+    "Maven.fn-beans [install].executor": "Run",
+    "Maven.fn-jaxb [install].executor": "Run",
+    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.reqprov [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "devkwip",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/.idea" />
@@ -126,6 +131,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Maven.all [clean]" />
         <item itemvalue="Maven.all [clean]" />
         <item itemvalue="Maven.all [clean]" />
       </list>
@@ -501,7 +507,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732782469816</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="sync fixes">
+      <option name="closed" value="true" />
+      <created>1732809823269</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1732809823269</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -517,10 +531,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo1" />
+      <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
+      <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
+    </ignored-roots>
     <MESSAGE value="cleanup" />
     <MESSAGE value="new collector extending resolve interface" />
     <MESSAGE value="kotlin support" />
-    <MESSAGE value="house keeping" />
     <MESSAGE value="trim" />
     <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="insert iterable with resolver function" />
@@ -537,7 +555,9 @@
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="cosmetic" />
     <MESSAGE value="to kotlin" />
-    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
+    <MESSAGE value="house keeping" />
+    <MESSAGE value="sync fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="sync fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
