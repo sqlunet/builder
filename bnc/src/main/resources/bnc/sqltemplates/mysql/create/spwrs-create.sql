@@ -1,6 +1,6 @@
 CREATE TABLE ${spwrs.table} (
     ${spwrs.wordid} INTEGER DEFAULT NULL,
-    ${convtasks.word} VARCHAR (80) CHARACTER SET utf8 COLLATE utf8mb4_0900_as_cs NOT NULL,
+    ${convtasks.word} VARCHAR (80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
     ${spwrs.posid} ENUM ('n','v','a','r','s') NOT NULL,
     ${spwrs.freq1} INTEGER DEFAULT NULL,
     ${spwrs.range1} INTEGER DEFAULT NULL,

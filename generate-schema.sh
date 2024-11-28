@@ -9,12 +9,6 @@ set -e
 
 source define_colors.sh
 
-safe_shift() {
-    if [ "$#" -gt 0 ]; then
-        shift
-    fi
-}
-
 # -compat
 if [ "$1" == "-compat" ]; then
   compatswitch="-compat"
@@ -42,11 +36,11 @@ outbase="$1"
 if [ "${outbase}" == "" ]; then
   outbase="sql"
 fi
-safe_shift
+[ "$#" -eq 0 ] || shift
 
 # inputs
 indir="$1"
-safe_shift
+[ "$#" -eq 0 ] || shift
 inputs="$*"
 
 for module in ${modules}; do
