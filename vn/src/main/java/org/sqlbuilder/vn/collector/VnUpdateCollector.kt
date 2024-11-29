@@ -43,7 +43,7 @@ class VnUpdateCollector(props: Properties) : VnCollector(props) {
         val head = name.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         try {
             val document = VnDocument(fileName)
-            processVerbNetClass(getXPath(document.document, "./VNCLASS")!!, head)
+            processVerbNetClass(getXPath(document.document!!, "./VNCLASS")!!, head)
         } catch (e: ParserConfigurationException) {
             Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
             traceDone(e.toString())

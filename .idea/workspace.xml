@@ -10,13 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnExportCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnUpdateCollector.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnExportCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnUpdateCollector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -154,14 +152,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00008" summary="trim">
-      <option name="closed" value="true" />
-      <created>1732608253043</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1732608253043</updated>
     </task>
     <task id="LOCAL-00009" summary="insert iterable &lt;ith resolver function">
       <option name="closed" value="true" />
@@ -547,7 +537,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732903476583</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732907946353</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1732907946353</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

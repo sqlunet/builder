@@ -1,458 +1,396 @@
-package org.sqlbuilder.vn;
+package org.sqlbuilder.vn
 
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.XPathUtils;
-import org.sqlbuilder.common.XmlTextUtils;
-import org.sqlbuilder.vn.joins.Frame_Example;
-import org.sqlbuilder.vn.joins.Predicate_Semantics;
-import org.sqlbuilder.vn.objects.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.XPathUtils
+import org.sqlbuilder.common.XPathUtils.getXPath
+import org.sqlbuilder.common.XPathUtils.getXPaths
+import org.sqlbuilder.common.XmlTextUtils
+import org.sqlbuilder.common.XmlTextUtils.getXPathTexts
+import org.sqlbuilder.vn.joins.Frame_Example
+import org.sqlbuilder.vn.joins.Frame_Example.Companion.make
+import org.sqlbuilder.vn.joins.Predicate_Semantics
+import org.sqlbuilder.vn.joins.Predicate_Semantics.Companion.make
+import org.sqlbuilder.vn.objects.*
+import org.sqlbuilder.vn.objects.Frame.Companion.make
+import org.sqlbuilder.vn.objects.Member.Companion.make
+import org.sqlbuilder.vn.objects.Member.Companion.makeSensekeys
+import org.sqlbuilder.vn.objects.Member.Companion.makeWord
+import org.sqlbuilder.vn.objects.RestrType.Companion.make
+import org.sqlbuilder.vn.objects.RestrainedRole.Companion.make
+import org.sqlbuilder.vn.objects.Restrs.Companion.make
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.xml.sax.EntityResolver
+import org.xml.sax.SAXException
+import java.io.IOException
+import javax.xml.parsers.DocumentBuilder
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerException
+import javax.xml.xpath.XPathExpressionException
 
-import java.io.IOException;
-import java.util.*;
+class VnDocument(
+    filePath: String,
+) {
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
+    var document: Document? = null
 
-public class VnDocument
-{
-	private Document document;
+    init {
+        load(filePath)
+    }
 
-	public VnDocument(final String filePath) throws ParserConfigurationException, SAXException, IOException
-	{
-		load(filePath);
-	}
+    @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
+    private fun load(filePath: String) {
+        val builder: DocumentBuilder = makeDocumentBuilder()
+        this.document = builder.parse(filePath)
+    }
 
-	private static DocumentBuilder makeDocumentBuilder() throws ParserConfigurationException
-	{
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setCoalescing(true);
-		factory.setIgnoringComments(true);
-		factory.setNamespaceAware(false);
-		factory.setIgnoringElementContentWhitespace(true);
-		factory.setValidating(false);
-		factory.setExpandEntityReferences(false);
-		//factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    companion object {
 
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		builder.setEntityResolver((publicId, systemId) -> null);
-		return builder;
-	}
+        @Throws(ParserConfigurationException::class)
+        private fun makeDocumentBuilder(): DocumentBuilder {
+            val factory = DocumentBuilderFactory.newInstance()
+            factory.isCoalescing = true
+            factory.isIgnoringComments = true
+            factory.isNamespaceAware = false
+            factory.isIgnoringElementContentWhitespace = true
+            factory.isValidating = false
+            factory.isExpandEntityReferences = false
 
-	private void load(final String filePath) throws ParserConfigurationException, SAXException, IOException
-	{
-		final DocumentBuilder builder = VnDocument.makeDocumentBuilder();
-		setDocument(builder.parse(filePath));
-	}
+            //factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            val builder = factory.newDocumentBuilder()
+            builder.setEntityResolver(EntityResolver { publicId: String?, systemId: String? -> null })
+            return builder
+        }
 
-	public void setDocument(final Document document)
-	{
-		this.document = document;
-	}
+        // C L A S S
 
-	public Document getDocument()
-	{
-		return this.document;
-	}
+        @NotNull
+        fun makeClass(start: Node): VnClass {
+            val classElement = start as Element
+            val className = classElement.getAttribute("ID")
+            return VnClass.make(className)
+        }
 
-	// C L A S S
+        // M E M B E R S
 
-	@NotNull
-	public static VnClass makeClass(final Node start)
-	{
-		final Element classElement = (Element) start;
-		final String className = classElement.getAttribute("ID");
-		return VnClass.make(className);
-	}
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makeMembers(start: Node): MutableCollection<Member> {
+            val result = ArrayList<Member>()
+            val memberNodes = getXPaths(start, "./MEMBERS/MEMBER")
+            for (i in 0..<memberNodes!!.length) {
+                val memberElement = memberNodes.item(i) as Element
+                val lemmaAttribute = memberElement.getAttribute("name")
+                val wnAttribute = memberElement.getAttribute("wn")
+                val groupingAttribute = memberElement.getAttribute("grouping")
+                val member = make(lemmaAttribute, wnAttribute, groupingAttribute)
+                result.add(member)
+            }
+            return result
+        }
 
-	// M E M B E R S
+        @Throws(XPathExpressionException::class)
+        fun makeResolvableMembers(start: Node) {
+            val memberNodes = getXPaths(start, "./MEMBERS/MEMBER")!!
+            for (i in 0..<memberNodes.length) {
+                val memberElement = memberNodes.item(i) as Element
+                val wordAttribute = memberElement.getAttribute("name")
+                val wnAttribute = memberElement.getAttribute("wn")
+                makeWord(wordAttribute)
+                makeSensekeys(wnAttribute)
+                    ?.forEach {
+                        Sense.make(it)
+                    }
+            }
+        }
 
-	@NotNull
-	public static Collection<Member> makeMembers(final Node start) throws XPathExpressionException
-	{
-		List<Member> result = new ArrayList<>();
-		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
-		for (int i = 0; i < memberNodes.getLength(); i++)
-		{
-			final Element memberElement = (Element) memberNodes.item(i);
-			final String lemmaAttribute = memberElement.getAttribute("name");
-			final String wnAttribute = memberElement.getAttribute("wn");
-			final String groupingAttribute = memberElement.getAttribute("grouping");
-			Member member = Member.make(lemmaAttribute, wnAttribute, groupingAttribute);
-			result.add(member);
-		}
-		return result;
-	}
+        // G R O U P I N G S
 
-	public static void makeResolvableMembers(final Node start) throws XPathExpressionException
-	{
-		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
-		for (int i = 0; i < memberNodes.getLength(); i++)
-		{
-			final Element memberElement = (Element) memberNodes.item(i);
-			final String wordAttribute = memberElement.getAttribute("name");
-			final String wnAttribute = memberElement.getAttribute("wn");
-			Member.makeWord(wordAttribute);
-			var sensekeys = Member.makeSensekeys(wnAttribute);
-			if (sensekeys != null)
-			{
-				for (var sensekey : sensekeys)
-				{
-					// sense mapping quality as indicated by verbnet ('?' prefix to sense key)
-					// final float senseQuality = sensekey.getQuality();
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makeGroupings(start: Node): Set<Grouping> {
+            val result = HashSet<Grouping>()
+            val memberNodes = getXPaths(start, "./MEMBERS/MEMBER")
+            for (i in 0..<memberNodes!!.length) {
+                val memberElement = memberNodes.item(i) as Element
+                val groupingAttribute = memberElement.getAttribute("grouping")
+                if (groupingAttribute.isEmpty()) {
+                    continue
+                }
+                val groupingNames = groupingAttribute.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                for (groupingName in groupingNames) {
+                    val grouping = Grouping.make(groupingName)
+                    result.add(grouping)
+                }
+            }
+            return result
+        }
 
-					// class member sense
-					Sense.make(sensekey);
-				}
-			}
-		}
-	}
+        // R O L E
 
-	// G R O U P I N G S
+        @NotNull
+        @Throws(TransformerException::class, XPathExpressionException::class, IOException::class, SAXException::class, ParserConfigurationException::class)
+        fun makeRoles(start: Node): MutableSet<RestrainedRole> {
+            val result = HashSet<RestrainedRole>()
+            val nodes = getXPaths(start, "./THEMROLES/THEMROLE")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val type = element.getAttribute("type")
+                    val restrsNodes = getXPaths(element, "./SELRESTRS")
+                    val restrsElement = restrsNodes!!.item(0) as Element
+                    val selStrsXML = XPathUtils.getXML(restrsElement)
+                    result.add(make(type, selStrsXML))
+                }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Set<Grouping> makeGroupings(final Node start) throws XPathExpressionException
-	{
-		final Set<Grouping> result = new HashSet<>();
-		final NodeList memberNodes = XPathUtils.getXPaths(start, "./MEMBERS/MEMBER");
-		for (int i = 0; i < memberNodes.getLength(); i++)
-		{
-			final Element memberElement = (Element) memberNodes.item(i);
-			final String groupingAttribute = memberElement.getAttribute("grouping");
-			if (groupingAttribute.isEmpty())
-			{
-				continue;
-			}
-			final String[] groupingNames = groupingAttribute.split("\\s");
-			for (final String groupingName : groupingNames)
-			{
-				final Grouping grouping = Grouping.make(groupingName);
-				result.add(grouping);
-			}
-		}
-		return result;
-	}
+        @Throws(XPathExpressionException::class)
+        fun makeRoleTypes(start: Node): Collection<RoleType> {
+            val result = ArrayList<RoleType>()
+            val nodes = getXPaths(start, "./THEMROLES/THEMROLE")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val roleElement = nodes.item(i) as Element
+                    val type = roleElement.getAttribute("type")
+                    result.add(RoleType.make(type))
+                }
+            }
+            return result
+        }
 
-	// R O L E
+        // R E S T R
 
-	@NotNull
-	public static Set<RestrainedRole> makeRoles(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
-	{
-		final Set<RestrainedRole> result = new HashSet<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "./THEMROLES/THEMROLE");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				final String type = element.getAttribute("type");
-				final NodeList restrsNodes = XPathUtils.getXPaths(element, "./SELRESTRS");
-				final Element restrsElement = (Element) restrsNodes.item(0);
-				final String selStrsXML = XPathUtils.getXML(restrsElement);
-				// String logic = restrsElement.getAttribute("logic");
-				result.add(RestrainedRole.make(type, selStrsXML));
-			}
-		}
-		return result;
-	}
+        @Throws(XPathExpressionException::class)
+        fun makeSelRestrTypes(start: Node): Collection<RestrType> {
+            val result = ArrayList<RestrType>()
+            val selNodes = getXPaths(start, "//SELRESTR")
+            if (selNodes != null) {
+                for (i in 0..<selNodes.length) {
+                    val element = selNodes.item(i) as Element
+                    val restrValue = element.getAttribute("Value")
+                    val restrType = element.getAttribute("type")
+                    val restr = make(restrValue, restrType, false)
+                    result.add(restr)
+                }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<RoleType> makeRoleTypes(final Node start) throws XPathExpressionException
-	{
-		final Collection<RoleType> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "./THEMROLES/THEMROLE");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element roleElement = (Element) nodes.item(i);
-				final String type = roleElement.getAttribute("type");
-				result.add(RoleType.make(type));
-			}
-		}
-		return result;
-	}
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makeSynRestrTypes(start: Node): Collection<RestrType> {
+            val result = ArrayList<RestrType>()
+            val nodes = getXPaths(start, "//SYNRESTR")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val restrValue = element.getAttribute("Value")
+                    val restrType = element.getAttribute("type")
+                    val restr = make(restrValue, restrType, true)
+                    result.add(restr)
+                }
+            }
+            return result
+        }
 
-	// R E S T R
+        @NotNull
+        @Throws(XPathExpressionException::class, TransformerException::class, ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun makeSelRestrs(start: Node): Collection<Restrs> {
+            val result = ArrayList<Restrs>()
+            val nodes = getXPaths(start, "//SELRESTRS")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val xML = XPathUtils.getXML(element)
+                    if (!xML.isEmpty() && xML != "<SELRESTRS/>") {
+                        val restrs = make(xML, false)
+                        result.add(restrs)
+                    }
+                }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<RestrType> makeSelRestrTypes(final Node start) throws XPathExpressionException
-	{
-		final Collection<RestrType> result = new ArrayList<>();
-		final NodeList selNodes = XPathUtils.getXPaths(start, "//SELRESTR");
-		if (selNodes != null)
-		{
-			for (int i = 0; i < selNodes.getLength(); i++)
-			{
-				final Element element = (Element) selNodes.item(i);
-				final String restrValue = element.getAttribute("Value");
-				final String restrType = element.getAttribute("type");
-				final RestrType restr = RestrType.make(restrValue, restrType, false);
-				result.add(restr);
-			}
-		}
-		return result;
-	}
+        @NotNull
+        @Throws(XPathExpressionException::class, TransformerException::class, ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun makeSynRestrs(start: Node): Collection<Restrs> {
+            val result = ArrayList<Restrs>()
+            val nodes = getXPaths(start, "//SYNRESTRS")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val xML = XPathUtils.getXML(element)
+                    if (!xML.isEmpty() && xML != "<SYNRESTRS/>") {
+                        val restrs = make(xML, true)
+                        result.add(restrs)
+                    }
+                }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<RestrType> makeSynRestrTypes(final Node start) throws XPathExpressionException
-	{
-		final Collection<RestrType> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "//SYNRESTR");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				final String restrValue = element.getAttribute("Value");
-				final String restrType = element.getAttribute("type");
-				final RestrType restr = RestrType.make(restrValue, restrType, true);
-				result.add(restr);
-			}
-		}
-		return result;
-	}
+        // F R A M E
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<Restrs> makeSelRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
-	{
-		final Collection<Restrs> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "//SELRESTRS");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				final String xML = XPathUtils.getXML(element);
-				if (!xML.isEmpty() && !xML.equals("<SELRESTRS/>"))
-				{
-					final Restrs restrs = Restrs.make(xML, false);
-					result.add(restrs);
-				}
-			}
-		}
-		return result;
-	}
+        @NotNull
+        @Throws(TransformerException::class, XPathExpressionException::class, IOException::class, SAXException::class, ParserConfigurationException::class)
+        fun makeFrames(start: Node): MutableCollection<Frame> {
+            val result = ArrayList<Frame>()
+            val frameNodes = getXPaths(start, "./FRAMES/FRAME")
+            for (i in 0..<frameNodes!!.length) {
+                val frameElement = frameNodes.item(i) as Element
+                val description = getXPath(frameElement, "./DESCRIPTION") as Element?
+                val descriptionPrimary = description!!.getAttribute("primary")
+                val descriptionSecondary = description.getAttribute("secondary")
+                val descriptionNumber = description.getAttribute("descriptionNumber")
+                val descriptionXTag = description.getAttribute("xtag")
+                val syntax = XPathUtils.getXML(getXPath(frameElement, "./SYNTAX")!!)
+                val semantics = XPathUtils.getXML(getXPath(frameElement, "./SEMANTICS")!!)
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<Restrs> makeSynRestrs(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
-	{
-		final Collection<Restrs> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "//SYNRESTRS");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				final String xML = XPathUtils.getXML(element);
-				if (!xML.isEmpty() && !xML.equals("<SYNRESTRS/>"))
-				{
-					final Restrs restrs = Restrs.make(xML, true);
-					result.add(restrs);
-				}
-			}
-		}
-		return result;
-	}
+                val frame = make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics)
+                result.add(frame)
+            }
+            return result
+        }
 
-	// F R A M E
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makeFrameNames(start: Node): Collection<FrameName> {
+            val result = ArrayList<FrameName>()
+            val nodes = getXPaths(start, "./FRAMES/FRAME/DESCRIPTION")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val name = element.getAttribute("primary")
+                    result.add(FrameName.make(name))
+                }
+            }
+            return result
+        }
 
-	@NotNull
-	public static List<Frame> makeFrames(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
-	{
-		final List<Frame> result = new ArrayList<>();
-		final NodeList frameNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME");
-		for (int i = 0; i < frameNodes.getLength(); i++)
-		{
-			final Element frameElement = (Element) frameNodes.item(i);
-			final Element description = (Element) XPathUtils.getXPath(frameElement, "./DESCRIPTION");
-			final String descriptionPrimary = description.getAttribute("primary");
-			final String descriptionSecondary = description.getAttribute("secondary");
-			final String descriptionNumber = description.getAttribute("descriptionNumber");
-			final String descriptionXTag = description.getAttribute("xtag");
-			final String syntax = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SYNTAX"));
-			final String semantics = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SEMANTICS"));
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makeFrameSubNames(start: Node): Collection<FrameSubName?> {
+            val result = ArrayList<FrameSubName>()
+            val nodes = getXPaths(start, "./FRAMES/FRAME/DESCRIPTION")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    var subName = element.getAttribute("secondary")
+                    if (!subName.isEmpty()) {
+                        subName = subName.replace("\\s+".toRegex(), " ")
+                        result.add(FrameSubName.make(subName))
+                    }
+                }
+            }
+            return result
+        }
 
-			final Frame frame = Frame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
-			result.add(frame);
-		}
-		return result;
-	}
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makeFrameExamples(start: Node): Collection<FrameExample?> {
+            val result = ArrayList<FrameExample>()
+            val examples: List<String>? = getXPathTexts(start, "./FRAMES/FRAME/EXAMPLES/EXAMPLE")
+            if (examples != null) {
+                for (example in examples) {
+                    result.add(FrameExample.make(example))
+                }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<FrameName> makeFrameNames(final Node start) throws XPathExpressionException
-	{
-		final Collection<FrameName> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/DESCRIPTION");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				final String name = element.getAttribute("primary");
-				result.add(FrameName.make(name));
-			}
-		}
-		return result;
-	}
+        @NotNull
+        @Throws(TransformerException::class, XPathExpressionException::class, IOException::class, SAXException::class, ParserConfigurationException::class)
+        fun makeFrameExampleMappings(start: Node): List<Frame_Example?> {
+            val result = ArrayList<Frame_Example?>()
+            val frameNodes = getXPaths(start, "./FRAMES/FRAME")
+            for (i in 0..<frameNodes!!.length) {
+                val frameElement = frameNodes.item(i) as Element
+                val description = getXPath(frameElement, "./DESCRIPTION") as Element?
+                val descriptionPrimary = description!!.getAttribute("primary")
+                val descriptionSecondary = description.getAttribute("secondary")
+                val descriptionNumber = description.getAttribute("descriptionNumber")
+                val descriptionXTag = description.getAttribute("xtag")
+                val syntax = XPathUtils.getXML(getXPath(frameElement, "./SYNTAX")!!)
+                val semantics = XPathUtils.getXML(getXPath(frameElement, "./SEMANTICS")!!)
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<FrameSubName> makeFrameSubNames(final Node start) throws XPathExpressionException
-	{
-		final Collection<FrameSubName> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/DESCRIPTION");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				String subName = element.getAttribute("secondary");
-				if (!subName.isEmpty())
-				{
-					subName = subName.replaceAll("\\s+", " ");
-					result.add(FrameSubName.make(subName));
-				}
-			}
-		}
-		return result;
-	}
+                val frame = make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics)
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<FrameExample> makeFrameExamples(final Node start) throws XPathExpressionException
-	{
-		final Collection<FrameExample> result = new ArrayList<>();
-		final List<String> examples = XmlTextUtils.getXPathTexts(start, "./FRAMES/FRAME/EXAMPLES/EXAMPLE");
-		if (examples != null)
-		{
-			for (final String example : examples)
-			{
-				result.add(FrameExample.make(example));
-			}
-		}
-		return result;
-	}
+                getXPathTexts(frameElement, "./EXAMPLES/EXAMPLE")
+                    ?.forEach {
+                        val vnExample = FrameExample.make(it)
+                        result.add(make(frame, vnExample))
+                    }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static List<Frame_Example> makeFrameExampleMappings(final Node start) throws TransformerException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
-	{
-		final List<Frame_Example> result = new ArrayList<>();
-		final NodeList frameNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME");
-		for (int i = 0; i < frameNodes.getLength(); i++)
-		{
-			final Element frameElement = (Element) frameNodes.item(i);
-			final Element description = (Element) XPathUtils.getXPath(frameElement, "./DESCRIPTION");
-			final String descriptionPrimary = description.getAttribute("primary");
-			final String descriptionSecondary = description.getAttribute("secondary");
-			final String descriptionNumber = description.getAttribute("descriptionNumber");
-			final String descriptionXTag = description.getAttribute("xtag");
-			final String syntax = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SYNTAX"));
-			final String semantics = XPathUtils.getXML(XPathUtils.getXPath(frameElement, "./SEMANTICS"));
+        @NotNull
+        @Throws(XPathExpressionException::class, TransformerException::class, ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun makeSyntaxes(start: Node): Collection<Syntax?> {
+            val result = ArrayList<Syntax?>()
+            val syntaxes = XmlTextUtils.getXML(getXPaths(start, "./FRAMES/FRAME/SYNTAX")!!)
+            // if (syntaxes != null)
+            // {
+            for (syntax in syntaxes) {
+                result.add(Syntax.make(syntax))
+            }
+            // }
+            return result
+        }
 
-			final Frame frame = Frame.make(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
+        @NotNull
+        @Throws(XPathExpressionException::class, TransformerException::class, ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun makeSemantics(start: Node): Collection<Semantics?> {
+            val result = ArrayList<Semantics?>()
+            val semanticss = XmlTextUtils.getXML(getXPaths(start, "./FRAMES/FRAME/SEMANTICS")!!)
+            // if (semanticss != null)
+            // {
+            for (semantics in semanticss) {
+                result.add(Semantics.make(semantics))
+            }
+            // }
+            return result
+        }
 
-			final List<String> examples = XmlTextUtils.getXPathTexts(frameElement, "./EXAMPLES/EXAMPLE");
-			if (examples != null)
-			{
-				for (final String example : examples)
-				{
-					final FrameExample vnExample = FrameExample.make(example);
-					result.add(Frame_Example.make(frame, vnExample));
-				}
-			}
-		}
-		return result;
-	}
+        @NotNull
+        @Throws(XPathExpressionException::class)
+        fun makePredicates(start: Node): Collection<Predicate?> {
+            val result = ArrayList<Predicate?>()
+            val nodes = getXPaths(start, "./FRAMES/FRAME/SEMANTICS/PRED")
+            if (nodes != null) {
+                for (i in 0..<nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val predicate = element.getAttribute("value")
+                    result.add(Predicate.make(predicate))
+                }
+            }
+            return result
+        }
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<Syntax> makeSyntaxes(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
-	{
-		final Collection<Syntax> result = new ArrayList<>();
-		final List<String> syntaxes = XmlTextUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SYNTAX"));
-		// if (syntaxes != null)
-		// {
-		for (final String syntax : syntaxes)
-		{
-			result.add(Syntax.make(syntax));
-		}
-		// }
-		return result;
-	}
+        @NotNull
+        @Throws(TransformerException::class, XPathExpressionException::class, ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun makePredicateSemanticsMappings(start: Node): List<Predicate_Semantics> {
+            val result = ArrayList<Predicate_Semantics>()
+            val semanticsNodes = getXPaths(start, "./FRAMES/FRAME/SEMANTICS")
+            for (i in 0..<semanticsNodes!!.length) {
+                val semanticNode = semanticsNodes.item(i)
+                val semanticsXml = XPathUtils.getXML(semanticNode)
+                val semantics = Semantics.make(semanticsXml)
 
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<Semantics> makeSemantics(final Node start) throws XPathExpressionException, TransformerException, ParserConfigurationException, SAXException, IOException
-	{
-		final Collection<Semantics> result = new ArrayList<>();
-		final List<String> semanticss = XmlTextUtils.getXML(XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS"));
-		// if (semanticss != null)
-		// {
-		for (final String semantics : semanticss)
-		{
-			result.add(Semantics.make(semantics));
-		}
-		// }
-		return result;
-	}
-
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static Collection<Predicate> makePredicates(final Node start) throws XPathExpressionException
-	{
-		final Collection<Predicate> result = new ArrayList<>();
-		final NodeList nodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS/PRED");
-		if (nodes != null)
-		{
-			for (int i = 0; i < nodes.getLength(); i++)
-			{
-				final Element element = (Element) nodes.item(i);
-				final String predicate = element.getAttribute("value");
-				result.add(Predicate.make(predicate));
-			}
-		}
-		return result;
-	}
-
-	@SuppressWarnings("UnusedReturnValue")
-	@NotNull
-	public static List<Predicate_Semantics> makePredicateSemanticsMappings(final Node start) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException
-	{
-		final List<Predicate_Semantics> result = new ArrayList<>();
-		final NodeList semanticsNodes = XPathUtils.getXPaths(start, "./FRAMES/FRAME/SEMANTICS");
-		for (int i = 0; i < semanticsNodes.getLength(); i++)
-		{
-			final Node semanticNode = semanticsNodes.item(i);
-			final String semanticsXml = XPathUtils.getXML(semanticNode);
-			final Semantics semantics = Semantics.make(semanticsXml);
-
-			final NodeList predNodes = XPathUtils.getXPaths(semanticNode, "./PRED");
-			if (predNodes != null)
-			{
-				for (int j = 0; j < predNodes.getLength(); j++)
-				{
-					final Element predicateElement = (Element) predNodes.item(j);
-					final Predicate predicate = Predicate.make(predicateElement.getAttribute("value"));
-					result.add(Predicate_Semantics.make(predicate, semantics));
-				}
-			}
-		}
-		return result;
-	}
+                val predNodes = getXPaths(semanticNode, "./PRED")
+                if (predNodes != null) {
+                    for (j in 0..<predNodes.length) {
+                        val predicateElement = predNodes.item(j) as Element
+                        val predicate = Predicate.make(predicateElement.getAttribute("value"))
+                        result.add(make(predicate, semantics))
+                    }
+                }
+            }
+            return result
+        }
+    }
 }

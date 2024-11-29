@@ -17,6 +17,22 @@ import javax.xml.xpath.XPathFactory
 
 object XPathUtils {
 
+    fun NodeList.genElements() = iterator {
+        var i = 0
+        while (i < length) {
+            yield(item(i))
+            i++
+        }
+    }
+
+    fun genElementsFromNullableNodeList(nodeList: NodeList?) = iterator {
+        var i = 0
+        while (i < (nodeList?.length ?: 0)) {
+            yield(nodeList?.item(i))
+            i++
+        }
+    }
+
     @JvmStatic
     @Throws(XPathExpressionException::class)
     fun getXPath(start: Node, xpathExpr: String): Node? {

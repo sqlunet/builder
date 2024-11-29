@@ -60,7 +60,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
         val head = name.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         try {
             val document = VnDocument(fileName)
-            processVerbNetClass(getXPath(document.document, "./VNCLASS")!!, head, null, null)
+            processVerbNetClass(getXPath(document.document!!, "./VNCLASS")!!, head, null, null)
         } catch (e: ParserConfigurationException) {
             Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
         } catch (e: SAXException) {
@@ -110,11 +110,12 @@ open class VnCollector(props: Properties) : Processor("vn") {
 
         @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
         private fun processItems(start: Node) {
+
             // get groupings
             VnDocument.makeGroupings(start)
 
             // get selection restrs
-            VnDocument.makeSelRestrs(start)
+            VnDocument.Companion.makeSelRestrs(start)
 
             // get syntactic restrs
             VnDocument.makeSynRestrs(start)
@@ -179,7 +180,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
         @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
         private fun processFrames(start: Node, clazz: VnClass, inheritedFrames: Collection<Frame>?): MutableCollection<Frame> {
             // roles
-            var frames: MutableCollection<Frame> = VnDocument.makeFrames(start)
+            var frames = VnDocument.makeFrames(start)
             if (inheritedFrames != null) {
                 frames = Inherit.mergeFrames(frames, inheritedFrames)
             }
