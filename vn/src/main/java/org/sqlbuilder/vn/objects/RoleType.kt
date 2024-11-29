@@ -1,93 +1,66 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class RoleType private constructor(
+    @JvmField val type: String,
+) : HasId, Insertable, Comparable<RoleType> {
 
-public class RoleType implements HasId, Insertable, Comparable<RoleType>
-{
-	public static final Comparator<RoleType> COMPARATOR = Comparator.comparing(RoleType::getType);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<RoleType> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // I D E N T I T Y
 
-	private final String type;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as RoleType
+        return type == that.type
+    }
 
-	// C O N S T R U C T O R
-	public static RoleType make(final String type)
-	{
-		var t = new RoleType(type);
-		COLLECTOR.add(t);
-		return t;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(type)
+    }
 
-	private RoleType(final String type)
-	{
-		this.type = type;
-	}
+    // O R D E R I N G
 
-	// A C C E S S
+    override fun compareTo(that: RoleType): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getType()
-	{
-		return this.type;
-	}
+    // T O S T R I N G
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    override fun toString(): String {
+        return this.type
+    }
 
-	// I D E N T I T Y
+    // I N S E R T
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		RoleType that = (RoleType) o;
-		return type.equals(that.type);
-	}
+    override fun dataRow(): String {
+        return "'$type'"
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(type);
-	}
+    companion object {
 
-	// O R D E R I N G
+        val COMPARATOR: Comparator<RoleType> = Comparator.comparing<RoleType, String> { it.type }
 
-	@Override
-	public int compareTo(@NotNull final RoleType that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<RoleType> = SetCollector<RoleType>(COMPARATOR)
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return this.type;
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// type
-		return String.format("'%s'", type);
-	}
+        // C O N S T R U C T O R
+        @JvmStatic
+        fun make(type: String): RoleType {
+            val t = RoleType(type)
+            COLLECTOR.add(t)
+            return t
+        }
+    }
 }

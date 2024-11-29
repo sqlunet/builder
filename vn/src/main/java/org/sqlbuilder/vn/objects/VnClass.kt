@@ -1,104 +1,75 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class VnClass private constructor(
+	@JvmField val name: String
+) : HasId, Insertable, Comparable<VnClass> {
 
-public class VnClass implements HasId, Insertable, Comparable<VnClass>
-{
-	public static final Comparator<VnClass> COMPARATOR = Comparator.comparing(VnClass::getName);
+    val tag: String
+        get() {
+            val split = name.indexOf('-')
+            return name.substring(split + 1)
+        }
 
-	public static final SetCollector<VnClass> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final String name;
+    // I D E N T I T Y
 
-	public static VnClass make(final String name)
-	{
-		if (name == null || name.isEmpty())
-		{
-			throw new RuntimeException("No name");
-		}
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as VnClass
+        return name == that.name
+    }
 
-		var c = new VnClass(name);
-		COLLECTOR.add(c);
-		return c;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(name)
+    }
 
-	private VnClass(final String name)
-	{
-		this.name = name;
-	}
+    // O R D E R I N G
 
-	// A C C E S S
+    override fun compareTo(that: VnClass): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    // T O S T R I N G
 
-	public String getTag()
-	{
-		final int split = this.name.indexOf('-');
-		return this.name.substring(split + 1);
-	}
+    override fun toString(): String {
+        return name
+    }
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    // I N S E R T
 
-	// I D E N T I T Y
+    override fun dataRow(): String {
+        return "'$name','$tag'"
+    }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		VnClass that = (VnClass) o;
-		return name.equals(that.name);
-	}
+    companion object {
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(name);
-	}
+        val COMPARATOR: Comparator<VnClass> = Comparator.comparing<VnClass, String> { it.name }
 
-	// O R D E R I N G
+        @JvmField
+        val COLLECTOR: SetCollector<VnClass> = SetCollector<VnClass>(COMPARATOR)
 
-	@Override
-	public int compareTo(@NotNull final VnClass that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        @JvmStatic
+        fun make(name: String): VnClass {
+            if (name.isEmpty()) {
+                throw RuntimeException("No name")
+            }
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return this.name;
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// name
-		// tag
-		return String.format("'%s','%s'", name, getTag());
-	}
+            val c = VnClass(name)
+            COLLECTOR.add(c)
+            return c
+        }
+    }
 }

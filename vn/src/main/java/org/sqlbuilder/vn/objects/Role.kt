@@ -1,113 +1,78 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.nullableInt
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class Role private constructor(
+    @JvmField val clazz: VnClass,
+    val restrRole: RestrainedRole
+) : Insertable, HasId {
 
-public class Role implements Insertable, HasId
-{
-	public static final Comparator<Role> COMPARATOR = Comparator.comparing(Role::getClazz).thenComparing(Role::getRestrRole);
+    val roleType: RoleType
+        get() = restrRole.roleType
 
-	public static final SetCollector<Role> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @RequiresIdFrom(type = Role::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final RestrainedRole restrainedRole;
+    // I D E N T I T Y
 
-	private final VnClass clazz;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Role
+        return restrRole == that.restrRole && clazz == that.clazz
+    }
 
-	// C O N S T R U C T O R
+    override fun hashCode(): Int {
+        return Objects.hash(restrRole, clazz)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Role make(final VnClass clazz, final RestrainedRole restrainedRole)
-	{
-		var m = new Role(clazz, restrainedRole);
-		COLLECTOR.add(m);
-		return m;
-	}
+    // I N S E R T
 
-	private Role(final VnClass clazz, final RestrainedRole restrainedRole)
-	{
-		this.restrainedRole = restrainedRole;
-		this.clazz = clazz;
-	}
+    @RequiresIdFrom(type = VnClass::class)
+    @RequiresIdFrom(type = RoleType::class)
+    @RequiresIdFrom(type = Restrs::class)
+    override fun dataRow(): String {
+        val restrs = restrRole.restrs
+        val restrsid = restrs?.intId
+        return "${clazz.intId},${restrRole.roleType.intId},${nullableInt(restrsid)}"
+    }
 
-	// A C C E S S
+    override fun comment(): String {
+        val r = restrRole.restrs
+        return  "${clazz.name}, ${restrRole.roleType.type},${r}"
+    }
 
-	public RestrainedRole getRestrRole()
-	{
-		return restrainedRole;
-	}
+    // T O S T R I N G
 
-	public RoleType getRoleType()
-	{
-		return restrainedRole.getRoleType();
-	}
+    override fun toString(): String {
+        return "class=$clazz role=$restrRole"
+    }
 
-	public VnClass getClazz()
-	{
-		return clazz;
-	}
+    companion object {
 
-	@RequiresIdFrom(type = Role.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        val COMPARATOR: Comparator<Role> = Comparator
+            .comparing<Role, VnClass> { it.clazz }
+            .thenComparing<RestrainedRole> { it.restrRole }
 
-	// I D E N T I T Y
+        @JvmField
+        val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Role that = (Role) o;
-		return restrainedRole.equals(that.restrainedRole) && clazz.equals(that.clazz);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(restrainedRole, clazz);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = RoleType.class)
-	@RequiresIdFrom(type = Restrs.class)
-	@Override
-	public String dataRow()
-	{
-		Restrs restrs = restrainedRole.getRestrs();
-		Integer restrsid = restrs == null ? null : restrs.getIntId();
-		return String.format("%d,%d,%s", clazz.getIntId(), //
-				restrainedRole.getRoleType().getIntId(), //
-				Utils.nullableInt(restrsid) //
-		);
-	}
-
-	@Override
-	public String comment()
-	{
-		var r = restrainedRole.getRestrs();
-		return String.format("%s,%s,%s", clazz.getName(), restrainedRole.getRoleType().getType(), //
-				r == null ? "∅" : r.toString());
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return "class=" + clazz + " role=" + restrainedRole;
-	}
+        @JvmStatic
+        fun make(clazz: VnClass, restrainedRole: RestrainedRole): Role {
+            val m = Role(clazz, restrainedRole)
+            COLLECTOR.add(m)
+            return m
+        }
+    }
 }

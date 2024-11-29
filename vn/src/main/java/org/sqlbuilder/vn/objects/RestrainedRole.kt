@@ -1,97 +1,68 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.NotNull;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.vn.objects.RoleType.Companion.make
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class RestrainedRole private constructor(
+    @JvmField val roleType: RoleType, val restrs: Restrs?,
+) : Comparable<RestrainedRole> {
 
-import javax.xml.parsers.ParserConfigurationException;
+    // I D E N T I T Y
 
-public class RestrainedRole implements Comparable<RestrainedRole>
-{
-	public static final Comparator<RestrainedRole> COMPARATOR = Comparator.comparing(RestrainedRole::getRoleType).thenComparing(RestrainedRole::getRestrs, Comparator.nullsFirst(Comparator.naturalOrder()));
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as RestrainedRole
+        return roleType == that.roleType && restrs == that.restrs
+    }
 
-	public static final Set<RestrainedRole> SET = new HashSet<>();
+    override fun hashCode(): Int {
+        return Objects.hash(roleType, restrs)
+    }
 
-	private final RoleType roleType;
+    // O R D E R I N G
 
-	private final Restrs restrs;
+    override fun compareTo(that: RestrainedRole): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// C O N S T R U C T O R
-	public static RestrainedRole make(final String type, final String restrsXML) throws ParserConfigurationException, SAXException, IOException
-	{
-		final RoleType roleType = RoleType.make(type);
-		final Restrs restrs = restrsXML == null || restrsXML.isEmpty() || restrsXML.equals("<SELRESTRS/>") ? null : Restrs.make(restrsXML, false);
-		var r = new RestrainedRole(roleType, restrs);
-		SET.add(r);
-		return r;
-	}
+    // T O S T R I N G
 
-	private RestrainedRole(final RoleType roleType, final Restrs restrs)
-	{
-		this.roleType = roleType;
-		this.restrs = restrs;
-	}
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append(this.roleType.type)
+        if (restrs != null) {
+            sb.append(' ')
+            sb.append(restrs)
+        }
+        return sb.toString()
+    }
 
-	// A C C E S S
+    companion object {
 
-	public RoleType getRoleType()
-	{
-		return this.roleType;
-	}
+        val COMPARATOR: Comparator<RestrainedRole> = Comparator
+            .comparing<RestrainedRole, RoleType> { it.roleType }
+            .thenComparing(
+                { it.restrs }, Comparator.nullsFirst<Restrs?>(Comparator.naturalOrder())
+            )
 
-	public Restrs getRestrs()
-	{
-		return this.restrs;
-	}
+        val SET = HashSet<RestrainedRole>()
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		RestrainedRole that = (RestrainedRole) o;
-		return roleType.equals(that.roleType) && Objects.equals(restrs, that.restrs);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(roleType, restrs);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final RestrainedRole that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(this.roleType.getType());
-		if (this.restrs != null)
-		{
-			sb.append(' ');
-			sb.append(this.restrs);
-		}
-		return sb.toString();
-	}
+        @JvmStatic
+        @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun make(type: String, restrsXML: String?): RestrainedRole {
+            val roleType = make(type)
+            val restrs = if (restrsXML == null || restrsXML.isEmpty() || restrsXML == "<SELRESTRS/>") null else Restrs.make(restrsXML, false)
+            val r = RestrainedRole(roleType, restrs)
+            SET.add(r)
+            return r
+        }
+    }
 }

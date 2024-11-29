@@ -1,46 +1,31 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-public class Sensekey implements Comparable<Sensekey>
-{
-	private final String sensekey;
+class Sensekey private constructor(
+    @JvmField val sensekey: String,
+    private val isDefinite: Boolean,
+) : Comparable<Sensekey> {
 
-	private final boolean isDefinite;
+    val quality: Float
+        get() = if (this.isDefinite) 1f else .5f
 
-	private Sensekey(final String sensekey, final boolean IsDefiniteFlag)
-	{
-		this.sensekey = sensekey;
+    override fun compareTo(that: Sensekey): Int {
+        return sensekey.compareTo(that.sensekey)
+    }
 
-		this.isDefinite = IsDefiniteFlag;
-	}
+    companion object {
 
-	public static Sensekey parse(final String str0)
-	{
-		// handle question mark
-		String str = str0;
-		boolean isDefiniteFlag = true;
-		if (str.startsWith("?"))
-		{
-			isDefiniteFlag = false;
-			str = str.substring(1);
-		}
+        @JvmStatic
+        fun parse(str0: String): Sensekey {
+            // handle question mark
+            var str = str0
+            var isDefiniteFlag = true
+            if (str.startsWith("?")) {
+                isDefiniteFlag = false
+                str = str.substring(1)
+            }
 
-		final String senseKey = str + "::";
-		return new Sensekey(senseKey, isDefiniteFlag);
-	}
-
-	public float getQuality()
-	{
-		return this.isDefinite ? 1.f : .5f;
-	}
-
-	public String getSensekey()
-	{
-		return sensekey;
-	}
-
-	@Override
-	public int compareTo(final Sensekey that)
-	{
-		return sensekey.compareTo(that.sensekey);
-	}
+            val senseKey = "$str::"
+            return Sensekey(senseKey, isDefiniteFlag)
+        }
+    }
 }

@@ -14,10 +14,10 @@ public class Inherit
 	public static Collection<RestrainedRole> mergeRoles(final Collection<RestrainedRole> restrainedRoles, final Collection<RestrainedRole> inheritedRestrainedRoles)
 	{
 		// map child roles by type
-		final Map<String, RestrainedRole> map = restrainedRoles.stream().collect(Collectors.toMap(r -> r.getRoleType().getType(), Function.identity()));
+		final Map<String, RestrainedRole> map = restrainedRoles.stream().collect(Collectors.toMap(r -> r.roleType.type, Function.identity()));
 
 		// map parent roles by type
-		final Map<String, RestrainedRole> inheritedMap = inheritedRestrainedRoles.stream().collect(Collectors.toMap(r -> r.getRoleType().getType(), Function.identity()));
+		final Map<String, RestrainedRole> inheritedMap = inheritedRestrainedRoles.stream().collect(Collectors.toMap(r -> r.roleType.type, Function.identity()));
 
 		// merge roles : add role for which there is no overriding value in child
 		for (final Entry<String, RestrainedRole> inheritedEntry : inheritedMap.entrySet())

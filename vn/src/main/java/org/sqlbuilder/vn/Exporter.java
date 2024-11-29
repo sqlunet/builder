@@ -178,7 +178,7 @@ public class Exporter
 	{
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
-				.map(w -> new SimpleEntry<>(w.getWord(), Word.COLLECTOR.apply(w))) //
+				.map(w -> new SimpleEntry<>(w.word, Word.COLLECTOR.apply(w))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -191,7 +191,7 @@ public class Exporter
 	{
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(VnClass.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
-				.map(c -> new SimpleEntry<>(c.getName(), VnClass.COLLECTOR.apply(c))) //
+				.map(c -> new SimpleEntry<>(c.name, VnClass.COLLECTOR.apply(c))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -218,7 +218,7 @@ public class Exporter
 	{
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(RoleType.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
-				.map(t -> new SimpleEntry<>(t.getType(), RoleType.COLLECTOR.apply(t))) //
+				.map(t -> new SimpleEntry<>(t.type, RoleType.COLLECTOR.apply(t))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
@@ -232,8 +232,8 @@ public class Exporter
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
 				.map(r -> new Pair<>( //
-						new Pair<>(r.getClazz().getTag(), r.getRestrRole().getRoleType().getType()), //
-						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
+						new Pair<>(r.clazz.getTag(), r.getRestrRole().roleType.type), //
+						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond));
 	}
 
@@ -247,8 +247,8 @@ public class Exporter
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
 				.map(r -> new Pair<>( //
-						new Pair<>(r.getClazz().getTag(), r.getRestrRole().getRoleType().getType()), //
-						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
+						new Pair<>(r.clazz.getTag(), r.getRestrRole().roleType.type), //
+						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
 					throw new RuntimeException(existing + " > " + replacement);
 				}, () -> new TreeMap<>(COMPARATOR)));
@@ -264,8 +264,8 @@ public class Exporter
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
 				.map(r -> new Pair<>( //
-						new Pair<>(r.getClazz().getName(), r.getRestrRole().getRoleType().getType()), //
-						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
+						new Pair<>(r.clazz.name, r.getRestrRole().roleType.type), //
+						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond));
 	}
 
@@ -279,8 +279,8 @@ public class Exporter
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
 				.map(r -> new Pair<>( //
-						new Pair<>(r.getClazz().getName(), r.getRestrRole().getRoleType().getType()), //
-						new Triplet<>(r.getIntId(), r.getClazz().getIntId(), r.getRestrRole().getRoleType().getIntId()))) //
+						new Pair<>(r.clazz.name, r.getRestrRole().roleType.type), //
+						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
 				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
 					throw new RuntimeException(existing + " > " + replacement);
 				}, () -> new TreeMap<>(COMPARATOR)));

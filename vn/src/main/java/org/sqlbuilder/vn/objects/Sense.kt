@@ -1,75 +1,52 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.Utils.nullableQuotedString
+import org.sqlbuilder.common.Utils.quote
+import java.util.AbstractMap.SimpleEntry
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class Sense private constructor(
+    val sensekey: Sensekey,
+) : Insertable, Resolvable<String, SimpleEntry<Int, Int>>, Comparable<Sense> {
 
-public class Sense implements Insertable, Resolvable<String, SimpleEntry<Integer, Integer>>, Comparable<Sense>
-{
-	static public final Comparator<Sense> COMPARATOR = Comparator //
-			.comparing(Sense::getSensekey, Comparator.nullsFirst(Comparator.naturalOrder()));
+    // O R D E R I N G
 
-	public static final Set<Sense> SET = new HashSet<>();
+    override fun compareTo(that: Sense): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private final Sensekey sensekey;
+    // I N S E R T
 
-	// C O N S T R U C T O R
+    override fun dataRow(): String {
+        return quote(sensekey.toString())
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Sense make(final Sensekey sensekey)
-	{
-		var m = new Sense(sensekey);
-		SET.add(m);
-		return m;
-	}
+    // R E S O L V E
 
-	private Sense(final Sensekey sensekey)
-	{
-		this.sensekey = sensekey;
-	}
+    override fun resolving(): String? {
+        return sensekey.sensekey
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	public Sensekey getSensekey()
-	{
-		return sensekey;
-	}
+    override fun toString(): String {
+        return sensekey.toString()
+    }
 
-	// O R D E R I N G
+    companion object {
 
-	@Override
-	public int compareTo(@NotNull final Sense that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        val COMPARATOR: Comparator<Sense> = Comparator
+            .comparing<Sense, Sensekey> { it.sensekey }
 
-	// I N S E R T
+        @JvmField
+        val SET = HashSet<Sense>()
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s", Utils.nullableQuotedString(sensekey, Sensekey::getSensekey));
-	}
-
-	// R E S O L V E
-
-	@Override
-	public String resolving()
-	{
-		return sensekey == null ? null : sensekey.getSensekey();
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("%s", sensekey);
-	}
+        @JvmStatic
+        fun make(sensekey: Sensekey): Sense {
+            val m = Sense(sensekey)
+            SET.add(m)
+            return m
+        }
+    }
 }

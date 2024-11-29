@@ -9,25 +9,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="sync fixes">
-      <change afterPath="$PROJECT_DIR$/bnc/bnc.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncWordResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncExtendedRecord.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncRecord.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+      <change afterPath="$PROJECT_DIR$/fn/fn.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/legacy/legacy.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pb/pb.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pm/pm.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/sl.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sn/sn.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/su.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrainedRole.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Role.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RoleType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sense.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sensekey.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/VnClass.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Word.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/vn.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncWordResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncExtendedRecord.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pb/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Inserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inherit.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inherit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Class_Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Class_Frame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Class_Word.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Class_Word.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Grouping.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Grouping.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrainedRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RoleType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sense.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sensekey.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/VnClass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Word.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -87,6 +101,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.PbModule.executor": "Run",
     "JUnit.TestParseFile.executor": "Run",
     "Maven.all [clean].executor": "Run",
     "Maven.all [compile].executor": "Run",
@@ -111,7 +126,7 @@
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.all [clean]">
+  <component name="RunManager" selected="Application.PbModule">
     <configuration name="all [clean]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -528,7 +543,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732809823269</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732816688589</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1732816688589</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -567,10 +590,10 @@
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="cosmetic" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="house keeping" />
     <MESSAGE value="sync fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="sync fixes" />
+    <MESSAGE value="to kotlin" />
+    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -579,6 +602,11 @@
           <url>file://$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java</url>
           <line>244</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Inserter.kt</url>
+          <line>73</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

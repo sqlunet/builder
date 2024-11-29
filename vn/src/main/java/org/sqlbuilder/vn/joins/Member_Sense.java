@@ -122,14 +122,14 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 				member.clazz.getIntId(), //
 				member.word.getIntId(), //
 				sensenum, //
-				Utils.nullableQuotedString(sensekey, Sensekey::getSensekey), //
+				Utils.nullableQuotedString(sensekey),
 				Utils.nullableFloat(quality));
 	}
 
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", member.clazz.getName(), member.word.getWord());
+		return String.format("%s,%s", member.clazz.name, member.word.word);
 	}
 
 	// R E S O L V E
@@ -137,7 +137,7 @@ public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<
 	@Override
 	public String resolving()
 	{
-		return sensekey == null ? null : sensekey.getSensekey();
+		return sensekey == null ? null : sensekey.sensekey;
 	}
 
 	// T O S T R I N G
