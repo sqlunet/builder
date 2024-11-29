@@ -1,156 +1,96 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.common.Utils.nullableQuotedString
+import org.sqlbuilder.vn.objects.FrameSubName.Companion.getIntId
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.Objects;
+class Frame private constructor(
+    val descriptionNumber: String,
+    val descriptionXTag: String,
+    descriptionPrimary: String,
+    descriptionSecondary: String?,
+    syntax: String, semantics: String,
+) : HasId, Insertable, Comparable<Frame> {
 
-public class Frame implements HasId, Insertable, Comparable<Frame>
-{
-	public static final Comparator<Frame> COMPARATOR = Comparator //
-			.comparing(Frame::getName) //
-			.thenComparing(Frame::getSubName, Comparator.nullsFirst(Comparator.naturalOrder())) //
-			.thenComparing(Frame::getDescriptionNumber) //
-			.thenComparing(Frame::getDescriptionXTag) //
-			.thenComparing(Frame::getSyntax) //
-			.thenComparing(Frame::getSemantics);
+    @JvmField
+    val name: FrameName = FrameName.make(descriptionPrimary)
 
-	public static final SetCollector<Frame> COLLECTOR = new SetCollector<>(COMPARATOR);
+    val subName: FrameSubName? = if (descriptionSecondary == null || descriptionSecondary.isEmpty()) null else FrameSubName.make(descriptionSecondary)
 
-	private final String descriptionNumber;
+    val syntax: Syntax = Syntax.make(syntax)
 
-	private final String descriptionXTag;
+    val semantics: Semantics = Semantics.make(semantics)
 
-	private final FrameName name;
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final FrameSubName subName;
+    // I D E N T I T Y
 
-	private final Syntax syntax;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Frame
+        return descriptionNumber == that.descriptionNumber && descriptionXTag == that.descriptionXTag && name == that.name && subName == that.subName && syntax == that.syntax && semantics == that.semantics
+    }
 
-	private final Semantics semantics;
+    override fun hashCode(): Int {
+        return Objects.hash(descriptionNumber, descriptionXTag, name, subName, syntax, semantics)
+    }
 
-	// C O N S T R U C T O R
+    // O R D E R I N G
 
-	public static Frame make(final String descriptionNumber, final String descriptionXTag, final String descriptionPrimary, final String descriptionSecondary, final String syntax, final String semantics) throws ParserConfigurationException, SAXException, IOException
-	{
-		var f = new Frame(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics);
-		COLLECTOR.add(f);
-		return f;
-	}
+    override fun compareTo(that: Frame): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private Frame(final String descriptionNumber, final String descriptionXTag, final String descriptionPrimary, final String descriptionSecondary, final String syntax, final String semantics) throws ParserConfigurationException, SAXException, IOException
-	{
-		this.descriptionNumber = descriptionNumber;
-		this.descriptionXTag = descriptionXTag;
-		this.name = FrameName.make(descriptionPrimary);
-		this.subName = descriptionSecondary == null || descriptionSecondary.isEmpty() ? null : FrameSubName.make(descriptionSecondary);
-		this.syntax = Syntax.make(syntax);
-		this.semantics = Semantics.make(semantics);
-	}
+    // T O S T R I N G
 
-	// A C C E S S
+    override fun toString(): String {
+        return " number=$descriptionNumber tag=$descriptionXTag description1=$name description2=$subName syntax=$syntax semantics=$semantics"
+    }
 
-	public FrameName getName()
-	{
-		return name;
-	}
+    // I N S E R T
 
-	public FrameSubName getSubName()
-	{
-		return subName;
-	}
+    @RequiresIdFrom(type = FrameName::class)
+    @RequiresIdFrom(type = FrameSubName::class)
+    @RequiresIdFrom(type = Syntax::class)
+    @RequiresIdFrom(type = Semantics::class)
+    override fun dataRow(): String {
+        return "${nullableQuotedString<String?>(descriptionNumber)},'$descriptionXTag',${name.intId},${nullableInt(getIntId(subName))},${syntax.intId},${semantics.intId}"
+    }
 
-	public String getDescriptionNumber()
-	{
-		return descriptionNumber;
-	}
+    companion object {
 
-	public String getDescriptionXTag()
-	{
-		return descriptionXTag;
-	}
+        val COMPARATOR: Comparator<Frame> = Comparator
+            .comparing<Frame, FrameName> { it.name }
+            .thenComparing<FrameSubName>({ it.subName }, Comparator.nullsFirst<FrameSubName>(Comparator.naturalOrder()))
+            .thenComparing<String> { it.descriptionNumber }
+            .thenComparing<String> { it.descriptionXTag }
+            .thenComparing<Syntax> { it.syntax }
+            .thenComparing<Semantics> { it.semantics }
 
-	public Syntax getSyntax()
-	{
-		return syntax;
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<Frame> = SetCollector<Frame>(COMPARATOR)
 
-	public Semantics getSemantics()
-	{
-		return semantics;
-	}
-
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Frame that = (Frame) o;
-		return descriptionNumber.equals(that.descriptionNumber) && descriptionXTag.equals(that.descriptionXTag) && name.equals(that.name) && Objects.equals(subName, that.subName) && Objects.equals(syntax, that.syntax) && Objects.equals(semantics, that.semantics);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(descriptionNumber, descriptionXTag, name, subName, syntax, semantics);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final Frame that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return " number=" + this.descriptionNumber + " tag=" + this.descriptionXTag + " description1=" + this.name + " description2=" + this.subName + " syntax=" + this.syntax + " semantics=" + this.semantics;
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = FrameName.class)
-	@RequiresIdFrom(type = FrameSubName.class)
-	@RequiresIdFrom(type = Syntax.class)
-	@RequiresIdFrom(type = Semantics.class)
-	@Override
-	public String dataRow()
-	{
-		// id
-		// descriptionNumber (or NULL)
-		// descriptionXTag
-		// name.id
-		// subName.id
-		// syntax.id
-		// semantics.id
-		return String.format("%s,'%s',%d,%s,%d,%d", //
-				Utils.nullableQuotedString(descriptionNumber), //
-				descriptionXTag, //
-				name.getIntId(), //
-				Utils.nullableInt(FrameSubName.getIntId(subName)), //
-				syntax.getIntId(), //
-				semantics.getIntId());
-	}
+        @JvmStatic
+        @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
+        fun make(descriptionNumber: String, descriptionXTag: String, descriptionPrimary: String, descriptionSecondary: String?, syntax: String, semantics: String): Frame {
+            val f = Frame(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics)
+            COLLECTOR.add(f)
+            return f
+        }
+    }
 }

@@ -92,7 +92,7 @@ public class Class_Frame implements Insertable, Comparable<Class_Frame>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s", clazz.name, frame.getName());
+		return String.format("%s,%s", clazz.name, frame.name);
 	}
 
 	// T O S T R I N G

@@ -1,85 +1,66 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
+class FrameSubName private constructor(
+    subname: String,
+) : HasId, Insertable, Comparable<FrameSubName> {
 
-public class FrameSubName implements HasId, Insertable, Comparable<FrameSubName>
-{
-	public static final Comparator<FrameSubName> COMPARATOR = Comparator.comparing(FrameSubName::getSubName);
+    val subName: String = subname.trim { it <= ' ' }.uppercase(Locale.getDefault()).replace("\\s+".toRegex(), " ")
 
-	public static final SetCollector<FrameSubName> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final String subName;
+    // I D E N T I T Y
 
-	// C O N S T R U C T O R
+    override fun equals(o: Any?): Boolean {
+        if (o !is FrameSubName) {
+            return false
+        }
+        val that = o
+        return this.subName == that.subName
+    }
 
-	public static FrameSubName make(final String subname)
-	{
-		var s = new FrameSubName(subname);
-		COLLECTOR.add(s);
-		return s;
-	}
+    override fun hashCode(): Int {
+        return this.subName.hashCode()
+    }
 
-	private FrameSubName(final String subname)
-	{
-		this.subName = subname.trim().toUpperCase().replaceAll("\\s+", " ");
-	}
+    // O R D E R I N G
 
-	// A C C E S S
+    override fun compareTo(that: FrameSubName): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getSubName()
-	{
-		return subName;
-	}
+    // I N S E R T
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    override fun dataRow(): String {
+        return "'$subName'"
+    }
 
-	@RequiresIdFrom(type = FrameSubName.class)
-	public static Integer getIntId(final FrameSubName subname)
-	{
-		return subname == null ? null : COLLECTOR.apply(subname);
-	}
+    companion object {
 
-	// I D E N T I T Y
+        val COMPARATOR: Comparator<FrameSubName> = Comparator.comparing<FrameSubName, String> { it.subName }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (!(o instanceof FrameSubName))
-		{
-			return false;
-		}
-		final FrameSubName that = (FrameSubName) o;
-		return this.subName.equals(that.subName);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<FrameSubName> = SetCollector<FrameSubName>(COMPARATOR)
 
-	@Override
-	public int hashCode()
-	{
-		return this.subName.hashCode();
-	}
+        // C O N S T R U C T O R
+        @JvmStatic
+        fun make(subname: String): FrameSubName {
+            val s = FrameSubName(subname)
+            COLLECTOR.add(s)
+            return s
+        }
 
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final FrameSubName that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// subName
-		return String.format("'%s'", subName);
-	}
+        @JvmStatic
+        @RequiresIdFrom(type = FrameSubName::class)
+        fun getIntId(subname: FrameSubName?): Int? {
+            return if (subname == null) null else COLLECTOR.apply(subname)
+        }
+    }
 }

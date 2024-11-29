@@ -1,100 +1,80 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.Objects;
+class Syntax private constructor(
+    val syntax: String,
+) : HasId, Insertable, Comparable<Syntax> {
 
-import javax.xml.parsers.ParserConfigurationException;
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-public class Syntax implements HasId, Insertable, Comparable<Syntax>
-{
-	public static final Comparator<Syntax> COMPARATOR = Comparator.comparing(Syntax::getSyntax);
+    // I D E N T I T Y
 
-	public static final SetCollector<Syntax> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Syntax
+        return syntax == that.syntax
+    }
 
-	private static final VnSyntaxXmlProcessor SYNTAX_XML_PROCESSOR = new VnSyntaxXmlProcessor();
+    override fun hashCode(): Int {
+        return Objects.hash(syntax)
+    }
 
-	private final String syntax;
+    // O R D E R I N G
 
-	// C O N S T R U C T O R
+    override fun compareTo(that: Syntax): Int {
+        return this.syntax.compareTo(that.syntax)
+    }
 
-	public static Syntax make(final String syntax) throws IOException, SAXException, ParserConfigurationException
-	{
-		String syntax2 = syntax.replaceFirst("^<SYNTAX>", "").replaceFirst("</SYNTAX>$", "");
-		try
-		{
-			syntax2 = SYNTAX_XML_PROCESSOR.process(syntax2);
-		}
-		catch (ParserConfigurationException | IOException | SAXException e)
-		{
-			System.err.println(syntax2);
-			throw e;
-		}
-		var s = new Syntax(syntax2);
-		COLLECTOR.add(s);
-		return s;
-	}
+    // I N S E R T
 
-	private Syntax(final String syntax)
-	{
-		this.syntax = syntax;
-	}
+    override fun dataRow(): String {
+        return "'${escape(syntax)}'"
+    }
 
-	// A C C E S S
+    companion object {
 
-	public String getSyntax()
-	{
-		return syntax;
-	}
+        val COMPARATOR: Comparator<Syntax> = Comparator.comparing<Syntax, String> { it.syntax }
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<Syntax> = SetCollector<Syntax>(COMPARATOR)
 
-	// I D E N T I T Y
+        private val SYNTAX_XML_PROCESSOR = VnSyntaxXmlProcessor()
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Syntax that = (Syntax) o;
-		return syntax.equals(that.syntax);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(syntax);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(final Syntax that)
-	{
-		return this.syntax.compareTo(that.syntax);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// syntax
-		return String.format("'%s'", Utils.escape(syntax));
-	}
+        @JvmStatic
+        @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
+        fun make(syntax: String): Syntax {
+            var syntax2 = syntax.replaceFirst("^<SYNTAX>".toRegex(), "").replaceFirst("</SYNTAX>$".toRegex(), "")
+            try {
+                syntax2 = SYNTAX_XML_PROCESSOR.process(syntax2)
+                val s = Syntax(syntax2)
+                COLLECTOR.add(s)
+                return s
+            } catch (e: ParserConfigurationException) {
+                System.err.println(syntax2)
+                throw e
+            } catch (e: IOException) {
+                System.err.println(syntax2)
+                throw e
+            } catch (e: SAXException) {
+                System.err.println(syntax2)
+                throw e
+            }
+        }
+    }
 }

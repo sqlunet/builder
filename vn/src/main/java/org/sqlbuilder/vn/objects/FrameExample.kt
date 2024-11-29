@@ -1,83 +1,60 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.escape
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class FrameExample private constructor(
+    val example: String
+) : HasId, Insertable, Comparable<FrameExample> {
 
-public class FrameExample implements HasId, Insertable, Comparable<FrameExample>
-{
-	public static final Comparator<FrameExample> COMPARATOR = Comparator.comparing(FrameExample::getExample);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<FrameExample> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // I D E N T I T Y
 
-	private final String example;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FrameExample
+        return example == that.example
+    }
 
-	// C O N S T R U C T O R
+    override fun hashCode(): Int {
+        return Objects.hash(example)
+    }
 
-	public static FrameExample make(final String example)
-	{
-		var e = new FrameExample(example);
-		COLLECTOR.add(e);
-		return e;
-	}
+    // O R D E R I N G
 
-	private FrameExample(final String example)
-	{
-		this.example = example;
-	}
+    override fun compareTo(that: FrameExample): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// A C C E S S
+    // I N S E R T
 
-	public String getExample()
-	{
-		return example;
-	}
+    override fun dataRow(): String {
+        return "'${escape(example)}'"
+    }
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    companion object {
 
-	// I D E N T I T Y
+        val COMPARATOR: Comparator<FrameExample> = Comparator.comparing<FrameExample, String> { it.example }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		FrameExample that = (FrameExample) o;
-		return example.equals(that.example);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<FrameExample> = SetCollector<FrameExample>(COMPARATOR)
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(example);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final FrameExample that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// example
-		return String.format("'%s'", Utils.escape(example));
-	}
+         @JvmStatic
+        fun make(example: String): FrameExample {
+            val e = FrameExample(example)
+            COLLECTOR.add(e)
+            return e
+        }
+    }
 }

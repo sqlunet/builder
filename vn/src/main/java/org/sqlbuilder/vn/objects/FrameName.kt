@@ -1,87 +1,64 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
+class FrameName private constructor(
+    name: String
+) : HasId, Insertable, Comparable<FrameName> {
 
-public class FrameName implements HasId, Insertable, Comparable<FrameName>
-{
-	public static final Comparator<FrameName> COMPARATOR = Comparator.comparing(FrameName::getName);
+    val name: String = name.trim { it <= ' ' }.uppercase(Locale.getDefault()).replace("\\s+".toRegex(), " ")
 
-	public static final SetCollector<FrameName> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final String name;
+    // I D E N T I T Y
 
-	// C O N S T R U C T O R
+    override fun equals(o: Any?): Boolean {
+        if (o !is FrameName) {
+            return false
+        }
+        val that = o
+        return this.name == that.name
+    }
 
-	public static FrameName make(final String name)
-	{
-		var n = new FrameName(name);
-		COLLECTOR.add(n);
-		return n;
-	}
+    override fun hashCode(): Int {
+        return this.name.hashCode()
+    }
 
-	private FrameName(final String name)
-	{
-		this.name = name.trim().toUpperCase().replaceAll("\\s+", " ");
-	}
+    // O R D E R I N G
 
-	// A C C E S S
+    override fun compareTo(@NotNull that: FrameName): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    override fun toString(): String {
+        return this.name
+    }
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    // I N S E R T
 
-	// I D E N T I T Y
+    override fun dataRow(): String {
+        return "'$name'"
+    }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (!(o instanceof FrameName))
-		{
-			return false;
-		}
-		final FrameName that = (FrameName) o;
-		return this.name.equals(that.name);
-	}
+    companion object {
 
-	@Override
-	public int hashCode()
-	{
-		return this.name.hashCode();
-	}
+        val COMPARATOR: Comparator<FrameName> = Comparator.comparing<FrameName, String> { it.name }
 
-	// O R D E R I N G
+        @JvmField
+        val COLLECTOR: SetCollector<FrameName> = SetCollector<FrameName>(COMPARATOR)
 
-	@Override
-	public int compareTo(@NotNull final FrameName that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.name;
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// name
-		return String.format("'%s'", name);
-	}
+        // C O N S T R U C T O R
+        @JvmStatic
+        fun make(name: String): FrameName {
+            val n = FrameName(name)
+            COLLECTOR.add(n)
+            return n
+        }
+    }
 }
