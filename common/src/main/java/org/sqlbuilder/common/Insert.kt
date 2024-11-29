@@ -277,8 +277,8 @@ object Insert {
         table: String,
         columns: String,
         header: String,
-        foreignResolver: Function<U, R>,
-        stringifier: Function<R, String>,
+        foreignResolver: Function<U, R?>,
+        stringifier: Function<R?, String>,
         vararg resolvedColumns: String,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->
@@ -318,8 +318,8 @@ object Insert {
         columns: String,
         header: String,
         withNumber: Boolean,
-        foreignResolver: Function<U, R>,
-        stringifier: Function<R, String>,
+        foreignResolver: Function<U, R?>,
+        stringifier: Function<R?, String>,
         vararg resolvedColumns: String,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->

@@ -59,7 +59,7 @@ class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
     }
 
     private fun updateRow(ps: PrintStream, table: String, index: Int, bncRecord: BncRecord, vararg columns: String) {
-        val wordid: Int = wordResolver.apply(bncRecord.word)
+        val wordid: Int? = wordResolver.apply(bncRecord.word)
         val setClause = String.format("%s=%d", columns[0], wordid)
         val whereClause = String.format("%s=%s", columns[1], quote(escape(bncRecord.word)))
         ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1)

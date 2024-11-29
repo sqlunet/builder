@@ -9,10 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fix insertion">
-      <change afterPath="$PROJECT_DIR$/pb/pb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pb/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pb/pom.xml" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Resolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Resolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -72,6 +75,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.PbModule (resolve).executor": "Run",
     "Application.PbModule.executor": "Run",
     "JUnit.TestParseFile.executor": "Run",
     "Maven.all [clean].executor": "Run",
@@ -97,7 +101,7 @@
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PbModule">
+  <component name="RunManager" selected="Application.PbModule (resolve)">
     <configuration name="all [clean]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -530,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732862922453</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="house keeping">
+      <option name="closed" value="true" />
+      <created>1732863022587</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1732863022587</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -569,11 +581,11 @@
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="cosmetic" />
-    <MESSAGE value="house keeping" />
     <MESSAGE value="sync fixes" />
     <MESSAGE value="to kotlin" />
     <MESSAGE value="fix insertion" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix insertion" />
+    <MESSAGE value="house keeping" />
+    <option name="LAST_COMMIT_MESSAGE" value="house keeping" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
