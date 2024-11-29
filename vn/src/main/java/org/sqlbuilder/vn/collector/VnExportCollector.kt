@@ -1,98 +1,95 @@
-package org.sqlbuilder.vn.collector;
+package org.sqlbuilder.vn.collector
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.XPathUtils;
-import org.sqlbuilder.vn.Inherit;
-import org.sqlbuilder.vn.VnDocument;
-import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.objects.*;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.XPathUtils.getXPaths
+import org.sqlbuilder.vn.Inherit
+import org.sqlbuilder.vn.VnDocument
+import org.sqlbuilder.vn.VnModule
+import org.sqlbuilder.vn.objects.Frame
+import org.sqlbuilder.vn.objects.Member.Companion.make
+import org.sqlbuilder.vn.objects.RestrainedRole
+import org.sqlbuilder.vn.objects.Role.Companion.make
+import org.sqlbuilder.vn.objects.VnClass
+import org.sqlbuilder.vn.objects.Word.Companion.make
+import org.w3c.dom.Node
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerException
+import javax.xml.xpath.XPathExpressionException
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Properties;
+class VnExportCollector(props: Properties) : VnCollector(props) {
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
+    override fun processVerbNetClass(start: Node, head: String, inheritedRestrainedRoles: Collection<RestrainedRole>?, ignored: Collection<Frame>?) {
+        try {
+            val clazz: VnClass = processClass(start)
+            processItems(start)
+            processMembers(start, head)
+            val inheritableRestrainedRoles = processRoles(start, clazz, inheritedRestrainedRoles)
 
-public class VnExportCollector extends VnCollector
-{
-	public VnExportCollector(final Properties props)
-	{
-		super(props);
-	}
+            // recurse
+            val subclasses = getXPaths(start, "./SUBCLASSES/VNSUBCLASS")
+            for (i in 0..<subclasses!!.length) {
+                val subNode = subclasses.item(i)
+                processVerbNetClass(subNode, head, inheritableRestrainedRoles, ignored)
+            }
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: TransformerException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: ParserConfigurationException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: SAXException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        }
+    }
 
-	@Override
-	protected void processVerbNetClass(final Node start, final String head, final Collection<RestrainedRole> inheritedRestrainedRoles, final Collection<Frame> ignored)
-	{
-		try
-		{
-			final VnClass clazz = processClass(start);
-			processItems(start);
-			processMembers(start, head);
-			Collection<RestrainedRole> inheritableRestrainedRoles = processRoles(start, clazz, inheritedRestrainedRoles);
+    companion object {
 
-			// recurse
-			final NodeList subclasses = XPathUtils.getXPaths(start, "./SUBCLASSES/VNSUBCLASS");
-			for (int i = 0; i < subclasses.getLength(); i++)
-			{
-				final Node subNode = subclasses.item(i);
-				processVerbNetClass(subNode, head, inheritableRestrainedRoles, ignored);
-			}
-		}
-		catch (XPathExpressionException | TransformerException | ParserConfigurationException | SAXException | IOException e)
-		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getOwnerDocument().getDocumentURI(), e);
-		}
-	}
+        private fun processClass(start: Node): VnClass {
+            return VnDocument.makeClass(start)
+        }
 
-	private static VnClass processClass(final Node start)
-	{
-		return VnDocument.makeClass(start);
-	}
+        @Throws(XPathExpressionException::class)
+        private fun processMembers(start: Node, head: String) {
+            // members
+            val members = VnDocument.makeMembers(start)
+            members.add(make(head, null, null))
 
-	private static void processMembers(final Node start, final String head) throws XPathExpressionException
-	{
-		// members
-		Collection<Member> members = VnDocument.makeMembers(start);
-		members.add(Member.make(head, null, null));
+            // member
+            for (member in members) {
+                // word
+                make(member.lemma)
+            }
+        }
 
-		// member
-		for (final Member member : members)
-		{
-			// word
-			Word.make(member.lemma);
-		}
-	}
+        @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
+        private fun processItems(start: Node) {
+            // get role types
+            VnDocument.makeRoleTypes(start)
 
-	private static void processItems(final Node start) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
-	{
-		// get role types
-		VnDocument.makeRoleTypes(start);
+            // get roles
+            VnDocument.makeRoles(start)
+        }
 
-		// get roles
-		VnDocument.makeRoles(start);
-	}
+        @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
+        private fun processRoles(start: Node, clazz: VnClass, inheritedRestrainedRoles: Collection<RestrainedRole>?): Collection<RestrainedRole> {
+            // roles
+            var restrainedRoles: MutableCollection<RestrainedRole> = VnDocument.makeRoles(start)
+            if (inheritedRestrainedRoles != null) {
+                restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles)
+            }
 
-	private static Collection<RestrainedRole> processRoles(final Node start, final VnClass clazz, final Collection<RestrainedRole> inheritedRestrainedRoles) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
-	{
-		// roles
-		Collection<RestrainedRole> restrainedRoles = VnDocument.makeRoles(start);
-		if (inheritedRestrainedRoles != null)
-		{
-			restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles);
-		}
+            // collect roles
+            for (restrainedRole in restrainedRoles) {
+                make(clazz, restrainedRole)
+            }
 
-		// collect roles
-		for (RestrainedRole restrainedRole : restrainedRoles)
-		{
-			Role.make(clazz, restrainedRole);
-		}
-
-		// return data to be inherited by subclasses
-		return restrainedRoles;
-	}
+            // return data to be inherited by subclasses
+            return restrainedRoles
+        }
+    }
 }

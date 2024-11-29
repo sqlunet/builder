@@ -1,97 +1,85 @@
-package org.sqlbuilder.vn.collector;
+package org.sqlbuilder.vn.collector
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.XPathUtils;
-import org.sqlbuilder.vn.VnDocument;
-import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.objects.Word;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+import org.sqlbuilder.common.XPathUtils.getXPath
+import org.sqlbuilder.common.XPathUtils.getXPaths
+import org.sqlbuilder.vn.VnDocument
+import org.sqlbuilder.vn.VnModule
+import org.sqlbuilder.vn.objects.Word.Companion.make
+import org.w3c.dom.Node
+import org.xml.sax.SAXException
+import java.io.File
+import java.io.FilenameFilter
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.xpath.XPathExpressionException
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
+class VnUpdateCollector(props: Properties) : VnCollector(props) {
 
-public class VnUpdateCollector extends VnCollector
-{
-	public VnUpdateCollector(final Properties props)
-	{
-		super(props);
-	}
+    override fun run() {
+        val folder = File(this.verbNetHome)
+        val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
+        val files = folder.listFiles(filter)
+        if (files == null) {
+            throw RuntimeException("Dir:" + this.verbNetHome + " is empty")
+        }
+        // iterate
+        var fileCount = 0
+        traceHeader("reading verbnet files", "")
+        files
+            .sortedWith(Comparator.comparing<File, String> { it.name })
+            .forEach {
+                fileCount++
+                processVerbNetFile(it.absolutePath, it.name)
+            }
+        traceTailer(fileCount.toLong())
+    }
 
-	@Override
-	public void run()
-	{
-		final File folder = new File(this.verbNetHome);
-		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
+    override fun processVerbNetFile(fileName: String, name: String) {
+        val head = name.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        try {
+            val document = VnDocument(fileName)
+            processVerbNetClass(getXPath(document.document, "./VNCLASS")!!, head)
+        } catch (e: ParserConfigurationException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+            traceDone(e.toString())
+        } catch (e: SAXException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+            traceDone(e.toString())
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+            traceDone(e.toString())
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+            traceDone(e.toString())
+        }
+    }
 
-		final File[] fileArray = folder.listFiles(filter);
-		if (fileArray == null)
-		{
-			throw new RuntimeException("Dir:" + this.verbNetHome + " is empty");
-		}
-		final List<File> files = Arrays.asList(fileArray);
-		files.sort(Comparator.comparing(File::getName));
+    fun processVerbNetClass(start: Node, head: String) {
+        try {
+            processMembers(start, head)
 
-		// iterate
+            // recurse
+            val subclasses = getXPaths(start, "./SUBCLASSES/VNSUBCLASS")!!
+            for (i in 0..<subclasses.length) {
+                val subNode = subclasses.item(i)
+                processVerbNetClass(subNode, head)
+            }
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        }
+    }
 
-		int fileCount = 0;
-		Progress.traceHeader("reading verbnet files", "");
-		for (final File file : files)
-		{
-			fileCount++;
-			processVerbNetFile(file.getAbsolutePath(), file.getName());
-		}
-		Progress.traceTailer(fileCount);
-	}
+    companion object {
 
-	@Override
-	protected void processVerbNetFile(final String fileName, final String name)
-	{
-		final String head = name.split("-")[0];
-		try
-		{
-			final VnDocument document = new VnDocument(fileName);
-			processVerbNetClass(XPathUtils.getXPath(document.getDocument(), "./VNCLASS"), head);
-		}
-		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
-		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e);
-			Progress.traceDone(e.toString());
-		}
-	}
-
-	protected void processVerbNetClass(final Node start, final String head)
-	{
-		try
-		{
-			processMembers(start, head);
-
-			// recurse
-			final NodeList subclasses = XPathUtils.getXPaths(start, "./SUBCLASSES/VNSUBCLASS");
-			for (int i = 0; i < subclasses.getLength(); i++)
-			{
-				final Node subNode = subclasses.item(i);
-				processVerbNetClass(subNode, head);
-			}
-		}
-		catch (XPathExpressionException e)
-		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getOwnerDocument().getDocumentURI(), e);
-		}
-	}
-
-	private static void processMembers(final Node start, final String head) throws XPathExpressionException
-	{
-		Word.make(head);
-		VnDocument.makeResolvableMembers(start);
-	}
+        @Throws(XPathExpressionException::class)
+        private fun processMembers(start: Node, head: String) {
+            make(head)
+            VnDocument.makeResolvableMembers(start)
+        }
+    }
 }

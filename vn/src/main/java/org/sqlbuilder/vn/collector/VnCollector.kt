@@ -1,251 +1,235 @@
-package org.sqlbuilder.vn.collector;
+package org.sqlbuilder.vn.collector
 
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.XPathUtils;
-import org.sqlbuilder.vn.Inherit;
-import org.sqlbuilder.vn.VnDocument;
-import org.sqlbuilder.vn.VnModule;
-import org.sqlbuilder.vn.joins.Class_Frame;
-import org.sqlbuilder.vn.joins.Class_Word;
-import org.sqlbuilder.vn.joins.Member_Grouping;
-import org.sqlbuilder.vn.joins.Member_Sense;
-import org.sqlbuilder.vn.objects.*;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Progress.trace
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+import org.sqlbuilder.common.XPathUtils.getXPath
+import org.sqlbuilder.common.XPathUtils.getXPaths
+import org.sqlbuilder.vn.Inherit
+import org.sqlbuilder.vn.VnDocument
+import org.sqlbuilder.vn.VnModule
+import org.sqlbuilder.vn.joins.Class_Frame.Companion.make
+import org.sqlbuilder.vn.joins.Class_Word.Companion.make
+import org.sqlbuilder.vn.joins.Member_Grouping.Companion.make
+import org.sqlbuilder.vn.joins.Member_Sense.Companion.make
+import org.sqlbuilder.vn.objects.Frame
+import org.sqlbuilder.vn.objects.Member.Companion.make
+import org.sqlbuilder.vn.objects.RestrainedRole
+import org.sqlbuilder.vn.objects.Role.Companion.make
+import org.sqlbuilder.vn.objects.VnClass
+import org.sqlbuilder.vn.objects.Word.Companion.make
+import org.w3c.dom.Node
+import org.xml.sax.SAXException
+import java.io.File
+import java.io.FilenameFilter
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerException
+import javax.xml.xpath.XPathExpressionException
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.*;
+open class VnCollector(props: Properties) : Processor("vn") {
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
+    @JvmField
+    protected val verbNetHome: String = props.getProperty("vn_home", System.getenv()["VNHOME"])
 
-public class VnCollector extends Processor
-{
-	protected final String verbNetHome;
+    override fun run() {
+        val folder = File(this.verbNetHome)
+        val filter = FilenameFilter { _, name -> name.endsWith(".xml") }
+        val files = folder.listFiles(filter)
+        if (files == null) {
+            throw RuntimeException("Dir:" + this.verbNetHome + " is empty")
+        }
+        // iterate
+        var fileCount = 0
+        traceHeader("reading verbnet files", "")
+        files
+            .asSequence()
+            .sortedWith(Comparator.comparing<File, String> { it.name })
+            .forEach {
+                fileCount++
+                processVerbNetFile(it.absolutePath, it.name)
+                trace(fileCount.toLong())
+            }
+        traceTailer(fileCount.toLong())
+    }
 
-	public VnCollector(final Properties props)
-	{
-		super("vn");
-		this.verbNetHome = props.getProperty("vn_home", System.getenv().get("VNHOME"));
-	}
+    protected open fun processVerbNetFile(fileName: String, name: String) {
+        val head = name.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        try {
+            val document = VnDocument(fileName)
+            processVerbNetClass(getXPath(document.document, "./VNCLASS")!!, head, null, null)
+        } catch (e: ParserConfigurationException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: SAXException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: RuntimeException) {
+            System.err.println(fileName)
+            throw e
+        }
+    }
 
-	@Override
-	public void run()
-	{
-		final File folder = new File(this.verbNetHome);
-		final FilenameFilter filter = (dir, name) -> name.endsWith(".xml");
+    protected open fun processVerbNetClass(start: Node, head: String, inheritedRestrainedRoles: Collection<RestrainedRole>?, inheritedFrames: Collection<Frame>?) {
+        try {
+            val clazz: VnClass = processClass(start)
+            processItems(start)
+            processMembers(start, head, clazz)
+            val inheritableRestrainedRoles = processRoles(start, clazz, inheritedRestrainedRoles)
+            val inheritableFrames = processFrames(start, clazz, inheritedFrames)
 
-		final File[] fileArray = folder.listFiles(filter);
-		if (fileArray == null)
-		{
-			throw new RuntimeException("Dir:" + this.verbNetHome + " is empty");
-		}
-		final List<File> files = Arrays.asList(fileArray);
-		files.sort(Comparator.comparing(File::getName));
+            // recurse
+            val subclasses = getXPaths(start, "./SUBCLASSES/VNSUBCLASS")!!
+            for (i in 0..<subclasses.length) {
+                val subNode = subclasses.item(i)
+                processVerbNetClass(subNode, head, inheritableRestrainedRoles, inheritableFrames)
+            }
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: TransformerException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: ParserConfigurationException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: SAXException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)
+        }
+    }
 
-		// iterate
+    companion object {
 
-		int fileCount = 0;
-		Progress.traceHeader("reading verbnet files", "");
-		for (final File file : files)
-		{
-			fileCount++;
-			//System.out.println(file.getName());
-			processVerbNetFile(file.getAbsolutePath(), file.getName());
-			Progress.trace(fileCount);
-		}
-		Progress.traceTailer(fileCount);
-	}
+        private fun processClass(start: Node): VnClass {
+            return VnDocument.makeClass(start)
+        }
 
-	protected void processVerbNetFile(final String fileName, final String name)
-	{
-		final String head = name.split("-")[0];
-		try
-		{
-			final VnDocument document = new VnDocument(fileName);
-			processVerbNetClass(XPathUtils.getXPath(document.getDocument(), "./VNCLASS"), head, null, null);
-		}
-		catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e)
-		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, fileName, e);
-		}
-		catch (RuntimeException e)
-		{
-			System.err.println(fileName);
-			throw e;
-		}
-	}
+        @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
+        private fun processItems(start: Node) {
+            // get groupings
+            VnDocument.makeGroupings(start)
 
-	protected void processVerbNetClass(final Node start, final String head, final Collection<RestrainedRole> inheritedRestrainedRoles, final Collection<Frame> inheritedFrames)
-	{
-		try
-		{
-			final VnClass clazz = processClass(start);
-			processItems(start);
-			processMembers(start, head, clazz);
-			Collection<RestrainedRole> inheritableRestrainedRoles = processRoles(start, clazz, inheritedRestrainedRoles);
-			Collection<Frame> inheritableFrames = processFrames(start, clazz, inheritedFrames);
+            // get selection restrs
+            VnDocument.makeSelRestrs(start)
 
-			// recurse
-			final NodeList subclasses = XPathUtils.getXPaths(start, "./SUBCLASSES/VNSUBCLASS");
-			for (int i = 0; i < subclasses.getLength(); i++)
-			{
-				final Node subNode = subclasses.item(i);
-				processVerbNetClass(subNode, head, inheritableRestrainedRoles, inheritableFrames);
-			}
-		}
-		catch (XPathExpressionException | TransformerException | ParserConfigurationException | SAXException | IOException e)
-		{
-			Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.getOwnerDocument().getDocumentURI(), e);
-		}
-	}
+            // get syntactic restrs
+            VnDocument.makeSynRestrs(start)
 
-	private static VnClass processClass(final Node start)
-	{
-		return VnDocument.makeClass(start);
-	}
+            // get selection restr types
+            VnDocument.makeSelRestrTypes(start)
 
-	private static void processItems(final Node start) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
-	{
-		// get groupings
-		VnDocument.makeGroupings(start);
+            // get syntactic restr types
+            VnDocument.makeSynRestrTypes(start)
 
-		// get selection restrs
-		VnDocument.makeSelRestrs(start);
+            // get frame names
+            VnDocument.makeFrameNames(start)
 
-		// get syntactic restrs
-		VnDocument.makeSynRestrs(start);
+            // get frame subnames
+            VnDocument.makeFrameSubNames(start)
 
-		// get selection restr types
-		VnDocument.makeSelRestrTypes(start);
+            // get frame examples
+            VnDocument.makeFrameExamples(start)
 
-		// get syntactic restr types
-		VnDocument.makeSynRestrTypes(start);
+            // get frame example mappings
+            VnDocument.makeFrameExampleMappings(start)
 
-		// get frame names
-		VnDocument.makeFrameNames(start);
+            // get predicates
+            VnDocument.makePredicates(start)
 
-		// get frame subnames
-		VnDocument.makeFrameSubNames(start);
+            // get predicate semantics mappings
+            VnDocument.makePredicateSemanticsMappings(start)
 
-		// get frame examples
-		VnDocument.makeFrameExamples(start);
+            // get syntaxes
+            VnDocument.makeSyntaxes(start)
 
-		// get frame example mappings
-		VnDocument.makeFrameExampleMappings(start);
+            // get semantics
+            VnDocument.makeSemantics(start)
 
-		// get predicates
-		VnDocument.makePredicates(start);
+            // get role types
+            VnDocument.makeRoleTypes(start)
 
-		// get predicate semantics mappings
-		VnDocument.makePredicateSemanticsMappings(start);
+            // get roles
+            VnDocument.makeRoles(start)
 
-		// get syntaxes
-		VnDocument.makeSyntaxes(start);
+            // get frames
+            VnDocument.makeFrames(start)
+        }
 
-		// get semantics
-		VnDocument.makeSemantics(start);
+        @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
+        private fun processRoles(start: Node, clazz: VnClass, inheritedRestrainedRoles: Collection<RestrainedRole>?): Collection<RestrainedRole> {
+            // roles
+            var restrainedRoles: MutableCollection<RestrainedRole> = VnDocument.makeRoles(start)
+            if (inheritedRestrainedRoles != null) {
+                restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles)
+            }
 
-		// get role types
-		VnDocument.makeRoleTypes(start);
+            // collect roles
+            for (restrainedRole in restrainedRoles) {
+                make(clazz, restrainedRole)
+            }
 
-		// get roles
-		VnDocument.makeRoles(start);
+            // return data to be inherited by subclasses
+            return restrainedRoles
+        }
 
-		// get frames
-		VnDocument.makeFrames(start);
+        @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
+        private fun processFrames(start: Node, clazz: VnClass, inheritedFrames: Collection<Frame>?): MutableCollection<Frame> {
+            // roles
+            var frames: MutableCollection<Frame> = VnDocument.makeFrames(start)
+            if (inheritedFrames != null) {
+                frames = Inherit.mergeFrames(frames, inheritedFrames)
+            }
 
-	}
+            // collect frames
+            for (frame in frames) {
+                make(clazz, frame)
+            }
 
-	private static Collection<RestrainedRole> processRoles(final Node start, final VnClass clazz, final Collection<RestrainedRole> inheritedRestrainedRoles) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
-	{
-		// roles
-		Collection<RestrainedRole> restrainedRoles = VnDocument.makeRoles(start);
-		if (inheritedRestrainedRoles != null)
-		{
-			restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles);
-		}
+            // return data to be inherited by subclasses
+            return frames
+        }
 
-		// collect roles
-		for (RestrainedRole restrainedRole : restrainedRoles)
-		{
-			Role.make(clazz, restrainedRole);
-		}
+        @Throws(XPathExpressionException::class)
+        private fun processMembers(start: Node, head: String, clazz: VnClass) {
+            // members
+            val members = VnDocument.makeMembers(start)
+            members.add(make(head, null, null))
 
-		// return data to be inherited by subclasses
-		return restrainedRoles;
-	}
+            // member
+            for (member in members) {
+                // word
+                val word = make(member.lemma)
 
-	private static Collection<Frame> processFrames(final Node start, final VnClass clazz, final Collection<Frame> inheritedFrames) throws XPathExpressionException, ParserConfigurationException, IOException, TransformerException, SAXException
-	{
-		// roles
-		Collection<Frame> frames = VnDocument.makeFrames(start);
-		if (inheritedFrames != null)
-		{
-			//noinspection ConstantConditions
-			frames = Inherit.mergeFrames(frames, inheritedFrames);
-		}
+                // groupings
+                if (member.groupings != null) {
+                    for (grouping in member.groupings) {
+                        make(clazz, word, grouping)
+                    }
+                }
 
-		// collect frames
-		for (Frame frame : frames)
-		{
-			Class_Frame.make(clazz, frame);
-		}
+                // membership
+                val membership = make(clazz, word)
 
-		// return data to be inherited by subclasses
-		return frames;
-	}
+                // if sensekeys are null, data apply to all senses
+                if (member.senseKeys == null) {
+                    // class member sense
+                    make(membership, 0, null, 1f)
+                    continue
+                }
 
-	private static void processMembers(final Node start, final String head, final VnClass clazz) throws XPathExpressionException
-	{
-		// members
-		Collection<Member> members = VnDocument.makeMembers(start);
-		members.add(Member.make(head, null, null));
+                // else if sensekeys are not null, data apply only to senses pointed at by sensekeys
+                for ((i, sensekey) in member.senseKeys.withIndex()) {
+                    // sense mapping quality as indicated by verbnet (-prefix to sense key)
+                    val senseQuality = sensekey.quality
 
-		// member
-		for (final Member member : members)
-		{
-			// word
-			final Word word = Word.make(member.lemma);
-
-			// groupings
-			if (member.groupings != null)
-			{
-				for (final Grouping grouping : member.groupings)
-				{
-					Member_Grouping.make(clazz, word, grouping);
-				}
-			}
-
-			// membership
-			final Class_Word membership = Class_Word.make(clazz, word);
-
-			// if sensekeys are null, data apply to all senses
-			if (member.senseKeys == null)
-			{
-				// class member sense
-				Member_Sense.make(membership, 0, null, 1.F);
-				continue;
-			}
-
-			// else if sensekeys are not null, data apply only to senses pointed at by sensekeys
-			int i = 1;
-			for (final Sensekey sensekey : member.senseKeys)
-			{
-				// sense mapping quality as indicated by verbnet ('?' prefix to sense key)
-				final float senseQuality = sensekey.getQuality();
-
-				// class member sense
-				Member_Sense.make(membership, i, sensekey, senseQuality);
-
-				i++;
-			}
-		}
-	}
+                    // class member sense
+                    make(membership, i, sensekey, senseQuality)
+                }
+            }
+        }
+    }
 }
