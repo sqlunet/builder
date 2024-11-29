@@ -1,150 +1,100 @@
-package org.sqlbuilder.vn.joins;
+package org.sqlbuilder.vn.joins
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.vn.objects.Sensekey;
-import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.Word;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.Utils.nullableFloat
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.common.Utils.nullableQuotedString
+import org.sqlbuilder.vn.objects.Sensekey
+import org.sqlbuilder.vn.objects.VnClass
+import org.sqlbuilder.vn.objects.Word
+import java.util.*
+import java.util.AbstractMap.SimpleEntry
+import java.util.function.Function
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
+class Member_Sense private constructor(
+    val member: Class_Word,
+    private val sensenum: Int,
+    val sensekey: Sensekey?,
+    private val quality: Float?,
+) : Insertable, Resolvable<String, SimpleEntry<Int, Int>?>, Comparable<Member_Sense> {
 
-public class Member_Sense implements Insertable, Resolvable<String, SimpleEntry<Integer, Integer>>, Comparable<Member_Sense>
-{
-	static public final Comparator<Member_Sense> COMPARATOR = Comparator //
-			.comparing(Member_Sense::getMemberClass) //
-			.thenComparing(Member_Sense::getMemberWord) //
-			.thenComparing(Member_Sense::getSensekey, Comparator.nullsFirst(Comparator.naturalOrder()));
+    val memberClass: VnClass
+        get() = member.clazz
 
-	public static final Set<Member_Sense> SET = new HashSet<>();
+    val memberWord: Word
+        get() = member.word
 
-	public static final Function<SimpleEntry<Integer, Integer>, String> RESOLVE_RESULT_STRINGIFIER = r -> //
-			r == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(r.getKey()), Utils.nullableInt(r.getValue()));
-	//r == null ? "NULL,NULL" : String.format("%s,%s", r.first, r.second);
+    // I D E N T I T Y
 
-	private final Class_Word member;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Member_Sense
+        return member == that.member && sensekey == that.sensekey
+    }
 
-	private final int sensenum;
+    override fun hashCode(): Int {
+        return Objects.hash(member, sensekey)
+    }
 
-	private final Sensekey sensekey;
+    // O R D E R I N G
 
-	private final Float quality;
+    override fun compareTo(that: Member_Sense): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// C O N S T R U C T O R
+    // I N S E R T
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Member_Sense make(final Class_Word member, final int sensenum, final Sensekey sensekey, final Float quality)
-	{
-		var m = new Member_Sense(member, sensenum, sensekey, quality);
-		SET.add(m);
-		return m;
-	}
+    @RequiresIdFrom(type = VnClass::class)
+    @RequiresIdFrom(type = Word::class)
+    override fun dataRow(): String {
+        return "${member.clazz.intId},${member.word.intId},${sensenum},${nullableQuotedString(sensekey)},${nullableFloat(quality)}"
+    }
 
-	private Member_Sense(final Class_Word member, final int sensenum, final Sensekey sensekey, final Float quality)
-	{
-		this.member = member;
-		this.sensenum = sensenum;
-		this.sensekey = sensekey;
-		this.quality = quality;
-	}
+    override fun comment(): String {
+        return "${member.clazz.name},${member.word.word}"
+    }
 
-	// A C C E S S
+    // R E S O L V E
 
-	public Class_Word getMember()
-	{
-		return member;
-	}
+    override fun resolving(): String? {
+        return if (sensekey == null) null else sensekey.sensekey
+    }
 
-	public VnClass getMemberClass()
-	{
-		return member.clazz;
-	}
+    // T O S T R I N G
 
-	public Word getMemberWord()
-	{
-		return member.word;
-	}
+    override fun toString(): String {
+        return "${super.toString()}-$sensenum-$sensekey-$quality"
+    }
 
-	public Sensekey getSensekey()
-	{
-		return sensekey;
-	}
+    companion object {
 
-	// I D E N T I T Y
+        @JvmField
+        val COMPARATOR: Comparator<Member_Sense?> = Comparator //
+            .comparing<Member_Sense?, VnClass?>(Function { obj: Member_Sense? -> obj!!.memberClass }) //
+            .thenComparing<Word?>(Function { obj: Member_Sense? -> obj!!.memberWord }) //
+            .thenComparing<Sensekey?>(Function { obj: Member_Sense? -> obj!!.sensekey }, Comparator.nullsFirst<Sensekey?>(Comparator.naturalOrder<Sensekey?>()))
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Member_Sense that = (Member_Sense) o;
-		return Objects.equals(member, that.member) && Objects.equals(sensekey, that.sensekey);
-	}
+        @JvmField
+        val SET = HashSet<Member_Sense?>()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(member, sensekey);
-	}
+        @JvmField
+        val RESOLVE_RESULT_STRINGIFIER = Function { r: SimpleEntry<Int?, Int?>? ->
+            if (r == null) "NULL,NULL" else "${nullableInt(r.key)},${nullableInt(r.value)}"
+        }
 
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final Member_Sense that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	// classid,wordid,sensenum,synsetid,sensekey,quality
-	public String dataRow()
-	{
-		// class.id
-		// word.id
-		// sensenum
-		// sensekey (or NULL)
-		// quality (or NULL)
-		return String.format("%d,%d,%d,%s,%s", //
-				member.clazz.getIntId(), //
-				member.word.getIntId(), //
-				sensenum, //
-				Utils.nullableQuotedString(sensekey),
-				Utils.nullableFloat(quality));
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s", member.clazz.name, member.word.word);
-	}
-
-	// R E S O L V E
-
-	@Override
-	public String resolving()
-	{
-		return sensekey == null ? null : sensekey.sensekey;
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("%s-%s-%s-%s", super.toString(), this.sensenum, this.sensekey, this.quality);
-	}
+        @JvmStatic
+        fun make(member: Class_Word, sensenum: Int, sensekey: Sensekey?, quality: Float?): Member_Sense {
+            val m = Member_Sense(member, sensenum, sensekey, quality)
+            SET.add(m)
+            return m
+        }
+    }
 }

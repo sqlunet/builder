@@ -30,7 +30,7 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Member): Int {
+    override fun compareTo(that: Member): Int {
         return COMPARATOR.compare(this, that)
     }
 

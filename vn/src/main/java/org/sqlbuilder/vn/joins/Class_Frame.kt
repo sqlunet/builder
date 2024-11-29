@@ -1,105 +1,71 @@
-package org.sqlbuilder.vn.joins;
+package org.sqlbuilder.vn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.vn.objects.Frame;
-import org.sqlbuilder.vn.objects.VnClass;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.vn.objects.Frame
+import org.sqlbuilder.vn.objects.VnClass
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Class_Frame private constructor(
+    val clazz: VnClass, val frame: Frame,
+) : Insertable, Comparable<Class_Frame> {
 
-public class Class_Frame implements Insertable, Comparable<Class_Frame>
-{
-	public static final Comparator<Class_Frame> COMPARATOR = Comparator.comparing(Class_Frame::getClazz).thenComparing(Class_Frame::getFrame);
+    // I D E N T I T Y
 
-	public static final Set<Class_Frame> SET = new HashSet<>();
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Class_Frame
+        return clazz == that.clazz && frame == that.frame
+    }
 
-	private final VnClass clazz;
+    override fun hashCode(): Int {
+        return Objects.hash(clazz, frame)
+    }
 
-	private final Frame frame;
+    // O R D E R
 
-	// C O N S T R U C T O R
+    override fun compareTo(that: Class_Frame): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Class_Frame make(final VnClass clazz, final Frame frame)
-	{
-		var m = new Class_Frame(clazz, frame);
-		SET.add(m);
-		return m;
-	}
+    // I N S E R T
 
-	private Class_Frame(final VnClass clazz, final Frame frame)
-	{
-		this.frame = frame;
-		this.clazz = clazz;
-	}
+    @RequiresIdFrom(type = VnClass::class)
+    @RequiresIdFrom(type = Frame::class)
+    override fun dataRow(): String {
+        return "${clazz.intId},${frame.intId}"
+    }
 
-	// A C C E S S
+    override fun comment(): String {
+        return "${clazz.name},${frame.name}"
+    }
 
-	public VnClass getClazz()
-	{
-		return clazz;
-	}
+    // T O S T R I N G
 
-	public Frame getFrame()
-	{
-		return frame;
-	}
+    override fun toString(): String {
+        return "class=$clazz frame=$frame"
+    }
 
-	// I D E N T I T Y
+    companion object {
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Class_Frame that = (Class_Frame) o;
-		return clazz.equals(that.clazz) && frame.equals(that.frame);
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Class_Frame> = Comparator
+            .comparing<Class_Frame, VnClass> { it.clazz }
+            .thenComparing<Frame> { it.frame }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(clazz, frame);
-	}
+        @JvmField
+        val SET = HashSet<Class_Frame>()
 
-	// O R D E R
-
-	@Override
-	public int compareTo(final Class_Frame that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = Frame.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", clazz.getIntId(), frame.getIntId());
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s", clazz.name, frame.name);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return "class=" + clazz + " frame=" + frame;
-	}
+        @JvmStatic
+        fun make(clazz: VnClass, frame: Frame): Class_Frame {
+            val m = Class_Frame(clazz, frame)
+            SET.add(m)
+            return m
+        }
+    }
 }

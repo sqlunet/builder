@@ -1,119 +1,74 @@
-package org.sqlbuilder.vn.joins;
+package org.sqlbuilder.vn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.vn.objects.Grouping;
-import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.Word;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.vn.objects.Grouping
+import org.sqlbuilder.vn.objects.VnClass
+import org.sqlbuilder.vn.objects.Word
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Member_Grouping private constructor(
+    val vnClass: VnClass,
+    val word: Word,
+    val grouping: Grouping,
+) : Insertable, Comparable<Member_Grouping> {
 
-public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
-{
-	static public final Comparator<Member_Grouping> COMPARATOR = Comparator.comparing(Member_Grouping::getWord) //
-			.thenComparing(Member_Grouping::getVnClass) //
-			.thenComparing(Member_Grouping::getGrouping);
+    // I D E N T I T Y
 
-	public static final Set<Member_Grouping> SET = new HashSet<>();
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Member_Grouping
+        return word == that.word && vnClass == that.vnClass && grouping == that.grouping
+    }
 
-	private final Word word;
+    override fun hashCode(): Int {
+        return Objects.hash(word, vnClass, grouping)
+    }
 
-	private final VnClass clazz;
+    // O R D E R I N G
 
-	private final Grouping grouping;
+    override fun compareTo(that: Member_Grouping): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// C O N S T R U C T O R
+    override fun toString(): String {
+        return "$word-$vnClass-$grouping"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Member_Grouping make(final VnClass clazz, final Word word, final Grouping grouping)
-	{
-		var m = new Member_Grouping(clazz, word, grouping);
-		SET.add(m);
-		return m;
-	}
+    // I N S E R T
 
-	private Member_Grouping(final VnClass clazz, final Word word, final Grouping grouping)
-	{
-		this.clazz = clazz;
-		this.word = word;
-		this.grouping = grouping;
-	}
+    @RequiresIdFrom(type = VnClass::class)
+    @RequiresIdFrom(type = Word::class)
+    @RequiresIdFrom(type = Grouping::class)
+    override fun dataRow(): String {
+        return "${vnClass.intId},${word.intId},${grouping.intId}"
+    }
 
-	// A C C E S S
+    override fun comment(): String {
+        return "${vnClass.name},${word.word},${grouping.name}"
+    }
 
-	public Word getWord()
-	{
-		return word;
-	}
+    companion object {
 
-	public VnClass getVnClass()
-	{
-		return clazz;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Member_Grouping> = Comparator
+            .comparing<Member_Grouping, Word> { it.word }
+            .thenComparing<VnClass> { it.vnClass }
+            .thenComparing<Grouping> { it.grouping }
 
-	public Grouping getGrouping()
-	{
-		return grouping;
-	}
+        @JvmField
+        val SET: MutableSet<Member_Grouping> = HashSet<Member_Grouping>()
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Member_Grouping that = (Member_Grouping) o;
-		return word.equals(that.word) && clazz.equals(that.clazz) && grouping.equals(that.grouping);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(word, clazz, grouping);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final Member_Grouping that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("%s-%s-%s", this.word, this.clazz, this.grouping);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = VnClass.class)
-	@RequiresIdFrom(type = Word.class)
-	@RequiresIdFrom(type = Grouping.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d,%d", //
-				clazz.getIntId(), //
-				word.getIntId(), //
-				grouping.getIntId());
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s,%s,%s", clazz.name, word.word, grouping.name);
-	}
+        @JvmStatic
+        fun make(clazz: VnClass, word: Word, grouping: Grouping): Member_Grouping {
+            val m = Member_Grouping(clazz, word, grouping)
+            SET.add(m)
+            return m
+        }
+    }
 }

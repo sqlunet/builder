@@ -32,7 +32,7 @@ class FrameName private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(@NotNull that: FrameName): Int {
+    override fun compareTo(that: FrameName): Int {
         return COMPARATOR.compare(this, that)
     }
 

@@ -44,7 +44,7 @@ class Arg private constructor(example: Example, text: String, val type: String) 
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: Arg): Int {
+    override fun compareTo(that: Arg): Int {
         return COMPARATOR.compare(this, that)
     }
 

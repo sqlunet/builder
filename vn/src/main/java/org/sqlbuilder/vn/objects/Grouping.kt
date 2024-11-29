@@ -33,7 +33,7 @@ class Grouping private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(@NotNull that: Grouping): Int {
+    override fun compareTo(that: Grouping): Int {
         return COMPARATOR.compare(this, that)
     }
 

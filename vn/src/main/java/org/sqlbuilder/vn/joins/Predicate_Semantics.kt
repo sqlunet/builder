@@ -1,100 +1,64 @@
-package org.sqlbuilder.vn.joins;
+package org.sqlbuilder.vn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.vn.objects.Predicate;
-import org.sqlbuilder.vn.objects.Semantics;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.vn.objects.Predicate
+import org.sqlbuilder.vn.objects.Semantics
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Predicate_Semantics private constructor(
+    val predicate: Predicate, // A C C E S S
+    val semantics: Semantics,
+) : Insertable, Comparable<Predicate_Semantics> {
 
-public class Predicate_Semantics implements Insertable, Comparable<Predicate_Semantics>
-{
-	public static final Set<Predicate_Semantics> SET = new HashSet<>();
+    // I D E N T I T Y
 
-	private final Semantics semantics;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Predicate_Semantics
+        return semantics == that.semantics && predicate == that.predicate
+    }
 
-	private final Predicate predicate;
+    override fun hashCode(): Int {
+        return Objects.hash(semantics, predicate)
+    }
 
-	// C O N S T R U C T O R
-	public static Predicate_Semantics make(final Predicate predicate, final Semantics semantics)
-	{
-		var m = new Predicate_Semantics(predicate, semantics);
-		SET.add(m);
-		return m;
-	}
+    override fun compareTo(that: Predicate_Semantics): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private Predicate_Semantics(final Predicate predicate, final Semantics semantics)
-	{
-		this.semantics = semantics;
-		this.predicate = predicate;
-	}
+    // I N S E R T
 
-	// I D E N T I T Y
+    @RequiresIdFrom(type = Predicate::class)
+    @RequiresIdFrom(type = Semantics::class)
+    override fun dataRow(): String {
+        return "${predicate.intId},${semantics.intId}"
+    }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Predicate_Semantics that = (Predicate_Semantics) o;
-		return semantics.equals(that.semantics) && predicate.equals(that.predicate);
-	}
+    override fun comment(): String {
+        return predicate.name
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(semantics, predicate);
-	}
+    companion object {
 
-	// O R D E R I N G
+        @JvmField
+        val SET = HashSet<Predicate_Semantics>()
 
-	static public final Comparator<Predicate_Semantics> COMPARATOR = Comparator.comparing(Predicate_Semantics::getSemantics).thenComparing(Predicate_Semantics::getPredicate);
+        val COMPARATOR: Comparator<Predicate_Semantics> =
+            Comparator
+                .comparing<Predicate_Semantics, Semantics> { it.semantics }
+                .thenComparing<Predicate> { it.predicate }
 
-	@Override
-	public int compareTo(@NotNull final Predicate_Semantics that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// A C C E S S
-
-	public Semantics getSemantics()
-	{
-		return semantics;
-	}
-
-	public Predicate getPredicate()
-	{
-		return predicate;
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = Predicate.class)
-	@RequiresIdFrom(type = Semantics.class)
-	@Override
-	public String dataRow()
-	{
-		// predicate.id
-		// semantics.id
-		return String.format("%d,%d", //
-				predicate.getIntId(), //
-				semantics.getIntId());
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s", predicate.name);
-	}
+        @JvmStatic
+        fun make(predicate: Predicate, semantics: Semantics): Predicate_Semantics {
+            val m = Predicate_Semantics(predicate, semantics)
+            SET.add(m)
+            return m
+        }
+    }
 }

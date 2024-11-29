@@ -35,7 +35,7 @@ class RestrType private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(@NotNull that: RestrType): Int {
+    override fun compareTo(that: RestrType): Int {
         return COMPARATOR.compare(this, that)
     }
 

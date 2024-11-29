@@ -1,91 +1,60 @@
-package org.sqlbuilder.vn.joins;
+package org.sqlbuilder.vn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.vn.objects.Frame;
-import org.sqlbuilder.vn.objects.FrameExample;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.vn.objects.Frame
+import org.sqlbuilder.vn.objects.FrameExample
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Frame_Example private constructor(
+    val frame: Frame, val example: FrameExample,
+) : Insertable, Comparable<Frame_Example> {
 
-public class Frame_Example implements Insertable, Comparable<Frame_Example>
-{
-	public static final Comparator<Frame_Example> COMPARATOR = Comparator.comparing(Frame_Example::getFrame).thenComparing(Frame_Example::getExample);
+    // I D E N T I T Y
 
-	public static final Set<Frame_Example> SET = new HashSet<>();
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Frame_Example
+        return frame.equals(that.frame) && example.equals(that.example)
+    }
 
-	private final Frame frame;
+    override fun hashCode(): Int {
+        return Objects.hash(frame, example)
+    }
 
-	private final FrameExample example;
+    // O R D E R I N G
 
-	// C O N S T R U C T O R
-	public static Frame_Example make(final Frame frame, final FrameExample example)
-	{
-		var m = new Frame_Example(frame, example);
-		SET.add(m);
-		return m;
-	}
+    override fun compareTo(that: Frame_Example): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private Frame_Example(final Frame frame, final FrameExample example)
-	{
-		this.frame = frame;
-		this.example = example;
-	}
+    // I N S E R T
 
-	// A C C E S S
+    @RequiresIdFrom(type = Frame::class)
+    @RequiresIdFrom(type = FrameExample::class)
+    override fun dataRow(): String {
+        return "${frame.intId},${example.intId}"
+    }
 
-	public Frame getFrame()
-	{
-		return frame;
-	}
+    companion object {
 
-	public FrameExample getExample()
-	{
-		return example;
-	}
+        val COMPARATOR: Comparator<Frame_Example> = Comparator
+            .comparing<Frame_Example, Frame> { it.frame }
+            .thenComparing<FrameExample> { it.example }
 
-	// I D E N T I T Y
+        @JvmField
+        val SET = HashSet<Frame_Example>()
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Frame_Example that = (Frame_Example) o;
-		return frame.equals(that.frame) && example.equals(that.example);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(frame, example);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(final Frame_Example that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = Frame.class)
-	@RequiresIdFrom(type = FrameExample.class)
-	@Override
-	public String dataRow()
-	{
-		// frame.id
-		// example.id
-		return String.format("%d,%d", frame.getIntId(), example.getIntId());
-	}
+        @JvmStatic
+        fun make(frame: Frame, example: FrameExample): Frame_Example {
+            val m = Frame_Example(frame, example)
+            SET.add(m)
+            return m
+        }
+    }
 }

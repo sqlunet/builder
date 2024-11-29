@@ -51,7 +51,7 @@ class Role private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(@NotNull that: Role): Int {
+    override fun compareTo(that: Role): Int {
         return COMPARATOR.compare(this, that)
     }
 
