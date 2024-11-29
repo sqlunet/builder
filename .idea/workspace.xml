@@ -10,20 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Frame.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameExample.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameSubName.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Semantics.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Syntax.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnRestrsXmlProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnSemanticsXmlProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnSyntaxXmlProcessor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Class_Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Class_Frame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Frame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameExample.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameSubName.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Semantics.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Syntax.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnRestrsXmlProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnSemanticsXmlProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnSyntaxXmlProcessor.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -161,22 +154,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00005" summary="house keeping">
-      <option name="closed" value="true" />
-      <created>1732602483275</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1732602483275</updated>
-    </task>
-    <task id="LOCAL-00006" summary="insert iterable &lt;ith resolver function">
-      <option name="closed" value="true" />
-      <created>1732605981350</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1732605981350</updated>
     </task>
     <task id="LOCAL-00007" summary="insert iterable &lt;ith resolver function">
       <option name="closed" value="true" />
@@ -554,7 +531,23 @@
       <option name="project" value="LOCAL" />
       <updated>1732887559320</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732899864812</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1732899864812</updated>
+    </task>
+    <task id="LOCAL-00055" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732901973296</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1732901973296</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
