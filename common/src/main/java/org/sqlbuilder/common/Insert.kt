@@ -221,7 +221,7 @@ object Insert {
                     if (first) {
                         first = false
                     } else {
-                        ps.println("")
+                        ps.println(",")
                     }
                     val id = resolver.apply(it)
                     val row = "($id,'${Utils.escape(it)}')"
@@ -254,7 +254,7 @@ object Insert {
                     if (first) {
                         first = false
                     } else {
-                        ps.println("")
+                        ps.println(",")
                     }
                     val v = resolver.apply(it)
                     val values = stringifier.apply(it, v)
@@ -294,7 +294,7 @@ object Insert {
                     if (first) {
                         first = false
                     } else {
-                        ps.println("")
+                        ps.println(",")
                     }
                     val resolved = it.resolve(foreignResolver)
                     val sqlResolved = stringifier.apply(resolved)
@@ -331,7 +331,7 @@ object Insert {
                     if (first) {
                         first = false
                     } else {
-                        ps.println("")
+                        ps.println(",")
                     }
                     val id = resolver.apply(it)
                     val resolved = it.resolve(foreignResolver)
