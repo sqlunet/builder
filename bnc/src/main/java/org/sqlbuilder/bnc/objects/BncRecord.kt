@@ -99,8 +99,8 @@ open class BncRecord protected constructor(
             val inflectedForm = fields[3]
 
             // expand placeholders (do not move: this is a reference to previous line/chain of lines)
-            val word: String = (if ("@" == field1) lastLemma else field1)!!
-            val bncPos: String = (if ("@" == field2) lastPos else field2)!!
+            val word: String = (if ("@" == field1) lastLemma!! else field1)
+            val bncPos: String = (if ("@" == field2) lastPos!! else field2)
 
             lastLemma = word
             lastPos = bncPos
@@ -112,7 +112,10 @@ open class BncRecord protected constructor(
 
             // convert data
             val lemma: String = makeLemma(word)
-            val pos: Char = posMap[bncPos]!!
+            val pos: Char? = posMap[bncPos]
+            if (pos == null) {
+                throw NotFoundException(bncPos);
+            }
 
             // freq data
             val freq = fields[4].toInt()

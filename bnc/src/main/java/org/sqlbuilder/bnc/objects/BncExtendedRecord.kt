@@ -45,8 +45,8 @@ class BncExtendedRecord(
             val inflectedForm = fields[3]
 
             // expand placeholders (do not move: this is a reference to previous line/chain of lines)
-            val word = if ("@" == field1) lastLemma else field1
-            val bncPos = if ("@" == field2) lastPos else field2
+            val word = if ("@" == field1) lastLemma!! else field1
+            val bncPos = if ("@" == field2) lastPos!! else field2
 
             lastLemma = word
             lastPos = bncPos
@@ -57,8 +57,11 @@ class BncExtendedRecord(
             }
 
             // convert data
-            val lemma = makeLemma(word!!)
-            val pos: Char = posMap[bncPos]!!
+            val lemma = makeLemma(word)
+            val pos: Char? = posMap[bncPos]
+            if (pos == null) {
+                throw NotFoundException(bncPos);
+            }
 
             // data
             val freq = fields[4].toInt()
