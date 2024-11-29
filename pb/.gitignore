@@ -2,7 +2,5 @@
 /sers/
 /sers_out/
 /data/
-/sql/
-/sql31/
-/_sql/
-/_sql31/
+/sql*/
+/_sql*/
