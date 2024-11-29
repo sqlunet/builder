@@ -1,104 +1,80 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import java.util.ArrayList;
-import java.util.List;
+import org.sqlbuilder.vn.objects.Sensekey.Companion.parse
 
-public class Member
-{
-	public final String lemma;
+class Member
+private constructor(
+    @JvmField val lemma: String,
+    @JvmField val senseKeys: List<Sensekey>?,
+    @JvmField val groupings: List<Grouping>?,
+    private val isDefinite: Boolean,
+) {
 
-	public final List<Sensekey> senseKeys;
+    val quality: Float
+        get() = if (this.isDefinite) 1f else .5f
 
-	public final List<Grouping> groupings;
+    companion object {
 
-	private final boolean isDefinite;
+        @JvmStatic
+        fun make(wnword: String, wnSenses: String?, wnGrouping: String?): Member {
+            val isDefiniteFlag = wnword.startsWith("?")
+            val word: String = makeWord(wnword)
+            val senseKeys: List<Sensekey>? = makeSensekeys(wnSenses)
+            val groupings: List<Grouping>? = makeGroupings(wnGrouping)
 
-	// C O N S T R U C T O R
+            return Member(word, senseKeys, groupings, isDefiniteFlag)
+        }
 
-	public static Member make(final String wnword, final String wnSenses, final String wnGrouping)
-	{
-		boolean isDefiniteFlag = wnword.startsWith("?");
-		String word = makeWord(wnword);
-		List<Sensekey> senseKeys = makeSensekeys(wnSenses);
-		List<Grouping> groupings = makeGroupings(wnGrouping);
+        @JvmStatic
+        fun makeWord(wnword: String): String {
+            // word
+            var word = wnword
+            if (word.startsWith("?")) {
+                word = word.substring(1)
+            }
+            return word.replace('_', ' ')
+        }
 
-		return new Member(word, senseKeys, groupings, isDefiniteFlag);
-	}
+        @JvmStatic
+        fun makeSensekeys(wnSenses: String?): List<Sensekey>? {
+            // senses
+            var senseKeys: MutableList<Sensekey>? = null
+            if (wnSenses != null && !wnSenses.trim { it <= ' ' }.isEmpty()) {
+                var wnSenses2 = wnSenses.trim { it <= ' ' }
+                if (wnSenses2.indexOf('\n') != -1) {
+                    wnSenses2 = wnSenses2.replace("\n", "")
+                }
+                if (wnSenses2.indexOf('\r') != -1) {
+                    wnSenses2 = wnSenses2.replace("\r", "")
+                }
+                val senseKeyNames = wnSenses2.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                for (senseKeyName in senseKeyNames) {
+                    // get sensekey
+                    val sensekey = parse(senseKeyName)
+                    if (senseKeys == null) {
+                        senseKeys = ArrayList<Sensekey>()
+                    }
+                    senseKeys.add(sensekey)
+                }
+            }
+            return senseKeys
+        }
 
-	public static String makeWord(final String wnword)
-	{
-		// word
-		String word = wnword;
-		if (word.startsWith("?"))
-		{
-			word = word.substring(1);
-		}
-		return word.replace('_', ' ');
-	}
-
-	public static List<Sensekey> makeSensekeys(final String wnSenses)
-	{
-		// senses
-		List<Sensekey> senseKeys = null;
-		if (wnSenses != null && !wnSenses.trim().isEmpty())
-		{
-			String wnSenses2 = wnSenses.trim();
-			if (wnSenses2.indexOf('\n') != -1)
-			{
-				wnSenses2 = wnSenses2.replace("\n", "");
-			}
-			if (wnSenses2.indexOf('\r') != -1)
-			{
-				wnSenses2 = wnSenses2.replace("\r", "");
-			}
-			final String[] senseKeyNames = wnSenses2.split("\\s+");
-			for (final String senseKeyName : senseKeyNames)
-			{
-				// get sensekey
-				final Sensekey sensekey = Sensekey.parse(senseKeyName);
-				if (senseKeys == null)
-				{
-					senseKeys = new ArrayList<>();
-				}
-				senseKeys.add(sensekey);
-			}
-		}
-		return senseKeys;
-	}
-
-	public static List<Grouping> makeGroupings(final String groupingAttribute)
-	{
-		List<Grouping> groupings = null;
-		if (groupingAttribute != null && !groupingAttribute.trim().isEmpty())
-		{
-			final String groupingAttribute2 = groupingAttribute.trim();
-			final String[] groupingNames = groupingAttribute2.split("\\s+");
-			for (final String groupingName : groupingNames)
-			{
-				// get sensekey
-				final Grouping grouping = Grouping.make(groupingName);
-				if (groupings == null)
-				{
-					groupings = new ArrayList<>();
-				}
-				groupings.add(grouping);
-			}
-		}
-		return groupings;
-	}
-
-	private Member(final String lemma, final List<Sensekey> senseKeys, final List<Grouping> groupings, final boolean definiteFlag)
-	{
-		this.lemma = lemma;
-		this.senseKeys = senseKeys;
-		this.groupings = groupings;
-		this.isDefinite = definiteFlag;
-	}
-
-	// A C C E S S
-
-	public float getQuality()
-	{
-		return this.isDefinite ? 1.f : .5f;
-	}
+        fun makeGroupings(groupingAttribute: String?): List<Grouping>? {
+            var groupings: MutableList<Grouping>? = null
+            if (groupingAttribute != null && !groupingAttribute.trim { it <= ' ' }.isEmpty()) {
+                val groupingAttribute2 = groupingAttribute.trim { it <= ' ' }
+                val groupingNames = groupingAttribute2.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                for (groupingName in groupingNames) {
+                    // get sensekey
+                    val grouping = Grouping.make(groupingName)
+                    if (groupings == null) {
+                        groupings = ArrayList<Grouping>()
+                    }
+                    groupings.add(grouping)
+                }
+            }
+            return groupings
+        }
+    }
 }

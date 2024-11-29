@@ -1,142 +1,104 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.vn.collector.VnRestrsXmlProcessor;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.vn.collector.VnRestrsXmlProcessor
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.Objects;
+class Restrs private constructor(
+    val value: String,
+    val isSyntactic: Boolean,
+) : HasId, Insertable, Comparable<Restrs> {
 
-public class Restrs implements HasId, Insertable, Comparable<Restrs>
-{
-	private static final boolean LOG_ONLY = false;
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final Comparator<Restrs> COMPARATOR = Comparator.comparing(Restrs::getValue).thenComparing(Restrs::isSyntactic);
+    // I D E N T I T Y
 
-	public static final SetCollector<Restrs> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Restrs
+        return isSyntactic == that.isSyntactic && value == that.value
+    }
 
-	private static final VnRestrsXmlProcessor RESTRS_XML_PROCESSOR = new VnRestrsXmlProcessor();
+    override fun hashCode(): Int {
+        return Objects.hash(value, isSyntactic)
+    }
 
-	private final String value;
+    // O R D E R I N G
 
-	final boolean isSyntactic;
+    override fun compareTo(that: Restrs): Int {
+        val cmp = this.value.compareTo(that.value)
+        if (cmp != 0) {
+            return cmp
+        }
+        return java.lang.Boolean.compare(isSyntactic, that.isSyntactic)
+    }
 
-	// C O N S T R U C T O R
+    // S T R I N G
 
-	public static Restrs make(final String value, final boolean isSyntactic) throws IOException, SAXException, ParserConfigurationException
-	{
-		String value2;
-		try
-		{
-			value2 = RESTRS_XML_PROCESSOR.process(value);
-			if (value2 == null || value2.isEmpty())
-			{
-				if (LOG_ONLY)
-				{
-					System.err.println("empty [" + value + "]");
-				}
-				else
-				{
-					throw new RuntimeException("empty [" + value + "]");
-				}
-			}
-		}
-		catch (ParserConfigurationException | IOException | SAXException e)
-		{
-			System.err.println(value);
-			throw e;
-		}
-		var r = new Restrs(value2, isSyntactic);
-		COLLECTOR.add(r);
-		return r;
-	}
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append(this.value)
+        if (this.isSyntactic) {
+            sb.append('*')
+        }
+        return sb.toString()
+    }
 
-	private Restrs(final String value, final boolean isSyntactic)
-	{
-		this.value = value;
-		this.isSyntactic = isSyntactic;
-	}
+    // I N S E R T
 
-	// A C C E S S
+    override fun dataRow(): String {
+        return "'$value',$isSyntactic"
+    }
 
-	public String getValue()
-	{
-		return value;
-	}
+    companion object {
 
-	public boolean isSyntactic()
-	{
-		return isSyntactic;
-	}
+        private const val LOG_ONLY = false
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        val COMPARATOR: Comparator<Restrs> = Comparator.comparing<Restrs, String> { it.value }
+            .thenComparing<Boolean> { it.isSyntactic }
 
-	// I D E N T I T Y
+        @JvmField
+        val COLLECTOR = SetCollector<Restrs>(COMPARATOR)
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Restrs that = (Restrs) o;
-		return isSyntactic == that.isSyntactic && value.equals(that.value);
-	}
+        private val RESTRS_XML_PROCESSOR = VnRestrsXmlProcessor()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(value, isSyntactic);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(final Restrs that)
-	{
-		final int cmp = this.value.compareTo(that.value);
-		if (cmp != 0)
-		{
-			return cmp;
-		}
-		return Boolean.compare(isSyntactic, that.isSyntactic);
-	}
-
-	// S T R I N G
-
-	@Override
-	public String toString()
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(this.value);
-		if (this.isSyntactic)
-		{
-			sb.append('*');
-		}
-		return sb.toString();
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// value
-		// isSyntactic
-		return String.format("'%s',%b", value, isSyntactic);
-	}
+        @JvmStatic
+        @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
+        fun make(value: String, isSyntactic: Boolean): Restrs {
+            try {
+                val value2 = RESTRS_XML_PROCESSOR.process(value)
+                if (value2.isEmpty()) {
+                    if (LOG_ONLY) {
+                        System.err.println("empty [$value]")
+                    } else {
+                        throw RuntimeException("empty [$value]")
+                    }
+                }
+                val r = Restrs(value2, isSyntactic)
+                COLLECTOR.add(r)
+                return r
+            } catch (e: ParserConfigurationException) {
+                System.err.println(value)
+                throw e
+            } catch (e: IOException) {
+                System.err.println(value)
+                throw e
+            } catch (e: SAXException) {
+                System.err.println(value)
+                throw e
+            }
+        }
+    }
 }

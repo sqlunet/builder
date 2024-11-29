@@ -1,115 +1,77 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class RestrType private constructor(
+    val value: String,
+    val type: String,
+    val isSyntactic: Boolean,
+) : HasId, Insertable, Comparable<RestrType> {
 
-public class RestrType implements HasId, Insertable, Comparable<RestrType>
-{
-	public static final Comparator<RestrType> COMPARATOR = Comparator.comparing(RestrType::getType).thenComparing(RestrType::getValue).thenComparing(RestrType::isSyntactic);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<RestrType> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // I D E N T I T Y
 
-	private final String value;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as RestrType
+        return isSyntactic == that.isSyntactic && value == that.value && type == that.type
+    }
 
-	private final String type;
+    override fun hashCode(): Int {
+        return Objects.hash(value, type, isSyntactic)
+    }
 
-	final boolean isSyntactic;
+    // O R D E R I N G
 
-	// C O N S T R U C T O R
-	public static RestrType make(final String value, final String type, final boolean isSyntactic)
-	{
-		var r = new RestrType(value, type, isSyntactic);
-		COLLECTOR.add(r);
-		return r;
-	}
+    override fun compareTo(@NotNull that: RestrType): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private RestrType(final String value, final String type, final boolean isSyntactic0)
-	{
-		this.value = value;
-		this.type = type;
-		this.isSyntactic = isSyntactic0;
-	}
+    // A C C E S S
 
-	// A C C E S S
+    override fun toString(): String {
+        val buffer = StringBuilder()
+        buffer.append(this.value)
+        buffer.append(this.type)
+        if (this.isSyntactic) {
+            buffer.append('*')
+        }
+        return buffer.toString()
+    }
 
-	public String getValue()
-	{
-		return value;
-	}
+    // I N S E R T
 
-	public String getType()
-	{
-		return type;
-	}
+    override fun dataRow(): String {
+        return "'$value','$type',$isSyntactic"
+    }
 
-	public boolean isSyntactic()
-	{
-		return isSyntactic;
-	}
+    companion object {
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        val COMPARATOR: Comparator<RestrType> =
+            Comparator.comparing<RestrType, String> { it.type }
+                .thenComparing<String> { it.value }
+                .thenComparing<Boolean> { it.isSyntactic }
 
-	// I D E N T I T Y
+        @JvmField
+        val COLLECTOR = SetCollector<RestrType>(COMPARATOR)
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		RestrType that = (RestrType) o;
-		return isSyntactic == that.isSyntactic && value.equals(that.value) && type.equals(that.type);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(value, type, isSyntactic);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final RestrType that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// A C C E S S
-
-	@Override
-	public String toString()
-	{
-		final StringBuilder buffer = new StringBuilder();
-		buffer.append(this.value);
-		buffer.append(this.type);
-		if (this.isSyntactic)
-		{
-			buffer.append('*');
-		}
-		return buffer.toString();
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// value
-		// type
-		// isSyntactic
-		return String.format("'%s','%s',%b", value, type, isSyntactic);
-	}
+        @JvmStatic
+        fun make(value: String, type: String, isSyntactic: Boolean): RestrType {
+            val r = RestrType(value, type, isSyntactic)
+            COLLECTOR.add(r)
+            return r
+        }
+    }
 }

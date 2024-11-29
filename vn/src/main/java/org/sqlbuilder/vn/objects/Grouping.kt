@@ -1,88 +1,66 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class Grouping private constructor(
+    @JvmField val name: String,
+) : HasId, Insertable, Comparable<Grouping> {
 
-public class Grouping implements HasId, Insertable, Comparable<Grouping>
-{
-	public static final Comparator<Grouping> COMPARATOR = Comparator.comparing(Grouping::getName);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<Grouping> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // I D E N T I T Y
 
-	private final String name;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Grouping
+        return name == that.name
+    }
 
-	public static Grouping make(final String groupingName)
-	{
-		var g = new Grouping(groupingName);
-		COLLECTOR.add(g);
-		return g;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(name)
+    }
 
-	private Grouping(final String name)
-	{
-		this.name = name;
-	}
+    // O R D E R I N G
 
-	// A C C E S S
+    override fun compareTo(@NotNull that: Grouping): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    // T O S T R I N G
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    override fun toString(): String {
+        return String.format("%s", this.name)
+    }
 
-	// I D E N T I T Y
+    // I N S E R T
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Grouping that = (Grouping) o;
-		return name.equals(that.name);
-	}
+    override fun dataRow(): String {
+        return "'$name'"
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(name);
-	}
+    companion object {
 
-	// O R D E R I N G
+        val COMPARATOR: Comparator<Grouping> = Comparator.comparing<Grouping, String> { it.name }
 
-	@Override
-	public int compareTo(@NotNull final Grouping that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<Grouping> = SetCollector<Grouping>(COMPARATOR)
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("%s", this.name);
-	}
-
-	// I N S E R T
-
-	public String dataRow()
-	{
-		// id
-		// name
-		return String.format("'%s'", name);
-	}
+        @JvmStatic
+        fun make(groupingName: String): Grouping {
+            val g = Grouping(groupingName)
+            COLLECTOR.add(g)
+            return g
+        }
+    }
 }

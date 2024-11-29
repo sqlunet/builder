@@ -1,85 +1,59 @@
-package org.sqlbuilder.vn.objects;
+package org.sqlbuilder.vn.objects
 
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class Predicate private constructor(
+	@JvmField val name: String
+) : HasId, Insertable, Comparable<Predicate> {
 
-public class Predicate implements HasId, Insertable, Comparable<Predicate>
-{
-	public static final Comparator<Predicate> COMPARATOR = Comparator.comparing(Predicate::getName);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<Predicate> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // I D E N T I T Y
 
-	private final String name;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Predicate
+        return name == that.name
+    }
 
-	// C O N S T R U C T O R
+    override fun hashCode(): Int {
+        return Objects.hash(name)
+    }
 
-	public static Predicate make(final String name)
-	{
-		var p = new Predicate(name);
-		COLLECTOR.add(p);
-		return p;
-	}
+    // O R D E R I N G
 
-	private Predicate(final String name)
-	{
-		this.name = name;
-	}
+    override fun compareTo(that: Predicate): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// A C C E S S
+    // I N S E R T
 
-	public String getName()
-	{
-		return name;
-	}
+    override fun dataRow(): String {
+        return "'$name'"
+    }
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    companion object {
 
-	// I D E N T I T Y
+        val COMPARATOR: Comparator<Predicate> = Comparator.comparing<Predicate, String> { it.name }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Predicate that = (Predicate) o;
-		return name.equals(that.name);
-	}
+        @JvmField
+        val COLLECTOR: SetCollector<Predicate> = SetCollector<Predicate>(COMPARATOR)
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(name);
-	}
-
-	// O R D E R I N G
-
-	@Override
-	public int compareTo(@NotNull final Predicate that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// id
-		// name
-		return String.format("'%s'", name);
-	}
-
-
+         @JvmStatic
+        fun make(name: String): Predicate {
+            val p = Predicate(name)
+            COLLECTOR.add(p)
+            return p
+        }
+    }
 }

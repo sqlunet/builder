@@ -95,6 +95,6 @@ public class Predicate_Semantics implements Insertable, Comparable<Predicate_Sem
 	@Override
 	public String comment()
 	{
-		return String.format("%s", predicate.getName());
+		return String.format("%s", predicate.name);
 	}
 }

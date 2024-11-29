@@ -114,6 +114,6 @@ public class Member_Grouping implements Insertable, Comparable<Member_Grouping>
 	@Override
 	public String comment()
 	{
-		return String.format("%s,%s,%s", clazz.name, word.word, grouping.getName());
+		return String.format("%s,%s,%s", clazz.name, word.word, grouping.name);
 	}
 }
