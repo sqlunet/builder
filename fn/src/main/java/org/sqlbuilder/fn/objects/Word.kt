@@ -1,101 +1,79 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.escape
+import java.io.Serializable
+import java.util.*
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Objects;
+class Word private constructor(
+    lemma: String,
+) : HasId, Insertable, Resolvable<String, Int>, Comparable<Word>, Serializable {
 
-public class Word implements HasId, Insertable, Resolvable<String, Integer>, Comparable<Word>, Serializable
-{
-	public static final Comparator<Word> COMPARATOR = Comparator.comparing(Word::getWord);
+    @JvmField
+    val word: String = lemma.lowercase()
 
-	public static final SetCollector<Word> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @RequiresIdFrom(type = Word::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final String word;
+    // I D E N T I T Y
 
-	// C O N S T R U C T O R
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Word
+        return word == that.word
+    }
 
-	public static Word make(final String lemma)
-	{
-		var w = new Word(lemma);
-		Word.COLLECTOR.add(w);
-		return w;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(word)
+    }
 
-	private Word(final String lemma)
-	{
-		this.word = lemma.toLowerCase(Locale.ENGLISH);
-	}
+    // O R D E R
 
-	// A C C E S S
+    override fun compareTo(that: Word): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getWord()
-	{
-		return word;
-	}
+    // I N S E R T
 
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    override fun dataRow(): String {
+        return "'${escape(word)}'"
+    }
 
-	// I D E N T I T Y
+    // R E S O L V E
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Word word1 = (Word) o;
-		return word.equals(word1.word);
-	}
+    override fun resolving(): String {
+        return word
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(word);
-	}
+    // T O S T R I N G
 
-	// O R D E R
+    override fun toString(): String {
+        return word
+    }
 
-	@Override
-	public int compareTo(@NotNull final Word that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+    companion object {
 
-	// I N S E R T
+        val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s'", Utils.escape(word));
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
-	// R E S O L V E
-
-	@Override
-	public String resolving()
-	{
-		return word;
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return word;
-	}
+        @JvmStatic
+        fun make(lemma: String): Word {
+            val w = Word(lemma)
+            COLLECTOR.add(w)
+            return w
+        }
+    }
 }

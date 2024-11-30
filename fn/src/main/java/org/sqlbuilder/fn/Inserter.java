@@ -296,7 +296,7 @@ public class Inserter
 	private Map<Pair<Integer, Integer>, FE> makeFEByFETypeIdAndFrameIdMap()
 	{
 		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(FeType.getIntId(fe.getName()), fe.getFrameID()), fe)) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(FeType.getIntId(fe.name), fe.getFrameID()), fe)) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 }

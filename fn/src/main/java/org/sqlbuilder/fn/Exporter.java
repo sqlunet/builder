@@ -132,37 +132,37 @@ public class Exporter
 	{
 		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
 		return stream //
-				.map(w -> new SimpleEntry<>(w.getWord(), Word.COLLECTOR.apply(w))) //
+				.map(w -> new SimpleEntry<>(w.word, Word.COLLECTOR.apply(w))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
 	public Map<String, Integer> makeFramesMap()
 	{
 		return Frame.SET.stream() //
-				.map(f -> new SimpleEntry<>(f.getName(), f.getID())) //
+				.map(f -> new SimpleEntry<>(f.name, f.getID())) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
 	}
 
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsMap()
 	{
 		var id2frame = Frame.SET.stream() //
-				.map(f -> new SimpleEntry<>(f.getID(), f.getName())) //
+				.map(f -> new SimpleEntry<>(f.getID(), f.name)) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
 		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.getName())))) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.name), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 
 	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsTreeMap()
 	{
 		var id2frame = Frame.SET.stream() //
-				.map(f -> new SimpleEntry<>(f.getID(), f.getName())) //
+				.map(f -> new SimpleEntry<>(f.getID(), f.name)) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
 		return FE.SET.stream() //
 				//.peek(fe -> System.out.println(fe.getName() + " " + fe.getID()))
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.getName()), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.getName())))) //
+				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.name), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
 	}
 

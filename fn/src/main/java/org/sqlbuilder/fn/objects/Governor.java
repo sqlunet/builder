@@ -39,7 +39,7 @@ public class Governor implements HasId, Insertable
 
 	public String getWord()
 	{
-		return word.getWord();
+		return word.word;
 	}
 
 	@RequiresIdFrom(type = Governor.class)
@@ -64,7 +64,7 @@ public class Governor implements HasId, Insertable
 	@Override
 	public String comment()
 	{
-		return String.format("word=%s", word.getWord());
+		return String.format("word=%s", word.word);
 	}
 
 	@Override

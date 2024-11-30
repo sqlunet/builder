@@ -1,146 +1,106 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.collectors.FnFEXmlProcessor;
-import org.sqlbuilder.fn.joins.Pair;
-import org.sqlbuilder.fn.types.FeType;
-import org.xml.sax.SAXException;
+import edu.berkeley.icsi.framenet.FEType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.fn.collectors.FnFEXmlProcessor
+import org.sqlbuilder.fn.joins.Pair
+import org.sqlbuilder.fn.types.FeType
+import org.sqlbuilder.fn.types.FeType.getSqlId
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import java.io.IOException;
-import java.util.*;
+class FE private constructor(
+    fe: FEType,
+    private val coreset: Int?,
+    val frameID: Int,
+) : HasID, Insertable {
 
-import javax.xml.parsers.ParserConfigurationException;
+    val iD: Int = fe.getID()
 
-import edu.berkeley.icsi.framenet.FEType;
+    @JvmField
+    val name: String = fe.getName()
 
-public class FE implements HasID, Insertable
-{
-	public static final Set<FE> SET = new HashSet<>();
+    val abbrev: String = fe.getAbbrev()
 
-	public static Map<Pair<Integer, Integer>, FE> BY_FETYPEID_AND_FRAMEID;
+    private val coretype: Int = fe.getCoreType().intValue()
 
-	private static final FnFEXmlProcessor definitionProcessor = new FnFEXmlProcessor();
+    val definition: String
 
-	private final int feid;
+    init {
+        try {
+            definition = definitionProcessor.process(fe.getDefinition())
+        } catch (e: ParserConfigurationException) {
+            System.err.println(fe.getDefinition())
+            throw e
+        } catch (e: SAXException) {
+            System.err.println(fe.getDefinition())
+            throw e
+        } catch (e: IOException) {
+            System.err.println(fe.getDefinition())
+            throw e
+        }
+        FeType.COLLECTOR.add(fe.getName())
+    }
 
-	public final String name;
+    // I D E N T I T Y
 
-	public final String abbrev;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FE
+        return this.iD == that.iD
+    }
 
-	private final int coretype;
+    override fun hashCode(): Int {
+        return Objects.hash(this.iD)
+    }
 
-	private final Integer coreset;
+    // I N S E R T
 
-	public final String definition;
+    @RequiresIdFrom(type = FeType::class)
+    override fun dataRow(): String {
+        return "$iD,${getSqlId(name)},'${escape(abbrev)}','${escape(definition)}',$coretype,${nullableInt(coreset)},$frameID"
+    }
 
-	private final int frameid;
+    override fun comment(): String {
+        return "type$name"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FE make(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
-	{
-		var e = new FE(fe, coreset, frameid);
-		SET.add(e);
-		return e;
-	}
+    override fun toString(): String {
+        return "[FE feid=$iD name=$name frameid=$frameID]"
+    }
 
-	private FE(final FEType fe, final Integer coreset, final int frameid) throws ParserConfigurationException, IOException, SAXException
-	{
-		this.feid = fe.getID();
-		this.name = fe.getName();
-		this.abbrev = fe.getAbbrev();
-		this.coretype = fe.getCoreType().intValue();
-		this.coreset = coreset;
-		this.frameid = frameid;
-		try
-		{
-			this.definition = FE.definitionProcessor.process(fe.getDefinition());
-		}
-		catch (ParserConfigurationException | SAXException | IOException e)
-		{
-			System.err.println(fe.getDefinition());
-			throw e;
-		}
-		FeType.COLLECTOR.add(fe.getName());
-	}
+    companion object {
 
-	// A C C E S S
+        @JvmField
+        val COMPARATOR: Comparator<FE> = Comparator
+            .comparing<FE, String> { it.name }
+            .thenComparing<Int> { it.iD }
 
-	public int getID()
-	{
-		return feid;
-	}
+        @JvmField
+        val SET = HashSet<FE>()
 
-	public String getName()
-	{
-		return name;
-	}
+        @JvmField
+        var BY_FETYPEID_AND_FRAMEID: Map<Pair<Int, Int>, FE>? = null
 
-	public String getAbbrev()
-	{
-		return abbrev;
-	}
+        private val definitionProcessor = FnFEXmlProcessor()
 
-	public int getFrameID()
-	{
-		return frameid;
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		FE that = (FE) o;
-		return feid == that.feid;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(feid);
-	}
-
-	// O R D E R
-
-	public static final Comparator<FE> COMPARATOR = Comparator.comparing(FE::getName).thenComparing(FE::getID);
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = FeType.class)
-	@Override
-	public String dataRow()
-	{
-		// (feid,fetypeid,feabbrev,fedefinition,coretypeid,coreset,frameid)
-		return String.format("%d,%s,'%s','%s',%d,%s,%d", //
-				feid, //
-				FeType.getSqlId(name), //
-				Utils.escape(abbrev), //
-				Utils.escape(definition), //
-				coretype, //
-				Utils.nullableInt(coreset), //
-				frameid); //
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("type=%s", name);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FE feid=%s name=%s frameid=%s]", feid, name, frameid);
-	}
+        @JvmStatic
+        @Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
+        fun make(fe: FEType, coreset: Int?, frameid: Int): FE {
+            val e = FE(fe, coreset, frameid)
+            SET.add(e)
+            return e
+        }
+    }
 }

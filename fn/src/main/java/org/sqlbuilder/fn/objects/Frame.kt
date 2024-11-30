@@ -1,118 +1,87 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.collectors.FnFrameXmlProcessor;
-import org.xml.sax.SAXException;
+import edu.berkeley.icsi.framenet.FrameDocument
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.fn.collectors.FnFrameXmlProcessor
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Frame private constructor(
+    frame: FrameDocument.Frame,
+) : HasID, Insertable {
 
-import javax.xml.parsers.ParserConfigurationException;
+    val iD: Int = frame.getID()
 
-import edu.berkeley.icsi.framenet.FrameDocument;
+    @JvmField
+    val name: String = frame.getName()
 
-public class Frame implements HasID, Insertable
-{
-	public static final Set<Frame> SET = new HashSet<>();
+    val definition: String
 
-	private static final FnFrameXmlProcessor definitionProcessor = new FnFrameXmlProcessor();
+    init {
+        try {
+            definition = definitionProcessor.process(frame.getDefinition())
+        } catch (e: ParserConfigurationException) {
+            System.err.println(frame.getDefinition())
+            throw e
+        } catch (e: SAXException) {
+            System.err.println(frame.getDefinition())
+            throw e
+        } catch (e: IOException) {
+            System.err.println(frame.getDefinition())
+            throw e
+        }
+    }
 
-	public final int frameid;
+    // I D E N T I T Y
 
-	public final String name;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Frame
+        return this.iD == that.iD
+    }
 
-	public final String definition;
+    override fun hashCode(): Int {
+        return Objects.hash(this.iD)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Frame make(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
-	{
-		var f = new Frame(frame);
-		SET.add(f);
-		return f;
-	}
+    // I N S E R T
 
-	private Frame(final FrameDocument.Frame frame) throws IOException, SAXException, ParserConfigurationException
-	{
-		this.frameid = frame.getID();
-		this.name = frame.getName();
-		try
-		{
-			this.definition = Frame.definitionProcessor.process(frame.getDefinition());
-		}
-		catch (ParserConfigurationException | SAXException | IOException e)
-		{
-			System.err.println(frame.getDefinition());
-			throw e;
-		}
-	}
+    override fun dataRow(): String {
+        return "$iD,'${escape(name)}','\${escape(definition}'"
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	public int getID()
-	{
-		return frameid;
-	}
+    override fun toString(): String {
+        return "[FRAME id=$iD name=$name]"
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    companion object {
 
-	public String getDefinition()
-	{
-		return definition;
-	}
+        val COMPARATOR: Comparator<Frame> = Comparator
+            .comparing<Frame, String> { it.name }
+            .thenComparing<Int> { it.iD }
 
-	// I D E N T I T Y
+        @JvmField
+        val SET = HashSet<Frame>()
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Frame that = (Frame) o;
-		return frameid == that.frameid;
-	}
+        private val definitionProcessor = FnFrameXmlProcessor()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(frameid);
-	}
-
-	// O R D E R
-
-	public static final Comparator<Frame> COMPARATOR = Comparator.comparing(Frame::getName).thenComparing(Frame::getID);
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,'%s','%s'", //
-				frameid, //
-				Utils.escape(name), //
-				Utils.escape(definition));
-		// frame.getCDate()
-		// frame.getCBy()
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FRAME id=%s name=%s]", frameid, name);
-	}
+        @JvmStatic
+        @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
+        fun make(frame: FrameDocument.Frame): Frame {
+            val f = Frame(frame)
+            SET.add(f)
+            return f
+        }
+    }
 }

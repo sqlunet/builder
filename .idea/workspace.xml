@@ -9,23 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fixes">
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Cxns.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FeType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FrameRelation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/GfType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LayerType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FE.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Frame.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Cxns.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FeType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FrameRelation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/GfType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LabelType.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LabelType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LayerType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/PtType.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/PtType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/vn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/vn/vn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FE.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Frame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Governor.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Governor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Lexeme.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Lexeme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -240,14 +235,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00017" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732642747507</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1732642747507</updated>
     </task>
     <task id="LOCAL-00018" summary="to kotlin">
       <option name="closed" value="true" />
@@ -633,7 +620,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732965057102</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732983262015</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1732983262015</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -677,9 +672,9 @@
     <MESSAGE value="fixes row comma" />
     <MESSAGE value="do not use null-resolved" />
     <MESSAGE value="xml generator of elements" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="to kotlin" />
+    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

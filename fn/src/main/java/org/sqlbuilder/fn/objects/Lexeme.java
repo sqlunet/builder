@@ -49,7 +49,7 @@ public class Lexeme implements Insertable
 
 	public String getWord()
 	{
-		return this.word.getWord();
+		return this.word.word;
 	}
 
 	public long getLuid()
