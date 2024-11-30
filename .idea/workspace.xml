@@ -10,17 +10,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FE.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Frame.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/AnnotationSet.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FEGroupRealization.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FERealization.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Governor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Layer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/LexUnit.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Lexeme.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/SemType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Sentence.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/ValenceUnit.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FE.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Frame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Governor.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Governor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Lexeme.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Lexeme.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/AnnotationSet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FEGroupRealization.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/FERealization.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Governor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Layer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/LexUnit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Lexeme.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/SemType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Sentence.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/ValenceUnit.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -235,14 +246,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00018" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732649118740</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1732649118740</updated>
     </task>
     <task id="LOCAL-00019" summary="to kotlin">
       <option name="closed" value="true" />
@@ -628,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732983262015</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732984468970</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1732984468970</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

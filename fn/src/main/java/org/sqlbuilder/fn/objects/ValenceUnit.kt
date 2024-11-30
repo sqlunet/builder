@@ -1,144 +1,107 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.fn.types.FeType;
-import org.sqlbuilder.fn.types.GfType;
-import org.sqlbuilder.fn.types.PtType;
+import edu.berkeley.icsi.framenet.ValenceUnitType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.NotNull
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.fn.types.FeType
+import org.sqlbuilder.fn.types.GfType
+import org.sqlbuilder.fn.types.PtType
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class ValenceUnit private constructor(
+    vu: ValenceUnitType,
+) : HasId, Comparable<ValenceUnit>, Insertable {
 
-import edu.berkeley.icsi.framenet.ValenceUnitType;
+    val fE: String?
 
-import static java.util.Comparator.*;
+    val pT: String?
 
-public class ValenceUnit implements HasId, Comparable<ValenceUnit>, Insertable
-{
-	public static final Comparator<ValenceUnit> COMPARATOR = comparing(ValenceUnit::getFE, nullsFirst(naturalOrder())) //
-			.thenComparing(ValenceUnit::getPT, nullsFirst(naturalOrder())) //
-			.thenComparing(ValenceUnit::getGF, nullsFirst(naturalOrder()));
+    val gF: String?
 
-	public static final SetCollector<ValenceUnit> COLLECTOR = new SetCollector<>(COMPARATOR);
+    init {
+        val fe = vu.getFE()
+        fE = if (fe == null || fe.isEmpty()) null else fe
+        val pt = vu.getPT()
+        pT = if (pt == null || pt.isEmpty()) null else pt
+        val gf = vu.getGF()
+        gF = if (gf == null || gf.isEmpty()) null else gf
+    }
 
-	public final String fe;
+    @RequiresIdFrom(type = ValenceUnit::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public final String pt;
+    // I D E N T I T Y
 
-	public final String gf;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as ValenceUnit
+        return fE == that.fE && pT == that.pT && gF == that.gF
+    }
 
-	// C O N S T R U C T O R
+    override fun hashCode(): Int {
+        return Objects.hash(fE, pT, gF)
+    }
 
-	public static ValenceUnit make(final ValenceUnitType vu)
-	{
-		var v = new ValenceUnit(vu);
-		if (v.fe != null)
-		{
-			FeType.COLLECTOR.add(v.fe);
-		}
-		if (v.pt != null)
-		{
-			PtType.COLLECTOR.add(v.pt);
-		}
-		if (v.gf != null)
-		{
-			GfType.COLLECTOR.add(v.gf);
-		}
-		COLLECTOR.add(v);
-		return v;
-	}
+    // O R D E R
 
-	private ValenceUnit(final ValenceUnitType vu)
-	{
-		String fe = vu.getFE();
-		this.fe = fe == null || fe.isEmpty() ? null : fe;
-		String pt = vu.getPT();
-		this.pt = pt == null || pt.isEmpty() ? null : pt;
-		String gf = vu.getGF();
-		this.gf = gf == null || gf.isEmpty() ? null : gf;
-	}
+    override fun compareTo(@NotNull that: ValenceUnit): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// A C C E S S
+    // I N S E R T
 
-	public String getFE()
-	{
-		return fe;
-	}
+    @RequiresIdFrom(type = ValenceUnit::class)
+    @RequiresIdFrom(type = FeType::class)
+    @RequiresIdFrom(type = PtType::class)
+    @RequiresIdFrom(type = GfType::class)
+    override fun dataRow(): String {
+        return "${FeType.getSqlId(fE)},${PtType.getSqlId(pT)},${GfType.getSqlId(gF)}"
+    }
 
-	public String getPT()
-	{
-		return pt;
-	}
+    override fun comment(): String {
+        return "fe=$fE pt=$pT gf=$gF"
+    }
 
-	public String getGF()
-	{
-		return gf;
-	}
+    // T O S T R I N G
 
-	@RequiresIdFrom(type = ValenceUnit.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    override fun toString(): String {
+        return "VU fe=$fE pt=$pT gf=$gF"
+    }
 
-	// I D E N T I T Y
+    companion object {
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		ValenceUnit that = (ValenceUnit) o;
-		return Objects.equals(fe, that.fe) && Objects.equals(pt, that.pt) && Objects.equals(gf, that.gf);
-	}
+        val COMPARATOR: Comparator<ValenceUnit> = Comparator
+            .comparing<ValenceUnit, String>({ it.fE }, nullsFirst(naturalOrder()))
+            .thenComparing<String>({ it.pT }, nullsFirst(naturalOrder()))
+            .thenComparing<String>({ it.gF }, nullsFirst(naturalOrder()))
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(fe, pt, gf);
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<ValenceUnit>(COMPARATOR)
 
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final ValenceUnit that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = ValenceUnit.class)
-	@RequiresIdFrom(type = FeType.class)
-	@RequiresIdFrom(type = PtType.class)
-	@RequiresIdFrom(type = GfType.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s,%s", //
-				FeType.getSqlId(fe), //
-				PtType.getSqlId(pt), //
-				GfType.getSqlId(gf));
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("fe=%s,pt=%s,gf=%s", fe, pt, gf);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("VU fe=%s pt=%s gf=%s", fe, pt, gf);
-	}
+        @JvmStatic
+        fun make(vu: ValenceUnitType): ValenceUnit {
+            val v = ValenceUnit(vu)
+            if (v.fE != null) {
+                FeType.COLLECTOR.add(v.fE)
+            }
+            if (v.pT != null) {
+                PtType.COLLECTOR.add(v.pT)
+            }
+            if (v.gF != null) {
+                GfType.COLLECTOR.add(v.gF)
+            }
+            COLLECTOR.add(v)
+            return v
+        }
+    }
 }

@@ -1,220 +1,164 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.types.FeType;
+import edu.berkeley.icsi.framenet.FrameLUType
+import edu.berkeley.icsi.framenet.LexUnitDocument
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableQuotedChar
+import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
+import org.sqlbuilder.fn.FnModule
+import org.sqlbuilder.fn.types.FeType
+import org.sqlbuilder.fn.types.FeType.getSqlId
+import java.io.Serializable
+import java.util.*
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class LexUnit : HasID, Insertable, Serializable {
 
-import edu.berkeley.icsi.framenet.FrameLUType;
-import edu.berkeley.icsi.framenet.LexUnitDocument;
+    val iD: Int
 
-public class LexUnit implements HasID, Insertable, Serializable
-{
-	public static final Set<LexUnit> SET = new HashSet<>();
+    @JvmField
+    val name: String
 
-	private final int luid;
+    private val pos: Int
 
-	private final String name;
+    val frameID: Int
 
-	private final int pos;
+    @JvmField
+    val frameName: String?
 
-	private final int frameid;
+    private val definition: String?
 
-	private final String frameName;
+    private val dict: Char?
 
-	private final String definition;
+    private val incorporatedFE: String?
 
-	private final Character dict;
+    private val totalAnnotated: Int
 
-	private final String incorporatedFE;
+    private constructor(lu: LexUnitDocument.LexUnit) {
+        iD = lu.getID()
+        name = lu.getName()
+        pos = lu.getPOS().intValue()
+        val def = Definition.Companion.make(lu.getDefinition())
+        definition = def.text
+        dict = def.dict
+        incorporatedFE = lu.getIncorporatedFE()
+        totalAnnotated = lu.getTotalAnnotated()
+        frameID = lu.getFrameID()
+        frameName = lu.getFrame()
+    }
 
-	private final int totalAnnotated;
+    private constructor(lu: FrameLUType, frameid: Int, frameName0: String?) {
+        iD = lu.getID()
+        name = lu.getName()
+        pos = lu.getPOS().intValue()
+        val def = Definition.Companion.make(lu.getDefinition())
+        definition = def.text
+        dict = def.dict
+        incorporatedFE = lu.getIncorporatedFE()
+        totalAnnotated = 0
+        frameID = frameid
+        frameName = frameName0
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static LexUnit make(final LexUnitDocument.LexUnit lu)
-	{
-		var u = new LexUnit(lu);
+    // I D E N T I T Y
 
-		boolean isNew = SET.add(u);
-		if (!isNew)
-		{
-			//Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
-			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getNodeName(), "lu-duplicate", u.toString());
-		}
-		return u;
-	}
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as LexUnit
+        return iD == that.iD
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static LexUnit make(final FrameLUType lu, final int frameid, final String frameName)
-	{
-		var u = new LexUnit(lu, frameid, frameName);
+    override fun hashCode(): Int {
+        return Objects.hash(iD)
+    }
 
-		boolean isNew = SET.add(u);
-		if (!isNew)
-		{
-			//Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getOwnerDocument().getDocumentURI(), "lu-duplicate", u.toString());
-			Logger.instance.logWarn(FnModule.MODULE_ID, lu.getDomNode().getNodeName(), "lu-duplicate", u.toString());
-		}
-		return u;
-	}
+    // I N S E R T
 
-	private LexUnit(final LexUnitDocument.LexUnit lu)
-	{
-		this.luid = lu.getID();
-		this.name = lu.getName();
-		this.pos = lu.getPOS().intValue();
-		final Definition def = Definition.getDefinition(lu.getDefinition());
-		this.definition = def.def;
-		this.dict = def.dict;
-		this.incorporatedFE = lu.getIncorporatedFE();
-		this.totalAnnotated = lu.getTotalAnnotated();
-		this.frameid = lu.getFrameID();
-		this.frameName = lu.getFrame();
-	}
+    @RequiresIdFrom(type = FeType::class)
+    override fun dataRow(): String {
+        return "$iD,'${escape(name)}',$pos,${nullableQuotedEscapedString(definition)},${nullableQuotedChar(dict)},${getSqlId(incorporatedFE)},$totalAnnotated,$frameID"
+    }
 
-	private LexUnit(final FrameLUType lu, final int frameid, final String frameName)
-	{
-		this.luid = lu.getID();
-		this.name = lu.getName();
-		this.pos = lu.getPOS().intValue();
-		final Definition def = Definition.getDefinition(lu.getDefinition());
-		this.definition = def.def;
-		this.dict = def.dict;
-		this.incorporatedFE = lu.getIncorporatedFE();
-		this.totalAnnotated = 0;
-		this.frameid = frameid;
-		this.frameName = frameName;
-		// this.lemmaId = lu.getLemmaID();
-	}
+    override fun comment(): String {
+        return "frame=$frameName,incfe=$incorporatedFE"
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	public int getID()
-	{
-		return luid;
-	}
+    override fun toString(): String {
+        return "[LU luid=$iD lu=$name frameid=$frameID frame=$frameName]"
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    // D E F I N I T I O N
 
-	public String getFrameName()
-	{
-		return frameName;
-	}
+    class Definition(
+        val dict: Char?,
+        val text: String?,
+    ) {
 
-	public int getFrameID()
-	{
-		return frameid;
-	}
+        override fun toString(): String {
+            return "$dict|<$text>"
+        }
 
-	// I D E N T I T Y
+        companion object {
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		LexUnit that = (LexUnit) o;
-		return luid == that.luid;
-	}
+            fun make(definition0: String): Definition {
+                var dict: Char? = null
+                var definition: String? = definition0
+                if (definition0.startsWith("COD")) {
+                    dict = 'O'
+                    definition = definition0.substring(3)
+                }
+                if (definition0.startsWith("FN")) {
+                    dict = 'F'
+                    definition = definition0.substring(2)
+                }
+                 if (definition != null) {
+                    definition = definition.replace("[ \t\n.:]*$|^[ \t\n.:]*".toRegex(), "")
+                }
+                return Definition(dict, definition)
+            }
+        }
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(luid);
-	}
+    companion object {
 
-	// O R D E R
+        @JvmField
+        val COMPARATOR: Comparator<LexUnit> = Comparator
+            .comparing<LexUnit, String> { it.name }
+            .thenComparing<Int> { it.iD }
 
-	public static final Comparator<LexUnit> COMPARATOR = Comparator.comparing(LexUnit::getName).thenComparing(LexUnit::getID);
+        @JvmField
+        val SET = HashSet<LexUnit>()
 
-	// I N S E R T
+        @JvmStatic
+        fun make(lu: LexUnitDocument.LexUnit): LexUnit {
+            val u = LexUnit(lu)
 
-	@RequiresIdFrom(type = FeType.class)
-	@Override
-	public String dataRow()
-	{
-		// luid,lexunit,posid,ludefinition,ludict,incorporatedfetypeid,totalannotated,frameid
-		return String.format("%d,'%s',%d,%s,%s,%s,%d,%d", //
-				luid, //
-				Utils.escape(name), //
-				pos, //
-				Utils.nullableQuotedEscapedString(definition), //
-				Utils.nullableQuotedChar(dict), //
-				FeType.getSqlId(incorporatedFE), //
-				totalAnnotated, //
-				frameid); //
-	}
+            val isNew: Boolean = SET.add(u)
+            if (!isNew) {
+                Logger.instance.logWarn(FnModule.MODULE_ID, lu.domNode.nodeName, "lu-duplicate", u.toString())
+            }
+            return u
+        }
 
-	@Override
-	public String comment()
-	{
-		return String.format("frame=%s,incfe=%s", frameName, incorporatedFE);
-	}
+        @JvmStatic
+        fun make(lu: FrameLUType, frameid: Int, frameName: String): LexUnit {
+            val u = LexUnit(lu, frameid, frameName)
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[LU luid=%d lu=%s frameid=%d frame=%s]", luid, name, frameid, frameName);
-	}
-
-	// D E F I N I T I O N
-
-	public static class Definition
-	{
-		public final Character dict;
-
-		public final String def;
-
-		public Definition(final Character dict, final String definition)
-		{
-			super();
-			this.dict = dict;
-			this.def = definition;
-		}
-
-		public static Definition getDefinition(final String definition0)
-		{
-			Character dict = null;
-			String definition = definition0;
-			if (definition0.startsWith("COD"))
-			{
-				dict = 'O';
-				definition = definition0.substring(3);
-			}
-			if (definition0.startsWith("FN"))
-			{
-				dict = 'F';
-				definition = definition0.substring(2);
-			}
-			// noinspection ConstantConditions
-			if (definition != null)
-			{
-				definition = definition.replaceAll("[ \t\n.:]*$|^[ \t\n.:]*", "");
-			}
-			return new Definition(dict, definition);
-		}
-
-		@Override
-		public String toString()
-		{
-			return this.dict + "|<" + this.def + ">";
-		}
-	}
+            val isNew: Boolean = SET.add(u)
+            if (!isNew) {
+                Logger.instance.logWarn(FnModule.MODULE_ID, lu.domNode.nodeName, "lu-duplicate", u.toString())
+            }
+            return u
+        }
+    }
 }

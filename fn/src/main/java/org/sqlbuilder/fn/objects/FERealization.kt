@@ -1,135 +1,88 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.fn.joins.Pair;
-import org.sqlbuilder.fn.types.FeType;
+import edu.berkeley.icsi.framenet.FERealizationType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.ListCollector
+import org.sqlbuilder.common.SetId
+import org.sqlbuilder.fn.joins.Pair
+import org.sqlbuilder.fn.types.FeType.getIntId
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class FERealization private constructor(
+    fer: FERealizationType,
+    val luId: Int,
+    val frameId: Int,
+) : HasId, SetId, Insertable {
 
-import edu.berkeley.icsi.framenet.FERealizationType;
+    private var id = 0
 
-public class FERealization implements HasId, SetId, Insertable
-{
-	public static final Comparator<FERealization> COMPARATOR = Comparator //
-			.comparing(FERealization::getLuId) //
-			.thenComparing(FERealization::getFEName) //
-			.thenComparing(FERealization::getFrameId);
+    val fEName: String = fer.getFE().getName()
 
-	public static final ListCollector<FERealization> LIST = new ListCollector<>();
+    private val total: Int = fer.getTotal()
 
-	private int id;
+    @RequiresIdFrom(type = FERealization::class)
+    override fun getIntId(): Int {
+        return id
+    }
 
-	private final String feName;
+    override fun setId(id0: Int) {
+        id = id0
+    }
 
-	private final int total;
+    // I D E N T I T Y
 
-	private final int luid;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FERealization
+        return fEName == that.fEName && luId == that.luId && frameId == that.frameId
+    }
 
-	private final int frameid;
+    override fun hashCode(): Int {
+        return Objects.hash(fEName, luId, frameId)
+    }
 
-	public static FERealization make(final FERealizationType fer, final int luid, final int frameid)
-	{
-		var r = new FERealization(fer, luid, frameid);
-		LIST.add(r);
-		return r;
-	}
+    // I N S E R T
 
-	private FERealization(final FERealizationType fer, final int luid, final int frameid)
-	{
-		this.feName = fer.getFE().getName();
-		this.total = fer.getTotal();
-		this.luid = luid;
-		this.frameid = frameid;
-	}
+    override fun dataRow(): String {
+        val fetypeid: Int = getIntId(fEName)!!
+        val key = Pair(fetypeid, frameId)
+        val feid = FE.BY_FETYPEID_AND_FRAMEID!![key]!!.iD
 
-	// A C C E S S
+        return "$intId,$fetypeid,$feid,$total,$luId"
+    }
 
-	public String getFEName()
-	{
-		return feName;
-	}
+    override fun comment(): String {
+        return "fe=$fEName"
+    }
 
-	public int getLuId()
-	{
-		return luid;
-	}
+    // T O S T R I N G
 
-	public int getFrameId()
-	{
-		return frameid;
-	}
+    override fun toString(): String {
+        return "[FER fe=$fEName luid=$luId]"
+    }
 
-	@RequiresIdFrom(type = FERealization.class)
-	@Override
-	public Integer getIntId()
-	{
-		return id;
-	}
+    companion object {
 
-	@Override
-	public void setId(final int id)
-	{
-		this.id = id;
-	}
+        val COMPARATOR: Comparator<FERealization> = Comparator
+            .comparing<FERealization, Int> { it.luId }
+            .thenComparing<String> { it.fEName }
+            .thenComparing<Int> { it.frameId }
 
-	// I D E N T I T Y
+        @JvmField
+        val LIST = ListCollector<FERealization>()
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		FERealization that = (FERealization) o;
-		return feName.equals(that.feName) && luid == that.luid && frameid == that.frameid;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(feName, luid, frameid);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// ferid INTEGER NOT NULL
-		// fetypeid INTEGER NOT NULL
-		// feid INTEGER NOT NULL
-		// total INTEGER
-		// luid INTEGER NOT NULL
-
-		int fetypeid = FeType.getIntId(feName);
-		var key = new Pair<>(fetypeid, frameid);
-		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
-
-		return String.format("%d,%s,%s,%s,%d", //
-				getIntId(), //
-				fetypeid, //
-				feid, total, //
-				luid);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("fe=%s", feName);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FER fe=%s luid=%s]", feName, luid);
-	}
+        @JvmStatic
+        fun make(fer: FERealizationType, luid: Int, frameid: Int): FERealization {
+            val r = FERealization(fer, luid, frameid)
+            LIST.add(r)
+            return r
+        }
+    }
 }

@@ -170,7 +170,7 @@ public class Exporter
 	{
 		return LexUnit.SET.stream() //
 				//.peek(lu->System.out.println(lu.getName() + " " + lu.getID()))
-				.map(lu -> new SimpleEntry<>(new Pair<>(lu.getFrameName(), lu.getName()), new Pair<>(lu.getID(), lu.getFrameID()))) //
+				.map(lu -> new SimpleEntry<>(new Pair<>(lu.frameName, lu.name), new Pair<>(lu.getID(), lu.getFrameID()))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 	}
 
@@ -178,7 +178,7 @@ public class Exporter
 	{
 		return LexUnit.SET.stream() //
 				//.peek(lu->System.out.println(lu.getName() + " " + lu.getID()))
-				.map(lu -> new SimpleEntry<>(new Pair<>(lu.getFrameName(), lu.getName()), new Pair<>(lu.getID(), lu.getFrameID()))) //
+				.map(lu -> new SimpleEntry<>(new Pair<>(lu.frameName, lu.name), new Pair<>(lu.getID(), lu.getFrameID()))) //
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
 	}
 

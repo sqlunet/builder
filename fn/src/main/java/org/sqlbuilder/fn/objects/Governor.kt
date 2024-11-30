@@ -1,75 +1,60 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import edu.berkeley.icsi.framenet.GovernorType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.fn.objects.Word.Companion.make
 
-import java.util.Comparator;
+class Governor private constructor(
+    governor: GovernorType,
+) : HasId, Insertable {
 
-import edu.berkeley.icsi.framenet.GovernorType;
+    val type: String = governor.getType()
 
-public class Governor implements HasId, Insertable
-{
-	public static final Comparator<Governor> COMPARATOR = Comparator.comparing(Governor::getWord).thenComparing(Governor::getType);
+    private val word: Word = make(governor.getLemma())
 
-	public static final SetCollector<Governor> COLLECTOR = new SetCollector<>(COMPARATOR);
+    fun getWord(): String {
+        return word.word
+    }
 
-	private final String type;
+    @RequiresIdFrom(type = Governor::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	private final Word word;
+    // I N S E R T
 
-	public static Governor make(final GovernorType governor)
-	{
-		var g = new Governor(governor);
-		COLLECTOR.add(g);
-		return g;
-	}
+    @RequiresIdFrom(type = Word::class)
+    override fun dataRow(): String {
+        return "'${escape(type)}',${word.getSqlId()}"
+    }
 
-	private Governor(final GovernorType governor)
-	{
-		this.type = governor.getType();
-		this.word = Word.make(governor.getLemma());
-	}
+    override fun comment(): String {
+        return "word=${word.word}"
+    }
 
-	// A C C E S S
+    override fun toString(): String {
+        return "[GOV type=$type word=${word}]"
+    }
 
-	public String getType()
-	{
-		return type;
-	}
+    companion object {
 
-	public String getWord()
-	{
-		return word.word;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Governor> = Comparator
+            .comparing<Governor, String> { it.getWord() }
+            .thenComparing<String> { it.type }
 
-	@RequiresIdFrom(type = Governor.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<Governor>(COMPARATOR)
 
-	// I N S E R T
-
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String dataRow()
-	{
-		// governorid,governortype,fnwordid
-		return String.format("'%s',%s", //
-				Utils.escape(type), //
-				word.getSqlId());
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("word=%s", word.word);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[GOV type=%s word=%s]", type, word);
-	}
+        @JvmStatic
+        fun make(governor: GovernorType): Governor {
+            val g = Governor(governor)
+            COLLECTOR.add(g)
+            return g
+        }
+    }
 }

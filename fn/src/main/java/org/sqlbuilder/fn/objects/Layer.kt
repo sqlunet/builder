@@ -1,77 +1,57 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.fn.types.LayerType;
+import edu.berkeley.icsi.framenet.LayerType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.fn.types.LayerType.add
+import org.sqlbuilder.fn.types.LayerType.getIntId
 
-import java.util.Comparator;
+class Layer private constructor(
+    layer: LayerType,
+    annosetid: Int,
+) : HasId, Insertable {
 
-public class Layer implements HasId, Insertable
-{
-	public static final Comparator<Layer> COMPARATOR = Comparator.comparing(Layer::getName).thenComparing(Layer::getAnnosetid);
+    val name: String = layer.getName()
 
-	public static final SetCollector<Layer> COLLECTOR = new SetCollector<>(COMPARATOR);
+    private val rank: Int = layer.getRank()
 
-	private final String name;
+    val annosetid: Long = annosetid.toLong()
 
-	private final int rank;
+    @RequiresIdFrom(type = Layer::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public final long annosetid;
+    @RequiresIdFrom(type = Layer::class)
+    override fun dataRow(): String {
+        return "$intId,${getIntId(name)},$rank,$annosetid"
+    }
 
-	public static Layer make(final edu.berkeley.icsi.framenet.LayerType layer, final int annosetid)
-	{
-		var l = new Layer(layer, annosetid);
-		LayerType.add(l.name);
-		COLLECTOR.add(l);
-		return l;
-	}
+    override fun comment(): String {
+        return "type=$name"
+    }
 
-	private Layer(final edu.berkeley.icsi.framenet.LayerType layer, final int annosetid)
-	{
-		this.name = layer.getName();
-		this.rank = layer.getRank();
-		this.annosetid = annosetid;
-	}
+    override fun toString(): String {
+        return "[LAY name=$name annosetid=$annosetid]"
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    companion object {
 
-	public long getAnnosetid()
-	{
-		return annosetid;
-	}
+        val COMPARATOR: Comparator<Layer> = Comparator
+            .comparing<Layer, String> { it.name }
+            .thenComparing<Long> { it.annosetid }
 
-	@RequiresIdFrom(type = Layer.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<Layer>(COMPARATOR)
 
-	@RequiresIdFrom(type = Layer.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%s,%d,%d", //
-				getIntId(), //
-				LayerType.getIntId(name), //
-				rank, //
-				annosetid);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("type=%s", name);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[LAY name=%s annosetid=%s]", this.name, this.annosetid);
-	}
+        @JvmStatic
+        fun make(layer: LayerType, annosetid: Int): Layer {
+            val l = Layer(layer, annosetid)
+            add(l.name)
+            COLLECTOR.add(l)
+            return l
+        }
+    }
 }

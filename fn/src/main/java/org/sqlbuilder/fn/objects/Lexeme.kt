@@ -1,140 +1,103 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.Utils;
+import edu.berkeley.icsi.framenet.LexemeType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.zeroableInt
+import org.sqlbuilder.fn.objects.Word.Companion.make
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Lexeme private constructor(lexeme: LexemeType, val luid: Long) : Insertable {
 
-import edu.berkeley.icsi.framenet.LexemeType;
+    private val pos: Int = lexeme.getPOS().intValue()
 
-public class Lexeme implements Insertable
-{
-	public static final Set<Lexeme> SET = new HashSet<>();
+    private val breakBefore: Boolean = lexeme.getBreakBefore()
 
-	private final int pos;
+    private val headWord: Boolean = lexeme.getHeadword()
 
-	private final boolean breakBefore;
+    private val order: Int = lexeme.getOrder()
 
-	private final boolean headWord;
+    private val word: Word = make(trim(lexeme.getName()))
 
-	private final int order;
+    // A C C E S S
 
-	private final Word word;
+    fun getWord(): String {
+        return word.word
+    }
 
-	private final long luid;
+    // I D E N T I T Y
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Lexeme make(final LexemeType lexeme, final long luid)
-	{
-		var l = new Lexeme(lexeme, luid);
-		SET.add(l);
-		return l;
-	}
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Lexeme
+        return word == that.word && luid == that.luid
+    }
 
-	private Lexeme(final LexemeType lexeme, final long luid)
-	{
-		this.word = Word.make(trim(lexeme.getName()));
-		this.pos = lexeme.getPOS().intValue();
-		this.breakBefore = lexeme.getBreakBefore();
-		this.headWord = lexeme.getHeadword();
-		this.order = lexeme.getOrder();
-		this.luid = luid;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(word, luid)
+    }
 
-	// A C C E S S
+    // I N S E R T
 
-	public String getWord()
-	{
-		return this.word.word;
-	}
+    @RequiresIdFrom(type = Word::class)
+    override fun dataRow(): String {
+        return "${word.getSqlId()},$pos,${if (breakBefore) 1 else 0},${if (headWord) 1 else 0},${zeroableInt(order)},$luid"
+    }
 
-	public long getLuid()
-	{
-		return luid;
-	}
+    override fun comment(): String {
+        return "word=${getWord()}"
+    }
 
-	// I D E N T I T Y
+    // T O S T R I N G
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Lexeme that = (Lexeme) o;
-		return word.equals(that.word) && luid == that.luid;
-	}
+    override fun toString(): String {
+        return "[LEX word=${getWord()} luid=$luid]"
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(word, luid);
-	}
+    companion object {
 
-	// O R D E R
+        @JvmField
+        val COMPARATOR: Comparator<Lexeme> = Comparator
+            .comparing<Lexeme, String> { it.getWord() }
+            .thenComparing<Long> { it.luid }
 
-	public static final Comparator<Lexeme> COMPARATOR = Comparator.comparing(Lexeme::getWord).thenComparing(Lexeme::getLuid);
+        @JvmField
+        val SET = HashSet<Lexeme>()
 
-	// I N S E R T
+        @JvmStatic
+        fun make(lexeme: LexemeType, luid: Long): Lexeme {
+            val l = Lexeme(lexeme, luid)
+            SET.add(l)
+            return l
+        }
 
-	@RequiresIdFrom(type = Word.class)
-	@Override
-	public String dataRow()
-	{
-		//fnwordid,posid,breakbefore,headword,lexemeidx,luid
-		return String.format("%s,%d,%d,%d,%s,%d", //
-				word.getSqlId(), // fnwordid
-				pos, //
-				breakBefore ? 1 : 0, //
-				headWord ? 1 : 0, //
-				Utils.zeroableInt(order), //
-				luid);
-	}
+        private fun trim(string: String): String {
+            return string.replace("_*\\(.*$".toRegex(), "")
+        }
 
-	@Override
-	public String comment()
-	{
-		return String.format("word=%s", getWord());
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[LEX word=%s luid=%s]", getWord(), luid);
-	}
-
-	// W O R D
-	/* frame
-	name="construction(entity)"
-	name="power_((statistical))"
-	name="talk_(to)"
-	name="Indian((American))"
-	name="practice_((mass))"
-	name="rehearsal_((mass))"
-	name="late_((at_night))"
-	*/
-	/* lexunit
-	name="practice_((mass))"
-	name="rehearsal_((mass))"
-	name="Indian((American))"
-	name="construction(entity)"
-	name="talk_(to)"
-	name="power_((statistical))"
-	name="late_((at_night))"
-	*/
-	private static String trim(final String string)
-	{
-		return string.replaceAll("_*\\(.*$", "");
-	}
+        // W O R D
+        /* frame
+        name="construction(entity)"
+        name="power_((statistical))"
+        name="talk_(to)"
+        name="Indian((American))"
+        name="practice_((mass))"
+        name="rehearsal_((mass))"
+        name="late_((at_night))"
+        */
+        /* lexunit
+        name="practice_((mass))"
+        name="rehearsal_((mass))"
+        name="Indian((American))"
+        name="construction(entity)"
+        name="talk_(to)"
+        name="power_((statistical))"
+        name="late_((at_night))"
+        */
+    }
 }

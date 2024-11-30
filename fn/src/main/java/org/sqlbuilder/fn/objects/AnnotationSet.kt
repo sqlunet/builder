@@ -1,17 +1,13 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.AlreadyFoundException;
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.types.Cxns;
-
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import edu.berkeley.icsi.framenet.AnnotationSetType;
+import edu.berkeley.icsi.framenet.AnnotationSetType
+import org.sqlbuilder.common.AlreadyFoundException
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.fn.types.Cxns.Companion.make
+import java.util.*
 
 /*
 FROM FULL TEXT:
@@ -60,141 +56,87 @@ FROM LEXUNIT
    </subcorpus>
 </lexUnit>
 */
+class AnnotationSet private constructor(
+    annoset: AnnotationSetType,
+    val sentenceid: Int,
+    val luid: Int?,
+    val frameid: Int?,
+) : HasID, Insertable {
 
-public class AnnotationSet implements HasID, Insertable
-{
-	public static final Set<AnnotationSet> SET = new HashSet<>();
+    val iD: Int = annoset.getID()
 
-	public final int annosetid;
+    val cxnid: Int? = annoset.getCxnID()
 
-	public final int sentenceid;
+    val cxnName: String? = annoset.getCxnName()
 
-	public final Integer luid;
+    // I D E N T I T Y
 
-	public final Integer frameid;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as AnnotationSet
+        return iD == that.iD
+    }
 
-	public final Integer cxnid;
+    override fun hashCode(): Int {
+        return Objects.hash(iD)
+    }
 
-	public final String cxnName;
+    // I N S E R T
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid)
-	{
-		var a = new AnnotationSet(annoset, sentenceid);
+    override fun dataRow(): String {
+        return "$iD,$sentenceid,${nullableInt(luid)},${nullableInt(frameid)},${Utils.zeroableInt(cxnid ?: 0)}"
+    }
 
-		if (a.cxnid != null && a.cxnName != null)
-		{
-			Cxns.make(a.cxnid, a.cxnName);
-		}
-		final boolean isNew = SET.add(a);
-		if (!isNew)
-		{
-			throw new AlreadyFoundException(a.toString());
-		}
-		return a;
-	}
+    override fun comment(): String? {
+        return if (cxnName == null) null else "cxns=$cxnName"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static AnnotationSet make(final AnnotationSetType annoset, final int sentenceid, final Integer luid, final Integer frameid)
-	{
-		var a = new AnnotationSet(annoset, sentenceid, luid, frameid);
+    // T O S T R I N G
 
-		if (a.cxnid != null && a.cxnName != null)
-		{
-			Cxns.make(a.cxnid, a.cxnName);
-		}
-		final boolean isNew = SET.add(a);
-		if (!isNew)
-		{
-			throw new AlreadyFoundException(a.toString());
-		}
-		return a;
-	}
+    override fun toString(): String {
+        return "[AS id=$iD luid=$luid frameid=$frameid]"
+    }
 
-	private AnnotationSet(final AnnotationSetType annoset, final int sentenceid)
-	{
-		this(annoset, sentenceid, null, null);
-	}
+    companion object {
 
-	private AnnotationSet(final AnnotationSetType annoset, final int sentenceid, final Integer luid, final Integer frameid)
-	{
-		this.annosetid = annoset.getID();
-		this.sentenceid = sentenceid;
-		this.luid = luid;
-		this.frameid = frameid;
-		this.cxnid = annoset.getCxnID();
-		this.cxnName = annoset.getCxnName();
-	}
+        @JvmField
+        val COMPARATOR: Comparator<AnnotationSet> = Comparator
+            .comparing<AnnotationSet, Int> { it.iD }
 
-	// A C C E S S
+        @JvmField
+        val SET = HashSet<AnnotationSet>()
 
-	public int getID()
-	{
-		return annosetid;
-	}
+        @JvmStatic
+        fun make(annoset: AnnotationSetType, sentenceid: Int): AnnotationSet {
+            val a = AnnotationSet(annoset, sentenceid, null, null)
 
-	public long getLuId()
-	{
-		return luid;
-	}
+            if (a.cxnid != null && a.cxnName != null) {
+                make(a.cxnid, a.cxnName)
+            }
+            val isNew: Boolean = SET.add(a)
+            if (!isNew) {
+                throw AlreadyFoundException(a.toString())
+            }
+            return a
+        }
 
-	public long getFrameId()
-	{
-		return frameid;
-	}
+        @JvmStatic
+        fun make(annoset: AnnotationSetType, sentenceid: Int, luid: Int, frameid: Int): AnnotationSet {
+            val a = AnnotationSet(annoset, sentenceid, luid, frameid)
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		AnnotationSet that = (AnnotationSet) o;
-		return annosetid == that.annosetid;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(annosetid);
-	}
-
-	// O R D E R
-
-	public static final Comparator<AnnotationSet> COMPARATOR = Comparator.comparing(AnnotationSet::getID);
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d,%s,%s,%s", //
-				annosetid, //
-				sentenceid, //
-				Utils.nullableInt(luid), //
-				Utils.nullableInt(frameid), //
-				Utils.zeroableInt(cxnid) //
-		);
-	}
-
-	@Override
-	public String comment()
-	{
-		return cxnName == null ? null : String.format("cxns=%s", cxnName);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[AS id=%s luid=%s frameid=%s]", annosetid, luid, frameid);
-	}
+            if (a.cxnid != null && a.cxnName != null) {
+                make(a.cxnid, a.cxnName)
+            }
+            val isNew: Boolean = SET.add(a)
+            if (!isNew) {
+                throw AlreadyFoundException(a.toString())
+            }
+            return a
+        }
+    }
 }

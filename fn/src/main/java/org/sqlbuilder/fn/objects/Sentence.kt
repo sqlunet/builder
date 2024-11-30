@@ -1,123 +1,91 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
+import edu.berkeley.icsi.framenet.SentenceType
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.zeroableInt
+import java.util.*
+import kotlin.math.min
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Sentence private constructor(
+    sentence: SentenceType,
+) : HasID, Insertable {
 
-import edu.berkeley.icsi.framenet.SentenceType;
+    val iD: Int = sentence.getID()
 
-public class Sentence implements HasID, Insertable
-{
-	public static final Set<Sentence> SET = new HashSet<>();
+    val corpusID: Int = sentence.getCorpID()
 
-	private final int sentenceid;
+    val docID: Int = sentence.getDocID()
 
-	private final Integer corpusid;
+    private val paragno: Int = sentence.getParagNo()
 
-	private final Integer docid;
+    private val sentno: Int = sentence.getSentNo()
 
-	private final int paragno;
+    private val apos: Int = sentence.getAPos()
 
-	private final int sentno;
+    private val text: String = sentence.getText()
 
-	private final int apos;
+    // I D E N T I T Y
 
-	private final String text;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val sentence = o as Sentence
+        return iD == sentence.iD && corpusID == sentence.corpusID && docID == sentence.docID
+    }
 
-	public static Sentence make(final SentenceType sentence)
-	{
-		var s = new Sentence(sentence);
-		Sentence.SET.add(s);
-		return s;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(iD, corpusID, docID)
+    }
 
-	private Sentence(final SentenceType sentence)
-	{
-		this.sentenceid = sentence.getID();
-		this.corpusid = sentence.getCorpID();
-		this.docid = sentence.getDocID();
-		this.paragno = sentence.getParagNo();
-		this.sentno = sentence.getSentNo();
-		this.text = sentence.getText();
-		this.apos = sentence.getAPos();
-	}
+    // I N S E R T
 
-	// I D E N T I T Y
+    override fun dataRow(): String {
+        return String.format(
+            "%d,%s,%s,%d,%d,'%s',%d",  //
+            iD,  //
+            zeroableInt(corpusID),  //
+            zeroableInt(docID),  //
+            paragno,  //
+            sentno,  //
+            escape(text),  //
+            apos
+        )
+    }
 
-	public int getID()
-	{
-		return sentenceid;
-	}
+    // T O S T R I N G
 
-	public Integer getCorpusID()
-	{
-		return corpusid;
-	}
+    override fun toString(): String {
+        return "[SENT id=$iD text=${ellipsis(text)}]"
+    }
 
-	public Integer getDocID()
-	{
-		return docid;
-	}
+    companion object {
 
-	// I D E N T I T Y
+        private fun ellipsis(text: String): String {
+            val max = 32
+            val len = text.length
+            return text.substring(0, min(max.toDouble(), len.toDouble()).toInt())
+        }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Sentence sentence = (Sentence) o;
-		return sentenceid == sentence.sentenceid && Objects.equals(corpusid, sentence.corpusid) && Objects.equals(docid, sentence.docid);
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Sentence> = Comparator
+            .comparing<Sentence, Int> { it.iD }
+            .thenComparing<Int> { it.docID }
+            .thenComparing<Int> { it.corpusID }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(sentenceid, corpusid, docid);
-	}
+        @JvmField
+        val SET = HashSet<Sentence>()
 
-	// O R D E R
-
-	public static final Comparator<Sentence> COMPARATOR = Comparator.comparing(Sentence::getID).thenComparing(Sentence::getDocID).thenComparing(Sentence::getCorpusID);
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%s,%s,%d,%d,'%s',%d", //
-				sentenceid, //
-				Utils.zeroableInt(corpusid), //
-				Utils.zeroableInt(docid), //
-				paragno, //
-				sentno, //
-				Utils.escape(text), //
-				apos);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[SENT id=%s text=%s]", sentenceid, ellipsis(text));
-	}
-
-	private String ellipsis(String text)
-	{
-		int max = 32;
-		int len = text.length();
-		return text.substring(0, Math.min(max, len));
-	}
+        @JvmStatic
+        fun make(sentence: SentenceType): Sentence {
+            val s = Sentence(sentence)
+            SET.add(s)
+            return s
+        }
+    }
 }

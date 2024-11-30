@@ -1,99 +1,67 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
+import edu.berkeley.icsi.framenet.SemTypeType
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class SemType private constructor(
+    type: SemTypeType,
+) : HasID, Insertable {
 
-import edu.berkeley.icsi.framenet.SemTypeType;
+    val iD: Int = type.getID()
 
-public class SemType implements HasID, Insertable
-{
-	public static final Set<SemType> SET = new HashSet<>();
+    val name: String = type.getName()
 
-	private final int semtypeid;
+    private val abbrev: String = type.getAbbrev()
 
-	private final String name;
+    private val definition: String = type.getDefinition()
 
-	private final String abbrev;
+    // I D E N T I T Y
 
-	private final String definition;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as SemType
+        return iD == that.iD
+    }
 
-	public static SemType make(final SemTypeType type)
-	{
-		var t = new SemType(type);
-		SET.add(t);
-		return t;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(iD)
+    }
 
-	private SemType(final SemTypeType type)
-	{
-		this.semtypeid = type.getID();
-		this.name = type.getName();
-		this.abbrev = type.getAbbrev();
-		this.definition = type.getDefinition();
-	}
+    // I N S E R T
 
-	// A C C E S S
+    override fun dataRow(): String {
+        return "$iD,'$name','$abbrev','${escape(definition)}'"
+    }
 
-	public int getID()
-	{
-		return semtypeid;
-	}
+    // T O S T R I N G
 
-	public String getName()
-	{
-		return name;
-	}
+    override fun toString(): String {
+        return "[SEMTYPE semtypeid=$iD name=$name]"
+    }
 
-	// I D E N T I T Y
+    companion object {
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		SemType that = (SemType) o;
-		return semtypeid == that.semtypeid;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<SemType> = Comparator
+            .comparing<SemType, String> { it.name }
+            .thenComparing<Int> { it.iD }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(semtypeid);
-	}
+        @JvmField
+        val SET = HashSet<SemType>()
 
-	// O R D E R
-
-	public static final Comparator<SemType> COMPARATOR = Comparator.comparing(SemType::getName).thenComparing(SemType::getID);
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,'%s','%s','%s'", //
-				semtypeid, //
-				name, //
-				abbrev, //
-				Utils.escape(definition));
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[SEMTYPE semtypeid=%s name=%s]", this.semtypeid, this.name);
-	}
+        @JvmStatic
+        fun make(type: SemTypeType): SemType {
+            val t = SemType(type)
+            SET.add(t)
+            return t
+        }
+    }
 }

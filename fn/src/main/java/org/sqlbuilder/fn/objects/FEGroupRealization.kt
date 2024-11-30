@@ -1,128 +1,84 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import edu.berkeley.icsi.framenet.FEGroupRealizationType
+import edu.berkeley.icsi.framenet.FEValenceType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.ListCollector
+import org.sqlbuilder.common.SetId
+import java.util.*
+import java.util.stream.Collectors
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
+class FEGroupRealization private constructor(
+    fegr: FEGroupRealizationType,
+    val luID: Int,
+    val frameID: Int,
+) : HasId, SetId, Insertable {
 
-import edu.berkeley.icsi.framenet.FEGroupRealizationType;
-import edu.berkeley.icsi.framenet.FEValenceType;
+    private var id = 0
 
-import static java.util.stream.Collectors.joining;
+    val fENames: String = Arrays.stream<FEValenceType?>(fegr.getFEArray()).map<String?> { obj: FEValenceType? -> obj!!.getName() }.collect(Collectors.joining(","))
 
-public class FEGroupRealization implements HasId, SetId, Insertable
-{
-	public static final Comparator<FEGroupRealization> COMPARATOR = Comparator //
-			.comparing(FEGroupRealization::getLuID) //
-			.thenComparing(FEGroupRealization::getFENames); //
+    private val total: Int = fegr.getTotal()
 
-	public static final ListCollector<FEGroupRealization> LIST = new ListCollector<>();
+    @RequiresIdFrom(type = FEGroupRealization::class)
+    override fun getIntId(): Int {
+        return id
+    }
 
-	private int id;
+    override fun setId(id0: Int) {
+        this.id = id0
+    }
 
-	private final String feNames;
+    // I D E N T I T Y
 
-	private final int total;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FEGroupRealization
+        return this.fENames == that.fENames && this.luID == that.luID && this.frameID == that.frameID
+    }
 
-	private final int luid;
+    override fun hashCode(): Int {
+        return Objects.hash(this.fENames, this.luID, this.frameID)
+    }
 
-	private final int frameid;
+    // I N S E R T
 
-	public static FEGroupRealization make(final FEGroupRealizationType fegr, final int luid, final int frameid)
-	{
-		var r = new FEGroupRealization(fegr, luid, frameid);
-		LIST.add(r);
-		return r;
-	}
+    override fun dataRow(): String {
+        return "$intId,$total,$luID"
+    }
 
-	private FEGroupRealization(final FEGroupRealizationType fegr, final int luid, final int frameid)
-	{
-		this.luid = luid;
-		this.frameid = frameid;
-		this.total = fegr.getTotal();
-		this.feNames = Arrays.stream(fegr.getFEArray()).map(FEValenceType::getName).collect(joining(","));
-	}
+    override fun comment(): String {
+        return "fes={$fENames}"
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	public int getLuID()
-	{
-		return luid;
-	}
+    override fun toString(): String {
+        return "[FEGR fes={$fENames} luid=$luID]"
+    }
 
-	public int getFrameID()
-	{
-		return frameid;
-	}
+    companion object {
 
-	public String getFENames()
-	{
-		return feNames;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<FEGroupRealization> = Comparator
+            .comparing<FEGroupRealization, Int> { it.luID }
+            .thenComparing<String> { it.fENames }
 
-	@RequiresIdFrom(type = FEGroupRealization.class)
-	@Override
-	public Integer getIntId()
-	{
-		return id;
-	}
+        @JvmField
+        val LIST = ListCollector<FEGroupRealization>()
 
-	@Override
-	public void setId(final int id)
-	{
-		this.id = id;
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		FEGroupRealization that = (FEGroupRealization) o;
-		return feNames.equals(that.feNames) && luid == that.luid && frameid == that.frameid;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(feNames, luid, frameid);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		// fegrid INTEGER NOT NULL,
-		// total INTEGER NOT NULL,
-		// luid INTEGER NOT NULL,
-		return String.format("%d,%s,%d", //
-				getIntId(), //
-				total, //
-				luid);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("fes={%s}", feNames);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FEGR fes={%s} luid=%s]", feNames, luid);
-	}
+        @JvmStatic
+        fun make(fegr: FEGroupRealizationType, luid: Int, frameid: Int): FEGroupRealization {
+            val r = FEGroupRealization(fegr, luid, frameid)
+            LIST.add(r)
+            return r
+        }
+    }
 }
