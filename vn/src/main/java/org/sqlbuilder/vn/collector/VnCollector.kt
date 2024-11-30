@@ -15,7 +15,6 @@ import org.sqlbuilder.vn.joins.Class_Word.Companion.make
 import org.sqlbuilder.vn.joins.Member_Grouping.Companion.make
 import org.sqlbuilder.vn.joins.Member_Sense.Companion.make
 import org.sqlbuilder.vn.objects.Frame
-import org.sqlbuilder.vn.objects.Member.Companion.make
 import org.sqlbuilder.vn.objects.RestrainedRole
 import org.sqlbuilder.vn.objects.Role.Companion.make
 import org.sqlbuilder.vn.objects.VnClass
@@ -163,7 +162,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
         @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
         private fun processRoles(start: Node, clazz: VnClass, inheritedRestrainedRoles: Collection<RestrainedRole>?): Collection<RestrainedRole> {
             // roles
-            var restrainedRoles: MutableCollection<RestrainedRole> = VnDocument.makeRoles(start)
+            var restrainedRoles = VnDocument.makeRoles(start)
             if (inheritedRestrainedRoles != null) {
                 restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles)
             }
@@ -197,40 +196,37 @@ open class VnCollector(props: Properties) : Processor("vn") {
         @Throws(XPathExpressionException::class)
         private fun processMembers(start: Node, head: String, clazz: VnClass) {
             // members
-            val members = VnDocument.makeMembers(start)
-            members.add(make(head, null, null))
+            VnDocument.makeMembers(start, head)
+                .forEach {
+                    // word
+                    val word = make(it.lemma)
 
-            // member
-            for (member in members) {
-                // word
-                val word = make(member.lemma)
+                    // groupings
+                    if (it.groupings != null) {
+                        for (grouping in it.groupings) {
+                            make(clazz, word, grouping)
+                        }
+                    }
 
-                // groupings
-                if (member.groupings != null) {
-                    for (grouping in member.groupings) {
-                        make(clazz, word, grouping)
+                    // membership
+                    val membership = make(clazz, word)
+
+                    // if sensekeys are null, data apply to all senses
+                    if (it.senseKeys == null) {
+                        // class member sense
+                        make(membership, 0, null, 1f)
+                    }
+                    // else if sensekeys are not null, data apply only to senses pointed at by sensekeys
+                    else {
+                        for ((i, sensekey) in it.senseKeys.withIndex()) {
+                            // sense mapping quality as indicated by verbnet (-prefix to sense key)
+                            val senseQuality = sensekey.quality
+
+                            // class member sense
+                            make(membership, i, sensekey, senseQuality)
+                        }
                     }
                 }
-
-                // membership
-                val membership = make(clazz, word)
-
-                // if sensekeys are null, data apply to all senses
-                if (member.senseKeys == null) {
-                    // class member sense
-                    make(membership, 0, null, 1f)
-                    continue
-                }
-
-                // else if sensekeys are not null, data apply only to senses pointed at by sensekeys
-                for ((i, sensekey) in member.senseKeys.withIndex()) {
-                    // sense mapping quality as indicated by verbnet (-prefix to sense key)
-                    val senseQuality = sensekey.quality
-
-                    // class member sense
-                    make(membership, i, sensekey, senseQuality)
-                }
-            }
         }
     }
 }

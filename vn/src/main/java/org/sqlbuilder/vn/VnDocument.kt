@@ -74,8 +74,8 @@ class VnDocument(
         // M E M B E R S
 
         @Throws(XPathExpressionException::class)
-        fun makeMembers(start: Node): MutableCollection<Member> {
-            return getXPaths(start, "./MEMBERS/MEMBER")!!
+        fun makeMembers(start: Node, vararg others: String): Collection<Member> {
+            val result = getXPaths(start, "./MEMBERS/MEMBER")!!
                 .iteratorOfElements()
                 .asSequence()
                 .map {
@@ -85,6 +85,10 @@ class VnDocument(
                     make(lemmaAttribute, wnAttribute, groupingAttribute)
                 }
                 .toMutableList()
+            others.forEach {
+                result.add(make(it, null, null))
+            }
+            return result
         }
 
         @Throws(XPathExpressionException::class)
@@ -105,7 +109,7 @@ class VnDocument(
         // G R O U P I N G S
 
         @Throws(XPathExpressionException::class)
-        fun makeGroupings(start: Node): Set<Grouping> {
+        fun makeGroupings(start: Node): Collection<Grouping> {
             return getXPaths(start, "./MEMBERS/MEMBER")!!
                 .iteratorOfElements()
                 .asSequence()
@@ -123,7 +127,7 @@ class VnDocument(
         // R O L E
 
         @Throws(TransformerException::class, XPathExpressionException::class, IOException::class, SAXException::class, ParserConfigurationException::class)
-        fun makeRoles(start: Node): MutableSet<RestrainedRole> {
+        fun makeRoles(start: Node): Collection<RestrainedRole> {
             return getXPaths(start, "./THEMROLES/THEMROLE")!!
                 .iteratorOfElements()
                 .asSequence()
@@ -133,7 +137,7 @@ class VnDocument(
                     val selStrsXML = restrsElement?.getXML()
                     make(type, selStrsXML)
                 }
-                .toMutableSet()
+                .toSet()
         }
 
         @Throws(XPathExpressionException::class)
@@ -250,7 +254,7 @@ class VnDocument(
         }
 
         @Throws(TransformerException::class, XPathExpressionException::class, IOException::class, SAXException::class, ParserConfigurationException::class)
-        fun makeFrameExampleMappings(start: Node): List<Frame_Example> {
+        fun makeFrameExampleMappings(start: Node): Collection<Frame_Example> {
             return getXPaths(start, "./FRAMES/FRAME[EXAMPLES/EXAMPLE]")!!
                 .iteratorOfElements()
                 .asSequence()
@@ -303,7 +307,7 @@ class VnDocument(
         }
 
         @Throws(TransformerException::class, XPathExpressionException::class, ParserConfigurationException::class, SAXException::class, IOException::class)
-        fun makePredicateSemanticsMappings(start: Node): List<Predicate_Semantics> {
+        fun makePredicateSemanticsMappings(start: Node): Collection<Predicate_Semantics> {
             return getXPaths(start, "./FRAMES/FRAME/SEMANTICS")!!
                 .iteratorOfElements()
                 .asSequence()

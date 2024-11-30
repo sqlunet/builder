@@ -6,7 +6,6 @@ import org.sqlbuilder.vn.Inherit
 import org.sqlbuilder.vn.VnDocument
 import org.sqlbuilder.vn.VnModule
 import org.sqlbuilder.vn.objects.Frame
-import org.sqlbuilder.vn.objects.Member.Companion.make
 import org.sqlbuilder.vn.objects.RestrainedRole
 import org.sqlbuilder.vn.objects.Role.Companion.make
 import org.sqlbuilder.vn.objects.VnClass
@@ -56,14 +55,10 @@ class VnExportCollector(props: Properties) : VnCollector(props) {
         @Throws(XPathExpressionException::class)
         private fun processMembers(start: Node, head: String) {
             // members
-            val members = VnDocument.makeMembers(start)
-            members.add(make(head, null, null))
-
-            // member
-            for (member in members) {
-                // word
-                make(member.lemma)
-            }
+            VnDocument.makeMembers(start, head)
+                .forEach {
+                    make(it.lemma)
+                }
         }
 
         @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
@@ -78,7 +73,7 @@ class VnExportCollector(props: Properties) : VnCollector(props) {
         @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
         private fun processRoles(start: Node, clazz: VnClass, inheritedRestrainedRoles: Collection<RestrainedRole>?): Collection<RestrainedRole> {
             // roles
-            var restrainedRoles: MutableCollection<RestrainedRole> = VnDocument.makeRoles(start)
+            var restrainedRoles: Collection<RestrainedRole> = VnDocument.makeRoles(start)
             if (inheritedRestrainedRoles != null) {
                 restrainedRoles = Inherit.mergeRoles(restrainedRoles, inheritedRestrainedRoles)
             }
