@@ -23,11 +23,11 @@ class FrameSubName private constructor(
             return false
         }
         val that = o
-        return this.subName == that.subName
+        return subName == that.subName
     }
 
     override fun hashCode(): Int {
-        return this.subName.hashCode()
+        return subName.hashCode()
     }
 
     // O R D E R I N G

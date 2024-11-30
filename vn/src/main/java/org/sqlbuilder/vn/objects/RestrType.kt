@@ -43,9 +43,9 @@ class RestrType private constructor(
 
     override fun toString(): String {
         val buffer = StringBuilder()
-        buffer.append(this.value)
-        buffer.append(this.type)
-        if (this.isSyntactic) {
+        buffer.append(value)
+        buffer.append(type)
+        if (isSyntactic) {
             buffer.append('*')
         }
         return buffer.toString()

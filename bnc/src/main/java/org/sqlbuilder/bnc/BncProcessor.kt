@@ -25,8 +25,8 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
     protected var outDir: File = File(conf.getProperty("bnc_outdir", "sql/data"))
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 

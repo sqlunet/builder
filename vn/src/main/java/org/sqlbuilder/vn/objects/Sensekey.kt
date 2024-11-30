@@ -6,10 +6,14 @@ class Sensekey private constructor(
 ) : Comparable<Sensekey> {
 
     val quality: Float
-        get() = if (this.isDefinite) 1f else .5f
+        get() = if (isDefinite) 1f else .5f
 
     override fun compareTo(that: Sensekey): Int {
         return sensekey.compareTo(that.sensekey)
+    }
+
+    override fun toString(): String {
+        return sensekey
     }
 
     companion object {

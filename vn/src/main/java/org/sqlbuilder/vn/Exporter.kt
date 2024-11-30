@@ -23,8 +23,8 @@ class Exporter
     private val outDir: File = File(conf.getProperty("vn_outdir_ser", "sers"))
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 

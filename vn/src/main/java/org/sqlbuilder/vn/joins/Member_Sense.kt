@@ -11,7 +11,6 @@ import org.sqlbuilder.vn.objects.VnClass
 import org.sqlbuilder.vn.objects.Word
 import java.util.*
 import java.util.AbstractMap.SimpleEntry
-import java.util.function.Function
 
 class Member_Sense private constructor(
     val member: Class_Word,
@@ -54,7 +53,7 @@ class Member_Sense private constructor(
     @RequiresIdFrom(type = VnClass::class)
     @RequiresIdFrom(type = Word::class)
     override fun dataRow(): String {
-        return "${member.clazz.intId},${member.word.intId},${sensenum},${nullableQuotedString(sensekey)},${nullableFloat(quality)}"
+        return "${member.clazz.intId},${member.word.intId},$sensenum,${nullableQuotedString(sensekey)},${nullableFloat(quality)}"
     }
 
     override fun comment(): String {
@@ -79,13 +78,13 @@ class Member_Sense private constructor(
         val COMPARATOR: Comparator<Member_Sense> = Comparator
             .comparing<Member_Sense, VnClass> { it.memberClass }
             .thenComparing<Word> { it.memberWord }
-            .thenComparing<Sensekey?> ({ it.sensekey }, nullsFirst(naturalOrder<Sensekey>()))
+            .thenComparing<Sensekey?>({ it.sensekey }, nullsFirst(naturalOrder<Sensekey>()))
 
         @JvmField
         val SET = HashSet<Member_Sense>()
 
         @JvmField
-        val RESOLVE_RESULT_STRINGIFIER = Function { r: SimpleEntry<Int, Int>? ->
+        val RESOLVE_RESULT_STRINGIFIER = { r: SimpleEntry<Int, Int>? ->
             if (r == null) "NULL,NULL" else "${nullableInt(r.key)},${nullableInt(r.value)}"
         }
 

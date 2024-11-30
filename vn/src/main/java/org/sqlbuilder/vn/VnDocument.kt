@@ -42,7 +42,7 @@ class VnDocument(
     @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
     private fun load(filePath: String) {
         val builder: DocumentBuilder = makeDocumentBuilder()
-        this.document = builder.parse(filePath)
+        document = builder.parse(filePath)
     }
 
     companion object {
@@ -172,7 +172,7 @@ class VnDocument(
                 .map {
                     val restrValue = it.getAttribute("Value")
                     val restrType = it.getAttribute("type")
-                    make(restrValue, restrType, false)
+                    make(restrValue, restrType, true)
                 }
                 .toList()
         }
@@ -195,7 +195,7 @@ class VnDocument(
                 .asSequence()
                 .map { it.getXML() }
                 .filter { !it.isEmpty() && it != "<SYNRESTRS/>" }
-                .map { make(it, false) }
+                .map { make(it, true) }
                 .toList()
         }
 

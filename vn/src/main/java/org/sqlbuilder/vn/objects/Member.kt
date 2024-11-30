@@ -11,7 +11,7 @@ private constructor(
 ) {
 
     val quality: Float
-        get() = if (this.isDefinite) 1f else .5f
+        get() = if (isDefinite) 1f else .5f
 
     companion object {
 

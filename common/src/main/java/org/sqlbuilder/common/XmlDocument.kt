@@ -23,7 +23,7 @@ open class XmlDocument(filePath: String) {
 
     val fileName: String?
         get() {
-            val uriString = this.document.documentURI
+            val uriString = document.documentURI
             if (uriString != null) {
                 try {
                     val uri = URI(uriString)

@@ -16,9 +16,9 @@ import java.util.*
 class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
     init {
         // output
-        this.outDir = File(conf.getProperty("bnc_outdir_updated", "sql/data_updated"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("bnc_outdir_updated", "sql/data_updated"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 

@@ -4,7 +4,7 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
 import org.sqlbuilder.pb.PbNormalizer
 
-class Arg private constructor(example: Example, text: String, val type: String) : HasId, Insertable, Comparable<Arg> {
+class Arg private constructor(example0: Example, text0: String, val type: String) : HasId, Insertable, Comparable<Arg> {
 
     private val example: Example
 
@@ -18,8 +18,8 @@ class Arg private constructor(example: Example, text: String, val type: String) 
 
     init {
         assert(!type.isEmpty())
-        this.example = example
-        this.text = PbNormalizer.normalize(text)
+        example = example0
+        text = PbNormalizer.normalize(text0)
         val fn = extractFN(type)
         n = fn.first
         f = fn.second

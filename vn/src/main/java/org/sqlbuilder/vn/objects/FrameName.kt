@@ -23,11 +23,11 @@ class FrameName private constructor(
             return false
         }
         val that = o
-        return this.name == that.name
+        return name == that.name
     }
 
     override fun hashCode(): Int {
-        return this.name.hashCode()
+        return name.hashCode()
     }
 
     // O R D E R I N G
@@ -37,7 +37,7 @@ class FrameName private constructor(
     }
 
     override fun toString(): String {
-        return this.name
+        return name
     }
 
     // I N S E R T

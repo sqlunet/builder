@@ -37,7 +37,7 @@ class RestrainedRole private constructor(
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append(this.roleType.type)
+        sb.append(roleType.type)
         if (restrs != null) {
             sb.append(' ')
             sb.append(restrs)

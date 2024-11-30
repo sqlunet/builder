@@ -21,11 +21,11 @@ import javax.xml.xpath.XPathExpressionException
 class VnUpdateCollector(props: Properties) : VnCollector(props) {
 
     override fun run() {
-        val folder = File(this.verbNetHome)
+        val folder = File(verbNetHome)
         val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
         val files = folder.listFiles(filter)
         if (files == null) {
-            throw RuntimeException("Dir:" + this.verbNetHome + " is empty")
+            throw RuntimeException("Dir:$verbNetHome is empty")
         }
         // iterate
         var fileCount = 0

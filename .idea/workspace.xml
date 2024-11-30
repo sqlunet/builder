@@ -10,19 +10,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Utils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncResolvingProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncUpdatingProcessor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Arg.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Arg.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnUpdateCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnUpdateCollector.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameSubName.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameSubName.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Grouping.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Grouping.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Member.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Member.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrainedRole.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrainedRole.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Restrs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Restrs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RoleType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RoleType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Semantics.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Semantics.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sensekey.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sensekey.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Syntax.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Syntax.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -80,31 +92,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;devkwippb34&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BncModule (resolve).executor": "Run",
+    "Application.BncModule (update).executor": "Run",
+    "Application.BncModule.executor": "Run",
+    "Application.PbModule (resolve).executor": "Run",
+    "Application.PbModule (update).executor": "Run",
+    "Application.PbModule.executor": "Run",
+    "Application.VnModule.executor": "Run",
+    "JUnit.TestParseFile.executor": "Run",
+    "JUnit.TestXPath.executor": "Run",
+    "Maven.all [clean].executor": "Run",
+    "Maven.all [compile].executor": "Run",
+    "Maven.fn-beans [install].executor": "Run",
+    "Maven.fn-jaxb [install].executor": "Run",
+    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.reqprov [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "devkwippb34",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "configurable.group.editor"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bnc" />
@@ -116,7 +129,7 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestXPath">
+  <component name="RunManager" selected="Application.VnModule">
     <configuration name="TestXPath" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="common" />
       <extension name="coverage">
@@ -233,14 +246,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00014" summary="insert iterable with resolver function">
-      <option name="closed" value="true" />
-      <created>1732619195147</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1732619195147</updated>
     </task>
     <task id="LOCAL-00015" summary="insert iterable with resolver function">
       <option name="closed" value="true" />
@@ -626,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732958718715</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732962079574</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1732962079574</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -677,14 +690,13 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="kotlin-line">
-          <url>file://$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/objects/BncRecord.kt</url>
-          <line>114</line>
-          <option name="timeStamp" value="7" />
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt</url>
+          <line>55</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
-        <breakpoint enabled="true" type="java-exception" />
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
             <option name="notifyOnTerminate" value="true" />

@@ -25,19 +25,19 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     init {
         // header
-        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
+        header += "\n-- ${conf.getProperty("wn_resolve_against")}"
 
         // output
-        this.outDir = File(conf.getProperty("vn_outdir_resolved", "sql/data_resolved"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("vn_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
 
         // resolve
-        this.wordSerFile = conf.getProperty("word_nids")
-        this.sensekeySerFile = conf.getProperty("sense_nids")
-        this.wordResolver = VnWordResolver(this.wordSerFile)
-        this.sensekeyResolver = VnSensekeyResolver(this.sensekeySerFile)
+        wordSerFile = conf.getProperty("word_nids")
+        sensekeySerFile = conf.getProperty("sense_nids")
+        wordResolver = VnWordResolver(wordSerFile)
+        sensekeyResolver = VnSensekeyResolver(sensekeySerFile)
     }
 
     @Throws(FileNotFoundException::class)

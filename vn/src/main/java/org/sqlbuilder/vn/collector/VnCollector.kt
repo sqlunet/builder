@@ -35,11 +35,11 @@ open class VnCollector(props: Properties) : Processor("vn") {
     protected val verbNetHome: String = props.getProperty("vn_home", System.getenv()["VNHOME"])
 
     override fun run() {
-        val folder = File(this.verbNetHome)
+        val folder = File(verbNetHome)
         val filter = FilenameFilter { _, name -> name.endsWith(".xml") }
         val files = folder.listFiles(filter)
         if (files == null) {
-            throw RuntimeException("Dir:" + this.verbNetHome + " is empty")
+            throw RuntimeException("Dir:$verbNetHome is empty")
         }
         // iterate
         var fileCount = 0
@@ -223,7 +223,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
                             val senseQuality = sensekey.quality
 
                             // class member sense
-                            make(membership, i, sensekey, senseQuality)
+                            make(membership, i + 1, sensekey, senseQuality)
                         }
                     }
                 }

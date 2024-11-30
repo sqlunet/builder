@@ -38,7 +38,7 @@ class Restrs private constructor(
     // O R D E R I N G
 
     override fun compareTo(that: Restrs): Int {
-        val cmp = this.value.compareTo(that.value)
+        val cmp = value.compareTo(that.value)
         if (cmp != 0) {
             return cmp
         }
@@ -49,8 +49,8 @@ class Restrs private constructor(
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append(this.value)
-        if (this.isSyntactic) {
+        sb.append(value)
+        if (isSyntactic) {
             sb.append('*')
         }
         return sb.toString()

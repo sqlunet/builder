@@ -21,17 +21,17 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
 
     init {
         // header
-        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
+        header += "\n-- ${conf.getProperty("wn_resolve_against")}"
 
         // output
-        this.outDir = File(conf.getProperty("bnc_outdir_resolved", "sql/data_resolved"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("bnc_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
 
         // resolve
-        this.serFile = conf.getProperty("word_nids")
-        this.wordResolver = BncWordResolver(this.serFile)
+        serFile = conf.getProperty("word_nids")
+        wordResolver = BncWordResolver(serFile)
     }
 
     @Throws(IOException::class)

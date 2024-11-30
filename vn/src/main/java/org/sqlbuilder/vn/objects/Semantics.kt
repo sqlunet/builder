@@ -37,7 +37,7 @@ class Semantics private constructor(
     // O R D E R I N G
 
     override fun compareTo(that: Semantics): Int {
-        return this.semantics.compareTo(that.semantics)
+        return semantics.compareTo(that.semantics)
     }
 
     // I N S E R T

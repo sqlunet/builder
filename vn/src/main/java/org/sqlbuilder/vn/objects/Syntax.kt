@@ -38,7 +38,7 @@ class Syntax private constructor(
     // O R D E R I N G
 
     override fun compareTo(that: Syntax): Int {
-        return this.syntax.compareTo(that.syntax)
+        return syntax.compareTo(that.syntax)
     }
 
     // I N S E R T

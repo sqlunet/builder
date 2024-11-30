@@ -40,7 +40,7 @@ class Grouping private constructor(
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("%s", this.name)
+        return name
     }
 
     // I N S E R T
