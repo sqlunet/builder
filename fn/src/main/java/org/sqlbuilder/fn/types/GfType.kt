@@ -1,28 +1,31 @@
-package org.sqlbuilder.fn.types;
+package org.sqlbuilder.fn.types
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.SqlId;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.SqlId.getSqlId
 
-import java.util.Comparator;
+object GfType {
 
-public class GfType
-{
-	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
+    val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @JvmField
+    val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-	@RequiresIdFrom(type = GfType.class)
-	public static Integer getIntId(String value)
-	{
-		return value == null ? null : COLLECTOR.apply(value);
-	}
+    @JvmStatic
+    fun add(type: String) {
+        LabelType.COLLECTOR.add(type)
+    }
 
-	@RequiresIdFrom(type = GfType.class)
-	public static Object getSqlId(String value)
-	{
-		return SqlId.getSqlId(getIntId(value));
-	}
+    @RequiresIdFrom(type = GfType::class)
+    fun getIntId(value: String?): Int? {
+        return if (value == null) null else COLLECTOR.apply(value)
+    }
+
+    @JvmStatic
+    @RequiresIdFrom(type = GfType::class)
+    fun getSqlId(value: String?): Any {
+        return getSqlId(getIntId(value))
+    }
 }
 
 /*

@@ -1,82 +1,55 @@
-package org.sqlbuilder.fn.types;
+package org.sqlbuilder.fn.types
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Cxns private constructor(
+    val id: Int,
+    val name: String,
+) : HasID, Insertable {
 
-public class Cxns implements HasID, Insertable
-{
-	public static final Comparator<Cxns> COMPARATOR = Comparator.comparing(Cxns::getName).thenComparing(Cxns::getId);
+    // I D E N T I T Y
 
-	public static final Set<Cxns> SET = new HashSet<>();
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val cxns = o as Cxns
+        return id == cxns.id && name == cxns.name
+    }
 
-	private final int id;
+    override fun hashCode(): Int {
+        return Objects.hash(id, name)
+    }
 
-	private final String name;
+    // I N S E R T
 
-	// C O N S T R U C T O R
+    override fun dataRow(): String {
+        return "$id,'${escape(name)}'"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Cxns make(final int id, final String name)
-	{
-		var c = new Cxns(id, name);
-		SET.add(c);
-		return c;
-	}
+    companion object {
 
-	private Cxns(final int id, final String name)
-	{
-		this.id = id;
-		this.name = name;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Cxns> = Comparator
+            .comparing<Cxns, String> { it.name }
+            .thenComparing<Int> { it.id }
 
-	// A C C E S S
+        @JvmField
+        val SET = HashSet<Cxns>()
 
-	public int getId()
-	{
-		return id;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Cxns cxns = (Cxns) o;
-		return id == cxns.id && name.equals(cxns.name);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(id, name);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,'%s'", id, Utils.escape(name));
-	}
+        @JvmStatic
+        fun make(id: Int, name: String): Cxns {
+            val c = Cxns(id, name)
+            SET.add(c)
+            return c
+        }
+    }
 }
 
 /*
@@ -104,3 +77,4 @@ public class Cxns implements HasID, Insertable
 111, TEMP_The_ubiquitous_noun
 81, Modifier-head
 */
+

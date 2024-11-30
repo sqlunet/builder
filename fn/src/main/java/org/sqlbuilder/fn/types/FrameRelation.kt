@@ -1,33 +1,31 @@
-package org.sqlbuilder.fn.types;
+package org.sqlbuilder.fn.types
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.SqlId;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.SqlId.getSqlId
 
-import java.util.Comparator;
+object FrameRelation {
 
-public class FrameRelation
-{
-	public static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
+    val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @JvmField
+    val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-	public static void add(String type)
-	{
-		COLLECTOR.add(type);
-	}
+    @JvmStatic
+    fun add(type: String) {
+        COLLECTOR.add(type)
+    }
 
-	@RequiresIdFrom(type = FrameRelation.class)
-	public static Integer getIntId(String value)
-	{
-		return value == null ? null : COLLECTOR.apply(value);
-	}
+    @RequiresIdFrom(type = FrameRelation::class)
+    fun getIntId(value: String?): Int? {
+        return if (value == null) null else COLLECTOR.apply(value)
+    }
 
-	@RequiresIdFrom(type = FrameRelation.class)
-	public static Object getSqlId(String value)
-	{
-		return SqlId.getSqlId(getIntId(value));
-	}
+    @JvmStatic
+    @RequiresIdFrom(type = FrameRelation::class)
+    fun getSqlId(value: String?): Any {
+        return getSqlId(getIntId(value))
+    }
 }
 
 /*
@@ -46,3 +44,4 @@ public class FrameRelation
 12, Subframe of
 13, Uses
 */
+

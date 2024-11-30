@@ -1,30 +1,28 @@
-package org.sqlbuilder.fn.types;
+package org.sqlbuilder.fn.types
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.common.SqlId;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.SqlId.getSqlId
 
-import java.util.Comparator;
+object FeType {
 
-public class FeType
-{
-	public static final Comparator<String> COMPARATOR = String::compareToIgnoreCase;
+    val COMPARATOR: Comparator<String> = Comparator { obj, str -> obj.compareTo(str, ignoreCase = true) }
 
-	public static final SetCollector<String> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @JvmField
+    val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-	@RequiresIdFrom(type = FeType.class)
-	public static Integer getIntId(String value)
-	{
-		return value == null ? null : COLLECTOR.apply(value);
-	}
+    @JvmStatic
+    @RequiresIdFrom(type = FeType::class)
+    fun getIntId(value: String?): Int? {
+        return if (value == null) null else COLLECTOR.apply(value)
+    }
 
-	@RequiresIdFrom(type = FeType.class)
-	public static Object getSqlId(String value)
-	{
-		return SqlId.getSqlId(getIntId(value));
-	}
+    @JvmStatic
+    @RequiresIdFrom(type = FeType::class)
+    fun getSqlId(value: String?): Any {
+        return getSqlId(getIntId(value))
+    }
 }
-
 /*
 # fetypeid, fetype
 1, Abundant_entities

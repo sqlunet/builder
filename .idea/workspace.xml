@@ -10,7 +10,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fixes">
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Cxns.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FeType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FrameRelation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/GfType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LayerType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Cxns.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FeType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/FrameRelation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/GfType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LabelType.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LabelType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/LayerType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/PtType.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/PtType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/vn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/vn/vn.iml" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -68,35 +83,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BncModule (resolve).executor": "Run",
-    "Application.BncModule (update).executor": "Run",
-    "Application.BncModule.executor": "Run",
-    "Application.PbModule (resolve).executor": "Run",
-    "Application.PbModule (update).executor": "Run",
-    "Application.PbModule.executor": "Run",
-    "Application.VnModule (export).executor": "Run",
-    "Application.VnModule (resolve).executor": "Run",
-    "Application.VnModule (update).executor": "Run",
-    "Application.VnModule.executor": "Run",
-    "JUnit.TestParseFile.executor": "Run",
-    "JUnit.TestXPath.executor": "Run",
-    "Maven.all [clean].executor": "Run",
-    "Maven.all [compile].executor": "Run",
-    "Maven.fn-beans [install].executor": "Run",
-    "Maven.fn-jaxb [install].executor": "Run",
-    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
-    "Maven.reqprov [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "devkwippb34",
-    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "configurable.group.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (export).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;devkwippb34&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bnc" />
@@ -225,14 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00016" summary="rename insert functions">
-      <option name="closed" value="true" />
-      <created>1732641142167</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1732641142167</updated>
     </task>
     <task id="LOCAL-00017" summary="to kotlin">
       <option name="closed" value="true" />
@@ -618,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732964377860</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1732965057102</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1732965057102</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
