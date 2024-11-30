@@ -1,47 +1,39 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
+import org.sqlbuilder.common.Insertable
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class Frame_SemType private constructor(
+    frameid: Int,
+    semtypeid: Int,
+) : Pair<Int, Int>(frameid, semtypeid), Insertable {
 
-public class Frame_SemType extends Pair<Integer, Integer> implements Insertable
-{
-	public static final Set<Frame_SemType> SET = new HashSet<>();
+    // I N S E R T
 
-	// C O N S T R U C T O R
+    override fun dataRow(): String {
+        return "$first,$second"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Frame_SemType make(final int frameid, final int semtypeid)
-	{
-		var ft = new Frame_SemType(frameid, semtypeid);
-		SET.add(ft);
-		return ft;
-	}
+    // T O S T R I N G
 
-	private Frame_SemType(final int frameid, final int semtypeid)
-	{
-		super(frameid, semtypeid);
-	}
+    override fun toString(): String {
+        return "[FR-SEM frameid=$first semtypeid=$second]"
+    }
 
-	// O R D E R
+    companion object {
 
-	public static final Comparator<Frame_SemType> COMPARATOR = Comparator.comparing(Frame_SemType::getFirst).thenComparing(Frame_SemType::getSecond);
+        @JvmField
+        val COMPARATOR: Comparator<Frame_SemType> = Comparator
+            .comparing<Frame_SemType, Int> { it.first }
+            .thenComparing<Int> { it.second }
 
-	// I N S E R T
+        @JvmField
+        val SET = HashSet<Frame_SemType>()
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", first, second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FR-SEM frameid=%s semtypeid=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(frameid: Int, semtypeid: Int): Frame_SemType {
+            val ft = Frame_SemType(frameid, semtypeid)
+            SET.add(ft)
+            return ft
+        }
+    }
 }

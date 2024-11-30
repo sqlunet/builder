@@ -1,49 +1,43 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.Sentence;
-import org.sqlbuilder.fn.objects.SubCorpus;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.Sentence
+import org.sqlbuilder.fn.objects.SubCorpus
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class SubCorpus_Sentence private constructor(
+    subcorpus: SubCorpus,
+    sentenceid: Int,
+) : Pair<SubCorpus, Int>(subcorpus, sentenceid), Insertable {
 
-public class SubCorpus_Sentence extends Pair<SubCorpus, Integer> implements Insertable
-{
-	public static final Comparator<SubCorpus_Sentence> COMPARATOR = Comparator.comparing(SubCorpus_Sentence::getFirst, SubCorpus.COMPARATOR).thenComparing(SubCorpus_Sentence::getSecond);
+    // I N S E R T
 
-	public static final Set<SubCorpus_Sentence> SET = new HashSet<>();
+    @RequiresIdFrom(type = SubCorpus::class)
+    override fun dataRow(): String {
+        return "${first.getSqlId()},$second"
+    }
 
-	// C O N S T R U C T O R
+    // T O S T R I N G
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static SubCorpus_Sentence make(final SubCorpus subcorpus, final Sentence sentence)
-	{
-		var ss = new SubCorpus_Sentence(subcorpus, sentence.getID());
-		SET.add(ss);
-		return ss;
-	}
+    override fun toString(): String {
+        return "[SUBCORPUS-SENT subcorpusid=$first sentenceid=$second]"
+    }
 
-	private SubCorpus_Sentence(final SubCorpus subcorpus, final Integer sentenceid)
-	{
-		super(subcorpus, sentenceid);
-	}
+    companion object {
 
-	// I N S E R T
+        @JvmField
+        val COMPARATOR: Comparator<SubCorpus_Sentence> = Comparator
+            .comparing<SubCorpus_Sentence, SubCorpus>({ it.first }, SubCorpus.COMPARATOR)
+            .thenComparing<Int> { it.second }
 
-	@RequiresIdFrom(type = SubCorpus.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%d", first.getSqlId(), second);
-	}
+        @JvmField
+        val SET = HashSet<SubCorpus_Sentence>()
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[SUBCORPUS-SENT subcorpusid=%s sentenceid=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(subcorpus: SubCorpus, sentence: Sentence): SubCorpus_Sentence {
+            val ss = SubCorpus_Sentence(subcorpus, sentence.iD)
+            SET.add(ss)
+            return ss
+        }
+    }
 }

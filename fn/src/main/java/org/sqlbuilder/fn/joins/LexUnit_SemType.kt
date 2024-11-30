@@ -1,47 +1,40 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
+import edu.berkeley.icsi.framenet.SemTypeRefType
+import org.sqlbuilder.common.Insertable
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class LexUnit_SemType private constructor(
+    luid: Int, semtypeid: Int,
+) : Pair<Int, Int>(luid, semtypeid), Insertable {
 
-import edu.berkeley.icsi.framenet.SemTypeRefType;
+    // I N S E R T
 
-public class LexUnit_SemType extends Pair<Integer, Integer> implements Insertable
-{
-	public static final Comparator<LexUnit_SemType> COMPARATOR = Comparator.comparing(LexUnit_SemType::getFirst).thenComparing(LexUnit_SemType::getSecond);
+    override fun dataRow(): String {
+        return "$first,$second"
+    }
 
-	public static final Set<LexUnit_SemType> SET = new HashSet<>();
+    // T O S T R I N G
 
-	// C O N S T R U C T O R
+    override fun toString(): String {
+        return "[LU-SEM luid=$first semtypeid=$second]"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static LexUnit_SemType make(final int luid, final SemTypeRefType semtype)
-	{
-		var ut = new LexUnit_SemType(luid, semtype.getID());
-		SET.add(ut);
-		return ut;
-	}
+    companion object {
 
-	private LexUnit_SemType(final int luid, final int semtypeid)
-	{
-		super(luid, semtypeid);
-	}
+        @JvmField
+        val COMPARATOR: Comparator<LexUnit_SemType> = Comparator
+            .comparing<LexUnit_SemType, Int> { it.first }
+            .thenComparing<Int> { it.second }
 
-	// I N S E R T
+        @JvmField
+        val SET = HashSet<LexUnit_SemType>()
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", first, second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[LU-SEM luid=%s semtypeid=%s]", first, second);
-	}
+        // C O N S T R U C T O R
+        @JvmStatic
+        fun make(luid: Int, semtype: SemTypeRefType): LexUnit_SemType {
+            val ut = LexUnit_SemType(luid, semtype.getID())
+            SET.add(ut)
+            return ut
+        }
+    }
 }

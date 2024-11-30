@@ -1,61 +1,28 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import java.util.Objects;
+import java.util.*
 
-public class Triple<T, U, V>
-{
-	protected final T first;
+open class Triple<T, U, V>(
+    val first: T,
+    val second: U, val third: V
+) {
 
-	protected final U second;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Triple<*, *, *>
+        return first == that.first && second == that.second && third == that.third
+    }
 
-	protected final V third;
+    override fun hashCode(): Int {
+        return Objects.hash(first, second, third)
+    }
 
-	public Triple(final T first, final U second, final V third)
-	{
-		this.first = first;
-		this.second = second;
-		this.third = third;
-	}
-
-	public T getFirst()
-	{
-		return first;
-	}
-
-	public U getSecond()
-	{
-		return second;
-	}
-
-	public V getThird()
-	{
-		return third;
-	}
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Triple<?, ?, ?> that = (Triple<?, ?, ?>) o;
-		return Objects.equals(first, that.first) && Objects.equals(second, that.second) && Objects.equals(third, that.third);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(first, second, third);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[VU-AS first=%s second=%s third=%s]", first, second, third);
-	}
+    override fun toString(): String {
+        return String.format("[first=%s second=%s third=%s]", first, second, third)
+    }
 }

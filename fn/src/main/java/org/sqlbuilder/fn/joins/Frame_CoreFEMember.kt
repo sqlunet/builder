@@ -1,42 +1,33 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.sqlbuilder.common.Insertable
 
 // TODO remove
-public class Frame_CoreFEMember extends Pair<Integer, Integer> implements Insertable
-{
-	public static final Set<Frame_CoreFEMember> SET = new HashSet<>();
+class Frame_CoreFEMember private constructor(
+    frameid: Int,
+    feid: Int,
+) : Pair<Int, Int>(frameid, feid), Insertable {
 
-	// C O N S T R U C T O R
+    // I N S E R T
 
-	public static Frame_CoreFEMember make(final int frameid, final int feid)
-	{
-		var fe = new Frame_CoreFEMember(frameid, feid);
-		SET.add(fe);
-		return fe;
-	}
+    override fun dataRow(): String {
+        return "$first,$second"
+    }
 
-	private Frame_CoreFEMember(final int frameid, final int feid)
-	{
-		super(frameid, feid);
-	}
+    // T O S T R I N G
 
-	// I N S E R T
+    override fun toString(): String {
+        return "[FR-coreFE frameid=$first feid=$second]"
+    }
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", first, second);
-	}
+    companion object {
 
-	// T O S T R I N G
+        val SET = HashSet<Frame_CoreFEMember>()
 
-	@Override
-	public String toString()
-	{
-		return String.format("[FR-coreFE frameid=%s feid=%s]", first, second);
-	}
+        fun make(frameid: Int, feid: Int): Frame_CoreFEMember {
+            val fe = Frame_CoreFEMember(frameid, feid)
+            SET.add(fe)
+            return fe
+        }
+    }
 }

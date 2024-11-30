@@ -1,50 +1,43 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.Governor;
+import edu.berkeley.icsi.framenet.AnnoSetType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.Governor
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class Governor_AnnoSet private constructor(
+    governor: Governor,
+    annosetid: Int,
+) : Pair<Governor, Int>(governor, annosetid), Insertable {
 
-import edu.berkeley.icsi.framenet.AnnoSetType;
+    // I N S E R T
 
-public class Governor_AnnoSet extends Pair<Governor, Integer> implements Insertable
-{
-	public static final Comparator<Governor_AnnoSet> COMPARATOR = Comparator.comparing(Governor_AnnoSet::getFirst, Governor.COMPARATOR).thenComparing(Governor_AnnoSet::getSecond);
+    @RequiresIdFrom(type = Governor::class)
+    override fun dataRow(): String {
+        return "${first.getSqlId()},$second"
+    }
 
-	public static final Set<Governor_AnnoSet> SET = new HashSet<>();
+    // T O S T R I N G
 
-	// C O N S T R U C T O R
+    override fun toString(): String {
+        return "[GOV-AS governor=$first annosetid=$second]"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Governor_AnnoSet make(final Governor governor, final AnnoSetType annoset)
-	{
-		var ga = new Governor_AnnoSet(governor, annoset.getID());
-		SET.add(ga);
-		return ga;
-	}
+    companion object {
 
-	private Governor_AnnoSet(final Governor governor, final int annosetid)
-	{
-		super(governor, annosetid);
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Governor_AnnoSet> = Comparator
+            .comparing<Governor_AnnoSet, Governor>({ it.first }, Governor.COMPARATOR)
+            .thenComparing<Int> { it.second }
 
-	// I N S E R T
+        @JvmField
+        val SET = HashSet<Governor_AnnoSet>()
 
-	@RequiresIdFrom(type = Governor.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%d", first.getSqlId(), second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[GOV-AS governor=%s annosetid=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(governor: Governor, annoset: AnnoSetType): Governor_AnnoSet {
+            val ga = Governor_AnnoSet(governor, annoset.getID())
+            SET.add(ga)
+            return ga
+        }
+    }
 }

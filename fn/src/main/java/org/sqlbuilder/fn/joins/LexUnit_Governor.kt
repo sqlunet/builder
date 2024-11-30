@@ -1,48 +1,41 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.Governor;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.Governor
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class LexUnit_Governor private constructor(
+    luid: Int, governor: Governor,
+) : Pair<Int, Governor>(luid, governor), Insertable {
 
-public class LexUnit_Governor extends Pair<Integer, Governor> implements Insertable
-{
-	public static final Comparator<LexUnit_Governor> COMPARATOR = Comparator.comparing(LexUnit_Governor::getFirst).thenComparing(LexUnit_Governor::getSecond, Governor.COMPARATOR);
+    // I N S E R T
 
-	public static final Set<LexUnit_Governor> SET = new HashSet<>();
+    @RequiresIdFrom(type = Governor::class)
+    override fun dataRow(): String {
+        return "$first,${second.getSqlId()}"
+    }
 
-	// C O N S T R U C T O R
+    // T O S T R I N G
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static LexUnit_Governor make(final int luid, final Governor governor)
-	{
-		var ug = new LexUnit_Governor(luid, governor);
-		SET.add(ug);
-		return ug;
-	}
+    override fun toString(): String {
+        return "[LU-GOV lu=$first governor=$second]"
+    }
 
-	private LexUnit_Governor(final int luid, final Governor governor)
-	{
-		super(luid, governor);
-	}
+    companion object {
 
-	// I N S E R T
+        @JvmField
+        val COMPARATOR: Comparator<LexUnit_Governor> = Comparator
+            .comparing<LexUnit_Governor, Int> { it.first }
+            .thenComparing<Governor>({ it.second }, Governor.COMPARATOR)
 
-	@RequiresIdFrom(type = Governor.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%s", first, second.getSqlId());
-	}
+        @JvmField
+        val SET = HashSet<LexUnit_Governor>()
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[LU-GOV lu=%s governor=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(luid: Int, governor: Governor): LexUnit_Governor {
+            val ug = LexUnit_Governor(luid, governor)
+            SET.add(ug)
+            return ug
+        }
+    }
 }

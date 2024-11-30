@@ -24,8 +24,8 @@ class FE_FEExcluded private constructor(
 
         @JvmField
         val COMPARATOR: Comparator<FE_FEExcluded> = Comparator
-            .comparing<FE_FEExcluded, Int> { it.getFirst() }
-            .thenComparing<Int?> { it.getSecond() }
+            .comparing<FE_FEExcluded, Int> { it.first }
+            .thenComparing<Int?> { it.second }
 
         @JvmField
         val SET = HashSet<FE_FEExcluded>()

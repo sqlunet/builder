@@ -10,27 +10,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern_AnnoSet.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEExcluded.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEGroupRealization.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FERequired.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_SemType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Corpus.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Doc.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/SubCorpus.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Values.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern_FEPattern.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEPattern.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Frame_CoreFEMember.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Frame_FrameRelated.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Frame_SemType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Governor_AnnoSet.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/LexUnit_Governor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/LexUnit_SemType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Pair.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/SemType_SemTypeSuper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/SubCorpus_Sentence.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/ValenceUnit_AnnoSet.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern_AnnoSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEExcluded.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEGroupRealization.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FERequired.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_SemType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Corpus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Doc.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/SubCorpus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Values.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern_FEPattern.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEPattern.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEExcluded.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEExcluded.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FERequired.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FERequired.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_SemType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_SemType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Frame_CoreFEMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Frame_FrameRelated.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Frame_SemType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Governor_AnnoSet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/LexUnit_Governor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/LexUnit_SemType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Pair.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/SemType_SemTypeSuper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/SubCorpus_Sentence.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Triple.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Triple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/ValenceUnit_AnnoSet.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -245,14 +253,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00020" summary="rename SetCollector">
-      <option name="closed" value="true" />
-      <created>1732685326921</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1732685326921</updated>
     </task>
     <task id="LOCAL-00021" summary="to kotlin">
       <option name="closed" value="true" />
@@ -638,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732988643671</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732993973231</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1732993973231</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

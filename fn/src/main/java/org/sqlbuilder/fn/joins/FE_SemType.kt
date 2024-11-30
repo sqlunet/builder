@@ -23,8 +23,8 @@ class FE_SemType private constructor(
 
         @JvmField
         val COMPARATOR: Comparator<FE_SemType> = Comparator
-            .comparing<FE_SemType, Int> { it.getFirst() }
-            .thenComparing<Int> { it.getSecond() }
+            .comparing<FE_SemType, Int> { it.first }
+            .thenComparing<Int> { it.second }
 
         @JvmField
         val SET = HashSet<FE_SemType>()

@@ -1,50 +1,41 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.objects.SemType;
+import edu.berkeley.icsi.framenet.SemTypeType.SuperType
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.SemType
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class SemType_SemTypeSuper private constructor(
+    semtypeid: Int,
+    supersemtypeid: Int
+) : Pair<Int, Int>(semtypeid, supersemtypeid), Insertable {
 
-import edu.berkeley.icsi.framenet.SemTypeType.SuperType;
+    // I N S E R T
 
-public class SemType_SemTypeSuper extends Pair<Integer, Integer> implements Insertable
-{
-	public static final Set<SemType_SemTypeSuper> SET = new HashSet<>();
+    override fun dataRow(): String {
+        return "$first,$second"
+    }
 
-	// C O N S T R U C T O R
+    // T O S T R I N G
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static SemType_SemTypeSuper make(final SemType semtype, final SuperType supersemtype)
-	{
-		var tt = new SemType_SemTypeSuper(semtype.getID(), supersemtype.getSupID());
-		SET.add(tt);
-		return tt;
-	}
+    override fun toString(): String {
+        return "[superSEM semtypeid=$first supersemtypeid=$second]"
+    }
 
-	private SemType_SemTypeSuper(final int semtypeid, final int supersemtypeid)
-	{
-		super(semtypeid, supersemtypeid);
-	}
+    companion object {
 
-	// O R D E R
+        @JvmField
+        val COMPARATOR: Comparator<SemType_SemTypeSuper> = Comparator
+            .comparing<SemType_SemTypeSuper, Int> { it.first }
+            .thenComparing<Int> { it.second }
 
-	public static final Comparator<SemType_SemTypeSuper> COMPARATOR = Comparator.comparing(SemType_SemTypeSuper::getFirst).thenComparing(SemType_SemTypeSuper::getSecond);
+        @JvmField
+        val SET = HashSet<SemType_SemTypeSuper>()
 
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", first, second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[superSEM semtypeid=%s supersemtypeid=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(semtype: SemType, supersemtype: SuperType): SemType_SemTypeSuper {
+            val tt = SemType_SemTypeSuper(semtype.iD, supersemtype.getSupID())
+            SET.add(tt)
+            return tt
+        }
+   }
 }

@@ -1,78 +1,57 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.FERealization;
-import org.sqlbuilder.fn.objects.ValenceUnit;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.FERealization
+import org.sqlbuilder.fn.objects.ValenceUnit
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class FEPattern private constructor(
+    fer: FERealization, vu: ValenceUnit,
+) : Pair<FERealization, ValenceUnit>(fer, vu), Insertable {
 
-public class FEPattern extends Pair<FERealization, ValenceUnit> implements Insertable
-{
-	public static final Comparator<FEPattern> COMPARATOR = Comparator //
-			.comparing(FEPattern::getLuId) //
-			.thenComparing(FEPattern::getFeName) //
-			.thenComparing(FEPattern::getSecond);
+    val fer: FERealization
+        get() = first
 
-	public static final Set<FEPattern> SET = new HashSet<>();
+    val feName: String
+        get() = first.fEName
 
-	// C O N S T R U C T O R
+    val luId: Int
+        get() = first.luId
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FEPattern make(final FERealization fer, final ValenceUnit vu)
-	{
-		var vr = new FEPattern(fer, vu);
-		SET.add(vr);
-		return vr;
-	}
+    // I N S E R T
 
-	private FEPattern(final FERealization fer, final ValenceUnit vu)
-	{
-		super(fer, vu);
-	}
+    @RequiresIdFrom(type = FERealization::class)
+    @RequiresIdFrom(type = ValenceUnit::class)
+    override fun dataRow(): String {
+        return "${first.getSqlId()},${second.getSqlId()}"
+    }
 
-	// A C C E S S
+    override fun comment(): String {
+        return "luid=${first.luId},fe=${first.fEName},vu={${second.fE},${second.pT},${second.gF}}"
+    }
 
-	public FERealization getFer()
-	{
-		return first;
-	}
+    // T O S T R I N G
 
-	public String getFeName()
-	{
-		return first.getFEName();
-	}
+    override fun toString(): String {
+        return "[FER-VU fer=$first vu=$second]"
+    }
 
-	public int getLuId()
-	{
-		return first.getLuId();
-	}
+    companion object {
 
-	// I N S E R T
+        @JvmField
+        val COMPARATOR: Comparator<FEPattern> = Comparator
+            .comparing<FEPattern, Int> { it.luId }
+            .thenComparing<String> { it.feName }
+            .thenComparing<ValenceUnit> { it.second }
 
-	@RequiresIdFrom(type = FERealization.class)
-	@RequiresIdFrom(type = ValenceUnit.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s", //
-				first.getSqlId(), //
-				second.getSqlId()); //
-	}
+        @JvmField
+        val SET = HashSet<FEPattern>()
 
-	@Override
-	public String comment()
-	{
-		return String.format("luid=%d,fe=%s,vu={%s,%s,%s}", first.getLuId(), first.getFEName(), second.getFE(), second.getPT(), second.getGF());
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FER-VU fer=%s vu=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(fer: FERealization, vu: ValenceUnit): FEPattern {
+            val vr = FEPattern(fer, vu)
+            SET.add(vr)
+            return vr
+        }
+    }
 }

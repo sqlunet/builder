@@ -1,53 +1,27 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import java.util.Objects;
+import java.util.*
 
-public class Pair<T, U>
-{
-	protected final T first;
+open class Pair<T, U>(
+    val first: T,
+    val second: U) {
 
-	protected final U second;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Pair<*, *>
+        return first == that.first && second == that.second
+    }
 
-	public Pair(final T first, final U second)
-	{
-		this.first = first;
-		this.second = second;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(first, second)
+    }
 
-	public T getFirst()
-	{
-		return first;
-	}
-
-	public U getSecond()
-	{
-		return second;
-	}
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Pair<?, ?> that = (Pair<?, ?>) o;
-		return Objects.equals(first, that.first) && Objects.equals(second, that.second);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(first, second);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[VU-AS first=%s second=%s]", first, second);
-	}
+    override fun toString(): String {
+        return String.format("[first=%s second=%s]", first, second)
+    }
 }

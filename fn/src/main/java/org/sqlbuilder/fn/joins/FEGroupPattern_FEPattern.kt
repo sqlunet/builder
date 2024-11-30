@@ -1,57 +1,45 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.FERealization;
-import org.sqlbuilder.fn.objects.ValenceUnit;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.FERealization
+import org.sqlbuilder.fn.objects.ValenceUnit
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+class FEGroupPattern_FEPattern private constructor(
+    groupPattern: FEGroupPattern,
+    fer: FERealization,
+    vu: ValenceUnit,
+) : Triple<FEGroupPattern, FERealization, ValenceUnit>(groupPattern, fer, vu), Insertable {
 
-public class FEGroupPattern_FEPattern extends Triple<FEGroupPattern, FERealization, ValenceUnit> implements Insertable
-{
-	public static final List<FEGroupPattern_FEPattern> LIST = new ArrayList<>();
+    // I N S E R T
 
-	// C O N S T R U C T O R
+    @RequiresIdFrom(type = FEGroupPattern::class)
+    @RequiresIdFrom(type = FERealization::class)
+    @RequiresIdFrom(type = ValenceUnit::class)
+    override fun dataRow(): String {
+        return "${first.getSqlId()},${second.getSqlId()},${third.getSqlId()}"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FEGroupPattern_FEPattern make(final FEGroupPattern groupPattern, final FERealization fer, final ValenceUnit vu)
-	{
-		var p = new FEGroupPattern_FEPattern(groupPattern, fer, vu);
-		LIST.add(p);
-		return p;
-	}
+    override fun comment(): String {
+        return "fegr={${first.comment()} fer={${second.comment()} vu={${third.comment()}}"
+    }
 
-	private FEGroupPattern_FEPattern(final FEGroupPattern groupPattern, final FERealization fer, final ValenceUnit vu)
-	{
-		super(groupPattern, fer, vu);
-	}
+    // T O S T R I N G
 
-	// I N S E R T
+    override fun toString(): String {
+        return "[PAT-VU fer=$second pattern=$first, vu=$third]"
+    }
 
-	@RequiresIdFrom(type = FEGroupPattern.class)
-	@RequiresIdFrom(type = FERealization.class)
-	@RequiresIdFrom(type = ValenceUnit.class)
-	@Override
-	// grouppatternid, ferid, vuid
-	public String dataRow()
-	{
-		return String.format("%s,%s,%s", first.getSqlId(), second.getSqlId(), third.getSqlId());
-	}
+    companion object {
 
-	@Override
-	public String comment()
-	{
-		return String.format("fegr={%s} fer={%s} vu={%s}", first.comment(), second.comment(), third.comment());
-	}
+        @JvmField
+        val LIST = ArrayList<FEGroupPattern_FEPattern?>()
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[PAT-VU fer=%s pattern=%s, vu=%s]", second, first, first);
-	}
+        @JvmStatic
+        fun make(groupPattern: FEGroupPattern, fer: FERealization, vu: ValenceUnit): FEGroupPattern_FEPattern {
+            val p = FEGroupPattern_FEPattern(groupPattern, fer, vu)
+            LIST.add(p)
+            return p
+        }
+    }
 }

@@ -1,45 +1,35 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.fn.objects.ValenceUnit;
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.ValenceUnit
 
-import java.util.HashSet;
-import java.util.Set;
+class ValenceUnit_AnnoSet private constructor(
+    vu: ValenceUnit,
+    annosetid: Int,
+) : Pair<ValenceUnit, Int>(vu, annosetid), Insertable {
 
-public class ValenceUnit_AnnoSet extends Pair<ValenceUnit, Integer> implements Insertable
-{
-	public static final Set<ValenceUnit_AnnoSet> SET = new HashSet<>();
+    // I N S E R T
 
-	// C O N S T R U C T O R
+    override fun dataRow(): String {
+        return "${first.intId},$second"
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static ValenceUnit_AnnoSet make(final ValenceUnit vu, final int annosetid)
-	{
-		var va = new ValenceUnit_AnnoSet(vu, annosetid);
-		SET.add(va);
-		return va;
-	}
+    // T O S T R I N G
 
-	private ValenceUnit_AnnoSet(final ValenceUnit vu, final int annosetid)
-	{
-		super(vu, annosetid);
-	}
+    override fun toString(): String {
+        return "[VU-AS vu=$first annoset=$second]"
+    }
 
-	// I N S E R T
+    companion object {
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s", //
-				first.getIntId(), //
-				second);
-	}
+        @JvmField
+        val SET = HashSet<ValenceUnit_AnnoSet>()
 
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[VU-AS vu=%s annoset=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(vu: ValenceUnit, annosetid: Int): ValenceUnit_AnnoSet {
+            val va = ValenceUnit_AnnoSet(vu, annosetid)
+            SET.add(va)
+            return va
+        }
+    }
 }

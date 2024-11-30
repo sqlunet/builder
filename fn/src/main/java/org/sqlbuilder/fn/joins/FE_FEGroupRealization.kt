@@ -9,14 +9,14 @@ import org.sqlbuilder.fn.types.FeType.getIntId
 
 class FE_FEGroupRealization private constructor(
     feName: String,
-    fegr: FEGroupRealization?,
+    fegr: FEGroupRealization,
 ) : Pair<String, FEGroupRealization>(feName, fegr), Insertable {
 
     val fEName: String
         get() = first
 
     val fENames: String
-        get() = second!!.fENames
+        get() = second.fENames
 
     // I N S E R T
 

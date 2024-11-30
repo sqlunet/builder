@@ -36,7 +36,7 @@ class FE_FERequired private constructor(
         // O R D E R
         @JvmField
         val COMPARATOR: Comparator<FE_FERequired> = Comparator
-            .comparing<FE_FERequired, Int> { it.getFirst() }
-            .thenComparing<Int> { it.getSecond() }
+            .comparing<FE_FERequired, Int> { it.first }
+            .thenComparing<Int> { it.second }
     }
 }
