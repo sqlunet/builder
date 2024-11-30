@@ -1,46 +1,37 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
+import edu.berkeley.icsi.framenet.AnnoSetType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
 
-import java.util.HashSet;
-import java.util.Set;
+class FEGroupPattern_AnnoSet private constructor(
+    pattern: FEGroupPattern,
+    annosetid: Int,
+) : Pair<FEGroupPattern, Int>(pattern, annosetid), Insertable {
 
-import edu.berkeley.icsi.framenet.AnnoSetType;
+    // I N S E R T A B L E
 
-public class FEGroupPattern_AnnoSet extends Pair<FEGroupPattern, Integer> implements Insertable
-{
-	public static final Set<FEGroupPattern_AnnoSet> SET = new HashSet<>();
+    @RequiresIdFrom(type = FEGroupPattern::class)
+    override fun dataRow(): String {
+        return "${first.getSqlId()},$second"
+    }
 
-	// C O N S T R U C T O R
+    // T O S T R I N G
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FEGroupPattern_AnnoSet make(final FEGroupPattern pattern, final AnnoSetType annoset)
-	{
-		var pa = new FEGroupPattern_AnnoSet(pattern, annoset.getID());
-		SET.add(pa);
-		return pa;
-	}
+    override fun toString(): String {
+        return "[PAT-AS pattern=$first annosetid=$second]"
+    }
 
-	private FEGroupPattern_AnnoSet(final FEGroupPattern pattern, final int annosetid)
-	{
-		super(pattern, annosetid);
-	}
+    companion object {
 
-	// I N S E R T A B L E
+        @JvmField
+        val SET = HashSet<FEGroupPattern_AnnoSet>()
 
-	@RequiresIdFrom(type = FEGroupPattern.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%d", first.getSqlId(), second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[PAT-AS pattern=%s annosetid=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(pattern: FEGroupPattern, annoset: AnnoSetType): FEGroupPattern_AnnoSet {
+            val pa = FEGroupPattern_AnnoSet(pattern, annoset.getID())
+            SET.add(pa)
+            return pa
+        }
+    }
 }

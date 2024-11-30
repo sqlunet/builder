@@ -1,49 +1,40 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
+import edu.berkeley.icsi.framenet.InternalFrameRelationFEType
+import org.sqlbuilder.common.Insertable
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class FE_FEExcluded private constructor(
+    feid: Int,
+    feid2: Int,
+) : Pair<Int, Int>(feid, feid2), Insertable {
 
-import edu.berkeley.icsi.framenet.InternalFrameRelationFEType;
+    // I N S E R T
 
-public class FE_FEExcluded extends Pair<Integer, Integer> implements Insertable
-{
-	public static final Set<FE_FEExcluded> SET = new HashSet<>();
+    override fun dataRow(): String {
+        return "$first,$second"
+    }
 
-	// C O N S T R U C T O R
+    // T O S T R I N G
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FE_FEExcluded make(final int feid, final InternalFrameRelationFEType fe2)
-	{
-		var ff = new FE_FEExcluded(feid, fe2.getID());
-		SET.add(ff);
-		return ff;
-	}
+    override fun toString(): String {
+        return "[FE-exclFE feid=$first feid2=$second]"
+    }
 
-	private FE_FEExcluded(final int feid, final int feid2)
-	{
-		super(feid, feid2);
-	}
+    companion object {
 
-	// O R D E R
+        @JvmField
+        val COMPARATOR: Comparator<FE_FEExcluded> = Comparator
+            .comparing<FE_FEExcluded, Int> { it.getFirst() }
+            .thenComparing<Int?> { it.getSecond() }
 
-	public static final Comparator<FE_FEExcluded> COMPARATOR = Comparator.comparing(FE_FEExcluded::getFirst).thenComparing(FE_FEExcluded::getSecond);
+        @JvmField
+        val SET = HashSet<FE_FEExcluded>()
 
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", first, second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FE-exclFE feid=%s feid2=%s]", first, second);
-	}
+        @JvmStatic
+        fun make(feid: Int, fe2: InternalFrameRelationFEType): FE_FEExcluded {
+            val ff = FE_FEExcluded(feid, fe2.getID())
+            SET.add(ff)
+            return ff
+        }
+    }
 }

@@ -1,70 +1,50 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import edu.berkeley.icsi.framenet.SubCorpusType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.escape
 
-import java.util.Comparator;
+class SubCorpus private constructor(
+    val name: String,
+    val luid: Int
+) : HasId, Insertable {
 
-import edu.berkeley.icsi.framenet.SubCorpusType;
+    @RequiresIdFrom(type = SubCorpus::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-public class SubCorpus implements HasId, Insertable
-{
-	public static final Comparator<SubCorpus> COMPARATOR = Comparator.comparing(SubCorpus::getName).thenComparing(SubCorpus::getLuid);
+    // I N S E R T
 
-	public static final SetCollector<SubCorpus> COLLECTOR = new SetCollector<>(COMPARATOR);
+    @RequiresIdFrom(type = SubCorpus::class)
+    override fun dataRow(): String {
+        return  "'${escape(name)}',$luid"
+    }
 
-	private final String name;
+    // T O S T R I N G
 
-	private final int luid;
+    override fun toString(): String {
+        return "[SUBCORPUS name=$name]"
+    }
 
-	public static SubCorpus make(final SubCorpusType subcorpus, final int luid)
-	{
-		var c = new SubCorpus(subcorpus.getName(), luid);
-		COLLECTOR.add(c);
-		return c;
-	}
+    companion object {
 
-	private SubCorpus(final String name, final int luid)
-	{
-		this.name = name;
-		this.luid = luid;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<SubCorpus> = Comparator
+            .comparing<SubCorpus, String> { it.name }
+            .thenComparing<Int> { it.luid }
 
-	// I D
+        @JvmField
+        val COLLECTOR = SetCollector<SubCorpus>(COMPARATOR)
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public int getLuid()
-	{
-		return luid;
-	}
-
-	@RequiresIdFrom(type = SubCorpus.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = SubCorpus.class)
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s',%d", //
-				Utils.escape(name), //
-				luid);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[SUBCORPUS name=%s]", name);
-	}
+        @JvmStatic
+        fun make(subcorpus: SubCorpusType, luid: Int): SubCorpus {
+            val c = SubCorpus(subcorpus.getName(), luid)
+            COLLECTOR.add(c)
+            return c
+        }
+    }
 }

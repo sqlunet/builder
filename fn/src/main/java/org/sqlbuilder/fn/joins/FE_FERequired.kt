@@ -1,49 +1,42 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
+import edu.berkeley.icsi.framenet.InternalFrameRelationFEType
+import org.sqlbuilder.common.Insertable
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class FE_FERequired private constructor(
+    feid: Int,
+    feid2: Int,
+) : Pair<Int, Int>(feid, feid2), Insertable {
 
-import edu.berkeley.icsi.framenet.InternalFrameRelationFEType;
+    // I N S E R T
 
-public class FE_FERequired extends Pair<Integer, Integer> implements Insertable
-{
-	public static final Set<FE_FERequired> SET = new HashSet<>();
+    override fun dataRow(): String {
+        return "$first,$second"
+    }
 
-	// C O N S T R U C T O R
+    // T O S T R I N G
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FE_FERequired make(final int fe, final InternalFrameRelationFEType fe2)
-	{
-		var ff = new FE_FERequired(fe, fe2.getID());
-		SET.add(ff);
-		return ff;
-	}
+    override fun toString(): String {
+        return "[FE-reqFE feid=$first feid2=$second]"
+    }
 
-	private FE_FERequired(final int feid, final int feid2)
-	{
-		super(feid, feid2);
-	}
+    companion object {
 
-	// O R D E R
+        @JvmField
+        val SET = HashSet<FE_FERequired>()
 
-	public static final Comparator<FE_FERequired> COMPARATOR = Comparator.comparing(FE_FERequired::getFirst).thenComparing(FE_FERequired::getSecond);
+        // C O N S T R U C T O R
+        @JvmStatic
+        fun make(fe: Int, fe2: InternalFrameRelationFEType): FE_FERequired {
+            val ff = FE_FERequired(fe, fe2.getID())
+            SET.add(ff)
+            return ff
+        }
 
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%d", first, second);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FE-reqFE feid=%s feid2=%s]", first, second);
-	}
+        // O R D E R
+        @JvmField
+        val COMPARATOR: Comparator<FE_FERequired> = Comparator
+            .comparing<FE_FERequired, Int> { it.getFirst() }
+            .thenComparing<Int> { it.getSecond() }
+    }
 }

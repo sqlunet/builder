@@ -1,100 +1,67 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
+import edu.berkeley.icsi.framenet.CorpDocType
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableInt
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Corpus private constructor(
+    corpus: CorpDocType,
+    private val luid: Int?,
+) : HasID, Insertable {
 
-import edu.berkeley.icsi.framenet.CorpDocType;
+    val iD: Int = corpus.getID()
 
-public class Corpus implements HasID, Insertable
-{
-	public static final Set<Corpus> SET = new HashSet<>();
+    val name: String = corpus.getName()
 
-	private final int corpusid;
+    private val description: String = corpus.getDescription()
 
-	private final String name;
+    // I D E N T I T Y
 
-	private final String description;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Corpus
+        return iD == that.iD
+    }
 
-	private final Integer luid;
+    override fun hashCode(): Int {
+        return Objects.hash(iD)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Corpus make(final CorpDocType corpus, final Integer luid)
-	{
-		var c = new Corpus(corpus, luid);
-		SET.add(c);
-		return c;
-	}
+    // I N S E R T
 
-	private Corpus(final CorpDocType corpus, final Integer luid)
-	{
-		this.corpusid = corpus.getID();
-		this.name = corpus.getName();
-		this.description = corpus.getDescription();
-		this.luid = luid;
-	}
+    override fun dataRow(): String {
+        return "$iD,'$name','${escape(description)}',${nullableInt(luid)}"
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	public int getID()
-	{
-		return corpusid;
-	}
+    override fun toString(): String {
+        return "[CORPUS id=$iD name=$name]"
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    companion object {
 
-	// I D E N T I T Y
+        @JvmField
+        val COMPARATOR: Comparator<Corpus> = Comparator
+            .comparing<Corpus, String> { it.name }
+            .thenComparing<Int> { it.iD }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Corpus that = (Corpus) o;
-		return corpusid == that.corpusid;
-	}
+        @JvmField
+        val SET = HashSet<Corpus>()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(corpusid);
-	}
-
-	// O R D E R
-
-	public static final Comparator<Corpus> COMPARATOR = Comparator.comparing(Corpus::getName).thenComparing(Corpus::getID);
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,'%s','%s',%s", //
-				corpusid, //
-				name, //
-				Utils.escape(description), //
-				Utils.nullableInt(luid));
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[CORPUS id=%s name=%s]", corpusid, name);
-	}
+        @JvmStatic
+        fun make(corpus: CorpDocType, luid: Int?): Corpus {
+            val c = Corpus(corpus, luid)
+            SET.add(c)
+            return c
+        }
+    }
 }

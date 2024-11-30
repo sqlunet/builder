@@ -1,104 +1,78 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.fn.objects.FEGroupRealization;
+import edu.berkeley.icsi.framenet.FEGroupRealizationType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.ListCollector
+import org.sqlbuilder.common.SetId
+import org.sqlbuilder.fn.objects.FEGroupRealization
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class FEGroupPattern private constructor(
+    pattern: FEGroupRealizationType.Pattern,
+    val fegr: FEGroupRealization,
+) : HasId, SetId, Insertable {
 
-import edu.berkeley.icsi.framenet.FEGroupRealizationType;
+    private var id = 0
 
-public class FEGroupPattern implements HasId, SetId, Insertable
-{
-	public static final Comparator<FEGroupPattern> COMPARATOR = Comparator.comparing(FEGroupPattern::getFegr, FEGroupRealization.COMPARATOR);
+    val total: Int = pattern.getTotal()
 
-	public static final ListCollector<FEGroupPattern> LIST = new ListCollector<>();
+    @RequiresIdFrom(type = FEGroupPattern::class)
+    override fun getIntId(): Int {
+        return id
+    }
 
-	private int id;
+    override fun setId(id0: Int) {
+        id = id0
+    }
 
-	public final FEGroupRealization fegr;
+    // I D E N T I T Y
 
-	public final int total;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FEGroupPattern
+        return fegr == that.fegr
+    }
 
-	public static FEGroupPattern make(final FEGroupRealization fegr, final FEGroupRealizationType.Pattern pattern)
-	{
-		var p = new FEGroupPattern(pattern, fegr);
-		LIST.add(p);
-		return p;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(fegr)
+    }
 
-	private FEGroupPattern(final FEGroupRealizationType.Pattern pattern, final FEGroupRealization fegr)
-	{
-		this.fegr = fegr;
-		this.total = pattern.getTotal();
-	}
+    // I N S E R T
 
-	// A C C E S S
+    @RequiresIdFrom(type = FEGroupPattern::class)
+    @RequiresIdFrom(type = FEGroupRealization::class)
+    override fun dataRow(): String {
+        return "$intId,$total,${fegr.getSqlId()}"
+    }
 
-	public FEGroupRealization getFegr()
-	{
-		return fegr;
-	}
+    override fun comment(): String {
+        return "fegr={${fegr.fENames}}"
+    }
 
-	@RequiresIdFrom(type = FEGroupPattern.class)
-	@Override
-	public Integer getIntId()
-	{
-		return id;
-	}
+    override fun toString(): String {
+        return "[GPAT fegr={${fegr.fENames}}]"
+    }
 
-	@Override
-	public void setId(final int id)
-	{
-		this.id = id;
-	}
+    companion object {
 
-	// I D E N T I T Y
+        val COMPARATOR: Comparator<FEGroupPattern> = Comparator
+            .comparing<FEGroupPattern, FEGroupRealization>({ it.fegr }, FEGroupRealization.COMPARATOR)
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		FEGroupPattern that = (FEGroupPattern) o;
-		return fegr.equals(that.fegr);
-	}
+        @JvmField
+        val LIST: ListCollector<FEGroupPattern> = ListCollector<FEGroupPattern>()
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(fegr);
-	}
-
-	// I N S E R T
-
-	@RequiresIdFrom(type = FEGroupPattern.class)
-	@RequiresIdFrom(type = FEGroupRealization.class)
-	@Override
-	public String dataRow()
-	{
-		// (patternid),fegrid,total
-		return String.format("%d,%d,%s", //
-				getIntId(), // patternid
-				total, fegr.getSqlId()); // fegrid
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("fegr={%s}", fegr.getFENames());
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[GPAT fegr={%s}]", fegr.getFENames());
-	}
+        @JvmStatic
+        fun make(fegr: FEGroupRealization, pattern: FEGroupRealizationType.Pattern): FEGroupPattern {
+            val p = FEGroupPattern(pattern, fegr)
+            LIST.add(p)
+            return p
+        }
+    }
 }

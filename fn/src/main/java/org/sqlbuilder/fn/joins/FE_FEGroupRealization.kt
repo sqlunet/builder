@@ -1,80 +1,58 @@
-package org.sqlbuilder.fn.joins;
+package org.sqlbuilder.fn.joins
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.fn.objects.FE;
-import org.sqlbuilder.fn.objects.FEGroupRealization;
-import org.sqlbuilder.fn.types.FeType;
+import edu.berkeley.icsi.framenet.FEValenceType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.fn.objects.FE
+import org.sqlbuilder.fn.objects.FEGroupRealization
+import org.sqlbuilder.fn.types.FeType.getIntId
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class FE_FEGroupRealization private constructor(
+    feName: String,
+    fegr: FEGroupRealization?,
+) : Pair<String, FEGroupRealization>(feName, fegr), Insertable {
 
-import edu.berkeley.icsi.framenet.FEValenceType;
+    val fEName: String
+        get() = first
 
-public class FE_FEGroupRealization extends Pair<String, FEGroupRealization> implements Insertable
-{
-	public static final Set<FE_FEGroupRealization> SET = new HashSet<>();
+    val fENames: String
+        get() = second!!.fENames
 
-	// C O N S T R U C T O R
+    // I N S E R T
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static FE_FEGroupRealization make(final FEValenceType fe, final FEGroupRealization fegr)
-	{
-		var fr = new FE_FEGroupRealization(fe.getName(), fegr);
-		SET.add(fr);
-		return fr;
-	}
+    @RequiresIdFrom(type = FEGroupRealization::class)
+    override fun dataRow(): String {
+        val fetypeid: Int = getIntId(first)!!
+        val key = Pair<Int, Int>(fetypeid, second!!.frameID)
+        val feid = FE.BY_FETYPEID_AND_FRAMEID!![key]!!.iD
+        return "${second.getSqlId()},$feid,$fetypeid"
+    }
 
-	private FE_FEGroupRealization(final String feName, final FEGroupRealization fegr)
-	{
-		super(feName, fegr);
-	}
+    override fun comment(): String {
+        return "fe=$first,fes={$fENames},luid=${second.luID},frid=${second.frameID}"
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	String getFEName()
-	{
-		return first;
-	}
+    override fun toString(): String {
+        return "[FE-FEGR fe=$first fegr={$second}]"
+    }
 
-	String getFENames()
-	{
-		return second.getFENames();
-	}
+    companion object {
 
-	// O R D E R
+        @JvmField
+        val COMPARATOR: Comparator<FE_FEGroupRealization> = Comparator
+            .comparing<FE_FEGroupRealization, String> { it.fEName }
+            .thenComparing<String> { it.fENames }
 
-	public static final Comparator<FE_FEGroupRealization> COMPARATOR = Comparator.comparing(FE_FEGroupRealization::getFEName).thenComparing(FE_FEGroupRealization::getFENames);
+        @JvmField
+        val SET = HashSet<FE_FEGroupRealization>()
 
-	// I N S E R T
-
-	@RequiresIdFrom(type = FEGroupRealization.class)
-	@Override
-	public String dataRow()
-	{
-		// fegrid,feid,fetypeid
-		int fetypeid = FeType.getIntId(first);
-		var key = new Pair<>(fetypeid, second.getFrameID());
-		var feid = FE.BY_FETYPEID_AND_FRAMEID.get(key).getID();
-
-		return String.format("%s,%s,%s", //
-				second.getSqlId(), //
-				feid, //
-				fetypeid);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("fe=%s,fes={%s},luid=%d,frid=%d", first, getFENames(), second.getLuID(), second.getFrameID());
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[FE-FEGR fe=%s fegr={%s}]", first, second.getFENames());
-	}
+        @JvmStatic
+        fun make(fe: FEValenceType, fegr: FEGroupRealization): FE_FEGroupRealization {
+            val fr = FE_FEGroupRealization(fe.getName(), fegr)
+            SET.add(fr)
+            return fr
+        }
+    }
 }

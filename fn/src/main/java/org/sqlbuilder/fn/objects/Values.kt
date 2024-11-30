@@ -1,117 +1,97 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+class Values {
 
-public class Values
-{
-	public static class Pos implements HasId, Insertable
-	{
-		public static final Comparator<Pos> COMPARATOR = Comparator.comparing(t -> t.pos);
+    class Pos private constructor(
+        private val pos: String
+    ) : HasId, Insertable {
 
-		public static final Map<Pos, Integer> MAP = new TreeMap<>(COMPARATOR);
+        @RequiresIdFrom(type = Pos::class)
+        override fun getIntId(): Int? {
+            return MAP[this]
+        }
 
-		private final String pos;
+        override fun dataRow(): String {
+            return "'$pos'"
+        }
 
-		@SuppressWarnings("UnusedReturnValue")
-		public static Pos make(final String pos, final int idx)
-		{
-			var p = new Pos(pos);
-			MAP.put(p, idx);
-			return p;
-		}
+        companion object {
 
-		private Pos(final String pos)
-		{
-			this.pos = pos;
-		}
+            val COMPARATOR: Comparator<Pos> = Comparator
+                .comparing<Pos, String> { it.pos }
 
-		@RequiresIdFrom(type = Pos.class)
-		@Override
-		public Integer getIntId()
-		{
-			return MAP.get(this);
-		}
+            @JvmField
+            val MAP = TreeMap<Pos, Int>(COMPARATOR)
 
-		@Override
-		public String dataRow()
-		{
-			return String.format("'%s'", pos);
-		}
-	}
+            @JvmStatic
+            fun make(pos: String, idx: Int): Pos {
+                val p = Pos(pos)
+                MAP.put(p, idx)
+                return p
+            }
+        }
+    }
 
-	public static class CoreType implements HasId, Insertable
-	{
-		public static final Comparator<CoreType> COMPARATOR = Comparator.comparing(t -> t.coretype);
+    class CoreType private constructor(
+        private val coretype: String
+    ) : HasId, Insertable {
 
-		public static final Map<CoreType, Integer> MAP = new TreeMap<>(COMPARATOR);
+        @RequiresIdFrom(type = CoreType::class)
+        override fun getIntId(): Int? {
+            return MAP[this]
+        }
 
-		private final String coretype;
+        override fun dataRow(): String {
+            return String.format("'%s'", coretype)
+        }
 
-		@SuppressWarnings("UnusedReturnValue")
-		public static CoreType make(final String coretype, final int idx)
-		{
-			var t = new CoreType(coretype);
-			MAP.put(t, idx);
-			return t;
-		}
+        companion object {
 
-		private CoreType(final String coretype)
-		{
-			this.coretype = coretype;
-		}
+            val COMPARATOR: Comparator<CoreType> = Comparator
+                .comparing<CoreType, String> { it.coretype }
 
-		@RequiresIdFrom(type = CoreType.class)
-		@Override
-		public Integer getIntId()
-		{
-			return MAP.get(this);
-		}
+            @JvmField
+            val MAP = TreeMap<CoreType, Int>(COMPARATOR)
 
-		@Override
-		public String dataRow()
-		{
-			return String.format("'%s'", coretype);
-		}
-	}
+            @JvmStatic
+            fun make(coretype: String, idx: Int): CoreType {
+                val t = CoreType(coretype)
+                MAP.put(t, idx)
+                return t
+            }
+        }
+    }
 
-	public static class LabelIType implements HasId, Insertable
-	{
-		public static final Comparator<LabelIType> COMPARATOR = Comparator.comparing(t -> t.labelitype);
+    class LabelIType private constructor(private val labelitype: String) : HasId, Insertable {
 
-		public static final Map<LabelIType, Integer> MAP = new TreeMap<>(COMPARATOR);
+        @RequiresIdFrom(type = LabelIType::class)
+        override fun getIntId(): Int? {
+            return MAP[this]
+        }
 
-		private final String labelitype;
+        override fun dataRow(): String {
+            return "'$labelitype'"
+        }
 
-		@SuppressWarnings("UnusedReturnValue")
-		public static LabelIType make(final String labelitype, final int idx)
-		{
-			var l = new LabelIType(labelitype);
-			MAP.put(l, idx);
-			return l;
-		}
+        companion object {
 
-		private LabelIType(final String labelitype)
-		{
-			this.labelitype = labelitype;
-		}
+            val COMPARATOR: Comparator<LabelIType> = Comparator
+                .comparing<LabelIType, String> { it.labelitype }
 
-		@RequiresIdFrom(type = LabelIType.class)
-		@Override
-		public Integer getIntId()
-		{
-			return MAP.get(this);
-		}
+            @JvmField
+            val MAP = TreeMap<LabelIType, Int>(COMPARATOR)
 
-		@Override
-		public String dataRow()
-		{
-			return String.format("'%s'", labelitype);
-		}
-	}
+            @JvmStatic
+            fun make(labelitype: String, idx: Int): LabelIType {
+                val l = LabelIType(labelitype)
+                MAP.put(l, idx)
+                return l
+            }
+        }
+    }
 }

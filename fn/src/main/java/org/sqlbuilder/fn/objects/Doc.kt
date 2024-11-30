@@ -1,99 +1,67 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.HasID;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.Utils;
+import edu.berkeley.icsi.framenet.CorpDocType
+import org.sqlbuilder.common.HasID
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.escape
+import java.util.*
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+class Doc private constructor(
+    doc: CorpDocType.Document,
+    corpus: CorpDocType,
+) : HasID, Insertable {
 
-import edu.berkeley.icsi.framenet.CorpDocType;
-import edu.berkeley.icsi.framenet.CorpDocType.Document;
+    val iD: Int = doc.getID()
 
-public class Doc implements HasID, Insertable
-{
-	public static final Set<Doc> SET = new HashSet<>();
+    val name: String = doc.getName()
 
-	private final int docid;
+    private val description: String = doc.getDescription()
 
-	private final String name;
+    private val corpusid: Int = corpus.getID()
 
-	private final String description;
+    // I D E N T I T Y
 
-	private final int corpusid;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Doc
+        return iD == that.iD
+    }
 
-	public static void make(final Document doc, final CorpDocType corpus)
-	{
-		var d = new Doc(doc, corpus);
-		SET.add(d);
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(iD)
+    }
 
-	private Doc(final Document doc, final CorpDocType corpus)
-	{
-		this.docid = doc.getID();
-		this.name = doc.getName();
-		this.description = doc.getDescription();
-		this.corpusid = corpus.getID();
-	}
+    // I N S E R T
 
-	// A C C E S S
+    override fun dataRow(): String {
+        return "$iD,'$name','${escape(description)}',$corpusid"
+    }
 
-	public int getID()
-	{
-		return docid;
-	}
+    // T O S T R I N G
 
-	public String getName()
-	{
-		return name;
-	}
+    override fun toString(): String {
+        return "[DOC id=$iD corpusid=$corpusid]"
+    }
 
-	// I D E N T I T Y
+    companion object {
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Doc that = (Doc) o;
-		return docid == that.docid;
-	}
+        @JvmField
+        val COMPARATOR: Comparator<Doc> = Comparator
+            .comparing<Doc, String> { it.name }
+            .thenComparing<Int> { it.iD }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(docid);
-	}
+        @JvmField
+        val SET = HashSet<Doc>()
 
-	// O R D E R
-
-	public static final Comparator<Doc> COMPARATOR = Comparator.comparing(Doc::getName).thenComparing(Doc::getID);
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,'%s','%s',%d", //
-				docid, //
-				name, //
-				Utils.escape(description), //
-				corpusid);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[DOC id=%s corpusid=%s]", docid, corpusid);
-	}
+        @JvmStatic
+        fun make(doc: CorpDocType.Document, corpus: CorpDocType) {
+            val d = Doc(doc, corpus)
+            SET.add(d)
+        }
+    }
 }
