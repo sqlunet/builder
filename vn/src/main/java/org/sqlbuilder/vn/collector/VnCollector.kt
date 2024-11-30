@@ -115,7 +115,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
             VnDocument.makeGroupings(start)
 
             // get selection restrs
-            VnDocument.Companion.makeSelRestrs(start)
+            VnDocument.makeSelRestrs(start)
 
             // get syntactic restrs
             VnDocument.makeSynRestrs(start)
@@ -178,7 +178,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
         }
 
         @Throws(XPathExpressionException::class, ParserConfigurationException::class, IOException::class, TransformerException::class, SAXException::class)
-        private fun processFrames(start: Node, clazz: VnClass, inheritedFrames: Collection<Frame>?): MutableCollection<Frame> {
+        private fun processFrames(start: Node, clazz: VnClass, inheritedFrames: Collection<Frame>?): Collection<Frame> {
             // roles
             var frames = VnDocument.makeFrames(start)
             if (inheritedFrames != null) {

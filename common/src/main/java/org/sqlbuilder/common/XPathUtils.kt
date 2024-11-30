@@ -17,7 +17,7 @@ import javax.xml.xpath.XPathFactory
 
 object XPathUtils {
 
-    fun NodeList.asSequence() = iterator {
+    fun NodeList.iterator() = iterator {
         var i = 0
         while (i < length) {
             yield(item(i))
@@ -25,7 +25,7 @@ object XPathUtils {
         }
     }
 
-    fun NodeList.asSequenceOfElements() = iterator {
+    fun NodeList.iteratorOfElements() = iterator {
         var i = 0
         while (i < length) {
             yield(item(i) as Element)
@@ -50,23 +50,23 @@ object XPathUtils {
     // X M L   A S   T E X T
 
     @Throws(TransformerException::class)
-    fun getXML(nodes: NodeList): MutableList<String> {
-        val result = ArrayList<String>()
-        for (i in 0..<nodes.length) {
-            result.add(getXML(nodes.item(i)))
-        }
-        return result
+    fun NodeList.getXML(): List<String> {
+        return iteratorOfElements()
+            .asSequence()
+            .map { it.getXML() }
+            .toList()
     }
 
     @JvmStatic
     @Throws(TransformerException::class)
-    fun getXML(node: Node): String {
+    fun Node.getXML(): String {
+
         // output stream
         val outStream = StringWriter()
         val resultStream: Result = StreamResult(outStream)
 
         // source
-        val source: Source = DOMSource(node)
+        val source: Source = DOMSource(this)
 
         // output
         val factory = TransformerFactory.newInstance()
