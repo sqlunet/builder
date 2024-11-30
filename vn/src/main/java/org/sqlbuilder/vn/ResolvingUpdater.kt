@@ -1,66 +1,58 @@
-package org.sqlbuilder.vn;
+package org.sqlbuilder.vn
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.Update;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.vn.objects.Sense;
-import org.sqlbuilder.vn.objects.Word;
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Update.update
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.vn.objects.Sense
+import org.sqlbuilder.vn.objects.Word
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
+import java.util.AbstractMap.SimpleEntry
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
+class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
+    init {
+        // output
+        this.outDir = File(conf.getProperty("vn_outdir_updated", "sql/data_updated"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-public class ResolvingUpdater extends ResolvingInserter
-{
-	public ResolvingUpdater(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    @Throws(FileNotFoundException::class)
+    override fun insert() {
+        Word.COLLECTOR.open().use { ignored30 ->
+            insertWords()
+            insertMemberSenses()
+        }
+    }
 
-		// output
-		this.outDir = new File(conf.getProperty("vn_outdir_updated", "sql/data_updated"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertWords() {
+        tracePending("collector", "word")
+        val wordidCol = names.column("words.wordid")
+        val wordCol = names.column("words.word")
+        update<Word, String, Int>(
+            Word.COLLECTOR, File(outDir, names.updateFile("words")), header, names.table("words"),
+            wordResolver,
+            { resolved: Int? -> "$wordidCol=${nullableInt(resolved)}" },
+            { resolving: String -> "$wordCol='${escape(resolving)}'" })
+        traceDone()
+    }
 
-	@Override
-	public void insert() throws FileNotFoundException
-	{
-		try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
-		{
-			insertWords();
-			insertMemberSenses();
-		}
-	}
-
-	@Override
-	protected void insertWords() throws FileNotFoundException
-	{
-		Progress.tracePending("collector", "word");
-		final String wordidCol = names.column("words.wordid");
-		final String wordCol = names.column("words.word");
-		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), header, names.table("words"), //
-				wordResolver, //
-				resolved -> String.format("%s=%s", wordidCol, Utils.nullableInt(resolved)), //
-				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));
-		Progress.traceDone();
-	}
-
-	@Override
-	protected void insertMemberSenses() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "members senses");
-		final String wordidCol = names.column("members_senses.wordid");
-		final String synsetidCol = names.column("members_senses.synsetid");
-		final String sensekeyCol = names.column("members_senses.sensekey");
-		Update.update(Sense.SET, new File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"), //
-				sensekeyResolver, //
-				resolved -> resolved == null ? String.format("%s=NULL,%s=NULL", wordidCol, synsetidCol) : String.format("%s=%s,%s=%s", wordidCol, Utils.nullableInt(resolved.getKey()), synsetidCol, Utils.nullableInt(resolved.getValue())), //
-				resolving -> String.format("%s='%s'", sensekeyCol, Utils.escape(resolving)));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertMemberSenses() {
+        tracePending("set", "members senses")
+        val wordidCol = names.column("members_senses.wordid")
+        val synsetidCol = names.column("members_senses.synsetid")
+        val sensekeyCol = names.column("members_senses.sensekey")
+        update<Sense, String, SimpleEntry<Int, Int>>(
+            Sense.SET, File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"),
+            sensekeyResolver,
+            { resolved: SimpleEntry<Int, Int>? -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved.key)},$synsetidCol=${nullableInt(resolved.value)}" },
+            { resolving: String? -> "$sensekeyCol='${escape(resolving!!)}'" })
+        traceDone()
+    }
 }

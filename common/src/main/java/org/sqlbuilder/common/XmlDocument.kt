@@ -31,7 +31,7 @@ open class XmlDocument(filePath: String) {
                     val file = File(path)
                     return file.getName()
                 } catch (_: URISyntaxException) {
-                    //
+
                 }
             }
             return null

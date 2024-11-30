@@ -66,7 +66,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                         }
                     }
                     null
-                }  //
+                }
                 .filter { it != null }
                 .forEach {
                     try {

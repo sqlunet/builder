@@ -193,7 +193,7 @@ object Utils {
         return nullable(date) { it.time.toString() }
     }
 
-    //
+
     /**
      * Escape zeroable int for it to be handled by SQL, zero interpreted as NULL
      *

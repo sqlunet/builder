@@ -1,68 +1,67 @@
-package org.sqlbuilder.vn;
+package org.sqlbuilder.vn
 
-import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.vn.joins.Member_Sense;
-import org.sqlbuilder.vn.objects.Word;
+import org.sqlbuilder.common.Insert.resolveAndInsert
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.vn.joins.Member_Sense
+import org.sqlbuilder.vn.objects.Word
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
+import java.util.AbstractMap.SimpleEntry
+import java.util.function.Function
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Properties;
+open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
-public class ResolvingInserter extends Inserter
-{
-	protected final String wordSerFile;
+    protected val wordSerFile: String
 
-	protected final String sensekeySerFile;
+    protected val sensekeySerFile: String
 
-	protected final VnWordResolver wordResolver;
+    @JvmField
+    protected val wordResolver: VnWordResolver
 
-	protected final VnSensekeyResolver sensekeyResolver;
+    @JvmField
+    protected val sensekeyResolver: VnSensekeyResolver
 
-	public ResolvingInserter(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    init {
+        // header
+        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
 
-		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+        // output
+        this.outDir = File(conf.getProperty("vn_outdir_resolved", "sql/data_resolved"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
 
-		// output
-		this.outDir = new File(conf.getProperty("vn_outdir_resolved", "sql/data_resolved"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
+        // resolve
+        this.wordSerFile = conf.getProperty("word_nids")
+        this.sensekeySerFile = conf.getProperty("sense_nids")
+        this.wordResolver = VnWordResolver(this.wordSerFile)
+        this.sensekeyResolver = VnSensekeyResolver(this.sensekeySerFile)
+    }
 
-		// resolve
-		this.wordSerFile = conf.getProperty("word_nids");
-		this.sensekeySerFile = conf.getProperty("sense_nids");
-		this.wordResolver = new VnWordResolver(this.wordSerFile);
-		this.sensekeyResolver = new VnSensekeyResolver(this.sensekeySerFile);
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertWords() {
+        tracePending("collector", "word")
+        resolveAndInsert<Word, String, Int>(
+            Word.COLLECTOR, Word.COLLECTOR, File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true,
+            wordResolver,
+            Function { o: Int? -> Objects.toString(o) },
+            names.column("words.wordid")
+        )
+        traceDone()
+    }
 
-	@Override
-	protected void insertWords() throws FileNotFoundException
-	{
-		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
-				wordResolver, //
-				Objects::toString, //
-				names.column("words.wordid"));
-		Progress.traceDone();
-	}
-
-	@Override
-	protected void insertMemberSenses() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "member sense");
-		Insert.resolveAndInsert(Member_Sense.SET, Member_Sense.COMPARATOR, new File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header, //
-				sensekeyResolver, //
-				Member_Sense.RESOLVE_RESULT_STRINGIFIER, //
-				names.column("members_senses.wordid"),  //
-				names.column("members_senses.synsetid"));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertMemberSenses() {
+        tracePending("set", "member sense")
+        resolveAndInsert<Member_Sense, String, SimpleEntry<Int, Int>?>(
+            Member_Sense.SET, Member_Sense.COMPARATOR, File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header,
+            sensekeyResolver,
+            Member_Sense.RESOLVE_RESULT_STRINGIFIER,
+            names.column("members_senses.wordid"),
+            names.column("members_senses.synsetid")
+        )
+        traceDone()
+    }
 }

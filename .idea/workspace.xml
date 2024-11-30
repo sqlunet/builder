@@ -10,11 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/collector/VnCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Utils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlDocument.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -72,30 +80,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BncModule (resolve).executor": "Run",
-    "Application.BncModule (update).executor": "Run",
-    "Application.BncModule.executor": "Run",
-    "Application.PbModule (resolve).executor": "Run",
-    "Application.PbModule (update).executor": "Run",
-    "Application.PbModule.executor": "Run",
-    "JUnit.TestParseFile.executor": "Run",
-    "Maven.all [clean].executor": "Run",
-    "Maven.all [compile].executor": "Run",
-    "Maven.fn-beans [install].executor": "Run",
-    "Maven.fn-jaxb [install].executor": "Run",
-    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
-    "Maven.reqprov [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "devkwippb34",
-    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "configurable.group.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;devkwippb34&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bnc" />
@@ -103,8 +112,30 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.sqlbuilder.common" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.BncModule (resolve)">
+  <component name="RunManager" selected="JUnit.TestXPath">
+    <configuration name="TestXPath" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="common" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.common.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.common" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestXPath" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <envs>
+        <env name="TEST" value="../vn/data/verbnet-3.4" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="all [clean]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -135,8 +166,58 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.SchemaGenerator (bnc create)" />
+      <item itemvalue="Application.SchemaGenerator (bnc index)" />
+      <item itemvalue="Application.SchemaGenerator (bnc reference)" />
+      <item itemvalue="Application.SchemaGenerator (fn anchor)" />
+      <item itemvalue="Application.SchemaGenerator (fn cleanup)" />
+      <item itemvalue="Application.SchemaGenerator (fn create)" />
+      <item itemvalue="Application.SchemaGenerator (fn index)" />
+      <item itemvalue="Application.SchemaGenerator (fn reference)" />
+      <item itemvalue="Application.SchemaGenerator (pb create)" />
+      <item itemvalue="Application.SchemaGenerator (pb index)" />
+      <item itemvalue="Application.SchemaGenerator (pb reference)" />
+      <item itemvalue="Application.SchemaGenerator (pm create)" />
+      <item itemvalue="Application.SchemaGenerator (sl create)" />
+      <item itemvalue="Application.SchemaGenerator (sl index)" />
+      <item itemvalue="Application.SchemaGenerator (sl reference)" />
+      <item itemvalue="Application.SchemaGenerator (sn create)" />
+      <item itemvalue="Application.SchemaGenerator (sn index)" />
+      <item itemvalue="Application.SchemaGenerator (sn reference)" />
+      <item itemvalue="Application.SchemaGenerator (vn create)" />
+      <item itemvalue="Application.SchemaGenerator (vn index)" />
+      <item itemvalue="Application.SchemaGenerator (vn reference)" />
+      <item itemvalue="Application.BncModule" />
+      <item itemvalue="Application.BncModule (resolve)" />
+      <item itemvalue="Application.BncModule (update)" />
+      <item itemvalue="Application.FnModule" />
+      <item itemvalue="Application.FnModule (export)" />
+      <item itemvalue="Application.FnModule (resolve)" />
+      <item itemvalue="Application.FnModule (update)" />
+      <item itemvalue="Application.PbModule" />
+      <item itemvalue="Application.PbModule (export)" />
+      <item itemvalue="Application.PbModule (resolve)" />
+      <item itemvalue="Application.PbModule (update)" />
+      <item itemvalue="Application.PmModule" />
+      <item itemvalue="Application.PmModule (resolve)" />
+      <item itemvalue="Application.PmModule (update)" />
+      <item itemvalue="Application.SlModule" />
+      <item itemvalue="Application.SlModule (resolve)" />
+      <item itemvalue="Application.SlModule (update)" />
+      <item itemvalue="Application.SnModule" />
+      <item itemvalue="Application.SnModule (resolve)" />
+      <item itemvalue="Application.SnModule (update)" />
+      <item itemvalue="Application.VnModule" />
+      <item itemvalue="Application.VnModule (export)" />
+      <item itemvalue="Application.VnModule (resolve)" />
+      <item itemvalue="Application.VnModule (update)" />
+      <item itemvalue="JUnit.TestXPath" />
+      <item itemvalue="Maven.all [clean]" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestXPath" />
         <item itemvalue="Maven.all [clean]" />
         <item itemvalue="Maven.all [clean]" />
         <item itemvalue="Maven.all [clean]" />
@@ -152,46 +233,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00009" summary="insert iterable &lt;ith resolver function">
-      <option name="closed" value="true" />
-      <created>1732608593311</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1732608593311</updated>
-    </task>
-    <task id="LOCAL-00010" summary="insert iterable &lt;ith resolver function">
-      <option name="closed" value="true" />
-      <created>1732612287185</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1732612287185</updated>
-    </task>
-    <task id="LOCAL-00011" summary="insert iterable with resolver function">
-      <option name="closed" value="true" />
-      <created>1732612730407</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1732612730407</updated>
-    </task>
-    <task id="LOCAL-00012" summary="insert iterable with resolver function">
-      <option name="closed" value="true" />
-      <created>1732616502752</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1732616502752</updated>
-    </task>
-    <task id="LOCAL-00013" summary="insert iterable with resolver function">
-      <option name="closed" value="true" />
-      <created>1732618752391</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1732618752391</updated>
     </task>
     <task id="LOCAL-00014" summary="insert iterable with resolver function">
       <option name="closed" value="true" />
@@ -545,7 +586,47 @@
       <option name="project" value="LOCAL" />
       <updated>1732907946353</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732911177525</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1732911177525</updated>
+    </task>
+    <task id="LOCAL-00059" summary="xml generator of elements">
+      <option name="closed" value="true" />
+      <created>1732947990646</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1732947990646</updated>
+    </task>
+    <task id="LOCAL-00060" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732954297588</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1732954297589</updated>
+    </task>
+    <task id="LOCAL-00061" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732955064686</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1732955064686</updated>
+    </task>
+    <task id="LOCAL-00062" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1732958718715</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1732958718715</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -566,7 +647,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="cleanup" />
     <MESSAGE value="new collector extending resolve interface" />
     <MESSAGE value="kotlin support" />
     <MESSAGE value="trim" />
@@ -590,6 +670,7 @@
     <MESSAGE value="fixes resolver signature" />
     <MESSAGE value="fixes row comma" />
     <MESSAGE value="do not use null-resolved" />
+    <MESSAGE value="xml generator of elements" />
     <MESSAGE value="to kotlin" />
     <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>

@@ -1,288 +1,250 @@
-package org.sqlbuilder.vn;
+package org.sqlbuilder.vn
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.vn.objects.Role;
-import org.sqlbuilder.vn.objects.RoleType;
-import org.sqlbuilder.vn.objects.VnClass;
-import org.sqlbuilder.vn.objects.Word;
-import org.sqlbuilder2.ser.Pair;
-import org.sqlbuilder2.ser.Serialize;
-import org.sqlbuilder2.ser.Triplet;
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.vn.objects.Role
+import org.sqlbuilder.vn.objects.RoleType
+import org.sqlbuilder.vn.objects.VnClass
+import org.sqlbuilder.vn.objects.Word
+import org.sqlbuilder2.ser.Pair
+import org.sqlbuilder2.ser.Serialize
+import org.sqlbuilder2.ser.Triplet
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.*;
-import java.util.stream.StreamSupport;
+class Exporter
+    (conf: Properties) {
 
-import static java.util.stream.Collectors.toMap;
+    private val names: Names = Names("vn")
 
-public class Exporter
-{
-	//private static final Comparator<Pair<String, String>> NONSERIALIZABLE_COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
-	//private static final Comparator<Pair<String, String>> COMPARATOR = (Comparator<Pair<String, String>> & Serializable) (p1, p2) -> NONSERIALIZABLE_COMPARATOR.compare(p1, p2);
+    private val outDir: File = File(conf.getProperty("vn_outdir_ser", "sers"))
 
-	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
+    init {
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-	protected final Names names;
+    @Throws(IOException::class)
+    fun run() {
+        println("classes ${VnClass.COLLECTOR.size}")
+        println("roles ${Role.COLLECTOR.size}")
+        println("roletypes ${RoleType.COLLECTOR.size}")
+        println("words ${Word.COLLECTOR.size}")
 
-	protected final File outDir;
+        RoleType.COLLECTOR.open().use {
+            Role.COLLECTOR.open().use {
+                VnClass.COLLECTOR.open().use {
+                    Word.COLLECTOR.open().use {
+                        serialize()
+                        export()
+                    }
+                }
+            }
+        }
+    }
 
-	public Exporter(final Properties conf)
-	{
-		this.names = new Names("vn");
-		this.outDir = new File(conf.getProperty("vn_outdir_ser", "sers"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(IOException::class)
+    fun serialize() {
+        serializeClasses()
+        serializeClassTags()
+        serializeRoleTypes()
+        serializeRolesUsingClassTags()
+        serializeRolesUsingClassNames()
+        serializeWords()
+    }
 
-	public void run() throws IOException
-	{
-		System.out.printf("%s %d%n", "classes", VnClass.COLLECTOR.getSize());
-		System.out.printf("%s %d%n", "roles", Role.COLLECTOR.getSize());
-		System.out.printf("%s %d%n", "roletypes", RoleType.COLLECTOR.getSize());
-		System.out.printf("%s %d%n", "words", Word.COLLECTOR.getSize());
+    @Throws(IOException::class)
+    fun export() {
+        exportClasses()
+        exportClassTags()
+        exportRoleTypes()
+        exportRolesUsingClassTags()
+        exportRolesUsingClassNames()
+        exportWords()
+    }
 
-		try ( //
-		      @ProvidesIdTo(type = RoleType.class) var ignored1 = RoleType.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = Role.class) var ignored2 = Role.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = VnClass.class) var ignored3 = VnClass.COLLECTOR.open(); //
-		      @ProvidesIdTo(type = Word.class) var ignored4 = Word.COLLECTOR.open() //
-		)
-		{
-			serialize();
-			export();
-		}
-	}
+    @Throws(IOException::class)
+    fun serializeClassTags() {
+        val m = makeClassTagsMap()
+        Serialize.serialize(m, File(outDir, names.serFile("classes.resolve", "_[classtag]-[classid]")))
+    }
 
-	public void serialize() throws IOException
-	{
-		serializeClasses();
-		serializeClassTags();
-		serializeRoleTypes();
-		serializeRolesUsingClassTags();
-		serializeRolesUsingClassNames();
-		serializeWords();
-	}
+    @Throws(IOException::class)
+    fun serializeClasses() {
+        val m = makeClassesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("classes.resolve", "_[classname]-[classid]")))
+    }
 
-	public void export() throws IOException
-	{
-		exportClasses();
-		exportClassTags();
-		exportRoleTypes();
-		exportRolesUsingClassTags();
-		exportRolesUsingClassNames();
-		exportWords();
-	}
+    @Throws(IOException::class)
+    fun serializeRoleTypes() {
+        val m = makeRoleTypesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roletypes.resolve", "_[roletype]-[roletypeid]")))
+    }
 
-	public void serializeClassTags() throws IOException
-	{
-		var m = makeClassTagsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_[classtag]-[classid]")));
-	}
+    @Throws(IOException::class)
+    fun serializeRolesUsingClassTags() {
+        val m = makeClassTagsRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")))
+    }
 
-	public void serializeClasses() throws IOException
-	{
-		var m = makeClassesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("classes.resolve", "_[classname]-[classid]")));
-	}
+    @Throws(IOException::class)
+    fun serializeRolesUsingClassNames() {
+        val m = makeClassesRolesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")))
+    }
 
-	public void serializeRoleTypes() throws IOException
-	{
-		var m = makeRoleTypesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roletypes.resolve", "_[roletype]-[roletypeid]")));
-	}
+    @Throws(IOException::class)
+    fun serializeWords() {
+        val m = makeWordMap()
+        Serialize.serialize(m, File(outDir, names.serFile("words.resolve", "_[word]-[vnwordid]")))
+    }
 
-	public void serializeRolesUsingClassTags() throws IOException
-	{
-		var m = makeClassTagsRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")));
-	}
+    @Throws(IOException::class)
+    fun exportClassTags() {
+        val m = makeClassTagsMap()
+        export(m, File(outDir, names.mapFile("classes.resolve", "_[classtag]-[classid]")))
+    }
 
-	public void serializeRolesUsingClassNames() throws IOException
-	{
-		var m = makeClassesRolesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")));
-	}
+    @Throws(IOException::class)
+    fun exportClasses() {
+        val m = makeClassesMap()
+        export(m, File(outDir, names.mapFile("classes.resolve", "_[classname]-[classid]")))
+    }
 
-	public void serializeWords() throws IOException
-	{
-		var m = makeWordMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("words.resolve", "_[word]-[vnwordid]")));
-	}
+    @Throws(IOException::class)
+    fun exportRoleTypes() {
+        val m = makeRoleTypesMap()
+        export(m, File(outDir, names.mapFile("roletypes.resolve", "_[roletype]-[roletypeid]")))
+    }
 
-	public void exportClassTags() throws IOException
-	{
-		var m = makeClassTagsMap();
-		export(m, new File(outDir, names.mapFile("classes.resolve", "_[classtag]-[classid]")));
-	}
+    @Throws(IOException::class)
+    fun exportRolesUsingClassTags() {
+        val m = makeClassTagsRolesTreeMap()
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")))
+    }
 
-	public void exportClasses() throws IOException
-	{
-		var m = makeClassesMap();
-		export(m, new File(outDir, names.mapFile("classes.resolve", "_[classname]-[classid]")));
-	}
+    @Throws(IOException::class)
+    fun exportRolesUsingClassNames() {
+        val m = makeClassesRolesTreeMap()
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")))
+    }
 
-	public void exportRoleTypes() throws IOException
-	{
-		var m = makeRoleTypesMap();
-		export(m, new File(outDir, names.mapFile("roletypes.resolve", "_[roletype]-[roletypeid]")));
-	}
+    @Throws(IOException::class)
+    fun exportWords() {
+        val m = makeWordMap()
+        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")))
+    }
 
-	public void exportRolesUsingClassTags() throws IOException
-	{
-		var m = makeClassTagsRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")));
-	}
+    // M A P S
 
-	public void exportRolesUsingClassNames() throws IOException
-	{
-		var m = makeClassesRolesTreeMap();
-		export(m, new File(outDir, names.mapFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")));
-	}
+    /**
+     * Make word to wordid map
+     *
+     * @return word to wordid
+     */
+    fun makeWordMap(): Map<String, Int> {
+        return Word.COLLECTOR
+            .associate { it.word to Word.COLLECTOR.apply(it) }
+            .toSortedMap()
+    }
 
-	public void exportWords() throws IOException
-	{
-		var m = makeWordMap();
-		export(m, new File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")));
-	}
+    /**
+     * Make classname to classid map
+     *
+     * @return classname to classid
+     */
+    fun makeClassesMap(): Map<String, Int> {
+        return VnClass.COLLECTOR
+            .associate { it.name to VnClass.COLLECTOR.apply(it) }
+            .toSortedMap()
+    }
 
-	public static <K, V> void export(Map<K, V> m, File file) throws IOException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file), true, StandardCharsets.UTF_8))
-		{
-			export(ps, m);
-		}
-	}
+    /**
+     * Make classtags to classid map
+     *
+     * @return classtags to classid
+     */
+    fun makeClassTagsMap(): Map<String, Int> {
+        return VnClass.COLLECTOR
+            .associate { it.tag to VnClass.COLLECTOR.apply(it) }
+            .toSortedMap()
+    }
 
-	public static <K, V> void export(PrintStream ps, Map<K, V> m)
-	{
-		m.forEach((strs, nids) -> ps.printf("%s -> %s%n", strs, nids));
-	}
+    /**
+     * Make roletype to roletypeid map
+     *
+     * @return roletype to roletypeid map
+     */
+    fun makeRoleTypesMap(): MutableMap<String?, Int?> {
+        return RoleType.COLLECTOR
+            .associate { it.type to RoleType.COLLECTOR.apply(it) }
+            .toSortedMap()
+    }
 
-	// M A P S
+    /**
+     * Make classtag,roletype to ids map
+     *
+     * @return (classtag, roletype) to (roleid,classid,roletypeid)
+     */
+    fun makeClassTagsRolesMap(): Map<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+        return Role.COLLECTOR
+            .associate { Pair(it.clazz.tag, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
+    }
 
-	/**
-	 * Make word to wordid map
-	 *
-	 * @return word to wordid
-	 */
-	public Map<String, Integer> makeWordMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(w -> new SimpleEntry<>(w.word, Word.COLLECTOR.apply(w))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    /**
+     * Make classtag,roletype to ids treemap
+     *
+     * @return (classtag, roletype) to (roleid,classid,roletypeid)
+     */
+    fun makeClassTagsRolesTreeMap(): Map<Pair<String?, String?>, Triplet<Int?, Int?, Int?>> {
+        return Role.COLLECTOR
+            .asSequence()
+            .map { Pair(it.clazz.tag, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
+            .toMap()
+            .toSortedMap(COMPARATOR)
+    }
 
-	/**
-	 * Make classname to classid map
-	 *
-	 * @return classname to classid
-	 */
-	public Map<String, Integer> makeClassesMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(VnClass.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(c -> new SimpleEntry<>(c.name, VnClass.COLLECTOR.apply(c))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    /**
+     * Make classname,roletype to ids map
+     *
+     * @return (classnameroletype) to (roleid,classid,roletypeid)
+     */
+    fun makeClassesRolesMap(): Map<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+        return Role.COLLECTOR
+            .associate { Pair(it.clazz.name, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
+    }
 
-	/**
-	 * Make classtags to classid map
-	 *
-	 * @return classtags to classid
-	 */
+    /**
+     * Make classname,roletype to ids treemap
+     *
+     * @return (classname, roletype) to (roleid,classid,roletypeid)
+     */
+    fun makeClassesRolesTreeMap(): MutableMap<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+        return Role.COLLECTOR
+            .associate { Pair(it.clazz.name, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
+            .toSortedMap(COMPARATOR)
+    }
 
-	public Map<String, Integer> makeClassTagsMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(VnClass.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(c -> new SimpleEntry<>(c.getTag(), VnClass.COLLECTOR.apply(c))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    companion object {
 
-	/**
-	 * Make roletype to roletypeid map
-	 *
-	 * @return roletype to roletypeid map
-	 */
-	public Map<String, Integer> makeRoleTypesMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(RoleType.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(t -> new SimpleEntry<>(t.type, RoleType.COLLECTOR.apply(t))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+        private val COMPARATOR: Comparator<Pair<String, String>> =
+            Comparator
+                .comparing<Pair<String, String>, String> { it.first }
+                .thenComparing<String> { it.second }
 
-	/**
-	 * Make classtag,roletype to ids map
-	 *
-	 * @return (classtag, roletype) to (roleid,classid,roletypeid)
-	 */
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(r -> new Pair<>( //
-						new Pair<>(r.clazz.getTag(), r.getRestrRole().roleType.type), //
-						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond));
-	}
+        @Throws(IOException::class)
+        fun <K, V> export(m: Map<K, V>, file: File) {
+            PrintStream(FileOutputStream(file), true, StandardCharsets.UTF_8).use {
+                export(it, m)
+            }
+        }
 
-	/**
-	 * Make classtag,roletype to ids treemap
-	 *
-	 * @return (classtag, roletype) to (roleid,classid,roletypeid)
-	 */
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassTagsRolesTreeMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(r -> new Pair<>( //
-						new Pair<>(r.clazz.getTag(), r.getRestrRole().roleType.type), //
-						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
-					throw new RuntimeException(existing + " > " + replacement);
-				}, () -> new TreeMap<>(COMPARATOR)));
-	}
-
-	/**
-	 * Make classname,roletype to ids map
-	 *
-	 * @return (classnameroletype) to (roleid,classid,roletypeid)
-	 */
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(r -> new Pair<>( //
-						new Pair<>(r.clazz.name, r.getRestrRole().roleType.type), //
-						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond));
-	}
-
-	/**
-	 * Make classname,roletype to ids treemap
-	 *
-	 * @return (classname, roletype) to (roleid,classid,roletypeid)
-	 */
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeClassesRolesTreeMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Role.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(r -> new Pair<>( //
-						new Pair<>(r.clazz.name, r.getRestrRole().roleType.type), //
-						new Triplet<>(r.getIntId(), r.clazz.getIntId(), r.getRestrRole().roleType.getIntId()))) //
-				.collect(toMap(Pair::getFirst, Pair::getSecond, (existing, replacement) -> {
-					throw new RuntimeException(existing + " > " + replacement);
-				}, () -> new TreeMap<>(COMPARATOR)));
-	}
+        fun <K, V> export(ps: PrintStream, m: Map<K, V>) {
+            m.forEach { (strs: K, nids: V) -> ps.printf("$strs -> $nids") }
+        }
+    }
 }

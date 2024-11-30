@@ -2,7 +2,6 @@ package org.sqlbuilder.vn.joins
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableFloat
 import org.sqlbuilder.common.Utils.nullableInt
@@ -77,16 +76,16 @@ class Member_Sense private constructor(
     companion object {
 
         @JvmField
-        val COMPARATOR: Comparator<Member_Sense?> = Comparator //
-            .comparing<Member_Sense?, VnClass?>(Function { obj: Member_Sense? -> obj!!.memberClass }) //
-            .thenComparing<Word?>(Function { obj: Member_Sense? -> obj!!.memberWord }) //
-            .thenComparing<Sensekey?>(Function { obj: Member_Sense? -> obj!!.sensekey }, Comparator.nullsFirst<Sensekey?>(Comparator.naturalOrder<Sensekey?>()))
+        val COMPARATOR: Comparator<Member_Sense> = Comparator
+            .comparing<Member_Sense, VnClass> { it.memberClass }
+            .thenComparing<Word> { it.memberWord }
+            .thenComparing<Sensekey?> ({ it.sensekey }, nullsFirst(naturalOrder<Sensekey>()))
 
         @JvmField
-        val SET = HashSet<Member_Sense?>()
+        val SET = HashSet<Member_Sense>()
 
         @JvmField
-        val RESOLVE_RESULT_STRINGIFIER = Function { r: SimpleEntry<Int?, Int?>? ->
+        val RESOLVE_RESULT_STRINGIFIER = Function { r: SimpleEntry<Int, Int>? ->
             if (r == null) "NULL,NULL" else "${nullableInt(r.key)},${nullableInt(r.value)}"
         }
 
