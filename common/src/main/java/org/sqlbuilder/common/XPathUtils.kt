@@ -17,7 +17,7 @@ import javax.xml.xpath.XPathFactory
 
 object XPathUtils {
 
-    fun NodeList.genElements() = iterator {
+    fun NodeList.asSequence() = iterator {
         var i = 0
         while (i < length) {
             yield(item(i))
@@ -25,10 +25,10 @@ object XPathUtils {
         }
     }
 
-    fun genElementsFromNullableNodeList(nodeList: NodeList?) = iterator {
+    fun NodeList.asSequenceOfElements() = iterator {
         var i = 0
-        while (i < (nodeList?.length ?: 0)) {
-            yield(nodeList?.item(i))
+        while (i < length) {
+            yield(item(i) as Element)
             i++
         }
     }

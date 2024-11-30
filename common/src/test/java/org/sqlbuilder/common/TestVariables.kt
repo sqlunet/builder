@@ -1,49 +1,45 @@
-package org.sqlbuilder.common;
+package org.sqlbuilder.common
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.BeforeClass
+import org.junit.Test
+import org.sqlbuilder.common.Variables.Companion.make
+import java.util.*
 
-import java.util.ResourceBundle;
+class TestVariables {
 
-public class TestVariables
-{
-	private static final String[] dollarVs = new String[]{"${var.a}", "${var.b}", "${var.c}", "__${var.a}__", "__${var.b}__", "__${var.c}__", "${var.z}"};
-	private static final String[] atVs = new String[]{"@{var.a}", "@{var.b}", "@{var.c}", "__@{var.a}__", "__@{var.b}__", "__@{var.c}__", "@{var.z}"};
+    @Test
+    fun testVariablesWithDollar() {
+        testVariables(dollarVs)
+    }
 
-	private static Variables variables;
+    @Test
+    fun testVariablesWithAt() {
+        testVariables(atVs)
+    }
 
-	@BeforeClass
-	public static void init()
-	{
-		ResourceBundle bundle = ResourceBundle.getBundle("Names");
-		variables = Variables.make(bundle);
-	}
+    fun testVariables(vs: Array<String>) {
+        for (v in vs) {
+            try {
+                val w: String = variables!!.varSubstitution(v, true)
+                println(w)
+            } catch (_: IllegalArgumentException) {
+                System.err.println("Not found: $v")
+            }
+        }
+    }
 
-	@Test
-	public void testVariablesWithDollar()
-	{
-		testVariables(dollarVs);
-	}
+    companion object {
 
-	@Test
-	public void testVariablesWithAt()
-	{
-		testVariables(atVs);
-	}
+        private val dollarVs = arrayOf<String>("\${var.a}", "\${var.b}", "\${var.c}", "__\${var.a}__", "__\${var.b}__", "__\${var.c}__", "\${var.z}")
+        private val atVs = arrayOf<String>("@{var.a}", "@{var.b}", "@{var.c}", "__@{var.a}__", "__@{var.b}__", "__@{var.c}__", "@{var.z}")
 
-	public void testVariables(String[] vs)
-	{
-		for (var v : vs)
-		{
-			try
-			{
-				var w = variables.varSubstitution(v, true);
-				System.out.println(w);
-			}
-			catch (IllegalArgumentException iae)
-			{
-				System.err.println("Not found; " + v);
-			}
-		}
-	}
+        private var variables: Variables? = null
+
+        @BeforeClass
+        @JvmStatic
+        fun init() {
+            val bundle = ResourceBundle.getBundle("Names")
+            variables = make(bundle)
+        }
+    }
 }
