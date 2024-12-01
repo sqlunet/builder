@@ -2,7 +2,6 @@ package org.sqlbuilder.vn.objects
 
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
-import org.sqlbuilder.common.Utils.nullableQuotedString
 import org.sqlbuilder.common.Utils.quote
 import java.util.AbstractMap.SimpleEntry
 

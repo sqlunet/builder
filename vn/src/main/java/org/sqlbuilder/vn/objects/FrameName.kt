@@ -2,7 +2,6 @@ package org.sqlbuilder.vn.objects
 
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.common.SetCollector
 import java.util.*
 

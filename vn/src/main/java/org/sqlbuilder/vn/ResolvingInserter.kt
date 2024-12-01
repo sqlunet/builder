@@ -10,7 +10,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
 import java.util.AbstractMap.SimpleEntry
-import java.util.function.Function
 
 open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 

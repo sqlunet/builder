@@ -10,40 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnModule.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnWordResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/ResolvingInserter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/ResolvingUpdater.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnModule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnWordResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Inserter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/ResolvingInserter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/ResolvingUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFEXmlProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFEXmlProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameXmlProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameXmlProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern_FEPattern.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FEGroupPattern_FEPattern.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Label.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Label.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/LexUnit.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/LexUnit.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Sentence.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Sentence.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestNormalizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestNormalizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingInserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Arg.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Arg.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/ArgType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/ArgType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Example.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Example.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Func.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Func.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Role.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Role.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/RoleSet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/RoleSet.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestNames.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Frame_Example.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Frame_Example.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Grouping.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Grouping.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sense.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sense.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/test/java/org/sqlbuilder/vn/TestNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/test/java/org/sqlbuilder/vn/TestNames.java" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -87,7 +63,7 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -257,14 +233,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00024" summary="simplify">
-      <option name="closed" value="true" />
-      <created>1732687183131</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1732687183131</updated>
     </task>
     <task id="LOCAL-00025" summary="to kotlin">
       <option name="closed" value="true" />
@@ -650,7 +618,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733044904885</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733050226465</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1733050226466</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

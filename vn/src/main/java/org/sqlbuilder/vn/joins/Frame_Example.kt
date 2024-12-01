@@ -20,7 +20,7 @@ class Frame_Example private constructor(
             return false
         }
         val that = o as Frame_Example
-        return frame.equals(that.frame) && example.equals(that.example)
+        return frame == that.frame && example == that.example
     }
 
     override fun hashCode(): Int {
