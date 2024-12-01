@@ -4,7 +4,6 @@ import edu.berkeley.icsi.framenet.ValenceUnitType
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.fn.types.FeType
 import org.sqlbuilder.fn.types.GfType
@@ -54,7 +53,7 @@ class ValenceUnit private constructor(
 
     // O R D E R
 
-    override fun compareTo(@NotNull that: ValenceUnit): Int {
+    override fun compareTo(that: ValenceUnit): Int {
         return COMPARATOR.compare(this, that)
     }
 

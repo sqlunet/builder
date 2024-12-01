@@ -11,7 +11,7 @@ import org.sqlbuilder.fn.types.LayerType.getIntId
 class Layer private constructor(
     layer: LayerType,
     annosetid: Int,
-) : HasId, Insertable {
+) : HasId, Insertable, Comparable<Layer> {
 
     val name: String = layer.getName()
 
@@ -23,6 +23,14 @@ class Layer private constructor(
     override fun getIntId(): Int {
         return COLLECTOR.apply(this)
     }
+
+    // O R D E R
+
+    override fun compareTo(that: Layer): Int {
+        return COMPARATOR.compare(this, that)
+    }
+
+    // I N S E R T
 
     @RequiresIdFrom(type = Layer::class)
     override fun dataRow(): String {

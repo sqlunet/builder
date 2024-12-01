@@ -8,7 +8,7 @@ import org.sqlbuilder.common.Utils.zeroableInt
 import org.sqlbuilder.fn.types.LabelType.add
 import org.sqlbuilder.fn.types.LabelType.getIntId
 
-class Label private constructor(label: LabelType, val layer: Layer) : Insertable {
+class Label private constructor(label: LabelType, val layer: Layer) : Insertable, Comparable<Label> {
 
     private val name: String = label.name
 
@@ -26,6 +26,14 @@ class Label private constructor(label: LabelType, val layer: Layer) : Insertable
         return "${getIntId(name)},${nullableInt(itypeid)},${zeroableInt(feid)},${zeroableInt(start)},${zeroableInt(end)},${layer.getSqlId()}"
     }
 
+    // O R D E R
+
+    override fun compareTo(that: Label): Int {
+        return COMPARATOR.compare(this, that)
+    }
+
+    // I N S E R T
+
     override fun comment(): String {
         return "type=$name"
     }
@@ -36,7 +44,11 @@ class Label private constructor(label: LabelType, val layer: Layer) : Insertable
 
     companion object {
 
-        val COMPARATOR: Comparator<Label> = Comparator.comparing<Label, String> { it.name }
+        val COMPARATOR: Comparator<Label> = Comparator
+            .comparing<Label, String> { it.name }
+            .thenComparing<Layer> { it.layer }
+            .thenComparing<Int> { it.start }
+            .thenComparing<Int> { it.end }
 
         val SET = HashSet<Label>()
 
