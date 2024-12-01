@@ -1,75 +1,50 @@
-package org.sqlbuilder.fn.objects;
+package org.sqlbuilder.fn.objects
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.types.LabelType;
+import edu.berkeley.icsi.framenet.LabelType
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.common.Utils.zeroableInt
+import org.sqlbuilder.fn.types.LabelType.add
+import org.sqlbuilder.fn.types.LabelType.getIntId
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+class Label private constructor(label: LabelType, val layer: Layer) : Insertable {
 
-public class Label implements Insertable
-{
-	public static final Set<Label> SET = new HashSet<>();
+    private val name: String = label.name
 
-	private final String name;
+    private val itypeid: Int? = if (label.itype == null) null else label.itype.intValue()
 
-	private final Integer itypeid;
+    private val feid: Int = label.feID
 
-	private final int feid;
+    private val start: Int = label.start
 
-	private final int start;
+    private val end: Int = label.end
 
-	private final int end;
+    @RequiresIdFrom(type = Layer::class)
+    @RequiresIdFrom(type = org.sqlbuilder.fn.types.LabelType::class)
+    override fun dataRow(): String {
+        return "${getIntId(name)},${nullableInt(itypeid)},${zeroableInt(feid)},${zeroableInt(start)},${zeroableInt(end)},${layer.getSqlId()}"
+    }
 
-	public final Layer layer;
+    override fun comment(): String {
+        return String.format("type=% s", name)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Label make(final edu.berkeley.icsi.framenet.LabelType label, final Layer layer)
-	{
-		var l = new Label(label, layer);
-		LabelType.add(l.name);
-		SET.add(l);
-		return l;
-	}
+    override fun toString(): String {
+        return String.format("[LAB label=%s layer=%s]", name, layer)
+    }
 
-	private Label(final edu.berkeley.icsi.framenet.LabelType label, final Layer layer)
-	{
-		this.name = label.getName();
-		this.itypeid = label.getItype() == null ? null : label.getItype().intValue();
-		this.feid = label.getFeID();
-		this.start = label.getStart();
-		this.end = label.getEnd();
-		this.layer = layer;
-	}
+    companion object {
 
-	public static final Comparator<Label> COMPARATOR = Comparator.comparing(l -> l.name);
+        val COMPARATOR: Comparator<Label> = Comparator.comparing<Label, String> { it.name }
 
-	@RequiresIdFrom(type = Layer.class)
-	@RequiresIdFrom(type = LabelType.class)
-	@Override
-	public String dataRow()
-	{
-		// (labelid),labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
-		return String.format("%d,%s,%s,%s,%s,%s", 
-				LabelType.getIntId(name), 
-				Utils.nullableInt(itypeid), 
-				Utils.zeroableInt(feid), 
-				Utils.zeroableInt(start), 
-				Utils.zeroableInt(end), 
-				layer.getSqlId());
-	}
+        val SET = HashSet<Label>()
 
-	@Override
-	public String comment()
-	{
-		return String.format("type=%s", name);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("[LAB label=%s layer=%s]", this.name, this.layer);
-	}
+        fun make(label: LabelType, layer: Layer): Label {
+            val l = Label(label, layer)
+            add(l.name)
+            SET.add(l)
+            return l
+        }
+    }
 }
