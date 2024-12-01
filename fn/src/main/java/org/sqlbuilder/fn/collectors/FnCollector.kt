@@ -1,64 +1,46 @@
-package org.sqlbuilder.fn.collectors;
+package org.sqlbuilder.fn.collectors
 
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Progress.trace
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+import java.io.File
+import java.io.FilenameFilter
+import java.util.*
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
+abstract class FnCollector(protected val fnDir: String, props: Properties, tag: String) : Processor(tag) {
 
-public abstract class FnCollector extends Processor
-{
-	protected final String frameNetHome;
+    protected val frameNetHome: String = props.getProperty("fn_home", System.getenv()["FNHOME"])
 
-	protected final String fnDir;
+    protected lateinit var filename: String
 
-	protected String filename;
+    override fun run() {
+        val folderName = frameNetHome + File.separatorChar + fnDir
+        val folder = File(folderName)
+        val filter = FilenameFilter { dir: File, filename2: String -> filename2.endsWith(".xml") }
 
-	public FnCollector(final String subDir, final Properties props, final String tag)
-	{
-		super(tag);
-		this.frameNetHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
-		this.fnDir = subDir;
-	}
+        traceHeader("framenet files", fnDir)
+        var fileCount = 0
 
-	@Override
-	public void run()
-	{
-		final String folderName = this.frameNetHome + File.separatorChar + this.fnDir;
-		final File folder = new File(folderName);
-		final FilenameFilter filter = (dir, filename2) -> filename2.endsWith(".xml");
+        val fileArray = folder.listFiles(filter)
+        if (fileArray == null) {
+            throw RuntimeException("Dir:$frameNetHome is empty")
+        }
+        fileArray
+            .asSequence()
+            .sortedWith(Comparator.comparing<File, String> { it.name })
+            .forEach {
+                filename = it.getName()
+                try {
+                    processFrameNetFile(it.absolutePath)
+                    fileCount++
+                } catch (e: Exception) {
+                    throw RuntimeException("File:$filename", e)
+                }
+                trace(fileCount.toLong())
+            }
+        traceTailer(fileCount.toLong())
+    }
 
-		final File[] fileArray = folder.listFiles(filter);
-		if (fileArray == null)
-		{
-			throw new RuntimeException("Dir:" + this.frameNetHome + " is empty");
-		}
-		final List<File> files = Arrays.asList(fileArray);
-		files.sort(Comparator.comparing(File::getName));
-
-		Progress.traceHeader("framenet files", this.fnDir);
-		int fileCount = 0;
-		for (final File file : files)
-		{
-			this.filename = file.getName();
-			try
-			{
-				processFrameNetFile(file.getAbsolutePath());
-				fileCount++;
-			}
-			catch (Exception e)
-			{
-				throw new RuntimeException("File:" + this.filename, e);
-			}
-			Progress.trace(fileCount);
-		}
-		Progress.traceTailer(fileCount);
-	}
-
-	@SuppressWarnings("SameReturnValue")
-	protected abstract void processFrameNetFile(final String fileName);
+    protected abstract fun processFrameNetFile(fileName: String)
 }

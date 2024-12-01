@@ -1,113 +1,99 @@
-package org.sqlbuilder.fn.collectors;
+package org.sqlbuilder.fn.collectors
 
-import org.apache.xmlbeans.XmlException;
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.joins.*;
-import org.sqlbuilder.fn.objects.FE;
-import org.sqlbuilder.fn.objects.Frame;
-import org.sqlbuilder.fn.objects.LexUnit;
-import org.sqlbuilder.fn.objects.Lexeme;
-import org.xml.sax.SAXException;
+import edu.berkeley.icsi.framenet.FrameDocument
+import org.apache.xmlbeans.XmlException
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.fn.FnModule
+import org.sqlbuilder.fn.joins.FE_FEExcluded
+import org.sqlbuilder.fn.joins.FE_FERequired
+import org.sqlbuilder.fn.joins.FE_SemType
+import org.sqlbuilder.fn.joins.Frame_SemType
+import org.sqlbuilder.fn.objects.FE.Companion.make
+import org.sqlbuilder.fn.objects.Frame.Companion.make
+import org.sqlbuilder.fn.objects.LexUnit.Companion.make
+import org.xml.sax.SAXException
+import java.io.File
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+class FnFrameExportCollector(props: Properties) : FnCollector("frame", props, "frame") {
 
-import javax.xml.parsers.ParserConfigurationException;
+    private val skipLexUnits: Boolean = props.getProperty("fn_skip_lu", "true").compareTo("true", ignoreCase = true) == 0
 
-import edu.berkeley.icsi.framenet.FrameDocument;
+    override fun processFrameNetFile(fileName: String) {
+        val xmlFile = File(fileName)
+        try {
+            val document = FrameDocument.Factory.parse(xmlFile)
 
-public class FnFrameExportCollector extends FnCollector
-{
-	private final boolean skipLexUnits;
+            // F R A M E
+            val frame = document.getFrame()
+            val frameid = frame.getID()
+            make(frame)
 
-public FnFrameExportCollector(final Properties props)
-	{
-		super("frame", props, "frame");
-		this.skipLexUnits = props.getProperty("fn_skip_lu", "true").compareToIgnoreCase("true") == 0;
-	}
+            // S E M T Y P E
+            frame.getSemTypeArray()
+                .forEach {
+                    Frame_SemType.make(frameid, it.getID())
+                }
 
-	@Override
-	protected void processFrameNetFile(final String fileName)
-	{
-		final File xmlFile = new File(fileName);
-		try
-		{
-			final FrameDocument _document = FrameDocument.Factory.parse(xmlFile);
+            // F E C O R E S E T S
+            val feToCoresetMap: Map<Int, Int> =
+                frame.getFEcoreSetArray()
+                    .withIndex()
+                    .map { (setId, fecoreset) -> setId + 1 to fecoreset }
+                    .flatMap { (setId, fecoreset) ->
+                        fecoreset
+                            .getMemberFEArray()
+                            .map {
+                                val feid = it.getID()
+                                feid to setId
+                            }
+                    }
+                    .toMap()
 
-			// F R A M E
+            // F E
+            frame.getFEArray()
+                .forEach { fe ->
+                    val feid = fe.getID()
+                    make(fe, feToCoresetMap[feid], frameid)
 
-			final FrameDocument.Frame _frame = _document.getFrame();
-			final int frameid = _frame.getID();
-			Frame.make(_frame);
+                    // s e m t y p e s
+                    fe.getSemTypeArray()
+                        .forEach {
+                            FE_SemType.make(feid, it.getID())
+                        }
 
-			// S E M T Y P E
+                    // r e q u i r e s
+                    fe.getRequiresFEArray()
+                        .forEach {
+                            FE_FERequired.make(feid, it)
+                        }
 
-			for (var _semtype : _frame.getSemTypeArray())
-			{
-				Frame_SemType.make(frameid, _semtype.getID());
-			}
+                    // e x c l u d e s / r e q u i r e s
+                    fe.getExcludesFEArray()
+                        .forEach {
+                            FE_FEExcluded.make(feid, it)
+                        }
+                }
 
-			// F E C O R E S E T S
-
-			final Map<Integer, Integer> feToCoresetMap = new HashMap<>();
-			int setid = 0;
-			for (var _fecoreset : _frame.getFEcoreSetArray())
-			{
-				++setid;
-				for (var _corefe : _fecoreset.getMemberFEArray())
-				{
-					final int feid = _corefe.getID();
-					final Integer prev = feToCoresetMap.put(feid, setid);
-					if (prev != null)
-					{
-						throw new IllegalArgumentException(String.format("FECoreSets are not disjoint %s %s", prev, feid));
-					}
-				}
-			}
-
-			// F E
-
-			for (var _fe : _frame.getFEArray())
-			{
-				final int feid = _fe.getID();
-				FE.make(_fe, feToCoresetMap.get(feid), frameid);
-
-				// s e m t y p e s
-				for (var _semtype : _fe.getSemTypeArray())
-				{
-					FE_SemType.make(feid, _semtype.getID());
-				}
-
-				// r e q u i r e s
-				for (var _requiredfe : _fe.getRequiresFEArray())
-				{
-					FE_FERequired.make(feid, _requiredfe);
-				}
-
-				// e x c l u d e s / r e q u i r e s
-				for (var _excludedfe : _fe.getExcludesFEArray())
-				{
-					FE_FEExcluded.make(feid, _excludedfe);
-				}
-			}
-
-			// L E X U N I T S
-
-			if (!this.skipLexUnits)
-			{
-				for (var _lexunit : _frame.getLexUnitArray())
-				{
-					LexUnit.make(_lexunit, frameid, _frame.getName());
-				}
-			}
-		}
-		catch (XmlException | ParserConfigurationException | SAXException | IOException | RuntimeException e)
-		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-	}
+            // L E X U N I T S
+            if (!this.skipLexUnits) {
+                frame.getLexUnitArray()
+                    .forEach { lexunit ->
+                        make(lexunit, frameid, frame.getName())
+                    }
+            }
+        } catch (e: XmlException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: ParserConfigurationException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: SAXException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: RuntimeException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        }
+    }
 }

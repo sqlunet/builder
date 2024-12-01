@@ -1,206 +1,202 @@
-package org.sqlbuilder.fn.collectors;
+package org.sqlbuilder.fn.collectors
 
-import org.apache.xmlbeans.XmlException;
-import org.sqlbuilder.common.AlreadyFoundException;
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.joins.*;
-import org.sqlbuilder.fn.objects.*;
+import edu.berkeley.icsi.framenet.LexUnitDocument
+import org.apache.xmlbeans.XmlException
+import org.sqlbuilder.common.AlreadyFoundException
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.fn.FnModule
+import org.sqlbuilder.fn.joins.FEGroupPattern.Companion.make
+import org.sqlbuilder.fn.joins.FEGroupPattern_AnnoSet.Companion.make
+import org.sqlbuilder.fn.joins.FEGroupPattern_FEPattern.Companion.make
+import org.sqlbuilder.fn.joins.FEPattern.Companion.make
+import org.sqlbuilder.fn.joins.FE_FEGroupRealization.Companion.make
+import org.sqlbuilder.fn.joins.Governor_AnnoSet.Companion.make
+import org.sqlbuilder.fn.joins.LexUnit_Governor.Companion.make
+import org.sqlbuilder.fn.joins.LexUnit_SemType.Companion.make
+import org.sqlbuilder.fn.joins.SubCorpus_Sentence.Companion.make
+import org.sqlbuilder.fn.joins.ValenceUnit_AnnoSet.Companion.make
+import org.sqlbuilder.fn.objects.AnnotationSet.Companion.make
+import org.sqlbuilder.fn.objects.Corpus.Companion.make
+import org.sqlbuilder.fn.objects.Doc.Companion.make
+import org.sqlbuilder.fn.objects.FEGroupRealization.Companion.make
+import org.sqlbuilder.fn.objects.FERealization
+import org.sqlbuilder.fn.objects.FERealization.Companion.make
+import org.sqlbuilder.fn.objects.Governor.Companion.make
+import org.sqlbuilder.fn.objects.Label
+import org.sqlbuilder.fn.objects.Layer.Companion.make
+import org.sqlbuilder.fn.objects.LexUnit.Companion.make
+import org.sqlbuilder.fn.objects.Lexeme.Companion.make
+import org.sqlbuilder.fn.objects.Sentence.Companion.make
+import org.sqlbuilder.fn.objects.SubCorpus.Companion.make
+import org.sqlbuilder.fn.objects.ValenceUnit
+import org.sqlbuilder.fn.objects.ValenceUnit.Companion.make
+import java.io.File
+import java.io.IOException
+import java.util.*
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+class FnLexUnitCollector(props: Properties) : FnCollector("lu", props, "lu") {
 
-import edu.berkeley.icsi.framenet.LexUnitDocument;
-import edu.berkeley.icsi.framenet.ValenceUnitType;
-import edu.berkeley.icsi.framenet.ValencesType;
+    private val skipLayers: Boolean = props.getProperty("fn_skip_layers", "").compareTo("true", ignoreCase = true) == 0
 
-public class FnLexUnitCollector extends FnCollector
-{
-	private final boolean skipLayers;
+    private lateinit var vuToFer: Map<ValenceUnit, FERealization>
 
-	public FnLexUnitCollector(final Properties props)
-	{
-		super("lu", props, "lu");
-		this.skipLayers = props.getProperty("fn_skip_layers", "").compareToIgnoreCase("true") == 0;
-	}
+    override fun processFrameNetFile(fileName: String) {
 
-	private final Map<ValenceUnit, FERealization> vuToFer = new HashMap<>();
+        val file = File(fileName)
+        try {
+            val document = LexUnitDocument.Factory.parse(file)
 
-	@Override
-	protected void processFrameNetFile(final String fileName)
-	{
-		vuToFer.clear();
+            // L E X U N I T
+            val lexunit = document.getLexUnit()
+            val luid = lexunit.getID()
+            val frameid = lexunit.getFrameID()
+            make(lexunit)
 
-		final File file = new File(fileName);
-		try
-		{
-			final LexUnitDocument _document = LexUnitDocument.Factory.parse(file);
+            // H E A D E R
+            lexunit.getHeader().getCorpusArray()
+                .forEach { corpus ->
+                    make(corpus, luid)
+                    corpus.getDocumentArray()
+                        .forEach {
+                            make(it, corpus)
+                        }
+                }
 
-			// L E X U N I T
+            // L E X E M E S
+            lexunit.getLexemeArray()
+                .forEach {
+                    make(it, luid.toLong())
+                }
 
-			final LexUnitDocument.LexUnit _lexunit = _document.getLexUnit();
-			final int luid = _lexunit.getID();
-			final int frameid = _lexunit.getFrameID();
-			LexUnit.make(_lexunit);
+            // S E M T Y P E S
+            lexunit.getSemTypeArray()
+                .forEach {
+                    make(luid, it)
+                }
 
-			// H E A D E R
+            // V A L E N C E S
+            val valences = lexunit.getValences()
 
-			for (var _corpus : _lexunit.getHeader().getCorpusArray())
-			{
-				Corpus.make(_corpus, luid);
-				for (var _doc : _corpus.getDocumentArray())
-				{
-					Doc.make(_doc, _corpus);
-				}
-			}
+            // g o v e r n o r s
+            valences.getGovernorArray()
+                .forEach { g ->
+                    val governor = make(g)
+                    make(luid, governor)
 
-			// L E X E M E S
+                    g.getAnnoSetArray()
+                        .forEach {
+                            make(governor, it)
+                        }
+                }
 
-			for (var _lexeme : _lexunit.getLexemeArray())
-			{
-				Lexeme.make(_lexeme, luid);
-			}
+            // F E r e a l i z a t i o n s
+            vuToFer = valences.getFERealizationArray()
+                .flatMap { r ->
+                    val fer = make(r, luid, frameid)
 
-			// S E M T Y P E S
+                    // p a t t e r n s
+                    r.getPatternArray()
+                        .map { p ->
+                            // v a l e n c e u n i t
+                            val vu = p.getValenceUnit()
+                            val valenceunit = make(vu)
+                            make(fer, valenceunit)
 
-			for (var _semtype : _lexunit.getSemTypeArray())
-			{
-				LexUnit_SemType.make(luid, _semtype);
-			}
+                            // a n n o s e t s
+                            p.getAnnoSetArray()
+                                .forEach {
+                                    make(valenceunit, it.getID())
+                                }
+                            valenceunit to fer
+                        }
+                }
+                .toMap()
 
-			// V A L E N C E S
+            // F E g r o u p r e a l i z a t i o n s
+            //  <FEGroupRealization>
+            //      <FR name="fe1"/>
+            //      <FR name="fe2"/>
+            //      <FR name="fe3"/>
+            //      <pattern total="count(*)">
+            //		    <valenceUnit FE="fe1" PT="pt" GF="gf"/>
+            //			<valenceUnit FE="fe2" PT="pt" GF="gf"/>
+            //			<valenceUnit FE="fe3" PT="pt" GF="gf"/>
+            //          <annoSet ID="n"/> *
+            //      </pattern>
+            //  </FEGroupRealization>
+            // The following assumes the grouppatterns reuse the valence units declared in FERealization
+            // so we simply point to them through the vuToFer map
 
-			final ValencesType _valences = _lexunit.getValences();
+            valences.getFEGroupRealizationArray()
+                .forEach { gr ->
+                    val fegr = make(gr, luid, frameid)
 
-			// g o v e r n o r s
+                    // f e s
+                    gr.getFEArray()
+                        .forEach {
+                            make(it, fegr)
+                        }
 
-			for (var _governor : _valences.getGovernorArray())
-			{
-				final Governor governor = Governor.make(_governor);
-				LexUnit_Governor.make(luid, governor);
+                    // p a t t e r n s
+                    gr.getPatternArray()
+                        .forEach { gp ->
+                            val grouppattern = make(fegr, gp)
 
-				for (var _annoset : _governor.getAnnoSetArray())
-				{
-					Governor_AnnoSet.make(governor, _annoset);
-				}
-			}
+                            // v a l e n c e u n i t s
+                            gp.getValenceUnitArray()
+                                .forEach {
+                                    val valenceunit = make(it)
+                                    val fer: FERealization = vuToFer[valenceunit]!!
+                                    make(grouppattern, fer, valenceunit)
+                                }
 
-			// F E r e a l i z a t i o n s
+                            // a n n o s e t s
+                            gp.getAnnoSetArray()
+                                .forEach {
+                                    make(grouppattern, it)
+                                }
+                        }
+                }
 
-			for (var _fer : _valences.getFERealizationArray())
-			{
-				final FERealization fer = FERealization.make(_fer, luid, frameid);
+            // S U B C O R P U S
 
-				// p a t t e r n s
-				for (var _pattern : _fer.getPatternArray())
-				{
-					// v a l e n c e u n i t
-					final ValenceUnitType _valenceunit = _pattern.getValenceUnit();
-					final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
-					FEPattern.make(fer, valenceunit);
-					vuToFer.put(valenceunit, fer);
+            lexunit.getSubCorpusArray()
+                .forEach { sc ->
+                    val subcorpus = make(sc, luid)
 
-					// a n n o s e t s
-					for (var _annoset : _pattern.getAnnoSetArray())
-					{
-						ValenceUnit_AnnoSet.make(valenceunit, _annoset.getID());
-					}
-				}
-			}
+                    sc.getSentenceArray()
+                        .forEach { s ->
+                            val sentence = make(s)
+                            make(subcorpus, sentence)
 
-			// F E g r o u p r e a l i z a t i o n s
-			//  <FEGroupRealization>
-			//      <FR name="fe1"/>
-			//      <FR name="fe2"/>
-			//      <FR name="fe3"/>
-			//      <pattern total="count(*)">
-			//		    <valenceUnit FE="fe1" PT="pt" GF="gf"/>
-			//			<valenceUnit FE="fe2" PT="pt" GF="gf"/>
-			//			<valenceUnit FE="fe3" PT="pt" GF="gf"/>
-			//          <annoSet ID="n"/> *
-			//      </pattern>
-			//  </FEGroupRealization>
-			// The following assumes the grouppatterns reuse the valence units declared in FERealization
-			// so we simply point to them through the vuToFer map
+                            s.getAnnotationSetArray()
+                                .forEach { a ->
+                                    try {
+                                        make(a, s.getID(), luid, lexunit.getFrameID())
+                                        if (!skipLayers) {
 
-			for (var _fegr : _valences.getFEGroupRealizationArray())
-			{
-				final FEGroupRealization fegr = FEGroupRealization.make(_fegr, luid, frameid);
+                                            // layers
+                                            a.getLayerArray()
+                                                .forEach { l ->
+                                                    val layer = make(l, a.getID())
 
-				// f e s
-				for (var _fe : _fegr.getFEArray())
-				{
-					FE_FEGroupRealization.make(_fe, fegr);
-				}
-
-				// p a t t e r n s
-				for (var _grouppattern : _fegr.getPatternArray())
-				{
-					final FEGroupPattern grouppattern = FEGroupPattern.make(fegr, _grouppattern);
-
-					// v a l e n c e u n i t s
-					for (var _valenceunit : _grouppattern.getValenceUnitArray())
-					{
-						final ValenceUnit valenceunit = ValenceUnit.make(_valenceunit);
-						FERealization fer = vuToFer.get(valenceunit);
-						FEGroupPattern_FEPattern.make(grouppattern, fer, valenceunit);
-					}
-
-					// a n n o s e t s
-					for (var _annoset : _grouppattern.getAnnoSetArray())
-					{
-						FEGroupPattern_AnnoSet.make(grouppattern, _annoset);
-					}
-				}
-			}
-
-			// S U B C O R P U S
-
-			for (var _subcorpus : _lexunit.getSubCorpusArray())
-			{
-				final SubCorpus subcorpus = SubCorpus.make(_subcorpus, luid);
-
-				for (var _sentence : _subcorpus.getSentenceArray())
-				{
-					final Sentence sentence = Sentence.make(_sentence);
-					SubCorpus_Sentence.make(subcorpus, sentence);
-
-					for (var _annoset : _sentence.getAnnotationSetArray())
-					{
-						try
-						{
-							AnnotationSet.make(_annoset, _sentence.getID(), luid, _lexunit.getFrameID());
-						}
-						catch (AlreadyFoundException afe)
-						{
-							continue;
-						}
-						if (this.skipLayers)
-						{
-							continue;
-						}
-
-						// layers
-						for (var _layer : _annoset.getLayerArray())
-						{
-							final Layer layer = Layer.make(_layer, _annoset.getID());
-
-							// labels
-							for (var _label : _layer.getLabelArray())
-							{
-								Label.make(_label, layer);
-							}
-						}
-					}
-				}
-			}
-		}
-		catch (XmlException | IOException e)
-		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-	}
+                                                    // labels
+                                                    l.getLabelArray()
+                                                        .forEach {
+                                                            Label.make(it, layer)
+                                                        }
+                                                }
+                                        }
+                                    } catch (_: AlreadyFoundException) {
+                                        // ignore
+                                    }
+                                }
+                        }
+                }
+        } catch (e: XmlException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        }
+    }
 }

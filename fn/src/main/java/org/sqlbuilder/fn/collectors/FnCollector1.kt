@@ -1,34 +1,23 @@
-package org.sqlbuilder.fn.collectors;
+package org.sqlbuilder.fn.collectors
 
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Progress.trace
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+import java.io.File
+import java.util.*
 
-import java.io.File;
-import java.util.Properties;
+abstract class FnCollector1(protected val filename: String, props: Properties, tag: String) : Processor(tag) {
 
-public abstract class FnCollector1 extends Processor
-{
-	protected final String fnHome;
+    protected val fnHome: String = props.getProperty("fn_home", System.getenv()["FNHOME"])
 
-	protected final String filename;
+    override fun run() {
+        traceHeader("framenet file", filename)
+        val file = File(fnHome + File.separatorChar + filename)
+        processFrameNetFile(file.absolutePath)
+        trace(1)
+        traceTailer(1)
+    }
 
-	public FnCollector1(final String filename, final Properties props, final String tag)
-	{
-		super(tag);
-		this.filename = filename;
-		this.fnHome = props.getProperty("fn_home", System.getenv().get("FNHOME"));
-	}
-
-	@Override
-	public void run()
-	{
-		Progress.traceHeader("framenet file", this.filename);
-		final File file = new File(this.fnHome + File.separatorChar + this.filename);
-		processFrameNetFile(file.getAbsolutePath());
-		Progress.trace(1);
-		Progress.traceTailer(1);
-	}
-
-	@SuppressWarnings({"SameReturnValue", "UnusedReturnValue"})
-	protected abstract void processFrameNetFile(final String fileName);
+    protected abstract fun processFrameNetFile(fileName: String)
 }

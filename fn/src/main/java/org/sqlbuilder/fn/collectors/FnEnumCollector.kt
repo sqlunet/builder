@@ -1,84 +1,63 @@
-package org.sqlbuilder.fn.collectors;
+package org.sqlbuilder.fn.collectors
 
-import org.apache.xmlbeans.StringEnumAbstractBase.Table;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.fn.objects.Values;
+import edu.berkeley.icsi.framenet.CoreType
+import edu.berkeley.icsi.framenet.LabelType
+import edu.berkeley.icsi.framenet.POSType
+import org.apache.xmlbeans.StringEnumAbstractBase
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+import org.sqlbuilder.fn.objects.Values
 
-import edu.berkeley.icsi.framenet.LabelType;
-import edu.berkeley.icsi.framenet.POSType;
+class FnEnumCollector : Processor("preset") {
 
-public class FnEnumCollector extends Processor
-{
-	public FnEnumCollector()
-	{
-		super("preset");
-	}
+    override fun run() {
+        traceHeader("preset framenet tables", "poses coretypes labelitypes")
+        makePoses()
+        makeCoreTypes()
+        makeLabelITypes()
+        traceTailer(3)
+    }
 
-	@Override
-	public void run()
-	{
-		Progress.traceHeader("preset framenet tables", "poses coretypes labelitypes");
-		makePoses();
-		makeCoreTypes();
-		makeLabelITypes();
-		Progress.traceTailer(3);
-	}
+    private fun makePoses() {
+        poses.withIndex()
+            .forEach { (i, pos) ->
+                Values.Pos.make(pos, i + 1)
+            }
+    }
 
-	@ProvidesIdTo(type = Values.Pos.class)
-	private void makePoses()
-	{
-		int i = 1;
-		for (var pos : getPoses())
-		{
-			Values.Pos.make(pos, i++);
-		}
-	}
+    private fun makeCoreTypes() {
+        coreTypes.withIndex()
+            .forEach { (i, coretype) ->
+                Values.CoreType.make(coretype, i + 1)
+            }
+    }
 
-	@ProvidesIdTo(type = Values.CoreType.class)
-	private void makeCoreTypes()
-	{
-		int i = 1;
-		for (var coretype : getCoreTypes())
-		{
-			Values.CoreType.make(coretype, i++);
-		}
-	}
+    private fun makeLabelITypes() {
+        labelITypes.withIndex()
+            .forEach { (i, labelitype) ->
+                Values.LabelIType.make(labelitype, i + 1)
+            }
+    }
 
-	@ProvidesIdTo(type = Values.LabelIType.class)
-	private void makeLabelITypes()
-	{
-		int i = 1;
-		for (var labelitype : getLabelITypes())
-		{
-			Values.LabelIType.make(labelitype, i++);
-		}
-	}
+    companion object {
 
-	private static String[] getValues(final Table types)
-	{
-		final String[] values = new String[types.lastInt()];
-		for (int i = 1; i <= types.lastInt(); i++)
-		{
-			final var e = types.forInt(i);
-			values[i - 1] = e.toString();
-		}
-		return values;
-	}
+        private fun getValues(types: StringEnumAbstractBase.Table): Array<String> {
+            return Array(types.lastInt() + 1) {
+                val e = types.forInt(it)
+                e.toString()
+            }
+        }
 
-	public static String[] getPoses()
-	{
-		return getValues(POSType.Enum.table);
-	}
+        val poses: Array<String>
+            get() = getValues(POSType.Enum.table)
 
-	public static String[] getCoreTypes()
-	{
-		return getValues(edu.berkeley.icsi.framenet.CoreType.Enum.table);
-	}
+        @JvmStatic
+        val coreTypes: Array<String>
+            get() = getValues(CoreType.Enum.table)
 
-	public static String[] getLabelITypes()
-	{
-		return getValues(LabelType.Itype.Enum.table);
-	}
+        @JvmStatic
+        val labelITypes: Array<String>
+            get() = getValues(LabelType.Itype.Enum.table)
+    }
 }
