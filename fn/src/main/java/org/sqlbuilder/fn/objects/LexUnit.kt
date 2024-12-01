@@ -27,7 +27,7 @@ class LexUnit : HasID, Insertable, Serializable {
     val frameID: Int
 
     @JvmField
-    val frameName: String?
+    val frameName: String
 
     private val definition: String?
 
@@ -50,7 +50,7 @@ class LexUnit : HasID, Insertable, Serializable {
         frameName = lu.getFrame()
     }
 
-    private constructor(lu: FrameLUType, frameid: Int, frameName0: String?) {
+    private constructor(lu: FrameLUType, frameid: Int, frameName0: String) {
         iD = lu.getID()
         name = lu.getName()
         pos = lu.getPOS().intValue()

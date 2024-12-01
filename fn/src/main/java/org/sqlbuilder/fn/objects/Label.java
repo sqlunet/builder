@@ -52,12 +52,12 @@ public class Label implements Insertable
 	public String dataRow()
 	{
 		// (labelid),labeltype,labelitypeid,feid,start,end,layerid,fgcolor,bgcolor,cby
-		return String.format("%d,%s,%s,%s,%s,%s", //
-				LabelType.getIntId(name), //
-				Utils.nullableInt(itypeid), //
-				Utils.zeroableInt(feid), //
-				Utils.zeroableInt(start), //
-				Utils.zeroableInt(end), //
+		return String.format("%d,%s,%s,%s,%s,%s", 
+				LabelType.getIntId(name), 
+				Utils.nullableInt(itypeid), 
+				Utils.zeroableInt(feid), 
+				Utils.zeroableInt(start), 
+				Utils.zeroableInt(end), 
 				layer.getSqlId());
 	}
 

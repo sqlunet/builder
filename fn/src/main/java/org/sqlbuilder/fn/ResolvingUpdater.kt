@@ -1,50 +1,43 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.common.Update;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.objects.Word;
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Update.update
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.fn.objects.Word
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
+class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
-public class ResolvingUpdater extends ResolvingInserter
-{
-	public ResolvingUpdater(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    init {
+        // output
+        this.outDir = File(conf.getProperty("fn_outdir_updated", "sql/data_updated"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-		// output
-		this.outDir = new File(conf.getProperty("fn_outdir_updated", "sql/data_updated"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insert() {
+        Word.COLLECTOR.open().use { 
+            insertWords()
+        }
+    }
 
-	@Override
-	public void insert() throws FileNotFoundException
-	{
-		try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
-		{
-			insertWords();
-		}
-	}
-
-	@Override
-	protected void insertWords() throws FileNotFoundException
-	{
-		Progress.tracePending("collector", "word");
-		final String wordidCol = names.column("words.wordid");
-		final String wordCol = names.column("words.word");
-		Update.update(Word.COLLECTOR, new File(outDir, names.updateFile("words")), header, names.table("words"), //
-				resolver, //
-				resolved -> wordidCol + '=' + Utils.nullableInt(resolved), //
-				resolving -> String.format("%s='%s'", wordCol, Utils.escape(resolving)));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertWords() {
+        tracePending("collector", "word")
+        val wordidCol = names.column("words.wordid")
+        val wordCol = names.column("words.word")
+        update<Word, String, Int>(
+            Word.COLLECTOR, File(outDir, names.updateFile("words")), header, names.table("words"),
+            resolver,
+            { resolved -> "$wordidCol=${nullableInt(resolved)}" },
+            { resolving -> "$wordCol='${escape(resolving)}'" }
+        )
+        traceDone()
+    }
 }

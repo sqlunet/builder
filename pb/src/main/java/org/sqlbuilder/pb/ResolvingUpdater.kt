@@ -3,6 +3,8 @@ package org.sqlbuilder.pb
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Update
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.pb.foreign.RoleSetToFn
 import org.sqlbuilder.pb.foreign.RoleSetToVn
 import org.sqlbuilder.pb.foreign.RoleToVn
@@ -43,8 +45,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("words"),
             wordResolver,
-            { resolved -> "$wordidCol=${Utils.nullableInt(resolved)}" },
-            { resolving -> "%$wordCol='${Utils.escape(resolving)}'" })
+            { resolved -> "$wordidCol=${nullableInt(resolved)}" },
+            { resolving -> "%$wordCol='${escape(resolving)}'" })
         Progress.traceDone()
     }
 
@@ -59,8 +61,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("pbrolesets_vnclasses"),
             vnClassResolver,
-            { resolved -> "$vnclassidCol=${Utils.nullableInt(resolved)}" },
-            { resolving -> "$vnclassCol='${Utils.escape(resolving)}'" })
+            { resolved -> "$vnclassidCol=${nullableInt(resolved)}" },
+            { resolving -> "$vnclassCol='${escape(resolving)}'" })
         Progress.traceDone()
     }
 
@@ -75,8 +77,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("pbrolesets_fnframes"),
             fnFrameResolver,
-            { resolved -> "$fnframeidCol=${Utils.nullableInt(resolved)}" },
-            { resolving -> "$vnclassCol='${Utils.escape(resolving)}'" })
+            { resolved -> "$fnframeidCol=${nullableInt(resolved)}" },
+            { resolving -> "$vnclassCol='${escape(resolving)}'" })
         Progress.traceDone()
     }
 
@@ -98,10 +100,10 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                 if (resolved == null)
                     "$vnClassidCol=NULL,$vnRoleidCol=NULL,$vnRoletypeidCol=NULL"
                 else
-                    "$vnClassidCol=${Utils.nullableInt(resolved.first)},$vnRoleidCol=${Utils.nullableInt(resolved.second)},$vnRoletypeidCol=${Utils.nullableInt(resolved.third)}"
+                    "$vnClassidCol=${nullableInt(resolved.first)},$vnRoleidCol=${nullableInt(resolved.second)},$vnRoletypeidCol=${nullableInt(resolved.third)}"
             },
             { resolving ->
-                "$vnClassCol='${Utils.escape(resolving!!.first!!)}' AND $vnRoleCol='${Utils.escape(resolving.second!!)}'"
+                "$vnClassCol='${escape(resolving.first!!)}' AND $vnRoleCol='${escape(resolving.second!!)}'"
             })
         Progress.traceDone()
     }
@@ -124,10 +126,10 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                 if (resolved == null)
                     "$fnframeidCol=NULL,$fnfeidCol=NULL,$fnfetypeidCol=NULL"
                 else
-                    "$fnframeidCol=${Utils.nullableInt(resolved.first)},$fnfeidCol=${Utils.nullableInt(resolved.second)},$fnfetypeidCol=${Utils.nullableInt(resolved.third)}"
+                    "$fnframeidCol=${nullableInt(resolved.first)},$fnfeidCol=${nullableInt(resolved.second)},$fnfetypeidCol=${nullableInt(resolved.third)}"
             },
             { resolving ->
-                "$fnframeCol='${Utils.escape(resolving!!.first!!)}' AND $fnfeCol='${Utils.escape(resolving.second!!)}'"
+                "$fnframeCol='${escape(resolving.first!!)}' AND $fnfeCol='${escape(resolving.second!!)}'"
             })
         Progress.traceDone()
     }

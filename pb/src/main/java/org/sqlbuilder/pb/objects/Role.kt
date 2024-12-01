@@ -2,6 +2,8 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
+import org.sqlbuilder.common.Utils.nullable
+import org.sqlbuilder.common.Utils.quotedEscapedString
 import org.sqlbuilder.pb.foreign.AliasFnFeLinks
 import org.sqlbuilder.pb.foreign.AliasRoleLinks
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
@@ -61,7 +63,7 @@ class Role private constructor(
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = AliasRoleLinks::class)
     override fun dataRow(): String {
-        return "'$argType',${func.sqlId},${Utils.nullable(aliasVnRoleLinks) { it!!.sqlId }},${Utils.nullable(aliasFnFeLinks) { it!!.sqlId }},${Utils.quotedEscapedString(descr)},${roleSet.intId}"
+        return "'$argType',${func.sqlId},${nullable(aliasVnRoleLinks) { it.sqlId }},${nullable(aliasFnFeLinks) { it.sqlId }},${quotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {

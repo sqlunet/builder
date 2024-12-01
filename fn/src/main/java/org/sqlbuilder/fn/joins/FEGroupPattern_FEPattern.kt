@@ -33,7 +33,7 @@ class FEGroupPattern_FEPattern private constructor(
     companion object {
 
         @JvmField
-        val LIST = ArrayList<FEGroupPattern_FEPattern?>()
+        val LIST = ArrayList<FEGroupPattern_FEPattern>()
 
         @JvmStatic
         fun make(groupPattern: FEGroupPattern, fer: FERealization, vu: ValenceUnit): FEGroupPattern_FEPattern {

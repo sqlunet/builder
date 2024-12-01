@@ -2,6 +2,7 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.nullableQuotedString
 import java.util.*
 
 class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
@@ -34,7 +35,7 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
     // I N S E R T
 
     override fun dataRow(): String {
-        return "'$argType',${Utils.nullableQuotedString(PREDEFINED[argType])}"
+        return "'$argType',${nullableQuotedString(PREDEFINED[argType])}"
     }
 
     companion object {

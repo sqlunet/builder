@@ -1,85 +1,75 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.sqlbuilder.common.Module;
-import org.sqlbuilder.fn.collectors.*;
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.common.Module.Mode.Companion.read
+import org.sqlbuilder.fn.collectors.*
+import java.io.IOException
 
-import java.io.IOException;
+class FnModule(
+    conf: String, mode: Mode
+) : Module(MODULE_ID, conf, mode) {
 
-public class FnModule extends Module
-{
-	public static final String MODULE_ID = "fn";
+    override fun run() {
+        checkNotNull(props)
 
-	protected FnModule(final String conf, final Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+        when (mode) {
+            Mode.PLAIN, Mode.RESOLVE -> {
+                FnEnumCollector().run()
+                FnSemTypeCollector("semTypes.xml", props).run()
+                FnFrameCollector(props).run()
+                FnLexUnitCollector(props).run()
+                FnFullTextCollector(props).run()
+                try {
+                    val inserter = if (mode == Mode.PLAIN) Inserter(props) else ResolvingInserter(props)
+                    inserter.insert()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
+            Mode.UPDATE              -> {
+                FnWordCollector(props).run()
+                try {
+                    val inserter: Inserter = ResolvingUpdater(props)
+                    inserter.insert()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
 
-		switch (mode)
-		{
-			case PLAIN:
-			case RESOLVE:
-				new FnEnumCollector().run();
-				new FnSemTypeCollector("semTypes.xml", props).run();
-				new FnFrameCollector(props).run();
-				new FnLexUnitCollector(props).run();
-				new FnFullTextCollector(props).run();
-				try
-				{
-					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
-					inserter.insert();
-				}
-				catch (IOException | ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+            Mode.EXPORT              -> {
+                FnFrameExportCollector(props).run()
+                FnLexUnitExportCollector(props).run()
+                FnWordCollector(props).run()
+                try {
+                    val exporter = Exporter(props)
+                    exporter.run()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
 
-			case UPDATE:
-				new FnWordCollector(props).run();
-				try
-				{
-					Inserter inserter = new ResolvingUpdater(props);
-					inserter.insert();
-				}
-				catch (IOException | ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+            else                     -> {}
+        }
+    }
 
-			case EXPORT:
-				new FnFrameExportCollector(props).run();
-				new FnLexUnitExportCollector(props).run();
-				new FnWordCollector(props).run();
-				try
-				{
-					Exporter exporter = new Exporter(props);
-					exporter.run();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+    companion object {
 
-			default:
-		}
-	}
+        const val MODULE_ID: String = "fn"
 
-	public static void main(final String[] args)
-	{
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new FnModule(conf, mode).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var i = 0
+            var mode = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = read(args[i++])
+            }
+            val conf = args[i]
+            FnModule(conf, mode).run()
+        }
+    }
 }

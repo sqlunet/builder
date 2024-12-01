@@ -1,50 +1,46 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.fn.objects.Word;
+import org.sqlbuilder.common.Insert.resolveAndInsert
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Utils.nullable
+import org.sqlbuilder.fn.objects.Word
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Properties;
+open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
-public class ResolvingInserter extends Inserter
-{
-	protected final String serFile;
+    protected val serFile: String = conf.getProperty("word_nids")
 
-	protected final FnWordResolver resolver;
+    @JvmField
+    protected val resolver: FnWordResolver = FnWordResolver(serFile)
 
-	public ResolvingInserter(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    init {
+        // header
+        header += "\n-- " + conf.getProperty("wn_resolve_against")
 
-		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+        // output
+        outDir = File(conf.getProperty("fn_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
+        }
+    }
 
-		// output
-		this.outDir = new File(conf.getProperty("fn_outdir_resolved", "sql/data_resolved"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-
-		// resolve
-		this.serFile = conf.getProperty("word_nids");
-		this.resolver = new FnWordResolver(this.serFile);
-	}
-
-	@Override
-	protected void insertWords() throws FileNotFoundException
-	{
-		Progress.tracePending("collector", "word");
-		Insert.resolveAndInsert(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true, //
-				resolver, //
-				w -> Utils.nullable(w, Objects::toString), //
-				names.column("words.wordid"));
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    override fun insertWords() {
+        tracePending("collector", "word")
+        resolveAndInsert<Word, String, Int>(
+            Word.COLLECTOR,
+            Word.COLLECTOR,
+            File(outDir, names.file("words")),
+            names.table("words"),
+            names.columns("words"),
+            header, true,
+            resolver,
+            { nullable(it) { it.toString() } },
+            names.column("words.wordid")
+        )
+        traceDone()
+    }
 }

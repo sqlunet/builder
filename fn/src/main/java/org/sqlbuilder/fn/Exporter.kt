@@ -1,197 +1,193 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.fn.objects.FE;
-import org.sqlbuilder.fn.objects.Frame;
-import org.sqlbuilder.fn.objects.LexUnit;
-import org.sqlbuilder.fn.objects.Word;
-import org.sqlbuilder.fn.types.FeType;
-import org.sqlbuilder2.ser.Pair;
-import org.sqlbuilder2.ser.Serialize;
-import org.sqlbuilder2.ser.Triplet;
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.fn.objects.FE
+import org.sqlbuilder.fn.objects.Frame
+import org.sqlbuilder.fn.objects.LexUnit
+import org.sqlbuilder.fn.objects.Word
+import org.sqlbuilder.fn.types.FeType
+import org.sqlbuilder.fn.types.FeType.getIntId
+import org.sqlbuilder2.ser.Pair
+import org.sqlbuilder2.ser.Serialize
+import org.sqlbuilder2.ser.Triplet
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.*;
-import java.util.stream.StreamSupport;
+class Exporter(
+    conf: Properties,
+) {
 
-import static java.util.stream.Collectors.toMap;
+    private val names: Names = Names("fn")
 
-public class Exporter
-{
-	private static final Comparator<Pair<String, String>> COMPARATOR = Comparator.comparing(Pair<String, String>::getFirst).thenComparing(Pair::getSecond);
+    private val outDir: File = File(conf.getProperty("fn_outdir_ser", "sers"))
 
-	protected final Names names;
+    init {
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-	protected final File outDir;
+    @Throws(IOException::class)
+    fun run() {
+        println("frames ${Frame.SET.size}")
+        println("fes ${FE.SET.size}")
+        println("fetypes ${FeType.COLLECTOR.size}")
+        println("lexunits ${LexUnit.SET.size}")
+        println("words ${Word.COLLECTOR.size}")
 
-	public Exporter(final Properties conf)
-	{
-		this.names = new Names("fn");
-		this.outDir = new File(conf.getProperty("fn_outdir_ser", "sers"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+        Word.COLLECTOR.open().use {
+            FeType.COLLECTOR.open().use {
+                serialize()
+                export()
+            }
+        }
+    }
 
-	public void run() throws IOException
-	{
-		System.out.printf("%s %d%n", "frames", Frame.SET.size());
-		System.out.printf("%s %d%n", "fes", FE.SET.size());
-		System.out.printf("%s %d%n", "fetypes", FeType.COLLECTOR.getSize());
-		System.out.printf("%s %d%n", "lexunits", LexUnit.SET.size());
-		System.out.printf("%s %d%n", "words", Word.COLLECTOR.getSize());
+    @Throws(IOException::class)
+    fun serialize() {
+        serializeFrames()
+        serializeFEs()
+        serializeLexUnits()
+        serializeWords()
+    }
 
-		try (@ProvidesIdTo(type = Word.class) var ignored1 = Word.COLLECTOR.open(); //
-		     @ProvidesIdTo(type = FeType.class) var ignored2 = FeType.COLLECTOR.open())
-		{
-			serialize();
-			export();
-		}
-	}
+    @Throws(IOException::class)
+    fun export() {
+        exportFrames()
+        exportFEs()
+        exportLexUnits()
+        exportWords()
+    }
 
-	public void serialize() throws IOException
-	{
-		serializeFrames();
-		serializeFEs();
-		serializeLexUnits();
-		serializeWords();
-	}
+    @Throws(IOException::class)
+    fun serializeFrames() {
+        val m = makeFramesMap()
+        Serialize.serialize(m, File(outDir, names.serFile("frames.resolve", "_[frame]-[frameid]")))
+    }
 
-	public void export() throws IOException
-	{
-		exportFrames();
-		exportFEs();
-		exportLexUnits();
-		exportWords();
-	}
+    @Throws(IOException::class)
+    fun serializeFEs() {
+        val m = makeFEsMap()
+        Serialize.serialize(m, File(outDir, names.serFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")))
+    }
 
-	public void serializeFrames() throws IOException
-	{
-		var m = makeFramesMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("frames.resolve", "_[frame]-[frameid]")));
-	}
+    @Throws(IOException::class)
+    fun serializeLexUnits() {
+        val m = makeLexUnitsMap()
+        Serialize.serialize(m, File(outDir, names.serFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")))
+    }
 
-	public void serializeFEs() throws IOException
-	{
-		var m = makeFEsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")));
-	}
+    @Throws(IOException::class)
+    fun serializeWords() {
+        val m = makeWordMap()
+        Serialize.serialize(m, File(outDir, names.serFile("words.resolve", "_[word]-[fnwordid]")))
+    }
 
-	public void serializeLexUnits() throws IOException
-	{
-		var m = makeLexUnitsMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")));
-	}
+    @Throws(IOException::class)
+    fun exportFrames() {
+        val m = makeFramesMap()
+        export<String, Int>(m, File(outDir, names.mapFile("frames.resolve", "_[frame]-[frameid]")))
+    }
 
-	public void serializeWords() throws IOException
-	{
-		var m = makeWordMap();
-		Serialize.serialize(m, new File(outDir, names.serFile("words.resolve", "_[word]-[fnwordid]")));
-	}
+    @Throws(IOException::class)
+    fun exportFEs() {
+        val m = makeFEsTreeMap()
+        export(m, File(outDir, names.mapFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")))
+    }
 
-	public void exportFrames() throws IOException
-	{
-		var m = makeFramesMap();
-		export(m, new File(outDir, names.mapFile("frames.resolve", "_[frame]-[frameid]")));
-	}
+    @Throws(IOException::class)
+    fun exportLexUnits() {
+        val m = makeLexUnitsTreeMap()
+        export(m, File(outDir, names.mapFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")))
+    }
 
-	public void exportFEs() throws IOException
-	{
-		var m = makeFEsTreeMap();
-		export(m, new File(outDir, names.mapFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")));
-	}
+    @Throws(IOException::class)
+    fun exportWords() {
+        val m = makeWordMap()
+        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[fnwordid]")))
+    }
 
-	public void exportLexUnits() throws IOException
-	{
-		var m = makeLexUnitsTreeMap();
-		export(m, new File(outDir, names.mapFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")));
-	}
+    // M A P S
 
-	public void exportWords() throws IOException
-	{
-		var m = makeWordMap();
-		export(m, new File(outDir, names.mapFile("words.resolve", "_[word]-[fnwordid]")));
-	}
+    /**
+     * Make word to wordid map
+     *
+     * @return word to wordid
+     */
+    fun makeWordMap(): Map<String, Int> {
+        return Word.COLLECTOR.iterator()
+            .asSequence()
+            .map { it.word to Word.COLLECTOR.apply(it) }
+            .toMap()
+            .toSortedMap()
+    }
 
-	// M A P S
+    fun makeFramesMap(): Map<String, Int> {
+        return Frame.SET
+            .asSequence()
+            .map { it.name to it.iD }
+            .toMap()
+            .toSortedMap()
+    }
 
-	/**
-	 * Make word to wordid map
-	 *
-	 * @return word to wordid
-	 */
-	public Map<String, Integer> makeWordMap()
-	{
-		var stream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(Word.COLLECTOR.iterator(), Spliterator.ORDERED), false);
-		return stream //
-				.map(w -> new SimpleEntry<>(w.word, Word.COLLECTOR.apply(w))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    fun makeFEsMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
+        val id2frame = Frame.SET
+            .asSequence()
+            .map { it.iD to it.name }
+            .toMap()
+        return FE.SET
+            .asSequence()
+            .map { Pair(id2frame[it.frameID]!!, it.name) to Triplet(it.iD, it.frameID, getIntId(it.name)!!) }
+            .toMap()
+    }
 
-	public Map<String, Integer> makeFramesMap()
-	{
-		return Frame.SET.stream() //
-				.map(f -> new SimpleEntry<>(f.name, f.getID())) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, TreeMap::new));
-	}
+    fun makeFEsTreeMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
+        val id2frame = Frame.SET
+            .asSequence()
+            .map { it.iD to it.name }
+            .toMap()
 
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsMap()
-	{
-		var id2frame = Frame.SET.stream() //
-				.map(f -> new SimpleEntry<>(f.getID(), f.name)) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+        return FE.SET
+            .asSequence()
+            .map { Pair(id2frame[it.frameID]!!, it.name) to Triplet(it.iD, it.frameID, getIntId(it.name)!!) }
+            .toMap()
+            .toSortedMap(COMPARATOR)
+    }
 
-		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.name), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
-	}
+    fun makeLexUnitsMap(): Map<Pair<String, String>, Pair<Int, Int>> {
+        return LexUnit.SET
+            .asSequence()
+            .map { Pair(it.frameName, it.name) to Pair(it.iD, it.frameID) }
+            .toMap()
+    }
 
-	public Map<Pair<String, String>, Triplet<Integer, Integer, Integer>> makeFEsTreeMap()
-	{
-		var id2frame = Frame.SET.stream() //
-				.map(f -> new SimpleEntry<>(f.getID(), f.name)) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+    fun makeLexUnitsTreeMap(): Map<Pair<String, String>?, Pair<Int?, Int?>?> {
+        return LexUnit.SET
+            .asSequence()
+            .map { Pair(it.frameName, it.name) to Pair(it.iD, it.frameID) }
+            .toMap()
+            .toSortedMap(COMPARATOR)
+    }
 
-		return FE.SET.stream() //
-				//.peek(fe -> System.out.println(fe.getName() + " " + fe.getID()))
-				.map(fe -> new SimpleEntry<>(new Pair<>(id2frame.get(fe.getFrameID()), fe.name), new Triplet<>(fe.getID(), fe.getFrameID(), FeType.getIntId(fe.name)))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
-	}
+    companion object {
 
-	public Map<Pair<String, String>, Pair<Integer, Integer>> makeLexUnitsMap()
-	{
-		return LexUnit.SET.stream() //
-				//.peek(lu->System.out.println(lu.getName() + " " + lu.getID()))
-				.map(lu -> new SimpleEntry<>(new Pair<>(lu.frameName, lu.name), new Pair<>(lu.getID(), lu.getFrameID()))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
-	}
+        private val COMPARATOR: Comparator<Pair<String, String>> = Comparator
+            .comparing<Pair<String, String>, String> { it.first }
+            .thenComparing<String> { it.second }
 
-	public Map<Pair<String, String>, Pair<Integer, Integer>> makeLexUnitsTreeMap()
-	{
-		return LexUnit.SET.stream() //
-				//.peek(lu->System.out.println(lu.getName() + " " + lu.getID()))
-				.map(lu -> new SimpleEntry<>(new Pair<>(lu.frameName, lu.name), new Pair<>(lu.getID(), lu.getFrameID()))) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue, (x, r) -> x, () -> new TreeMap<>(COMPARATOR)));
-	}
+        @Throws(IOException::class)
+        fun <K, V> export(m: Map<K, V>, file: File) {
+            PrintStream(FileOutputStream(file), true, StandardCharsets.UTF_8).use { ps ->
+                export(ps, m)
+            }
+        }
 
-	public static <K, V> void export(Map<K, V> m, File file) throws IOException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file), true, StandardCharsets.UTF_8))
-		{
-			export(ps, m);
-		}
-	}
-
-	public static <K, V> void export(PrintStream ps, Map<K, V> m)
-	{
-		m.forEach((strs, nids) -> ps.printf("%s -> %s%n", strs, nids));
-	}
+        fun <K, V> export(ps: PrintStream, m: Map<K, V>) {
+            m.forEach { ps.println("${it.key} -> ${it.value}") }
+        }
+    }
 }

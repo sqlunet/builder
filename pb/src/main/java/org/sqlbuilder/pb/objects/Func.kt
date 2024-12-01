@@ -5,6 +5,7 @@ import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.nullableQuotedString
 
 class Func private constructor(funcName: String) : HasId, Comparable<Func>, Insertable {
 
@@ -26,7 +27,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
     // I N S E R T
 
     override fun dataRow(): String {
-        return "'$func',${Utils.nullableQuotedString<String>(PREDEFINED[func])}"
+        return "'$func',${nullableQuotedString<String>(PREDEFINED[func])}"
     }
 
     override fun toString(): String {

@@ -13,6 +13,7 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
+import kotlin.Throws
 
 open class Exporter(conf: Properties) {
 
@@ -257,7 +258,7 @@ open class Exporter(conf: Properties) {
         }
 
         fun <K, V> export(ps: PrintStream, m: Map<K, V>) {
-            m.forEach { (strs: K, nids: V) -> ps.printf("%s -> %s%n", strs, nids) }
+            m.forEach { ps.println("${it.key} -> ${it.value}") }
         }
     }
 }

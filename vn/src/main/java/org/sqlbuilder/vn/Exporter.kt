@@ -244,7 +244,7 @@ class Exporter
         }
 
         fun <K, V> export(ps: PrintStream, m: Map<K, V>) {
-            m.forEach { (strs: K, nids: V) -> ps.println("$strs -> $nids") }
+            m.forEach { ps.println("${it.key} -> ${it.value}") }
         }
     }
 }

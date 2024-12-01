@@ -3,6 +3,7 @@ package org.sqlbuilder.pb
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.pb.foreign.RoleSetToFn
 import org.sqlbuilder.pb.foreign.RoleSetToVn
 import org.sqlbuilder.pb.foreign.RoleToFn
@@ -78,7 +79,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             header,
             true,
             wordResolver,
-            { Objects.toString(it) },
+            { nullable(it) { it.toString() } },
             names.column("words.wordid")
         )
         Progress.traceDone()
@@ -95,7 +96,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_fnframes"),
             header,
             fnFrameResolver,
-            { r -> Utils.nullable(r) { Objects.toString(it) } },
+            { nullable(it) { it.toString() } },
             names.column("pbrolesets_fnframes.fnframeid")
         )
         Progress.traceDone()
@@ -112,7 +113,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_vnclasses"),
             header,
             vnClassResolver,
-            { r -> Utils.nullable(r) { Objects.toString(it) } },
+            { nullable(it) { it.toString() } },
             names.column("pbrolesets_vnclasses.vnclassid")
         )
         Progress.traceDone()

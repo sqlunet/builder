@@ -87,7 +87,7 @@ class FnFEXmlProcessor : XmlProcessor() {
                             }
                         }
                 }
-            return sb.toString() //
+            return sb.toString() 
                 .replace("\\s\\s+".toRegex(), " ") // .replaceAll("\n\n+", "\n")
                 .replace("\n+".toRegex(), "")
         }

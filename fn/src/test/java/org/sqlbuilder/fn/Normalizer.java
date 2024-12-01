@@ -8,37 +8,37 @@ public class Normalizer
 {
 	public static final boolean PASSTHROUGH = false;
 
-	private static final String[] SQLS_CREATE = new String[]{ //
+	private static final String[] SQLS_CREATE = new String[]{ 
 			Resources.resources.getString("Normalizer.drop-table"), Resources.resources.getString("Normalizer.create-table"), Resources.resources.getString("Normalizer.create-unq-index"),};
 
-	private static final String[] SQLS_CREATE2 = new String[]{ //
+	private static final String[] SQLS_CREATE2 = new String[]{ 
 			Resources.resources.getString("Normalizer.drop-table"), Resources.resources.getString("Normalizer.create2-table"), Resources.resources.getString("Normalizer.create-unq-index"),};
 
-	private static final String[] SQLS_INSERT = new String[]{ //
+	private static final String[] SQLS_INSERT = new String[]{ 
 			Resources.resources.getString("Normalizer.insert"),};
 
-	private static final String[] SQLS_INSERT2 = new String[]{ //
+	private static final String[] SQLS_INSERT2 = new String[]{ 
 			Resources.resources.getString("Normalizer.insert2"),};
 
-	private static final String[] SQLS_CREATE_FK_COLUMN = new String[]{ //
+	private static final String[] SQLS_CREATE_FK_COLUMN = new String[]{ 
 			Resources.resources.getString("Normalizer.add-column-fk"),};
 
-	private static final String[] SQLS_DROP_FK_COLUMN = new String[]{ //
+	private static final String[] SQLS_DROP_FK_COLUMN = new String[]{ 
 			Resources.resources.getString("Normalizer.drop-column-fk"),};
 
-	private static final String[] SQLS_UPDATE_FK_COLUMN = new String[]{ //
+	private static final String[] SQLS_UPDATE_FK_COLUMN = new String[]{ 
 			Resources.resources.getString("Normalizer.update"),};
 
-	private static final String[] SQLS_UPDATE_FK_COLUMN2 = new String[]{ //
+	private static final String[] SQLS_UPDATE_FK_COLUMN2 = new String[]{ 
 			Resources.resources.getString("Normalizer.update2"),};
 
-	private static final String[] SQL_CLEANUP = new String[]{ //
+	private static final String[] SQL_CLEANUP = new String[]{ 
 			Resources.resources.getString("Normalizer.drop-column-data"),};
 
-	private static final String[] SQLS_SWAP_PK = new String[]{ //
+	private static final String[] SQLS_SWAP_PK = new String[]{ 
 			Resources.resources.getString("Normalizer.drop-auto-pk"), Resources.resources.getString("Normalizer.change-pk"), Resources.resources.getString("Normalizer.drop-pk"),};
 
-	private static final String[] SQLS_NEW_PK = new String[]{ //
+	private static final String[] SQLS_NEW_PK = new String[]{ 
 			Resources.resources.getString("Normalizer.new-pk"),};
 
 	private static final String SQLS_LENGTH = Resources.resources.getString("Normalizer.length");

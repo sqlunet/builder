@@ -1,5 +1,6 @@
 package org.sqlbuilder.common
 
+import org.sqlbuilder.common.Utils.escape
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -224,7 +225,7 @@ object Insert {
                         ps.println(",")
                     }
                     val id = resolver.apply(it)
-                    val row = "($id,'${Utils.escape(it)}')"
+                    val row = "($id,'${escape(it)}')"
                     ps.print(row)
                 }
                 ps.println(";")

@@ -4,7 +4,7 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
-import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.pb.PbNormalizer
 
 class Example private constructor(
@@ -36,7 +36,7 @@ class Example private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
-        return "'${Utils.escape(name)}','${Utils.escape(text)}',${roleSet.intId}"
+        return "'${escape(name)}','${escape(text)}',${roleSet.intId}"
     }
 
     override fun comment(): String {

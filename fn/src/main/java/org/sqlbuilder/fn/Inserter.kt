@@ -1,302 +1,332 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.Progress;
-import org.sqlbuilder.fn.joins.*;
-import org.sqlbuilder.fn.objects.*;
-import org.sqlbuilder.fn.types.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.Insert
+import org.sqlbuilder.common.Insert.insert
+import org.sqlbuilder.common.Insert.insertAndIncrement
+import org.sqlbuilder.common.Insert.insertFragmented
+import org.sqlbuilder.common.Insert.insertStrings
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.fn.joins.*
+import org.sqlbuilder.fn.objects.*
+import org.sqlbuilder.fn.objects.Values.LabelIType
+import org.sqlbuilder.fn.types.*
+import org.sqlbuilder.fn.types.FeType.getIntId
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
+import kotlin.Throws
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Properties;
+open class Inserter(
+    conf: Properties,
+) {
 
-import static java.util.stream.Collectors.toMap;
+    @JvmField
+    protected val names: Names = Names("fn")
 
-public class Inserter
-{
-	protected final Names names;
+    @JvmField
+    protected var header: String = conf.getProperty("fn_header")
 
-	protected String header;
+    @JvmField
+    protected var outDir: File = File(conf.getProperty("fn_outdir", "sql/data"))
 
-	protected File outDir;
+    init {
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-	public Inserter(final Properties conf)
-	{
-		this.names = new Names("fn");
-		this.header = conf.getProperty("fn_header");
-		this.outDir = new File(conf.getProperty("fn_outdir", "sql/data"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(FileNotFoundException::class)
+    open fun insert() {
+        insertSemTypes()
+        insertFrames()
+        insertLexUnitsAndText()
+    }
 
-	public void insert() throws FileNotFoundException
-	{
-		insertSemTypes();
-		insertFrames();
-		insertLexUnitsAndText();
-	}
+    @Throws(FileNotFoundException::class)
+    fun insertSemTypes() {
+        tracePending("set", "semtype")
+        insert<SemType>(SemType.SET, SemType.COMPARATOR, File(outDir, names.file("semtypes")), names.table("semtypes"), names.columns("semtypes"), header)
+        SemType.SET.clear()
+        traceDone()
 
-	public void insertSemTypes() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "semtype");
-		Insert.insert(SemType.SET, SemType.COMPARATOR, new File(outDir, names.file("semtypes")), names.table("semtypes"), names.columns("semtypes"), header);
-		SemType.SET.clear();
-		Progress.traceDone();
+        tracePending("set", "semtype_super")
+        insert<SemType_SemTypeSuper>(SemType_SemTypeSuper.SET, SemType_SemTypeSuper.COMPARATOR, File(outDir, names.file("semtypes_supers")), names.table("semtypes_supers"), names.columns("semtypes_supers"), header)
+        SemType_SemTypeSuper.SET.clear()
+        traceDone()
+    }
 
-		Progress.tracePending("set", "semtype_super");
-		Insert.insert(SemType_SemTypeSuper.SET, SemType_SemTypeSuper.COMPARATOR, new File(outDir, names.file("semtypes_supers")), names.table("semtypes_supers"), names.columns("semtypes_supers"), header);
-		SemType_SemTypeSuper.SET.clear();
-		Progress.traceDone();
-	}
+    @Throws(FileNotFoundException::class)
+    fun insertFrames() {
+        tracePending("set", "frame")
+        insert<Frame>(Frame.SET, Comparator.comparing<Frame, Int?>(Frame::iD), File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"), header)
+        Frame.SET.clear()
+        traceDone()
 
-	public void insertFrames() throws FileNotFoundException
-	{
-		Progress.tracePending("set", "frame");
-		Insert.insert(Frame.SET, Comparator.comparing(Frame::getID), new File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"), header);
-		Frame.SET.clear();
-		Progress.traceDone();
+        FrameRelation.COLLECTOR.open().use {
+            tracePending("collector", "frame_relations")
+            insertStrings(FrameRelation.COLLECTOR, FrameRelation.COLLECTOR, File(outDir, names.file("framerelations")), names.table("framerelations"), names.columns("framerelations"), header)
+            traceDone()
 
-		try (@ProvidesIdTo(type = FrameRelation.class) var ignored = FrameRelation.COLLECTOR.open())
-		{
-			Progress.tracePending("collector", "frame_relations");
-			Insert.insertStrings(FrameRelation.COLLECTOR, FrameRelation.COLLECTOR, new File(outDir, names.file("framerelations")), names.table("framerelations"), names.columns("framerelations"), header);
-			Progress.traceDone();
+            tracePending("set", "frame_related")
+            insert<Frame_FrameRelated>(Frame_FrameRelated.SET, Frame_FrameRelated.COMPARATOR, File(outDir, names.file("frames_related")), names.table("frames_related"), names.columns("frames_related"), header)
+            Frame_FrameRelated.SET.clear()
+            traceDone()
+        }
+        tracePending("set", "fe_required")
+        insert<FE_FERequired>(FE_FERequired.SET, FE_FERequired.COMPARATOR, File(outDir, names.file("fes_required")), names.table("fes_required"), names.columns("fes_required"), header)
+        FE_FERequired.SET.clear()
+        traceDone()
 
-			Progress.tracePending("set", "frame_related");
-			Insert.insert(Frame_FrameRelated.SET, Frame_FrameRelated.COMPARATOR, new File(outDir, names.file("frames_related")), names.table("frames_related"), names.columns("frames_related"), header);
-			Frame_FrameRelated.SET.clear();
-			Progress.traceDone();
-		}
+        tracePending("set", "fe_excluded")
+        insert<FE_FEExcluded>(FE_FEExcluded.SET, FE_FEExcluded.COMPARATOR, File(outDir, names.file("fes_excluded")), names.table("fes_excluded"), names.columns("fes_excluded"), header)
+        FE_FEExcluded.SET.clear()
+        traceDone()
 
-		Progress.tracePending("set", "fe_required");
-		Insert.insert(FE_FERequired.SET, FE_FERequired.COMPARATOR, new File(outDir, names.file("fes_required")), names.table("fes_required"), names.columns("fes_required"), header);
-		FE_FERequired.SET.clear();
-		Progress.traceDone();
+        tracePending("set", "frame_semtype")
+        insert<Frame_SemType>(Frame_SemType.SET, Frame_SemType.COMPARATOR, File(outDir, names.file("frames_semtypes")), names.table("frames_semtypes"), names.columns("frames_semtypes"), header)
+        Frame_SemType.SET.clear()
+        traceDone()
+    }
 
-		Progress.tracePending("set", "fe_excluded");
-		Insert.insert(FE_FEExcluded.SET, FE_FEExcluded.COMPARATOR, new File(outDir, names.file("fes_excluded")), names.table("fes_excluded"), names.columns("fes_excluded"), header);
-		FE_FEExcluded.SET.clear();
-		Progress.traceDone();
+    @Throws(FileNotFoundException::class)
+    fun insertLexUnitsAndText() {
+        GfType.COLLECTOR.open().use {
+            PtType.COLLECTOR.open().use {
+                LayerType.COLLECTOR.open().use {
+                    LabelType.COLLECTOR.open().use {
 
-		Progress.tracePending("set", "frame_semtype");
-		Insert.insert(Frame_SemType.SET, Frame_SemType.COMPARATOR, new File(outDir, names.file("frames_semtypes")), names.table("frames_semtypes"), names.columns("frames_semtypes"), header);
-		Frame_SemType.SET.clear();
-		Progress.traceDone();
-	}
+                        tracePending("maps", "pos,coretype,labelitype")
+                        Insert.insert<Values.Pos>(Values.Pos.MAP.keys, { Values.Pos.MAP[it]!! }, File(outDir, names.file("poses")), names.table("poses"), names.columns("poses"), header)
+                        Insert.insert<Values.CoreType>(Values.CoreType.MAP.keys, { Values.CoreType.MAP[it]!! }, File(outDir, names.file("coretypes")), names.table("coretypes"), names.columns("coretypes"), header)
+                        Insert.insert<LabelIType>(LabelIType.MAP.keys, { LabelIType.MAP[it]!! }, File(outDir, names.file("labelitypes")), names.table("labelitypes"), names.columns("labelitypes"), header)
+                        traceDone()
 
-	public void insertLexUnitsAndText() throws FileNotFoundException
-	{
-		try (@ProvidesIdTo(type = GfType.class) var ignored11 = GfType.COLLECTOR.open(); //
-		     @ProvidesIdTo(type = PtType.class) var ignored12 = PtType.COLLECTOR.open(); //
-		     @ProvidesIdTo(type = LayerType.class) var ignored13 = LayerType.COLLECTOR.open(); //
-		     @ProvidesIdTo(type = LabelType.class) var ignored14 = LabelType.COLLECTOR.open())
-		{
-			Progress.tracePending("maps", "pos,coretype,labelitype");
-			Insert.insert(Values.Pos.MAP.keySet(), Values.Pos.MAP::get,new File(outDir, names.file("poses")), names.table("poses"), names.columns("poses"), header);
-			Insert.insert(Values.CoreType.MAP.keySet(), Values.CoreType.MAP::get, new File(outDir, names.file("coretypes")), names.table("coretypes"), names.columns("coretypes"), header);
-			Insert.insert(Values.LabelIType.MAP.keySet(), Values.LabelIType.MAP::get, new File(outDir, names.file("labelitypes")), names.table("labelitypes"), names.columns("labelitypes"), header);
-			Progress.traceDone();
+                        tracePending("collector", "gf")
+                        insertStrings(GfType.COLLECTOR, GfType.COLLECTOR, File(outDir, names.file("gftypes")), names.table("gftypes"), names.columns("gftypes"), header)
+                        traceDone()
 
-			Progress.tracePending("collector", "gf");
-			Insert.insertStrings(GfType.COLLECTOR, GfType.COLLECTOR, new File(outDir, names.file("gftypes")), names.table("gftypes"), names.columns("gftypes"), header);
-			Progress.traceDone();
+                        tracePending("collector", "pt")
+                        insertStrings(PtType.COLLECTOR, PtType.COLLECTOR, File(outDir, names.file("pttypes")), names.table("pttypes"), names.columns("pttypes"), header)
+                        traceDone()
 
-			Progress.tracePending("collector", "pt");
-			Insert.insertStrings(PtType.COLLECTOR, PtType.COLLECTOR, new File(outDir, names.file("pttypes")), names.table("pttypes"), names.columns("pttypes"), header);
-			Progress.traceDone();
+                        tracePending("collector", "layertypes")
+                        insertStrings(LayerType.COLLECTOR, LayerType.COLLECTOR, File(outDir, names.file("layertypes")), names.table("layertypes"), names.columns("layertypes"), header)
+                        traceDone()
 
-			Progress.tracePending("collector", "layertypes");
-			Insert.insertStrings(LayerType.COLLECTOR, LayerType.COLLECTOR, new File(outDir, names.file("layertypes")), names.table("layertypes"), names.columns("layertypes"), header);
-			Progress.traceDone();
+                        tracePending("collector", "labeltypes")
+                        insertStrings(LabelType.COLLECTOR, LabelType.COLLECTOR, File(outDir, names.file("labeltypes")), names.table("labeltypes"), names.columns("labeltypes"), header)
+                        traceDone()
 
-			Progress.tracePending("collector", "labeltypes");
-			Insert.insertStrings(LabelType.COLLECTOR, LabelType.COLLECTOR, new File(outDir, names.file("labeltypes")), names.table("labeltypes"), names.columns("labeltypes"), header);
-			Progress.traceDone();
+                        tracePending("set", "annoset")
+                        insert<AnnotationSet>(AnnotationSet.SET, AnnotationSet.COMPARATOR, File(outDir, names.file("annosets")), names.table("annosets"), names.columns("annosets"), header)
+                        AnnotationSet.SET.clear()
+                        traceDone()
 
-			Progress.tracePending("set", "annoset");
-			Insert.insert(AnnotationSet.SET, AnnotationSet.COMPARATOR, new File(outDir, names.file("annosets")), names.table("annosets"), names.columns("annosets"), header);
-			AnnotationSet.SET.clear();
-			Progress.traceDone();
+                        tracePending("set", "cxns")
+                        insert<Cxns>(Cxns.SET, Cxns.COMPARATOR, File(outDir, names.file("cxns")), names.table("cxns"), names.columns("cxns"), header)
+                        Cxns.SET.clear()
+                        traceDone()
 
-			Progress.tracePending("set", "cxns");
-			Insert.insert(Cxns.SET, Cxns.COMPARATOR, new File(outDir, names.file("cxns")), names.table("cxns"), names.columns("cxns"), header);
-			Cxns.SET.clear();
-			Progress.traceDone();
+                        tracePending("set", "corpus")
+                        insert<Corpus>(Corpus.SET, Corpus.COMPARATOR, File(outDir, names.file("corpuses")), names.table("corpuses"), names.columns("corpuses"), header)
+                        Corpus.SET.clear()
+                        traceDone()
 
-			Progress.tracePending("set", "corpus");
-			Insert.insert(Corpus.SET, Corpus.COMPARATOR, new File(outDir, names.file("corpuses")), names.table("corpuses"), names.columns("corpuses"), header);
-			Corpus.SET.clear();
-			Progress.traceDone();
+                        tracePending("set", "doc")
+                        insert<Doc>(Doc.SET, Doc.COMPARATOR, File(outDir, names.file("documents")), names.table("documents"), names.columns("documents"), header)
+                        Doc.SET.clear()
+                        traceDone()
 
-			Progress.tracePending("set", "doc");
-			Insert.insert(Doc.SET, Doc.COMPARATOR, new File(outDir, names.file("documents")), names.table("documents"), names.columns("documents"), header);
-			Doc.SET.clear();
-			Progress.traceDone();
+                        Layer.COLLECTOR.open().use {
+                            tracePending("collector", "layer")
+                            insert<Layer>(Layer.COLLECTOR, Layer.COLLECTOR, File(outDir, names.file("layers")), names.table("layers"), names.columns("layers"), header, false)
+                            traceDone()
 
-			try (@ProvidesIdTo(type = Layer.class) var ignored20 = Layer.COLLECTOR.open())
-			{
-				Progress.tracePending("collector", "layer");
-				Insert.insert(Layer.COLLECTOR, Layer.COLLECTOR, new File(outDir, names.file("layers")), names.table("layers"), names.columns("layers"), header, false);
-				Progress.traceDone();
+                            tracePending("set", "label")
+                            insertFragmented<Label>(Label.SET, Label.COMPARATOR, File(outDir, names.file("labels")), names.table("labels"), names.columns("labels"), header)
+                            Label.SET.clear()
+                            traceDone()
+                        }
+                        FeType.COLLECTOR.open().use {
+                            tracePending("collector", "fetype")
+                            insertStrings(FeType.COLLECTOR, FeType.COLLECTOR, File(outDir, names.file("fetypes")), names.table("fetypes"), names.columns("fetypes"), header)
+                            traceDone()
 
-				Progress.tracePending("set", "label");
-				Insert.insertFragmented(Label.SET, Label.COMPARATOR, new File(outDir, names.file("labels")), names.table("labels"), names.columns("labels"), header);
-				Label.SET.clear();
-				Progress.traceDone();
-			}
+                            tracePending("set", "lexunit")
+                            insert<LexUnit>(LexUnit.SET, LexUnit.COMPARATOR, File(outDir, names.file("lexunits")), names.table("lexunits"), names.columns("lexunits"), header)
+                            LexUnit.SET.clear()
+                            traceDone()
 
-			try (@ProvidesIdTo(type = FeType.class) var ignored21 = FeType.COLLECTOR.open())
-			{
-				Progress.tracePending("collector", "fetype");
-				Insert.insertStrings(FeType.COLLECTOR, FeType.COLLECTOR, new File(outDir, names.file("fetypes")), names.table("fetypes"), names.columns("fetypes"), header);
-				Progress.traceDone();
+                            tracePending("set", "lexunit_semtype")
+                            insert<LexUnit_SemType>(LexUnit_SemType.SET, LexUnit_SemType.COMPARATOR, File(outDir, names.file("lexunits_semtypes")), names.table("lexunits_semtypes"), names.columns("lexunits_semtypes"), header)
+                            LexUnit_SemType.SET.clear()
+                            traceDone()
 
-				Progress.tracePending("set", "lexunit");
-				Insert.insert(LexUnit.SET, LexUnit.COMPARATOR, new File(outDir, names.file("lexunits")), names.table("lexunits"), names.columns("lexunits"), header);
-				LexUnit.SET.clear();
-				Progress.traceDone();
+                            tracePending("set", "fe_semtype")
+                            insert<FE_SemType>(FE_SemType.SET, FE_SemType.COMPARATOR, File(outDir, names.file("fes_semtypes")), names.table("fes_semtypes"), names.columns("fes_semtypes"), header)
+                            FE_SemType.SET.clear()
+                            traceDone()
+                            Word.COLLECTOR.open().use {
+                                tracePending("set", "lexeme")
+                                insertAndIncrement<Lexeme>(Lexeme.SET, Lexeme.COMPARATOR, File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"), header)
+                                Lexeme.SET.clear()
+                                traceDone()
 
-				Progress.tracePending("set", "lexunit_semtype");
-				Insert.insert(LexUnit_SemType.SET, LexUnit_SemType.COMPARATOR, new File(outDir, names.file("lexunits_semtypes")), names.table("lexunits_semtypes"), names.columns("lexunits_semtypes"), header);
-				LexUnit_SemType.SET.clear();
-				Progress.traceDone();
+                                FE.BY_FETYPEID_AND_FRAMEID = makeFEByFETypeIdAndFrameIdMap()
+                                try {
+                                    tracePending("set", "fe")
+                                    insert<FE>(FE.SET, FE.COMPARATOR, File(outDir, names.file("fes")), names.table("fes"), names.columns("fes"), header)
+                                    FE.SET.clear()
+                                    traceDone()
 
-				Progress.tracePending("set", "fe_semtype");
-				Insert.insert(FE_SemType.SET, FE_SemType.COMPARATOR, new File(outDir, names.file("fes_semtypes")), names.table("fes_semtypes"), names.columns("fes_semtypes"), header);
-				FE_SemType.SET.clear();
-				Progress.traceDone();
+                                    FERealization.LIST.open().use {
+                                        FEGroupRealization.LIST.open().use {
+                                            tracePending("collector", "fer")
+                                            insert<FERealization>(FERealization.LIST, File(outDir, names.file("ferealizations")), names.table("ferealizations"), names.columns("ferealizations"), header)
+                                            traceDone()
 
-				try (@ProvidesIdTo(type = Word.class) var ignored30 = Word.COLLECTOR.open())
-				{
-					Progress.tracePending("set", "lexeme");
-					Insert.insertAndIncrement(Lexeme.SET, Lexeme.COMPARATOR, new File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"), header);
-					Lexeme.SET.clear();
-					Progress.traceDone();
+                                            tracePending("collector", "fegr")
+                                            insert<FEGroupRealization>(FEGroupRealization.LIST, File(outDir, names.file("fegrouprealizations")), names.table("fegrouprealizations"), names.columns("fegrouprealizations"), header)
+                                            traceDone()
 
-					FE.BY_FETYPEID_AND_FRAMEID = makeFEByFETypeIdAndFrameIdMap();
-					try
-					{
-						Progress.tracePending("set", "fe");
-						Insert.insert(FE.SET, FE.COMPARATOR, new File(outDir, names.file("fes")), names.table("fes"), names.columns("fes"), header);
-						FE.SET.clear();
-						Progress.traceDone();
+                                            tracePending("set", "fe_fegr")
+                                            insert<FE_FEGroupRealization>(
+                                                FE_FEGroupRealization.SET,
+                                                FE_FEGroupRealization.COMPARATOR,
+                                                File(outDir, names.file("fes_fegrouprealizations")),
+                                                names.table("fes_fegrouprealizations"),
+                                                names.columns("fes_fegrouprealizations"),
+                                                header
+                                            )
+                                            FE_FEGroupRealization.SET.clear()
+                                            traceDone()
+                                            FEGroupPattern.LIST.open().use {
+                                                ValenceUnit.COLLECTOR.open().use {
+                                                    tracePending("set", "fe_fegr")
+                                                    insert<FEPattern>(
+                                                        FEPattern.SET,
+                                                        FEPattern.COMPARATOR,
+                                                        File(outDir, names.file("ferealizations_valenceunits")),
+                                                        names.table("ferealizations_valenceunits"),
+                                                        names.columns("ferealizations_valenceunits"),
+                                                        header
+                                                    )
+                                                    FEPattern.SET.clear()
+                                                    traceDone()
 
-						try (@ProvidesIdTo(type = FERealization.class) var ignored40 = FERealization.LIST.open(); // vu_fer
-						     @ProvidesIdTo(type = FEGroupRealization.class) var ignored41 = FEGroupRealization.LIST.open())
-						{
-							Progress.tracePending("collector", "fer");
-							Insert.insert(FERealization.LIST, new File(outDir, names.file("ferealizations")), names.table("ferealizations"), names.columns("ferealizations"), header);
-							Progress.traceDone();
+                                                    tracePending("collector", "valenceunit")
+                                                    Insert.insert<ValenceUnit>(ValenceUnit.COLLECTOR, ValenceUnit.COLLECTOR, File(outDir, names.file("valenceunits")), names.table("valenceunits"), names.columns("valenceunits"), header)
+                                                    traceDone()
 
-							Progress.tracePending("collector", "fegr");
-							Insert.insert(FEGroupRealization.LIST, new File(outDir, names.file("fegrouprealizations")), names.table("fegrouprealizations"), names.columns("fegrouprealizations"), header);
-							Progress.traceDone();
+                                                    tracePending("collector", "grouppattern")
+                                                    insert<FEGroupPattern>(FEGroupPattern.LIST, File(outDir, names.file("grouppatterns")), names.table("grouppatterns"), names.columns("grouppatterns"), header)
+                                                    traceDone()
 
-							Progress.tracePending("set", "fe_fegr");
-							Insert.insert(FE_FEGroupRealization.SET, FE_FEGroupRealization.COMPARATOR, new File(outDir, names.file("fes_fegrouprealizations")), names.table("fes_fegrouprealizations"), names.columns("fes_fegrouprealizations"), header);
-							FE_FEGroupRealization.SET.clear();
-							Progress.traceDone();
+                                                    tracePending("collector", "grouppattern_annoset")
+                                                    insert<FEGroupPattern_AnnoSet>(
+                                                        FEGroupPattern_AnnoSet.SET,
+                                                        null as Comparator<FEGroupPattern_AnnoSet>?,
+                                                        File(outDir, names.file("grouppatterns_annosets")),
+                                                        names.table("grouppatterns_annosets"),
+                                                        names.columns("grouppatterns_annosets"),
+                                                        header
+                                                    )
+                                                    FEGroupPattern_AnnoSet.SET.clear()
+                                                    traceDone()
 
-							try (@ProvidesIdTo(type = FEGroupPattern.class) var ignored44 = FEGroupPattern.LIST.open(); //
-							     @ProvidesIdTo(type = ValenceUnit.class) var ignored43 = ValenceUnit.COLLECTOR.open())
-							{
-								Progress.tracePending("set", "fe_fegr");
-								Insert.insert(FEPattern.SET, FEPattern.COMPARATOR, new File(outDir, names.file("ferealizations_valenceunits")), names.table("ferealizations_valenceunits"), names.columns("ferealizations_valenceunits"), header);
-								FEPattern.SET.clear();
-								Progress.traceDone();
+                                                    tracePending("list", "grouppattern_pattern")
+                                                    insert<FEGroupPattern_FEPattern>(
+                                                        FEGroupPattern_FEPattern.LIST,
+                                                        File(outDir, names.file("grouppatterns_patterns")),
+                                                        names.table("grouppatterns_patterns"),
+                                                        names.columns("grouppatterns_patterns"),
+                                                        header
+                                                    )
+                                                    FEGroupPattern_FEPattern.LIST.clear()
+                                                    traceDone()
 
-								Progress.tracePending("collector", "valenceunit");
-								Insert.insert(ValenceUnit.COLLECTOR, ValenceUnit.COLLECTOR, new File(outDir, names.file("valenceunits")), names.table("valenceunits"), names.columns("valenceunits"), header);
-								Progress.traceDone();
+                                                    tracePending("collector", "valenceunit_annoset")
+                                                    insert<ValenceUnit_AnnoSet>(
+                                                        ValenceUnit_AnnoSet.SET,
+                                                        null as Comparator<ValenceUnit_AnnoSet>?,
+                                                        File(outDir, names.file("valenceunits_annosets")),
+                                                        names.table("valenceunits_annosets"),
+                                                        names.columns("valenceunits_annosets"),
+                                                        header
+                                                    )
+                                                    ValenceUnit_AnnoSet.SET.clear()
+                                                    traceDone()
+                                                }
+                                            }
+                                        }
+                                    }
+                                    Governor.COLLECTOR.open().use {
+                                        tracePending("collector", "governor")
+                                        Insert.insert<Governor>(Governor.COLLECTOR, Governor.COLLECTOR, File(outDir, names.file("governors")), names.table("governors"), names.columns("governors"), header)
+                                        traceDone()
 
-								Progress.tracePending("collector", "grouppattern");
-								Insert.insert(FEGroupPattern.LIST, new File(outDir, names.file("grouppatterns")), names.table("grouppatterns"), names.columns("grouppatterns"), header);
-								Progress.traceDone();
+                                        tracePending("set", "lexunit_governor")
+                                        insert<LexUnit_Governor>(LexUnit_Governor.SET, LexUnit_Governor.COMPARATOR, File(outDir, names.file("lexunits_governors")), names.table("lexunits_governors"), names.columns("lexunits_governors"), header)
+                                        LexUnit_Governor.SET.clear()
+                                        traceDone()
 
-								Progress.tracePending("collector", "grouppattern_annoset");
-								Insert.insert(FEGroupPattern_AnnoSet.SET, (Comparator<FEGroupPattern_AnnoSet>) null, new File(outDir, names.file("grouppatterns_annosets")), names.table("grouppatterns_annosets"), names.columns("grouppatterns_annosets"), header);
-								FEGroupPattern_AnnoSet.SET.clear();
-								Progress.traceDone();
+                                        tracePending("set", "governor_annoset")
+                                        insert<Governor_AnnoSet>(Governor_AnnoSet.SET, Governor_AnnoSet.COMPARATOR, File(outDir, names.file("governors_annosets")), names.table("governors_annosets"), names.columns("governors_annosets"), header)
+                                        Governor_AnnoSet.SET.clear()
+                                        traceDone()
+                                    }
+                                    tracePending("set", "sentence")
+                                    insert<Sentence>(Sentence.SET, Sentence.COMPARATOR, File(outDir, names.file("sentences")), names.table("sentences"), names.columns("sentences"), header)
+                                    Sentence.SET.clear()
+                                    traceDone()
 
-								Progress.tracePending("list", "grouppattern_pattern");
-								Insert.insert(FEGroupPattern_FEPattern.LIST, new File(outDir, names.file("grouppatterns_patterns")), names.table("grouppatterns_patterns"), names.columns("grouppatterns_patterns"), header);
-								FEGroupPattern_FEPattern.LIST.clear();
-								Progress.traceDone();
+                                    SubCorpus.COLLECTOR.open().use {
+                                        tracePending("set", "subcorpus_sentence")
+                                        Insert.insert<SubCorpus>(SubCorpus.COLLECTOR, SubCorpus.COLLECTOR, File(outDir, names.file("subcorpuses")), names.table("subcorpuses"), names.columns("subcorpuses"), header)
+                                        traceDone()
 
-								Progress.tracePending("collector", "valenceunit_annoset");
-								Insert.insert(ValenceUnit_AnnoSet.SET, (Comparator<ValenceUnit_AnnoSet>) null, new File(outDir, names.file("valenceunits_annosets")), names.table("valenceunits_annosets"), names.columns("valenceunits_annosets"), header);
-								ValenceUnit_AnnoSet.SET.clear();
-								Progress.traceDone();
-							}
-						}
+                                        tracePending("set", "subcorpus_sentence")
+                                        insert<SubCorpus_Sentence>(
+                                            SubCorpus_Sentence.SET,
+                                            SubCorpus_Sentence.COMPARATOR,
+                                            File(outDir, names.file("subcorpuses_sentences")),
+                                            names.table("subcorpuses_sentences"),
+                                            names.columns("subcorpuses_sentences"),
+                                            header
+                                        )
+                                        SubCorpus_Sentence.SET.clear()
+                                        traceDone()
+                                    }
+                                } finally {
+                                    FE.BY_FETYPEID_AND_FRAMEID = null
+                                }
 
-						try (@ProvidesIdTo(type = Governor.class) var ignored42 = Governor.COLLECTOR.open())
-						{
-							Progress.tracePending("collector", "governor");
-							Insert.insert(Governor.COLLECTOR, Governor.COLLECTOR, new File(outDir, names.file("governors")), names.table("governors"), names.columns("governors"), header);
-							Progress.traceDone();
+                                // R E S O L V A B L E
 
-							Progress.tracePending("set", "lexunit_governor");
-							Insert.insert(LexUnit_Governor.SET, LexUnit_Governor.COMPARATOR, new File(outDir, names.file("lexunits_governors")), names.table("lexunits_governors"), names.columns("lexunits_governors"), header);
-							LexUnit_Governor.SET.clear();
-							Progress.traceDone();
+                                insertWords()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-							Progress.tracePending("set", "governor_annoset");
-							Insert.insert(Governor_AnnoSet.SET, Governor_AnnoSet.COMPARATOR, new File(outDir, names.file("governors_annosets")), names.table("governors_annosets"), names.columns("governors_annosets"), header);
-							Governor_AnnoSet.SET.clear();
-							Progress.traceDone();
-						}
+    @Throws(FileNotFoundException::class)
+    protected open fun insertWords() {
+        tracePending("collector", "word")
+        Insert.insert<Word>(Word.COLLECTOR, Word.COLLECTOR, File(outDir, names.file("words")), names.table("words"), names.columns("words"), header)
+        traceDone()
+    }
 
-						Progress.tracePending("set", "sentence");
-						Insert.insert(Sentence.SET, Sentence.COMPARATOR, new File(outDir, names.file("sentences")), names.table("sentences"), names.columns("sentences"), header);
-						Sentence.SET.clear();
-						Progress.traceDone();
-
-						try (@ProvidesIdTo(type = SubCorpus.class) var ignored50 = SubCorpus.COLLECTOR.open())
-						{
-							Progress.tracePending("set", "subcorpus_sentence");
-							Insert.insert(SubCorpus.COLLECTOR, SubCorpus.COLLECTOR, new File(outDir, names.file("subcorpuses")), names.table("subcorpuses"), names.columns("subcorpuses"), header);
-							Progress.traceDone();
-
-							Progress.tracePending("set", "subcorpus_sentence");
-							Insert.insert(SubCorpus_Sentence.SET, SubCorpus_Sentence.COMPARATOR, new File(outDir, names.file("subcorpuses_sentences")), names.table("subcorpuses_sentences"), names.columns("subcorpuses_sentences"), header);
-							SubCorpus_Sentence.SET.clear();
-							Progress.traceDone();
-						}
-					}
-					finally
-					{
-						FE.BY_FETYPEID_AND_FRAMEID = null;
-					}
-
-					// R E S O L V A B L E
-					insertWords();
-				}
-			}
-		}
-	}
-
-	protected void insertWords() throws FileNotFoundException
-	{
-		Progress.tracePending("collector", "word");
-		Insert.insert(Word.COLLECTOR, Word.COLLECTOR, new File(outDir, names.file("words")), names.table("words"), names.columns("words"), header);
-		Progress.traceDone();
-	}
-
-	@RequiresIdFrom(type = FeType.class)
-	private Map<Pair<Integer, Integer>, FE> makeFEByFETypeIdAndFrameIdMap()
-	{
-		return FE.SET.stream() //
-				.map(fe -> new SimpleEntry<>(new Pair<>(FeType.getIntId(fe.name), fe.getFrameID()), fe)) //
-				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
-	}
+    @RequiresIdFrom(type = FeType::class)
+    private fun makeFEByFETypeIdAndFrameIdMap(): Map<Pair<Int, Int>, FE> {
+        return FE.SET
+            .asSequence()
+            .map { Pair(getIntId(it.name)!!, it.frameID) to it }
+            .toMap()
+    }
 }

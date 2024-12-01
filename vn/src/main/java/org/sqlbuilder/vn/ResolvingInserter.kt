@@ -3,6 +3,7 @@ package org.sqlbuilder.vn
 import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress.traceDone
 import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.vn.joins.Member_Sense
 import org.sqlbuilder.vn.objects.Word
 import java.io.File
@@ -46,7 +47,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
         resolveAndInsert<Word, String, Int>(
             Word.COLLECTOR, Word.COLLECTOR, File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true,
             wordResolver,
-            Function { o: Int? -> Objects.toString(o) },
+            { nullable(it) { it.toString() } },
             names.column("words.wordid")
         )
         traceDone()

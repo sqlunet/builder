@@ -97,7 +97,7 @@ class FnFrameXmlProcessor : XmlProcessor() {
                             }
                         }
                 }
-            return sb.toString() //
+            return sb.toString() 
                 .replace("<ex></ex>", "").replace("\\s\\s+".toRegex(), " ") // .replaceAll("\n\n+", "\n")
                 .replace("\n+".toRegex(), "")
         }

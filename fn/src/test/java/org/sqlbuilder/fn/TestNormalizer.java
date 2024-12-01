@@ -8,9 +8,9 @@ public class TestNormalizer
 	public void normalize1()
 	{
 		System.out.println("\n-- normalize ferealizations (feid)");
-		new Normalizer("Fn_fes", "fetypeid", "feid") //
-				.targets("Fn_ferealizations", "fetypeid", "feid") //
-				.referenceThrough("Fn_lexunits", "luid", "Fn_frames", "frameid") //
+		new Normalizer("Fn_fes", "fetypeid", "feid") 
+				.targets("Fn_ferealizations", "fetypeid", "feid") 
+				.referenceThrough("Fn_lexunits", "luid", "Fn_frames", "frameid") 
 				.dump();
 	}
 
@@ -18,9 +18,9 @@ public class TestNormalizer
 	public void normalize2()
 	{
 		System.out.println("\n-- normalize fegrouprealizations (feid)");
-		new Normalizer("Fn_fes", "fetypeid", "feid") //
-				.targets("Fn_fegrouprealizations_fes", "fetypeid", "feid") //
-				.referenceThrough("Fn_fegrouprealizations", "fegrid", "Fn_lexunits", "luid", "Fn_frames", "frameid") //
+		new Normalizer("Fn_fes", "fetypeid", "feid") 
+				.targets("Fn_fegrouprealizations_fes", "fetypeid", "feid") 
+				.referenceThrough("Fn_fegrouprealizations", "fegrid", "Fn_lexunits", "luid", "Fn_frames", "frameid") 
 				.dump();
 	}
 
@@ -28,9 +28,9 @@ public class TestNormalizer
 	public void normalize3()
 	{
 		System.out.println("\n-- normalize lexunits (incorporatedfeid)");
-		new Normalizer("Fn_fes", "fetypeid", "feid") //
-				.targets("Fn_lexunits", "incorporatedfetypeid", "incorporatedfeid") //
-				.referenceThrough("Fn_frames", "frameid") //
+		new Normalizer("Fn_fes", "fetypeid", "feid") 
+				.targets("Fn_lexunits", "incorporatedfetypeid", "incorporatedfeid") 
+				.referenceThrough("Fn_frames", "frameid") 
 				.dump();
 	}
 
@@ -38,9 +38,9 @@ public class TestNormalizer
 	public void normalize4()
 	{
 		System.out.println("\n-- normalize grouppatterns_patterns (feid)");
-		new Normalizer("Fn_fes", "fetypeid", "feid") //
-				.targets("Fn_grouppatterns_patterns", "fetypeid", "feid") //
-				.referenceThrough("Fn_patterns", "patternid", "Fn_fegrouprealizations", "fegrid", "Fn_lexunits", "luid") //
+		new Normalizer("Fn_fes", "fetypeid", "feid") 
+				.targets("Fn_grouppatterns_patterns", "fetypeid", "feid") 
+				.referenceThrough("Fn_patterns", "patternid", "Fn_fegrouprealizations", "fegrid", "Fn_lexunits", "luid") 
 				.dump();
 	}
 }

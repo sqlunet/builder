@@ -5,6 +5,9 @@ import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullable
+import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
 import org.sqlbuilder.pb.foreign.RoleSetTo
 import java.io.Serializable
 import java.util.*
@@ -55,7 +58,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
     override fun dataRow(): String {
         val predicate2 = predicate
         val word = LexItem.map[predicate2]
-        return "'${Utils.escape(name)}',${Utils.nullableQuotedEscapedString(descr)},'${Utils.escape(predicate.head)}',${Utils.nullable(word) { it!!.sqlId }}"
+        return "'${escape(name)}',${nullableQuotedEscapedString(descr)},'${escape(predicate.head)}',${nullable(word) { it.sqlId }}"
     }
 
     // T O S T R I N G

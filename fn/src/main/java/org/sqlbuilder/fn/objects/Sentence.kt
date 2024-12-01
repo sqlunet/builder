@@ -47,13 +47,13 @@ class Sentence private constructor(
 
     override fun dataRow(): String {
         return String.format(
-            "%d,%s,%s,%d,%d,'%s',%d",  //
-            iD,  //
-            zeroableInt(corpusID),  //
-            zeroableInt(docID),  //
-            paragno,  //
-            sentno,  //
-            escape(text),  //
+            "%d,%s,%s,%d,%d,'%s',%d",  
+            iD,  
+            zeroableInt(corpusID),  
+            zeroableInt(docID),  
+            paragno,  
+            sentno,  
+            escape(text),  
             apos
         )
     }
