@@ -9,17 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/types/Status.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestNames.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingInserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Frame_Example.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Frame_Example.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/FrameName.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Grouping.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Grouping.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/RestrType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sense.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Sense.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/test/java/org/sqlbuilder/vn/TestNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/test/java/org/sqlbuilder/vn/TestNames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/fn/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/fn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/fn/fn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -83,6 +77,7 @@
     "Application.BncModule (resolve).executor": "Run",
     "Application.BncModule (update).executor": "Run",
     "Application.BncModule.executor": "Run",
+    "Application.FnModule.executor": "Run",
     "Application.PbModule (resolve).executor": "Run",
     "Application.PbModule (update).executor": "Run",
     "Application.PbModule.executor": "Run",
@@ -104,7 +99,12 @@
     "git-widget-placeholder": "devkwippb34",
     "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "editor.preferences.smartKeys"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JAVA"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -118,7 +118,7 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.VnModule (export)">
+  <component name="RunManager" selected="Application.FnModule">
     <configuration name="TestXPath" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="common" />
       <extension name="coverage">
@@ -233,14 +233,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00025" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732687203255</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1732687203255</updated>
     </task>
     <task id="LOCAL-00026" summary="to kotlin">
       <option name="closed" value="true" />
@@ -626,7 +618,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733050226466</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="inspection">
+      <option name="closed" value="true" />
+      <created>1733050871503</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1733050871503</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -647,7 +647,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="kotlin support" />
     <MESSAGE value="trim" />
     <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="insert iterable with resolver function" />
@@ -672,7 +671,8 @@
     <MESSAGE value="xml generator of elements" />
     <MESSAGE value="fixes" />
     <MESSAGE value="to kotlin" />
-    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
+    <MESSAGE value="inspection" />
+    <option name="LAST_COMMIT_MESSAGE" value="inspection" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -681,6 +681,14 @@
           <url>file://$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt</url>
           <line>55</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt</url>
+          <line>46</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

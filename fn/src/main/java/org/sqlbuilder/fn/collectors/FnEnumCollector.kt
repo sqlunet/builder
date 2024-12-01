@@ -43,8 +43,9 @@ class FnEnumCollector : Processor("preset") {
     companion object {
 
         private fun getValues(types: StringEnumAbstractBase.Table): Array<String> {
-            return Array(types.lastInt() + 1) {
-                val e = types.forInt(it)
+            val n = types.lastInt()
+            return Array(n) {
+                val e = types.forInt(it + 1)
                 e.toString()
             }
         }
