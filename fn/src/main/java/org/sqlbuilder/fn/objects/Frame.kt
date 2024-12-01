@@ -56,7 +56,7 @@ class Frame private constructor(
     // I N S E R T
 
     override fun dataRow(): String {
-        return "$iD,'${escape(name)}','\${escape(definition}'"
+        return "$iD,'${escape(name)}','${escape(definition)}'"
     }
 
     // T O S T R I N G

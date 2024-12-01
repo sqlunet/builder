@@ -69,7 +69,7 @@ class ValenceUnit private constructor(
     }
 
     override fun comment(): String {
-        return "fe=$fE pt=$pT gf=$gF"
+        return "fe=$fE,pt=$pT,gf=$gF"
     }
 
     // T O S T R I N G

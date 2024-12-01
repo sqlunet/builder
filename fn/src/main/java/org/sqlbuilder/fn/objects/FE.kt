@@ -73,7 +73,7 @@ class FE private constructor(
     }
 
     override fun comment(): String {
-        return "type$name"
+        return "type=$name"
     }
 
     override fun toString(): String {
