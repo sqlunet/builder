@@ -21,7 +21,7 @@ class FEGroupPattern_FEPattern private constructor(
     }
 
     override fun comment(): String {
-        return "fegr={${first.comment()} fer={${second.comment()} vu={${third.comment()}}"
+        return "${first.comment()} ${second.comment()} vu={${third.comment()}}"
     }
 
     // T O S T R I N G
