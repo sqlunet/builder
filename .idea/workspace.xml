@@ -10,21 +10,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnCollector1.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameExportCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnLexUnitCollector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnLexUnitExportCollector.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFEXmlProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameXmlProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFullTextCollector.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnSemTypeCollector.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnWordCollector.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnCollector1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameExportCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnLexUnitCollector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnLexUnitExportCollector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XPathUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/XmlProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/test/java/org/sqlbuilder/common/TestXPath.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/test/java/org/sqlbuilder/common/TestXPath.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFEXmlProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameExportCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameExportCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFrameXmlProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnFullTextCollector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnSemTypeCollector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnWordCollector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnDocument.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -237,14 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00022" summary="rename">
-      <option name="closed" value="true" />
-      <created>1732685947123</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1732685947123</updated>
     </task>
     <task id="LOCAL-00023" summary="simplify">
       <option name="closed" value="true" />
@@ -630,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732996222615</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733040793517</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1733040793518</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

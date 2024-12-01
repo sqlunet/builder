@@ -3,7 +3,7 @@ package org.sqlbuilder.vn
 import org.sqlbuilder.common.XPathUtils.getXML
 import org.sqlbuilder.common.XPathUtils.getXPath
 import org.sqlbuilder.common.XPathUtils.getXPaths
-import org.sqlbuilder.common.XPathUtils.iteratorOfElements
+import org.sqlbuilder.common.XmlProcessor.Companion.iteratorOfElements
 import org.sqlbuilder.common.XmlTextUtils.getXPathTexts
 import org.sqlbuilder.vn.joins.Frame_Example
 import org.sqlbuilder.vn.joins.Frame_Example.Companion.make

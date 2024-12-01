@@ -4,9 +4,9 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.sqlbuilder.common.Progress.trace
 import org.sqlbuilder.common.Progress.traceTailer
-import org.sqlbuilder.common.XPathUtils.iteratorOfElements
 import org.sqlbuilder.common.XPathUtils.getXML
 import org.sqlbuilder.common.XPathUtils.getXPaths
+import org.sqlbuilder.common.XmlProcessor.Companion.iteratorOfElements
 import org.w3c.dom.Element
 import java.io.File
 import java.io.FilenameFilter

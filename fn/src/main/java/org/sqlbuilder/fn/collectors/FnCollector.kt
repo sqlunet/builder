@@ -21,12 +21,11 @@ abstract class FnCollector(protected val fnDir: String, props: Properties, tag: 
 
         traceHeader("framenet files", fnDir)
         var fileCount = 0
-
-        val fileArray = folder.listFiles(filter)
-        if (fileArray == null) {
+        val files = folder.listFiles(filter)
+        if (files == null) {
             throw RuntimeException("Dir:$frameNetHome is empty")
         }
-        fileArray
+        files
             .asSequence()
             .sortedWith(Comparator.comparing<File, String> { it.name })
             .forEach {

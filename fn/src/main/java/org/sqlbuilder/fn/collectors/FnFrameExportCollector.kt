@@ -27,19 +27,19 @@ class FnFrameExportCollector(props: Properties) : FnCollector("frame", props, "f
             val document = FrameDocument.Factory.parse(xmlFile)
 
             // F R A M E
-            val frame = document.getFrame()
-            val frameid = frame.getID()
-            make(frame)
+            val f = document.getFrame()
+            val frameid = f.getID()
+            make(f)
 
             // S E M T Y P E
-            frame.getSemTypeArray()
+            f.getSemTypeArray()
                 .forEach {
                     Frame_SemType.make(frameid, it.getID())
                 }
 
             // F E C O R E S E T S
             val feToCoresetMap: Map<Int, Int> =
-                frame.getFEcoreSetArray()
+                f.getFEcoreSetArray()
                     .withIndex()
                     .map { (setId, fecoreset) -> setId + 1 to fecoreset }
                     .flatMap { (setId, fecoreset) ->
@@ -53,7 +53,7 @@ class FnFrameExportCollector(props: Properties) : FnCollector("frame", props, "f
                     .toMap()
 
             // F E
-            frame.getFEArray()
+            f.getFEArray()
                 .forEach { fe ->
                     val feid = fe.getID()
                     make(fe, feToCoresetMap[feid], frameid)
@@ -79,9 +79,9 @@ class FnFrameExportCollector(props: Properties) : FnCollector("frame", props, "f
 
             // L E X U N I T S
             if (!this.skipLexUnits) {
-                frame.getLexUnitArray()
+                f.getLexUnitArray()
                     .forEach { lexunit ->
-                        make(lexunit, frameid, frame.getName())
+                        make(lexunit, frameid, f.getName())
                     }
             }
         } catch (e: XmlException) {

@@ -1,6 +1,6 @@
 package org.sqlbuilder.common
 
-import org.w3c.dom.Element
+import org.sqlbuilder.common.XmlProcessor.Companion.iteratorOfElements
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.StringWriter
@@ -16,22 +16,6 @@ import javax.xml.xpath.XPathExpressionException
 import javax.xml.xpath.XPathFactory
 
 object XPathUtils {
-
-    fun NodeList.iterator() = iterator {
-        var i = 0
-        while (i < length) {
-            yield(item(i))
-            i++
-        }
-    }
-
-    fun NodeList.iteratorOfElements() = iterator {
-        var i = 0
-        while (i < length) {
-            yield(item(i) as Element)
-            i++
-        }
-    }
 
     @JvmStatic
     @Throws(XPathExpressionException::class)

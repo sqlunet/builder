@@ -1,6 +1,7 @@
 package org.sqlbuilder.common
 
 import org.w3c.dom.Element
+import org.w3c.dom.NodeList
 import org.xml.sax.SAXException
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -14,6 +15,23 @@ abstract class XmlProcessor {
     abstract fun process(xml: String): String
 
     companion object {
+
+        fun NodeList.iterator() = iterator {
+            var i = 0
+            while (i < length) {
+                yield(item(i))
+                i++
+            }
+        }
+
+        fun NodeList.iteratorOfElements() = iterator {
+            var i = 0
+            while (i < length) {
+                yield(item(i) as Element)
+                i++
+            }
+        }
+
 
         val factory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
 

@@ -1,103 +1,83 @@
-package org.sqlbuilder.fn.collectors;
+package org.sqlbuilder.fn.collectors
 
-import org.apache.xmlbeans.XmlException;
-import org.sqlbuilder.common.AlreadyFoundException;
-import org.sqlbuilder.common.Logger;
-import org.sqlbuilder.fn.FnModule;
-import org.sqlbuilder.fn.objects.*;
+import edu.berkeley.icsi.framenet.FullTextAnnotationDocument
+import org.apache.xmlbeans.XmlException
+import org.sqlbuilder.common.AlreadyFoundException
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.fn.FnModule
+import org.sqlbuilder.fn.objects.AnnotationSet.Companion.make
+import org.sqlbuilder.fn.objects.Corpus.Companion.make
+import org.sqlbuilder.fn.objects.Doc.Companion.make
+import org.sqlbuilder.fn.objects.Label
+import org.sqlbuilder.fn.objects.Layer.Companion.make
+import org.sqlbuilder.fn.objects.Sentence.Companion.make
+import java.io.File
+import java.io.IOException
+import java.util.*
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
+class FnFullTextCollector(props: Properties) : FnCollector("fulltext", props, "fulltext") {
 
-import edu.berkeley.icsi.framenet.FullTextAnnotationDocument;
-import edu.berkeley.icsi.framenet.FullTextAnnotationDocument.FullTextAnnotation;
-import edu.berkeley.icsi.framenet.HeaderType;
-import edu.berkeley.icsi.framenet.HeaderType.Frame;
+    override fun processFrameNetFile(fileName: String) {
+        val xmlFile = File(fileName)
+        try {
+            val document = FullTextAnnotationDocument.Factory.parse(xmlFile)
 
-public class FnFullTextCollector extends FnCollector
-{
-	public FnFullTextCollector(final Properties props)
-	{
-		super("fulltext", props, "fulltext");
-	}
+            // F U L L T E X T A N N O T A T I O N
+            val fta = document.getFullTextAnnotation()
 
-	@Override
-	protected void processFrameNetFile(final String fileName)
-	{
-		final File xmlFile = new File(fileName);
-		try
-		{
-			final FullTextAnnotationDocument _document = FullTextAnnotationDocument.Factory.parse(xmlFile);
+            // H E A D E R
+            val h = fta.getHeader()
 
-			// F U L L T E X T A N N O T A T I O N
+            // F R A M E
+            val f = h.getFrame()
+            f?.getFEArray()
+                ?.forEach {
+                    System.err.println("${it.name} ${it.type}")
+                }
 
-			final FullTextAnnotation _fulltextannotation = _document.getFullTextAnnotation();
+            // C O R P U S
+            h.getCorpusArray()
+                .forEach { c ->
+                    make(c, null)
+                    c.getDocumentArray()
+                        .forEach {
+                            make(it, c)
+                        }
+                }
 
-			// H E A D E R
+            // S E N T E N C E S
+            fta.getSentenceArray()
+                .forEach { s ->
+                    val sentenceid = s.getID()
+                    make(s)
 
-			final HeaderType _header = _fulltextannotation.getHeader();
+                    // annotation sets
+                    s.getAnnotationSetArray()
+                        .forEach { a ->
+                            try {
+                                make(a, sentenceid)
 
-			// F R A M E
+                                // layers
+                                a.getLayerArray()
+                                    .forEach { l ->
+                                        val layer = make(l, a.getID())
 
-			final Frame _frame = _header.getFrame();
-			if (_frame != null)
-			{
-				// F E
+                                        // labels
+                                        l.getLabelArray()
+                                            .forEach {
+                                                Label.make(it, layer)
+                                            }
+                                    }
+                            } catch (_: AlreadyFoundException) {
+                                // ignore
+                            }
 
-				for (var _fe : _frame.getFEArray())
-				{
-					System.err.printf("%s %s%n", _fe.getName(), _fe.getType().toString());
-				}
-			}
-
-			// C O R P U S
-
-			for (var _corpus : _header.getCorpusArray())
-			{
-				Corpus.make(_corpus, null);
-				for (var _doc : _corpus.getDocumentArray())
-				{
-					Doc.make(_doc, _corpus);
-				}
-			}
-
-			// S E N T E N C E S
-
-			for (var _sentence : _fulltextannotation.getSentenceArray())
-			{
-				int sentenceid = _sentence.getID();
-				Sentence.make(_sentence);
-
-				// annotation sets
-				for (var _annoset : _sentence.getAnnotationSetArray())
-				{
-					try
-					{
-						AnnotationSet.make(_annoset, sentenceid);
-					}
-					catch (AlreadyFoundException afe)
-					{
-						continue;
-					}
-
-					// layers
-					for (var _layer : _annoset.getLayerArray())
-					{
-						final Layer layer = Layer.make(_layer, _annoset.getID());
-
-						// labels
-						for (var _label : _layer.getLabelArray())
-						{
-							Label.make(_label, layer);
-						}
-					}
-				}
-			}
-		}
-		catch (XmlException | IOException e)
-		{
-			Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e);
-		}
-	}
+                        }
+                }
+        } catch (e: XmlException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(FnModule.MODULE_ID, tag, fileName, e)
+        }
+    }
 }
