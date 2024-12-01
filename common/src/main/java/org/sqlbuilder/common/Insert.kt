@@ -153,7 +153,7 @@ object Insert {
                     }
                     val values = it.dataRow()
                     val comment = it.comment()
-                    val row = if (comment != null) "($i,$values) /* $comment */" else "($values)"
+                    val row = if (comment != null) "(${i + 1},$values) /* $comment */" else "(${i + 1},$values)"
                     ps.print(row)
                     i++
                 }
