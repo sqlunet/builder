@@ -22,6 +22,6 @@ open class Pair<T, U>(
     }
 
     override fun toString(): String {
-        return String.format("[first=%s second=%s]", first, second)
+        return String.format("[first=$first second=$second]")
     }
 }

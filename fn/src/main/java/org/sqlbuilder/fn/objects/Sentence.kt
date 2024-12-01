@@ -46,16 +46,7 @@ class Sentence private constructor(
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format(
-            "%d,%s,%s,%d,%d,'%s',%d",  
-            iD,  
-            zeroableInt(corpusID),  
-            zeroableInt(docID),  
-            paragno,  
-            sentno,  
-            escape(text),  
-            apos
-        )
+        return "$iD,${zeroableInt(corpusID)},${zeroableInt(docID)},$paragno,$sentno,'${escape(text)}',$apos"
     }
 
     // T O S T R I N G

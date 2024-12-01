@@ -23,6 +23,6 @@ open class Triple<T, U, V>(
     }
 
     override fun toString(): String {
-        return String.format("[first=%s second=%s third=%s]", first, second, third)
+        return "[first$first second=$second third=$third]"
     }
 }

@@ -47,7 +47,7 @@ class Values {
         }
 
         override fun dataRow(): String {
-            return String.format("'%s'", coretype)
+            return "'$coretype'"
         }
 
         companion object {

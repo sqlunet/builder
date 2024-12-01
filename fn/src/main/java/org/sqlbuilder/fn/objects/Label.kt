@@ -27,11 +27,11 @@ class Label private constructor(label: LabelType, val layer: Layer) : Insertable
     }
 
     override fun comment(): String {
-        return String.format("type=% s", name)
+        return "type=$name"
     }
 
     override fun toString(): String {
-        return String.format("[LAB label=%s layer=%s]", name, layer)
+        return "[LAB label=$name layer=$layer]"
     }
 
     companion object {
