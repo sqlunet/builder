@@ -25,7 +25,7 @@ object Insert {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
             if (items.iterator().hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($values) VALUES")
                 var first = true
                 items.forEach {
                     if (first) {

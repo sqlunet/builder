@@ -24,7 +24,7 @@ class RoleToFn private constructor(
             SET.add(m)
             /*
 			if (wasThere) {
-				print("%nduplicate $m%n")
+				println("\nduplicate $m")
 			}
 			*/
             return m

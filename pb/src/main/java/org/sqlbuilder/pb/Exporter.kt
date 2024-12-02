@@ -29,11 +29,11 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun run() {
-        System.out.printf("%s %d%n", "vn links", AliasFnFeLinks.COLLECTOR.size)
-        System.out.printf("%s %d%n", "fn links", AliasFnFeLinks.COLLECTOR.size)
-        System.out.printf("%s %d%n", "roles", Role.COLLECTOR.size)
-        System.out.printf("%s %d%n", "classes", RoleSet.COLLECTOR.size)
-        System.out.printf("%s %d%n", "words", Word.COLLECTOR.size)
+        println("vn links ${AliasFnFeLinks.COLLECTOR.size}")
+        println("fn links ${AliasFnFeLinks.COLLECTOR.size}")
+        println("roles ${Role.COLLECTOR.size}")
+        println("classes ${RoleSet.COLLECTOR.size}")
+        println("words ${Word.COLLECTOR.size}")
         duplicateRoles()
 
         AliasFnFeLinks.COLLECTOR.open().use {

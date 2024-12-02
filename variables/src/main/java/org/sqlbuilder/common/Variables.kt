@@ -53,7 +53,7 @@ private constructor() {
                 varSubstitutionInIS(it, ps, useBackticks, compress, check)
             }
         } catch (iae: IllegalArgumentException) {
-            System.err.printf("At %s%n%s%n", file, iae.message)
+            System.err.println("At $file\n${iae.message}")
             throw iae
         }
     }
@@ -78,7 +78,7 @@ private constructor() {
                 try {
                     line = varSubstitution(line, useBackticks)
                 } catch (iae: IllegalArgumentException) {
-                    System.err.printf("At line %d content: [%s]%n", lineNum, line)
+                    System.err.println("At line $line content: [$line]")
                     throw iae
                 }
                 if (compress) {
@@ -268,7 +268,7 @@ private constructor() {
             val m = p.matcher(input)
             if (m.find()) {
                 val varName = m.group(1)
-                System.err.printf("%s%n", varName)
+                System.err.println(varName)
             }
         }
     }

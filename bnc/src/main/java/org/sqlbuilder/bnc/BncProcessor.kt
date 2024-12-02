@@ -67,7 +67,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                     }
                     null
                 }
-                .filter { it != null }
+                .filterNotNull()
                 .forEach {
                     try {
                         consumer.acceptThrows(it, count.toInt())

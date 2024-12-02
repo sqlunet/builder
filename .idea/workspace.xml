@@ -9,11 +9,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection">
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="sort labels and layers">
+      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnResolvingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnUpdatingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/objects/Collocation.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/fn/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/fn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/fn/fn.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToFn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToFn.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToVn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToVn.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sn/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/sn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sn/sn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnResolvingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnUpdatingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/objects/Collocation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.kt" beforeDir="false" afterPath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -57,7 +75,7 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -77,18 +95,21 @@
     "Application.BncModule (resolve).executor": "Run",
     "Application.BncModule (update).executor": "Run",
     "Application.BncModule.executor": "Run",
+    "Application.FnModule (update).executor": "Run",
     "Application.FnModule.executor": "Run",
     "Application.PbModule (resolve).executor": "Run",
     "Application.PbModule (update).executor": "Run",
     "Application.PbModule.executor": "Run",
     "Application.VnModule (export).executor": "Run",
     "Application.VnModule (resolve).executor": "Run",
-    "Application.VnModule (update).executor": "Run",
+    "Application.VnModule (update).executor": "Debug",
     "Application.VnModule.executor": "Run",
     "JUnit.TestParseFile.executor": "Run",
     "JUnit.TestXPath.executor": "Run",
     "Maven.all [clean].executor": "Run",
     "Maven.all [compile].executor": "Run",
+    "Maven.all [install].executor": "Run",
+    "Maven.fn [install].executor": "Run",
     "Maven.fn-beans [install].executor": "Run",
     "Maven.fn-jaxb [install].executor": "Run",
     "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
@@ -103,6 +124,7 @@
   },
   "keyToStringList": {
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT",
       "JAVA"
     ]
   }
@@ -118,7 +140,7 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FnModule">
+  <component name="RunManager" selected="Application.FnModule (update)">
     <configuration name="TestXPath" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="common" />
       <extension name="coverage">
@@ -233,86 +255,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00026" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732687743633</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1732687743633</updated>
-    </task>
-    <task id="LOCAL-00027" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732689861396</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1732689861396</updated>
-    </task>
-    <task id="LOCAL-00028" summary="simplify">
-      <option name="closed" value="true" />
-      <created>1732690537393</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1732690537393</updated>
-    </task>
-    <task id="LOCAL-00029" summary="simplify">
-      <option name="closed" value="true" />
-      <created>1732691235698</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1732691235698</updated>
-    </task>
-    <task id="LOCAL-00030" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732691443151</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1732691443151</updated>
-    </task>
-    <task id="LOCAL-00031" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732694721792</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1732694721792</updated>
-    </task>
-    <task id="LOCAL-00032" summary="optimize">
-      <option name="closed" value="true" />
-      <created>1732695445453</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1732695445453</updated>
-    </task>
-    <task id="LOCAL-00033" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732698522103</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1732698522103</updated>
-    </task>
-    <task id="LOCAL-00034" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732700136854</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1732700136854</updated>
-    </task>
-    <task id="LOCAL-00035" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732702221545</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1732702221545</updated>
     </task>
     <task id="LOCAL-00036" summary="to kotlin">
       <option name="closed" value="true" />
@@ -626,7 +568,87 @@
       <option name="project" value="LOCAL" />
       <updated>1733050871503</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="fix index">
+      <option name="closed" value="true" />
+      <created>1733073760735</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1733073760735</updated>
+    </task>
+    <task id="LOCAL-00076" summary="fix index">
+      <option name="closed" value="true" />
+      <created>1733074842423</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1733074842423</updated>
+    </task>
+    <task id="LOCAL-00077" summary="skip tests">
+      <option name="closed" value="true" />
+      <created>1733074927567</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1733074927567</updated>
+    </task>
+    <task id="LOCAL-00078" summary="fix to add i if uncommented (silent bug)">
+      <option name="closed" value="true" />
+      <created>1733076161979</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1733076161979</updated>
+    </task>
+    <task id="LOCAL-00079" summary="fixes format">
+      <option name="closed" value="true" />
+      <created>1733076176326</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1733076176326</updated>
+    </task>
+    <task id="LOCAL-00080" summary="fixes format">
+      <option name="closed" value="true" />
+      <created>1733079999259</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1733079999259</updated>
+    </task>
+    <task id="LOCAL-00081" summary="fixes format">
+      <option name="closed" value="true" />
+      <created>1733080006757</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1733080006758</updated>
+    </task>
+    <task id="LOCAL-00082" summary="fixes format">
+      <option name="closed" value="true" />
+      <created>1733080398732</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1733080398732</updated>
+    </task>
+    <task id="LOCAL-00083" summary="fix to add i if uncommented (silent bug)">
+      <option name="closed" value="true" />
+      <created>1733081280597</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1733081280597</updated>
+    </task>
+    <task id="LOCAL-00084" summary="sort labels and layers">
+      <option name="closed" value="true" />
+      <created>1733082936546</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1733082936546</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -647,11 +669,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="trim" />
-    <MESSAGE value="insert iterable with resolver function" />
-    <MESSAGE value="insert iterable with resolver function" />
-    <MESSAGE value="insert iterable with resolver function" />
-    <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="rename insert functions" />
@@ -672,25 +689,15 @@
     <MESSAGE value="fixes" />
     <MESSAGE value="to kotlin" />
     <MESSAGE value="inspection" />
-    <option name="LAST_COMMIT_MESSAGE" value="inspection" />
+    <MESSAGE value="skip tests" />
+    <MESSAGE value="skip tests" />
+    <MESSAGE value="fixes format" />
+    <MESSAGE value="fix to add i if uncommented (silent bug)" />
+    <MESSAGE value="sort labels and layers" />
+    <option name="LAST_COMMIT_MESSAGE" value="sort labels and layers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt</url>
-          <line>55</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/collectors/FnEnumCollector.kt</url>
-          <line>46</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
