@@ -1,16 +1,8 @@
-package org.sqlbuilder.sn;
+package org.sqlbuilder.sn
 
-import org.sqlbuilder.common.Resolver;
-import org.sqlbuilder2.ser.DeSerialize;
+import org.sqlbuilder.common.Resolver
+import org.sqlbuilder2.ser.DeSerialize
+import java.io.File
+import java.util.AbstractMap.SimpleEntry
 
-import java.io.File;
-import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
-
-public class SnSensekeyResolver extends Resolver<String, SimpleEntry<Integer, Integer>>
-{
-	public SnSensekeyResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class SnSensekeyResolver(ser: String) : Resolver<String, SimpleEntry<Int, Int>>(DeSerialize.deserialize<MutableMap<String, out SimpleEntry<Int, Int>>>(File(ser)))

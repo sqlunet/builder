@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/sers" />
       <excludeFolder url="file://$MODULE_DIR$/sql" />
       <excludeFolder url="file://$MODULE_DIR$/sql31" />
+      <excludeFolder url="file://$MODULE_DIR$/_sql" />
     </content>
   </component>
 </module>

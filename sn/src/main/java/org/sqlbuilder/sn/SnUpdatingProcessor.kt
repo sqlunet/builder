@@ -1,67 +1,62 @@
-package org.sqlbuilder.sn;
+package org.sqlbuilder.sn
 
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.sn.objects.Collocation;
+import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.common.Utils.quote
+import org.sqlbuilder.sn.objects.Collocation
+import org.sqlbuilder.sn.objects.Collocation.Companion.parse
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
-import java.util.function.BiConsumer;
+class SnUpdatingProcessor(
+    conf: Properties,
+) : SnResolvingProcessor(conf) {
 
-public class SnUpdatingProcessor extends SnResolvingProcessor
-{
-	public SnUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    init {
+        // output
+        this.outDir = File(conf.getProperty("sn_outdir_updated", "sql/data_updated"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-		// output
-		this.outDir = new File(conf.getProperty("sn_outdir_updated", "sql/data_updated"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(IOException::class)
+    override fun run() {
+        PrintStream(FileOutputStream(File(outDir, names.updateFile("syntagms"))), true, StandardCharsets.UTF_8).use {
+            it.println("-- $header")
+            processSyntagNetFile(it, File(snHome, snMain)) { collocation: Collocation, i: Int ->
+                updateRow(
+                    it,
+                    names.table("syntagms"),
+                    i,
+                    collocation,
+                    names.column("syntagms.word1id"),
+                    names.column("syntagms.synset1id"),
+                    names.column("syntagms.word2id"),
+                    names.column("syntagms.synset2id"),
+                    names.column("syntagms.sensekey1"),
+                    names.column("syntagms.sensekey2")
+                )
+            }
+        }
+    }
 
-	@Override
-	public void run() throws IOException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.updateFile("syntagms"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processSyntagNetFile(ps, new File(snHome, snMain), //
-					(collocation, i) -> updateRow(ps, names.table("syntagms"), i, collocation, //
-							names.column("syntagms.word1id"), //
-							names.column("syntagms.synset1id"), //
-							names.column("syntagms.word2id"), //
-							names.column("syntagms.synset2id"), //
-							names.column("syntagms.sensekey1"), //
-							names.column("syntagms.sensekey2") //
-					));
-		}
-	}
+    private fun updateRow(ps: PrintStream, table: String?, index: Int, collocation: Collocation, vararg columns: String?) {
+        val r1 = senseResolver.apply(collocation.sensekey1!!)
+        val r2 = senseResolver.apply(collocation.sensekey2!!)
+        if (r1 != null && r2 != null) {
+            val setClause = "${columns[0]}=${nullableInt(r1.key)},${columns[1]}=${nullableInt(r1.value)},${columns[2]}=${nullableInt(r2.key)},${columns[3]}=${nullableInt(r2.value)}"
+            val whereClause = "${columns[4]}=${quote(escape(collocation.sensekey1!!))} AND ${columns[5]}=${quote(escape(collocation.sensekey2!!))}"
+            ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1}")
+        }
+    }
 
-	private void updateRow(final PrintStream ps, final String table, final Integer index, final Collocation collocation, final String... columns)
-	{
-		var r1 = senseResolver.apply(collocation.sensekey1);
-		var r2 = senseResolver.apply(collocation.sensekey2);
-		if (r1 != null && r2 != null)
-		{
-			String setClause = String.format("%s=%s,%s=%s,%s=%s,%s=%s", //
-					columns[0], Utils.nullableInt(r1.getKey()), //
-					columns[1], Utils.nullableInt(r1.getValue()), //
-					columns[2], Utils.nullableInt(r2.getKey()), //
-					columns[3], Utils.nullableInt(r2.getValue()));
-			String whereClause = String.format("%s=%s AND %s=%s", columns[4], Utils.quote(Utils.escape(collocation.sensekey1)), columns[5], Utils.quote(Utils.escape(collocation.sensekey2)));
-			ps.printf("UPDATE %s SET %s WHERE %s; -- %d%n", table, setClause, whereClause, index + 1);
-		}
-	}
-
-	protected void processSyntagNetFile(final PrintStream ps, final File file, final BiConsumer<Collocation, Integer> consumer) throws IOException
-	{
-		process(file, Collocation::parse, consumer);
-	}
+    @Throws(IOException::class)
+    private fun processSyntagNetFile(ps: PrintStream, file: File, consumer: (Collocation, Int) -> Unit) {
+        process(file, { parse(it) }, consumer)
+    }
 }

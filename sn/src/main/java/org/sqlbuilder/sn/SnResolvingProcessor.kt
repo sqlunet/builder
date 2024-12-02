@@ -1,72 +1,62 @@
-package org.sqlbuilder.sn;
+package org.sqlbuilder.sn
 
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.sn.objects.Collocation;
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.sn.objects.Collocation
+import org.sqlbuilder.sn.objects.Collocation.Companion.parse
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
-import java.util.function.BiConsumer;
+open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
 
-public class SnResolvingProcessor extends SnProcessor
-{
-	protected final String serFile;
+    protected val serFile: String
 
-	protected final SnSensekeyResolver senseResolver;
+    @JvmField
+    protected val senseResolver: SnSensekeyResolver
 
-	public SnResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    init {
+        // header
+        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
 
-		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+        // outdir
+        this.outDir = File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"))
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
 
-		// outdir
-		this.outDir = new File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
+        // resolver
+        this.resolve = true
+        this.serFile = conf.getProperty("sense_nids")
+        this.senseResolver = SnSensekeyResolver(this.serFile)
+    }
 
-		// resolver
-		this.resolve = true;
-		this.serFile = conf.getProperty("sense_nids");
-		this.senseResolver = new SnSensekeyResolver(this.serFile);
-	}
+    @Throws(IOException::class)
+    public override fun run() {
+        PrintStream(FileOutputStream(File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8).use { ps ->
+            ps.println("-- $header")
+            processSyntagNetFile(ps, File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true)) { collocation: Collocation, i: Int ->
+                val unresolved = collocation.dataRow()
+                val r1 = senseResolver.apply(collocation.sensekey1!!) // (word,synsetid)
+                val r2 = senseResolver.apply(collocation.sensekey2!!) // (word,synsetid)
+                if (r1 != null && r2 != null) {
+                    val word1nid = nullableInt(r1.key)
+                    val synset1nid = nullableInt(r1.value)
+                    val word2nid = nullableInt(r2.key)
+                    val synset2nid = nullableInt(r2.value)
+                    val values = "$unresolved,$word1nid,$synset1nid,$word2nid,$synset2nid"
+                    insertRow(ps, i.toLong(), values)
+                }
+            }
+        }
+    }
 
-	@Override
-	public void run() throws IOException
-	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8))
-		{
-			ps.println("-- " + header);
-			processSyntagNetFile(ps, new File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true), (collocation, i) -> {
-
-				var unresolved = collocation.dataRow();
-				var r1 = senseResolver.apply(collocation.sensekey1); // (word,synsetid)
-				var r2 = senseResolver.apply(collocation.sensekey2); // (word,synsetid)
-				if (r1 != null && r2 != null)
-				{
-					var word1nid = Utils.nullableInt(r1.getKey());
-					var synset1nid = Utils.nullableInt(r1.getValue());
-					var word2nid = Utils.nullableInt(r2.getKey());
-					var synset2nid = Utils.nullableInt(r2.getValue());
-					var values = String.format("%s,%s,%s,%s,%s", unresolved, word1nid, synset1nid, word2nid, synset2nid);
-					insertRow(ps, i, values);
-				}
-			});
-		}
-	}
-
-	@Override
-	protected void processSyntagNetFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<Collocation, Integer> consumer) throws IOException
-	{
-		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, Collocation::parse, consumer);
-		ps.print(';');
-	}
+    @Throws(IOException::class)
+    protected override fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
+        ps.println("INSERT INTO $table ($columns) VALUES")
+        process(file, { parse(it) }, consumer)
+        ps.print(';')
+    }
 }

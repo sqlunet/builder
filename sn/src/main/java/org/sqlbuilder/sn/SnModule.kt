@@ -1,58 +1,44 @@
-package org.sqlbuilder.sn;
+package org.sqlbuilder.sn
 
-import org.sqlbuilder.common.Module;
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.common.Module.Mode.Companion.read
+import java.io.IOException
 
-import java.io.IOException;
+class SnModule(
+    conf: String, mode: Mode,
+) : Module(MODULE_ID, conf, mode) {
 
-public class SnModule extends Module
-{
-	public static final String MODULE_ID = "sn";
+    override fun run() {
+        checkNotNull(props)
 
-	protected SnModule(final String conf, final Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+        try {
+            when (mode) {
+                Mode.PLAIN   -> SnProcessor(props).run()
+                Mode.RESOLVE -> SnResolvingProcessor(props).run()
+                Mode.UPDATE  -> SnUpdatingProcessor(props).run()
+                Mode.EXPORT  -> {}
+                else         -> {}
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
+    companion object {
 
-		try
-		{
-			switch (mode)
-			{
-				case PLAIN:
-					new SnProcessor(props).run();
-					break;
+        const val MODULE_ID: String = "sn"
 
-				case RESOLVE:
-					new SnResolvingProcessor(props).run();
-					break;
-
-				case UPDATE:
-					new SnUpdatingProcessor(props).run();
-					break;
-
-				case EXPORT:
-				default:
-			}
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public static void main(final String[] args)
-	{
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new SnModule(conf, mode).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var i = 0
+            var mode = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = read(args[i++])
+            }
+            val conf = args[i]
+            SnModule(conf, mode).run()
+        }
+    }
 }
