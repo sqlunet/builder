@@ -10,6 +10,7 @@ import org.sqlbuilder.sl.VnRoleResolvable
 import org.sqlbuilder2.ser.Pair
 import org.sqlbuilder2.ser.Triplet
 import java.util.*
+import java.util.function.Function
 
 class PbRole_VnRole private constructor(
     val pbRole: PbRole,
@@ -62,7 +63,17 @@ class PbRole_VnRole private constructor(
         val SET: MutableSet<PbRole_VnRole> = TreeSet<PbRole_VnRole>(COMPARATOR)
 
         @JvmField
-        val RESOLVE_RESULT_STRINGIFIER: (Pair<Pair<Int, Int>, Triplet<Int, Int, Int>>?) -> String = {
+        val RESOLVE_RESULT_STRINGIFIER = Function { r: PbVnRoleResolved? ->
+            if (r == null)
+                "NULL,NULL,NULL,NULL"
+            else {
+                val s1 = "${nullableInt(r.first.first)},${nullableInt(r.first.second)}"
+                val s2 = "${nullableInt(r.second.first)},${nullableInt(r.second.second)},${nullableInt(r.second.third)}"
+                "$s1,$s2"
+            }
+        }
+
+        val RESOLVE_RESULT_STRINGIFIER0: (Pair<Pair<Int, Int>, Triplet<Int, Int, Int>>?) -> String = {
             if (it == null)
                 "NULL,NULL,NULL,NULL"
             else {

@@ -8,8 +8,6 @@ import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
 import org.sqlbuilder.sl.foreign.PbRole_VnRole
-import org.sqlbuilder2.ser.Pair
-import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
@@ -66,14 +64,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             if (r == null)
                 "$pbrolesetidCol=NULL,$pbroleidCol=NULL,$vnclassidCol=NULL,$vnroleidCol=NULL,$vnroletypeidCol=NULL"
             else {
-                val v1 = if (r.first == null)
-                    "$pbrolesetidCol=NULL,$pbroleidCol=NULL"
-                else
-                    "$pbrolesetidCol=${nullableInt(r.first.first)},$pbroleidCol=${nullableInt(r.first.second)}"
-                val v2 = if (r.second == null)
-                    "$vnclassidCol=NULL,$vnroleidCol=NULL,$vnroletypeidCol=NULL"
-                else
-                    "$vnclassidCol=${nullableInt(r.second.first)},$vnroleidCol=${nullableInt(r.second.second)},$vnroletypeidCol=${nullableInt(r.second.third)}"
+                val v1 = "$pbrolesetidCol=${nullableInt(r.first.first)},$pbroleidCol=${nullableInt(r.first.second)}"
+                val v2 = "$vnclassidCol=${nullableInt(r.second.first)},$vnroleidCol=${nullableInt(r.second.second)},$vnroletypeidCol=${nullableInt(r.second.third)}"
                 "$v1,$v2"
             }
         }

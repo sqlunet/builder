@@ -2,14 +2,10 @@ package org.sqlbuilder.sl.foreign
 
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
-import org.sqlbuilder.sl.PbRoleSetResolvable
-import org.sqlbuilder.sl.PbRoleSetResolved
 import org.sqlbuilder.sl.PbVnClassResolvable
 import org.sqlbuilder.sl.PbVnClassResolved
-import org.sqlbuilder.sl.VnClassResolvable
-import org.sqlbuilder.sl.VnClassResolved
-import org.sqlbuilder2.ser.Pair
 import java.util.*
+import java.util.function.Function
 
 class PbRoleSet_VnClass private constructor(
     val pbRoleset: String,
@@ -43,8 +39,8 @@ class PbRoleSet_VnClass private constructor(
         val SET: MutableSet<PbRoleSet_VnClass> = TreeSet<PbRoleSet_VnClass>(COMPARATOR)
 
         @JvmField
-        val RESOLVE_RESULT_STRINGIFIER: (Pair<Int, Int>?) -> String = {
-            if (it == null) "NULL,NULL" else "${it.first},${it.second}"
+        val RESOLVE_RESULT_STRINGIFIER  =  Function { r: PbVnClassResolved? ->
+            if (r == null) "NULL,NULL" else "${r.first},${r.second}"
         }
 
         @JvmStatic

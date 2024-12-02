@@ -1,6 +1,5 @@
 package org.sqlbuilder.sl
 
-import org.sqlbuilder.common.Bunch
 import org.sqlbuilder.common.CombinedResolver
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Progress.traceDone
@@ -10,18 +9,11 @@ import org.sqlbuilder.sl.foreign.PbRole_VnRole
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
-import java.util.function.Function
 
 typealias PbVnClassResolvable = Pair<PbRoleSetResolvable, VnClassResolvable>
 typealias PbVnClassResolved = Pair<PbRoleSetResolved, VnClassResolved>
 typealias PbVnRoleResolvable = Pair<PbRoleResolvable, VnRoleResolvable>
 typealias PbVnRoleResolved = Pair<PbRoleResolved, VnRoleResolved>
-
-//TODO
-typealias BunchPbVnClassResolvable = Bunch<PbRoleSetResolvable, VnClassResolvable>
-typealias BunchPbVnClassResolved = Bunch<PbRoleSetResolved, VnClassResolved>
-typealias BunchPbVnRoleResolvable = Bunch<PbRoleResolvable, VnRoleResolvable>
-typealias BunchPbVnRoleResolved = Bunch<PbRoleResolved, VnRoleResolved>
 
 open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
@@ -60,10 +52,6 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertClassAliases() {
         tracePending("set", "vnalias")
-        val cr = CombinedResolver<PbRoleSetResolvable, PbRoleSetResolved, VnClassResolvable, VnClassResolved>(pbRoleSetResolver, vnClassResolver)
-        val cr2: Function<PbVnClassResolvable, PbVnClassResolved?> = cr
-        //val bcr = CombinedResolver2<PbRoleSetResolvable, PbRoleSetResolved, VnClassResolvable, VnClassResolved>(pbRoleSetResolver, vnClassResolver)
-        //val bcr2: Function<BunchPbVnClassResolvable, BunchPbVnClassResolved?> = bcr
         Insert.resolveAndInsert(
             PbRoleSet_VnClass.SET,
             PbRoleSet_VnClass.COMPARATOR,
@@ -71,7 +59,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbrolesets_vnclasses"),
             names.columns("pbrolesets_vnclasses"),
             header,
-            Function<PbVnClassResolvable, PbVnClassResolved?> { s: PbVnClassResolvable -> cr2.apply(s) },
+            CombinedResolver<PbRoleSetResolvable, PbRoleSetResolved, VnClassResolvable, VnClassResolved>(pbRoleSetResolver, vnClassResolver),
             PbRoleSet_VnClass.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbrolesets_vnclasses.pbrolesetid"),
             names.column("pbrolesets_vnclasses.vnclassid")
@@ -82,8 +70,6 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertRoleAliases() {
         tracePending("set", "vnaliasrole")
-        val cr = CombinedResolver<PbRoleResolvable, PbRoleResolved, VnRoleResolvable, VnRoleResolved>(pbRoleResolver, vnRoleResolver)
-        val cr2: Function<PbVnRoleResolvable, PbVnRoleResolved?> = cr
         Insert.resolveAndInsert(
             PbRole_VnRole.SET,
             PbRole_VnRole.COMPARATOR,
@@ -91,7 +77,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
-            cr2, //CombinedResolver(pbRoleResolver, vnRoleResolver),
+            CombinedResolver<PbRoleResolvable, PbRoleResolved, VnRoleResolvable, VnRoleResolved>(pbRoleResolver, vnRoleResolver),
             PbRole_VnRole.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.pbroleid"),
             names.column("pbroles_vnroles.pbrolesetid"),
