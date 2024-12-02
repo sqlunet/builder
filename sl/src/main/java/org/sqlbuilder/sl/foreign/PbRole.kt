@@ -1,79 +1,49 @@
-package org.sqlbuilder.sl.foreign;
+package org.sqlbuilder.sl.foreign
 
-import org.sqlbuilder.common.NotNull;
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class PbRole private constructor(
+    val roleSet: String, val arg: String
+) : Comparable<PbRole> {
 
-public class PbRole implements Comparable<PbRole>
-{
-	static final Comparator<PbRole> COMPARATOR = Comparator.comparing(PbRole::getRoleSet).thenComparing(PbRole::getArg);
+    // I D E N T I T Y
 
-	public final String roleSet;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as PbRole
+        return roleSet == that.roleSet && arg == that.arg
+    }
 
-	public final String arg;
+    override fun hashCode(): Int {
+        return Objects.hash(roleSet, arg)
+    }
 
-	// C O N S T R U C T O R
+    // O R D E R
 
-	public static PbRole make(final String roleSet, final String arg)
-	{
-		return new PbRole(roleSet, arg);
-	}
+    override fun compareTo(that: PbRole): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private PbRole(final String roleSet, final String arg)
-	{
-		this.roleSet = roleSet;
-		this.arg = arg;
-	}
+    // T O S T R I N G
 
-	// A C C E S S
+    override fun toString(): String {
+        return "($roleSet,$arg)"
+    }
 
-	public String getRoleSet()
-	{
-		return roleSet;
-	}
+    companion object {
 
-	public String getArg()
-	{
-		return arg;
-	}
+        val COMPARATOR: Comparator<PbRole> = Comparator
+            .comparing<PbRole, String>{ it.roleSet }
+            .thenComparing<String> { it.arg }
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		PbRole that = (PbRole) o;
-		return roleSet.equals(that.roleSet) && arg.equals(that.arg);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(roleSet, arg);
-	}
-
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final PbRole that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("(%s,%s)", roleSet, arg);
-	}
+        @JvmStatic
+        fun make(roleSet: String, arg: String): PbRole {
+            return PbRole(roleSet, arg)
+        }
+    }
 }

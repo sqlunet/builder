@@ -1,62 +1,46 @@
-package org.sqlbuilder.sl.objects;
+package org.sqlbuilder.sl.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
 
-import java.util.Comparator;
+class Predicate private constructor(
+    val predicate: String,
+) : HasId, Comparable<Predicate>, Insertable {
 
-public class Predicate implements HasId, Comparable<Predicate>, Insertable
-{
-	public static final Comparator<Predicate> COMPARATOR = Comparator.comparing(Predicate::getPredicate);
+    @RequiresIdFrom(type = Predicate::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<Predicate> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // O R D E R
 
-	public final String predicate;
+    override fun compareTo(that: Predicate): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	@SuppressWarnings("UnusedReturnValue")
-	public static Predicate make(final String lemma)
-	{
-		return new Predicate(lemma);
-	}
+    // I N S E R T
 
-	private Predicate(final String lemma)
-	{
-		this.predicate = lemma;
-	}
+    override fun dataRow(): String {
+        return "'$predicate'"
+    }
 
-	// A C C E S S
+    companion object {
 
-	public String getPredicate()
-	{
-		return predicate;
-	}
+        val COMPARATOR: Comparator<Predicate> = Comparator
+            .comparing<Predicate, String> { it.predicate }
 
-	@RequiresIdFrom(type = Predicate.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        val COLLECTOR = SetCollector<Predicate>(COMPARATOR)
 
-	@RequiresIdFrom(type = Predicate.class)
-	public static Integer getIntId(final Predicate predicate)
-	{
-		return predicate == null ? null : COLLECTOR.apply(predicate);
-	}
+        @RequiresIdFrom(type = Predicate::class)
+        fun getIntId(predicate: Predicate?): Int? {
+            return if (predicate == null) null else COLLECTOR.apply(predicate)
+        }
 
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final Predicate that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s'", predicate);
-	}
+        @JvmStatic
+        fun make(lemma: String): Predicate {
+            return Predicate(lemma)
+        }
+    }
 }

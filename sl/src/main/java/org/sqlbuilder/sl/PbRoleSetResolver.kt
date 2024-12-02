@@ -1,15 +1,11 @@
-package org.sqlbuilder.sl;
+package org.sqlbuilder.sl
 
-import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Resolver;
+import org.sqlbuilder.common.DeSerialize.deserialize
+import org.sqlbuilder.common.Resolver
+import org.sqlbuilder2.ser.Pair
+import java.io.File
 
-import java.io.File;
-import java.io.IOException;
+typealias PbRoleSetResolvable = String
+typealias PbRoleSetResolved = Int
 
-public class PbRoleSetResolver extends Resolver<String, Integer>
-{
-	public PbRoleSetResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class PbRoleSetResolver(ser: String) : Resolver<PbRoleSetResolvable, PbRoleSetResolved>(deserialize<Map<PbRoleSetResolvable, PbRoleSetResolved>>(File(ser)))

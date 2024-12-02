@@ -1,15 +1,12 @@
-package org.sqlbuilder.sl;
+package org.sqlbuilder.sl
 
-import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Resolver;
+import org.sqlbuilder.common.DeSerialize.deserialize
+import org.sqlbuilder.common.Resolver
+import org.sqlbuilder2.ser.Pair
+import org.sqlbuilder2.ser.Triplet
+import java.io.File
 
-import java.io.File;
-import java.io.IOException;
+typealias VnClassResolvable = String
+typealias VnClassResolved = Int
 
-public class VnClassResolver extends Resolver<String, Integer>
-{
-	public VnClassResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class VnClassResolver(ser: String) : Resolver<VnClassResolvable, VnClassResolved>(deserialize<Map<VnClassResolvable, VnClassResolved>>(File(ser)))

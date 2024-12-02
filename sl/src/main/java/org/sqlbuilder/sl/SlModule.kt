@@ -1,70 +1,62 @@
-package org.sqlbuilder.sl;
+package org.sqlbuilder.sl
 
-import org.sqlbuilder.common.Module;
-import org.sqlbuilder.sl.collectors.SemlinkProcessor;
-import org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor;
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.common.Module.Mode.Companion.read
+import org.sqlbuilder.sl.collectors.SemlinkProcessor
+import org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor
+import java.io.IOException
 
-import java.io.IOException;
+class SlModule(
+    conf: String,
+    mode: Mode
+) : Module(MODULE_ID, conf, mode) {
 
-public class SlModule extends Module
-{
-	public static final String MODULE_ID = "sl";
+    override fun run() {
+        checkNotNull(props)
 
-	protected SlModule(final String conf, final Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+        when (mode) {
+            Mode.PLAIN, Mode.RESOLVE -> {
+                SemlinkProcessor(props).run()
+                try {
+                    val inserter = if (mode == Mode.PLAIN) Inserter(props) else ResolvingInserter(props)
+                    inserter.insert()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
+            Mode.UPDATE              -> {
+                SemlinkUpdatingProcessor(props).run()
+                try {
+                    val inserter: Inserter = ResolvingUpdater(props)
+                    inserter.insert()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
 
-		switch (mode)
-		{
-			case PLAIN:
-			case RESOLVE:
-				new SemlinkProcessor(props).run();
-				try
-				{
-					Inserter inserter = mode == Mode.PLAIN ? new Inserter(props) : new ResolvingInserter(props);
-					inserter.insert();
-				}
-				catch (IOException | ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+            Mode.EXPORT              -> {}
+            else                     -> {}
+        }
+    }
 
-			case UPDATE:
-				new SemlinkUpdatingProcessor(props).run();
-				try
-				{
-					Inserter inserter = new ResolvingUpdater(props);
-					inserter.insert();
-				}
-				catch (IOException | ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
+    companion object {
 
-			case EXPORT:
-				break;
+        const val MODULE_ID: String = "sl"
 
-			default:
-		}
-	}
-
-	public static void main(final String[] args)
-	{
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new SlModule(conf, mode).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var i = 0
+            var mode = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = read(args[i++])
+            }
+            val conf = args[i]
+            SlModule(conf, mode).run()
+        }
+    }
 }

@@ -1,46 +1,47 @@
-package org.sqlbuilder.sl.collectors;
+package org.sqlbuilder.sl.collectors
 
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.sl.SlModule;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.sqlbuilder.common.Logger
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+import org.sqlbuilder.common.XPathUtils.getXPath
+import org.sqlbuilder.sl.SlModule
+import org.sqlbuilder.sl.collectors.SemlinkDocument.Companion.makeMappings
+import org.w3c.dom.Node
+import org.xml.sax.SAXException
+import java.io.File
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.xpath.XPathExpressionException
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
+open class SemlinkProcessor(props: Properties) : Processor("semlink") {
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
+    @JvmField
+    protected val semlinkFile: String = props.getProperty("sl_home", System.getenv()["SEMLINKHOME"]) + File.separatorChar + props.getProperty("sl_file")
 
-public class SemlinkProcessor extends Processor
-{
-	protected final String semlinkFile;
+    override fun run() {
+        try {
+            val document = SemlinkDocument(this.semlinkFile)
+            processSemlinks(getXPath(document.document, "./pbvn-typemap")!!)
+        } catch (e: ParserConfigurationException) {
+            Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e)
+        } catch (e: SAXException) {
+            Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e)
+        } catch (e: XPathExpressionException) {
+            Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e)
+        } catch (e: IOException) {
+            Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e)
+        }
+    }
 
-	public SemlinkProcessor(final Properties props)
-	{
-		super("semlink");
-		this.semlinkFile = props.getProperty("sl_home", System.getenv().get("SEMLINKHOME")) + File.separatorChar + props.getProperty("sl_file");
-	}
+    companion object {
 
-	@Override
-	public void run()
-	{
-		try
-		{
-			final SemlinkDocument document = new SemlinkDocument(this.semlinkFile);
-			processSemlinks(XPathUtils.getXPath(document.document, "./pbvn-typemap"));
-		}
-		catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException e)
-		{
-			Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e);
-		}
-	}
-
-	@SuppressWarnings("UnusedReturnValue")
-	private static void processSemlinks(final Node start) throws XPathExpressionException
-	{
-		Progress.traceHeader("semlink", "reading file");
-		SemlinkDocument.makeMappings(start);
-		Progress.traceTailer(1);
-	}
+        @Throws(XPathExpressionException::class)
+        private fun processSemlinks(start: Node) {
+            traceHeader("semlink", "reading file")
+            makeMappings(start)
+            traceTailer(1)
+        }
+    }
 }

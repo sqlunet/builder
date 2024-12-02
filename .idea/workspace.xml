@@ -9,29 +9,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="sort labels and layers">
-      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnResolvingProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnUpdatingProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/objects/Collocation.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="various minor fixes">
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleSetResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnClassResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnRoleResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkUpdatingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnClassAlias.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRole.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRoleAlias.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Predicate.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Theta.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Insert.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToFn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToFn.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToVn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleToVn.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sn/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/sn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sn/sn.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnResolvingProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnUpdatingProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/objects/Collocation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.kt" beforeDir="false" afterPath="$PROJECT_DIR$/variables/src/main/java/org/sqlbuilder/common/Variables.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/CombinedResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/CombinedResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleSetResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnClassResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnRoleResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkUpdatingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnAlias.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRoleAlias.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Predicate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Theta.java" beforeDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -109,6 +120,7 @@
     "Maven.all [clean].executor": "Run",
     "Maven.all [compile].executor": "Run",
     "Maven.all [install].executor": "Run",
+    "Maven.common [install].executor": "Run",
     "Maven.fn [install].executor": "Run",
     "Maven.fn-beans [install].executor": "Run",
     "Maven.fn-jaxb [install].executor": "Run",
@@ -255,30 +267,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00036" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732702473371</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1732702473371</updated>
-    </task>
-    <task id="LOCAL-00037" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732703352090</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1732703352090</updated>
-    </task>
-    <task id="LOCAL-00038" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732703609100</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1732703609100</updated>
     </task>
     <task id="LOCAL-00039" summary="to kotlin">
       <option name="closed" value="true" />
@@ -648,7 +636,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733082936546</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733128262808</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1733128262808</updated>
+    </task>
+    <task id="LOCAL-00086" summary="various minor fixes">
+      <option name="closed" value="true" />
+      <created>1733128275073</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1733128275073</updated>
+    </task>
+    <task id="LOCAL-00087" summary="various minor fixes">
+      <option name="closed" value="true" />
+      <created>1733128340112</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1733128340112</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -670,7 +682,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
     <MESSAGE value="insert iterable with resolver function" />
-    <MESSAGE value="insert iterable with resolver function" />
     <MESSAGE value="rename insert functions" />
     <MESSAGE value="rename SetCollector" />
     <MESSAGE value="rename" />
@@ -687,14 +698,15 @@
     <MESSAGE value="do not use null-resolved" />
     <MESSAGE value="xml generator of elements" />
     <MESSAGE value="fixes" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="inspection" />
     <MESSAGE value="skip tests" />
     <MESSAGE value="skip tests" />
     <MESSAGE value="fixes format" />
     <MESSAGE value="fix to add i if uncommented (silent bug)" />
     <MESSAGE value="sort labels and layers" />
-    <option name="LAST_COMMIT_MESSAGE" value="sort labels and layers" />
+    <MESSAGE value="to kotlin" />
+    <MESSAGE value="various minor fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="various minor fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
