@@ -3,14 +3,18 @@ package org.sqlbuilder.sl.foreign
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.sl.PbRoleResolvable
+import org.sqlbuilder.sl.PbVnRoleResolvable
+import org.sqlbuilder.sl.PbVnRoleResolved
+import org.sqlbuilder.sl.VnRoleResolvable
 import org.sqlbuilder2.ser.Pair
 import org.sqlbuilder2.ser.Triplet
 import java.util.*
 
-class VnRoleAlias private constructor(
+class PbRole_VnRole private constructor(
     val pbRole: PbRole,
     val vnRole: VnRole,
-) : Insertable, Resolvable<Pair<Pair<String, String>, Pair<String, String>>?, Pair<Pair<Int, Int>, Triplet<Int, Int, Int>>> {
+) : Insertable, Resolvable<PbVnRoleResolvable, PbVnRoleResolved> {
 
     // I D E N T I T Y
 
@@ -21,7 +25,7 @@ class VnRoleAlias private constructor(
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val that = o as VnRoleAlias
+        val that = o as PbRole_VnRole
         return pbRole == that.pbRole && vnRole == that.vnRole
     }
 
@@ -37,8 +41,8 @@ class VnRoleAlias private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): Pair<Pair<String, String>, Pair<String, String>> {
-        return Pair(Pair(pbRole.roleSet, pbRole.arg), Pair(vnRole.vnClass, vnRole.theta.theta))
+    override fun resolving(): PbVnRoleResolvable {
+        return PbVnRoleResolvable(PbRoleResolvable(pbRole.roleSet, pbRole.arg), VnRoleResolvable(vnRole.vnClass, vnRole.theta.theta))
     }
 
     // T O S T R I N G
@@ -50,12 +54,12 @@ class VnRoleAlias private constructor(
     companion object {
 
         @JvmField
-        val COMPARATOR: Comparator<VnRoleAlias> = Comparator
-            .comparing<VnRoleAlias, PbRole> { it.pbRole }
+        val COMPARATOR: Comparator<PbRole_VnRole> = Comparator
+            .comparing<PbRole_VnRole, PbRole> { it.pbRole }
             .thenComparing<VnRole> { it.vnRole }
 
         @JvmField
-        val SET: MutableSet<VnRoleAlias> = TreeSet<VnRoleAlias>(COMPARATOR)
+        val SET: MutableSet<PbRole_VnRole> = TreeSet<PbRole_VnRole>(COMPARATOR)
 
         @JvmField
         val RESOLVE_RESULT_STRINGIFIER: (Pair<Pair<Int, Int>, Triplet<Int, Int, Int>>?) -> String = {
@@ -69,8 +73,8 @@ class VnRoleAlias private constructor(
         }
 
         @JvmStatic
-        fun make(role: PbRole, vnRole: VnRole): VnRoleAlias {
-            val a = VnRoleAlias(role, vnRole)
+        fun make(role: PbRole, vnRole: VnRole): PbRole_VnRole {
+            val a = PbRole_VnRole(role, vnRole)
             SET.add(a)
             return a
         }

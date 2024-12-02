@@ -4,9 +4,9 @@ import org.sqlbuilder.common.XPathUtils.getXPaths
 import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.common.XmlProcessor.Companion.iteratorOfElements
 import org.sqlbuilder.sl.foreign.PbRole
-import org.sqlbuilder.sl.foreign.VnClassAlias
+import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
 import org.sqlbuilder.sl.foreign.VnRole.Companion.make
-import org.sqlbuilder.sl.foreign.VnRoleAlias.Companion.make
+import org.sqlbuilder.sl.foreign.PbRole_VnRole.Companion.make
 import org.sqlbuilder.sl.objects.Predicate
 import org.sqlbuilder.sl.objects.Theta
 import org.w3c.dom.Node
@@ -46,7 +46,7 @@ class SemlinkDocument(filePath: String) : XmlDocument(filePath) {
                             val vnClassAttribute = argmapElement.getAttribute("vn-class")
 
                             // map
-                            VnClassAlias.make(roleSetAttribute, vnClassAttribute)
+                            PbRoleSet_VnClass.make(roleSetAttribute, vnClassAttribute)
 
                             // roles
                             getXPaths(argmapElement, "./role")!!

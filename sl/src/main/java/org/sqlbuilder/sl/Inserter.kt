@@ -4,8 +4,8 @@ import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Progress.traceDone
 import org.sqlbuilder.common.Progress.tracePending
-import org.sqlbuilder.sl.foreign.VnClassAlias
-import org.sqlbuilder.sl.foreign.VnRoleAlias
+import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
+import org.sqlbuilder.sl.foreign.PbRole_VnRole
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
@@ -33,21 +33,21 @@ open class Inserter(
 
     @Throws(FileNotFoundException::class)
     open fun insert() {
-        insertVnAliases()
-        insertVnRoleAliases()
+        insertClassAliases()
+        insertRoleAliases()
     }
 
     @Throws(FileNotFoundException::class)
-    protected open fun insertVnAliases() {
+    protected open fun insertClassAliases() {
         tracePending("set", "vnalias")
-        insert<VnClassAlias>(VnClassAlias.SET, VnClassAlias.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
+        insert<PbRoleSet_VnClass>(PbRoleSet_VnClass.SET, PbRoleSet_VnClass.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
         traceDone()
     }
 
     @Throws(FileNotFoundException::class)
-    protected open fun insertVnRoleAliases() {
+    protected open fun insertRoleAliases() {
         tracePending("set", "vnaliasrole")
-        insert<VnRoleAlias>(VnRoleAlias.SET, VnRoleAlias.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
+        insert<PbRole_VnRole>(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
         traceDone()
     }
 }

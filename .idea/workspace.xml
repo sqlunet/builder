@@ -9,46 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="various minor fixes">
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleSetResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnClassResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnRoleResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkUpdatingProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnClassAlias.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRole.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRoleAlias.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Predicate.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Theta.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/CombinedResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/CombinedResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleSetResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnClassResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnRoleResolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkUpdatingProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnAlias.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRole.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRoleAlias.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Predicate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/objects/Theta.java" beforeDir="false" />
-    </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
-      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnClassAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRoleSet_VnClass.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRoleAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole_VnRole.kt" afterDir="false" />
     </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,7 +50,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="devkwip" />
+        <entry key="$PROJECT_DIR$" value="3993e44b35a3bceb57573c3f2c2203a9099d09fb" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -101,46 +73,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BncModule (resolve).executor": "Run",
-    "Application.BncModule (update).executor": "Run",
-    "Application.BncModule.executor": "Run",
-    "Application.FnModule (update).executor": "Run",
-    "Application.FnModule.executor": "Run",
-    "Application.PbModule (resolve).executor": "Run",
-    "Application.PbModule (update).executor": "Run",
-    "Application.PbModule.executor": "Run",
-    "Application.VnModule (export).executor": "Run",
-    "Application.VnModule (resolve).executor": "Run",
-    "Application.VnModule (update).executor": "Debug",
-    "Application.VnModule.executor": "Run",
-    "JUnit.TestParseFile.executor": "Run",
-    "JUnit.TestXPath.executor": "Run",
-    "Maven.all [clean].executor": "Run",
-    "Maven.all [compile].executor": "Run",
-    "Maven.all [install].executor": "Run",
-    "Maven.common [install].executor": "Run",
-    "Maven.fn [install].executor": "Run",
-    "Maven.fn-beans [install].executor": "Run",
-    "Maven.fn-jaxb [install].executor": "Run",
-    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
-    "Maven.reqprov [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "devkwippb34",
-    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "editor.preferences.smartKeys"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FnModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.FnModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (export).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (update).executor&quot;: &quot;Debug&quot;,
+    &quot;Application.VnModule.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.common [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;7edb25e2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.smartKeys&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT",
-      "JAVA"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;,
+      &quot;JAVA&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bnc" />
@@ -255,6 +227,9 @@
       <list>
         <item itemvalue="Maven.all [clean]" />
         <item itemvalue="JUnit.TestXPath" />
+        <item itemvalue="Maven.all [clean]" />
+        <item itemvalue="JUnit.TestXPath" />
+        <item itemvalue="Maven.all [clean]" />
       </list>
     </recent_temporary>
   </component>

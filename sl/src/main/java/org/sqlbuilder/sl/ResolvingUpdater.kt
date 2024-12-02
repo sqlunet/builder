@@ -6,8 +6,8 @@ import org.sqlbuilder.common.Progress.tracePending
 import org.sqlbuilder.common.Update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
-import org.sqlbuilder.sl.foreign.VnClassAlias
-import org.sqlbuilder.sl.foreign.VnRoleAlias
+import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
+import org.sqlbuilder.sl.foreign.PbRole_VnRole
 import org.sqlbuilder2.ser.Pair
 import org.sqlbuilder2.ser.Triplet
 import java.io.File
@@ -26,19 +26,19 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insert() {
-        insertVnAliases()
-        insertVnRoleAliases()
+        insertClassAliases()
+        insertRoleAliases()
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertVnAliases() {
+    override fun insertClassAliases() {
         tracePending("set", "vnalias")
         val pbrolesetCol = names.column("pbrolesets_vnclasses.pbroleset")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         val pbrolesetidCol = names.column("pbrolesets_vnclasses.pbrolesetid")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         Update.update(
-            VnClassAlias.SET,
+            PbRoleSet_VnClass.SET,
             File(outDir, names.updateFile("pbrolesets_vnclasses")),
             header,
             names.table("pbrolesets_vnclasses"),
@@ -50,7 +50,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     }
 
     @Throws(FileNotFoundException::class)
-    override fun insertVnRoleAliases() {
+    override fun insertRoleAliases() {
         tracePending("set", "vnaliasrole")
         val pbrolesetCol = names.column("pbroles_vnroles.pbroleset")
         val pbroleCol = names.column("pbroles_vnroles.pbarg")
@@ -62,7 +62,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnroleidCol = names.column("pbroles_vnroles.vnroleid")
         val vnroletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
 
-        val setStringifier = Function { r: Pair<Pair<Int, Int>, Triplet<Int, Int, Int>>? ->
+        val setStringifier = Function { r: PbVnRoleResolved? ->
             if (r == null)
                 "$pbrolesetidCol=NULL,$pbroleidCol=NULL,$vnclassidCol=NULL,$vnroleidCol=NULL,$vnroletypeidCol=NULL"
             else {
@@ -77,12 +77,12 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                 "$v1,$v2"
             }
         }
-        val whereStringifier = Function { r: Pair<Pair<String, String>, Pair<String, String>>? ->
-            "$pbrolesetCol='${escape(r!!.first.first)}' AND $pbroleCol='${escape(r.first.second)}' AND $vnclassCol='${escape(r.second.first)}' AND $vnroleCol='${escape(r.second.second)}'"
+        val whereStringifier = Function { r: PbVnRoleResolvable ->
+            "$pbrolesetCol='${escape(r.first.first)}' AND $pbroleCol='${escape(r.first.second)}' AND $vnclassCol='${escape(r.second.first)}' AND $vnroleCol='${escape(r.second.second)}'"
         }
 
         Update.update(
-            VnRoleAlias.SET,
+            PbRole_VnRole.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
             names.table("pbroles_vnroles"),
