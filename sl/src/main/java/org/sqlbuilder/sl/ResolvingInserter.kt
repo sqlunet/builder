@@ -2,7 +2,6 @@ package org.sqlbuilder.sl
 
 import org.sqlbuilder.common.Bunch
 import org.sqlbuilder.common.CombinedResolver
-import org.sqlbuilder.common.CombinedResolver2
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Progress.traceDone
 import org.sqlbuilder.common.Progress.tracePending
@@ -13,17 +12,17 @@ import java.io.FileNotFoundException
 import java.util.*
 import java.util.function.Function
 
-typealias PbVnClassResolvable =  Pair<PbRoleSetResolvable, VnClassResolvable>
+typealias PbVnClassResolvable = Pair<PbRoleSetResolvable, VnClassResolvable>
 typealias PbVnClassResolved = Pair<PbRoleSetResolved, VnClassResolved>
-typealias PbVnRoleResolvable =  Pair<PbRoleResolvable, VnRoleResolvable>
+typealias PbVnRoleResolvable = Pair<PbRoleResolvable, VnRoleResolvable>
 typealias PbVnRoleResolved = Pair<PbRoleResolved, VnRoleResolved>
 
-typealias BunchPbVnClassResolvable =  Bunch<PbRoleSetResolvable, VnClassResolvable>
+typealias BunchPbVnClassResolvable = Bunch<PbRoleSetResolvable, VnClassResolvable>
 typealias BunchPbVnClassResolved = Bunch<PbRoleSetResolved, VnClassResolved>
-typealias BunchPbVnRoleResolvable =  Bunch<PbRoleResolvable, VnRoleResolvable>
+typealias BunchPbVnRoleResolvable = Bunch<PbRoleResolvable, VnRoleResolvable>
 typealias BunchPbVnRoleResolved = Bunch<PbRoleResolved, VnRoleResolved>
 
-class ResolvingInserter(conf: Properties) : Inserter(conf) {
+open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     protected val vnClassSerFile: String = conf.getProperty("vnclass_nids")
 
@@ -56,7 +55,6 @@ class ResolvingInserter(conf: Properties) : Inserter(conf) {
             outDir.mkdirs()
         }
     }
-
 
     @Throws(FileNotFoundException::class)
     override fun insertVnAliases() {

@@ -15,7 +15,7 @@ object Update {
         file: File,
         header: String,
         table: String,
-        resolver: Function<U, R?>,
+        resolver: CombinedResolver<T, R, U, S>,
         setStringifier: Function<R?, String>,
         whereStringifier: Function<U, String>,
     ) {
