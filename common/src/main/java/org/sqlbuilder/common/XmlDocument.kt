@@ -1,8 +1,6 @@
 package org.sqlbuilder.common
 
 import org.w3c.dom.Document
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
@@ -14,7 +12,6 @@ import java.net.URISyntaxException
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
-import javax.xml.xpath.XPathExpressionException
 
 open class XmlDocument(filePath: String) {
 

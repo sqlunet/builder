@@ -7,7 +7,6 @@ import java.io.FileOutputStream
 import java.io.PrintStream
 import java.util.function.BiFunction
 import java.util.function.Function
-import kotlin.Throws
 
 object Insert {
 
