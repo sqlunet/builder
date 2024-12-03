@@ -143,7 +143,7 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         @Throws(IOException::class)
         fun collectSynsets(fileTemplate: String, pse: PrintStream) {
             for (posName in POSES) {
-                val filename = String.format(fileTemplate, posName)
+                val filename = fileTemplate.format(posName)
                 collectFileSynsets(filename, pse)
             }
         }
