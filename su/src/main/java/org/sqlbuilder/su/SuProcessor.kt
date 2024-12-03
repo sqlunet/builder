@@ -21,6 +21,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.text.ParseException
 import java.util.*
+import kotlin.Throws
 
 open class SuProcessor(conf: Properties) : Processor("sumo") {
 
@@ -181,12 +182,12 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         fun insertFiles(ps: PrintStream, files: Iterable<SUFile>, table: String, columns: String) {
             val iterator: Iterator<SUFile> = files.iterator()
             if (iterator.hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 while (iterator.hasNext()) {
                     val file = iterator.next()
                     val isLast = !iterator.hasNext()
                     val row = file.dataRow()
-                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                    ps.println("($row)${if (isLast) ";" else ","}")
                 }
             }
         }
@@ -194,12 +195,12 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         fun insertTerms(ps: PrintStream, terms: Iterable<Term>, table: String, columns: String) {
             val iterator: Iterator<Term> = terms.iterator()
             if (iterator.hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 while (iterator.hasNext()) {
                     val term = iterator.next()
                     val isLast = !iterator.hasNext()
                     val row = term.dataRow()
-                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                    ps.println("($row)${if (isLast) ";" else ","}")
                 }
             }
         }
@@ -208,13 +209,13 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
             val iterator: Iterator<Term> = terms.iterator()
             if (iterator.hasNext()) {
                 var i = 0
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2)
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                ps2.println("INSERT INTO $table2 ($columns2) VALUES")
                 while (iterator.hasNext()) {
                     val term = iterator.next()
                     val isLast = !iterator.hasNext()
                     val row = term.dataRow()
-                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                    ps.println("($row)${if (isLast) ";" else ","}")
 
                     val termid = term.resolve()
                     try {
@@ -236,7 +237,7 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
             val iterator: Iterator<Term> = terms.iterator()
             if (iterator.hasNext()) {
                 var j = 0
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 while (iterator.hasNext()) {
                     val term = iterator.next()
                     val termid = term.resolve()
@@ -258,12 +259,12 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         fun insertFormulas(ps: PrintStream, formulas: Iterable<Formula>, table: String, columns: String) {
             val iterator: Iterator<Formula> = formulas.iterator()
             if (iterator.hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 while (iterator.hasNext()) {
                     val formula = iterator.next()
                     val isLast = !iterator.hasNext()
                     val row = formula.dataRow()
-                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                    ps.println("($row)${if (isLast) ";" else ","}")
                 }
             }
         }
@@ -273,15 +274,15 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
             val iterator: Iterator<Formula> = formulas.iterator()
             if (iterator.hasNext()) {
                 var i = 0
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
-                ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2)
+                ps.println("INSERT INTO $table ($columns) VALUES")
+                ps2.println("INSERT INTO $table2 ($columns2) VALUES")
                 while (iterator.hasNext()) {
                     val formula = iterator.next()
                     val isLast = !iterator.hasNext()
 
                     // formula
                     val row = formula.dataRow()
-                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                    ps.println("($row)${if (isLast) ";" else ","}")
 
                     // formula args
                     val formulas_args: Collection<Formula_Arg> = make(formula)
@@ -289,10 +290,10 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
                         val row2 = formula_arg.dataRow()
                         val arg = formula_arg.arg
                         val commentArg2 = arg.comment()
-                        //Term term = formula_arg.getTerm();
-                        //String commentTerm2 = term.comment();
+                        //val term = formula_arg.getTerm()
+                        //val commentTerm2 = term.comment()
                         val commentFormArg2 = formula_arg.comment()
-                        ps2.printf("%s(%s) /* %s, %s */", if (i == 0) "" else ",\n", row2, commentArg2,  /* commentTerm2,*/commentFormArg2)
+                        ps2.print("${if (i == 0) "" else ",\n"}($row2) /* $commentArg2, $commentFormArg2 */")
                         i++
                     }
                 }
@@ -305,18 +306,18 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
             val iterator: Iterator<Formula> = formulas.iterator()
             if (iterator.hasNext()) {
                 var i = 0
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 while (iterator.hasNext()) {
                     val formula = iterator.next()
 
                     // formula args
-                    val formulas_args: Collection<Formula_Arg> = make(formula)
-                    for (formula_arg in formulas_args) {
-                        val row2 = formula_arg.dataRow()
-                        val comment2 = formula_arg.comment()
-                        ps.printf("%s(%s) /* %s */", if (i == 0) "" else ",\n", row2, comment2)
-                        i++
-                    }
+                    make(formula)
+                        .forEach { fa ->
+                            val row2 = fa.dataRow()
+                            val comment2 = fa.comment()
+                            ps.print("${if (i == 0) "" else ",\n"}($row2) /* $comment2 */")
+                            i++
+                        }
                 }
                 ps.println(";")
             }
@@ -325,14 +326,14 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         fun insertSynsets(ps: PrintStream, terms_synsets: Iterable<Term_Synset>, table: String, columns: String) {
             val iterator: Iterator<Term_Synset> = terms_synsets.iterator()
             if (iterator.hasNext()) {
-                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps.println("INSERT INTO $table ($columns) VALUES")
                 while (iterator.hasNext()) {
                     val map = iterator.next()
                     val isLast = !iterator.hasNext()
 
                     val row = map.dataRow()
                     val comment = map.comment()
-                    ps.printf("(%s)%s -- %s%n", row, if (isLast) ";" else ",", comment)
+                    ps.println("($row)${if (isLast) ";" else ","} -- $comment")
                 }
             }
         }

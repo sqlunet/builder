@@ -45,7 +45,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             names.table("words"),
             wordResolver,
             { resolved -> "$wordidCol=${nullableInt(resolved)}" },
-            { resolving -> "%$wordCol='${escape(resolving)}'" })
+            { resolving -> "$wordCol='${escape(resolving)}'" })
         Progress.traceDone()
     }
 

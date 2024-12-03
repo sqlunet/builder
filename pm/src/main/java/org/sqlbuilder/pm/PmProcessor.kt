@@ -53,7 +53,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
     @Throws(IOException::class)
     protected fun processPmFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<PmEntry, Int>?) {
-        ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+        ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { parse(it) }, consumer)
         ps.print(';')
     }
@@ -62,7 +62,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
         if (index != 0) {
             ps.print(",\n")
         }
-        ps.printf("(%d,%s)", index + 1, values)
+        ps.print("(${index + 1},$values)")
     }
 
     companion object {

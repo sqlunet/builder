@@ -55,7 +55,7 @@ open class SnProcessor(
 
     @Throws(IOException::class)
     protected open fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
-        ps.println("INSERT INTO %s ($table) $columns")
+        ps.println("INSERT INTO $table ($columns)")
         process(file, { line: String -> Collocation.Companion.parse(line) }, consumer)
         ps.print(';')
     }

@@ -182,7 +182,7 @@ private constructor() {
             .sortedWith(Comparator.comparing<Pair<String, String>, String> { it.second })
             .map { it.second.uppercase() to toValue[it.first] }  // (key2, value)
             .distinct()
-            .map { "public static final String %${it.first}=\"${it.second}\";" }
+            .map { "public static final String ${it.first}=\"${it.second}\";" }
             .forEach { ps.println(it) }
     }
 

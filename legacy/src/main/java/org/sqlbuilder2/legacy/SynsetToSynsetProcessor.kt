@@ -112,8 +112,9 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
 
     @Throws(IOException::class)
     private fun processSqlSynsetToSynsetFile(ps: PrintStream, file: File, table: String, columns: String, pos: Char) {
-        ps.printf("-- %s%n", names.header("synsets_to_synsets").replace("\\$\\{from}".toRegex(), from).replace("\\$\\{to}".toRegex(), to))
-        ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+        val h = names.header("synsets_to_synsets").replace("\\$\\{from}".toRegex(), from).replace("\\$\\{to}".toRegex(), to)
+        ps.println("-- $h")
+        ps.println("INSERT INTO $table ($columns) VALUES")
         file.useLines {
             var count = 0L
             var count1 = 0L
@@ -128,7 +129,7 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
                         Logger.instance.logParseException(LegacyModule.MODULE_ID, tag, file.getName(), count, it, pe)
                     }
                     null
-                }  
+                }
                 .filterNotNull()
                 .forEach {
                     val values = it.dataRow()

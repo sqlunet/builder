@@ -46,7 +46,7 @@ open class KBLoader {
             System.err.println("Kb building")
             val result: Boolean = kb.make(files)
             assert(result)
-            System.err.println("%nKb built")
+            System.err.println("\nKb built")
             return kb
         }
     }

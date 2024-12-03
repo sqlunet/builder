@@ -9,26 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fixes">
-      <change afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/FnRoleAlias.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PbRoleAlias.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PmEntry.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PmPredicate.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PmRole.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/VnRoleAlias.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Pair.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/Pair.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pm/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/pm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pm/pm.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/FnRoleAlias.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PbRoleAlias.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PmEntry.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PmPredicate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PmRole.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/VnRoleAlias.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuUpdatingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuUpdatingProcessor.kt" afterDir="false" />
-    </list>
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin" />
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,22 +236,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00044" summary="cosmetic">
-      <option name="closed" value="true" />
-      <created>1732782098840</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1732782098840</updated>
-    </task>
-    <task id="LOCAL-00045" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732782469816</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1732782469816</updated>
     </task>
     <task id="LOCAL-00046" summary="sync fixes">
       <option name="closed" value="true" />
@@ -648,7 +613,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733231622100</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1733233477806</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1733233477807</updated>
+    </task>
+    <task id="LOCAL-00094" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733233486205</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1733233486205</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -734,9 +715,9 @@
     <MESSAGE value="various minor fixes" />
     <MESSAGE value="to kotlin, fixes" />
     <MESSAGE value="inspection fixes" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="to kotlin" />
+    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

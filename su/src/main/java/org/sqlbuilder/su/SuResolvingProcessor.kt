@@ -63,7 +63,7 @@ open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
         if (iterator.hasNext()) {
             var i = 0
             ps.println("INSERT INTO $table ($columns) VALUES")
-            ps2.printf("INSERT INTO $table2 ($columns2) VALUES")
+            ps2.println("INSERT INTO $table2 ($columns2) VALUES")
             while (iterator.hasNext()) {
                 val term = iterator.next()
                 val isLast = !iterator.hasNext()

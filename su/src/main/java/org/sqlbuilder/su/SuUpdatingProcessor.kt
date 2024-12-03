@@ -84,7 +84,7 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
         val synset31Id = synset31Resolver.apply(posId, synset30Id)
         if (synset31Id != null) {
             // 31 to XX
-            val synsetId = "%08d-%c".format(synset31Id, posId)
+            val synsetId = "${"%08d".format(synset31Id)}-$posId"
             val resolvedSynsetId = synsetResolver.apply(synsetId)
             if (resolvedSynsetId != null) {
                 val setClause = "${columns[0]}=$resolvedSynsetId"
