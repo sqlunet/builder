@@ -11,7 +11,7 @@
     <module>foreign</module>
     <module>bnc</module>
     <module>fn-beans</module>
-    <module>fn-jaxb</module>
+    <!-- <module>fn-jaxb</module> -->
     <module>fn</module>
     <module>vn</module>
     <module>pb</module>

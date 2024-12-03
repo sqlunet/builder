@@ -165,7 +165,7 @@ class Exporter(
             .toMap()
     }
 
-    fun makeLexUnitsTreeMap(): Map<Pair<String, String>?, Pair<Int?, Int?>?> {
+    fun makeLexUnitsTreeMap(): Map<Pair<String, String>, Pair<Int, Int>> {
         return LexUnit.SET
             .asSequence()
             .map { Pair(it.frameName, it.name) to Pair(it.iD, it.frameID) }

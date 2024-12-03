@@ -17,11 +17,13 @@
         <module name="bnc" />
         <module name="vn" />
         <module name="sl" />
-        <module name="fn-jaxb" />
         <module name="sn" />
         <module name="fn-beans" />
         <module name="pm" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fn-jaxb" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

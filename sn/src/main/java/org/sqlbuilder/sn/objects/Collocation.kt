@@ -55,7 +55,7 @@ class Collocation private constructor(
     }
 
     override fun resolving(): Pair<String, String> {
-        return Pair<String, String>(sensekey1, sensekey2)
+        return Pair<String, String>(sensekey1.toString(), sensekey2.toString())
     }
 
     companion object {

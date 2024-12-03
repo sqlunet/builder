@@ -10,19 +10,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyModule.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetMapping.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/DeSerialize.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Pair.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Serialize.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Triplet.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/legacy/src/test/java/org/sqlbuilder2/legacy/SensekeysTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vn/src/test/java/org/sqlbuilder/vn/TestNames.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyModule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetMapping.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all.iml" beforeDir="false" afterPath="$PROJECT_DIR$/all.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/DeSerialize.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Pair.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Quartet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Serialize.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Triplet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/test/java/org/sqlbuilder2/legacy/SensekeysTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/objects/Collocation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/objects/Collocation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/test/java/org/sqlbuilder/vn/TestNames.java" beforeDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
-      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
-    </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +65,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="3993e44b35a3bceb57573c3f2c2203a9099d09fb" />
+        <entry key="$PROJECT_DIR$" value="devkwippb34" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,7 +73,7 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -75,46 +88,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FnModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.FnModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (export).executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (update).executor&quot;: &quot;Debug&quot;,
-    &quot;Application.VnModule.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.common [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;e207cd8a&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.smartKeys&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BncModule (resolve).executor": "Run",
+    "Application.BncModule (update).executor": "Run",
+    "Application.BncModule.executor": "Run",
+    "Application.FnModule (update).executor": "Run",
+    "Application.FnModule.executor": "Run",
+    "Application.PbModule (resolve).executor": "Run",
+    "Application.PbModule (update).executor": "Run",
+    "Application.PbModule.executor": "Run",
+    "Application.VnModule (export).executor": "Run",
+    "Application.VnModule (resolve).executor": "Run",
+    "Application.VnModule (update).executor": "Debug",
+    "Application.VnModule.executor": "Run",
+    "JUnit.TestParseFile.executor": "Run",
+    "JUnit.TestXPath.executor": "Run",
+    "Maven.all [clean].executor": "Run",
+    "Maven.all [compile].executor": "Run",
+    "Maven.all [install].executor": "Run",
+    "Maven.common [install].executor": "Run",
+    "Maven.fn [install].executor": "Run",
+    "Maven.fn-beans [install].executor": "Run",
+    "Maven.fn-jaxb [install].executor": "Run",
+    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.reqprov [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "devkt2",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "editor.preferences.smartKeys"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TEXT&quot;,
-      &quot;JAVA&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT",
+      "JAVA"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bnc" />
@@ -642,11 +658,53 @@
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="e26009b4-2e05-481e-a8e0-392eb19aba08" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="devkwip" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="e26009b4-2e05-481e-a8e0-392eb19aba08">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
           </value>
         </entry>
       </map>

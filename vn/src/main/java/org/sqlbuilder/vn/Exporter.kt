@@ -190,7 +190,7 @@ class Exporter
      *
      * @return (classtag, roletype) to (roleid,classid,roletypeid)
      */
-    fun makeClassTagsRolesMap(): Map<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+    fun makeClassTagsRolesMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
         return Role.COLLECTOR
             .associate { Pair(it.clazz.tag, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
     }
@@ -200,7 +200,7 @@ class Exporter
      *
      * @return (classtag, roletype) to (roleid,classid,roletypeid)
      */
-    fun makeClassTagsRolesTreeMap(): Map<Pair<String?, String?>, Triplet<Int?, Int?, Int?>> {
+    fun makeClassTagsRolesTreeMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
         return Role.COLLECTOR
             .asSequence()
             .map { Pair(it.clazz.tag, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
@@ -213,7 +213,7 @@ class Exporter
      *
      * @return (classnameroletype) to (roleid,classid,roletypeid)
      */
-    fun makeClassesRolesMap(): Map<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+    fun makeClassesRolesMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
         return Role.COLLECTOR
             .associate { Pair(it.clazz.name, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
     }
@@ -223,7 +223,7 @@ class Exporter
      *
      * @return (classname, roletype) to (roleid,classid,roletypeid)
      */
-    fun makeClassesRolesTreeMap(): MutableMap<Pair<String?, String?>?, Triplet<Int?, Int?, Int?>?> {
+    fun makeClassesRolesTreeMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
         return Role.COLLECTOR
             .associate { Pair(it.clazz.name, it.restrRole.roleType.type) to Triplet(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
             .toSortedMap(COMPARATOR)

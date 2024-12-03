@@ -1,26 +1,44 @@
-package org.sqlbuilder.vn;
+package org.sqlbuilder.vn
 
-import org.junit.Test;
-import org.sqlbuilder.common.Names;
+import org.junit.Assert
+import org.junit.Test
+import org.sqlbuilder.common.Names
 
-import static org.junit.Assert.assertEquals;
+class TestNames {
 
-public class TestNames
-{
-	final String[] tables = {"classes", "members", "members_senses", "groupings", "members_groupings", "restrtypes", "restrs", "roletypes", "roles", "classes_frames", "frames", "framenames", "framesubnames", "examples", "frames_examples", "semantics", "predicates", "predicates_semantics", "syntaxes", "words"};
+    val tables: Array<String> = arrayOf<String>(
+        "classes",
+        "members",
+        "members_senses",
+        "groupings",
+        "members_groupings",
+        "restrtypes",
+        "restrs",
+        "roletypes",
+        "roles",
+        "classes_frames",
+        "frames",
+        "framenames",
+        "framesubnames",
+        "examples",
+        "frames_examples",
+        "semantics",
+        "predicates",
+        "predicates_semantics",
+        "syntaxes",
+        "words"
+    )
 
-	@Test
-	public void testNames()
-	{
-		Names names = new Names("vn");
-		for (var key : tables)
-		{
-			var f = names.file(key);
-			var t = names.table(key);
-			var c = names.columns(key);
-			System.out.printf("%s - %s %s %s%n", key, f, t, c);
-			assertEquals(key + ".sql", f);
-			assertEquals("`vn_" + key + '`', t);
-		}
-	}
+    @Test
+    fun testNames() {
+        val names = Names("vn")
+        for (key in tables) {
+            val f = names.file(key)
+            val t = names.table(key)
+            val c = names.columns(key)
+            System.out.printf("%s - %s %s %s%n", key, f, t, c)
+            Assert.assertEquals("$key.sql", f)
+            Assert.assertEquals("`vn_$key`", t)
+        }
+    }
 }

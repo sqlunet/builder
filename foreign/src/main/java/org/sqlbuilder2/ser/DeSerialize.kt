@@ -1,68 +1,65 @@
-package org.sqlbuilder2.ser;
+package org.sqlbuilder2.ser
 
-import java.io.*;
+import java.io.*
 
 /**
  * Deserializer
  */
-public class DeSerialize
-{
-	/**
-	 * Safe cast
-	 *
-	 * @param object object
-	 * @param <T>    cast type
-	 * @return cast object
-	 */
-	@SuppressWarnings("unchecked")
-	private static <T> T safeCast(Object object)
-	{
-		return (T) object;
-	}
+object DeSerialize {
 
-	/**
-	 * Deserialize
-	 *
-	 * @param inFile serialization file
-	 * @param <T>    type of result
-	 * @return deserialized object
-	 * @throws IOException            io exception
-	 * @throws ClassNotFoundException class not found exception
-	 */
-	public static <T> T deserialize(final File inFile) throws IOException, ClassNotFoundException
-	{
-		return safeCast(deSerialize(inFile));
-	}
+    /**
+     * Safe cast
+     *
+     * @param obj object
+     * @param <T>    cast type
+     * @return cast object
+    </T> */
+    private fun <T> safeCast(obj: Any): T {
+        @Suppress("UNCHECKED_CAST")
+        return obj as T
+    }
 
-	/**
-	 * Deserialize object from file
-	 *
-	 * @param inFile input file
-	 * @return object
-	 * @throws IOException            io exception
-	 * @throws ClassNotFoundException class not found exception
-	 */
-	public static Object deSerialize(final File inFile) throws IOException, ClassNotFoundException
-	{
-		try (InputStream is = new FileInputStream(inFile))
-		{
-			return deSerialize(is);
-		}
-	}
+    /**
+     * Deserialize
+     *
+     * @param inFile serialization file
+     * @param <T>    type of result
+     * @return deserialized object
+     * @throws IOException            io exception
+     * @throws ClassNotFoundException class not found exception
+    </T> */
+    @Throws(IOException::class, ClassNotFoundException::class)
+    fun <T> deserialize(inFile: File): T {
+        return safeCast<T>(deSerialize(inFile))
+    }
 
-	/**
-	 * Deserialize object from input stream
-	 *
-	 * @param is input stream
-	 * @return object
-	 * @throws IOException            io exception
-	 * @throws ClassNotFoundException class not found exception
-	 */
-	public static Object deSerialize(final InputStream is) throws IOException, ClassNotFoundException
-	{
-		try (ObjectInputStream ois = new ObjectInputStream(is))
-		{
-			return ois.readObject();
-		}
-	}
+    /**
+     * Deserialize object from file
+     *
+     * @param inFile input file
+     * @return object
+     * @throws IOException            io exception
+     * @throws ClassNotFoundException class not found exception
+     */
+    @Throws(IOException::class, ClassNotFoundException::class)
+    fun deSerialize(inFile: File): Any {
+        FileInputStream(inFile).use {
+            return deSerialize(it)
+        }
+    }
+
+    /**
+     * Deserialize object from input stream
+     *
+     * @param inStream input stream
+     * @return object
+     * @throws IOException            io exception
+     * @throws ClassNotFoundException class not found exception
+     */
+    @Throws(IOException::class, ClassNotFoundException::class)
+    fun deSerialize(inStream: InputStream): Any {
+        ObjectInputStream(inStream).use {
+            return it.readObject()
+        }
+    }
 }

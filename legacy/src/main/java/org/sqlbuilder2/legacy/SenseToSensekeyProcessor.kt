@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Processor
 import org.sqlbuilder.common.Utils
+import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder2.ser.Serialize
 import org.sqlbuilder2.ser.Triplet
 import java.io.File
@@ -44,14 +45,14 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
         val m: Map<Triplet<String, Char, Int>, String> = getLemmaPosOffsetToSensekey(File(inDir, inFile))
         Serialize.serialize(m, File(outDir, "$outFile.ser"))
 
-        val m2: MutableMap<Triplet<String?, Char?, Int?>?, String?> = getLemmaPosOffsetToSensekeyOrdered(File(inDir, inFile))
-        insert<Triplet<String?, Char?, Int?>?, String?>(
+        val m2: Map<Triplet<String, Char, Int>, String> = getLemmaPosOffsetToSensekeyOrdered(File(inDir, inFile))
+        insert<Triplet<String, Char, Int>, String>(
             m2.keys,
-            Function { key: Triplet<String?, Char?, Int?>? -> m2.get(key) },
+            { key: Triplet<String, Char, Int> -> m2[key]!! },
             File(outDir, "$outFile.sql"), names.table("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
             names.columns("senses_to_sensekeys"),
             names.header("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
-            BiFunction { k: Triplet<String?, Char?, Int?>?, v: String? -> String.format("'%s','%s',%s,'%s'", Utils.escape(k!!.first!!), k.second, k.third, Utils.escape(v!!)) })
+            BiFunction { k: Triplet<String, Char, Int>, v: String -> "'${escape(k.first)}','${k.second}',${k.third},'${escape(v)}'" })
     }
 
     init {
@@ -88,7 +89,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
             .thenComparing<Int> { it.third }
 
         @Throws(IOException::class)
-        fun getLemmaPosOffsetToSensekeyOrdered(file: File): MutableMap<Triplet<String?, Char?, Int?>?, String?> {
+        fun getLemmaPosOffsetToSensekeyOrdered(file: File): Map<Triplet<String, Char, Int>, String> {
             file.useLines {
                 return it
                     .filter { !it.isEmpty() && it[0] != '#' }
