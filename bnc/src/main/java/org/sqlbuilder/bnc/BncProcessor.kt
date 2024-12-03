@@ -59,11 +59,12 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                         val cause = e.cause
                         if (cause is ParseException) {
                             Logger.instance.logParseException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
-                        } else if (cause is NotFoundException) {
-                            //  Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
-                        } // else if (cause is IgnoreException) {
-                            // // ignore
-                        // }
+                        } /* else if (cause is NotFoundException) {
+                            Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
+                        }  else if (cause is IgnoreException) {
+                            // ignore
+                        }
+                        */
                     }
                     null
                 }
