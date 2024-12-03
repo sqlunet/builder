@@ -1,16 +1,8 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm
 
-import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Resolver;
+import org.sqlbuilder.common.DeSerialize.deserialize
+import org.sqlbuilder.common.Resolver
+import java.io.File
+import java.util.AbstractMap.SimpleEntry
 
-import java.io.File;
-import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
-
-public class SensekeyResolver extends Resolver<String, SimpleEntry<Integer, Integer>>
-{
-	public SensekeyResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class SensekeyResolver(ser: String) : Resolver<String, SimpleEntry<Int, Int>>(deserialize<Map<String, SimpleEntry<Int, Int>>>(File(ser)))

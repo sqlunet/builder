@@ -1,17 +1,9 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm
 
-import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Resolver;
-import org.sqlbuilder2.ser.Pair;
-import org.sqlbuilder2.ser.Triplet;
+import org.sqlbuilder.common.DeSerialize.deserialize
+import org.sqlbuilder.common.Resolver
+import org.sqlbuilder2.ser.Pair
+import org.sqlbuilder2.ser.Triplet
+import java.io.File
 
-import java.io.File;
-import java.io.IOException;
-
-public class VnRoleResolver extends Resolver<Pair<String, String>, Triplet<Integer, Integer, Integer>>
-{
-	public VnRoleResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class VnRoleResolver(ser: String) : Resolver<Pair<String, String>, Triplet<Int, Int, Int>>(deserialize<Map<Pair<String, String>, Triplet<Int, Int, Int>>>(File(ser)))

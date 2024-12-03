@@ -1,15 +1,7 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm
 
-import org.sqlbuilder.common.DeSerialize;
-import org.sqlbuilder.common.Resolver;
+import org.sqlbuilder.common.DeSerialize.deserialize
+import org.sqlbuilder.common.Resolver
+import java.io.File
 
-import java.io.File;
-import java.io.IOException;
-
-public class WordResolver extends Resolver<String, Integer>
-{
-	public WordResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}
+class WordResolver(ser: String) : Resolver<String, Int>(deserialize<Map<String, Int>>(File(ser)))
