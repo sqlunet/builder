@@ -1,127 +1,121 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder.pm.objects.PmPredicate;
-import org.sqlbuilder.pm.objects.PmRole;
-import org.sqlbuilder2.ser.Pair;
+import org.sqlbuilder.common.Insert
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.pm.objects.PmEntry
+import org.sqlbuilder.pm.objects.PmEntry.Companion.parse
+import org.sqlbuilder.pm.objects.PmPredicate
+import org.sqlbuilder.pm.objects.PmRole
+import org.sqlbuilder2.ser.Pair
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
+import java.util.AbstractMap.SimpleEntry
+import java.util.function.BiConsumer
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
+open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
 
-public class PmResolvingProcessor extends PmProcessor
-{
-	protected final Names names;
-	protected final String wordSerFile;
-	protected final String vnWordSerFile;
-	protected final String pbWordSerFile;
-	protected final String fnWordSerFile;
-	protected final String sensekeySerFile;
-	protected final String vnRoleSerFile;
-	protected final String pbRoleSerFile;
-	protected final String fnRoleSerFile;
-	protected final String fnLexUnitSerFile;
-	protected final WordResolver wordResolver;
-	protected final VnWordResolver vnWordResolver;
-	protected final PbWordResolver pbWordResolver;
-	protected final FnWordResolver fnWordResolver;
-	protected final SensekeyResolver sensekeyResolver;
-	protected final VnRoleResolver vnRoleResolver;
-	protected final PbRoleResolver pbRoleResolver;
-	protected final FnRoleResolver fnRoleResolver;
-	protected final FnLexUnitResolver fnLexUnitResolver;
-	protected File outDir;
+    override val names: Names = Names("pm")
 
-	public PmResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    protected val wordSerFile: String = conf.getProperty("word_nids")
 
-		this.names = new Names("pm");
+    protected val vnWordSerFile: String = conf.getProperty("vnword_nids")
 
-		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
-		this.header += "\n-- " + conf.getProperty("vn_resolve_against");
-		this.header += "\n-- " + conf.getProperty("pb_resolve_against");
+    protected val pbWordSerFile: String = conf.getProperty("pbrole_nids")
 
-		// output
-		this.outDir = new File(conf.getProperty("pm_outdir_resolved", "sql/data_resolved"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
+    protected val fnWordSerFile: String = conf.getProperty("fnrole_nids")
 
-		// resolve
-		this.wordSerFile = conf.getProperty("word_nids");
-		this.sensekeySerFile = conf.getProperty("sense_nids");
-		this.vnRoleSerFile = conf.getProperty("vnrole_nids");
-		this.pbRoleSerFile = conf.getProperty("pbrole_nids");
-		this.fnRoleSerFile = conf.getProperty("fnrole_nids");
-		this.fnLexUnitSerFile = conf.getProperty("fnlexunit_nids");
-		this.vnWordSerFile = conf.getProperty("vnword_nids");
-		this.pbWordSerFile = conf.getProperty("pbword_nids");
-		this.fnWordSerFile = conf.getProperty("fnword_nids");
+    protected val sensekeySerFile: String = conf.getProperty("sense_nids")
 
-		this.wordResolver = new WordResolver(wordSerFile);
-		this.vnWordResolver = new VnWordResolver(vnWordSerFile);
-		this.pbWordResolver = new PbWordResolver(pbWordSerFile);
-		this.fnWordResolver = new FnWordResolver(fnWordSerFile);
-		this.sensekeyResolver = new SensekeyResolver(sensekeySerFile);
-		this.vnRoleResolver = new VnRoleResolver(vnRoleSerFile);
-		this.pbRoleResolver = new PbRoleResolver(pbRoleSerFile);
-		this.fnRoleResolver = new FnRoleResolver(this.fnRoleSerFile);
-		this.fnLexUnitResolver = new FnLexUnitResolver(this.fnLexUnitSerFile);
-	}
+    protected val vnRoleSerFile: String = conf.getProperty("vnrole_nids")
 
-	@Override
-	public void run() throws IOException
-	{
-		var inputFile = new File(pMHome, pMFile);
-		process(inputFile, PmRole::parse, null);
-		try (@ProvidesIdTo(type = PmPredicate.class) var ignored1 = PmPredicate.COLLECTOR.open())
-		{
-			Insert.insert(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
-			try (@ProvidesIdTo(type = PmRole.class) var ignored2 = PmRole.COLLECTOR.open())
-			{
-				Insert.insert(PmRole.COLLECTOR, PmRole.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
+    protected val pbRoleSerFile: String = conf.getProperty("pbword_nids")
 
-				try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
-				{
-					ps.println("-- " + header);
-					processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), (entry, i) -> {
+    protected val fnRoleSerFile: String = conf.getProperty("fnword_nids")
 
-						var wordid = wordResolver.apply(entry.word);
-						var sk = sensekeyResolver.apply(entry.sensekey);
+    protected val fnLexUnitSerFile: String = conf.getProperty("fnlexunit_nids")
 
-						var vnWordid = this.vnWordResolver.apply(entry.word);
-						var vn = vnRoleResolver.apply(new Pair<>(entry.vn.clazz, entry.vn.role));
-						var pbWordid = this.pbWordResolver.apply(entry.word);
-						var pb = pbRoleResolver.apply(new Pair<>(entry.pb.roleset, entry.pb.arg));
-						var fnWordid = this.fnWordResolver.apply(entry.word);
-						var fn = fnRoleResolver.apply(new Pair<>(entry.fn.frame, entry.fn.fetype));
-						var fnLu = fnLexUnitResolver.apply(new Pair<>(entry.fn.frame, entry.fn.lu));
+    @JvmField
+    protected val wordResolver: WordResolver = WordResolver(wordSerFile)
 
-						var wordResolved = Utils.nullableInt(wordid);
-						var senseResolved = String.format("%s", sk == null ? "NULL" : Utils.nullableInt(sk.getValue()));
+    @JvmField
+    protected val vnWordResolver: VnWordResolver = VnWordResolver(vnWordSerFile)
 
-						var vnWordResolved = Utils.nullableInt(vnWordid);
-						var pbWordResolved = Utils.nullableInt(pbWordid);
-						var fnWordResolved = Utils.nullableInt(fnWordid);
-						var vnResolved = String.format("%s", vn == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(vn.second), Utils.nullableInt(vn.first)));
-						var pbResolved = String.format("%s", pb == null ? "NULL,NULL" : String.format("%s,%s", Utils.nullableInt(pb.second), Utils.nullableInt(pb.first)));
-						var fnResolved = String.format("%s", fn == null ? "NULL,NULL,NULL" : String.format("%s,%s,%s", Utils.nullableInt(fn.second), Utils.nullableInt(fn.first), Utils.nullableInt(fn.third)));
-						var fnLuResolved = String.format("%s", fnLu == null ? "NULL" : String.format("%s", Utils.nullableInt(fnLu.first)));
+    @JvmField
+    protected val pbWordResolver: PbWordResolver = PbWordResolver(pbWordSerFile)
 
-						insertRow(ps, i, String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", entry.dataRow(), wordResolved, vnWordResolved, pbWordResolved, fnWordResolved, senseResolved, vnResolved, pbResolved, fnResolved, fnLuResolved));
-					});
-				}
-			}
-		}
-	}
+    @JvmField
+    protected val fnWordResolver: FnWordResolver = FnWordResolver(fnWordSerFile)
+
+    @JvmField
+    protected val sensekeyResolver: SensekeyResolver = SensekeyResolver(sensekeySerFile)
+
+    @JvmField
+    protected val vnRoleResolver: VnRoleResolver = VnRoleResolver(vnRoleSerFile)
+
+    @JvmField
+    protected val pbRoleResolver: PbRoleResolver = PbRoleResolver(pbRoleSerFile)
+
+    @JvmField
+    protected val fnRoleResolver: FnRoleResolver = FnRoleResolver(fnRoleSerFile)
+
+    protected val fnLexUnitResolver: FnLexUnitResolver = FnLexUnitResolver(fnLexUnitSerFile)
+
+    override var outDir: File = File(conf.getProperty("pm_outdir_resolved", "sql/data_resolved"))
+
+    init {
+
+        // header
+        header += "\n-- " + conf.getProperty("wn_resolve_against")
+        header += "\n-- " + conf.getProperty("vn_resolve_against")
+        header += "\n-- " + conf.getProperty("pb_resolve_against")
+
+        // output
+        if (!outDir.exists()) {
+            outDir.mkdirs()
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun run() {
+        val inputFile = File(pMHome, pMFile)
+        process(inputFile, { parse(it) }, null)
+        PmPredicate.COLLECTOR.open().use {
+            Insert.insert<PmPredicate>(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
+            PmRole.COLLECTOR.open().use {
+                Insert.insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
+                    ps.println("-- $header")
+                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), BiConsumer { entry: PmEntry?, i: Int? ->
+                        val wordid = wordResolver.apply(entry!!.word!!)
+                        val sk = sensekeyResolver.apply(entry.sensekey!!)
+
+                        val vnWordid = vnWordResolver.apply(entry.word!!)
+                        val vn = vnRoleResolver.apply(Pair(entry.vn.clazz!!, entry.vn.role!!))
+                        val pbWordid = pbWordResolver.apply(entry.word!!)
+                        val pb = pbRoleResolver.apply(Pair(entry.pb.roleset!!, entry.pb.arg!!))
+                        val fnWordid = fnWordResolver.apply(entry.word!!)
+                        val fn = fnRoleResolver.apply(Pair(entry.fn.frame!!, entry.fn.fetype!!))
+                        val fnLu = fnLexUnitResolver.apply(Pair(entry.fn.frame!!, entry.fn.lu!!))
+
+                        val wordResolved = nullableInt(wordid)
+                        val senseResolved = if (sk == null) "NULL" else nullableInt(sk.value)
+
+                        val vnWordResolved = nullableInt(vnWordid)
+                        val pbWordResolved = nullableInt(pbWordid)
+                        val fnWordResolved = nullableInt(fnWordid)
+                        val vnResolved = if (vn == null) "NULL,NULL" else "${nullableInt(vn.second)},${nullableInt(vn.first)}"
+                        val pbResolved = if (pb == null) "NULL,NULL" else "${nullableInt(pb.second)},${nullableInt(pb.first)}"
+                        val fnResolved = if (fn == null) "NULL,NULL,NULL" else "${nullableInt(fn.second)},${nullableInt(fn.first)},${nullableInt(fn.third)}"
+                        val fnLuResolved = if (fnLu == null) "NULL" else nullableInt(fnLu.first)
+                        insertRow(ps, i!!, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${senseResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
+                    })
+                }
+            }
+        }
+    }
 }

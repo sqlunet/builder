@@ -1,127 +1,100 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm
 
-import org.sqlbuilder.annotations.ProvidesIdTo;
-import org.sqlbuilder.common.*;
-import org.sqlbuilder.pm.objects.PmEntry;
-import org.sqlbuilder.pm.objects.PmPredicate;
-import org.sqlbuilder.pm.objects.PmRole;
+import org.sqlbuilder.common.*
+import org.sqlbuilder.pm.objects.PmEntry
+import org.sqlbuilder.pm.objects.PmEntry.Companion.parse
+import org.sqlbuilder.pm.objects.PmPredicate
+import org.sqlbuilder.pm.objects.PmRole
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
+import java.util.function.BiConsumer
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.function.BiConsumer;
-import java.util.stream.Stream;
+open class PmProcessor(conf: Properties) : Processor("pm") {
 
-public class PmProcessor extends Processor
-{
-	protected final String pMHome;
+    @JvmField
+    protected val pMHome: String = conf.getProperty("pm_home", System.getenv()["PMHOME"])
 
-	protected final String pMFile;
+    @JvmField
+    protected val pMFile: String = conf.getProperty("pm_file", System.getenv()["PredicateMatrix.txt"])
 
-	protected final Names names;
-	protected final File outDir;
-	protected final Properties conf;
-	protected String header;
+    protected open val names: Names = Names("pm")
 
-	public PmProcessor(final Properties conf)
-	{
-		super("pm");
-		this.names = new Names("pm");
-		this.conf = conf;
-		this.header = conf.getProperty("pm_header");
-		this.pMHome = conf.getProperty("pm_home", System.getenv().get("PMHOME"));
-		this.pMFile = conf.getProperty("pm_file", System.getenv().get("PredicateMatrix.txt"));
-		this.outDir = new File(conf.getProperty("pm_outdir", "sql/data"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    protected open var outDir: File = File(conf.getProperty("pm_outdir", "sql/data"))
 
-	protected static <T> void process(final File file, final ThrowingFunction<String, T> producer, final BiConsumer<T, Integer> consumer) throws IOException
-	{
-		try (Stream<String> stream = Files.lines(file.toPath()))
-		{
-			final int[] count = {0, 0};
-			stream //
-					.peek(line -> ++count[1]) //
-					.filter(line -> !line.isEmpty() && line.charAt(0) != '\t') //
-					.map(line -> {
-						try
-						{
-							return producer.applyThrows(line);
-						}
-						catch (CommonException e)
-						{
-							var cause = e.getCause();
-							if (cause instanceof ParseException)
-							{
-								Logger.instance.logParseException(PmModule.MODULE_ID, "pm", file.getName(), count[1], line, (ParseException) cause);
-							}
-							else if (cause instanceof NotFoundException)
-							{
-								Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.getName(), count[1], line, (NotFoundException) cause);
-							}
-							//	else if (cause instanceof IgnoreException)
-							//	{
-							//		// ignore
-							//	}
-						}
-						return null;
-					}) //
-					.filter(Objects::nonNull) //
-					.forEach(r -> {
-						if (consumer != null)
-						{
-							consumer.accept(r, count[0]);
-						}
-						count[0]++;
-					});
-		}
-	}
+    @JvmField
+    protected var header: String = conf.getProperty("pm_header")
 
-	@Override
-	public void run() throws IOException
-	{
-		var inputFile = new File(pMHome, pMFile);
-		process(inputFile, PmRole::parse, null);
+    init {
+        if (!outDir.exists()) {
+            outDir.mkdirs()
+        }
+    }
 
-		try (@ProvidesIdTo(type = PmPredicate.class) var ignored1 = PmPredicate.COLLECTOR.open())
-		{
-			Insert.insert(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, new File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header);
+    @Throws(IOException::class)
+    override fun run() {
+        val inputFile = File(pMHome, pMFile)
+        process<PmRole>(inputFile, { PmRole.Companion.parse(it) }, null)
 
-			try (@ProvidesIdTo(type = PmRole.class) var ignored2 = PmRole.COLLECTOR.open())
-			{
-				Insert.insert(PmRole.COLLECTOR, PmRole.COLLECTOR, new File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header);
+        PmPredicate.COLLECTOR.open().use {
+            Insert.insert<PmPredicate>(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
+            PmRole.COLLECTOR.open().use {
+                Insert.insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use {
+                    it.println("-- $header")
+                    processPmFile(it, inputFile, names.table("pms"), names.columns("pms", false)) { role, i -> insertRow(it, i, role.dataRow()) }
+                }
+            }
+        }
+    }
 
-				try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8))
-				{
-					ps.println("-- " + header);
-					processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", false), (role, i) -> insertRow(ps, i, role.dataRow()));
-				}
-			}
-		}
-	}
+    @Throws(IOException::class)
+    protected fun processPmFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<PmEntry, Int>?) {
+        ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+        process(file, { parse(it) }, consumer)
+        ps.print(';')
+    }
 
-	protected void processPmFile(final PrintStream ps, final File file, final String table, final String columns, final BiConsumer<PmEntry, Integer> consumer) throws IOException
-	{
-		ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-		process(file, PmEntry::parse, consumer);
-		ps.print(';');
-	}
+    protected fun insertRow(ps: PrintStream, index: Int, values: String) {
+        if (index != 0) {
+            ps.print(",\n")
+        }
+        ps.printf("(%d,%s)", index + 1, values)
+    }
 
-	protected void insertRow(final PrintStream ps, final Integer index, final String values)
-	{
-		if (index != 0)
-		{
-			ps.print(",\n");
-		}
-		ps.printf("(%d,%s)", index + 1, values);
-	}
+    companion object {
+
+        @JvmStatic
+        @Throws(IOException::class)
+        protected fun <T> process(file: File, producer: ThrowingFunction<String, T>, consumer: BiConsumer<T, Int>?) {
+            file.useLines {
+                var count = 0
+                var lineNo = 0
+                it
+                    .also { ++lineNo }
+                    .filter { !it.isEmpty() && it[0] != '\t' }
+                    .map { line ->
+                        try {
+                            return@map producer.applyThrows(line)
+                        } catch (e: CommonException) {
+                            val cause = e.cause
+                            if (cause is ParseException) {
+                                Logger.instance.logParseException(PmModule.MODULE_ID, "pm", file.getName(), lineNo.toLong(), line, cause)
+                            } else if (cause is NotFoundException) {
+                                Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.getName(), lineNo.toLong(), line, cause)
+                            }
+                        }
+                        null
+                    }
+                    .filterNotNull()
+                    .forEach {
+                        consumer?.accept(it, count)
+                        count++
+                    }
+            }
+        }
+    }
 }

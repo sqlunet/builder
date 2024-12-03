@@ -1,58 +1,44 @@
-package org.sqlbuilder.pm;
+package org.sqlbuilder.pm
 
-import org.sqlbuilder.common.Module;
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.common.Module.Mode.Companion.read
+import java.io.IOException
 
-import java.io.IOException;
+class PmModule(
+    conf: String, mode: Mode
+) : Module(MODULE_ID, conf, mode) {
 
-public class PmModule extends Module
-{
-	public static final String MODULE_ID = "pm";
+    override fun run() {
+        checkNotNull(props)
 
-	protected PmModule(final String conf, final Module.Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+        try {
+            when (mode) {
+                Mode.PLAIN   -> PmProcessor(props).run()
+                Mode.RESOLVE -> PmResolvingProcessor(props).run()
+                Mode.UPDATE  -> PmUpdatingProcessor(props).run()
+                Mode.EXPORT  -> {}
+                else         -> {}
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
+    companion object {
 
-		try
-		{
-			switch (mode)
-			{
-				case PLAIN:
-					new PmProcessor(props).run();
-					break;
+        const val MODULE_ID: String = "pm"
 
-				case RESOLVE:
-					new PmResolvingProcessor(props).run();
-					break;
-
-				case UPDATE:
-					new PmUpdatingProcessor(props).run();
-					break;
-
-				case EXPORT:
-				default:
-			}
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public static void main(final String[] args)
-	{
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new PmModule(conf, mode).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var i = 0
+            var mode = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = read(args[i++])
+            }
+            val conf = args[i]
+            PmModule(conf, mode).run()
+        }
+    }
 }
