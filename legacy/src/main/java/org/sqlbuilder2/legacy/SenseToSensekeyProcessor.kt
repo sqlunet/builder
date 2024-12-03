@@ -3,18 +3,13 @@ package org.sqlbuilder2.legacy
 import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Processor
-import org.sqlbuilder.common.Utils
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder2.ser.Serialize
 import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.IOException
-import java.nio.file.Files
 import java.util.*
-import java.util.AbstractMap.SimpleEntry
 import java.util.function.BiFunction
-import java.util.function.Function
-import java.util.stream.Collectors
 import kotlin.Throws
 
 /**
@@ -113,12 +108,12 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
 
         private fun getPosFromSensekey(sensekey: String): Char {
             val b = sensekey.indexOf('%')
-            val c = sensekey.get(b + 1)
-            when (c) {
-                '1' -> return 'n'
-                '2' -> return 'v'
-                '3', '5' -> return 'a'
-                '4' -> return 'r'
+            val c = sensekey[b + 1]
+            return when (c) {
+                '1' -> 'n'
+                '2' -> 'v'
+                '3', '5' -> 'a'
+                '4' -> 'r'
                 else -> throw IllegalArgumentException(sensekey)
             }
         }

@@ -34,7 +34,7 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
     }
 
     @Throws(IOException::class)
-    public override fun run() {
+    override fun run() {
         PrintStream(FileOutputStream(File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8).use { ps ->
             ps.println("-- $header")
             processSyntagNetFile(ps, File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true)) { collocation: Collocation, i: Int ->
@@ -54,7 +54,7 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
     }
 
     @Throws(IOException::class)
-    protected override fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
+    override fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { parse(it) }, consumer)
         ps.print(';')

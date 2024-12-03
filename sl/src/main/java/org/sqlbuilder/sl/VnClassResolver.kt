@@ -2,8 +2,6 @@ package org.sqlbuilder.sl
 
 import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
-import org.sqlbuilder2.ser.Pair
-import org.sqlbuilder2.ser.Triplet
 import java.io.File
 
 typealias VnClassResolvable = String

@@ -2,7 +2,6 @@ package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Progress
-import org.sqlbuilder.common.Utils
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.pb.foreign.RoleSetToFn
 import org.sqlbuilder.pb.foreign.RoleSetToVn

@@ -1,7 +1,6 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.Utils
 import org.sqlbuilder.common.Utils.nullableQuotedString
 import java.util.*
 

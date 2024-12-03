@@ -60,7 +60,7 @@ class BncExtendedRecord(
             val lemma = makeLemma(word)
             val pos: Char? = posMap[bncPos]
             if (pos == null) {
-                throw NotFoundException(bncPos);
+                throw NotFoundException(bncPos)
             }
 
             // data

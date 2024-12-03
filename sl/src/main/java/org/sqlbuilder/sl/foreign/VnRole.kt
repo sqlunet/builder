@@ -18,7 +18,7 @@ class VnRole private constructor(
             return false
         }
         val that = o as VnRole
-        return vnClass == that.vnClass && theta.equals(that.theta)
+        return vnClass == that.vnClass && theta == that.theta
     }
 
     override fun hashCode(): Int {

@@ -2,7 +2,6 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.NotNull
 import java.util.*
 
 class Member private constructor(val roleSet: RoleSet, val word: Word) : Insertable, Comparable<Member> {

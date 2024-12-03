@@ -1,9 +1,11 @@
 package org.sqlbuilder.pm.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.ParseException
+import org.sqlbuilder.common.SetCollector
 import java.util.*
-import java.util.function.Function
 import kotlin.Throws
 
 class PmRole private constructor(

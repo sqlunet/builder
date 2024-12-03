@@ -4,7 +4,6 @@ import org.sqlbuilder.common.Logger
 import org.sqlbuilder.common.Processor
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.XPathUtils.getXPath
-import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.pb.PbModule
 import org.sqlbuilder.pb.collectors.PbDocument.Companion.getAliasPredicates
 import org.sqlbuilder.pb.collectors.PbDocument.Companion.getPredicates

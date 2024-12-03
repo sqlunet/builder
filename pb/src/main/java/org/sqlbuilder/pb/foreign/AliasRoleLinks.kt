@@ -1,9 +1,7 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.HasId
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils
 import java.util.*
 

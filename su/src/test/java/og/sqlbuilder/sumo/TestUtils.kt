@@ -1,6 +1,5 @@
 package og.sqlbuilder.sumo
 
-import org.sqlbuilder.su.Kb
 import org.sqlbuilder.su.SuModule
 import java.io.OutputStream
 import java.io.PrintStream
