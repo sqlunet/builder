@@ -1,95 +1,68 @@
-package org.sqlbuilder.pm.objects;
+package org.sqlbuilder.pm.objects
 
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.NotNull;
-import org.sqlbuilder.common.SetCollector;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import java.util.*
 
-import java.util.Comparator;
-import java.util.Objects;
+class PmPredicate private constructor(
+    val predicate: String
+) : HasId, Insertable, Comparable<PmPredicate> {
 
-public class PmPredicate implements HasId, Insertable, Comparable<PmPredicate>
-{
-	public static final Comparator<PmPredicate> COMPARATOR = Comparator.comparing(PmPredicate::getPredicate);
+    val word: String
+        get() = predicate.substring(0, predicate.indexOf('.'))
 
-	public static final SetCollector<PmPredicate> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public final String predicate;
+    // I D E N T I T Y
 
-	public static PmPredicate make(final String predicate)
-	{
-		var p = new PmPredicate(predicate);
-		COLLECTOR.add(p);
-		return p;
-	}
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as PmPredicate
+        return predicate == that.predicate
+    }
 
-	private PmPredicate(final String predicate)
-	{
-		this.predicate = predicate;
-	}
+    override fun hashCode(): Int {
+        return Objects.hash(predicate)
+    }
 
-	// A C C E S S
+    // O R D E R
 
-	public String getPredicate()
-	{
-		return predicate;
-	}
+    override fun compareTo(that: PmPredicate): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public String getWord()
-	{
-		return predicate.substring(0, predicate.indexOf('.'));
-	}
+    // I N S E R T
 
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+    override fun dataRow(): String {
+        return "'$predicate'"
+    }
 
-	// I D E N T I T Y
+    // T O S T R I N G
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		PmPredicate that = (PmPredicate) o;
-		return predicate.equals(that.predicate);
-	}
+    override fun toString(): String {
+        return "[PRED $predicate]"
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(predicate);
-	}
+    companion object {
 
-	// O R D E R
+        val COMPARATOR: Comparator<PmPredicate> = Comparator
+            .comparing<PmPredicate, String> { it.predicate }
 
-	@Override
-	public int compareTo(@NotNull final PmPredicate that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<PmPredicate>(COMPARATOR)
 
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s'", predicate);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("[PRED %s]", predicate);
-	}
+        fun make(predicate: String): PmPredicate {
+            val p = PmPredicate(predicate)
+            COLLECTOR.add(p)
+            return p
+        }
+    }
 }

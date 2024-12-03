@@ -1,128 +1,90 @@
-package org.sqlbuilder.pm.objects;
+package org.sqlbuilder.pm.objects
 
-import org.sqlbuilder.annotations.RequiresIdFrom;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.annotations.RequiresIdFrom
+import org.sqlbuilder.common.*
+import java.util.*
+import java.util.function.Function
+import kotlin.Throws
 
-import java.util.Comparator;
-import java.util.Objects;
+class PmRole private constructor(
+    val predicate: PmPredicate,
+    val role: String,
+    val pos: Char
+) : HasId, Insertable, Comparable<PmRole> {
 
-public class PmRole implements HasId, Insertable, Comparable<PmRole>
-{
-	public static final Comparator<PmRole> COMPARATOR = Comparator.comparing(PmRole::getPredicate).thenComparing(PmRole::getRole).thenComparing(PmRole::getPos);
+    @RequiresIdFrom(type = PmRole::class)
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	public static final SetCollector<PmRole> COLLECTOR = new SetCollector<>(COMPARATOR);
+    // I D E N T I T Y
 
-	public final PmPredicate predicate;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as PmRole
+        return predicate == that.predicate && role == that.role && pos == that.pos
+    }
 
-	public final String role;
+    override fun hashCode(): Int {
+        return Objects.hash(predicate, role, pos)
+    }
 
-	public final Character pos;
+    // O R D E R
 
-	// C O N S T R U C T O R
+    override fun compareTo(that: PmRole): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public static PmRole make(final String predicate, final String role, final Character pos)
-	{
-		var p = PmPredicate.make(predicate);
-		var r = new PmRole(p, role, pos);
-		COLLECTOR.add(r);
-		return r;
-	}
+    // I N S E R T
 
-	private PmRole(final PmPredicate predicate, final String role, final Character pos)
-	{
-		// predicate, role, pos
-		this.predicate = predicate;
-		this.role = role;
-		this.pos = pos;
-	}
+    override fun dataRow(): String {
+        return "${predicate.intId},'$role','$pos'"
+    }
 
-	public static PmRole parse(final String line) throws ParseException
-	{
-		// split into fields
-		final String[] columns = line.split("\t");
-		if (columns.length > PmEntry.SOURCE + 1)
-		{
-			throw new ParseException("Line has more fields than expected");
-		}
-		return parse(columns);
-	}
+    // T O S T R I N G
 
-	public static PmRole parse(final String[] columns)
-	{
-		final String predicate = columns[PmEntry.ID_PRED].substring(3);
-		final String role = columns[PmEntry.ID_ROLE].substring(3);
-		final String pos = columns[PmEntry.ID_POS].substring(3);
-		return PmRole.make(predicate, role, pos.charAt(0));
-	}
+    override fun toString(): String {
+        return "predicate=$predicate role=$role pos=$pos"
+    }
 
-	// A C C E S S
+    companion object {
 
-	public PmPredicate getPredicate()
-	{
-		return predicate;
-	}
+        val COMPARATOR: Comparator<PmRole> = Comparator
+            .comparing<PmRole, PmPredicate> { it.predicate }
+            .thenComparing<String> { it.role }
+            .thenComparing<Char> { it.pos }
 
-	public String getRole()
-	{
-		return role;
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<PmRole>(COMPARATOR)
 
-	public Character getPos()
-	{
-		return pos;
-	}
+        @JvmStatic
+        @Throws(ParseException::class)
+        fun parse(line: String): PmRole {
+            // split into fields
+            val columns = line.split("\t".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (columns.size > PmEntry.SOURCE + 1) {
+                throw ParseException("Line has more fields than expected")
+            }
+            return parse(columns)
+        }
 
-	@RequiresIdFrom(type = PmRole.class)
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
+        fun parse(columns: Array<String>): PmRole {
+            val predicate = columns[PmEntry.ID_PRED].substring(3)
+            val role = columns[PmEntry.ID_ROLE].substring(3)
+            val pos = columns[PmEntry.ID_POS].substring(3)
+            return make(predicate, role, pos[0])
+        }
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		PmRole that = (PmRole) o;
-		return predicate.equals(that.predicate) && role.equals(that.role) && pos.equals(that.pos);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(predicate, role, pos);
-	}
-
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final PmRole that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,'%s','%c'", predicate.getIntId(), role, pos);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return String.format("predicate=%s role=%s pos=%s", predicate, role, pos);
-	}
+        fun make(predicate: String, role: String, pos: Char): PmRole {
+            val p = PmPredicate.make(predicate)
+            val r = PmRole(p, role, pos)
+            COLLECTOR.add(r)
+            return r
+        }
+    }
 }

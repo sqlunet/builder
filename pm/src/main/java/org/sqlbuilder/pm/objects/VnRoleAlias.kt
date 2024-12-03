@@ -1,24 +1,22 @@
-package org.sqlbuilder.pm.objects;
+package org.sqlbuilder.pm.objects
 
-import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder2.ser.Pair;
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
+import org.sqlbuilder2.ser.Pair
 
-public class VnRoleAlias implements Resolvable<Pair<String, String>, Pair<Integer, Integer>>
-{
-	public String clazz;
+class VnRoleAlias : Resolvable<Pair<String, String>, Pair<Int, Int>> {
 
-	public String role;
+    @JvmField
+    var clazz: String? = null
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s", Utils.nullableQuotedEscapedString(clazz), Utils.nullableQuotedEscapedString(role));
-	}
+    @JvmField
+    var role: String? = null
 
-	@Override
-	public Pair<String, String> resolving()
-	{
-		return new Pair<>(clazz, role);
-	}
+    override fun dataRow(): String {
+        return "${nullableQuotedEscapedString(clazz)},${nullableQuotedEscapedString<String?>(role)}"
+    }
+
+    override fun resolving(): Pair<String, String> {
+        return Pair(clazz!!, role!!)
+    }
 }

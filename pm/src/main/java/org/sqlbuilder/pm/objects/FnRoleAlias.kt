@@ -1,26 +1,25 @@
-package org.sqlbuilder.pm.objects;
+package org.sqlbuilder.pm.objects
 
-import org.sqlbuilder.common.Resolvable;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder2.ser.Triplet;
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
+import org.sqlbuilder2.ser.Triplet
 
-public class FnRoleAlias implements Resolvable<Triplet<String, String, String>, Triplet<Integer, Integer, Integer>>
-{
-	public String frame;
+class FnRoleAlias : Resolvable<Triplet<String, String, String>, Triplet<Int, Int, Int>> {
 
-	public String fetype;
+    @JvmField
+    var frame: String? = null
 
-	public String lu;
+    @JvmField
+    var fetype: String? = null
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s,%s", Utils.nullableQuotedEscapedString(frame), Utils.nullableQuotedEscapedString(fetype), Utils.nullableQuotedEscapedString(lu));
-	}
+    @JvmField
+    var lu: String? = null
 
-	@Override
-	public Triplet<String, String, String> resolving()
-	{
-		return new Triplet<>(frame, fetype, lu);
-	}
+    override fun dataRow(): String {
+        return "${nullableQuotedEscapedString(frame)},${nullableQuotedEscapedString(fetype)},${nullableQuotedEscapedString(lu)}"
+    }
+
+    override fun resolving(): Triplet<String, String, String> {
+        return Triplet(frame!!, fetype!!, lu!!)
+    }
 }
