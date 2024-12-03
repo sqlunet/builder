@@ -1,51 +1,30 @@
-package org.sqlbuilder2.legacy;
+package org.sqlbuilder2.legacy
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.common.ParseException;
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.ParseException
+import java.io.Serializable
+import kotlin.Throws
 
-import java.io.Serializable;
+class SynsetToSynsetMapping(val from: Long, val to: Long) : Insertable, Serializable {
 
-public class SynsetToSynsetMapping implements Insertable, Serializable
-{
-	public final long offset1;
+    override fun dataRow(): String {
+        return "$from,$to"
+    }
 
-	public final long offset2;
+    companion object {
 
-	public SynsetToSynsetMapping(long offset1, long offset2)
-	{
-		this.offset1 = offset1;
-		this.offset2 = offset2;
-	}
-
-	public long getFrom()
-	{
-		return offset1;
-	}
-
-	public long getTo()
-	{
-		return offset2;
-	}
-
-	//1740 00001740 1 m
-	public static SynsetToSynsetMapping parse(String line) throws ParseException
-	{
-		try
-		{
-			String[] fields = line.split("\\s");
-
-			long synset1Id = Long.parseLong(fields[0]);
-			long synset2Id = Long.parseLong(fields[1]);
-			return new SynsetToSynsetMapping(synset1Id, synset2Id);
-		}
-		catch (Exception e)
-		{
-			throw new ParseException(e.getMessage());
-		}
-	}
-
-	public String dataRow()
-	{
-		return String.format("%d,%d", offset1, offset2);
-	}
+        //1740 00001740 1 m
+        @JvmStatic
+        @Throws(ParseException::class)
+        fun parse(line: String): SynsetToSynsetMapping {
+            try {
+                val fields: Array<String> = line.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val synset1Id = fields[0].toLong()
+                val synset2Id = fields[1].toLong()
+                return SynsetToSynsetMapping(synset1Id, synset2Id)
+            } catch (e: Exception) {
+                throw ParseException(e.message!!)
+            }
+        }
+    }
 }

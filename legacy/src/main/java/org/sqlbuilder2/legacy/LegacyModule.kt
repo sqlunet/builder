@@ -1,58 +1,40 @@
-package org.sqlbuilder2.legacy;
+package org.sqlbuilder2.legacy
 
-import org.sqlbuilder.common.Module;
+import org.sqlbuilder.common.Module
+import java.io.IOException
 
-import java.io.IOException;
+class LegacyModule private constructor(
+    private val args: Array<String>
+) : Module(MODULE_ID, args[0], null) {
 
-public class LegacyModule extends Module
-{
-	public static final String MODULE_ID = "legacy";
+    override fun run() {
+        checkNotNull(props)
+        for (i in 2..<args.size) {
+            if (args[i].startsWith("from=")) {
+                props.setProperty("from", args[i].substring(5))
+            }
+            if (args[i].startsWith("to=")) {
+                props.setProperty("to", args[i].substring(3))
+            }
+        }
 
-	private final String[] args;
+        try {
+            when (args[1]) {
+                "synsets"   -> SynsetToSynsetProcessor(props).run()
+                "sensekeys" -> SenseToSensekeyProcessor(props).run()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
 
-	protected LegacyModule(final String[] args)
-	{
-		super(MODULE_ID, args[0], null);
-		this.args = args;
-	}
+    companion object {
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
-		for (int i = 2; i < args.length; i++)
-		{
-			if (args[i].startsWith("from="))
-			{
-				props.setProperty("from", args[i].substring(5));
-			}
-			if (args[i].startsWith("to="))
-			{
-				props.setProperty("to", args[i].substring(3));
-			}
-		}
+        const val MODULE_ID: String = "legacy"
 
-		try
-		{
-			switch (args[1])
-			{
-				case "synsets":
-					new SynsetToSynsetProcessor(props).run();
-					break;
-
-				case "sensekeys":
-					new SenseToSensekeyProcessor(props).run();
-					break;
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public static void main(final String[] args)
-	{
-		new LegacyModule(args).run();
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            LegacyModule(args).run()
+        }
+    }
 }

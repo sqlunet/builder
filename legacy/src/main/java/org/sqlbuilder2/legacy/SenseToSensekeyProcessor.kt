@@ -1,164 +1,130 @@
-package org.sqlbuilder2.legacy;
+package org.sqlbuilder2.legacy
 
-import org.sqlbuilder.common.Insert;
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.common.Utils;
-import org.sqlbuilder2.ser.Serialize;
-import org.sqlbuilder2.ser.Triplet;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.sqlbuilder.common.Insert.insert
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Utils
+import org.sqlbuilder2.ser.Serialize
+import org.sqlbuilder2.ser.Triplet
+import java.io.File
+import java.io.IOException
+import java.nio.file.Files
+import java.util.*
+import java.util.AbstractMap.SimpleEntry
+import java.util.function.BiFunction
+import java.util.function.Function
+import java.util.stream.Collectors
+import kotlin.Throws
 
 /**
  * Index sense
  * From line in index.sense
  * To triplet(lemma,pos,offset)-to-sensekey map
  */
-public class SenseToSensekeyProcessor extends Processor
-{
-	private final Names names;
+class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid") {
 
-	private final Properties conf;
+    private val names: Names = Names("legacy")
 
-	private final String from;
+    private val from: String = conf.getProperty("from")
 
-	private final File inDir;
+    private val inDir: File = File(conf.getProperty("senses_to_sensekeys.sourcedir").replace("\\$\\{from}".toRegex(), from))
 
-	private final File outDir;
+    private val outDir: File = File(conf.getProperty("senses_to_sensekeys.destdir", "mappings"))
 
+    @Throws(IOException::class)
+    override fun run() {
+        process()
+    }
 
-	public SenseToSensekeyProcessor(final Properties conf)
-	{
-		super("sk2nid");
-		this.names = new Names("legacy");
-		this.conf = conf;
-		this.from = conf.getProperty("from");
-		this.inDir = new File(conf.getProperty("senses_to_sensekeys.sourcedir").replaceAll("\\$\\{from}", from));
-		this.outDir = new File(conf.getProperty("senses_to_sensekeys.destdir", "mappings"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    @Throws(IOException::class)
+    fun process() {
+        val inFile = conf.getProperty("senses_to_sensekeys.sourcefile").replace("\\$\\{from}".toRegex(), from)
+        val outFile = names.file("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from)
 
-	@Override
-	public void run() throws IOException
-	{
-		process();
-	}
+        val m: Map<Triplet<String, Char, Int>, String> = getLemmaPosOffsetToSensekey(File(inDir, inFile))
+        Serialize.serialize(m, File(outDir, "$outFile.ser"))
 
-	public void process() throws IOException
-	{
-		String inFile = conf.getProperty("senses_to_sensekeys.sourcefile").replaceAll("\\$\\{from}", from);
-		String outFile = names.file("senses_to_sensekeys").replaceAll("\\$\\{from}", from);
+        val m2: MutableMap<Triplet<String?, Char?, Int?>?, String?> = getLemmaPosOffsetToSensekeyOrdered(File(inDir, inFile))
+        insert<Triplet<String?, Char?, Int?>?, String?>(
+            m2.keys,
+            Function { key: Triplet<String?, Char?, Int?>? -> m2.get(key) },
+            File(outDir, "$outFile.sql"), names.table("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
+            names.columns("senses_to_sensekeys"),
+            names.header("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
+            BiFunction { k: Triplet<String?, Char?, Int?>?, v: String? -> String.format("'%s','%s',%s,'%s'", Utils.escape(k!!.first!!), k.second, k.third, Utils.escape(v!!)) })
+    }
 
-		var m = getLemmaPosOffsetToSensekey(new File(inDir, inFile));
-		Serialize.serialize(m, new File(outDir, outFile + ".ser"));
+    init {
+        if (!this.outDir.exists()) {
+            this.outDir.mkdirs()
+        }
+    }
 
-		var m2 = getLemmaPosOffsetToSensekeyOrdered(new File(inDir, inFile));
-		Insert.insert(m2.keySet(),
-				m2::get,
-				new File(outDir, outFile + ".sql"), names.table("senses_to_sensekeys").replaceAll("\\$\\{from}", from),  //
-				names.columns("senses_to_sensekeys"),  //
-				names.header("senses_to_sensekeys").replaceAll("\\$\\{from}", from), //
-				(k, v) -> String.format("'%s','%s',%s,'%s'", Utils.escape(k.first), k.second, k.third, Utils.escape(v)));
-	}
+    companion object {
 
-	static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekey(final File file) throws IOException
-	{
-		try (Stream<String> stream = Files.lines(file.toPath()))
-		{
-			/*
-			abandon%2:31:00:: 00614057 5 3
-			abandon%2:31:01:: 00613393 4 5
-			abandon%2:38:00:: 02076676 3 6
-			abandon%2:40:00:: 02228031 1 10
-			abandon%2:40:01:: 02227741 2 6
-			*/
-			return stream //
-					.filter(line -> !line.isEmpty() && line.charAt(0) != '#') //
-					.map(line -> line.split("\\s")) //
-					.map(fields -> new SimpleEntry<>(new Triplet<>(getLemmaFromSensekey(fields[0]), getPosFromSensekey(fields[0]), Integer.parseInt(fields[1])), fields[0])) //
-					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
-		}
-	}
+        /*
+         abandon%2:31:00:: 00614057 5 3
+         abandon%2:31:01:: 00613393 4 5
+         abandon%2:38:00:: 02076676 3 6
+         abandon%2:40:00:: 02228031 1 10
+         abandon%2:40:01:: 02227741 2 6
+         */
 
-	static Comparator<Triplet<String, Character, Integer>> tripletComparator = Comparator //
-			.<Triplet<String, Character, Integer>, String>comparing(Triplet::getFirst) //
-			.thenComparing(Triplet::getSecond) //
-			.thenComparing(Triplet::getThird);
+        @JvmStatic
+        @Throws(IOException::class)
+        fun getLemmaPosOffsetToSensekey(file: File): Map<Triplet<String, Char, Int>, String> {
+            file.useLines {
+                return it
+                    .filter { !it.isEmpty() && it[0] != '#' }
+                    .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
+                    .map { Triplet(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
+                    .toMap()
+            }
+        }
 
-	static Map<Triplet<String, Character, Integer>, String> getLemmaPosOffsetToSensekeyOrdered(final File file) throws IOException
-	{
-		try (Stream<String> stream = Files.lines(file.toPath()))
-		{
-			/*
-			abandon%2:31:00:: 00614057 5 3
-			abandon%2:31:01:: 00613393 4 5
-			abandon%2:38:00:: 02076676 3 6
-			abandon%2:40:00:: 02228031 1 10
-			abandon%2:40:01:: 02227741 2 6
-			*/
-			return stream //
-					.filter(line -> !line.isEmpty() && line.charAt(0) != '#') //
-					.map(line -> line.split("\\s")) //
-					.map(fields -> new SimpleEntry<>(new Triplet<>(getLemmaFromSensekey(fields[0]), getPosFromSensekey(fields[0]), Integer.parseInt(fields[1])), fields[0])) //
-					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (p, n) -> p, () -> new TreeMap<>(tripletComparator)));
-		}
-	}
+        var tripletComparator: Comparator<Triplet<String, Char, Int>> = Comparator
+            .comparing<Triplet<String, Char, Int>, String> { it.first }
+            .thenComparing<Char> { it.second }
+            .thenComparing<Int> { it.third }
 
-	static Map<String, Integer> getSensekeyToOffset(final File file) throws IOException
-	{
-		try (Stream<String> stream = Files.lines(file.toPath()))
-		{
-			/*
-			abandon%2:31:00:: 00614057 5 3
-			abandon%2:31:01:: 00613393 4 5
-			abandon%2:38:00:: 02076676 3 6
-			abandon%2:40:00:: 02228031 1 10
-			abandon%2:40:01:: 02227741 2 6
-			*/
-			return stream //
-					.filter(line -> !line.isEmpty() && line.charAt(0) != '#') //
-					.map(line -> line.split("\\s")) //
-					.map(fields -> new SimpleEntry<>(fields[0], Integer.parseInt(fields[1]))) //
-					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
-		}
-	}
+        @Throws(IOException::class)
+        fun getLemmaPosOffsetToSensekeyOrdered(file: File): MutableMap<Triplet<String?, Char?, Int?>?, String?> {
+            file.useLines {
+                return it
+                    .filter { !it.isEmpty() && it[0] != '#' }
+                    .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
+                    .map { Triplet(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
+                    .toMap()
+                    .toSortedMap(tripletComparator)
+            }
+        }
 
-	private static char getPosFromSensekey(final String sensekey)
-	{
-		int b = sensekey.indexOf('%');
-		char c = sensekey.charAt(b + 1);
-		switch (c)
-		{
-			case '1':
-				return 'n';
-			case '2':
-				return 'v';
-			case '3':
-			case '5':
-				return 'a';
-			case '4':
-				return 'r';
-			default:
-				throw new IllegalArgumentException(sensekey);
-		}
-	}
+        @Throws(IOException::class)
+        fun getSensekeyToOffset(file: File): Map<String, Int> {
+            file.useLines {
+                return it
+                    .filter { !it.isEmpty() && it[0] != '#' }
+                    .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
+                    .map { it[0] to it[1].toInt() }
+                    .toMap()
+            }
+        }
 
-	private static String getLemmaFromSensekey(final String sensekey)
-	{
-		int b = sensekey.indexOf('%');
-		return sensekey.substring(0, b).replace('_', ' ');
-	}
+        private fun getPosFromSensekey(sensekey: String): Char {
+            val b = sensekey.indexOf('%')
+            val c = sensekey.get(b + 1)
+            when (c) {
+                '1' -> return 'n'
+                '2' -> return 'v'
+                '3', '5' -> return 'a'
+                '4' -> return 'r'
+                else -> throw IllegalArgumentException(sensekey)
+            }
+        }
+
+        private fun getLemmaFromSensekey(sensekey: String): String {
+            val b = sensekey.indexOf('%')
+            return sensekey.substring(0, b).replace('_', ' ')
+        }
+    }
 }
