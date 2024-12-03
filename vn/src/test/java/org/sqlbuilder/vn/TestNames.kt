@@ -36,7 +36,7 @@ class TestNames {
             val f = names.file(key)
             val t = names.table(key)
             val c = names.columns(key)
-            println("$key - $f $t $c", key, f, t, c)
+            println("$key - $f $t $c")
             Assert.assertEquals("$key.sql", f)
             Assert.assertEquals("`vn_$key`", t)
         }
