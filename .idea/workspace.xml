@@ -9,18 +9,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection fixes">
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Dump.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/FormulaParser.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/KBLoader.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuResolvingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuSynset31Resolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuSynsetResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuUpdatingProcessor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuWordResolver.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/joins/Formula_Arg.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/joins/Term_Synset.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Arg.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Formula.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/SUFile.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Term.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/TermAttr.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/KbLoaderExtension.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Update.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/Inserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingUpdater.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/collectors/SemlinkDocument.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnClassAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRoleSet_VnClass.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/VnRoleAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole_VnRole.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/su/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Dump.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/FormulaParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/KBLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuResolvingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuSynset31Resolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuSynsetResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuUpdatingProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuWordResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestWordResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Utils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/joins/Formula_Arg.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/joins/Term_Synset.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Arg.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Formula.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/SUFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Term.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/TermAttr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/KbLoaderExtension.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/su.iml" beforeDir="false" afterPath="$PROJECT_DIR$/su/su.iml" afterDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
+      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -101,7 +140,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;7edb25e2&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;938a0b11&quot;,
     &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.smartKeys&quot;
@@ -121,6 +160,7 @@
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="og.sqlbuilder.sumo" />
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
@@ -242,30 +282,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00039" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732729580746</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1732729580746</updated>
-    </task>
-    <task id="LOCAL-00040" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732729673248</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1732729673248</updated>
-    </task>
-    <task id="LOCAL-00041" summary="remove nonnull asert">
-      <option name="closed" value="true" />
-      <created>1732735271771</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1732735271771</updated>
     </task>
     <task id="LOCAL-00042" summary="to kotlin">
       <option name="closed" value="true" />
@@ -635,7 +651,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733128340112</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733166267793</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1733166267793</updated>
+    </task>
+    <task id="LOCAL-00089" summary="to kotlin, fixes">
+      <option name="closed" value="true" />
+      <created>1733168373276</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1733168373276</updated>
+    </task>
+    <task id="LOCAL-00090" summary="inspection fixes">
+      <option name="closed" value="true" />
+      <created>1733168629789</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1733168629789</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -656,8 +696,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="insert iterable with resolver function" />
-    <MESSAGE value="rename insert functions" />
     <MESSAGE value="rename SetCollector" />
     <MESSAGE value="rename" />
     <MESSAGE value="simplify" />
@@ -679,9 +717,11 @@
     <MESSAGE value="fixes format" />
     <MESSAGE value="fix to add i if uncommented (silent bug)" />
     <MESSAGE value="sort labels and layers" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="various minor fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="various minor fixes" />
+    <MESSAGE value="to kotlin" />
+    <MESSAGE value="to kotlin, fixes" />
+    <MESSAGE value="inspection fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="inspection fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

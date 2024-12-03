@@ -1,15 +1,8 @@
-package org.sqlbuilder.su;
+package org.sqlbuilder.su
 
-import org.sqlbuilder.common.Resolver;
-import org.sqlbuilder2.ser.DeSerialize;
+import org.sqlbuilder.common.Resolver
+import org.sqlbuilder2.ser.DeSerialize
+import java.io.File
 
-import java.io.File;
-import java.io.IOException;
+class SuSynsetResolver(ser: String) : Resolver<String, Int>(DeSerialize.deserialize<Map<String, Int>>(File(ser)))
 
-public class SuSynsetResolver extends Resolver<String, Integer>
-{
-	public SuSynsetResolver(final String ser) throws IOException, ClassNotFoundException
-	{
-		super(DeSerialize.deserialize(new File(ser)));
-	}
-}

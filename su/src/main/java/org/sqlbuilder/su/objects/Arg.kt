@@ -1,131 +1,81 @@
-package org.sqlbuilder.su.objects;
+package org.sqlbuilder.su.objects
 
-import org.sqlbuilder.common.Insertable;
-
-import java.io.Serializable;
+import org.sqlbuilder.common.Insertable
+import java.io.Serializable
 
 /**
  * This class encapsulates what relates a token in a logical statement to the entire statement. The type is arg when the term is nested only within one pair of
  * parentheses. The other possible types are "ant" for rule antecedent, "cons" for rule consequent, and "stmt" for cases where the term is nested inside
  * multiple levels of parentheses. argumentNum is only meaningful when the type is "arg"
  */
-public class Arg implements Insertable, Serializable
-{
-	final boolean isInAntecedent;
+class Arg(
+    val isInAntecedent: Boolean,
+    val isInConsequent: Boolean,
+    argumentNum: Int,
+    parenLevel: Int,
+) : Insertable, Serializable {
 
-	final boolean isInConsequent;
+    val isArg: Boolean = !isInAntecedent && !isInConsequent && parenLevel == 1
 
-	public final boolean isArg;
+    val isStatement: Boolean = !isInAntecedent && !isInConsequent && parenLevel > 1
 
-	final boolean isStatement;
+    @JvmField
+    val argumentNum: Int = if (isArg) argumentNum else -1
 
-	public final int argumentNum;
+    val type: String
+        get() {
+            if (isInAntecedent) {
+                return "p"
+            } else if (isInConsequent) {
+                return "c"
+            } else if (isArg) {
+                return "a"
+            } else if (isStatement) {
+                return "s"
+            }
+            throw IllegalArgumentException(toString())
+        }
 
-	/**
-	 * Constructor
-	 *
-	 * @param inAntecedent - whether the term appears in the antecedent of a rule.
-	 * @param inConsequent - whether the term appears in the consequent of a rule.
-	 * @param argumentNum  - the argument position in which the term appears. The predicate position is argument 0. The first argument is 1 etc.
-	 * @param parenLevel   - if the parenthesis level is &gt; 1 then the term appears nested in a statement and the argument number is ignored.
-	 */
-	public Arg(final boolean inAntecedent, final boolean inConsequent, final int argumentNum, final int parenLevel)
-	{
-		this.isInAntecedent = inAntecedent;
-		this.isInConsequent = inConsequent;
-		this.isArg = !inAntecedent && !inConsequent && parenLevel == 1;
-		this.argumentNum = this.isArg ? argumentNum : -1;
-		this.isStatement = !inAntecedent && !inConsequent && parenLevel > 1;
-	}
+    /**
+     * Check
+     *
+     * @throws IllegalArgumentException illegal argument
+     */
+    fun check() {
+        if (isInAntecedent) {
+            return
+        } else if (isInConsequent) {
+            return
+        } else if (isArg) {
+            return
+        } else if (isStatement) {
+            return
+        }
+        throw IllegalArgumentException(toString())
+    }
 
-	/**
-	 * Check
-	 *
-	 * @throws IllegalArgumentException illegal argument
-	 */
-	public void check()
-	{
-		if (this.isInAntecedent)
-		{
-			return;
-		}
-		else if (this.isInConsequent)
-		{
-			return;
-		}
-		else if (this.isArg)
-		{
-			return;
-		}
-		else if (this.isStatement)
-		{
-			return;
-		}
-		throw new IllegalArgumentException(toString());
-	}
+    // T O   S T R I N G
 
-	/**
-	 * Get type
-	 *
-	 * @return type
-	 * @throws IllegalArgumentException illegal argument
-	 */
-	public String getType()
-	{
-		if (this.isInAntecedent)
-		{
-			return "p";
-		}
-		else if (this.isInConsequent)
-		{
-			return "c";
-		}
-		else if (this.isArg)
-		{
-			return "a";
-		}
-		else if (this.isStatement)
-		{
-			return "s";
-		}
-		throw new IllegalArgumentException(toString());
-	}
+    override fun toString(): String {
+        if (isInAntecedent) {
+            return "ant"
+        } else if (isInConsequent) {
+            return "cons"
+        } else if (isArg) {
+            return "arg-$argumentNum"
+        } else if (isStatement) {
+            return "stmt"
+        }
+        return "ILLEGAL"
+    }
 
-	@Override
-	public String toString()
-	{
-		if (this.isInAntecedent)
-		{
-			return "ant";
-		}
-		else if (this.isInConsequent)
-		{
-			return "cons";
-		}
-		else if (this.isArg)
-		{
-			return "arg-" + this.argumentNum;
-		}
-		else if (this.isStatement)
-		{
-			return "stmt";
-		}
-		return "ILLEGAL";
-	}
+    // I N S E R T
 
-	// I N S E R T
-	@Override
-	public String dataRow()
-	{
-		return String.format("'%s',%s", //
-				getType(), // 1
-				isArg ? argumentNum : "NULL" // 2
-		);
-	}
+    override fun dataRow(): String {
+        return "'$type',${if (isArg) argumentNum else "NULL"}"
+    }
 
-	@Override
-	public String comment()
-	{
-		return String.format("%s", this);
-	}
+    override fun comment(): String {
+        return toString()
+    }
 }

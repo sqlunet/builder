@@ -1,143 +1,104 @@
-package org.sqlbuilder.su.objects;
+package org.sqlbuilder.su.objects
 
-import com.articulate.sigma.NotNull;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.quotedEscapedString
+import java.io.Serializable
+import java.util.*
 
-import org.sqlbuilder.common.*;
+typealias SUFormula = com.articulate.sigma.Formula
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Objects;
+class Formula private constructor(
+    @JvmField val formula: SUFormula, val file: SUFile,
+) : HasId, Insertable, Serializable, Comparable<Formula>, Resolvable<String, Int> {
 
-public class Formula implements HasId, Insertable, Serializable, Comparable<Formula>, Resolvable<String, Integer>
-{
-	public static final Comparator<Formula> COMPARATOR = Comparator.comparing(Formula::getFormulaText);
+    val formulaText: String
+        get() = formula.form
 
-	public static final SetCollector<Formula> COLLECTOR = new SetCollector<>(COMPARATOR);
+    fun getFile(): String {
+        return file.filename
+    }
 
-	public final com.articulate.sigma.Formula formula;
+    // I D E N T I T Y
 
-	public final SUFile file;
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Formula
+        return formula.form == that.formula.form
+    }
 
-	// C O N S T R U C T
+    override fun hashCode(): Int {
+        return Objects.hash(formula)
+    }
 
-	private Formula(final com.articulate.sigma.Formula formula, final SUFile file)
-	{
-		this.formula = formula;
-		this.file = file;
-	}
+    // O R D E R
 
-	public static Formula make(final com.articulate.sigma.Formula formula)
-	{
-		final String filename = formula.getSourceFile();
-		final Formula f = new Formula(formula, SUFile.make(filename));
-		COLLECTOR.add(f);
-		return f;
-	}
+    override fun compareTo(that: Formula): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	// A C C E S S
+    // T O S T R I N G
 
-	public com.articulate.sigma.Formula getFormula()
-	{
-		return formula;
-	}
+    override fun toString(): String {
+        return formula.form
+    }
 
-	public String getFormulaText()
-	{
-		return formula.form;
-	}
+    fun toShortString(ellipsizeAfter: Int): String {
+        if (formula.form.length > ellipsizeAfter) {
+            return formula.form.substring(0, ellipsizeAfter) + "..."
+        }
+        return formula.form
+    }
 
-	public String getFile()
-	{
-		return file.getFilename();
-	}
+    // I N S E R T
 
-	// I D E N T I T Y
+    override fun dataRow(): String {
+        return "${resolve()},${quotedEscapedString(toString())},${resolveFile(file)}"
+    }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Formula that = (Formula) o;
-		return formula.form.equals(that.formula.form);
-	}
+    override fun comment(): String {
+        return file.filename
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(formula);
-	}
+    // R E S O L V E
 
-	// O R D E R
+    fun resolve(): Int {
+        return intId
+    }
 
-	@Override
-	public int compareTo(@NotNull final Formula that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+    fun resolveFile(file: SUFile): Int {
+        return file.resolve()
+    }
 
-	// T O S T R I N G
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	@Override
-	public String toString()
-	{
-		return this.formula.form;
-	}
+    override fun resolving(): String {
+        return formula.form
+    }
 
-	public String toShortString(final int ellipsizeAfter)
-	{
-		if (this.formula.form.length() > ellipsizeAfter)
-		{
-			return this.formula.form.substring(0, ellipsizeAfter) + "...";
-		}
-		return this.formula.form;
-	}
+    companion object {
 
-	// I N S E R T
+        val COMPARATOR: Comparator<Formula> = Comparator
+            .comparing<Formula, String> { it.formulaText }
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%s,%d", //
-				resolve(), // id 1
-				Utils.quotedEscapedString(toString()), // 2
-				resolveFile(file) // 3
-		);
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<Formula>(COMPARATOR)
 
-	@Override
-	public String comment()
-	{
-		return file.filename;
-	}
-
-	// R E S O L V E
-
-	public int resolve()
-	{
-		return getIntId();
-	}
-
-	protected int resolveFile(final SUFile file)
-	{
-		return file.resolve();
-	}
-
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
-
-	@Override
-	public String resolving()
-	{
-		return formula.form;
-	}
+        @JvmStatic
+        fun make(formula: com.articulate.sigma.Formula): Formula {
+            val filename = formula.getSourceFile()
+            val f = Formula(formula, SUFile.make(filename))
+            COLLECTOR.add(f)
+            return f
+        }
+    }
 }

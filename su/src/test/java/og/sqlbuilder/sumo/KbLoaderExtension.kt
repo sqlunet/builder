@@ -1,42 +1,39 @@
-package og.sqlbuilder.sumo;
+package og.sqlbuilder.sumo
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.sqlbuilder.su.KBLoader;
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.extension.BeforeAllCallback
+import org.junit.jupiter.api.extension.ExtensionContext
+import org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource
+import org.sqlbuilder.su.KBLoader
 
-public class KbLoaderExtension extends KBLoader implements BeforeAllCallback, ExtensionContext.Store.CloseableResource
-{
-	private static boolean started = false;
+class KbLoaderExtension : KBLoader(), BeforeAllCallback, CloseableResource {
 
-	@Override
-	public void beforeAll(ExtensionContext context)
-	{
-		if (!started)
-		{
-			// The following line registers a callback hook when the root test context is shut down
-			context.getRoot().getStore(ExtensionContext.Namespace.GLOBAL).put("com.articulate.sigma.KBloader", this);
+    override fun beforeAll(context: ExtensionContext) {
+        if (!started) {
+            // The following line registers a callback hook when the root test context is shut down
+            context.root.getStore(ExtensionContext.Namespace.GLOBAL).put("com.articulate.sigma.KBloader", this)
 
-			load();
-		}
-	}
+            load()
+        }
+    }
 
-	@Override
-	public void close()
-	{
-		// Your "after all tests" logic goes here
-	}
+    override fun close() {
+        // Your "after all tests" logic goes here
+    }
 
-	public void load()
-	{
-		started = true;
+    override fun load() {
+        started = true
 
-		TestUtils.turnOffLogging();
+        TestUtils.turnOffLogging()
 
-		// Your "before all tests" startup logic goes here
-		kb = loadKb();
-		Assertions.assertNotNull(KBLoader.kb);
-	}
+        // Your "before all tests" startup logic goes here
+        kb = loadKb()
+        Assertions.assertNotNull(kb)
+    }
+
+    companion object {
+
+        private var started = false
+    }
 }
 
-// Then, any tests classes where you need this executed at least once, can be annotated with: @ExtendWith({KBLoader.class})

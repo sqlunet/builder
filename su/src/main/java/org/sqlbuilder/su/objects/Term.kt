@@ -1,155 +1,122 @@
-package org.sqlbuilder.su.objects;
+package org.sqlbuilder.su.objects
 
-import com.articulate.sigma.NotNull;
-import org.sqlbuilder.common.*;
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.quotedEscapedString
+import java.io.Serializable
+import java.util.*
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Objects;
+class Term private constructor(
+    @JvmField val term: String,
+) : HasId, Insertable, Serializable, Comparable<Term>, Resolvable<String, Int> {
 
-public class Term implements HasId, Insertable, Serializable, Comparable<Term>, Resolvable<String, Integer>
-{
-	public static final Comparator<Term> COMPARATOR = Comparator.comparing(Term::getTerm);
+    // I D E N T I T Y
 
-	public static final SetCollector<Term> COLLECTOR = new SetCollector<>(COMPARATOR);
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val sumoTerm = o as Term
+        return term == sumoTerm.term
+    }
 
-	protected static final String[] wellKnownTerms = new String[]{"subclass", "subrelation", "instance", "disjoint", //
-			"domain", "partition", //
-			"attribute", "property", //
-			"subAttribute", "subProcess", //
-			"equal", "inverse", //
-			"=>", "<=>", //
-			"contains", "element", "subset", "component", "part", "piece", //
-			"format", "documentation", //
-			"Relation", "Predicate", "Function", "Class"};
+    override fun hashCode(): Int {
+        return Objects.hash(term)
+    }
 
-	public final String term;
+    // O R D E R
 
-	// C O N S T R U C T
+    override fun compareTo(that: Term): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private Term(final String term)
-	{
-		this.term = term;
-	}
+    // T O S T R I N G
 
-	public static Term make(final String term)
-	{
-		if (term.isEmpty())
-			throw new IllegalArgumentException("Empty term");
+    override fun toString(): String {
+        return term
+    }
 
-		final Term t = new Term(term.trim());
-		COLLECTOR.add(t);
-		return t;
-	}
+    // I N S E R T
 
-	public static String parse(final String line) throws IllegalArgumentException, StringIndexOutOfBoundsException
-	{
-		// split into fields
-		// Each SUMO concept is designated with the prefix '&%'. Note
-		// that each concept also has a suffix, '=', ':', '+', '[', ']' or '@', which indicates
-		// the precise relationship between the SUMOTerm concept and the WordNet synset.
-		// The symbols '=', '+', and '@' mean, respectively, that the WordNet synset
-		// is equivalent in meaning to the SUMOTerm concept, is subsumed by the SUMOTerm
-		// concept or is an instance of the SUMOTerm concept. ':', '[', and ']' are the
-		// complements of those relations. For example, a mapping expressed as
-		// ; (%ComplementFn &%Motion)+ now appears as &%Motion[
-		// Note also that ']' has not currently been needed.
+    override fun dataRow(): String {
+        return "${resolve()},${quotedEscapedString(term)}"
+    }
 
-		int breakPos = line.lastIndexOf("&%");
-		if (breakPos == -1)
-		{
-			throw new IllegalArgumentException(line);
-		}
-		try
-		{
-			final int position = breakPos + 2;
-			return line.substring(position, line.length() - 1);
-		}
-		catch (Exception e)
-		{
-			System.err.println(line);
-			throw new IllegalArgumentException(line);
-		}
-	}
+    override fun comment(): String {
+        return term
+    }
 
-	// A C C E S S
+    // R E S O L V E
 
-	public String getTerm()
-	{
-		return term;
-	}
+    fun resolve(): Int {
+        return intId
+    }
 
-	// I D E N T I T Y
+    override fun getIntId(): Int {
+        return COLLECTOR.apply(this)
+    }
 
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Term sumoTerm = (Term) o;
-		return term.equals(sumoTerm.term);
-	}
+    override fun resolving(): String {
+        return term
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(term);
-	}
+    companion object {
 
-	// O R D E R
+        val COMPARATOR: Comparator<Term> = Comparator
+            .comparing<Term, String> { it.term }
 
-	@Override
-	public int compareTo(@NotNull final Term that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
+        @JvmField
+        val COLLECTOR = SetCollector<Term>(COMPARATOR)
 
-	// T O S T R I N G
+        val wellKnownTerms = arrayOf<String>(
+            "subclass", "subrelation", "instance", "disjoint",
+            "domain", "partition",
+            "attribute", "property",
+            "subAttribute", "subProcess",
+            "equal", "inverse",
+            "=>", "<=>",
+            "contains", "element", "subset", "component", "part", "piece",
+            "format", "documentation",
+            "Relation", "Predicate", "Function", "Class"
+        )
 
-	@Override
-	public String toString()
-	{
-		return this.term;
-	}
+        @JvmStatic
+        @Throws(IllegalArgumentException::class, StringIndexOutOfBoundsException::class)
+        fun parse(line: String): String {
+            // split into fields
+            // Each SUMO concept is designated with the prefix '&%'. Note
+            // that each concept also has a suffix, '=', ':', '+', '[', ']' or '@', which indicates
+            // the precise relationship between the SUMOTerm concept and the WordNet synset.
+            // The symbols '=', '+', and '@' mean, respectively, that the WordNet synset
+            // is equivalent in meaning to the SUMOTerm concept, is subsumed by the SUMOTerm
+            // concept or is an instance of the SUMOTerm concept. ':', '[', and ']' are the
+            // complements of those relations. For example, a mapping expressed as
+            // ; (%ComplementFn &%Motion)+ now appears as &%Motion[
+            // Note also that ']' has not currently been needed.
 
-	// I N S E R T
+            val breakPos = line.lastIndexOf("&%")
+            require(breakPos != -1) { line }
+            try {
+                val position = breakPos + 2
+                return line.substring(position, line.length - 1)
+            } catch (_: Exception) {
+                System.err.println(line)
+                throw IllegalArgumentException(line)
+            }
+        }
 
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,%s", //
-				resolve(), // 1 id
-				Utils.quotedEscapedString(term)); // 2
-	}
+        @JvmStatic
+        fun make(term: String): Term {
+            require(!term.isEmpty()) { "Empty term" }
 
-	@Override
-	public String comment()
-	{
-		return term;
-	}
-
-	// R E S O L V E
-
-	public int resolve()
-	{
-		return getIntId();
-	}
-
-	@Override
-	public Integer getIntId()
-	{
-		return COLLECTOR.apply(this);
-	}
-
-	@Override
-	public String resolving()
-	{
-		return term;
-	}
+            val t = Term(term.trim { it <= ' ' })
+            COLLECTOR.add(t)
+            return t
+        }
+    }
 }

@@ -1,112 +1,71 @@
-package org.sqlbuilder.su.joins;
+package org.sqlbuilder.su.joins
 
-import com.articulate.sigma.NotNull;
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.su.FormulaParser
+import org.sqlbuilder.su.objects.Arg
+import org.sqlbuilder.su.objects.Formula
+import org.sqlbuilder.su.objects.Term
+import org.sqlbuilder.su.objects.Term.Companion.make
+import java.io.IOException
+import java.io.Serializable
+import java.text.ParseException
 
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.su.FormulaParser;
-import org.sqlbuilder.su.objects.Arg;
-import org.sqlbuilder.su.objects.Formula;
-import org.sqlbuilder.su.objects.Term;
+class Formula_Arg private constructor(
+    val formula: Formula,
+    val term: Term,
+    @JvmField val arg: Arg,
+) : Insertable, Serializable, Comparable<Formula_Arg> {
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.text.ParseException;
-import java.util.*;
+    val argNum: Int
+        get() = arg.argumentNum
 
-public class Formula_Arg implements Insertable, Serializable, Comparable<Formula_Arg>
-{
-	private static final Comparator<Formula_Arg> COMPARATOR = Comparator.comparing(Formula_Arg::getArgNum);
-	private final Formula formula;
+    // O R D E R
 
-	private final Term term;
+    override fun compareTo(that: Formula_Arg): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	private final Arg arg;
+    // I N S E R T
 
-	// C O N S T R U C T
+    override fun dataRow(): String {
+        return "${resolveFormula(formula)},${resolveTerm(term)},${arg.dataRow()}"
+    }
 
-	private Formula_Arg(final Formula formula, final Term term, final Arg arg)
-	{
-		this.formula = formula;
-		this.term = term;
-		this.arg = arg;
-	}
+    override fun comment(): String {
+        return "${term.term}, ${formula.toShortString(32)}"
+    }
 
-	public static List<Formula_Arg> make(final Formula formula) throws IllegalArgumentException, ParseException, IOException
-	{
-		final List<Formula_Arg> result = new ArrayList<>();
-		final Map<String, Arg> map = FormulaParser.parse(formula.formula);
-		for (final Map.Entry<String, Arg> entry : map.entrySet())
-		{
-			final String key = entry.getKey();
-			final Term term = Term.make(key);
-			final Arg parse = entry.getValue();
-			result.add(new Formula_Arg(formula, term, parse));
-		}
-		Collections.sort(result);
-		return result;
-	}
+    // R E S O L V E
 
-	// A C C E S S
+    fun resolve(): Int {
+        return -1
+    }
 
-	public Formula getFormula()
-	{
-		return formula;
-	}
+    fun resolveTerm(term: Term): Int {
+        return term.resolve()
+    }
 
-	public Term getTerm()
-	{
-		return term;
-	}
+    fun resolveFormula(formula: Formula): Int {
+        return formula.resolve()
+    }
 
-	public Arg getArg()
-	{
-		return arg;
-	}
+    companion object {
 
-	public int getArgNum()
-	{
-		return arg.argumentNum;
-	}
+        private val COMPARATOR: Comparator<Formula_Arg> = Comparator
+            .comparing<Formula_Arg, Int> { it.argNum }
 
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final Formula_Arg that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// I N S E R T
-	@Override
-	public String dataRow()
-	{
-		return String.format("%s,%s,%s", //
-				resolveFormula(formula), // 1
-				resolveTerm(term), // 2
-				arg.dataRow() // 3
-		);
-	}
-
-	@Override
-	public String comment()
-	{
-		return String.format("%s, %s", term.term, formula.toShortString(32));
-	}
-
-	// R E S O L V E
-
-	protected int resolve()
-	{
-		return -1;
-	}
-
-	protected int resolveTerm(final Term term)
-	{
-		return term.resolve();
-	}
-
-	protected int resolveFormula(final Formula formula)
-	{
-		return formula.resolve();
-	}
+        @JvmStatic
+        @Throws(IllegalArgumentException::class, ParseException::class, IOException::class)
+        fun make(formula: Formula): Collection<Formula_Arg> {
+            return FormulaParser.parse(formula.formula)
+                .map {
+                    val key: String = it.key
+                    val term = make(key)
+                    val parse: Arg = it.value
+                    Formula_Arg(formula, term, parse)
+                }
+                .sorted()
+                .toList()
+        }
+    }
 }

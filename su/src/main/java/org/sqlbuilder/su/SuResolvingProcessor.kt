@@ -1,137 +1,115 @@
-package org.sqlbuilder.su;
+package org.sqlbuilder.su
 
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.su.joins.Term_Synset;
-import org.sqlbuilder.su.objects.Term;
-import org.sqlbuilder.su.objects.TermAttr;
+import org.sqlbuilder.common.NotFoundException
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.su.joins.Term_Synset
+import org.sqlbuilder.su.objects.Term
+import org.sqlbuilder.su.objects.TermAttr.Companion.make
+import java.io.File
+import java.io.PrintStream
+import java.util.*
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Properties;
+open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
 
-public class SuResolvingProcessor extends SuProcessor
-{
-	protected final SuWordResolver wordResolver;
-	protected final SuSynsetResolver synsetResolver;
+    @JvmField
+    protected val wordResolver: SuWordResolver
 
-	protected final SuSynset31Resolver synset31Resolver;
+    @JvmField
+    protected val synsetResolver: SuSynsetResolver
 
-	public SuResolvingProcessor(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    @JvmField
+    protected val synset31Resolver: SuSynset31Resolver
 
-		// header
-		this.header += "\n-- " + conf.getProperty("wn_resolve_against");
+    init {
+        // header
+        header += "\n-- ${conf.getProperty("wn_resolve_against")}"
 
-		// columns
-		this.termsColumns = names.columns("terms", true);
-		this.synsetsColumns = names.columns("terms_synsets", true);
+        // columns
+        termsColumns = names.columns("terms", true)
+        synsetsColumns = names.columns("terms_synsets", true)
 
-		// outdir
-		this.outDir = new File(conf.getProperty("su_outdir_resolved", "sql/data_resolved"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
+        // outdir
+        outDir = File(conf.getProperty("su_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
+        }
 
-		// resolver
-		this.resolve = true;
-		String wordSerFile = conf.getProperty("word_nids");
-		this.wordResolver = new SuWordResolver(wordSerFile);
-		String synsetSerFile = conf.getProperty("synset_nids");
-		this.synsetResolver = new SuSynsetResolver(synsetSerFile);
-		String synset31SerFile = conf.getProperty("synsets30_to_synsets31");
-		this.synset31Resolver = new SuSynset31Resolver(synset31SerFile);
-	}
+        // resolver
+        resolve = true
+        val wordSerFile = conf.getProperty("word_nids")
+        wordResolver = SuWordResolver(wordSerFile)
+        val synsetSerFile = conf.getProperty("synset_nids")
+        synsetResolver = SuSynsetResolver(synsetSerFile)
+        val synset31SerFile = conf.getProperty("synsets30_to_synsets31")
+        synset31Resolver = SuSynset31Resolver(synset31SerFile)
+    }
 
-	@Override
-	public void processTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
-	{
-		Iterator<Term> iterator = terms.iterator();
-		if (iterator.hasNext())
-		{
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Term term = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = term.dataRow();
-				Integer wordId = wordResolver.apply(term.term.toLowerCase(Locale.ENGLISH));
-				ps.printf("(%s,%s)%s%n", row, Utils.nullableInt(wordId), isLast ? ";" : ",");
-			}
-		}
-	}
+    override fun processTerms(ps: PrintStream, terms: Iterable<Term>, table: String, columns: String) {
+        val iterator: Iterator<Term> = terms.iterator()
+        if (iterator.hasNext()) {
+            ps.println("INSERT INTO $table ($columns) VALUES")
+            while (iterator.hasNext()) {
+                val term = iterator.next()
+                val isLast = !iterator.hasNext()
+                val row = term.dataRow()
+                val wordId = wordResolver.apply(term.term.lowercase())
+                ps.println("($row,${nullableInt(wordId)})${if (isLast) ";" else ","}")
+            }
+        }
+    }
 
-	@Override
-	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
-	{
-		Iterator<Term> iterator = terms.iterator();
-		if (iterator.hasNext())
-		{
-			int i = 0;
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
-			while (iterator.hasNext())
-			{
-				final Term term = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = term.dataRow();
-				Integer wordId = wordResolver.apply(term.term.toLowerCase(Locale.ENGLISH));
-				ps.printf("(%s,%s)%s%n", row, Utils.nullableInt(wordId), isLast ? ";" : ",");
+    override fun processTermsAndAttrs(ps: PrintStream, ps2: PrintStream, terms: Iterable<Term>, kb: Kb, table: String, columns: String, table2: String, columns2: String) {
+        val iterator: Iterator<Term> = terms.iterator()
+        if (iterator.hasNext()) {
+            var i = 0
+            ps.println("INSERT INTO $table ($columns) VALUES")
+            ps2.printf("INSERT INTO $table2 ($columns2) VALUES")
+            while (iterator.hasNext()) {
+                val term = iterator.next()
+                val isLast = !iterator.hasNext()
+                val row = term.dataRow()
+                val wordId = wordResolver.apply(term.term.lowercase())
+                ps.println("($row,${nullableInt(wordId)})${if (isLast) ";" else ","}")
 
-				int termid = term.resolve();
-				try
-				{
-					final Collection<TermAttr> attributes = TermAttr.make(term, kb);
-					for (final TermAttr attribute : attributes)
-					{
-						String row2 = String.format("%d,%s", termid, attribute.dataRow());
-						String comment2 = term.comment();
-						ps2.printf("%s(%s) /* %s */", i == 0 ? "" : ",\n", row2, comment2);
-						i++;
-					}
-				}
-				catch (NotFoundException ignored)
-				{
-				}
-			}
-			ps2.println(";");
-		}
-	}
+                val termid = term.resolve()
+                try {
+                    val attributes = make(term, kb)
+                    for (attribute in attributes) {
+                        val row2 = "$termid,${attribute.dataRow()}"
+                        val comment2 = term.comment()
+                        ps2.print("${if (i == 0) "" else ",\n"}($row2) /* $comment2 */")
+                        i++
+                    }
+                } catch (_: NotFoundException) {
+                }
+            }
+            ps2.println(";")
+        }
+    }
 
-	@Override
-	public void processSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
-	{
-		Iterator<Term_Synset> iterator = terms_synsets.iterator();
-		if (iterator.hasNext())
-		{
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Term_Synset map = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = map.dataRow();
+    override fun processSynsets(ps: PrintStream, terms_synsets: Iterable<Term_Synset>, table: String, columns: String) {
+        val iterator: Iterator<Term_Synset> = terms_synsets.iterator()
+        if (iterator.hasNext()) {
+            ps.println("INSERT INTO $table ($columns) VALUES")
+            while (iterator.hasNext()) {
+                val map = iterator.next()
+                val isLast = !iterator.hasNext()
+                val row = map.dataRow()
 
-				// 30 to 31
-				char posId = map.posId; // {n,v,a,r,s}
-				long synset30Id = map.synsetId;
-				Long synset31Id = synset31Resolver.apply(posId, synset30Id);
+                // 30 to 31
+                val posId = map.posId // {n,v,a,r,s}
+                val synset30Id = map.synsetId
+                val synset31Id = synset31Resolver.apply(posId, synset30Id)
 
-				// 31 to XX
-				Integer resolvedSynsetId = null;
-				if (synset31Id != null)
-				{
-					String synsetId = String.format("%08d-%c", synset31Id, posId);
-					resolvedSynsetId = synsetResolver.apply(synsetId);
-				}
-				String comment = map.comment();
-				ps.printf("(%s,%s)%s -- %s%n", row, Utils.nullableInt(resolvedSynsetId), isLast ? ";" : ",", comment);
-			}
-		}
-	}
+                // 31 to XX
+                var resolvedSynsetId: Int? = null
+                if (synset31Id != null) {
+                    val synsetId = "${"%08d".format(synset31Id)}-$posId"
+                    resolvedSynsetId = synsetResolver.apply(synsetId)
+                }
+                val comment = map.comment()
+                ps.println("($row,${nullableInt(resolvedSynsetId)})${if (isLast) ";" else ","} -- $comment")
+            }
+        }
+    }
 }

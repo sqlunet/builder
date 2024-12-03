@@ -1,60 +1,53 @@
-package org.sqlbuilder.su;
+package org.sqlbuilder.su
 
-public class KBLoader
-{
-	public static Kb kb;
+open class KBLoader {
 
-	public static String getPath()
-	{
-		String kbPath = System.getProperty("sumopath");
-		if (kbPath == null)
-		{
-			kbPath = System.getenv("SUMOHOME");
-		}
-		assert kbPath != null;
-		return kbPath;
-	}
+    open fun load() {
+        kb = loadKb()
+    }
 
-	public static final String[] ALL_FILES = null;
+    companion object {
 
-	public static final String[] CORE_FILES = {"Merge.kif", "Mid-level-ontology.kif"};
+        @JvmField
+        var kb: Kb? = null
 
-	public static final String[] SAMPLE_FILES = {"Merge.kif", "Mid-level-ontology.kif", "Communications.kif"};
+        @JvmStatic
+        val path: String
+            get() {
+                var kbPath = System.getProperty("sumopath")
+                if (kbPath == null) {
+                    kbPath = System.getenv("SUMOHOME")
+                }
+                checkNotNull(kbPath)
+                return kbPath
+            }
 
-	public static String[] getScope()
-	{
-		String scope = System.getProperties().getProperty("SCOPE", "all");
-		switch (scope)
-		{
-			case "all":
-				return ALL_FILES;
-			case "core":
-				return CORE_FILES;
-			case "samples":
-				return SAMPLE_FILES;
-			default:
-				return scope.split("\\s");
-		}
-	}
+        val ALL_FILES: Array<String>? = null
 
-	public static Kb loadKb()
-	{
-		return loadKb(getScope());
-	}
+        val CORE_FILES: Array<String> = arrayOf("Merge.kif", "Mid-level-ontology.kif")
 
-	public static Kb loadKb(final String[] files)
-	{
-		String kbPath = getPath();
-		Kb kb = new Kb(kbPath);
-		System.err.printf("Kb building%n");
-		boolean result = kb.make(files);
-		assert result;
-		System.err.printf("%nKb built%n");
-		return kb;
-	}
+        val SAMPLE_FILES: Array<String> = arrayOf("Merge.kif", "Mid-level-ontology.kif", "Communications.kif")
 
-	public void load()
-	{
-		kb = loadKb();
-	}
+        val scope: Array<String>?
+            get() {
+                val scope = System.getProperties().getProperty("SCOPE", "all")
+                return when (scope) {
+                    "all"     -> ALL_FILES
+                    "core"    -> CORE_FILES
+                    "samples" -> SAMPLE_FILES
+                    else      -> scope.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                }
+            }
+
+        @JvmOverloads
+        fun loadKb(files: Array<String>? = scope): Kb {
+            val kbPath: String = path
+            val kb = Kb(kbPath)
+            System.err.println("Kb building")
+            val result: Boolean = kb.make(files)
+            assert(result)
+            System.err.println("%nKb built")
+            return kb
+        }
+    }
 }

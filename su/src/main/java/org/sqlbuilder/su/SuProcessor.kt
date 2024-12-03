@@ -1,399 +1,340 @@
-package org.sqlbuilder.su;
+package org.sqlbuilder.su
 
-import org.sqlbuilder.common.AlreadyFoundException;
-import org.sqlbuilder.common.Names;
-import org.sqlbuilder.common.NotFoundException;
-import org.sqlbuilder.common.Processor;
-import org.sqlbuilder.su.joins.Formula_Arg;
-import org.sqlbuilder.su.joins.Term_Synset;
-import org.sqlbuilder.su.objects.*;
+import org.sqlbuilder.common.AlreadyFoundException
+import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.NotFoundException
+import org.sqlbuilder.common.Processor
+import org.sqlbuilder.su.joins.Formula_Arg
+import org.sqlbuilder.su.joins.Formula_Arg.Companion.make
+import org.sqlbuilder.su.joins.Term_Synset
+import org.sqlbuilder.su.joins.Term_Synset.Companion.parse
+import org.sqlbuilder.su.objects.Formula
+import org.sqlbuilder.su.objects.Formula.Companion.make
+import org.sqlbuilder.su.objects.SUFile
+import org.sqlbuilder.su.objects.Term
+import org.sqlbuilder.su.objects.Term.Companion.parse
+import org.sqlbuilder.su.objects.TermAttr
+import org.sqlbuilder.su.objects.TermAttr.Companion.make
+import java.io.*
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.text.ParseException
+import java.util.*
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
+open class SuProcessor(conf: Properties) : Processor("sumo") {
 
-public class SuProcessor extends Processor
-{
-	private static final String[] POSES = {"noun", "verb", "adj", "adv"};
+    @JvmField
+    protected val inDir: File = File(conf.getProperty("su_home", System.getenv()["SUMOHOME"]))
 
-	public static final String SUMO_TEMPLATE = "WordNetMappings/WordNetMappings30-%s.txt";
+    @JvmField
+    protected val names: Names = Names("su")
 
-	protected final File inDir;
+    @JvmField
+    protected var header: String = conf.getProperty("su_header")
 
-	protected final Names names;
+    @JvmField
+    protected var termsColumns: String = names.columns("terms")
 
-	protected String header;
+    @JvmField
+    protected var synsetsColumns: String = names.columns("terms_synsets")
 
-	protected String termsColumns;
+    @JvmField
+    protected var resolve: Boolean = false
 
-	protected String synsetsColumns;
+    @JvmField
+    protected var outDir: File = File(conf.getProperty("su_outdir", "sql/data"))
 
-	protected boolean resolve;
+    init {
+        if (!outDir.exists()) {
+            outDir.mkdirs()
+        }
+    }
 
-	protected File outDir;
+    open fun processTerms(ps: PrintStream, terms: Iterable<Term>, table: String, columns: String) {
+        insertTerms(ps, terms, table, columns)
+    }
 
-	protected final Properties conf;
+    open fun processTermsAndAttrs(ps: PrintStream, ps2: PrintStream, terms: Iterable<Term>, kb: Kb, table: String, columns: String, table2: String, columns2: String) {
+        insertTermsAndAttrs(ps, ps2, terms, kb, table, columns, table2, columns2)
+    }
 
-	public SuProcessor(final Properties conf)
-	{
-		super("sumo");
-		this.resolve = false;
-		this.names = new Names("su");
-		this.conf = conf;
-		this.header = conf.getProperty("su_header");
-		this.termsColumns = names.columns("terms");
-		this.synsetsColumns = names.columns("terms_synsets");
-		this.inDir = new File(conf.getProperty("su_home", System.getenv().get("SUMOHOME")));
-		this.outDir = new File(conf.getProperty("su_outdir", "sql/data"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+    open fun processSynsets(ps: PrintStream, terms_synsets: Iterable<Term_Synset>, table: String, columns: String) {
+        insertSynsets(ps, terms_synsets, table, columns)
+    }
 
-	// C O L L E C T
+    // R U N
 
-	public static void collectFiles(final Kb kb)
-	{
-		for (final String filename : kb.getFilenames())
-		{
-			SUFile.make(filename);
-		}
-	}
+    @Throws(IOException::class)
+    override fun run() {
+        KBLoader().load()
+        checkNotNull(KBLoader.kb)
+        collectFiles(KBLoader.kb!!)
+        collectTerms(KBLoader.kb!!)
+        collectFormulas(KBLoader.kb!!)
+        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
 
-	public static void collectTerms(final Kb kb)
-	{
-		for (final String term : kb.terms)
-		{
-			Term.make(term);
-		}
-	}
+        try {
+            SUFile.COLLECTOR.open().use { ignored1 ->
+                Term.COLLECTOR.open().use { ignored2 ->
+                    Formula.COLLECTOR.open().use { ignored3 ->
+                        PrintStream(FileOutputStream(File(outDir, names.file("files"))), true, StandardCharsets.UTF_8).use { ps ->
+                            ps.println("-- $header")
+                            insertFiles(ps, SUFile.COLLECTOR, names.table("files"), names.columns("files"))
+                        }
+                        PrintStream(FileOutputStream(File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8).use { ps ->
+                            PrintStream(FileOutputStream(File(outDir, names.file("terms_attrs"))), true, StandardCharsets.UTF_8).use { ps2 ->
+                                ps.println("-- $header")
+                                ps2.println("-- $header")
+                                processTermsAndAttrs(ps, ps2, Term.COLLECTOR, KBLoader.kb!!, names.table("terms"), termsColumns, names.table("terms_attrs"), names.columns("terms_attrs"))
+                            }
+                        }
+                        PrintStream(FileOutputStream(File(outDir, names.file("formulas"))), true, StandardCharsets.UTF_8).use { ps ->
+                            PrintStream(FileOutputStream(File(outDir, names.file("formulas_args"))), true, StandardCharsets.UTF_8).use { ps2 ->
+                                ps.println("-- $header")
+                                ps2.println("-- $header")
+                                insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR, names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"))
+                            }
+                        }
+                        PrintStream(FileOutputStream(File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8).use { ps ->
+                            ps.println("-- $header")
+                            processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns)
+                        }
+                    }
+                }
+            }
+        } catch (e: NotFoundException) {
+            throw RuntimeException(e)
+        } catch (e: ParseException) {
+            throw RuntimeException(e)
+        }
+    }
 
-	public static void collectFormulas(final Kb kb)
-	{
-		for (final com.articulate.sigma.Formula formula : kb.formulas.values())
-		{
-			Formula.make(formula);
-		}
-	}
+    companion object {
 
-	public static void collectSynsets(final String fileTemplate, final PrintStream pse) throws IOException
-	{
-		for (final String posName : POSES)
-		{
-			final String filename = String.format(fileTemplate, posName);
-			collectFileSynsets(filename, pse);
-		}
-	}
+        private val POSES = arrayOf<String?>("noun", "verb", "adj", "adv")
 
-	public static void collectFileSynsets(final String filename, final PrintStream pse) throws IOException
-	{
-		// iterate on synsets
-		final Path path = Paths.get(filename);
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(path))))
-		{
-			int lineno = 0;
-			String line;
-			while ((line = reader.readLine()) != null)
-			{
-				lineno++;
-				line = line.trim();
-				if (line.isEmpty() || line.charAt(0) == ' ' || line.charAt(0) == ';' || !line.contains("&%"))
-				{
-					continue;
-				}
+        const val SUMO_TEMPLATE: String = "WordNetMappings/WordNetMappings30-%s.txt"
 
-				// read
-				try
-				{
-					final String term = Term.parse(line);
-					/* final Term_Sense mapping = */
-					Term_Synset.parse(term, line); // side effect: term mapping collected into set
-				}
-				catch (IllegalArgumentException iae)
-				{
-					pse.println(path.getFileName().toString() + ':' + lineno + " " + ": ILLEGAL [" + iae.getMessage() + "] : " + line);
-				}
-				catch (AlreadyFoundException afe)
-				{
-					pse.println(path.getFileName().toString() + ':' + lineno + " " + ": DUPLICATE [" + afe.getMessage() + "] : " + line);
-				}
-			}
-		}
-	}
+        // C O L L E C T
 
-	// I N S E R T
+        @JvmStatic
+        fun collectFiles(kb: Kb) {
+            for (filename in kb.filenames) {
+                SUFile.make(filename)
+            }
+        }
 
-	public static void insertFiles(final PrintStream ps, final Iterable<SUFile> files, final String table, final String columns)
-	{
-		Iterator<SUFile> iterator = files.iterator();
-		if (iterator.hasNext())
-		{
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final SUFile file = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = file.dataRow();
-				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
-			}
-		}
-	}
+        @JvmStatic
+        fun collectTerms(kb: Kb) {
+            for (term in kb.terms) {
+                Term.make(term)
+            }
+        }
 
-	public static void insertTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
-	{
-		Iterator<Term> iterator = terms.iterator();
-		if (iterator.hasNext())
-		{
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Term term = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = term.dataRow();
-				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
-			}
-		}
-	}
+        @JvmStatic
+        fun collectFormulas(kb: Kb) {
+            for (formula in kb.formulas.values) {
+                make(formula)
+            }
+        }
 
-	public static void insertTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
-	{
-		Iterator<Term> iterator = terms.iterator();
-		if (iterator.hasNext())
-		{
-			int i = 0;
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
-			while (iterator.hasNext())
-			{
-				final Term term = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = term.dataRow();
-				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
+        @JvmStatic
+        @Throws(IOException::class)
+        fun collectSynsets(fileTemplate: String, pse: PrintStream) {
+            for (posName in POSES) {
+                val filename = String.format(fileTemplate, posName)
+                collectFileSynsets(filename, pse)
+            }
+        }
 
-				int termid = term.resolve();
-				try
-				{
-					final Collection<TermAttr> attributes = TermAttr.make(term, kb);
-					for (final TermAttr attribute : attributes)
-					{
-						String row2 = String.format("%d,%s", termid, attribute.dataRow());
-						String comment2 = term.comment();
-						ps2.printf("%s(%s) /* %s */", i == 0 ? "" : ",\n", row2, comment2);
-						i++;
-					}
-				}
-				catch (NotFoundException ignored)
-				{
-				}
-			}
-			ps2.println(";");
-		}
-	}
+        @Throws(IOException::class)
+        fun collectFileSynsets(filename: String, pse: PrintStream) {
+            // iterate on synsets
+            val path = Paths.get(filename)
+            BufferedReader(InputStreamReader(Files.newInputStream(path))).use { reader ->
+                var lineno = 0
+                var line: String?
+                while ((reader.readLine().also { line = it }) != null) {
+                    lineno++
+                    line = line!!.trim { it <= ' ' }
+                    if (line.isEmpty() || line[0] == ' ' || line[0] == ';' || !line.contains("&%")) {
+                        continue
+                    }
 
-	public static void insertTermAttrs(final PrintStream ps, final Iterable<Term> terms, final Kb kb, final String table, final String columns)
-	{
-		Iterator<Term> iterator = terms.iterator();
-		if (iterator.hasNext())
-		{
-			int j = 0;
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Term term = iterator.next();
-				int termid = term.resolve();
-				try
-				{
-					final Collection<TermAttr> attributes = TermAttr.make(term, kb);
-					for (final TermAttr attribute : attributes)
-					{
-						String row2 = String.format("%d,%s", termid, attribute.dataRow());
-						String comment2 = term.comment();
-						ps.printf("%s(%s) /* %s */", j == 0 ? "" : ",\n", row2, comment2);
-						j++;
-					}
-				}
-				catch (NotFoundException ignored)
-				{
-				}
-			}
-			ps.println(";");
-		}
-	}
+                    // read
+                    try {
+                        val term = parse(line)
+                        /* final Term_Sense mapping = */
+                        parse(term, line) // side effect: term mapping collected into set
+                    } catch (iae: IllegalArgumentException) {
+                        pse.println(path.fileName.toString() + ':' + lineno + " " + ": ILLEGAL [" + iae.message + "] : " + line)
+                    } catch (afe: AlreadyFoundException) {
+                        pse.println(path.fileName.toString() + ':' + lineno + " " + ": DUPLICATE [" + afe.message + "] : " + line)
+                    }
+                }
+            }
+        }
 
-	public static void insertFormulas(final PrintStream ps, final Iterable<Formula> formulas, final String table, final String columns)
-	{
-		Iterator<Formula> iterator = formulas.iterator();
-		if (iterator.hasNext())
-		{
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Formula formula = iterator.next();
-				boolean isLast = !iterator.hasNext();
-				String row = formula.dataRow();
-				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
-			}
-		}
-	}
+        // I N S E R T
 
-	public static void insertFormulasAndArgs(final PrintStream ps, final PrintStream ps2, final Iterable<Formula> formulas, final String table, final String columns, final String table2, final String columns2) throws NotFoundException, ParseException, IOException
-	{
-		Iterator<Formula> iterator = formulas.iterator();
-		if (iterator.hasNext())
-		{
-			int i = 0;
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2);
-			while (iterator.hasNext())
-			{
-				final Formula formula = iterator.next();
-				boolean isLast = !iterator.hasNext();
+        fun insertFiles(ps: PrintStream, files: Iterable<SUFile>, table: String, columns: String) {
+            val iterator: Iterator<SUFile> = files.iterator()
+            if (iterator.hasNext()) {
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                while (iterator.hasNext()) {
+                    val file = iterator.next()
+                    val isLast = !iterator.hasNext()
+                    val row = file.dataRow()
+                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                }
+            }
+        }
 
-				// formula
-				String row = formula.dataRow();
-				ps.printf("(%s)%s%n", row, isLast ? ";" : ",");
+        fun insertTerms(ps: PrintStream, terms: Iterable<Term>, table: String, columns: String) {
+            val iterator: Iterator<Term> = terms.iterator()
+            if (iterator.hasNext()) {
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                while (iterator.hasNext()) {
+                    val term = iterator.next()
+                    val isLast = !iterator.hasNext()
+                    val row = term.dataRow()
+                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                }
+            }
+        }
 
-				// formula args
-				List<Formula_Arg> formulas_args = Formula_Arg.make(formula);
-				for (final Formula_Arg formula_arg : formulas_args)
-				{
-					String row2 = formula_arg.dataRow();
-					Arg arg = formula_arg.getArg();
-					String commentArg2 = arg.comment();
-					//Term term = formula_arg.getTerm();
-					//String commentTerm2 = term.comment();
-					String commentFormArg2 = formula_arg.comment();
-					ps2.printf("%s(%s) /* %s, %s */", i == 0 ? "" : ",\n", row2, commentArg2, /* commentTerm2,*/ commentFormArg2);
-					i++;
-				}
-			}
-			ps2.println(";");
-		}
-	}
+        fun insertTermsAndAttrs(ps: PrintStream, ps2: PrintStream, terms: Iterable<Term>, kb: Kb, table: String, columns: String, table2: String, columns2: String) {
+            val iterator: Iterator<Term> = terms.iterator()
+            if (iterator.hasNext()) {
+                var i = 0
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2)
+                while (iterator.hasNext()) {
+                    val term = iterator.next()
+                    val isLast = !iterator.hasNext()
+                    val row = term.dataRow()
+                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
 
-	public static void insertFormulaArgs(final PrintStream ps, final Iterable<Formula> formulas, final String table, final String columns) throws ParseException, IOException
-	{
-		Iterator<Formula> iterator = formulas.iterator();
-		if (iterator.hasNext())
-		{
-			int i = 0;
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Formula formula = iterator.next();
+                    val termid = term.resolve()
+                    try {
+                        val attributes: Collection<TermAttr> = make(term, kb)
+                        for (attribute in attributes) {
+                            val row2 = "$termid,${attribute.dataRow()}"
+                            val comment2 = term.comment()
+                            ps2.print("${if (i == 0) "" else ",\n"}($row2) /* $comment2 */")
+                            i++
+                        }
+                    } catch (_: NotFoundException) {
+                    }
+                }
+                ps2.println(";")
+            }
+        }
 
-				// formula args
-				List<Formula_Arg> formulas_args = Formula_Arg.make(formula);
-				for (final Formula_Arg formula_arg : formulas_args)
-				{
-					String row2 = formula_arg.dataRow();
-					String comment2 = formula_arg.comment();
-					ps.printf("%s(%s) /* %s */", i == 0 ? "" : ",\n", row2, comment2);
-					i++;
-				}
-			}
-			ps.println(";");
-		}
-	}
+        fun insertTermAttrs(ps: PrintStream, terms: Iterable<Term>, kb: Kb, table: String, columns: String) {
+            val iterator: Iterator<Term> = terms.iterator()
+            if (iterator.hasNext()) {
+                var j = 0
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                while (iterator.hasNext()) {
+                    val term = iterator.next()
+                    val termid = term.resolve()
+                    try {
+                        val attributes: Collection<TermAttr> = make(term, kb)
+                        for (attribute in attributes) {
+                            val row2 = "$termid,${attribute.dataRow()}"
+                            val comment2 = term.comment()
+                            ps.print("${if (j == 0) "" else ",\n"}($row2) /* $comment2 */")
+                            j++
+                        }
+                    } catch (_: NotFoundException) {
+                    }
+                }
+                ps.println(";")
+            }
+        }
 
-	public static void insertSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
-	{
-		Iterator<Term_Synset> iterator = terms_synsets.iterator();
-		if (iterator.hasNext())
-		{
-			ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns);
-			while (iterator.hasNext())
-			{
-				final Term_Synset map = iterator.next();
-				boolean isLast = !iterator.hasNext();
+        fun insertFormulas(ps: PrintStream, formulas: Iterable<Formula>, table: String, columns: String) {
+            val iterator: Iterator<Formula> = formulas.iterator()
+            if (iterator.hasNext()) {
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                while (iterator.hasNext()) {
+                    val formula = iterator.next()
+                    val isLast = !iterator.hasNext()
+                    val row = formula.dataRow()
+                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
+                }
+            }
+        }
 
-				String row = map.dataRow();
-				String comment = map.comment();
-				ps.printf("(%s)%s -- %s%n", row, isLast ? ";" : ",", comment);
-			}
-		}
-	}
+        @Throws(NotFoundException::class, ParseException::class, IOException::class)
+        fun insertFormulasAndArgs(ps: PrintStream, ps2: PrintStream, formulas: Iterable<Formula>, table: String, columns: String, table2: String, columns2: String) {
+            val iterator: Iterator<Formula> = formulas.iterator()
+            if (iterator.hasNext()) {
+                var i = 0
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                ps2.printf("INSERT INTO %s (%s) VALUES%n", table2, columns2)
+                while (iterator.hasNext()) {
+                    val formula = iterator.next()
+                    val isLast = !iterator.hasNext()
 
-	public void processTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
-	{
-		insertTerms(ps, terms, table, columns);
-	}
+                    // formula
+                    val row = formula.dataRow()
+                    ps.printf("(%s)%s%n", row, if (isLast) ";" else ",")
 
-	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
-	{
-		insertTermsAndAttrs(ps, ps2, terms, kb, table, columns, table2, columns2);
-	}
+                    // formula args
+                    val formulas_args: Collection<Formula_Arg> = make(formula)
+                    for (formula_arg in formulas_args) {
+                        val row2 = formula_arg.dataRow()
+                        val arg = formula_arg.arg
+                        val commentArg2 = arg.comment()
+                        //Term term = formula_arg.getTerm();
+                        //String commentTerm2 = term.comment();
+                        val commentFormArg2 = formula_arg.comment()
+                        ps2.printf("%s(%s) /* %s, %s */", if (i == 0) "" else ",\n", row2, commentArg2,  /* commentTerm2,*/commentFormArg2)
+                        i++
+                    }
+                }
+                ps2.println(";")
+            }
+        }
 
-	public void processSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
-	{
-		insertSynsets(ps, terms_synsets, table, columns);
-	}
+        @Throws(ParseException::class, IOException::class)
+        fun insertFormulaArgs(ps: PrintStream, formulas: Iterable<Formula>, table: String, columns: String) {
+            val iterator: Iterator<Formula> = formulas.iterator()
+            if (iterator.hasNext()) {
+                var i = 0
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                while (iterator.hasNext()) {
+                    val formula = iterator.next()
 
-	// R U N
+                    // formula args
+                    val formulas_args: Collection<Formula_Arg> = make(formula)
+                    for (formula_arg in formulas_args) {
+                        val row2 = formula_arg.dataRow()
+                        val comment2 = formula_arg.comment()
+                        ps.printf("%s(%s) /* %s */", if (i == 0) "" else ",\n", row2, comment2)
+                        i++
+                    }
+                }
+                ps.println(";")
+            }
+        }
 
-	@Override
-	public void run() throws IOException
-	{
-		new KBLoader().load();
-		collectFiles(KBLoader.kb);
-		collectTerms(KBLoader.kb);
-		collectFormulas(KBLoader.kb);
-		collectSynsets(this.inDir + File.separator + SUMO_TEMPLATE, System.err);
+        fun insertSynsets(ps: PrintStream, terms_synsets: Iterable<Term_Synset>, table: String, columns: String) {
+            val iterator: Iterator<Term_Synset> = terms_synsets.iterator()
+            if (iterator.hasNext()) {
+                ps.printf("INSERT INTO %s (%s) VALUES%n", table, columns)
+                while (iterator.hasNext()) {
+                    val map = iterator.next()
+                    val isLast = !iterator.hasNext()
 
-		try ( //
-		      var ignored1 = SUFile.COLLECTOR.open(); //
-		      var ignored2 = Term.COLLECTOR.open(); //
-		      var ignored3 = Formula.COLLECTOR.open() //
-		) //
-		{
-			// files
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("files"))), true, StandardCharsets.UTF_8))
-			{
-				ps.println("-- " + header);
-				insertFiles(ps, SUFile.COLLECTOR, names.table("files"), names.columns("files"));
-			}
-
-			// terms + attrs
-			try ( //
-			      PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8); //
-			      PrintStream ps2 = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_attrs"))), true, StandardCharsets.UTF_8) //
-			)
-			{
-				ps.println("-- " + header);
-				ps2.println("-- " + header);
-				processTermsAndAttrs(ps, ps2, Term.COLLECTOR, KBLoader.kb, names.table("terms"), termsColumns, names.table("terms_attrs"), names.columns("terms_attrs"));
-			}
-
-			// formulas + args
-			try ( //
-			      PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("formulas"))), true, StandardCharsets.UTF_8); //
-			      PrintStream ps2 = new PrintStream(new FileOutputStream(new File(outDir, names.file("formulas_args"))), true, StandardCharsets.UTF_8) //
-			)
-			{
-				ps.println("-- " + header);
-				ps2.println("-- " + header);
-				insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR, names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"));
-			}
-
-			// terms_synsets
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8))
-			{
-				ps.println("-- " + header);
-				processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns);
-			}
-		}
-		catch (NotFoundException | ParseException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+                    val row = map.dataRow()
+                    val comment = map.comment()
+                    ps.printf("(%s)%s -- %s%n", row, if (isLast) ";" else ",", comment)
+                }
+            }
+        }
+    }
 }

@@ -1,159 +1,107 @@
-package org.sqlbuilder.su.joins;
+package org.sqlbuilder.su.joins
 
-import com.articulate.sigma.NotNull;
+import org.sqlbuilder.common.AlreadyFoundException
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Utils.nullableInt
+import org.sqlbuilder.su.objects.Term
+import org.sqlbuilder.su.objects.Term.Companion.make
+import java.io.Serializable
+import java.util.*
 
-import org.sqlbuilder.common.AlreadyFoundException;
-import org.sqlbuilder.common.Insertable;
-import org.sqlbuilder.su.Utils;
-import org.sqlbuilder.su.objects.Term;
+class Term_Synset private constructor(
+    val term: Term,
+    @JvmField val synsetId: Long,
+    @JvmField val posId: Char,
+    val mapType: String,
+) : Insertable, Serializable, Comparable<Term_Synset> {
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+    // I D E N T I T Y
 
-public class Term_Synset implements Insertable, Serializable, Comparable<Term_Synset>
-{
-	private static final Comparator<Term_Synset> COMPARATOR = Comparator.comparing(Term_Synset::getTerm).thenComparing(Term_Synset::getSynsetId).thenComparing(Term_Synset::getPosId).thenComparing(Term_Synset::getMapType);
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Term_Synset
+        return synsetId == that.synsetId && posId == that.posId && term == that.term
+    }
 
-	public static final Set<Term_Synset> SET = new TreeSet<>();
+    override fun hashCode(): Int {
+        return Objects.hash(synsetId, posId, term)
+    }
 
-	public final long synsetId;
+    // O R D E R
 
-	public final char posId;
+    override fun compareTo(that: Term_Synset): Int {
+        return COMPARATOR.compare(this, that)
+    }
 
-	public final Term term;
+    // T O S T R I N G
 
-	public final String mapType;
+    override fun toString(): String {
+        return "$term -> $synsetId [$posId] ($mapType)"
+    }
 
-	// C O N S T R U C T
+    // I N S E R T
 
-	private Term_Synset(final Term term, final long synsetId, char pos, final String mapType)
-	{
-		this.synsetId = synsetId;
-		this.posId = pos;
-		this.term = term;
-		this.mapType = mapType;
-	}
+    override fun dataRow(): String {
+        return "$synsetId,'$posId','$mapType',${nullableInt(resolvedTermId())}"
+    }
 
-	public static Term_Synset make(final Term term, final long synsetId, char pos, final String mapType) throws AlreadyFoundException
-	{
-		Term_Synset map = new Term_Synset(term, synsetId, pos, mapType);
-		boolean wasThere = !SET.add(map);
-		if (wasThere)
-		{
-			throw new AlreadyFoundException(map.toString());
-		}
-		return map;
-	}
+    override fun comment(): String {
+        return this.term.term
+    }
 
-	public static Term_Synset parse(final String termstr, final String line) throws IllegalArgumentException
-	{
-		// split into fields
-		// Each SUMOTerm concept is designated with the prefix '&%'. Note
-		// that each concept also has a suffix, '=', ':', '+', '[', ']' or '@', which indicates
-		// the precise relationship between the SUMOTerm concept and the WordNet synset.
-		// The symbols '=', '+', and '@' mean, respectively, that the WordNet synset
-		// is equivalent in meaning to the SUMOTerm concept, is subsumed by the SUMOTerm
-		// concept or is an instance of the SUMOTerm concept. ':', '[', and ']' are the
-		// complements of those relations. For example, a mapping expressed as
-		// ; (%ComplementFn &%Motion)+ now appears as &%Motion[
-		// Note also that ']' has not currently been needed.
-		// 00003939 00 a
-		final char pos = line.charAt(12);
-		final int breakPos = line.indexOf(' ');
-		final String offsetField = line.substring(0, breakPos);
-		final long synsetId = Long.parseLong(offsetField);
-		final Term term = Term.make(termstr);
-		final String mapType = line.substring(line.length() - 1);
-		return Term_Synset.make(term, synsetId, pos, mapType);
-	}
+    // R E S O L V E
 
-	// A C C E S S
+    fun resolvedTermId(): Int {
+        return term.resolve()
+    }
 
-	public long getSynsetId()
-	{
-		return synsetId;
-	}
+    companion object {
 
-	public char getPosId()
-	{
-		return posId;
-	}
+        private val COMPARATOR: Comparator<Term_Synset> = Comparator
+            .comparing<Term_Synset, Term> { it.term }
+            .thenComparing<Long> { it.synsetId }
+            .thenComparing<Char> { it.posId }
+            .thenComparing<String> { it.mapType }
 
-	public Term getTerm()
-	{
-		return term;
-	}
+        @JvmField
+        val SET = TreeSet<Term_Synset>()
 
-	public String getMapType()
-	{
-		return mapType;
-	}
+        @JvmStatic
+        @Throws(IllegalArgumentException::class)
+        fun parse(termstr: String, line: String): Term_Synset {
+            // split into fields
+            // Each SUMOTerm concept is designated with the prefix '&%'. Note
+            // that each concept also has a suffix, '=', ':', '+', '[', ']' or '@', which indicates
+            // the precise relationship between the SUMOTerm concept and the WordNet synset.
+            // The symbols '=', '+', and '@' mean, respectively, that the WordNet synset
+            // is equivalent in meaning to the SUMOTerm concept, is subsumed by the SUMOTerm
+            // concept or is an instance of the SUMOTerm concept. ':', '[', and ']' are the
+            // complements of those relations. For example, a mapping expressed as
+            // ; (%ComplementFn &%Motion)+ now appears as &%Motion[
+            // Note also that ']' has not currently been needed.
+            // 00003939 00 a
+            val pos = line[12]
+            val breakPos = line.indexOf(' ')
+            val offsetField = line.substring(0, breakPos)
+            val synsetId = offsetField.toLong()
+            val term = make(termstr)
+            val mapType = line.substring(line.length - 1)
+            return make(term, synsetId, pos, mapType)
+        }
 
-	// I D E N T I T Y
-
-	@Override
-	public boolean equals(final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
-		Term_Synset that = (Term_Synset) o;
-		return synsetId == that.synsetId && posId == that.posId && term.equals(that.term);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(synsetId, posId, term);
-	}
-
-	// O R D E R
-
-	@Override
-	public int compareTo(@NotNull final Term_Synset that)
-	{
-		return COMPARATOR.compare(this, that);
-	}
-
-	// T O S T R I N G
-
-	@Override
-	public String toString()
-	{
-		return this.term + " -> " + this.synsetId + " [" + this.posId + "] (" + mapType + ")";
-	}
-
-	// I N S E R T
-
-	@Override
-	public String dataRow()
-	{
-		return String.format("%d,'%s','%s',%s", //
-				synsetId, // 1
-				posId, // 2
-				mapType, // 3
-				Utils.nullableInt(resolvedTermId()) // 4
-		);
-	}
-
-	@Override
-	public String comment()
-	{
-		return getTerm().term;
-	}
-
-	// R E S O L V E
-
-	public Integer resolvedTermId()
-	{
-		return term.resolve();
-	}
+        @Throws(AlreadyFoundException::class)
+        fun make(term: Term, synsetId: Long, pos: Char, mapType: String): Term_Synset {
+            val map = Term_Synset(term, synsetId, pos, mapType)
+            val wasThere: Boolean = !SET.add(map)
+            if (wasThere) {
+                throw AlreadyFoundException(map.toString())
+            }
+            return map
+        }
+    }
 }

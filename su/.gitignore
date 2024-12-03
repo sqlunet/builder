@@ -1,6 +1,8 @@
 /target/
+/sers
 /sers/
-/data/
-/sql/
-/sql31/
 /data
+/data/
+/sql*/
+/_sql/
+/log/

@@ -1,50 +1,33 @@
-package og.sqlbuilder.sumo;
+package og.sqlbuilder.sumo
 
-import org.sqlbuilder.su.Kb;
-import org.sqlbuilder.su.SuModule;
+import org.sqlbuilder.su.Kb
+import org.sqlbuilder.su.SuModule
+import java.io.OutputStream
+import java.io.PrintStream
 
-import java.io.OutputStream;
-import java.io.PrintStream;
+object TestUtils {
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+    val NULL_OUT: PrintStream = PrintStream(object : OutputStream() {
+        override fun write(b: Int) {
+            //DO NOTHING
+        }
+    })
 
-public class TestUtils
-{
-	public static final PrintStream NULL_OUT = new PrintStream(new OutputStream()
-	{
-		public void write(int b)
-		{
-			//DO NOTHING
-		}
-	});
+    var OUT: PrintStream = System.out
 
-	public static PrintStream OUT = System.out;
+    val OUT_INFO: PrintStream = System.out
 
-	public static final PrintStream OUT_INFO = System.out;
+    var OUT_WARN: PrintStream = System.out
 
-	public static PrintStream OUT_WARN = System.out;
+    var ERR: PrintStream = System.err
 
-	public static PrintStream ERR = System.err;
+    fun turnOffLogging() {
+        SuModule.turnOffLogging()
 
-	public static void turnOffLogging()
-	{
-		SuModule.turnOffLogging();
-
-		boolean silent = System.getProperties().containsKey("SILENT");
-		if (silent)
-		{
-			OUT = NULL_OUT;
-			OUT_WARN = NULL_OUT;
-		}
-	}
-
-	public static void getRelValences(final String[] rels, final Kb kb)
-	{
-		System.out.println();
-		for (String rel : rels)
-		{
-			System.out.printf("'%s' valence %s%n", rel, kb.getValence(rel));
-		}
-	}
+        val silent = System.getProperties().containsKey("SILENT")
+        if (silent) {
+            OUT = NULL_OUT
+            OUT_WARN = NULL_OUT
+        }
+    }
 }

@@ -1,133 +1,96 @@
-package org.sqlbuilder.su;
+package org.sqlbuilder.su
 
-import org.sqlbuilder.su.joins.Term_Synset;
-import org.sqlbuilder.su.objects.Term;
+import org.sqlbuilder.su.joins.Term_Synset
+import org.sqlbuilder.su.objects.Term
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Properties;
+class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
+    init {
+        // output
+        outDir = File(conf.getProperty("su_outdir_updated", "sql/data_updated"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
+        }
+    }
 
-public class SuUpdatingProcessor extends SuResolvingProcessor
-{
-	public SuUpdatingProcessor(final Properties conf) throws IOException, ClassNotFoundException
-	{
-		super(conf);
+    @Throws(IOException::class)
+    override fun run() {
+        KBLoader().load()
+        collectTerms(KBLoader.kb!!)
+        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
 
-		// output
-		this.outDir = new File(conf.getProperty("su_outdir_updated", "sql/data_updated"));
-		if (!this.outDir.exists())
-		{
-			//noinspection ResultOfMethodCallIgnored
-			this.outDir.mkdirs();
-		}
-	}
+        Term.COLLECTOR.open().use { ignored ->
+            PrintStream(FileOutputStream(File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8).use { ps ->
+                ps.println("-- $header")
+                processTerms(ps, Term.COLLECTOR, names.table("terms"), termsColumns)
+            }
+            PrintStream(FileOutputStream(File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8).use { ps ->
+                ps.println("-- $header")
+                processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns)
+            }
+        }
+    }
 
-	@Override
-	public void run() throws IOException
-	{
-		new KBLoader().load();
-		collectTerms(KBLoader.kb);
-		collectSynsets(this.inDir + File.separator + SUMO_TEMPLATE, System.err);
+    override fun processTerms(ps: PrintStream, terms: Iterable<Term>, table: String, columns: String) {
+        val iterator: Iterator<Term> = terms.iterator()
+        if (iterator.hasNext()) {
+            val colWordId = names.column("terms.wordid")
+            val colTermId = names.column("terms.termid")
 
-		try ( //
-		      var ignored = Term.COLLECTOR.open() //
-		) //
-		{
-			// terms
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8))
-			{
-				ps.println("-- " + header);
-				processTerms(ps, Term.COLLECTOR, names.table("terms"), termsColumns);
-			}
+            var i = 0
+            for (term in terms) {
+                updateTermRow(ps, table, ++i, term, colWordId, colTermId)
+            }
+        }
+    }
 
-			// terms_senses
-			try (PrintStream ps = new PrintStream(new FileOutputStream(new File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8))
-			{
-				ps.println("-- " + header);
-				processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns);
-			}
-		}
-	}
+    override fun processTermsAndAttrs(ps: PrintStream, ps2: PrintStream, terms: Iterable<Term>, kb: Kb, table: String, columns: String, table2: String, columns2: String) {
+        processTerms(ps, terms, table, columns)
+    }
 
-	@Override
-	public void processTerms(final PrintStream ps, final Iterable<Term> terms, final String table, final String columns)
-	{
-		Iterator<Term> iterator = terms.iterator();
-		if (iterator.hasNext())
-		{
-			final String colWordId = names.column("terms.wordid");
-			final String colTermId = names.column("terms.termid");
+    private fun updateTermRow(ps: PrintStream, table: String, index: Int, term: Term, vararg columns: String) {
+        val resolvedWordId = wordResolver.apply(term.term.lowercase())
+        if (resolvedWordId != null) {
+            val resolvedTermId = term.resolve()
 
-			int i = 0;
-			for (final Term term : terms)
-			{
-				updateTermRow(ps, table, ++i, term, colWordId, colTermId);
-			}
-		}
-	}
+            val setClause = "${columns[0]}=$resolvedWordId"
+            val whereClause = "${columns[1]}=$resolvedTermId"
+            ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1} ${term.comment()}")
+        }
+    }
 
-	@Override
-	public void processTermsAndAttrs(final PrintStream ps, final PrintStream ps2, final Iterable<Term> terms, final Kb kb, final String table, final String columns, final String table2, final String columns2)
-	{
-		processTerms(ps, terms, table, columns);
-	}
+    override fun processSynsets(ps: PrintStream, terms_synsets: Iterable<Term_Synset>, table: String, columns: String) {
+        if (terms_synsets.iterator().hasNext()) {
+            val colMapId = names.column("terms_synsets.mapid")
+            val colPosId = names.column("terms_synsets.posid")
+            val colSynsetId = names.column("terms_synsets.synsetid")
 
-	private void updateTermRow(final PrintStream ps, final String table, final Integer index, final Term term, final String... columns)
-	{
-		var resolvedWordId = wordResolver.apply(term.term.toLowerCase(Locale.ENGLISH));
-		if (resolvedWordId != null)
-		{
-			var resolvedTermId = term.resolve();
+            var i = 0
+            for (map in terms_synsets) {
+                updateMapRow(ps, table, ++i, map, colSynsetId, colMapId, colPosId)
+            }
+        }
+    }
 
-			String setClause = String.format("%s=%s", columns[0], resolvedWordId);
-			String whereClause = String.format("%s=%d", columns[1], resolvedTermId //
-			);
-			ps.printf("UPDATE %s SET %s WHERE %s; -- %d %s%n", table, setClause, whereClause, index + 1, term.comment());
-		}
-	}
-
-	@Override
-	public void processSynsets(final PrintStream ps, final Iterable<Term_Synset> terms_synsets, final String table, final String columns)
-	{
-		if (terms_synsets.iterator().hasNext())
-		{
-			final String colMapId = names.column("terms_synsets.mapid");
-			final String colPosId = names.column("terms_synsets.posid");
-			final String colSynsetId = names.column("terms_synsets.synsetid");
-
-			int i = 0;
-			for (final Term_Synset map : terms_synsets)
-			{
-				updateMapRow(ps, table, ++i, map, colSynsetId, colMapId, colPosId);
-			}
-		}
-	}
-
-	private void updateMapRow(final PrintStream ps, final String table, final Integer index, final Term_Synset map, final String... columns)
-	{
-		// 30 to 31
-		char posId = map.posId; // {n,v,a,r}
-		long synset30Id = map.synsetId;
-		var synset31Id = synset31Resolver.apply(posId, synset30Id);
-		if (synset31Id != null)
-		{
-			// 31 to XX
-			var synsetId = String.format("%08d-%c", synset31Id, posId);
-			Integer resolvedSynsetId = synsetResolver.apply(synsetId);
-			if (resolvedSynsetId != null)
-			{
-				String setClause = String.format("%s=%d", columns[0], resolvedSynsetId);
-				String whereClause = String.format("%s=%s AND %s='%s'", //
-						columns[1], synsetId, //
-						columns[2], posId //
-				);
-				ps.printf("UPDATE %s SET %s WHERE %s; -- %d %s%n", table, setClause, whereClause, index + 1, map.comment());
-			}
-		}
-	}
+    private fun updateMapRow(ps: PrintStream, table: String, index: Int, map: Term_Synset, vararg columns: String) {
+        // 30 to 31
+        val posId = map.posId // {n,v,a,r}
+        val synset30Id = map.synsetId
+        val synset31Id = synset31Resolver.apply(posId, synset30Id)
+        if (synset31Id != null) {
+            // 31 to XX
+            val synsetId = String.format("%08d-%c", synset31Id, posId)
+            val resolvedSynsetId = synsetResolver.apply(synsetId)
+            if (resolvedSynsetId != null) {
+                val setClause = "${columns[0]}=$resolvedSynsetId"
+                val whereClause = "${columns[1]}=$synsetId AND ${columns[2]}='$posId'"
+                ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1} ${map.comment()}")
+            }
+        }
+    }
 }

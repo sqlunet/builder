@@ -1,94 +1,72 @@
-package org.sqlbuilder.su;
+package org.sqlbuilder.su
 
-import com.articulate.sigma.Logging;
-import com.articulate.sigma.Nullable;
+import com.articulate.sigma.Logging
+import org.sqlbuilder.common.Module
+import org.sqlbuilder.common.Module.Mode.Companion.read
+import org.sqlbuilder.common.NotFoundException
+import java.io.IOException
+import java.util.logging.LogManager
 
-import org.sqlbuilder.common.Module;
-import org.sqlbuilder.common.NotFoundException;
+class SuModule(
+    conf: String,
+    mode: Mode
+) : Module(MODULE_ID, conf, mode) {
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.LogManager;
+    override fun run() {
+        checkNotNull(props)
 
-public class SuModule extends Module
-{
-	public static final String MODULE_ID = "sumo";
+        try {
+            when (mode) {
+                Mode.PLAIN   -> SuProcessor(props).run()
+                Mode.RESOLVE -> SuResolvingProcessor(props).run()
+                Mode.UPDATE  -> SuUpdatingProcessor(props).run()
+                Mode.EXPORT  -> {}
+                else         -> {}
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 
-	protected SuModule(final String conf, final Mode mode)
-	{
-		super(MODULE_ID, conf, mode);
-	}
+    companion object {
 
-	@Override
-	protected void run()
-	{
-		assert props != null;
+        const val MODULE_ID: String = "sumo"
 
-		try
-		{
-			switch (mode)
-			{
-				case PLAIN:
-					new SuProcessor(props).run();
-					break;
+        private fun setLogging() {
+            try {
+                Logging::class.java.getClassLoader().getResourceAsStream("logging.properties").use {
+                     LogManager.getLogManager().readConfiguration(it)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
 
-				case RESOLVE:
-					new SuResolvingProcessor(props).run();
-					break;
+        @JvmStatic
+        fun turnOffLogging() {
+            setLogging()
 
-				case UPDATE:
-					new SuUpdatingProcessor(props).run();
-					break;
+            val classKey = "java.util.logging.config.class"
+            val classValue = System.getProperty(classKey)
+            if (classValue != null && !classValue.isEmpty()) {
+                System.err.println("$classKey = $classValue")
+            }
+        }
 
-				case EXPORT:
-				default:
-			}
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
+        @Throws(NotFoundException::class)
+        @JvmStatic
+        fun main(args: Array<String>) {
+            turnOffLogging()
 
-	private static void setLogging()
-	{
-		try (@Nullable InputStream is = Logging.class.getClassLoader().getResourceAsStream("logging.properties"))
-		{
-			//Properties props = new Properties();
-			//props.load(is);
-			//System.out.println(props.getProperty("java.util.logging.SimpleFormatter.format"));
-
-			LogManager.getLogManager().readConfiguration(is);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public static void turnOffLogging()
-	{
-		setLogging();
-
-		final String classKey = "java.util.logging.config.class";
-		final String classValue = System.getProperty(classKey);
-		if (classValue != null && !classValue.isEmpty())
-		{
-			System.err.println(classKey + " = " + classValue);
-		}
-	}
-
-	public static void main(String[] args) throws NotFoundException
-	{
-		turnOffLogging();
-
-		int i = 0;
-		Mode mode = Mode.PLAIN;
-		if (args[i].startsWith("-"))
-		{
-			mode = Mode.read(args[i++]);
-		}
-		String conf = args[i];
-		new SuModule(conf, mode).run();
-	}
+            var i = 0
+            var mode = Mode.PLAIN
+            if (args[i].startsWith("-")) {
+                mode = read(args[i++])
+            }
+            val conf = args[i]
+            SuModule(conf, mode).run()
+        }
+    }
 }

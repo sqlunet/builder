@@ -1,79 +1,77 @@
-package og.sqlbuilder.sumo;
+package og.sqlbuilder.sumo
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.sqlbuilder.su.Dump;
-import org.sqlbuilder.su.KBLoader;
-import org.sqlbuilder.su.SuProcessor;
-import org.sqlbuilder.su.objects.Formula;
-import org.sqlbuilder.su.objects.SUFile;
-import org.sqlbuilder.su.objects.Term;
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.sqlbuilder.su.Dump
+import org.sqlbuilder.su.KBLoader
+import org.sqlbuilder.su.SuProcessor
+import org.sqlbuilder.su.objects.Formula
+import org.sqlbuilder.su.objects.SUFile
+import org.sqlbuilder.su.objects.Term
 
-@ExtendWith({KbLoaderExtension.class})
-public class TestDump
-{
-	@Test
-	public void testDumpTerms()
-	{
-		Dump.dumpTerms(KBLoader.kb, TestUtils.OUT);
-	}
+@ExtendWith(KbLoaderExtension::class)
+class TestDump {
 
-	@Test
-	public void testDumpFormulas()
-	{
-		Dump.dumpFormulas(KBLoader.kb, TestUtils.OUT);
-	}
+    @Test
+    fun testDumpTerms() {
+        Dump.dumpTerms(KBLoader.kb!!, TestUtils.OUT)
+    }
 
-	@Test
-	public void testDumpPredicates()
-	{
-		Dump.dumpPredicates(KBLoader.kb, TestUtils.OUT);
-	}
+    @Test
+    fun testDumpFormulas() {
+        Dump.dumpFormulas(KBLoader.kb!!, TestUtils.OUT)
+    }
 
-	@Test
-	public void testDumpFunctions()
-	{
-		Dump.dumpFunctions(KBLoader.kb, TestUtils.OUT);
-	}
+    @Test
+    fun testDumpPredicates() {
+        Dump.dumpPredicates(KBLoader.kb!!, TestUtils.OUT)
+    }
 
-	@Test
-	public void testDumpRelations()
-	{
-		Dump.dumpFunctions(KBLoader.kb, TestUtils.OUT);
-	}
+    @Test
+    fun testDumpFunctions() {
+        Dump.dumpFunctions(KBLoader.kb!!, TestUtils.OUT)
+    }
 
-	@BeforeAll
-	public static void init()
-	{
-		KBLoader.kb.buildRelationCaches();
+    @Test
+    fun testDumpRelations() {
+        Dump.dumpFunctions(KBLoader.kb!!, TestUtils.OUT)
+    }
 
-		SuProcessor.collectFiles(KBLoader.kb);
-		SuProcessor.collectTerms(KBLoader.kb);
-		SuProcessor.collectFormulas(KBLoader.kb);
+    companion object {
 
-		SUFile.COLLECTOR.open();
-		Term.COLLECTOR.open();
-		Formula.COLLECTOR.open();
-	}
+        @JvmStatic
+        @BeforeAll
+        fun init() {
+            KBLoader.kb!!.buildRelationCaches()
 
-	@AfterAll
-	public static void shutdown()
-	{
-		SUFile.COLLECTOR.close();
-		Term.COLLECTOR.close();
-		Formula.COLLECTOR.close();
-	}
+            SuProcessor.collectFiles(KBLoader.kb!!)
+            SuProcessor.collectTerms(KBLoader.kb!!)
+            SuProcessor.collectFormulas(KBLoader.kb!!)
 
-	public static void main(String[] args)
-	{
-		new KBLoader().load();
+            SUFile.COLLECTOR.open()
+            Term.COLLECTOR.open()
+            Formula.COLLECTOR.open()
+        }
 
-		init();
-		TestDump d = new TestDump();
-		d.testDumpTerms();
-		d.testDumpFormulas();
-		d.testDumpFormulas();
-	}
+        @JvmStatic
+        @AfterAll
+        fun shutdown() {
+            SUFile.COLLECTOR.close()
+            Term.COLLECTOR.close()
+            Formula.COLLECTOR.close()
+        }
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            KBLoader().load()
+
+            init()
+            val d = TestDump()
+            d.testDumpTerms()
+            d.testDumpFormulas()
+            d.testDumpFormulas()
+        }
+    }
 }
