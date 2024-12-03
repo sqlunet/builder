@@ -1,34 +1,36 @@
-package og.sqlbuilder.sumo;
+package og.sqlbuilder.sumo
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.sqlbuilder.su.KBLoader;
-import org.sqlbuilder.su.SuWordResolver;
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.sqlbuilder.su.KBLoader
+import org.sqlbuilder.su.SuWordResolver
+import java.io.IOException
 
-import java.io.IOException;
+class TestWordResolver {
 
-public class TestWordResolver
-{
-	static SuWordResolver resolver;
+    @Test
+    fun testResolver() {
+        val id: Int? = resolver.apply("airport")
+        println(id)
+    }
 
-	@BeforeAll
-	public static void init()
-	{
-		final String ser = System.getenv().get("SUWORDRESOLVER");
-		resolver = new SuWordResolver(ser);
-	}
+    companion object {
 
-	@Test
-	public void testResolver()
-	{
-		var id = resolver.apply("airport");
-		System.out.println(id);
-	}
+        lateinit var resolver: SuWordResolver
 
-	public static void main(String[] args) throws IOException
-	{
-		new KBLoader().load();
-		init();
-		new TestWordResolver().testResolver();
-	}
+        @JvmStatic
+        @BeforeAll
+        fun init() {
+            val ser: String = System.getenv()["SUWORDRESOLVER"]!!
+            resolver = SuWordResolver(ser)
+        }
+
+        @Throws(IOException::class)
+        @JvmStatic
+        fun main(args: Array<String>) {
+            KBLoader().load()
+            init()
+            TestWordResolver().testResolver()
+        }
+    }
 }

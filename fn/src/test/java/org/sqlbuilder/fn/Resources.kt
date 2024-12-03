@@ -1,297 +1,240 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*
+import java.util.regex.Pattern
 
-public class Resources
-{
-	public static final Resources resources = new Resources();
-	static
-	{
-		final String resourceName = Resources.class.getPackage().getName() + '.' + "normalizer";
-		Resources.resources.addResource(ResourceBundle.getBundle(resourceName));
-	}
+class Resources {
 
-	// key-value map
+    // key-value map
+    private val resourceMap: MutableMap<String, String> = TreeMap<String, String>()
 
-	private final Map<String, String> resourceMap = new TreeMap<>();
+    // initialize
+    fun addResource(bundle: ResourceBundle) {
+        for (key in bundle.keySet()) {
+            this.resourceMap.put(key, bundle.getString(key))
+        }
+    }
 
-	// initialize
+    // remove
+    fun removeKeys(vararg keys: String?): Int {
+        var count = 0
+        for (key in keys) {
+            val value = this.resourceMap.remove(key)
+            if (value != null) {
+                count++
+                // System.err.println("removed key " + key + " val=" + value);
+            }
+        }
+        return count
+    }
 
-	public void addResource(final ResourceBundle bundle)
-	{
-		for (final String key : bundle.keySet())
-		{
-			this.resourceMap.put(key, bundle.getString(key));
-		}
-	}
+    // keys
+    fun getKeysWithOp(str: String): MutableList<String> {
+        val result: MutableList<String> = ArrayList<String>()
+        for (key in this.resourceMap.keys) {
+            val fields = key.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val opKey = fields[fields.size - 1]
+            if (opKey.startsWith(str)) {
+                result.add(key)
+            }
+        }
+        return result
+    }
 
-	// remove
+    // values
+    fun getValuesWithOp(str: String, strict: Boolean): MutableList<String?> {
+        val result: MutableList<String?> = ArrayList<String?>()
+        for (key in this.resourceMap.keys) {
+            val fields = key.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val opKey = fields[fields.size - 1]
+            if (if (strict) (opKey == str) else opKey.startsWith(str)) {
+                result.add(getString(key))
+            }
+        }
+        return result
+    }
 
-	public int removeKeys(final String... keys)
-	{
-		int count = 0;
-		for (final String key : keys)
-		{
-			final String value = this.resourceMap.remove(key);
-			if (value != null)
-			{
-				count++;
-				// System.err.println("removed key " + key + " val=" + value);
-			}
-		}
-		return count;
-	}
+    fun dumpAll() {
+        for (key in this.resourceMap.keys) {
+            val value = getString(key)
+            if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
+                println(key + '+' + value)
+            }
+        }
+    }
 
-	// concat arrays
+    fun dumpKeys(regExp: String) {
+        for (key in this.resourceMap.keys) {
+            if (!key.matches(regExp.toRegex())) {
+                continue
+            }
 
-	public static String[] concat(final String... strs)
-	{
-		return strs;
-	}
+            val value = getString(key)
+            if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
+                println(key + "+" + value)
+            }
+        }
+    }
 
-	public static String[] concat(final String[]... strss)
-	{
-		final List<String> result = new ArrayList<>();
-		for (final String[] strs : strss)
-		{
-			Collections.addAll(result, strs);
-		}
-		return result.toArray(new String[] {});
-	}
+    fun dumpRawKeys(regExp: String) {
+        for (entry in this.resourceMap.entries) {
+            val key = entry.key
+            val value = entry.value
 
-	// join
+            if (!key.matches(regExp.toRegex())) {
+                continue
+            }
 
-	public static String join(final Collection<String> strs)
-	{
-		if (strs == null)
-			return null;
-		final List<String> list = new ArrayList<>(strs);
-		Collections.sort(list);
-		final StringBuilder sb = new StringBuilder();
-		for (final String str : list)
-		{
-			sb.append(str);
-			sb.append(' ');
-		}
-		return sb.toString();
-	}
+            if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
+                println(key + "+" + value)
+            }
+        }
+    }
 
-	// keys
+    val tables: MutableList<String?>
+        // tables
+        get() = getValuesWithOp("table", true)
 
-	public List<String> getKeysWithOp(final String str)
-	{
-		final List<String> result = new ArrayList<>();
-		for (final String key : this.resourceMap.keySet())
-		{
-			final String[] fields = key.split("\\.");
-			final String opKey = fields[fields.length - 1];
-			if (opKey.startsWith(str))
-			{
-				result.add(key);
-			}
-		}
-		return result;
-	}
+    fun getTables(vararg tableKeys0: String?): MutableList<String?> {
+        if (tableKeys0 == null) return this.tables
 
-	// values
+        val result: MutableList<String?> = ArrayList<String?>()
+        for (key in getKeysWithOp("table")) {
+            // add if it matches one of the input table keys
+            for (tableKey0 in tableKeys0) {
+                val fields = key.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val tableKey = fields[0]
+                if (tableKey == tableKey0) {
+                    result.add(getString(key))
+                }
+            }
+        }
+        return result
+    }
 
-	public List<String> getValuesWithOp(final String str, final boolean strict)
-	{
-		final List<String> result = new ArrayList<>();
-		for (final String key : this.resourceMap.keySet())
-		{
-			final String[] fields = key.split("\\.");
-			final String opKey = fields[fields.length - 1];
-			if (strict ? opKey.equals(str) : opKey.startsWith(str))
-			{
-				result.add(getString(key));
-			}
-		}
-		return result;
-	}
+    // get value
+    fun getString(key: String?): String {
+        try {
+            var str: String = this.resourceMap.get(key)!!
+            if (str == null) throw MissingResourceException(key, Resources::class.java.getName(), key)
 
-	public void dumpAll()
-	{
-		for (final String key : this.resourceMap.keySet())
-		{
-			final String value = getString(key);
-			if (value.indexOf('!') != -1 || value.indexOf('%') != -1)
-			{
-				System.out.println(key + '+' + value);
-			}
-		}
-	}
+            // System.out.print("\n>[" + key + "] " + str);
+            str = expandPercent(str)
+            // System.out.println("\n< " + str);
+            return str
+        } catch (e: MissingResourceException) {
+            System.err.println("NO KEY:" + e.getKey())
+            throw e // '!' + key + '!';
+        }
+    }
 
-	public void dumpKeys(final String regExp)
-	{
-		for (final String key : this.resourceMap.keySet())
-		{
-			if (!key.matches(regExp))
-			{
-				continue;
-			}
+    private fun expandPercent(str: String): String {
+        val REGEX = "%[^%]*%"
+        val pattern = Pattern.compile(REGEX)
 
-			final String value = getString(key);
-			if (value.indexOf('!') != -1 || value.indexOf('%') != -1)
-			{
-				System.out.println(key + "+" + value);
-			}
-		}
-	}
+        // percents
+        var percentCount = 0
+        var p = 0
+        while ((str.indexOf('"', p + 1).also { p = it }) != -1) {
+            percentCount++
+        }
+        if (percentCount % 2 != 0) return null
 
-	public void dumpRawKeys(final String regExp)
-	{
-		for (final Map.Entry<String, String> entry : this.resourceMap.entrySet())
-		{
-			final String key = entry.getKey();
-			final String value = entry.getValue();
+        // macro map
+        val map: MutableMap<String?, String?> = HashMap<String?, String?>()
+        val matcher = pattern.matcher(str) // get a matcher object
+        while (matcher.find()) {
+            val match = matcher.group()
+            val key = match.substring(1, match.length - 1)
+            // System.out.println(" *" + key);
+            if (!map.containsKey(key)) {
+                val value = getString(key)
+                map.put(key, value)
+            }
+        }
 
-			if (!key.matches(regExp))
-			{
-				continue;
-			}
+        // macro substitution
+        var result = str
+        for (entry in map.entries) {
+            val key = entry.key
+            val value: String = entry.value!!
+            // String regExp = "%" + key.replace("$", "\\$") + "%";
+            // result = result.replaceAll(regExp, value);
+            result = result.replace("%" + key + "%", value)
+        }
+        return result
+    }
 
-			if (value.indexOf('!') != -1 || value.indexOf('%') != -1)
-			{
-				System.out.println(key + "+" + value);
-			}
-		}
-	}
+    companion object {
 
-	// tables
+        val resources: Resources = Resources()
 
-	public List<String> getTables()
-	{
-		return getValuesWithOp("table", true);
-	}
+        init {
+            val resourceName = Resources::class.java.getPackage().getName() + '.' + "normalizer"
+            resources.addResource(ResourceBundle.getBundle(resourceName))
+        }
 
-	public List<String> getTables(final String... tableKeys0)
-	{
-		if (tableKeys0 == null)
-			return getTables();
+        // concat arrays
+        fun concat(vararg strs: String?): Array<String?>? {
+            return strs
+        }
 
-		final List<String> result = new ArrayList<>();
-		for (final String key : getKeysWithOp("table"))
-		{
-			// add if it matches one of the input table keys
-			for (final String tableKey0 : tableKeys0)
-			{
-				final String[] fields = key.split("\\.");
-				final String tableKey = fields[0];
-				if (tableKey.equals(tableKey0))
-				{
-					result.add(getString(key));
-				}
-			}
-		}
-		return result;
-	}
+        fun concat(vararg strss: Array<String?>?): Array<String?> {
+            val result: MutableList<String?> = ArrayList<String?>()
+            for (strs in strss) {
+                Collections.addAll<String?>(result, *strs)
+            }
+            return result.toArray<String?>(arrayOf<String?>())
+        }
 
-	// property factory
+        // join
+        fun join(strs: MutableCollection<String?>?): String? {
+            if (strs == null) return null
+            val list: MutableList<String?> = ArrayList<String?>(strs)
+            Collections.sort<String?>(list)
+            val sb = StringBuilder()
+            for (str in list) {
+                sb.append(str)
+                sb.append(' ')
+            }
+            return sb.toString()
+        }
 
-	public static Properties makeProps(final String... strs)
-	{
-		final Properties props = new Properties();
-		for (int i = 0; i < strs.length; i += 2)
-		{
-			final String key = strs[i];
-			final String value = strs[i + 1];
-			props.put(key, value);
-		}
-		return props;
-	}
+        // property factory
+        fun makeProps(vararg strs: String?): Properties {
+            val props = Properties()
+            var i = 0
+            while (i < strs.size) {
+                val key: String? = strs[i]
+                val value: String? = strs[i + 1]
+                props.put(key, value)
+                i += 2
+            }
+            return props
+        }
 
-	// get value
+        fun expand(str: String, vararg strs: String?): String {
+            return expand(str, makeProps(*strs))
+        }
 
-	public String getString(final String key)
-	{
-		try
-		{
-			String str = this.resourceMap.get(key);
-			if (str == null)
-				throw new MissingResourceException(key, Resources.class.getName(), key);
+        fun expand(str: String, props: Properties): String {
+            val REGEX = "\\$[^$]+\\$"
+            val pattern = Pattern.compile(REGEX)
 
-			// System.out.print("\n>[" + key + "] " + str);
-			str = expandPercent(str);
-			// System.out.println("\n< " + str);
-			return str;
-		}
-		catch (MissingResourceException e)
-		{
-			System.err.println("NO KEY:" + e.getKey());
-			throw e; // '!' + key + '!';
-		}
-	}
-
-	private String expandPercent(final String str)
-	{
-		final String REGEX = "%[^%]*%";
-		final Pattern pattern = Pattern.compile(REGEX);
-
-		// percents
-		int percentCount = 0;
-		for (int p = 0; (p = str.indexOf('"', p + 1)) != -1;)
-		{
-			percentCount++;
-		}
-		if (percentCount % 2 != 0)
-			return null;
-
-		// macro map
-		final Map<String, String> map = new HashMap<>();
-		final Matcher matcher = pattern.matcher(str); // get a matcher object
-		while (matcher.find())
-		{
-			final String match = matcher.group();
-			final String key = match.substring(1, match.length() - 1);
-			// System.out.println(" *" + key);
-			if (!map.containsKey(key))
-			{
-				final String value = getString(key);
-				map.put(key, value);
-			}
-		}
-
-		// macro substitution
-		String result = str;
-		for (final Map.Entry<String, String> entry : map.entrySet())
-		{
-			final String key = entry.getKey();
-			final String value = entry.getValue();
-			// String regExp = "%" + key.replace("$", "\\$") + "%";
-			// result = result.replaceAll(regExp, value);
-			result = result.replace("%" + key + "%", value);
-		}
-		return result;
-	}
-
-	public static String expand(final String str, final String... strs)
-	{
-		return Resources.expand(str, Resources.makeProps(strs));
-	}
-
-	public static String expand(final String str, final Properties props)
-	{
-		final String REGEX = "\\$[^$]+\\$";
-		final Pattern pattern = Pattern.compile(REGEX);
-
-		// match
-		String result = str;
-		final Matcher matcher = pattern.matcher(str); // get a matcher object
-		while (matcher.find())
-		{
-			final String match = matcher.group();
-			final String key = match.substring(1, match.length() - 1);
-			final String value = props.getProperty(key);
-			if (value == null)
-			{
-				System.err.println("[" + match + "] -> null");
-				throw new NoSuchElementException(match);
-			}
-			result = result.replaceAll("\\$" + key + "\\$", value);
-		}
-		return result;
-	}
+            // match
+            var result = str
+            val matcher = pattern.matcher(str) // get a matcher object
+            while (matcher.find()) {
+                val match = matcher.group()
+                val key = match.substring(1, match.length - 1)
+                val value = props.getProperty(key)
+                if (value == null) {
+                    System.err.println("[" + match + "] -> null")
+                    throw NoSuchElementException(match)
+                }
+                result = result.replace(("\\$" + key + "\\$").toRegex(), value)
+            }
+            return result
+        }
+    }
 }

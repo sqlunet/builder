@@ -1,63 +1,60 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.sqlbuilder.fn.collectors.FnEnumCollector;
-import org.sqlbuilder.fn.objects.Values;
+import org.junit.BeforeClass
+import org.junit.Test
+import org.sqlbuilder.fn.collectors.FnEnumCollector
+import org.sqlbuilder.fn.collectors.FnEnumCollector.Companion.coreTypes
+import org.sqlbuilder.fn.collectors.FnEnumCollector.Companion.labelITypes
+import org.sqlbuilder.fn.objects.Values
+import org.sqlbuilder.fn.objects.Values.LabelIType
 
-public class Presets
-{
-	@BeforeClass
-	public static void init()
-	{
-		new FnEnumCollector().run();
-	}
+class Presets {
 
-	@Test
-	public void presetsPoses()
-	{
-		System.out.println("\nPOSes:");
-		for (final String s : FnEnumCollector.getCoreTypes())
-		{
-			System.out.println(s);
-		}
-	}
+    @Test
+    fun presetsPoses() {
+        println("\nPOSes:")
+        for (s in coreTypes) {
+            println(s)
+        }
+    }
 
-	@Test
-	public void presetsPosDataRows()
-	{
-		Values.Pos.MAP.forEach((key, value) -> System.out.printf("%d,%s%n", value, key.dataRow()));
-	}
+    @Test
+    fun presetsPosDataRows() {
+        Values.Pos.MAP.forEach { (key: Values.Pos?, value: Int?) -> System.out.printf("%d,%s%n", value, key!!.dataRow()) }
+    }
 
-	@Test
-	public void presetsCoreTypes()
-	{
-		System.out.println("\nCORETYPEs:");
-		for (final String s : FnEnumCollector.getCoreTypes())
-		{
-			System.out.println(s);
-		}
-	}
+    @Test
+    fun presetsCoreTypes() {
+        println("\nCORETYPEs:")
+        for (s in coreTypes) {
+            println(s)
+        }
+    }
 
-	@Test
-	public void presetsCoreTypeDataRows()
-	{
-		Values.CoreType.MAP.forEach((key, value) -> System.out.printf("%d,%s%n", value, key.dataRow()));
-	}
+    @Test
+    fun presetsCoreTypeDataRows() {
+        Values.CoreType.MAP.forEach { (key: Values.CoreType?, value: Int?) -> System.out.printf("%d,%s%n", value, key!!.dataRow()) }
+    }
 
-	@Test
-	public void presetsITypes()
-	{
-		System.out.println("\nLABELITYPEs:");
-		for (final String s : FnEnumCollector.getLabelITypes())
-		{
-			System.out.println(s);
-		}
-	}
+    @Test
+    fun presetsITypes() {
+        println("\nLABELITYPEs:")
+        for (s in labelITypes) {
+            println(s)
+        }
+    }
 
-	@Test
-	public void presetsITypeDataRows()
-	{
-		Values.LabelIType.MAP.forEach((key, value) -> System.out.printf("%d,%s%n", value, key.dataRow()));
-	}
+    @Test
+    fun presetsITypeDataRows() {
+        LabelIType.MAP.forEach { (key: LabelIType?, value: Int?) -> System.out.printf("%d,%s%n", value, key!!.dataRow()) }
+    }
+
+    companion object {
+
+        @JvmStatic
+        @BeforeClass
+        fun init() {
+            FnEnumCollector().run()
+        }
+    }
 }

@@ -1,122 +1,162 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.junit.Test;
-import org.sqlbuilder.common.SetCollector;
+import org.junit.Test
+import org.sqlbuilder.common.SetCollector
 
-import java.util.Comparator;
-import java.util.Set;
+class TestCollector {
 
-public class TestCollector
-{
-	private static final Set<String> SET = Set.of("one", "two", "three");
+    @Test
+    fun test() {
+        for (e in TestCollector.Companion.SET) {
+            TestCollector.Companion.C.add(e)
+        }
 
-	private static final Comparator<String> COMPARATOR = Comparator.naturalOrder();
+        System.err.println("[BEFORE]" + TestCollector.Companion.C.status())
+        TestCollector.Companion.C.open().use { ignored ->
+            System.err.println("[ACTIVE]" + TestCollector.Companion.C.status())
+            println(TestCollector.Companion.C.apply("one"))
+            println(TestCollector.Companion.C.apply("two"))
+            println(TestCollector.Companion.C.apply("three"))
+            println(TestCollector.Companion.C.apply("four"))
+        }
+        System.err.println("[AFTER]" + TestCollector.Companion.C.status())
+        try {
+            println(TestCollector.Companion.C.apply("one"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println(TestCollector.Companion.C.apply("two"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println(TestCollector.Companion.C.apply("three"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println(TestCollector.Companion.C.apply("four"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+    }
 
-	private static final SetCollector<String> C = new SetCollector<>(COMPARATOR);
+    @Test(expected = IllegalStateException::class)
+    fun testFail() {
+        for (e in TestCollector.Companion.SET) {
+            TestCollector.Companion.C.add(e)
+        }
 
-	private static final SetCollector<String> D = new SetCollector<>(COMPARATOR);
+        System.err.println("[BEFORE]" + TestCollector.Companion.C.status())
+        TestCollector.Companion.C.open().use { ignored ->
+            System.err.println("[ACTIVE]" + TestCollector.Companion.C.status())
+            println(TestCollector.Companion.C.apply("one"))
+            println(TestCollector.Companion.C.apply("two"))
+            println(TestCollector.Companion.C.apply("three"))
+            println(TestCollector.Companion.C.apply("four"))
+        }
+        System.err.println("[AFTER]" + TestCollector.Companion.C.status())
+        println(TestCollector.Companion.C.apply("one"))
+    }
 
-	@Test
-	public void test()
-	{
-		for (var e : SET)
-		{
-			C.add(e);
-		}
+    @Test
+    fun test2() {
+        for (e in TestCollector.Companion.SET) {
+            TestCollector.Companion.C.add(e)
+            TestCollector.Companion.D.add(e)
+        }
 
-		System.err.println("[BEFORE]" + C.status());
-		try (var ignored = C.open())
-		{
-			System.err.println("[ACTIVE]" + C.status());
-			System.out.println(C.apply("one"));
-			System.out.println(C.apply("two"));
-			System.out.println(C.apply("three"));
-			System.out.println(C.apply("four"));
-		}
-		System.err.println("[AFTER]" + C.status());
-		try { System.out.println(C.apply("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println(C.apply("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println(C.apply("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println(C.apply("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-	}
+        System.err.println("[BEFORE]" + TestCollector.Companion.C.status())
+        TestCollector.Companion.C.open().use { ignored ->
+            TestCollector.Companion.D.open().use { ignored2 ->
+                System.err.println("[ACTIVE]" + TestCollector.Companion.C.status() + TestCollector.Companion.D.status())
+                println("c " + TestCollector.Companion.C.apply("one"))
+                println("c " + TestCollector.Companion.C.apply("two"))
+                println("c " + TestCollector.Companion.C.apply("three"))
+                println("c " + TestCollector.Companion.C.apply("four"))
+                println("d " + TestCollector.Companion.D.apply("one"))
+                println("d " + TestCollector.Companion.D.apply("two"))
+                println("d " + TestCollector.Companion.D.apply("three"))
+                println("d " + TestCollector.Companion.D.apply("four"))
+            }
+        }
+        System.err.println("[AFTER]" + TestCollector.Companion.C.status())
+        try {
+            println("c " + TestCollector.Companion.C.apply("one"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("c " + TestCollector.Companion.C.apply("two"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("c " + TestCollector.Companion.C.apply("three"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("c " + TestCollector.Companion.C.apply("four"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("d " + TestCollector.Companion.D.apply("one"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("d " + TestCollector.Companion.D.apply("two"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("d " + TestCollector.Companion.D.apply("three"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+        try {
+            println("d " + TestCollector.Companion.D.apply("four"))
+        } catch (ise: IllegalStateException) {
+            println(ise.message)
+        }
+    }
 
-	@Test(expected=IllegalStateException.class)
-	public void testFail()
-	{
-		for (var e : SET)
-		{
-			C.add(e);
-		}
+    @Test(expected = IllegalStateException::class)
+    fun test2Fail() {
+        for (e in TestCollector.Companion.SET) {
+            TestCollector.Companion.C.add(e)
+            TestCollector.Companion.D.add(e)
+        }
 
-		System.err.println("[BEFORE]" + C.status());
-		try (var ignored = C.open())
-		{
-			System.err.println("[ACTIVE]" + C.status());
-			System.out.println(C.apply("one"));
-			System.out.println(C.apply("two"));
-			System.out.println(C.apply("three"));
-			System.out.println(C.apply("four"));
-		}
-		System.err.println("[AFTER]" + C.status());
-		System.out.println(C.apply("one"));
-	}
+        System.err.println("[BEFORE]" + TestCollector.Companion.C.status())
+        TestCollector.Companion.C.open().use { ignored ->
+            TestCollector.Companion.D.open().use { ignored2 ->
+                System.err.println("[ACTIVE]" + TestCollector.Companion.C.status() + TestCollector.Companion.D.status())
+                println("c " + TestCollector.Companion.C.apply("one"))
+                println("c " + TestCollector.Companion.C.apply("two"))
+                println("c " + TestCollector.Companion.C.apply("three"))
+                println("c " + TestCollector.Companion.C.apply("four"))
+                println("d " + TestCollector.Companion.D.apply("one"))
+                println("d " + TestCollector.Companion.D.apply("two"))
+                println("d " + TestCollector.Companion.D.apply("three"))
+                println("d " + TestCollector.Companion.D.apply("four"))
+            }
+        }
+        System.err.println("[AFTER]" + TestCollector.Companion.C.status())
+        println("c " + TestCollector.Companion.C.apply("one"))
+    }
 
-	@Test
-	public void test2()
-	{
-		for (var e : SET)
-		{
-			C.add(e);
-			D.add(e);
-		}
+    companion object {
 
-		System.err.println("[BEFORE]" + C.status());
-		try (var ignored = C.open(); var ignored2 = D.open())
-		{
-			System.err.println("[ACTIVE]" + C.status() + D.status());
-			System.out.println("c " + C.apply("one"));
-			System.out.println("c " + C.apply("two"));
-			System.out.println("c " + C.apply("three"));
-			System.out.println("c " + C.apply("four"));
-			System.out.println("d " + D.apply("one"));
-			System.out.println("d " + D.apply("two"));
-			System.out.println("d " + D.apply("three"));
-			System.out.println("d " + D.apply("four"));
-		}
-		System.err.println("[AFTER]" + C.status());
-		try { System.out.println("c " + C.apply("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("c " + C.apply("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("c " + C.apply("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("c " + C.apply("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.apply("one")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.apply("two")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.apply("three")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-		try { System.out.println("d " + D.apply("four")); } catch (IllegalStateException ise) {System.out.println(ise.getMessage());}
-	}
+        private val SET = mutableSetOf<String?>("one", "two", "three")
 
-	@Test(expected=IllegalStateException.class)
-	public void test2Fail()
-	{
-		for (var e : SET)
-		{
-			C.add(e);
-			D.add(e);
-		}
+        private val COMPARATOR: Comparator<String?> = Comparator.naturalOrder<String?>()
 
-		System.err.println("[BEFORE]" + C.status());
-		try (var ignored = C.open(); var ignored2 = D.open())
-		{
-			System.err.println("[ACTIVE]" + C.status() + D.status());
-			System.out.println("c " + C.apply("one"));
-			System.out.println("c " + C.apply("two"));
-			System.out.println("c " + C.apply("three"));
-			System.out.println("c " + C.apply("four"));
-			System.out.println("d " + D.apply("one"));
-			System.out.println("d " + D.apply("two"));
-			System.out.println("d " + D.apply("three"));
-			System.out.println("d " + D.apply("four"));
-		}
-		System.err.println("[AFTER]" + C.status());
-		System.out.println("c " + C.apply("one"));
-	}
+        private val C = SetCollector<String?>(TestCollector.Companion.COMPARATOR)
+
+        private val D = SetCollector<String?>(TestCollector.Companion.COMPARATOR)
+    }
 }

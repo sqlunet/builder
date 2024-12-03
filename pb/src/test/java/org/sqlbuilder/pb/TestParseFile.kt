@@ -1,44 +1,42 @@
-package org.sqlbuilder.pb;
+package org.sqlbuilder.pb
 
-import org.junit.Test;
-import org.sqlbuilder.common.SetCollector;
-import org.sqlbuilder.pb.collectors.PbCollector;
-import org.sqlbuilder.pb.foreign.AliasFnFeLinks;
-import org.sqlbuilder.pb.foreign.AliasVnRoleLinks;
-import org.sqlbuilder.pb.objects.*;
+import org.junit.Test
+import org.sqlbuilder.common.Module.Companion.getProperties
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.pb.collectors.PbCollector
+import org.sqlbuilder.pb.foreign.AliasFnFeLinks
+import org.sqlbuilder.pb.foreign.AliasRoleLinks
+import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
+import org.sqlbuilder.pb.objects.*
+import java.io.File
 
-import java.io.File;
-import java.util.Properties;
+class TestParseFile {
 
-public class TestParseFile
-{
-	@Test
-	public void testParse()
-	{
-		String path = System.getenv("PARSE");
-		System.out.println(path);
-		File file = new File(path);
-		Properties props = org.sqlbuilder.common.Module.getProperties("pb.properties");
-		new PbCollector(props).processPropBankFile(file.getAbsolutePath(), file.getName());
+    @Test
+    fun testParse() {
+        val path = System.getenv("PARSE")
+        println(path)
+        val file = File(path)
+        val props = getProperties("pb.properties")
+        PbCollector(props).processPropBankFile(file.getAbsolutePath(), file.getName())
 
-		var funcs = Func.COLLECTOR;
-		var vnLinks = AliasVnRoleLinks.COLLECTOR;
-		var fnLinks = AliasFnFeLinks.COLLECTOR;
-		var rolesets = RoleSet.COLLECTOR;
-		var roles = Role.COLLECTOR;
-		var examples = Example.COLLECTOR;
-		var rels = Rel.COLLECTOR;
-		var args = Arg.COLLECTOR;
+        val funcs = Func.COLLECTOR
+        val vnLinks = AliasVnRoleLinks.COLLECTOR
+        val fnLinks = AliasFnFeLinks.COLLECTOR
+        val rolesets = RoleSet.COLLECTOR
+        val roles = Role.COLLECTOR
+        val examples = Example.COLLECTOR
+        val rels = Rel.COLLECTOR
+        val args = Arg.COLLECTOR
 
-		var words = Word.COLLECTOR;
+        val words = Word.COLLECTOR
 
-		var names = new String[]{"funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words",};
-		var collectors = new SetCollector[]{funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words,};
-		var i = 0;
-		for (var c : collectors)
-		{
-			System.out.println(names[i] + " " + c.getSize());
-			i++;
-		}
-	}
+        val names = arrayOf<String>("funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words")
+        val collectors = arrayOf<SetCollector<*>>(funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words)
+        var i = 0
+        for (c in collectors) {
+            println(names[i] + " " + c.size)
+            i++
+        }
+    }
 }

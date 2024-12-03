@@ -1,61 +1,47 @@
-package org.sqlbuilder.fn;
+package org.sqlbuilder.fn
 
-import org.junit.Test;
-import org.sqlbuilder.common.HasId;
-import org.sqlbuilder.common.ListCollector;
-import org.sqlbuilder.common.SetId;
+import org.junit.Test
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.ListCollector
+import org.sqlbuilder.common.SetId
 
-public class TestListCollector
-{
-	static class W<T> implements HasId, SetId
-	{
-		private int id;
+class TestListCollector {
+    internal class W<T>(val wrapped: T?) : HasId, SetId {
 
-		final T wrapped;
+        private var id = 0
 
-		W(T wrapped)
-		{
-			this.wrapped = wrapped;
-		}
+        override fun toString(): String {
+            return wrapped.toString()
+        }
 
-		static <T> W<T> w(T wrapped)
-		{
-			return new W<>(wrapped);
-		}
+        override fun getIntId(): Int {
+            return id
+        }
 
-		@Override
-		public String toString()
-		{
-			return wrapped.toString();
-		}
+        override fun setId(id: Int) {
+            this.id = id
+        }
 
-		@Override
-		public Integer getIntId()
-		{
-			return id;
-		}
+        companion object {
 
-		@Override
-		public void setId(final int id)
-		{
-			this.id = id;
-		}
-	}
+            fun <T> w(wrapped: T?): W<T?> {
+                return W<T?>(wrapped)
+            }
+        }
+    }
 
-	@Test
-	public void testListCollector()
-	{
-		ListCollector<W<String>> collector = new ListCollector<>();
-		collector.add(W.w("one"));
-		collector.add(W.w("two"));
-		collector.add(W.w("two"));
-		collector.add(W.w("one"));
-		collector.add(W.w("three"));
-		for (var item : collector)
-		{
-			// System.out.printf("%s%n", item);
-			// System.out.printf("%s %d%n", item, collector.indexOf(item) + 1);
-			System.out.printf("%s %d%n", item, item.getIntId());
-		}
-	}
+    @Test
+    fun testListCollector() {
+        val collector = ListCollector<W<String?>>()
+        collector.add(W.Companion.w<String?>("one"))
+        collector.add(W.Companion.w<String?>("two"))
+        collector.add(W.Companion.w<String?>("two"))
+        collector.add(W.Companion.w<String?>("one"))
+        collector.add(W.Companion.w<String?>("three"))
+        for (item in collector) {
+            // System.out.printf("%s%n", item);
+            // System.out.printf("%s %d%n", item, collector.indexOf(item) + 1);
+            System.out.printf("%s %d%n", item, item.getIntId())
+        }
+    }
 }
