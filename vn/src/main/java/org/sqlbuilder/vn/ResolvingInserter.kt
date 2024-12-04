@@ -9,7 +9,6 @@ import org.sqlbuilder.vn.objects.Word
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
-import java.util.AbstractMap.SimpleEntry
 
 open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
@@ -43,8 +42,14 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
         tracePending("collector", "word")
-        resolveAndInsert<Word, String, Int>(
-            Word.COLLECTOR, Word.COLLECTOR, File(outDir, names.file("words")), names.table("words"), names.columns("words"), header, true,
+        resolveAndInsert(
+            Word.COLLECTOR,
+            Word.COLLECTOR,
+            File(outDir, names.file("words")),
+            names.table("words"),
+            names.columns("words"),
+            header,
+            true,
             wordResolver,
             { nullable(it) { it.toString() } },
             names.column("words.wordid")
@@ -55,8 +60,13 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertMemberSenses() {
         tracePending("set", "member sense")
-        resolveAndInsert<Member_Sense, String, SimpleEntry<Int, Int>?>(
-            Member_Sense.SET, Member_Sense.COMPARATOR, File(outDir, names.file("members_senses")), names.table("members_senses"), names.columns("members_senses"), header,
+        resolveAndInsert(
+            Member_Sense.SET,
+            Member_Sense.COMPARATOR,
+            File(outDir, names.file("members_senses")),
+            names.table("members_senses"),
+            names.columns("members_senses"),
+            header,
             sensekeyResolver,
             Member_Sense.RESOLVE_RESULT_STRINGIFIER,
             names.column("members_senses.wordid"),
