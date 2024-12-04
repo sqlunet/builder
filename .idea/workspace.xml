@@ -8,20 +8,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestListCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestListCollector.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pb/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/test/java/org/sqlbuilder/pb/TestParseFile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/test/java/org/sqlbuilder/pb/TestParseFile.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/su/pom.xml" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +89,7 @@
     "Application.VnModule (resolve).executor": "Run",
     "Application.VnModule (update).executor": "Debug",
     "Application.VnModule.executor": "Run",
+    "JUnit.SensekeysTest.executor": "Run",
     "JUnit.TestCollector.executor": "Run",
     "JUnit.TestCollector.test.executor": "Run",
     "JUnit.TestParseFile.executor": "Run",
@@ -136,7 +135,7 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestCollector.test">
+  <component name="RunManager" selected="JUnit.SensekeysTest">
     <configuration name="Main" type="Application" factoryName="Application" folderName="Modules">
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
       <module name="main" />
@@ -149,6 +148,21 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SensekeysTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder2.legacy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.sqlbuilder2.legacy" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.legacy.SensekeysTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -184,20 +198,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestXPath" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="common" />
+    <configuration name="TestParseFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pb" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sqlbuilder.common.*" />
+          <option name="PATTERN" value="org.sqlbuilder.pb.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.sqlbuilder.common" />
-      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestXPath" />
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.pb" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.pb.TestParseFile" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <envs>
-        <env name="TEST" value="../vn/data/verbnet-3.4" />
+        <env name="PARSE" value="data/propbank-3.4/abandon.xml" />
       </envs>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -280,17 +294,18 @@
       <item itemvalue="Application.VnModule (export)" />
       <item itemvalue="Application.VnModule (resolve)" />
       <item itemvalue="Application.VnModule (update)" />
+      <item itemvalue="JUnit.SensekeysTest" />
       <item itemvalue="JUnit.TestCollector" />
       <item itemvalue="JUnit.TestCollector.test" />
-      <item itemvalue="JUnit.TestXPath" />
+      <item itemvalue="JUnit.TestParseFile" />
       <item itemvalue="Maven.all [clean]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SensekeysTest" />
+        <item itemvalue="JUnit.TestParseFile" />
         <item itemvalue="JUnit.TestCollector.test" />
         <item itemvalue="JUnit.TestCollector" />
-        <item itemvalue="Maven.all [clean]" />
-        <item itemvalue="JUnit.TestXPath" />
         <item itemvalue="Maven.all [clean]" />
       </list>
     </recent_temporary>
@@ -304,38 +319,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00058" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732911177525</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1732911177525</updated>
-    </task>
-    <task id="LOCAL-00059" summary="xml generator of elements">
-      <option name="closed" value="true" />
-      <created>1732947990646</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1732947990646</updated>
-    </task>
-    <task id="LOCAL-00060" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732954297588</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1732954297589</updated>
-    </task>
-    <task id="LOCAL-00061" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732955064686</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1732955064686</updated>
     </task>
     <task id="LOCAL-00062" summary="to kotlin">
       <option name="closed" value="true" />
@@ -697,7 +680,39 @@
       <option name="project" value="LOCAL" />
       <updated>1733293571251</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733297268796</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1733297268796</updated>
+    </task>
+    <task id="LOCAL-00108" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733297293002</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1733297293002</updated>
+    </task>
+    <task id="LOCAL-00109" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733297300450</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1733297300450</updated>
+    </task>
+    <task id="LOCAL-00110" summary="house keeping">
+      <option name="closed" value="true" />
+      <created>1733297329410</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1733297329410</updated>
+    </task>
+    <option name="localTasksCounter" value="111" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -761,11 +776,9 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
     <MESSAGE value="remove nonnull assert" />
-    <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="cosmetic" />
     <MESSAGE value="sync fixes" />
     <MESSAGE value="fix insertion" />
-    <MESSAGE value="house keeping" />
     <MESSAGE value="fixes resolver signature" />
     <MESSAGE value="fixes row comma" />
     <MESSAGE value="do not use null-resolved" />
@@ -784,8 +797,10 @@
     <MESSAGE value="clean up" />
     <MESSAGE value="new main module" />
     <MESSAGE value="remove uber, add main" />
+    <MESSAGE value="cleanup" />
     <MESSAGE value="to kotlin" />
-    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
+    <MESSAGE value="house keeping" />
+    <option name="LAST_COMMIT_MESSAGE" value="house keeping" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

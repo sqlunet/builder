@@ -18,7 +18,7 @@ class TestParseFile {
         println(path)
         val file = File(path)
         val props = getProperties("pb.properties")
-        PbCollector(props).processPropBankFile(file.getAbsolutePath(), file.getName())
+        PbCollector(props).processPropBankFile(file.absolutePath, file.getName())
 
         val funcs = Func.COLLECTOR
         val vnLinks = AliasVnRoleLinks.COLLECTOR
@@ -31,8 +31,8 @@ class TestParseFile {
 
         val words = Word.COLLECTOR
 
-        val names = arrayOf<String>("funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words")
-        val collectors = arrayOf<SetCollector<*>>(funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words)
+        val names = arrayOf("funcs", "vnlinks", "fnlinks", "rolesets", "roles", "examples", "rels", "args", "words")
+        val collectors = arrayOf(funcs, vnLinks, fnLinks, rolesets, roles, examples, rels, args, words)
         var i = 0
         for (c in collectors) {
             println(names[i] + " " + c.size)
