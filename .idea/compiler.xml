@@ -10,6 +10,7 @@
         <module name="variables" />
         <module name="legacy" />
         <module name="fn" />
+        <module name="main" />
         <module name="reqprov" />
         <module name="foreign" />
         <module name="pb" />

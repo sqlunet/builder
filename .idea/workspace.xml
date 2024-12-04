@@ -9,7 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
-      <change beforePath="$PROJECT_DIR$/reqprov/src/main/java/org/sqlbuilder/annotations/RequiresProvidesProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/reqprov/src/main/java/org/sqlbuilder/annotations/RequiresProvidesProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestListCollector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestListCollector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -22,6 +30,7 @@
   </component>
   <component name="ChangesViewManager">
     <option name="groupingKeys">
+      <option value="directory" />
       <option value="module" />
     </option>
   </component>
@@ -67,49 +76,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FnModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.FnModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (export).executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (update).executor&quot;: &quot;Debug&quot;,
-    &quot;Application.VnModule.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.common [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;devkt2&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.smartKeys&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BncModule (resolve).executor": "Run",
+    "Application.BncModule (update).executor": "Run",
+    "Application.BncModule.executor": "Run",
+    "Application.FnModule (update).executor": "Run",
+    "Application.FnModule.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.PbModule (resolve).executor": "Run",
+    "Application.PbModule (update).executor": "Run",
+    "Application.PbModule.executor": "Run",
+    "Application.VnModule (export).executor": "Run",
+    "Application.VnModule (resolve).executor": "Run",
+    "Application.VnModule (update).executor": "Debug",
+    "Application.VnModule.executor": "Run",
+    "JUnit.TestCollector.executor": "Run",
+    "JUnit.TestCollector.test.executor": "Run",
+    "JUnit.TestParseFile.executor": "Run",
+    "JUnit.TestXPath.executor": "Run",
+    "Maven.all [clean].executor": "Run",
+    "Maven.all [compile].executor": "Run",
+    "Maven.all [install].executor": "Run",
+    "Maven.all [package].executor": "Run",
+    "Maven.common [install].executor": "Run",
+    "Maven.fn [install].executor": "Run",
+    "Maven.fn-beans [install].executor": "Run",
+    "Maven.fn-jaxb [install].executor": "Run",
+    "Maven.main [package].executor": "Run",
+    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.reqprov [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "devkt2",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/bnc",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "editor.preferences.smartKeys"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TEXT&quot;,
-      &quot;JAVA&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT",
+      "JAVA"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bnc" />
@@ -122,7 +136,54 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FnModule (update)">
+  <component name="RunManager" selected="JUnit.TestCollector.test">
+    <configuration name="Main" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
+      <module name="main" />
+      <option name="PROGRAM_PARAMETERS" value="main.properties" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestCollector" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fn" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.fn.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.fn" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.TestCollector" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestCollector.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fn" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.fn.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.fn" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.TestCollector" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestXPath" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="common" />
       <extension name="coverage">
@@ -195,6 +256,7 @@
       <item itemvalue="Application.SchemaGenerator (vn index)" />
       <item itemvalue="Application.SchemaGenerator (vn reference)" />
       <item itemvalue="Application.BncModule" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.BncModule (resolve)" />
       <item itemvalue="Application.BncModule (update)" />
       <item itemvalue="Application.FnModule" />
@@ -218,13 +280,15 @@
       <item itemvalue="Application.VnModule (export)" />
       <item itemvalue="Application.VnModule (resolve)" />
       <item itemvalue="Application.VnModule (update)" />
+      <item itemvalue="JUnit.TestCollector" />
+      <item itemvalue="JUnit.TestCollector.test" />
       <item itemvalue="JUnit.TestXPath" />
       <item itemvalue="Maven.all [clean]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Maven.all [clean]" />
-        <item itemvalue="JUnit.TestXPath" />
+        <item itemvalue="JUnit.TestCollector.test" />
+        <item itemvalue="JUnit.TestCollector" />
         <item itemvalue="Maven.all [clean]" />
         <item itemvalue="JUnit.TestXPath" />
         <item itemvalue="Maven.all [clean]" />
@@ -240,46 +304,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00053" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732887559320</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1732887559320</updated>
-    </task>
-    <task id="LOCAL-00054" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732899864812</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1732899864812</updated>
-    </task>
-    <task id="LOCAL-00055" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732901973296</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1732901973296</updated>
-    </task>
-    <task id="LOCAL-00056" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732903476583</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1732903476583</updated>
-    </task>
-    <task id="LOCAL-00057" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732907946353</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1732907946353</updated>
     </task>
     <task id="LOCAL-00058" summary="to kotlin">
       <option name="closed" value="true" />
@@ -633,7 +657,47 @@
       <option name="project" value="LOCAL" />
       <updated>1733253635427</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="clean up">
+      <option name="closed" value="true" />
+      <created>1733292050307</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1733292050307</updated>
+    </task>
+    <task id="LOCAL-00103" summary="new main module">
+      <option name="closed" value="true" />
+      <created>1733292104535</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1733292104535</updated>
+    </task>
+    <task id="LOCAL-00104" summary="remove uber, add main">
+      <option name="closed" value="true" />
+      <created>1733292137976</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1733292137976</updated>
+    </task>
+    <task id="LOCAL-00105" summary="remove uber, add main">
+      <option name="closed" value="true" />
+      <created>1733292146077</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1733292146077</updated>
+    </task>
+    <task id="LOCAL-00106" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733293571251</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1733293571251</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -696,9 +760,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="rename" />
-    <MESSAGE value="simplify" />
-    <MESSAGE value="optimize" />
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="cosmetic" />
@@ -720,11 +781,26 @@
     <MESSAGE value="fixes" />
     <MESSAGE value="printf fixes" />
     <MESSAGE value="inspection fixes" />
+    <MESSAGE value="clean up" />
+    <MESSAGE value="new main module" />
+    <MESSAGE value="remove uber, add main" />
     <MESSAGE value="to kotlin" />
     <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt</url>
+          <line>9</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt</url>
+          <line>21</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
