@@ -44,7 +44,7 @@ abstract class RoleTo protected constructor(
     // R E S O L V E
 
     override fun resolving(): Pair<String, String> {
-        return Pair(aliasRole.aliasClass.classTag, aliasRole.aliasLink)
+        return aliasRole.aliasClass.classTag to aliasRole.aliasLink
     }
 
     // T O S T R I N G

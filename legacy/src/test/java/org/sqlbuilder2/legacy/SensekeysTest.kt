@@ -13,7 +13,7 @@ class SensekeysTest {
 
     @Test
     fun testTripletsMapInt() {
-        val t = Triple<String, Char, Int>("baby", 'n', 796767)
+        val t = Triple("baby", 'n', 796767)
         val sk: String? = map[t]
         Assertions.assertNotEquals(null, sk)
         println(sk)

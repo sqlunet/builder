@@ -40,7 +40,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
         Serialize.serialize(m, File(outDir, "$outFile.ser"))
 
         val m2: Map<Triple<String, Char, Int>, String> = getLemmaPosOffsetToSensekeyOrdered(File(inDir, inFile))
-        insert<Triple<String, Char, Int>, String>(
+        insert(
             m2.keys,
             { key: Triple<String, Char, Int> -> m2[key]!! },
             File(outDir, "$outFile.sql"), names.table("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
