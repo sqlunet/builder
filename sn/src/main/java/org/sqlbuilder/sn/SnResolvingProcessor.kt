@@ -19,18 +19,18 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
 
     init {
         // header
-        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
+        header += "\n-- " + conf.getProperty("wn_resolve_against")
 
         // outdir
-        this.outDir = File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("sn_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
 
         // resolver
-        this.resolve = true
-        this.serFile = conf.getProperty("sense_nids")
-        this.senseResolver = SnSensekeyResolver(this.serFile)
+        resolve = true
+        serFile = conf.getProperty("sense_nids")
+        senseResolver = SnSensekeyResolver(serFile)
     }
 
     @Throws(IOException::class)

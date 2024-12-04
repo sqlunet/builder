@@ -8,15 +8,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="tyoe aliases">
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnSensekeyResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnSensekeyResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="type aliases">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" afterDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
-      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
-    </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -301,30 +297,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00071" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733040793517</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1733040793518</updated>
-    </task>
-    <task id="LOCAL-00072" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733044904885</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1733044904885</updated>
-    </task>
-    <task id="LOCAL-00073" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733050226465</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1733050226466</updated>
     </task>
     <task id="LOCAL-00074" summary="inspection">
       <option name="closed" value="true" />
@@ -694,7 +666,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733338263158</updated>
     </task>
-    <option name="localTasksCounter" value="120" />
+    <task id="LOCAL-00120" summary="tyoe aliases">
+      <option name="closed" value="true" />
+      <created>1733338747251</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1733338747251</updated>
+    </task>
+    <task id="LOCAL-00121" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733339367467</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1733339367467</updated>
+    </task>
+    <task id="LOCAL-00122" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733339579632</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1733339579632</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -707,19 +703,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="devkwip" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
         <entry key="e26009b4-2e05-481e-a8e0-392eb19aba08">
@@ -757,8 +741,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="xml generator of elements" />
-    <MESSAGE value="inspection" />
     <MESSAGE value="skip tests" />
     <MESSAGE value="skip tests" />
     <MESSAGE value="fixes format" />
@@ -781,8 +763,10 @@
     <MESSAGE value="test kotlin pair serializability" />
     <MESSAGE value="removed adhoc pairs and triplets" />
     <MESSAGE value="simplify" />
-    <MESSAGE value="tyoe aliases" />
-    <option name="LAST_COMMIT_MESSAGE" value="tyoe aliases" />
+    <MESSAGE value="type aliases" />
+    <MESSAGE value="type aliases" />
+    <MESSAGE value="type aliases" />
+    <option name="LAST_COMMIT_MESSAGE" value="type aliases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

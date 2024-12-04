@@ -12,14 +12,13 @@ import org.sqlbuilder.vn.objects.Sensekey
 import org.sqlbuilder.vn.objects.VnClass
 import org.sqlbuilder.vn.objects.Word
 import java.util.*
-import java.util.AbstractMap.SimpleEntry
 
 class Member_Sense private constructor(
     val member: Class_Word,
     private val sensenum: Int,
     val sensekey: Sensekey?,
     private val quality: Float?,
-) : Insertable, Resolvable<String, SimpleEntry<Int, Int>>, Comparable<Member_Sense> {
+) : Insertable, Resolvable<VnSensekeyResolvable, VnSensekeyResolved>, Comparable<Member_Sense> {
 
     val memberClass: VnClass
         get() = member.clazz

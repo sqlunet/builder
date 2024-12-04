@@ -13,7 +13,6 @@ import java.util.*
 
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {
-        // output
         outDir = File(conf.getProperty("vn_outdir_updated", "sql/data_updated"))
         if (!outDir.exists()) {
             outDir.mkdirs()

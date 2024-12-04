@@ -5,7 +5,6 @@ import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.quote
 import org.sqlbuilder.vn.VnSensekeyResolvable
 import org.sqlbuilder.vn.VnSensekeyResolved
-import java.util.AbstractMap.SimpleEntry
 
 class Sense private constructor(
     val sensekey: Sensekey,
