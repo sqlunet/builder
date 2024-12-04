@@ -20,7 +20,7 @@ class Presets {
 
     @Test
     fun presetsPosDataRows() {
-        Values.Pos.MAP.forEach { (key: Values.Pos?, value: Int?) -> System.out.printf("%d,%s%n", value, key!!.dataRow()) }
+        Values.Pos.MAP.forEach { (key: Values.Pos, value: Int) -> println("$value,${key.dataRow()}") }
     }
 
     @Test
@@ -33,7 +33,7 @@ class Presets {
 
     @Test
     fun presetsCoreTypeDataRows() {
-        Values.CoreType.MAP.forEach { (key: Values.CoreType?, value: Int?) -> System.out.printf("%d,%s%n", value, key!!.dataRow()) }
+        Values.CoreType.MAP.forEach { (key: Values.CoreType, value: Int) -> println("$value,${key.dataRow()}") }
     }
 
     @Test
@@ -46,7 +46,7 @@ class Presets {
 
     @Test
     fun presetsITypeDataRows() {
-        LabelIType.MAP.forEach { (key: LabelIType?, value: Int?) -> System.out.printf("%d,%s%n", value, key!!.dataRow()) }
+        LabelIType.MAP.forEach { (key: LabelIType, value: Int) -> println("$value,${key.dataRow()}") }
     }
 
     companion object {
