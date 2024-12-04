@@ -39,9 +39,9 @@ class TestListCollector {
         collector.add(W.Companion.w<String?>("one"))
         collector.add(W.Companion.w<String?>("three"))
         for (item in collector) {
-            // System.out.printf("%s%n", item);
-            // System.out.printf("%s %d%n", item, collector.indexOf(item) + 1);
-            System.out.printf("%s %d%n", item, item.getIntId())
+            // println(item)
+            // println("$item ${collector.indexOf(item) + 1}")
+            println("$item ${item.intId}")
         }
     }
 }
