@@ -3,7 +3,6 @@
  */
 package org.sqlbuilder
 
-
 /**
  * Main class
  *
@@ -17,9 +16,7 @@ class Main {
          * Main entry point
          *
          * @param args command-line arguments
-         * @throws IOException io exception
-         */
-        @Throws(IOException::class)
+          */
         @JvmStatic
         fun main(args: Array<String>) {
         }
