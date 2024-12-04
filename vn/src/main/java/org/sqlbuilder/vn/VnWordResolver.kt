@@ -4,5 +4,7 @@ import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
 import java.io.File
 
-class VnWordResolver(ser: String) : Resolver<String, Int>(deserialize<MutableMap<String, out Int>>(File(ser)))
+typealias VnWordResolvable = String
+typealias VnWordResolved = Int
 
+class VnWordResolver(ser: String) : Resolver<VnWordResolvable, VnWordResolved>(deserialize<MutableMap<VnWordResolvable, VnWordResolved>>(File(ser)))

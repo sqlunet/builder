@@ -6,12 +6,14 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.vn.VnWordResolvable
+import org.sqlbuilder.vn.VnWordResolved
 import java.io.Serializable
 import java.util.*
 
 class Word private constructor(
-	@JvmField val word: String
-) : HasId, Insertable, Resolvable<String, Int>, Comparable<Word>, Serializable {
+    @JvmField val word: String,
+) : HasId, Insertable, Resolvable<VnWordResolvable, VnWordResolved>, Comparable<Word>, Serializable {
 
     @RequiresIdFrom(type = Word::class)
     override fun getIntId(): Int {
@@ -49,7 +51,7 @@ class Word private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): String {
+    override fun resolving(): VnWordResolvable {
         return word
     }
 
@@ -66,7 +68,6 @@ class Word private constructor(
         @JvmField
         val COLLECTOR: SetCollector<Word> = SetCollector<Word>(COMPARATOR)
 
-        // C O N S T R U C T O R
         @JvmStatic
         fun make(word: String): Word {
             val w = Word(word)

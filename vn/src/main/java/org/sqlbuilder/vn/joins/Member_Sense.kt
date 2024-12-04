@@ -86,7 +86,7 @@ class Member_Sense private constructor(
         val SET = HashSet<Member_Sense>()
 
         @JvmField
-        val RESOLVE_RESULT_STRINGIFIER = { r: SimpleEntry<Int, Int>? ->
+        val RESOLVE_RESULT_STRINGIFIER = { r: VnSensekeyResolved? ->
             if (r == null) "NULL,NULL" else "${nullableInt(r.key)},${nullableInt(r.value)}"
         }
 

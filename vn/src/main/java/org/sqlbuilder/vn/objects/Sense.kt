@@ -3,11 +3,13 @@ package org.sqlbuilder.vn.objects
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.quote
+import org.sqlbuilder.vn.VnSensekeyResolvable
+import org.sqlbuilder.vn.VnSensekeyResolved
 import java.util.AbstractMap.SimpleEntry
 
 class Sense private constructor(
     val sensekey: Sensekey,
-) : Insertable, Resolvable<String, SimpleEntry<Int, Int>>, Comparable<Sense> {
+) : Insertable, Resolvable<VnSensekeyResolvable, VnSensekeyResolved>, Comparable<Sense> {
 
     // O R D E R I N G
 
@@ -23,7 +25,7 @@ class Sense private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): String {
+    override fun resolving(): VnSensekeyResolvable {
         return sensekey.sensekey
     }
 
