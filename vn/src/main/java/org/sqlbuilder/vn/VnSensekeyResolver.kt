@@ -6,7 +6,6 @@ import java.io.File
 import java.util.AbstractMap.SimpleEntry
 
 typealias VnSensekeyResolvable = String
-typealias VnSensekeyResolved = Pair<Int, Int>
+typealias VnSensekeyResolved = SimpleEntry<Int, Int>
 
-class VnSensekeyResolver(ser: String) : Resolver<String, SimpleEntry<Int, Int>>(deserialize<MutableMap<String, out SimpleEntry<Int, Int>>>(File(ser)))
-
+class VnSensekeyResolver(ser: String) : Resolver<VnSensekeyResolvable, VnSensekeyResolved>(deserialize<MutableMap<String, VnSensekeyResolved>>(File(ser)))

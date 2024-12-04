@@ -19,7 +19,7 @@ class Member_Sense private constructor(
     private val sensenum: Int,
     val sensekey: Sensekey?,
     private val quality: Float?,
-) : Insertable, Resolvable<String, SimpleEntry<Int, Int>?>, Comparable<Member_Sense> {
+) : Insertable, Resolvable<String, SimpleEntry<Int, Int>>, Comparable<Member_Sense> {
 
     val memberClass: VnClass
         get() = member.clazz
@@ -64,8 +64,8 @@ class Member_Sense private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): String? {
-        return if (sensekey == null) null else sensekey.sensekey
+    override fun resolving(): VnSensekeyResolvable {
+        return sensekey!!.sensekey
     }
 
     // T O S T R I N G

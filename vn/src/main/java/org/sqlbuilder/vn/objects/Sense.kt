@@ -23,7 +23,7 @@ class Sense private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): String? {
+    override fun resolving(): String {
         return sensekey.sensekey
     }
 

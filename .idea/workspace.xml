@@ -8,39 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="simplify">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncWordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnWordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/FnFrameFeResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/FnFeResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/FnFrameResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/FnFrameResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingInserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/VnClassResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/VnClassResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/VnClassRoleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/VnRoleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/WordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/WordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/FnLexUnitResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/FnLexUnitResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/FnRoleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/FnRoleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/FnWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/FnWordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PbRoleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PbRoleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PbWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PbWordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmResolvingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmResolvingProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmUpdatingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmUpdatingProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/SensekeyResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/SensekeyResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/VnRoleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/VnRoleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/VnWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/VnWordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/WordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/WordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleSetResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/PbRoleSetResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/ResolvingInserter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnClassResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnClassResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnRoleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/VnRoleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole_VnRole.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/foreign/PbRole_VnRole.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnResolvingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnResolvingProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnSensekeyResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnUpdatingProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnUpdatingProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuSynsetResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuSynsetResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuWordResolver.kt" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="tyoe aliases">
       <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnSensekeyResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnSensekeyResolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/joins/Member_Sense.kt" afterDir="false" />
     </list>
@@ -333,14 +301,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00070" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732996222615</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1732996222615</updated>
     </task>
     <task id="LOCAL-00071" summary="to kotlin">
       <option name="closed" value="true" />
@@ -726,7 +686,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733331289018</updated>
     </task>
-    <option name="localTasksCounter" value="119" />
+    <task id="LOCAL-00119" summary="tyoe aliases">
+      <option name="closed" value="true" />
+      <created>1733338263158</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1733338263158</updated>
+    </task>
+    <option name="localTasksCounter" value="120" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -789,7 +757,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="do not use null-resolved" />
     <MESSAGE value="xml generator of elements" />
     <MESSAGE value="inspection" />
     <MESSAGE value="skip tests" />
@@ -814,7 +781,8 @@
     <MESSAGE value="test kotlin pair serializability" />
     <MESSAGE value="removed adhoc pairs and triplets" />
     <MESSAGE value="simplify" />
-    <option name="LAST_COMMIT_MESSAGE" value="simplify" />
+    <MESSAGE value="tyoe aliases" />
+    <option name="LAST_COMMIT_MESSAGE" value="tyoe aliases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
