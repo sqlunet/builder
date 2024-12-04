@@ -101,9 +101,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                 else
                     "$vnClassidCol=${nullableInt(resolved.first)},$vnRoleidCol=${nullableInt(resolved.second)},$vnRoletypeidCol=${nullableInt(resolved.third)}"
             },
-            { resolving ->
-                "$vnClassCol='${escape(resolving.first)}' AND $vnRoleCol='${escape(resolving.second)}'"
-            })
+            { resolving -> "$vnClassCol='${escape(resolving.first)}' AND $vnRoleCol='${escape(resolving.second)}'" })
         Progress.traceDone()
     }
 
@@ -127,9 +125,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                 else
                     "$fnframeidCol=${nullableInt(resolved.first)},$fnfeidCol=${nullableInt(resolved.second)},$fnfetypeidCol=${nullableInt(resolved.third)}"
             },
-            { resolving ->
-                "$fnframeCol='${escape(resolving.first)}' AND $fnfeCol='${escape(resolving.second)}'"
-            })
+            { resolving -> "$fnframeCol='${escape(resolving.first)}' AND $fnfeCol='${escape(resolving.second)}'" })
         Progress.traceDone()
     }
 }
