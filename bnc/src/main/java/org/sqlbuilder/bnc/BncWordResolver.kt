@@ -4,4 +4,7 @@ import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
 import java.io.File
 
-class BncWordResolver(ser: String) : Resolver<String, Int>(deserialize<Map<String, Int>>(File(ser)))
+typealias BncWordResolvable = String
+typealias BncWordResolved = Int
+
+class BncWordResolver(ser: String) : Resolver<BncWordResolvable, BncWordResolved>(deserialize<Map<BncWordResolvable, BncWordResolved>>(File(ser)))

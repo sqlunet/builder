@@ -31,13 +31,13 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     protected val vnClassResolver: VnClassResolver
 
     @JvmField
-    protected val vnClassRoleResolver: VnClassRoleResolver
+    protected val vnRoleResolver: VnRoleResolver
 
     @JvmField
     protected val fnFrameResolver: FnFrameResolver
 
     @JvmField
-    protected val fnFrameFeResolver: FnFrameFeResolver
+    protected val fnFeResolver: FnFeResolver
 
     init {
         // header
@@ -60,9 +60,9 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
         wordResolver = WordResolver(wordSerFile)
         vnClassResolver = VnClassResolver(vnClassSerFile)
-        vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
+        vnRoleResolver = VnRoleResolver(vnClassRoleSerFile)
         fnFrameResolver = FnFrameResolver(fnFrameSerFile)
-        fnFrameFeResolver = FnFrameFeResolver(fnFrameFeSerFile)
+        fnFeResolver = FnFeResolver(fnFrameFeSerFile)
     }
 
     @Throws(FileNotFoundException::class)
@@ -127,7 +127,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
-            { vnClassRoleResolver.apply(it) },
+            { vnRoleResolver.apply(it) },
             RoleToVn.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.vnroleid"),
             names.column("pbroles_vnroles.vnclassid"),
@@ -146,7 +146,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_fnfes"),
             names.columns("pbroles_fnfes"),
             header,
-            { fnFrameFeResolver.apply(it) },
+            { fnFeResolver.apply(it) },
             RoleToFn.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_fnfes.fnfeid"),
             names.column("pbroles_fnfes.fnframeid"),

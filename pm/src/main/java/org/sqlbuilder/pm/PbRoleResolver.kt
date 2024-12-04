@@ -4,4 +4,7 @@ import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
 import java.io.File
 
-class PbRoleResolver(ser: String) : Resolver<Pair<String, String>, Pair<Int, Int>>(deserialize<Map<Pair<String, String>, Pair<Int, Int>>>(File(ser)))
+typealias PmPbRoleResolvable = Pair<String, String>
+typealias PmPbRoleResolved = Pair<Int, Int>
+
+class PbRoleResolver(ser: String) : Resolver<PmPbRoleResolvable, PmPbRoleResolved>(deserialize<Map<PmPbRoleResolvable, PmPbRoleResolved>>(File(ser)))

@@ -3,10 +3,10 @@ package org.sqlbuilder.sl.foreign
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableInt
-import org.sqlbuilder.sl.PbRoleResolvable
 import org.sqlbuilder.sl.PbVnRoleResolvable
 import org.sqlbuilder.sl.PbVnRoleResolved
-import org.sqlbuilder.sl.VnRoleResolvable
+import org.sqlbuilder.sl.SlPbRoleResolvable
+import org.sqlbuilder.sl.SlVnRoleResolvable
 import java.util.*
 import java.util.function.Function
 
@@ -41,7 +41,7 @@ class PbRole_VnRole private constructor(
     // R E S O L V E
 
     override fun resolving(): PbVnRoleResolvable {
-        return PbVnRoleResolvable(PbRoleResolvable(pbRole.roleSet, pbRole.arg), VnRoleResolvable(vnRole.vnClass, vnRole.theta.theta))
+        return PbVnRoleResolvable(SlPbRoleResolvable(pbRole.roleSet, pbRole.arg), SlVnRoleResolvable(vnRole.vnClass, vnRole.theta.theta))
     }
 
     // T O S T R I N G

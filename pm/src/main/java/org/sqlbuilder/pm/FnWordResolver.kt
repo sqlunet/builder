@@ -4,4 +4,7 @@ import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
 import java.io.File
 
-class FnWordResolver(ser: String) : Resolver<String, Int>(deserialize<Map<String, Int>>(File(ser)))
+typealias PmFnWordResolvable = String
+typealias PmFnWordResolved = Int
+
+class FnWordResolver(ser: String) : Resolver<PmFnWordResolvable, PmFnWordResolved>(deserialize<Map<PmFnWordResolvable, PmFnWordResolved>>(File(ser)))

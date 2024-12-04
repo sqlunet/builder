@@ -4,7 +4,7 @@ import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
 import java.io.File
 
-typealias VnClassResolvable = String
-typealias VnClassResolved = Int
+typealias SlVnClassResolvable = String
+typealias SlVnClassResolved = Int
 
-class VnClassResolver(ser: String) : Resolver<VnClassResolvable, VnClassResolved>(deserialize<Map<VnClassResolvable, VnClassResolved>>(File(ser)))
+class VnClassResolver(ser: String) : Resolver<SlVnClassResolvable, SlVnClassResolved>(deserialize<Map<SlVnClassResolvable, SlVnClassResolved>>(File(ser)))

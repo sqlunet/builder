@@ -51,7 +51,7 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
         val wordid = wordResolver.apply(entry.word!!)
         val wordResolved = nullableInt(wordid)
         val sk = sensekeyResolver.apply(entry.sensekey!!)
-        val senseResolved = nullable(sk) { nullableInt(it.value) }
+        val senseResolved = nullable(sk) { nullableInt(it.second) }
 
         val setClause = "${columns[0]}=$wordResolved,${columns[1]}=$senseResolved"
         val whereClause = "${columns[2]}=${quote(escape(entry.word!!))} AND ${columns[3]}=${nullable(entry.sensekey) { quote(escape(escape(it))) }}"

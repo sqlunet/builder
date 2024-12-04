@@ -6,6 +6,8 @@ import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableFloat
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.common.Utils.nullableQuotedString
+import org.sqlbuilder.vn.VnSensekeyResolvable
+import org.sqlbuilder.vn.VnSensekeyResolved
 import org.sqlbuilder.vn.objects.Sensekey
 import org.sqlbuilder.vn.objects.VnClass
 import org.sqlbuilder.vn.objects.Word

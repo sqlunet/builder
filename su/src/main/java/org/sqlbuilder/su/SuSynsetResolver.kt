@@ -4,5 +4,7 @@ import org.sqlbuilder.common.Resolver
 import org.sqlbuilder2.ser.DeSerialize
 import java.io.File
 
-class SuSynsetResolver(ser: String) : Resolver<String, Int>(DeSerialize.deserialize<Map<String, Int>>(File(ser)))
+typealias SuSynsetResolvable = String
+typealias SuSynsetResolved = Int
 
+class SuSynsetResolver(ser: String) : Resolver<SuSynsetResolvable, SuSynsetResolved>(DeSerialize.deserialize<Map<SuSynsetResolvable, SuSynsetResolved>>(File(ser)))

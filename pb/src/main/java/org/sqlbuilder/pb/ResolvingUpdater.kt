@@ -93,7 +93,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
             names.table("pbroles_vnroles"),
-            { vnClassRoleResolver.apply(it) },
+            { vnRoleResolver.apply(it) },
             { resolved ->
                 if (resolved == null)
                     "$vnClassidCol=NULL,$vnRoleidCol=NULL,$vnRoletypeidCol=NULL"
@@ -119,7 +119,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_fnfes")),
             header,
             names.table("pbroles_fnfes"),
-            { fnFrameFeResolver.apply(it) },
+            { fnFeResolver.apply(it) },
             { resolved ->
                 if (resolved == null)
                     "$fnframeidCol=NULL,$fnfeidCol=NULL,$fnfetypeidCol=NULL"

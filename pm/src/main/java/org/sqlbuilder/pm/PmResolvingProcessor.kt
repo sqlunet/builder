@@ -101,7 +101,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         val fnLu = fnLexUnitResolver.apply(Pair(entry.fn.frame!!, entry.fn.lu!!))
 
                         val wordResolved = nullableInt(wordid)
-                        val senseResolved = if (sk == null) "NULL" else nullableInt(sk.value)
+                        val senseResolved = if (sk == null) "NULL" else nullableInt(sk.second)
 
                         val vnWordResolved = nullableInt(vnWordid)
                         val pbWordResolved = nullableInt(pbWordid)

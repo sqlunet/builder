@@ -4,4 +4,7 @@ import org.sqlbuilder.common.DeSerialize.deserialize
 import org.sqlbuilder.common.Resolver
 import java.io.File
 
-class PbWordResolver(ser: String) : Resolver<String, Int>(deserialize<Map<String, Int>>(File(ser)))
+typealias PmPbWordResolvable = String
+typealias PmPbWordResolved = Int
+
+class PbWordResolver(ser: String) : Resolver<PmPbWordResolvable, PmPbWordResolved>(deserialize<Map<PmPbWordResolvable, PmPbWordResolved>>(File(ser)))

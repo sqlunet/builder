@@ -10,10 +10,10 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
 
-typealias PbVnClassResolvable = Pair<PbRoleSetResolvable, VnClassResolvable>
-typealias PbVnClassResolved = Pair<PbRoleSetResolved, VnClassResolved>
-typealias PbVnRoleResolvable = Pair<PbRoleResolvable, VnRoleResolvable>
-typealias PbVnRoleResolved = Pair<PbRoleResolved, VnRoleResolved>
+typealias PbVnClassResolvable = Pair<SlPbRoleSetResolvable, SlVnClassResolvable>
+typealias PbVnClassResolved = Pair<SlPbRoleSetResolved, SlVnClassResolved>
+typealias PbVnRoleResolvable = Pair<SlPbRoleResolvable, SlVnRoleResolvable>
+typealias PbVnRoleResolved = Pair<SlPbRoleResolved, SlVnRoleResolved>
 
 open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
@@ -59,7 +59,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbrolesets_vnclasses"),
             names.columns("pbrolesets_vnclasses"),
             header,
-            CombinedResolver<PbRoleSetResolvable, PbRoleSetResolved, VnClassResolvable, VnClassResolved>(pbRoleSetResolver, vnClassResolver),
+            CombinedResolver<SlPbRoleSetResolvable, SlPbRoleSetResolved, SlVnClassResolvable, SlVnClassResolved>(pbRoleSetResolver, vnClassResolver),
             PbRoleSet_VnClass.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbrolesets_vnclasses.pbrolesetid"),
             names.column("pbrolesets_vnclasses.vnclassid")
@@ -77,7 +77,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
-            CombinedResolver<PbRoleResolvable, PbRoleResolved, VnRoleResolvable, VnRoleResolved>(pbRoleResolver, vnRoleResolver),
+            CombinedResolver<SlPbRoleResolvable, SlPbRoleResolved, SlVnRoleResolvable, SlVnRoleResolved>(pbRoleResolver, vnRoleResolver),
             PbRole_VnRole.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.pbroleid"),
             names.column("pbroles_vnroles.pbrolesetid"),

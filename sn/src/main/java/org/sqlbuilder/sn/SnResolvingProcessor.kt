@@ -42,10 +42,10 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
                 val r1 = senseResolver.apply(collocation.sensekey1!!) // (word,synsetid)
                 val r2 = senseResolver.apply(collocation.sensekey2!!) // (word,synsetid)
                 if (r1 != null && r2 != null) {
-                    val word1nid = nullableInt(r1.key)
-                    val synset1nid = nullableInt(r1.value)
-                    val word2nid = nullableInt(r2.key)
-                    val synset2nid = nullableInt(r2.value)
+                    val word1nid = nullableInt(r1.first)
+                    val synset1nid = nullableInt(r1.second)
+                    val word2nid = nullableInt(r2.first)
+                    val synset2nid = nullableInt(r2.second)
                     val values = "$unresolved,$word1nid,$synset1nid,$word2nid,$synset2nid"
                     insertRow(ps, i.toLong(), values)
                 }
