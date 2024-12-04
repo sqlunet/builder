@@ -4,7 +4,6 @@ import org.sqlbuilder.common.*
 import org.sqlbuilder.sn.objects.Collocation
 import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR
 import org.sqlbuilder2.ser.DeSerialize
-import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -35,9 +34,9 @@ open class SnProcessor(
     @JvmField
     protected var outDir: File = File(conf.getProperty("sn_outdir", "sql/data"))
 
-    private var toSenseKeys: Map<Triplet<String, Char, Int>, String> = DeSerialize.deserialize<Map<Triplet<String, Char, Int>, String>>(File(conf.getProperty("to_sensekeys")))
+    private var toSenseKeys: Map<Triple<String, Char, Int>, String> = DeSerialize.deserialize<Map<Triple<String, Char, Int>, String>>(File(conf.getProperty("to_sensekeys")))
 
-    protected val sensekeyResolver = { lpo: Triplet<String, Char, Int> -> toSenseKeys[lpo] }
+    protected val sensekeyResolver = { lpo: Triple<String, Char, Int> -> toSenseKeys[lpo] }
 
     init {
         if (!this.outDir.exists()) {

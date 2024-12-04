@@ -7,9 +7,7 @@ import org.sqlbuilder.fn.objects.LexUnit
 import org.sqlbuilder.fn.objects.Word
 import org.sqlbuilder.fn.types.FeType
 import org.sqlbuilder.fn.types.FeType.getIntId
-import org.sqlbuilder2.ser.Pair
 import org.sqlbuilder2.ser.Serialize
-import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -134,18 +132,18 @@ class Exporter(
             .toSortedMap()
     }
 
-    fun makeFEsMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
+    fun makeFEsMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
         val id2frame = Frame.SET
             .asSequence()
             .map { it.iD to it.name }
             .toMap()
         return FE.SET
             .asSequence()
-            .map { Pair(id2frame[it.frameID]!!, it.name) to Triplet(it.iD, it.frameID, getIntId(it.name)!!) }
+            .map { Pair(id2frame[it.frameID]!!, it.name) to Triple(it.iD, it.frameID, getIntId(it.name)!!) }
             .toMap()
     }
 
-    fun makeFEsTreeMap(): Map<Pair<String, String>, Triplet<Int, Int, Int>> {
+    fun makeFEsTreeMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
         val id2frame = Frame.SET
             .asSequence()
             .map { it.iD to it.name }
@@ -153,7 +151,7 @@ class Exporter(
 
         return FE.SET
             .asSequence()
-            .map { Pair(id2frame[it.frameID]!!, it.name) to Triplet(it.iD, it.frameID, getIntId(it.name)!!) }
+            .map { Pair(id2frame[it.frameID]!!, it.name) to Triple(it.iD, it.frameID, getIntId(it.name)!!) }
             .toMap()
             .toSortedMap(COMPARATOR)
     }

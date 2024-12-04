@@ -19,6 +19,16 @@ class TestSerialize {
         Assert.assertEquals(o, o2)
     }
 
+    @Test
+    fun testKotlinTriple() {
+        val o = Triple(1,2,3)
+        serialize(o, File("test.ser"))
+
+        val o2: Any = deserialize(File("test.ser"))
+        println(o2)
+        Assert.assertEquals(o, o2)
+    }
+
     companion object {
 
         @BeforeClass

@@ -5,7 +5,6 @@ import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Processor
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder2.ser.Serialize
-import org.sqlbuilder2.ser.Triplet
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -37,17 +36,17 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
         val inFile = conf.getProperty("senses_to_sensekeys.sourcefile").replace("\\$\\{from}".toRegex(), from)
         val outFile = names.file("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from)
 
-        val m: Map<Triplet<String, Char, Int>, String> = getLemmaPosOffsetToSensekey(File(inDir, inFile))
+        val m: Map<Triple<String, Char, Int>, String> = getLemmaPosOffsetToSensekey(File(inDir, inFile))
         Serialize.serialize(m, File(outDir, "$outFile.ser"))
 
-        val m2: Map<Triplet<String, Char, Int>, String> = getLemmaPosOffsetToSensekeyOrdered(File(inDir, inFile))
-        insert<Triplet<String, Char, Int>, String>(
+        val m2: Map<Triple<String, Char, Int>, String> = getLemmaPosOffsetToSensekeyOrdered(File(inDir, inFile))
+        insert<Triple<String, Char, Int>, String>(
             m2.keys,
-            { key: Triplet<String, Char, Int> -> m2[key]!! },
+            { key: Triple<String, Char, Int> -> m2[key]!! },
             File(outDir, "$outFile.sql"), names.table("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
             names.columns("senses_to_sensekeys"),
             names.header("senses_to_sensekeys").replace("\\$\\{from}".toRegex(), from),
-            BiFunction { k: Triplet<String, Char, Int>, v: String -> "'${escape(k.first)}','${k.second}',${k.third},'${escape(v)}'" })
+            BiFunction { k: Triple<String, Char, Int>, v: String -> "'${escape(k.first)}','${k.second}',${k.third},'${escape(v)}'" })
     }
 
     init {
@@ -68,28 +67,28 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
 
         @JvmStatic
         @Throws(IOException::class)
-        fun getLemmaPosOffsetToSensekey(file: File): Map<Triplet<String, Char, Int>, String> {
+        fun getLemmaPosOffsetToSensekey(file: File): Map<Triple<String, Char, Int>, String> {
             file.useLines {
                 return it
                     .filter { !it.isEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
-                    .map { Triplet(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
+                    .map { Triple(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
                     .toMap()
             }
         }
 
-        var tripletComparator: Comparator<Triplet<String, Char, Int>> = Comparator
-            .comparing<Triplet<String, Char, Int>, String> { it.first }
+        var tripletComparator: Comparator<Triple<String, Char, Int>> = Comparator
+            .comparing<Triple<String, Char, Int>, String> { it.first }
             .thenComparing<Char> { it.second }
             .thenComparing<Int> { it.third }
 
         @Throws(IOException::class)
-        fun getLemmaPosOffsetToSensekeyOrdered(file: File): Map<Triplet<String, Char, Int>, String> {
+        fun getLemmaPosOffsetToSensekeyOrdered(file: File): Map<Triple<String, Char, Int>, String> {
             file.useLines {
                 return it
                     .filter { !it.isEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
-                    .map { Triplet(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
+                    .map { Triple(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
                     .toMap()
                     .toSortedMap(tripletComparator)
             }

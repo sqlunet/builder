@@ -8,7 +8,6 @@ import org.sqlbuilder.pb.foreign.RoleSetToFn
 import org.sqlbuilder.pb.foreign.RoleSetToVn
 import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
-import org.sqlbuilder2.ser.Pair
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
@@ -94,7 +93,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
             names.table("pbroles_vnroles"),
-            { p: Pair<String?, String?> -> vnClassRoleResolver.apply(p) },
+            { vnClassRoleResolver.apply(it) },
             { resolved ->
                 if (resolved == null)
                     "$vnClassidCol=NULL,$vnRoleidCol=NULL,$vnRoletypeidCol=NULL"
@@ -120,7 +119,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_fnfes")),
             header,
             names.table("pbroles_fnfes"),
-            { p: Pair<String?, String?> -> fnFrameFeResolver.apply(p) },
+            { fnFrameFeResolver.apply(it) },
             { resolved ->
                 if (resolved == null)
                     "$fnframeidCol=NULL,$fnfeidCol=NULL,$fnfetypeidCol=NULL"

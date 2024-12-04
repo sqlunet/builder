@@ -7,7 +7,6 @@ import org.sqlbuilder.pm.objects.PmEntry
 import org.sqlbuilder.pm.objects.PmEntry.Companion.parse
 import org.sqlbuilder.pm.objects.PmPredicate
 import org.sqlbuilder.pm.objects.PmRole
-import org.sqlbuilder2.ser.Pair
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

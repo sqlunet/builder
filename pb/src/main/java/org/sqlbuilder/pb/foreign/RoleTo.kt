@@ -5,14 +5,12 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
-import org.sqlbuilder2.ser.Pair
-import org.sqlbuilder2.ser.Triplet
 import java.util.*
 
 abstract class RoleTo protected constructor(
     val role: Role,
     val aliasRole: AliasRole,
-) : Insertable, Resolvable<Pair<String?, String?>, Triplet<Int?, Int?, Int?>?> {
+) : Insertable, Resolvable<Pair<String, String>, Triple<Int, Int, Int>> {
 
     // I D E N T I T Y
 
@@ -45,8 +43,8 @@ abstract class RoleTo protected constructor(
 
     // R E S O L V E
 
-    override fun resolving(): Pair<String?, String?> {
-        return Pair<String?, String?>(aliasRole.aliasClass.classTag, aliasRole.aliasLink)
+    override fun resolving(): Pair<String, String> {
+        return Pair(aliasRole.aliasClass.classTag, aliasRole.aliasLink)
     }
 
     // T O S T R I N G

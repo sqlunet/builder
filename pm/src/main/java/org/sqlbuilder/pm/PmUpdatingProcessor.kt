@@ -5,7 +5,6 @@ import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.common.Utils.quote
 import org.sqlbuilder.pm.objects.PmEntry
-import org.sqlbuilder2.ser.Pair
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

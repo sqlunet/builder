@@ -7,8 +7,6 @@ import org.sqlbuilder.sl.PbRoleResolvable
 import org.sqlbuilder.sl.PbVnRoleResolvable
 import org.sqlbuilder.sl.PbVnRoleResolved
 import org.sqlbuilder.sl.VnRoleResolvable
-import org.sqlbuilder2.ser.Pair
-import org.sqlbuilder2.ser.Triplet
 import java.util.*
 import java.util.function.Function
 
@@ -73,7 +71,7 @@ class PbRole_VnRole private constructor(
             }
         }
 
-        val RESOLVE_RESULT_STRINGIFIER0: (Pair<Pair<Int, Int>, Triplet<Int, Int, Int>>?) -> String = {
+        val RESOLVE_RESULT_STRINGIFIER0: (Pair<Pair<Int, Int>, Triple<Int, Int, Int>>?) -> String = {
             if (it == null)
                 "NULL,NULL,NULL,NULL"
             else {

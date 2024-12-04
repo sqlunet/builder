@@ -1,7 +1,6 @@
 package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.pb.objects.Role
-import org.sqlbuilder2.ser.Triplet
 
 class RoleToVn private constructor(
     role: Role,
@@ -10,7 +9,7 @@ class RoleToVn private constructor(
 
     companion object {
 
-        val RESOLVE_RESULT_STRINGIFIER = { r: Triplet<Int?, Int?, Int?>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
+        val RESOLVE_RESULT_STRINGIFIER = { r: Triple<Int, Int, Int>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 
         val COMPARATOR: Comparator<RoleToVn> = Comparator
             .comparing<RoleToVn, Role> { it.role }

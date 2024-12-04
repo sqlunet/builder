@@ -2,9 +2,8 @@ package org.sqlbuilder.pm.objects
 
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
-import org.sqlbuilder2.ser.Triplet
 
-class FnRoleAlias : Resolvable<Triplet<String, String, String>, Triplet<Int, Int, Int>> {
+class FnRoleAlias : Resolvable<Triple<String, String, String>, Triple<Int, Int, Int>> {
 
     @JvmField
     var frame: String? = null
@@ -19,7 +18,7 @@ class FnRoleAlias : Resolvable<Triplet<String, String, String>, Triplet<Int, Int
         return "${nullableQuotedEscapedString(frame)},${nullableQuotedEscapedString(fetype)},${nullableQuotedEscapedString(lu)}"
     }
 
-    override fun resolving(): Triplet<String, String, String> {
-        return Triplet(frame!!, fetype!!, lu!!)
+    override fun resolving(): Triple<String, String, String> {
+        return Triple(frame!!, fetype!!, lu!!)
     }
 }
