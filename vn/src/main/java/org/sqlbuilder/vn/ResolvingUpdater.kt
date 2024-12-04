@@ -34,8 +34,11 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         tracePending("collector", "word")
         val wordidCol = names.column("words.wordid")
         val wordCol = names.column("words.word")
-        update<Word, String, Int>(
-            Word.COLLECTOR, File(outDir, names.updateFile("words")), header, names.table("words"),
+        update(
+            Word.COLLECTOR,
+            File(outDir, names.updateFile("words")),
+            header,
+            names.table("words"),
             wordResolver,
             { resolved: Int? -> "$wordidCol=${nullableInt(resolved)}" },
             { resolving: String -> "$wordCol='${escape(resolving)}'" })
@@ -48,8 +51,11 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val wordidCol = names.column("members_senses.wordid")
         val synsetidCol = names.column("members_senses.synsetid")
         val sensekeyCol = names.column("members_senses.sensekey")
-        update<Sense, String, SimpleEntry<Int, Int>>(
-            Sense.SET, File(outDir, names.updateFile("members_senses")), header, names.table("members_senses"),
+        update(
+            Sense.SET,
+            File(outDir, names.updateFile("members_senses")),
+            header,
+            names.table("members_senses"),
             sensekeyResolver,
             { resolved: SimpleEntry<Int, Int>? -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved.key)},$synsetidCol=${nullableInt(resolved.value)}" },
             { resolving: String? -> "$sensekeyCol='${escape(resolving!!)}'" })
