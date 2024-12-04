@@ -2,15 +2,19 @@
 <project version="4">
   <component name="AnalysisUIOptions">
     <option name="ANALYZE_INJECTED_CODE" value="false" />
-    <option name="SCOPE_TYPE" value="4" />
     <option name="CUSTOM_SCOPE_NAME" value="Open Files" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="printf fixes" />
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="to kotlin">
+      <change beforePath="$PROJECT_DIR$/reqprov/src/main/java/org/sqlbuilder/annotations/RequiresProvidesProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/reqprov/src/main/java/org/sqlbuilder/annotations/RequiresProvidesProcessor.java" afterDir="false" />
+    </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
+      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -236,38 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00049" summary="house keeping">
-      <option name="closed" value="true" />
-      <created>1732863022587</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1732863022587</updated>
-    </task>
-    <task id="LOCAL-00050" summary="fixes resolver signature">
-      <option name="closed" value="true" />
-      <created>1732875737775</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1732875737776</updated>
-    </task>
-    <task id="LOCAL-00051" summary="fixes row comma">
-      <option name="closed" value="true" />
-      <created>1732876008378</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1732876008378</updated>
-    </task>
-    <task id="LOCAL-00052" summary="do not use null-resolved">
-      <option name="closed" value="true" />
-      <created>1732878607117</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1732878607117</updated>
     </task>
     <task id="LOCAL-00053" summary="to kotlin">
       <option name="closed" value="true" />
@@ -629,7 +601,39 @@
       <option name="project" value="LOCAL" />
       <updated>1733249175353</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="printf fixes">
+      <option name="closed" value="true" />
+      <created>1733251336744</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1733251336744</updated>
+    </task>
+    <task id="LOCAL-00099" summary="inspection fixes">
+      <option name="closed" value="true" />
+      <created>1733251652821</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1733251652821</updated>
+    </task>
+    <task id="LOCAL-00100" summary="inspection fixes">
+      <option name="closed" value="true" />
+      <created>1733252320185</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1733252320185</updated>
+    </task>
+    <task id="LOCAL-00101" summary="to kotlin">
+      <option name="closed" value="true" />
+      <created>1733253635427</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1733253635427</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -713,11 +717,11 @@
     <MESSAGE value="sort labels and layers" />
     <MESSAGE value="various minor fixes" />
     <MESSAGE value="to kotlin, fixes" />
-    <MESSAGE value="inspection fixes" />
     <MESSAGE value="fixes" />
-    <MESSAGE value="to kotlin" />
     <MESSAGE value="printf fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="printf fixes" />
+    <MESSAGE value="inspection fixes" />
+    <MESSAGE value="to kotlin" />
+    <option name="LAST_COMMIT_MESSAGE" value="to kotlin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
