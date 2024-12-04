@@ -6,12 +6,14 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.fn.FnWordResolvable
+import org.sqlbuilder.fn.FnWordResolved
 import java.io.Serializable
 import java.util.*
 
 class Word private constructor(
     lemma: String,
-) : HasId, Insertable, Resolvable<String, Int>, Comparable<Word>, Serializable {
+) : HasId, Insertable, Resolvable<FnWordResolvable, FnWordResolved>, Comparable<Word>, Serializable {
 
     @JvmField
     val word: String = lemma.lowercase()
@@ -52,7 +54,7 @@ class Word private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): String {
+    override fun resolving(): FnWordResolvable {
         return word
     }
 
@@ -64,7 +66,8 @@ class Word private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
+        val COMPARATOR: Comparator<Word> = Comparator
+            .comparing<Word, String> { it.word }
 
         @JvmField
         val COLLECTOR = SetCollector<Word>(COMPARATOR)

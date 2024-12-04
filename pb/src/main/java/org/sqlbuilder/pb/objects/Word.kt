@@ -2,10 +2,12 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
+import org.sqlbuilder.pb.PbWordResolvable
+import org.sqlbuilder.pb.PbWordResolved
 import java.io.Serializable
 import java.util.*
 
-class Word private constructor(@JvmField val word: String) : HasId, Insertable, Resolvable<String, Int>, Comparable<Word>, Serializable {
+class Word private constructor(@JvmField val word: String) : HasId, Insertable, Resolvable<PbWordResolvable, PbWordResolved>, Comparable<Word>, Serializable {
 
     // N I D
 
@@ -46,7 +48,7 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     // R E S O L V E
 
-    override fun resolving(): String {
+    override fun resolving(): PbWordResolvable {
         return word
     }
 
@@ -58,7 +60,8 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
 
     companion object {
 
-        val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
+        val COMPARATOR: Comparator<Word> = Comparator
+            .comparing<Word, String> { it.word }
 
         @JvmField
         val COLLECTOR = SetCollector<Word>(COMPARATOR)

@@ -10,7 +10,12 @@
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="type aliases">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Inserter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEGroupRealization.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEGroupRealization.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleSetToFn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleSetToFn.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Word.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Word.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PbRoleAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PbRoleAlias.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/VnRoleAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/VnRoleAlias.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -297,46 +302,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00074" summary="inspection">
-      <option name="closed" value="true" />
-      <created>1733050871503</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1733050871503</updated>
-    </task>
-    <task id="LOCAL-00075" summary="fix index">
-      <option name="closed" value="true" />
-      <created>1733073760735</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1733073760735</updated>
-    </task>
-    <task id="LOCAL-00076" summary="fix index">
-      <option name="closed" value="true" />
-      <created>1733074842423</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1733074842423</updated>
-    </task>
-    <task id="LOCAL-00077" summary="skip tests">
-      <option name="closed" value="true" />
-      <created>1733074927567</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1733074927567</updated>
-    </task>
-    <task id="LOCAL-00078" summary="fix to add i if uncommented (silent bug)">
-      <option name="closed" value="true" />
-      <created>1733076161979</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1733076161979</updated>
     </task>
     <task id="LOCAL-00079" summary="fixes format">
       <option name="closed" value="true" />
@@ -690,7 +655,47 @@
       <option name="project" value="LOCAL" />
       <updated>1733339579632</updated>
     </task>
-    <option name="localTasksCounter" value="123" />
+    <task id="LOCAL-00123" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733340193470</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1733340193470</updated>
+    </task>
+    <task id="LOCAL-00124" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733340263834</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1733340263834</updated>
+    </task>
+    <task id="LOCAL-00125" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733341096825</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1733341096825</updated>
+    </task>
+    <task id="LOCAL-00126" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733341386610</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1733341386610</updated>
+    </task>
+    <task id="LOCAL-00127" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733341556628</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1733341556628</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

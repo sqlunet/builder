@@ -2,8 +2,10 @@ package org.sqlbuilder.pm.objects
 
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
+import org.sqlbuilder.pm.PmVnRoleResolvable
+import org.sqlbuilder.pm.PmVnRoleResolved
 
-class VnRoleAlias : Resolvable<Pair<String, String>, Pair<Int, Int>> {
+class VnRoleAlias : Resolvable<PmVnRoleResolvable, PmVnRoleResolved> {
 
     @JvmField
     var clazz: String? = null

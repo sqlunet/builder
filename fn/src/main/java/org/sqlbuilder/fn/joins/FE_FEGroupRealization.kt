@@ -23,7 +23,7 @@ class FE_FEGroupRealization private constructor(
     @RequiresIdFrom(type = FEGroupRealization::class)
     override fun dataRow(): String {
         val fetypeid: Int = getIntId(first)!!
-        val key = Pair<Int, Int>(fetypeid, second!!.frameID)
+        val key = Pair(fetypeid, second.frameID)
         val feid = FE.BY_FETYPEID_AND_FRAMEID!![key]!!.iD
         return "${second.getSqlId()},$feid,$fetypeid"
     }

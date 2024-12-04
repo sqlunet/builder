@@ -19,7 +19,7 @@ class RoleSetToFn private constructor(
             .thenComparing { it.ref }
             .thenComparing { it.pos }
 
-        val SET: MutableSet<RoleSetToFn> = HashSet<RoleSetToFn>()
+        val SET = HashSet<RoleSetToFn>()
 
         fun make(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): RoleSetToFn {
             val a = RoleSetToFn(clazz, pos, pbRoleSet, word)
