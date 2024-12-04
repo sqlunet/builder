@@ -8,13 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pb/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/test/java/org/sqlbuilder/pb/TestParseFile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/test/java/org/sqlbuilder/pb/TestParseFile.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/su/pom.xml" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="remove ThrowingBiConsumer">
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncProcessor.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -319,22 +314,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00062" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732958718715</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1732958718715</updated>
-    </task>
-    <task id="LOCAL-00063" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1732962079574</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1732962079574</updated>
     </task>
     <task id="LOCAL-00064" summary="fixes">
       <option name="closed" value="true" />
@@ -712,7 +691,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733297329410</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="house keeping">
+      <option name="closed" value="true" />
+      <created>1733298785317</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1733298785317</updated>
+    </task>
+    <task id="LOCAL-00112" summary="remove ThrowingBiConsumer">
+      <option name="closed" value="true" />
+      <created>1733299178497</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1733299178497</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -775,7 +770,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="remove nonnull assert" />
     <MESSAGE value="cosmetic" />
     <MESSAGE value="sync fixes" />
     <MESSAGE value="fix insertion" />
@@ -800,7 +794,8 @@
     <MESSAGE value="cleanup" />
     <MESSAGE value="to kotlin" />
     <MESSAGE value="house keeping" />
-    <option name="LAST_COMMIT_MESSAGE" value="house keeping" />
+    <MESSAGE value="remove ThrowingBiConsumer" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove ThrowingBiConsumer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

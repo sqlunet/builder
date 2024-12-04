@@ -12,6 +12,7 @@ import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
 import java.util.function.BiConsumer
+import java.util.function.Function
 
 open class PmProcessor(conf: Properties) : Processor("pm") {
 
@@ -69,7 +70,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
         @JvmStatic
         @Throws(IOException::class)
-        protected fun <T> process(file: File, producer: ThrowingFunction<String, T>, consumer: BiConsumer<T, Int>?) {
+        protected fun <T> process(file: File, producer: Function<String, T>, consumer: BiConsumer<T, Int>?) {
             file.useLines {
                 var count = 0
                 var lineNo = 0
@@ -78,7 +79,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
                     .filter { !it.isEmpty() && it[0] != '\t' }
                     .map { line ->
                         try {
-                            return@map producer.applyThrows(line)
+                            return@map producer.apply(line)
                         } catch (e: CommonException) {
                             val cause = e.cause
                             if (cause is ParseException) {

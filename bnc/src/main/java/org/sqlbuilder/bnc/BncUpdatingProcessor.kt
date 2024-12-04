@@ -2,7 +2,6 @@ package org.sqlbuilder.bnc
 
 import org.sqlbuilder.bnc.objects.BncExtendedRecord
 import org.sqlbuilder.bnc.objects.BncRecord
-import org.sqlbuilder.common.ThrowingFunction
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.quote
 import java.io.File
@@ -24,12 +23,12 @@ class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
 
     @Throws(IOException::class)
     private fun processBNCFile(ps: PrintStream, file: File, consumer: BiConsumer<BncRecord, Int>) {
-        process(file, ThrowingFunction { BncRecord.Companion.parse(it) }, consumer)
+        process(file, { BncRecord.Companion.parse(it) }, consumer)
     }
 
     @Throws(IOException::class)
     private fun processBNCSubFile(ps: PrintStream, file: File, consumer: BiConsumer<BncRecord, Int>) {
-        process(file, ThrowingFunction { BncExtendedRecord.Companion.parse(it) }, consumer)
+        process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
     }
 
     @Throws(IOException::class)

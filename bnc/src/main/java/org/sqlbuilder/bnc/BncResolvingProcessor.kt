@@ -3,7 +3,6 @@ package org.sqlbuilder.bnc
 import org.sqlbuilder.bnc.objects.BncExtendedRecord
 import org.sqlbuilder.bnc.objects.BncRecord
 import org.sqlbuilder.common.NotFoundException
-import org.sqlbuilder.common.ThrowingFunction
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -37,14 +36,14 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
     @Throws(IOException::class)
     override fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, ThrowingFunction { BncRecord.Companion.parse(it) }, consumer)
+        process(file, { BncRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
     override fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, ThrowingFunction { BncExtendedRecord.Companion.parse(it) }, consumer)
+        process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 

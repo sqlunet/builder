@@ -10,6 +10,8 @@ import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
 import java.util.function.BiConsumer
+import java.util.function.Function
+import kotlin.Throws
 
 open class BncProcessor(@JvmField protected val conf: Properties) : Processor("bnc") {
 
@@ -34,19 +36,19 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
     @Throws(IOException::class)
     protected open fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, ThrowingFunction { BncRecord.Companion.parse(it) }, consumer)
+        process(file, { BncRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
     protected open fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, ThrowingFunction { BncExtendedRecord.Companion.parse(it) }, consumer)
+        process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
-    protected fun process(file: File, producer: ThrowingFunction<String, BncRecord>, consumer: BiConsumer<BncRecord, Int>) {
+    protected fun process(file: File, producer: Function<String, BncRecord>, consumer: BiConsumer<BncRecord, Int>) {
         file.useLines {
             var lineNum = 0
             var count = 0
@@ -55,7 +57,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                 .filter { !it.isEmpty() && it[0] == '\t' }
                 .map {
                     try {
-                        return@map producer.applyThrows(it)
+                        return@map producer.apply(it)
                     } catch (e: CommonException) {
                         val cause = e.cause
                         if (cause is ParseException) {
