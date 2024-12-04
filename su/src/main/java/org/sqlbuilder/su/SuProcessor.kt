@@ -76,9 +76,9 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
 
         try {
-            SUFile.COLLECTOR.open().use { ignored1 ->
-                Term.COLLECTOR.open().use { ignored2 ->
-                    Formula.COLLECTOR.open().use { ignored3 ->
+            SUFile.COLLECTOR.open().use {
+                Term.COLLECTOR.open().use {
+                    Formula.COLLECTOR.open().use {
                         PrintStream(FileOutputStream(File(outDir, names.file("files"))), true, StandardCharsets.UTF_8).use { ps ->
                             ps.println("-- $header")
                             insertFiles(ps, SUFile.COLLECTOR, names.table("files"), names.columns("files"))

@@ -24,7 +24,7 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
         collectTerms(KBLoader.kb!!)
         collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
 
-        Term.COLLECTOR.open().use { ignored ->
+        Term.COLLECTOR.open().use {
             PrintStream(FileOutputStream(File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8).use { ps ->
                 ps.println("-- $header")
                 processTerms(ps, Term.COLLECTOR, names.table("terms"), termsColumns)
