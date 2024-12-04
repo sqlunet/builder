@@ -72,7 +72,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                 .filterNotNull()
                 .forEach {
                     try {
-                        consumer.acceptThrows(it, count.toInt())
+                        consumer.accept(it, count.toInt())
                         count++
                     } catch (_: NotFoundException) {
                         // Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), null, nfe)
