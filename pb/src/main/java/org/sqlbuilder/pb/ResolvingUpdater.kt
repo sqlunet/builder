@@ -2,6 +2,7 @@ package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Update
+import org.sqlbuilder.common.Update.update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.pb.foreign.RoleSetToFn
@@ -53,7 +54,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         Progress.tracePending("set", "vnalias")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
-        Update.update(
+        update(
             RoleSetToVn.SET,
             File(outDir, names.updateFile("pbrolesets_vnclasses")),
             header,
@@ -69,7 +70,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         Progress.tracePending("set", "fnalias")
         val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
         val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
-        Update.update(
+        update(
             RoleSetToFn.SET,
             File(outDir, names.updateFile("pbrolesets_fnframes")),
             header,
@@ -88,7 +89,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnRoletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
         val vnClassCol = names.column("pbroles_vnroles.vnclass")
         val vnRoleCol = names.column("pbroles_vnroles.vnrole")
-        Update.update(
+        update(
             RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
@@ -101,7 +102,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                     "$vnClassidCol=${nullableInt(resolved.first)},$vnRoleidCol=${nullableInt(resolved.second)},$vnRoletypeidCol=${nullableInt(resolved.third)}"
             },
             { resolving ->
-                "$vnClassCol='${escape(resolving.first!!)}' AND $vnRoleCol='${escape(resolving.second!!)}'"
+                "$vnClassCol='${escape(resolving.first)}' AND $vnRoleCol='${escape(resolving.second)}'"
             })
         Progress.traceDone()
     }
@@ -114,7 +115,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val fnfetypeidCol = names.column("pbroles_fnfes.fnfetypeid")
         val fnframeCol = names.column("pbroles_fnfes.fnframe")
         val fnfeCol = names.column("pbroles_fnfes.fnfe")
-        Update.update(
+        update(
             RoleToVn.SET,
             File(outDir, names.updateFile("pbroles_fnfes")),
             header,
@@ -127,7 +128,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                     "$fnframeidCol=${nullableInt(resolved.first)},$fnfeidCol=${nullableInt(resolved.second)},$fnfetypeidCol=${nullableInt(resolved.third)}"
             },
             { resolving ->
-                "$fnframeCol='${escape(resolving.first!!)}' AND $fnfeCol='${escape(resolving.second!!)}'"
+                "$fnframeCol='${escape(resolving.first)}' AND $fnfeCol='${escape(resolving.second)}'"
             })
         Progress.traceDone()
     }

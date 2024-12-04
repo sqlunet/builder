@@ -86,7 +86,7 @@ class Member_Sense private constructor(
 
         @JvmField
         val RESOLVE_RESULT_STRINGIFIER = { r: VnSensekeyResolved? ->
-            if (r == null) "NULL,NULL" else "${nullableInt(r.key)},${nullableInt(r.value)}"
+            if (r == null) "NULL,NULL" else "${nullableInt(r.first)},${nullableInt(r.second)}"
         }
 
         @JvmStatic

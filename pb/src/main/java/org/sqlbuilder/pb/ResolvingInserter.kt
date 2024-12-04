@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Insert
+import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.pb.foreign.RoleSetToFn
@@ -68,7 +69,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
         Progress.tracePending("collector", "word")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             Word.COLLECTOR,
             Word.COLLECTOR,
             File(outDir, names.file("words")),
@@ -86,7 +87,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertFnFrameAliases() {
         Progress.tracePending("set", "fnalias")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             RoleSetToFn.SET,
             RoleSetToFn.COMPARATOR,
             File(outDir, names.file("pbrolesets_fnframes")),
@@ -103,7 +104,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertVnClassAliases() {
         Progress.tracePending("set", "vnalias")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             RoleSetToVn.SET,
             RoleSetToVn.COMPARATOR,
             File(outDir, names.file("pbrolesets_vnclasses")),
@@ -120,7 +121,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             RoleToVn.SET,
             RoleToVn.COMPARATOR,
             File(outDir, names.file("pbroles_vnroles")),
@@ -139,7 +140,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertFnFeAliases() {
         Progress.tracePending("set", "fnaliasrole")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             RoleToFn.SET,
             RoleToFn.COMPARATOR,
             File(outDir, names.file("pbroles_fnfes")),
