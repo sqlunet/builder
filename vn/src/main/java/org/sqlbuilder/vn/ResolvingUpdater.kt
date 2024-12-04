@@ -10,7 +10,6 @@ import org.sqlbuilder.vn.objects.Word
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
-import java.util.AbstractMap.SimpleEntry
 
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {
@@ -23,7 +22,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insert() {
-        Word.COLLECTOR.open().use { 
+        Word.COLLECTOR.open().use {
             insertWords()
             insertMemberSenses()
         }
@@ -40,8 +39,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("words"),
             wordResolver,
-            { resolved: Int? -> "$wordidCol=${nullableInt(resolved)}" },
-            { resolving: String -> "$wordCol='${escape(resolving)}'" })
+            { resolved -> "$wordidCol=${nullableInt(resolved)}" },
+            { resolving -> "$wordCol='${escape(resolving)}'" })
         traceDone()
     }
 
@@ -57,8 +56,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("members_senses"),
             sensekeyResolver,
-            { resolved: SimpleEntry<Int, Int>? -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved.key)},$synsetidCol=${nullableInt(resolved.value)}" },
-            { resolving: String? -> "$sensekeyCol='${escape(resolving!!)}'" })
+            { resolved -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved.key)},$synsetidCol=${nullableInt(resolved.value)}" },
+            { resolving -> "$sensekeyCol='${escape(resolving)}'" })
         traceDone()
     }
 }
