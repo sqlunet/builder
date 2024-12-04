@@ -1,98 +1,76 @@
-package org.sqlbuilder.annotations;
+package org.sqlbuilder.annotations
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Set;
+import java.io.IOException
+import java.io.PrintWriter
+import javax.annotation.processing.AbstractProcessor
+import javax.annotation.processing.RoundEnvironment
+import javax.annotation.processing.SupportedAnnotationTypes
+import javax.annotation.processing.SupportedSourceVersion
+import javax.lang.model.SourceVersion
+import javax.lang.model.element.TypeElement
+import javax.lang.model.type.MirroredTypeException
+import javax.tools.Diagnostic
+import javax.tools.StandardLocation
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.MirroredTypeException;
-import javax.tools.Diagnostic;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
-
-@SupportedAnnotationTypes({"org.sqlbuilder.annotations.RequiresIdFrom", "org.sqlbuilder.annotations.ProvidesIdTo", "org.sqlbuilder.annotations.ProvidesIdTo2"})
+@SupportedAnnotationTypes("org.sqlbuilder.annotations.RequiresIdFrom", "org.sqlbuilder.annotations.ProvidesIdTo", "org.sqlbuilder.annotations.ProvidesIdTo2")
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
-public class RequiresProvidesProcessor extends AbstractProcessor
-{
-	@Override
-	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env)
-	{
-		//if (annotations.isEmpty())
-		{
-			processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Annotations " + annotations.size());
-		}
+class RequiresProvidesProcessor : AbstractProcessor() {
 
-		try
-		{
-			FileObject reportFile = processingEnv.getFiler().createResource(StandardLocation.CLASS_OUTPUT, "", "report");
-			try (PrintWriter pw = new PrintWriter(reportFile.openWriter()))
-			{
-				annotations.forEach(annotation -> {
+    override fun process(annotations: Set<TypeElement>, env: RoundEnvironment): Boolean {
 
-					pw.println(String.format("annotation %s", annotation.getSimpleName()));
-					annotation.getTypeParameters();
-					Set<? extends Element> elements = env.getElementsAnnotatedWith(annotation);
+        processingEnv.messager.printMessage(Diagnostic.Kind.WARNING, "Annotations " + annotations.size)
+        try {
+            val msg = processingEnv.messager
+            val reportFile = processingEnv.filer.createResource(StandardLocation.CLASS_OUTPUT, "", "report")
+            PrintWriter(reportFile.openWriter()).use { pw ->
+                annotations.forEach { annotation ->
+                    pw.println("annotation ${annotation.simpleName}")
+                    //annotation.typeParameters
 
-					elements.stream() //
-							.forEach(e -> {
-								String clazz = null;
-								if ("RequiresIdFrom".equals(annotation.getSimpleName().toString()))
-								{
-									RequiresIdFrom reqAnnotation = e.getAnnotation(RequiresIdFrom.class);
-									try
-									{
-										clazz = "type()=" + reqAnnotation.type(); // this should throw
-									}
-									catch (MirroredTypeException mte)
-									{
-										clazz = "type()=" + mte.getTypeMirror();
-									}
-									processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Requires " + clazz);
-								}
-								else if ("ProvidesIdTo".equals(annotation.getSimpleName().toString()))
-								{
-									ProvidesIdTo provAnnotation = e.getAnnotation(ProvidesIdTo.class);
-									try
-									{
-										clazz = "type()=" + provAnnotation.type(); // this should throw
-									}
-									catch (MirroredTypeException mte)
-									{
-										clazz = "type()=" + mte.getTypeMirror();
-									}
-									processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Provides " + clazz);
-								}
-								else if ("ProvidesIdTo2".equals(annotation.getSimpleName().toString()))
-								{
-									ProvidesIdTo2 provAnnotation = e.getAnnotation(ProvidesIdTo2.class);
-									clazz = provAnnotation.value();
-									processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Provides " + clazz);
-								}
-								else
-								{
-									processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "No type " + annotation.toString());
-								}
-								pw.println(String.format("\t%s %s %s element '%s' in '%s' astype=[%s]", //
-										e.getKind(), //
-										e.getClass().getSimpleName(), //
-										clazz, //
-										e, //
-										e.getEnclosingElement().getSimpleName(), //
-										e.asType().toString()));
-							});
-				});
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return true;
-	}
+                    env.getElementsAnnotatedWith(annotation)
+                        .asSequence()
+                        .forEach {
+                            var clazz: String? = null
+                            when (annotation.simpleName.toString()) {
+
+                                "RequiresIdFrom" -> {
+                                    val reqAnnotation = it.getAnnotation<RequiresIdFrom>(RequiresIdFrom::class.java)
+                                    clazz = try {
+                                        "type()=" + reqAnnotation.type // this should throw
+                                    } catch (mte: MirroredTypeException) {
+                                        "type()=" + mte.typeMirror
+                                    }
+                                    msg.printMessage(Diagnostic.Kind.WARNING, "Requires $clazz")
+                                }
+
+                                "ProvidesIdTo"   -> {
+                                    val provAnnotation = it.getAnnotation<ProvidesIdTo>(ProvidesIdTo::class.java)
+                                    clazz = try {
+                                        "type()=" + provAnnotation.type // this should throw
+                                    } catch (mte: MirroredTypeException) {
+                                        "type()=" + mte.typeMirror
+                                    }
+                                    msg.printMessage(Diagnostic.Kind.WARNING, "Provides $clazz")
+                                }
+
+                                "ProvidesIdTo2"  -> {
+                                    val provAnnotation = it.getAnnotation<ProvidesIdTo2>(ProvidesIdTo2::class.java)
+                                    clazz = provAnnotation.value
+                                    msg.printMessage(Diagnostic.Kind.WARNING, "Provides $clazz")
+                                }
+
+                                else             -> {
+                                    msg.printMessage(Diagnostic.Kind.WARNING, "No type $annotation")
+                                }
+                            }
+
+                            pw.println("\t${it.kind} ${it.javaClass.simpleName} $clazz element '$it' in '${it.enclosingElement.simpleName}' astype=[${it.asType()}]")
+                        }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return true
+    }
 }

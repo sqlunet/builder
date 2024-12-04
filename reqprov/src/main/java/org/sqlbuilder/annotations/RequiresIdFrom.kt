@@ -1,12 +1,13 @@
-package org.sqlbuilder.annotations;
+package org.sqlbuilder.annotations
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Target;
+import kotlin.reflect.KClass
 
-@Repeatable(RequiresIdsFrom.class)
-@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
-public @interface RequiresIdFrom
-{
-	Class<?> type();
-}
+@JvmRepeatable(RequiresIdsFrom::class)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.CONSTRUCTOR
+)
+annotation class RequiresIdFrom
+    (val type: KClass<*>)

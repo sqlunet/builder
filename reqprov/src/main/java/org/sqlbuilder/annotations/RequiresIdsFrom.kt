@@ -1,10 +1,10 @@
-package org.sqlbuilder.annotations;
+package org.sqlbuilder.annotations
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
-
-@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
-public @interface RequiresIdsFrom
-{
-	RequiresIdFrom[] value();
-}
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.CONSTRUCTOR
+)
+annotation class RequiresIdsFrom
+    (vararg val value: RequiresIdFrom)
