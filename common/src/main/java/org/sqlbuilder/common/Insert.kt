@@ -5,8 +5,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.PrintStream
-import java.util.function.BiFunction
 import java.util.function.Function
+import kotlin.Throws
 
 object Insert {
 
@@ -243,7 +243,7 @@ object Insert {
         table: String,
         columns: String,
         header: String,
-        stringifier: BiFunction<K, V, String>,
+        stringifier: (K, V) -> String,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
@@ -257,7 +257,7 @@ object Insert {
                         ps.println(",")
                     }
                     val v = resolver.apply(it)
-                    val values = stringifier.apply(it, v)
+                    val values = stringifier.invoke(it, v)
                     val row = "($values)"
                     ps.print(row)
                 }
