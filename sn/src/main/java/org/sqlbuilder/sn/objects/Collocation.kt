@@ -4,7 +4,13 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.ParseException
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
+import org.sqlbuilder.sn.SnSensekeyResolvable
+import org.sqlbuilder.sn.SnSensekeyResolved
 import java.util.function.Function
+import kotlin.Throws
+
+typealias SnCollocationResolvable = Pair<SnSensekeyResolvable, SnSensekeyResolvable>
+typealias SnCollocationResolved = Pair<SnSensekeyResolved, SnSensekeyResolved>
 
 class Collocation private constructor(
     val offset1: Int,
@@ -12,7 +18,7 @@ class Collocation private constructor(
     val word1: String,
     val offset2: Int,
     val pos2: Char, val word2: String,
-) : Insertable, Resolvable<Pair<String, String>, Pair<Pair<Int, Int>, Pair<Int, Int>>> {
+) : Insertable, Resolvable<SnCollocationResolvable, SnCollocationResolved> {
 
     @JvmField
     var sensekey1: String? = null
@@ -52,7 +58,7 @@ class Collocation private constructor(
         return resolved1 && resolved2
     }
 
-    override fun resolving(): Pair<String, String> {
+    override fun resolving(): SnCollocationResolvable {
         return Pair<String, String>(sensekey1.toString(), sensekey2.toString())
     }
 
