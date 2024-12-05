@@ -1,22 +1,24 @@
 package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.pb.PbFnFeResolvable
+import org.sqlbuilder.pb.PbFnFeResolved
 import org.sqlbuilder.pb.objects.Role
 
 class RoleToFn private constructor(
     role: Role,
     aliasRole: AliasRole,
-) : RoleTo(role, aliasRole), Resolvable<Pair<String, String>, Triple<Int, Int, Int>> {
+) : RoleTo(role, aliasRole), Resolvable<PbFnFeResolvable, PbFnFeResolved> {
 
     // R E S O L V E
 
-    override fun resolving(): Pair<String, String> {
+    override fun resolving(): PbFnFeResolvable {
         return aliasRole.aliasClass.classTag to aliasRole.aliasLink
     }
 
     companion object {
 
-        val RESOLVE_RESULT_STRINGIFIER = { r: Triple<Int, Int, Int>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
+        val RESOLVE_RESULT_STRINGIFIER = { r: PbFnFeResolved? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 
         val COMPARATOR: Comparator<RoleToFn> = Comparator
             .comparing<RoleToFn, Role> { it.role }
