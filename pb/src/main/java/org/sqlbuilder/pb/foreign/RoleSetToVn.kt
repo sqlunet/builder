@@ -1,6 +1,8 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.Resolvable
+import org.sqlbuilder.pb.PbVnClassResolvable
+import org.sqlbuilder.pb.PbVnClassResolved
 import org.sqlbuilder.pb.foreign.AliasClass.Companion.toTag
 import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder.pb.objects.Word
@@ -10,11 +12,11 @@ open class RoleSetToVn protected constructor(
     pos: String,
     pbRoleSet: RoleSet,
     word: Word,
-) : RoleSetTo(clazz, pos, pbRoleSet, word), Insertable {
+) : RoleSetTo(clazz, pos, pbRoleSet, word), Resolvable<PbVnClassResolvable, PbVnClassResolved> {
 
     // R E S O L V E
 
-    override fun resolving(): String {
+    override fun resolving(): PbVnClassResolvable {
         return toTag(ref)
     }
 

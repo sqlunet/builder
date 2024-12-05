@@ -2,7 +2,6 @@ package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder.pb.objects.Word
 import java.util.*
@@ -12,7 +11,7 @@ abstract class RoleSetTo protected constructor(
     pos: String,
     @JvmField val pbRoleSet: RoleSet,
     val pbWord: Word,
-) : Insertable, Resolvable<String, Int> {
+) : Insertable {
 
     enum class Db {
         VERBNET, FRAMENET
@@ -50,11 +49,7 @@ abstract class RoleSetTo protected constructor(
         return "${pbRoleSet.name},${pbWord.word}"
     }
 
-    // R E S O L V E
-
-    override fun resolving(): String {
-        return ref
-    }
+    // T O   S T R I N G
 
     override fun toString(): String {
         return "$ref,$pos,${pbWord.word}"
