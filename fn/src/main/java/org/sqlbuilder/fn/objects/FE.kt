@@ -7,7 +7,6 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.fn.collectors.FnFEXmlProcessor
-import org.sqlbuilder.fn.joins.Pair
 import org.sqlbuilder.fn.types.FeType
 import org.sqlbuilder.fn.types.FeType.getSqlId
 import org.xml.sax.SAXException
