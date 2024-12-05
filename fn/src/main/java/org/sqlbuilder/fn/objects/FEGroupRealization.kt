@@ -66,12 +66,10 @@ class FEGroupRealization private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FEGroupRealization> = Comparator
             .comparing<FEGroupRealization, Int> { it.luID }
             .thenComparing<String> { it.fENames }
 
-        @JvmField
         val LIST = ListCollector<FEGroupRealization>()
 
         fun make(fegr: FEGroupRealizationType, luid: Int, frameid: Int): FEGroupRealization {

@@ -42,12 +42,10 @@ data class LexUnit_Governor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<LexUnit_Governor> = Comparator
             .comparing<LexUnit_Governor, Int> { it.luid }
             .thenComparing<Governor>({ it.governor }, Governor.COMPARATOR)
 
-        @JvmField
         val SET = HashSet<LexUnit_Governor>()
 
         fun make(luid: Int, governor: Governor): LexUnit_Governor {

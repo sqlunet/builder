@@ -19,14 +19,12 @@ class LexUnit : HasID, Insertable, Serializable {
 
     val iD: Int
 
-    @JvmField
     val name: String
 
     private val pos: Int
 
     val frameID: Int
 
-    @JvmField
     val frameName: String
 
     private val definition: String?
@@ -131,12 +129,10 @@ class LexUnit : HasID, Insertable, Serializable {
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<LexUnit> = Comparator
             .comparing<LexUnit, String> { it.name }
             .thenComparing<Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<LexUnit>()
 
         fun make(lu: LexUnitDocument.LexUnit): LexUnit {

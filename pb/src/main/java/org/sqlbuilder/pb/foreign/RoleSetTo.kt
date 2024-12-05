@@ -7,9 +7,9 @@ import org.sqlbuilder.pb.objects.Word
 import java.util.*
 
 abstract class RoleSetTo protected constructor(
-    @JvmField val ref: String,
+    val ref: String,
     pos: String,
-    @JvmField val pbRoleSet: RoleSet,
+    val pbRoleSet: RoleSet,
     val pbWord: Word,
 ) : Insertable {
 
@@ -17,7 +17,6 @@ abstract class RoleSetTo protected constructor(
         VERBNET, FRAMENET
     }
 
-    @JvmField
     val pos: String = (if ("j" == pos) "a" else pos)
 
     // I D E N T I T Y

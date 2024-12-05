@@ -4,9 +4,9 @@ import org.sqlbuilder.vn.objects.Sensekey.Companion.parse
 
 class Member
 private constructor(
-    @JvmField val lemma: String,
-    @JvmField val senseKeys: List<Sensekey>?,
-    @JvmField val groupings: List<Grouping>?,
+    val lemma: String,
+    val senseKeys: List<Sensekey>?,
+    val groupings: List<Grouping>?,
     private val isDefinite: Boolean,
 ) {
 

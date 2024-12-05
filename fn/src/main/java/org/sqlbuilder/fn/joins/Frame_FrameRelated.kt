@@ -50,13 +50,11 @@ data class Frame_FrameRelated(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Frame_FrameRelated> = Comparator
             .comparing<Frame_FrameRelated, String> { it.relation }
             .thenComparing<Int> { it.frameid }
             .thenComparing<Int> { it.frame2id }
 
-        @JvmField
         val SET = HashSet<Frame_FrameRelated>()
 
         fun make(frameid: Int, frame2: FrameIDNameType, relation: String): Frame_FrameRelated {

@@ -25,16 +25,12 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     protected val pbRoleSerFile: String = conf.getProperty("pbrole_nids")
 
-    @JvmField
     protected val vnClassResolver: VnClassResolver = VnClassResolver(vnClassSerFile)
 
-    @JvmField
     protected val vnRoleResolver: VnRoleResolver = VnRoleResolver(vnRoleSerFile)
 
-    @JvmField
     protected val pbRoleSetResolver: PbRoleSetResolver = PbRoleSetResolver(pbRoleSetSerFile)
 
-    @JvmField
     protected val pbRoleResolver: PbRoleResolver = PbRoleResolver(pbRoleSerFile)
 
     init {

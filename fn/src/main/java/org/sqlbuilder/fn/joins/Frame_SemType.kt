@@ -39,12 +39,10 @@ data class Frame_SemType(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Frame_SemType> = Comparator
             .comparing<Frame_SemType, Int> { it.frameid }
             .thenComparing<Int> { it.semtypeid }
 
-        @JvmField
         val SET = HashSet<Frame_SemType>()
 
         fun make(frameid: Int, semtypeid: Int): Frame_SemType {

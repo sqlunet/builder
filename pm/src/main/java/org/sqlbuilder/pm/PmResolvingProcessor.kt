@@ -37,28 +37,20 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
 
     protected val fnLexUnitSerFile: String = conf.getProperty("fnlexunit_nids")
 
-    @JvmField
     protected val wordResolver: WordResolver = WordResolver(wordSerFile)
 
-    @JvmField
     protected val vnWordResolver: VnWordResolver = VnWordResolver(vnWordSerFile)
 
-    @JvmField
     protected val pbWordResolver: PbWordResolver = PbWordResolver(pbWordSerFile)
 
-    @JvmField
     protected val fnWordResolver: FnWordResolver = FnWordResolver(fnWordSerFile)
 
-    @JvmField
     protected val sensekeyResolver: SensekeyResolver = SensekeyResolver(sensekeySerFile)
 
-    @JvmField
     protected val vnRoleResolver: VnRoleResolver = VnRoleResolver(vnRoleSerFile)
 
-    @JvmField
     protected val pbRoleResolver: PbRoleResolver = PbRoleResolver(pbRoleSerFile)
 
-    @JvmField
     protected val fnRoleResolver: FnRoleResolver = FnRoleResolver(fnRoleSerFile)
 
     protected val fnLexUnitResolver: FnLexUnitResolver = FnLexUnitResolver(fnLexUnitSerFile)

@@ -46,7 +46,6 @@ class FrameSubName private constructor(
 
         val COMPARATOR: Comparator<FrameSubName> = Comparator.comparing<FrameSubName, String> { it.subName }
 
-        @JvmField
         val COLLECTOR: SetCollector<FrameSubName> = SetCollector<FrameSubName>(COMPARATOR)
 
         // C O N S T R U C T O R

@@ -32,12 +32,10 @@ class SubCorpus private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<SubCorpus> = Comparator
             .comparing<SubCorpus, String> { it.name }
             .thenComparing<Int> { it.luid }
 
-        @JvmField
         val COLLECTOR = SetCollector<SubCorpus>(COMPARATOR)
 
         fun make(subcorpus: SubCorpusType, luid: Int): SubCorpus {

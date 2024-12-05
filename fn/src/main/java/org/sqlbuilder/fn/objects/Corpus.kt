@@ -49,12 +49,10 @@ class Corpus private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Corpus> = Comparator
             .comparing<Corpus, String> { it.name }
             .thenComparing<Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<Corpus>()
 
         fun make(corpus: CorpDocType, luid: Int?): Corpus {

@@ -11,18 +11,14 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.Throws
 
-open class BncProcessor(@JvmField protected val conf: Properties) : Processor("bnc") {
+open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
 
-    @JvmField
     protected val bncHome: File = File(conf.getProperty("bnc_home", System.getenv()["BNCHOME"]))
 
-    @JvmField
     protected val names: Names = Names("bnc")
 
-    @JvmField
     protected var header: String = conf.getProperty("bnc_header")
 
-    @JvmField
     protected var outDir: File = File(conf.getProperty("bnc_outdir", "sql/data"))
 
     init {

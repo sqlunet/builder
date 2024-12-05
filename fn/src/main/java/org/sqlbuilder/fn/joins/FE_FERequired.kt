@@ -40,12 +40,10 @@ data class FE_FERequired(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FE_FERequired> = Comparator
             .comparing<FE_FERequired, Int> { it.feid }
             .thenComparing<Int> { it.feid2 }
 
-        @JvmField
         val SET = HashSet<FE_FERequired>()
 
          fun make(fe: Int, fe2: InternalFrameRelationFEType): FE_FERequired {

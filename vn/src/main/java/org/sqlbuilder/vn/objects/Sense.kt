@@ -39,7 +39,6 @@ class Sense private constructor(
         val COMPARATOR: Comparator<Sense> = Comparator
             .comparing<Sense, Sensekey> { it.sensekey }
 
-        @JvmField
         val SET = HashSet<Sense>()
 
         fun make(sensekey: Sensekey): Sense {

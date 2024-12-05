@@ -43,12 +43,10 @@ data class SubCorpus_Sentence(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<SubCorpus_Sentence> = Comparator
             .comparing<SubCorpus_Sentence, SubCorpus>({ it.subcorpus }, SubCorpus.COMPARATOR)
             .thenComparing<Int> { it.sentenceid }
 
-        @JvmField
         val SET = HashSet<SubCorpus_Sentence>()
 
         fun make(subcorpus: SubCorpus, sentence: Sentence): SubCorpus_Sentence {

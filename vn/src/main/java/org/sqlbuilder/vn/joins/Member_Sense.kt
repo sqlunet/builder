@@ -75,16 +75,13 @@ class Member_Sense private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Member_Sense> = Comparator
             .comparing<Member_Sense, VnClass> { it.memberClass }
             .thenComparing<Word> { it.memberWord }
             .thenComparing<Sensekey?>({ it.sensekey }, nullsFirst(naturalOrder<Sensekey>()))
 
-        @JvmField
         val SET = HashSet<Member_Sense>()
 
-        @JvmField
         val RESOLVE_RESULT_STRINGIFIER = { r: VnSensekeyResolved? ->
             if (r == null) "NULL,NULL" else "${nullableInt(r.first)},${nullableInt(r.second)}"
         }

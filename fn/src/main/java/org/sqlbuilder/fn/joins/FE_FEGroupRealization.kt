@@ -55,12 +55,10 @@ data class FE_FEGroupRealization(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FE_FEGroupRealization> = Comparator
             .comparing<FE_FEGroupRealization, String> { it.feName }
             .thenComparing<String> { it.fENames }
 
-        @JvmField
         val SET = HashSet<FE_FEGroupRealization>()
 
         fun make(fe: FEValenceType, fegr: FEGroupRealization): FE_FEGroupRealization {

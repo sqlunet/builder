@@ -40,12 +40,10 @@ data class LexUnit_SemType(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<LexUnit_SemType> = Comparator
             .comparing<LexUnit_SemType, Int> { it.luid }
             .thenComparing<Int> { it.semtypeid }
 
-        @JvmField
         val SET = HashSet<LexUnit_SemType>()
 
         fun make(luid: Int, semtype: SemTypeRefType): LexUnit_SemType {

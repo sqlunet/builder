@@ -14,13 +14,10 @@ open class Inserter(
     conf: Properties,
 ) {
 
-    @JvmField
     protected val names: Names = Names("sl")
 
-    @JvmField
     protected var header: String = conf.getProperty("sl_header")
 
-    @JvmField
     protected var outDir: File = File(conf.getProperty("sl_outdir", "sql/data"))
 
     init {

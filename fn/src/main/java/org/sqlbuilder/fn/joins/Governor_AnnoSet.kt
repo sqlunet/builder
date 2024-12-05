@@ -43,12 +43,10 @@ data class Governor_AnnoSet(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Governor_AnnoSet> = Comparator
             .comparing<Governor_AnnoSet, Governor>({ it.governor }, Governor.COMPARATOR)
             .thenComparing<Int> { it.annosetid }
 
-        @JvmField
         val SET = HashSet<Governor_AnnoSet>()
 
         fun make(governor: Governor, annoset: AnnoSetType): Governor_AnnoSet {

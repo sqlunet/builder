@@ -41,12 +41,10 @@ data class SemType_SemTypeSuper(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<SemType_SemTypeSuper> = Comparator
             .comparing<SemType_SemTypeSuper, Int> { it.semtypeid }
             .thenComparing<Int> { it.supersemtypeid }
 
-        @JvmField
         val SET = HashSet<SemType_SemTypeSuper>()
 
         fun make(semtype: SemType, supersemtype: SuperType): SemType_SemTypeSuper {

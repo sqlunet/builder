@@ -9,22 +9,17 @@ class PmEntry : Insertable {
     private var role: PmRole? = null
 
     // wordnet
-    @JvmField
     var word: String? = null
 
-    @JvmField
     var sensekey: String? = null
 
     // verbnet
-    @JvmField
     val vn: VnRoleAlias = VnRoleAlias()
 
     // propbank
-    @JvmField
     val pb: PbRoleAlias = PbRoleAlias()
 
     // framenet
-    @JvmField
     val fn: FnRoleAlias = FnRoleAlias()
 
     // sources

@@ -11,13 +11,10 @@ import java.util.*
 
 open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
 
-    @JvmField
     protected val wordResolver: SuWordResolver
 
-    @JvmField
     protected val synsetResolver: SuSynsetResolver
 
-    @JvmField
     protected val synset31Resolver: SuSynset31Resolver
 
     init {

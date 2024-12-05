@@ -16,10 +16,8 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     protected val sensekeySerFile: String
 
-    @JvmField
     protected val wordResolver: VnWordResolver
 
-    @JvmField
     protected val sensekeyResolver: VnSensekeyResolver
 
     init {

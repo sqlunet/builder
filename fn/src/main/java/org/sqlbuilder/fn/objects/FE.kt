@@ -22,7 +22,6 @@ class FE private constructor(
 
     val iD: Int = fe.getID()
 
-    @JvmField
     val name: String = fe.getName()
 
     val abbrev: String = fe.getAbbrev()
@@ -81,15 +80,12 @@ class FE private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FE> = Comparator
             .comparing<FE, String> { it.name }
             .thenComparing<Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<FE>()
 
-        @JvmField
         var BY_FETYPEID_AND_FRAMEID: Map<Pair<Int, Int>, FE>? = null
 
         private val definitionProcessor = FnFEXmlProcessor()

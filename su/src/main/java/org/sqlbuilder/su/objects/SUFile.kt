@@ -66,7 +66,6 @@ class SUFile private constructor(
         val COMPARATOR: Comparator<SUFile> = Comparator
             .comparing<SUFile, String> { it.filename }
 
-        @JvmField
         val COLLECTOR = SetCollector<SUFile>(COMPARATOR)
 
         fun make(filepath: String): SUFile {

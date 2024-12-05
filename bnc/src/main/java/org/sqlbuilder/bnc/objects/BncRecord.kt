@@ -31,11 +31,11 @@ import org.sqlbuilder.common.ParseException
 import org.sqlbuilder.common.Utils.escape
 
 open class BncRecord protected constructor(
-    @JvmField val word: String,
-    @JvmField protected val pos: Char,
-    @JvmField protected val freq: Int,
-    @JvmField protected val range: Int,
-    @JvmField protected val dispersion: Float,
+    val word: String,
+    protected val pos: Char,
+    protected val freq: Int,
+    protected val range: Int,
+    protected val dispersion: Float,
 ) : Insertable {
 
     // I N S E R T
@@ -52,7 +52,6 @@ open class BncRecord protected constructor(
 
     companion object {
 
-        @JvmField
         val posMap = mapOf(
             ("Adj" to 'a'),
             ("Adv" to 'r'),

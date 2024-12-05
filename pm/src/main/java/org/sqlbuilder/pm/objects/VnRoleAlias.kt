@@ -7,10 +7,8 @@ import org.sqlbuilder.pm.PmVnRoleResolved
 
 class VnRoleAlias : Resolvable<PmVnRoleResolvable, PmVnRoleResolved> {
 
-    @JvmField
     var clazz: String? = null
 
-    @JvmField
     var role: String? = null
 
     override fun dataRow(): String {

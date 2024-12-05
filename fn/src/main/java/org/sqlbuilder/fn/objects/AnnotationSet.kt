@@ -104,11 +104,9 @@ class AnnotationSet private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<AnnotationSet> = Comparator
             .comparing<AnnotationSet, Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<AnnotationSet>()
 
         fun make(annoset: AnnotationSetType, sentenceid: Int): AnnotationSet {

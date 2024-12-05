@@ -12,7 +12,7 @@ import java.io.Serializable
 import java.util.*
 
 class Word private constructor(
-    @JvmField val word: String,
+    val word: String,
 ) : HasId, Insertable, Resolvable<VnWordResolvable, VnWordResolved>, Comparable<Word>, Serializable {
 
     @RequiresIdFrom(type = Word::class)
@@ -65,7 +65,6 @@ class Word private constructor(
 
         val COMPARATOR: Comparator<Word> = Comparator.comparing<Word, String> { it.word }
 
-        @JvmField
         val COLLECTOR: SetCollector<Word> = SetCollector<Word>(COMPARATOR)
 
         fun make(word: String): Word {

@@ -16,7 +16,6 @@ class Frame private constructor(
 
     val iD: Int = frame.getID()
 
-    @JvmField
     val name: String = frame.getName()
 
     val definition: String
@@ -71,7 +70,6 @@ class Frame private constructor(
             .comparing<Frame, String> { it.name }
             .thenComparing<Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<Frame>()
 
         private val definitionProcessor = FnFrameXmlProcessor()

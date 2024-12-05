@@ -7,8 +7,8 @@ import org.sqlbuilder.vn.objects.Word
 import java.util.*
 
 class Class_Word private constructor(
-	@JvmField val clazz: VnClass,
-	@JvmField val word: Word
+	val clazz: VnClass,
+	val word: Word
 ) : Insertable, Comparable<Class_Word> {
 
     // I D E N T I T Y
@@ -54,12 +54,10 @@ class Class_Word private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Class_Word> = Comparator
             .comparing<Class_Word, Word> { it.word }
             .thenComparing<VnClass> { it.clazz }
 
-        @JvmField
         val SET = HashSet<Class_Word>()
 
         fun make(clazz: VnClass, word: Word): Class_Word {

@@ -47,7 +47,6 @@ class Frame_Example private constructor(
             .comparing<Frame_Example, Frame> { it.frame }
             .thenComparing<FrameExample> { it.example }
 
-        @JvmField
         val SET = HashSet<Frame_Example>()
 
         fun make(frame: Frame, example: FrameExample): Frame_Example {

@@ -37,7 +37,6 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
 
         val COMPARATOR: Comparator<Func> = Comparator.comparing<Func, String> { it.func }
 
-        @JvmField
         val COLLECTOR = SetCollector<Func>(COMPARATOR)
 
         private val PREDEFINED = mapOf(

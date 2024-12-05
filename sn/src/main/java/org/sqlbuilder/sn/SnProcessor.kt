@@ -14,22 +14,16 @@ open class SnProcessor(
     conf: Properties,
 ) : Processor("sn") {
 
-    @JvmField
     protected val snHome: File = File(conf.getProperty("sn_home", System.getenv()["SNHOME"]))
 
-    @JvmField
     protected val snMain: String = conf.getProperty("sn_file", "SYNTAGNET.txt")
 
-    @JvmField
     protected val names: Names = Names("sn")
 
-    @JvmField
     protected var header: String = conf.getProperty("sn_header")
 
-    @JvmField
     protected var resolve: Boolean = false
 
-    @JvmField
     protected var outDir: File = File(conf.getProperty("sn_outdir", "sql/data"))
 
     private var toSenseKeys = SnLemmaPosOffsetResolver(conf.getProperty("to_sensekeys"))

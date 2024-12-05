@@ -6,7 +6,7 @@ import org.sqlbuilder.common.SetCollector
 import java.util.*
 
 class Predicate private constructor(
-	@JvmField val name: String
+	val name: String
 ) : HasId, Insertable, Comparable<Predicate> {
 
     override fun getIntId(): Int {
@@ -46,7 +46,6 @@ class Predicate private constructor(
 
         val COMPARATOR: Comparator<Predicate> = Comparator.comparing<Predicate, String> { it.name }
 
-        @JvmField
         val COLLECTOR: SetCollector<Predicate> = SetCollector<Predicate>(COMPARATOR)
 
          fun make(name: String): Predicate {

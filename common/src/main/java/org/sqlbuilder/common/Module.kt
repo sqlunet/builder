@@ -4,7 +4,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
-abstract class Module protected constructor(val id: String?, conf: String, @JvmField protected val mode: Mode?) {
+abstract class Module protected constructor(val id: String?, conf: String, protected val mode: Mode?) {
 
     enum class Mode {
         PLAIN, RESOLVE, UPDATE, EXPORT;
@@ -22,7 +22,6 @@ abstract class Module protected constructor(val id: String?, conf: String, @JvmF
         }
     }
 
-    @JvmField
     protected val props: Properties = getProperties(conf)
 
     protected abstract fun run()

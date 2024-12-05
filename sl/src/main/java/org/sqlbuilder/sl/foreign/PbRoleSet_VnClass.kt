@@ -29,15 +29,12 @@ class PbRoleSet_VnClass private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<PbRoleSet_VnClass> = Comparator
             .comparing<PbRoleSet_VnClass, String> { it.pbRoleset }
             .thenComparing<String> { it.vnClass }
 
-        @JvmField
         val SET: MutableSet<PbRoleSet_VnClass> = TreeSet<PbRoleSet_VnClass>(COMPARATOR)
 
-        @JvmField
         val RESOLVE_RESULT_STRINGIFIER  =  { r: PbVnClassResolved? ->
             if (r == null) "NULL,NULL" else "${r.first},${r.second}"
         }

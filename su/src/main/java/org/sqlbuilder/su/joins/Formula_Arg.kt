@@ -13,7 +13,7 @@ import java.text.ParseException
 class Formula_Arg private constructor(
     val formula: Formula,
     val term: Term,
-    @JvmField val arg: Arg,
+    val arg: Arg,
 ) : Insertable, Serializable, Comparable<Formula_Arg> {
 
     val argNum: Int

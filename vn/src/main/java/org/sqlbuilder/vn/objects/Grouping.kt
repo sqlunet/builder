@@ -6,7 +6,7 @@ import org.sqlbuilder.common.SetCollector
 import java.util.*
 
 class Grouping private constructor(
-    @JvmField val name: String,
+    val name: String,
 ) : HasId, Insertable, Comparable<Grouping> {
 
     override fun getIntId(): Int {
@@ -52,7 +52,6 @@ class Grouping private constructor(
 
         val COMPARATOR: Comparator<Grouping> = Comparator.comparing<Grouping, String> { it.name }
 
-        @JvmField
         val COLLECTOR: SetCollector<Grouping> = SetCollector<Grouping>(COMPARATOR)
 
         fun make(groupingName: String): Grouping {

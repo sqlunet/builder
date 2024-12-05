@@ -47,7 +47,6 @@ class FrameExample private constructor(
 
         val COMPARATOR: Comparator<FrameExample> = Comparator.comparing<FrameExample, String> { it.example }
 
-        @JvmField
         val COLLECTOR: SetCollector<FrameExample> = SetCollector<FrameExample>(COMPARATOR)
 
          fun make(example: String): FrameExample {

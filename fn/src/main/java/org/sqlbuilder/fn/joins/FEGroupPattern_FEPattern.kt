@@ -50,7 +50,6 @@ data class FEGroupPattern_FEPattern(
 
     companion object {
 
-        @JvmField
         val LIST = ArrayList<FEGroupPattern_FEPattern>()
 
         fun make(groupPattern: FEGroupPattern, fer: FERealization, vu: ValenceUnit): FEGroupPattern_FEPattern {

@@ -10,8 +10,8 @@ import java.util.*
 
 class Term_Synset private constructor(
     val term: Term,
-    @JvmField val synsetId: Long,
-    @JvmField val posId: Char,
+    val synsetId: Long,
+    val posId: Char,
     val mapType: String,
 ) : Insertable, Serializable, Comparable<Term_Synset> {
 
@@ -68,7 +68,6 @@ class Term_Synset private constructor(
             .thenComparing<Char> { it.posId }
             .thenComparing<String> { it.mapType }
 
-        @JvmField
         val SET = TreeSet<Term_Synset>()
 
         @Throws(IllegalArgumentException::class)

@@ -11,7 +11,6 @@ class Theta private constructor(
     thetaName: String,
 ) : HasId, Comparable<Theta>, Insertable {
 
-    @JvmField
     val theta: String = normalize(thetaName)
 
     @RequiresIdFrom(type = Theta::class)

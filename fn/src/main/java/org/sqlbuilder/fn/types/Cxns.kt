@@ -35,12 +35,10 @@ class Cxns private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Cxns> = Comparator
             .comparing<Cxns, String> { it.name }
             .thenComparing<Int> { it.id }
 
-        @JvmField
         val SET = HashSet<Cxns>()
 
         fun make(id: Int, name: String): Cxns {

@@ -15,7 +15,6 @@ class Word private constructor(
     lemma: String,
 ) : HasId, Insertable, Resolvable<FnWordResolvable, FnWordResolved>, Comparable<Word>, Serializable {
 
-    @JvmField
     val word: String = lemma.lowercase()
 
     @RequiresIdFrom(type = Word::class)
@@ -69,7 +68,6 @@ class Word private constructor(
         val COMPARATOR: Comparator<Word> = Comparator
             .comparing<Word, String> { it.word }
 
-        @JvmField
         val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
         fun make(lemma: String): Word {

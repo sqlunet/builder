@@ -7,13 +7,10 @@ import org.sqlbuilder.pm.PmFnRoleAndLuResolved
 
 class FnRoleAlias : Resolvable<PmFnRoleAndLuResolvable, PmFnRoleAndLuResolved> {
 
-    @JvmField
     var frame: String? = null
 
-    @JvmField
     var fetype: String? = null
 
-    @JvmField
     var lu: String? = null
 
     override fun dataRow(): String {

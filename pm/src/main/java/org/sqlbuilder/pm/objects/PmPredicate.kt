@@ -56,7 +56,6 @@ class PmPredicate private constructor(
         val COMPARATOR: Comparator<PmPredicate> = Comparator
             .comparing<PmPredicate, String> { it.predicate }
 
-        @JvmField
         val COLLECTOR = SetCollector<PmPredicate>(COMPARATOR)
 
         fun make(predicate: String): PmPredicate {

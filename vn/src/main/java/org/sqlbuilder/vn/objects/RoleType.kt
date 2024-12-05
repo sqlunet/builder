@@ -6,7 +6,7 @@ import org.sqlbuilder.common.SetCollector
 import java.util.*
 
 class RoleType private constructor(
-    @JvmField val type: String,
+    val type: String,
 ) : HasId, Insertable, Comparable<RoleType> {
 
     override fun getIntId(): Int {
@@ -52,7 +52,6 @@ class RoleType private constructor(
 
         val COMPARATOR: Comparator<RoleType> = Comparator.comparing<RoleType, String> { it.type }
 
-        @JvmField
         val COLLECTOR: SetCollector<RoleType> = SetCollector<RoleType>(COMPARATOR)
 
         // C O N S T R U C T O R

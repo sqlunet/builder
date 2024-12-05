@@ -16,7 +16,6 @@ class AliasVnRoleLinks private constructor(
 
     companion object {
 
-        @JvmField
         val COLLECTOR = SetCollector<AliasRoleLinks>(COMPARATOR)
         fun make(links: Collection<String>): AliasVnRoleLinks {
             val t = AliasVnRoleLinks(normalize(links))

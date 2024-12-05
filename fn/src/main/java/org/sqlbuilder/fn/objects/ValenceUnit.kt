@@ -84,7 +84,6 @@ class ValenceUnit private constructor(
             .thenComparing<String>({ it.pT }, nullsFirst(naturalOrder()))
             .thenComparing<String>({ it.gF }, nullsFirst(naturalOrder()))
 
-        @JvmField
         val COLLECTOR = SetCollector<ValenceUnit>(COMPARATOR)
 
         fun make(vu: ValenceUnitType): ValenceUnit {

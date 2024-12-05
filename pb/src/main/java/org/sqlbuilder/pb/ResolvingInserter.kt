@@ -25,19 +25,14 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     protected val fnFrameFeSerFile: String
 
-    @JvmField
     protected val wordResolver: WordResolver
 
-    @JvmField
     protected val vnClassResolver: VnClassResolver
 
-    @JvmField
     protected val vnRoleResolver: VnRoleResolver
 
-    @JvmField
     protected val fnFrameResolver: FnFrameResolver
 
-    @JvmField
     protected val fnFeResolver: FnFeResolver
 
     init {

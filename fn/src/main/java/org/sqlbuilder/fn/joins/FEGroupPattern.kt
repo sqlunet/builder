@@ -65,7 +65,6 @@ class FEGroupPattern private constructor(
         val COMPARATOR: Comparator<FEGroupPattern> = Comparator
             .comparing<FEGroupPattern, FEGroupRealization>({ it.fegr }, FEGroupRealization.COMPARATOR)
 
-        @JvmField
         val LIST: ListCollector<FEGroupPattern> = ListCollector<FEGroupPattern>()
 
         fun make(fegr: FEGroupRealization, pattern: FEGroupRealizationType.Pattern): FEGroupPattern {

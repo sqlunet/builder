@@ -17,7 +17,6 @@ import javax.xml.xpath.XPathExpressionException
 
 open class SemlinkProcessor(props: Properties) : Processor("semlink") {
 
-    @JvmField
     protected val semlinkFile: String = props.getProperty("sl_home", System.getenv()["SEMLINKHOME"]) + File.separatorChar + props.getProperty("sl_file")
 
     override fun run() {

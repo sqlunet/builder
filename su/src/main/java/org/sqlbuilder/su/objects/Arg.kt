@@ -19,7 +19,6 @@ class Arg(
 
     val isStatement: Boolean = !isInAntecedent && !isInConsequent && parenLevel > 1
 
-    @JvmField
     val argumentNum: Int = if (isArg) argumentNum else -1
 
     val type: String

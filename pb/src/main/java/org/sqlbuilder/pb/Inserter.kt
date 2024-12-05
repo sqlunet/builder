@@ -11,13 +11,10 @@ import java.util.*
 
 open class Inserter(conf: Properties) {
 
-    @JvmField
     protected val names: Names = Names("pb")
 
-    @JvmField
     protected var header: String = conf.getProperty("pb_header")
 
-    @JvmField
     protected var outDir: File = File(conf.getProperty("pb_outdir", "sql/data"))
 
     init {

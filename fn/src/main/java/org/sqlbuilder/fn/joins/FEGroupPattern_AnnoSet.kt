@@ -42,7 +42,6 @@ data class FEGroupPattern_AnnoSet(
 
     companion object {
 
-        @JvmField
         val SET = HashSet<FEGroupPattern_AnnoSet>()
 
         fun make(pattern: FEGroupPattern, annoset: AnnoSetType): FEGroupPattern_AnnoSet {

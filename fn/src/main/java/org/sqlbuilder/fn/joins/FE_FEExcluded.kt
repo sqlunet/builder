@@ -40,12 +40,10 @@ data class FE_FEExcluded(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FE_FEExcluded> = Comparator
             .comparing<FE_FEExcluded, Int> { it.feid }
             .thenComparing<Int?> { it.feid2 }
 
-        @JvmField
         val SET = HashSet<FE_FEExcluded>()
 
         fun make(feid: Int, fe2: InternalFrameRelationFEType): FE_FEExcluded {

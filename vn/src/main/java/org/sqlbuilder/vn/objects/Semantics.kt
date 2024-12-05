@@ -50,7 +50,6 @@ class Semantics private constructor(
 
         val COMPARATOR: Comparator<Semantics> = Comparator.comparing<Semantics, String> { it.semantics }
 
-        @JvmField
         val COLLECTOR: SetCollector<Semantics> = SetCollector<Semantics>(COMPARATOR)
 
         private val SEMANTICS_PROCESSOR = VnSemanticsXmlProcessor()

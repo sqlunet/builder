@@ -42,12 +42,10 @@ class Governor private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Governor> = Comparator
             .comparing<Governor, String> { it.getWord() }
             .thenComparing<String> { it.type }
 
-        @JvmField
         val COLLECTOR = SetCollector<Governor>(COMPARATOR)
 
         fun make(governor: GovernorType): Governor {

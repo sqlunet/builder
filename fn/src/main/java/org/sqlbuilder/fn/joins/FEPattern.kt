@@ -54,13 +54,11 @@ data class FEPattern(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FEPattern> = Comparator
             .comparing<FEPattern, Int> { it.luId }
             .thenComparing<String> { it.feName }
             .thenComparing<ValenceUnit> { it.vu }
 
-        @JvmField
         val SET = HashSet<FEPattern>()
 
         fun make(fer: FERealization, vu: ValenceUnit): FEPattern {

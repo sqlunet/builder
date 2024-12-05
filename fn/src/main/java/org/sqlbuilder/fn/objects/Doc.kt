@@ -50,12 +50,10 @@ class Doc private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Doc> = Comparator
             .comparing<Doc, String> { it.name }
             .thenComparing<Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<Doc>()
 
         fun make(doc: CorpDocType.Document, corpus: CorpDocType) {

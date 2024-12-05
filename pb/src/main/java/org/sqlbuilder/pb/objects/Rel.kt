@@ -38,7 +38,6 @@ class Rel private constructor(val example: Example, text: String) : HasId, Inser
             .comparing<Rel, Example> { it.example }
             .thenComparing<String> { it.text }
 
-        @JvmField
         val COLLECTOR = SetCollector<Rel>(COMPARATOR)
 
         fun make(example: Example, text: String): Rel {

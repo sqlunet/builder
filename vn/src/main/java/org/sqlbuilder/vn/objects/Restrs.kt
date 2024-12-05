@@ -69,7 +69,6 @@ class Restrs private constructor(
         val COMPARATOR: Comparator<Restrs> = Comparator.comparing<Restrs, String> { it.value }
             .thenComparing<Boolean> { it.isSyntactic }
 
-        @JvmField
         val COLLECTOR = SetCollector<Restrs>(COMPARATOR)
 
         private val RESTRS_XML_PROCESSOR = VnRestrsXmlProcessor()

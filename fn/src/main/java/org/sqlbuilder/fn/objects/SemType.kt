@@ -49,12 +49,10 @@ class SemType private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<SemType> = Comparator
             .comparing<SemType, String> { it.name }
             .thenComparing<Int> { it.iD }
 
-        @JvmField
         val SET = HashSet<SemType>()
 
         fun make(type: SemTypeType): SemType {

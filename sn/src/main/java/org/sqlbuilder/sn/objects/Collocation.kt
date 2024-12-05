@@ -20,10 +20,8 @@ class Collocation private constructor(
     val pos2: Char, val word2: String,
 ) : Insertable, Resolvable<SnCollocationResolvable, SnCollocationResolved> {
 
-    @JvmField
     var sensekey1: String? = null
 
-    @JvmField
     var sensekey2: String? = null
 
     // I N S E R T

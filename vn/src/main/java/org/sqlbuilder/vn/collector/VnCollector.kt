@@ -31,7 +31,6 @@ import javax.xml.xpath.XPathExpressionException
 
 open class VnCollector(props: Properties) : Processor("vn") {
 
-    @JvmField
     protected val verbNetHome: String = props.getProperty("vn_home", System.getenv()["VNHOME"])
 
     override fun run() {

@@ -61,12 +61,10 @@ class Lexeme private constructor(lexeme: LexemeType, val luid: Long) : Insertabl
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Lexeme> = Comparator
             .comparing<Lexeme, String> { it.getWord() }
             .thenComparing<Long> { it.luid }
 
-        @JvmField
         val SET = HashSet<Lexeme>()
 
         fun make(lexeme: LexemeType, luid: Long): Lexeme {

@@ -25,25 +25,18 @@ import kotlin.Throws
 
 open class SuProcessor(conf: Properties) : Processor("sumo") {
 
-    @JvmField
     protected val inDir: File = File(conf.getProperty("su_home", System.getenv()["SUMOHOME"]))
 
-    @JvmField
     protected val names: Names = Names("su")
 
-    @JvmField
     protected var header: String = conf.getProperty("su_header")
 
-    @JvmField
     protected var termsColumns: String = names.columns("terms")
 
-    @JvmField
     protected var synsetsColumns: String = names.columns("terms_synsets")
 
-    @JvmField
     protected var resolve: Boolean = false
 
-    @JvmField
     protected var outDir: File = File(conf.getProperty("su_outdir", "sql/data"))
 
     init {

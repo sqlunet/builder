@@ -61,7 +61,6 @@ class PmRole private constructor(
             .thenComparing<String> { it.role }
             .thenComparing<Char> { it.pos }
 
-        @JvmField
         val COLLECTOR = SetCollector<PmRole>(COMPARATOR)
 
         @Throws(ParseException::class)

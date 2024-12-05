@@ -55,13 +55,11 @@ class Member_Grouping private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Member_Grouping> = Comparator
             .comparing<Member_Grouping, Word> { it.word }
             .thenComparing<VnClass> { it.vnClass }
             .thenComparing<Grouping> { it.grouping }
 
-        @JvmField
         val SET: MutableSet<Member_Grouping> = HashSet<Member_Grouping>()
 
         fun make(clazz: VnClass, word: Word, grouping: Grouping): Member_Grouping {

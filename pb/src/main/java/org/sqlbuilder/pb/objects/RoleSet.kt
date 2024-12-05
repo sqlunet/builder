@@ -72,7 +72,6 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
             .comparing<RoleSet, Predicate> { it.predicate }
             .thenComparing<String> { it.name }
 
-        @JvmField
         val COLLECTOR = SetCollector<RoleSet>(COMPARATOR)
 
         fun make(predicate: Predicate, roleSetId: String, name: String): RoleSet {

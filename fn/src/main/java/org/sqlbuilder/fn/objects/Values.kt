@@ -25,8 +25,7 @@ class Values {
             val COMPARATOR: Comparator<Pos> = Comparator
                 .comparing<Pos, String> { it.pos }
 
-            @JvmField
-            val MAP = TreeMap<Pos, Int>(COMPARATOR)
+                val MAP = TreeMap<Pos, Int>(COMPARATOR)
 
                     fun make(pos: String, idx: Int): Pos {
                 val p = Pos(pos)
@@ -54,8 +53,7 @@ class Values {
             val COMPARATOR: Comparator<CoreType> = Comparator
                 .comparing<CoreType, String> { it.coretype }
 
-            @JvmField
-            val MAP = TreeMap<CoreType, Int>(COMPARATOR)
+                val MAP = TreeMap<CoreType, Int>(COMPARATOR)
 
                     fun make(coretype: String, idx: Int): CoreType {
                 val t = CoreType(coretype)
@@ -81,8 +79,7 @@ class Values {
             val COMPARATOR: Comparator<LabelIType> = Comparator
                 .comparing<LabelIType, String> { it.labelitype }
 
-            @JvmField
-            val MAP = TreeMap<LabelIType, Int>(COMPARATOR)
+                val MAP = TreeMap<LabelIType, Int>(COMPARATOR)
 
                     fun make(labelitype: String, idx: Int): LabelIType {
                 val l = LabelIType(labelitype)

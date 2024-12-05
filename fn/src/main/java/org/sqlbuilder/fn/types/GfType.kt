@@ -8,7 +8,6 @@ object GfType {
 
     val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-    @JvmField
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
     fun add(type: String) {

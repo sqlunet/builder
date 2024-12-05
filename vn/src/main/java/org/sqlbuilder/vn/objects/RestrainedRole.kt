@@ -7,7 +7,7 @@ import java.util.*
 import javax.xml.parsers.ParserConfigurationException
 
 class RestrainedRole private constructor(
-    @JvmField val roleType: RoleType, val restrs: Restrs?,
+    val roleType: RoleType, val restrs: Restrs?,
 ) : Comparable<RestrainedRole> {
 
     // I D E N T I T Y

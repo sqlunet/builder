@@ -20,7 +20,6 @@ class Logger {
 
     companion object {
 
-        @JvmField
         val instance: Logger = Logger()
     }
 }

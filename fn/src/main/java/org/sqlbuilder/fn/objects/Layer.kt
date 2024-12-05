@@ -51,7 +51,6 @@ class Layer private constructor(
             .comparing<Layer, String> { it.name }
             .thenComparing<Long> { it.annosetid }
 
-        @JvmField
         val COLLECTOR = SetCollector<Layer>(COMPARATOR)
 
         fun make(layer: LayerType, annosetid: Int): Layer {

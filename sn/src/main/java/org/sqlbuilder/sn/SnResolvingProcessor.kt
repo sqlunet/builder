@@ -14,7 +14,6 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
 
     protected val serFile: String
 
-    @JvmField
     protected val senseResolver: SnSensekeyResolver
 
     init {

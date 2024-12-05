@@ -53,12 +53,10 @@ class Class_Frame private constructor(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<Class_Frame> = Comparator
             .comparing<Class_Frame, VnClass> { it.clazz }
             .thenComparing<Frame> { it.frame }
 
-        @JvmField
         val SET = HashSet<Class_Frame>()
 
         fun make(clazz: VnClass, frame: Frame): Class_Frame {

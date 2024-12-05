@@ -7,7 +7,7 @@ import org.sqlbuilder.pb.PbWordResolved
 import java.io.Serializable
 import java.util.*
 
-class Word private constructor(@JvmField val word: String) : HasId, Insertable, Resolvable<PbWordResolvable, PbWordResolved>, Comparable<Word>, Serializable {
+class Word private constructor(val word: String) : HasId, Insertable, Resolvable<PbWordResolvable, PbWordResolved>, Comparable<Word>, Serializable {
 
     // N I D
 
@@ -63,7 +63,6 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
         val COMPARATOR: Comparator<Word> = Comparator
             .comparing<Word, String> { it.word }
 
-        @JvmField
         val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
         fun make(word: String): Word {

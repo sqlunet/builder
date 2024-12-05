@@ -51,7 +51,6 @@ class Syntax private constructor(
 
         val COMPARATOR: Comparator<Syntax> = Comparator.comparing<Syntax, String> { it.syntax }
 
-        @JvmField
         val COLLECTOR: SetCollector<Syntax> = SetCollector<Syntax>(COMPARATOR)
 
         private val SYNTAX_XML_PROCESSOR = VnSyntaxXmlProcessor()

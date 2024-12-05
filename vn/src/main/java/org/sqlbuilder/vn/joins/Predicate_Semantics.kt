@@ -46,7 +46,6 @@ class Predicate_Semantics private constructor(
 
     companion object {
 
-        @JvmField
         val SET = HashSet<Predicate_Semantics>()
 
         val COMPARATOR: Comparator<Predicate_Semantics> =

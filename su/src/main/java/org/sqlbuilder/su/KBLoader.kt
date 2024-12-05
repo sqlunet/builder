@@ -8,7 +8,6 @@ open class KBLoader {
 
     companion object {
 
-        @JvmField
         var kb: Kb? = null
 
         val path: String

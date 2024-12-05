@@ -54,7 +54,6 @@ class Example private constructor(
             .thenComparing { it.name }
             .thenComparing { it.text }
 
-        @JvmField
         val COLLECTOR = SetCollector<Example>(COMPARATOR)
 
         fun make(roleSet: RoleSet, name: String, text: String): Example {

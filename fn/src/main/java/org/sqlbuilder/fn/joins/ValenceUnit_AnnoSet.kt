@@ -40,7 +40,6 @@ data class ValenceUnit_AnnoSet(
 
     companion object {
 
-        @JvmField
         val SET = HashSet<ValenceUnit_AnnoSet>()
 
         fun make(vu: ValenceUnit, annosetid: Int): ValenceUnit_AnnoSet {

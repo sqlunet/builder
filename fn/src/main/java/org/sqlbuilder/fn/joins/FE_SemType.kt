@@ -39,12 +39,10 @@ data class FE_SemType(
 
     companion object {
 
-        @JvmField
         val COMPARATOR: Comparator<FE_SemType> = Comparator
             .comparing<FE_SemType, Int> { it.feid }
             .thenComparing<Int> { it.semtypeid }
 
-        @JvmField
         val SET = HashSet<FE_SemType>()
 
         fun make(feid: Int, semtypeid: Int): FE_SemType {

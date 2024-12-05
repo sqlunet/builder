@@ -22,7 +22,6 @@ import javax.xml.xpath.XPathExpressionException
 
 open class PbCollector(conf: Properties) : Processor("pb") {
 
-    @JvmField
     protected val propBankHome: String = conf.getProperty("pb_home", System.getenv()["PBHOME"])
 
     override fun run() {

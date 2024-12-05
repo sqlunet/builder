@@ -63,7 +63,6 @@ class RestrType private constructor(
                 .thenComparing<String> { it.value }
                 .thenComparing<Boolean> { it.isSyntactic }
 
-        @JvmField
         val COLLECTOR = SetCollector<RestrType>(COMPARATOR)
 
         fun make(value: String, type: String, isSyntactic: Boolean): RestrType {

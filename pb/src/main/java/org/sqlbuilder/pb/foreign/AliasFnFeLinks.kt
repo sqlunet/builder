@@ -16,7 +16,6 @@ class AliasFnFeLinks private constructor(
 
     companion object {
 
-        @JvmField
         val COLLECTOR = SetCollector<AliasRoleLinks>(COMPARATOR)
         fun make(links: Collection<String>): AliasFnFeLinks {
             val t = AliasFnFeLinks(normalize(links))

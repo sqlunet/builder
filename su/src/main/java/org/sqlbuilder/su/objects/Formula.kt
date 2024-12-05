@@ -11,7 +11,7 @@ import java.util.*
 typealias SUFormula = com.articulate.sigma.Formula
 
 class Formula private constructor(
-    @JvmField val formula: SUFormula, val file: SUFile,
+    val formula: SUFormula, val file: SUFile,
 ) : HasId, Insertable, Serializable, Comparable<Formula>, Resolvable<String, Int> {
 
     val formulaText: String
@@ -90,7 +90,6 @@ class Formula private constructor(
         val COMPARATOR: Comparator<Formula> = Comparator
             .comparing<Formula, String> { it.formulaText }
 
-        @JvmField
         val COLLECTOR = SetCollector<Formula>(COMPARATOR)
 
         fun make(formula: com.articulate.sigma.Formula): Formula {

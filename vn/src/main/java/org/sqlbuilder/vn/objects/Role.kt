@@ -8,7 +8,7 @@ import org.sqlbuilder.common.Utils.nullableInt
 import java.util.*
 
 class Role private constructor(
-    @JvmField val clazz: VnClass,
+    val clazz: VnClass,
     val restrRole: RestrainedRole
 ) : Insertable, HasId {
 
@@ -65,7 +65,6 @@ class Role private constructor(
             .comparing<Role, VnClass> { it.clazz }
             .thenComparing<RestrainedRole> { it.restrRole }
 
-        @JvmField
         val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
 
         fun make(clazz: VnClass, restrainedRole: RestrainedRole): Role {

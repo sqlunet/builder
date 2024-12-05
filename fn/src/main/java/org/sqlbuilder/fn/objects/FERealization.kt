@@ -73,7 +73,6 @@ class FERealization private constructor(
             .thenComparing<String> { it.fEName }
             .thenComparing<Int> { it.frameId }
 
-        @JvmField
         val LIST = ListCollector<FERealization>()
 
         fun make(fer: FERealizationType, luid: Int, frameid: Int): FERealization {

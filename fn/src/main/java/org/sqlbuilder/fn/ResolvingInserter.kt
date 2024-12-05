@@ -13,7 +13,6 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     protected val serFile: String = conf.getProperty("word_nids")
 
-    @JvmField
     protected val resolver: FnWordResolver = FnWordResolver(serFile)
 
     init {

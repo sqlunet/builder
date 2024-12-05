@@ -14,7 +14,6 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
 
     protected val serFile: String
 
-    @JvmField
     protected val wordResolver: BncWordResolver
 
     init {

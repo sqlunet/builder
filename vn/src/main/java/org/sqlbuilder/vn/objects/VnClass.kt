@@ -6,7 +6,7 @@ import org.sqlbuilder.common.SetCollector
 import java.util.*
 
 class VnClass private constructor(
-	@JvmField val name: String
+	val name: String
 ) : HasId, Insertable, Comparable<VnClass> {
 
     val tag: String
@@ -58,7 +58,6 @@ class VnClass private constructor(
 
         val COMPARATOR: Comparator<VnClass> = Comparator.comparing<VnClass, String> { it.name }
 
-        @JvmField
         val COLLECTOR: SetCollector<VnClass> = SetCollector<VnClass>(COMPARATOR)
 
         fun make(name: String): VnClass {

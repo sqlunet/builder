@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn.objects
 
 class Sensekey private constructor(
-    @JvmField val sensekey: String,
+    val sensekey: String,
     private val isDefinite: Boolean,
 ) : Comparable<Sensekey> {
 

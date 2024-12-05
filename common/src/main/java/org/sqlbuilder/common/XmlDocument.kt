@@ -15,7 +15,6 @@ import javax.xml.parsers.ParserConfigurationException
 
 open class XmlDocument(filePath: String) {
 
-    @JvmField
     var document: Document = load(filePath)
 
     val fileName: String?

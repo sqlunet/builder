@@ -20,7 +20,6 @@ class Frame private constructor(
     syntax: String, semantics: String,
 ) : HasId, Insertable, Comparable<Frame> {
 
-    @JvmField
     val name: FrameName = FrameName.make(descriptionPrimary)
 
     val subName: FrameSubName? = if (descriptionSecondary == null || descriptionSecondary.isEmpty()) null else FrameSubName.make(descriptionSecondary)
@@ -82,7 +81,6 @@ class Frame private constructor(
             .thenComparing<Syntax> { it.syntax }
             .thenComparing<Semantics> { it.semantics }
 
-        @JvmField
         val COLLECTOR: SetCollector<Frame> = SetCollector<Frame>(COMPARATOR)
 
         @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)

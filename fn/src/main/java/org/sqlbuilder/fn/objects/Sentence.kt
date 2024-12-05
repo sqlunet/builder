@@ -63,13 +63,11 @@ class Sentence private constructor(
             return text.substring(0, min(max.toDouble(), len.toDouble()).toInt())
         }
 
-        @JvmField
         val COMPARATOR: Comparator<Sentence> = Comparator
             .comparing<Sentence, Int> { it.iD }
             .thenComparing<Int> { it.docID }
             .thenComparing<Int> { it.corpusID }
 
-        @JvmField
         val SET = HashSet<Sentence>()
 
         fun make(sentence: SentenceType): Sentence {

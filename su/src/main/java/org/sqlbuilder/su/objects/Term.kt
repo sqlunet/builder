@@ -9,7 +9,7 @@ import java.io.Serializable
 import java.util.*
 
 class Term private constructor(
-    @JvmField val term: String,
+    val term: String,
 ) : HasId, Insertable, Serializable, Comparable<Term>, Resolvable<String, Int> {
 
     // I D E N T I T Y
@@ -70,7 +70,6 @@ class Term private constructor(
         val COMPARATOR: Comparator<Term> = Comparator
             .comparing<Term, String> { it.term }
 
-        @JvmField
         val COLLECTOR = SetCollector<Term>(COMPARATOR)
 
         val wellKnownTerms = arrayOf<String>(
