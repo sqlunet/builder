@@ -10,7 +10,7 @@ import java.util.*
 abstract class RoleTo protected constructor(
     val role: Role,
     val aliasRole: AliasRole,
-) : Insertable, Resolvable<Pair<String, String>, Triple<Int, Int, Int>> {
+) : Insertable {
 
     // I D E N T I T Y
 
@@ -39,12 +39,6 @@ abstract class RoleTo protected constructor(
 
     override fun comment(): String {
         return "${role.roleSet.name},${role.argType},${role.aliasVnRoleLinks},${role.aliasFnFeLinks}"
-    }
-
-    // R E S O L V E
-
-    override fun resolving(): Pair<String, String> {
-        return aliasRole.aliasClass.classTag to aliasRole.aliasLink
     }
 
     // T O S T R I N G

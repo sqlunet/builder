@@ -1,11 +1,18 @@
 package org.sqlbuilder.pb.foreign
 
+import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.pb.objects.Role
 
 class RoleToVn private constructor(
     role: Role,
     aliasRole: AliasRole,
-) : RoleTo(role, aliasRole) {
+) : RoleTo(role, aliasRole), Resolvable<Pair<String, String>, Triple<Int, Int, Int>> {
+
+    // R E S O L V E
+
+    override fun resolving(): Pair<String, String> {
+        return aliasRole.aliasClass.classTag to aliasRole.aliasLink
+    }
 
     companion object {
 
