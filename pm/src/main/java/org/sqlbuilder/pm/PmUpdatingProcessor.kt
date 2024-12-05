@@ -111,7 +111,7 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     }
 
     @Throws(IOException::class)
-    private fun processPmFile(file: File, consumer: BiConsumer<PmEntry, Int>?) {
+    private fun processPmFile(file: File, consumer: BiConsumer<PmEntry, Int>) {
         process(file, { PmEntry.Companion.parse(it) }, consumer)
     }
 }

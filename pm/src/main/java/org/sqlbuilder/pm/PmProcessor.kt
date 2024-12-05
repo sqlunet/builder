@@ -53,7 +53,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
     }
 
     @Throws(IOException::class)
-    protected fun processPmFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<PmEntry, Int>?) {
+    protected fun processPmFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<PmEntry, Int>) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { parse(it) }, consumer)
         ps.print(';')
