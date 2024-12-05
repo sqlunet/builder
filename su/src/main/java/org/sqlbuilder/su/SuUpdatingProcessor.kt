@@ -81,7 +81,7 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
         // 30 to 31
         val posId = map.posId // {n,v,a,r}
         val synset30Id = map.synsetId
-        val synset31Id = synset31Resolver.apply(posId, synset30Id)
+        val synset31Id = synset31Resolver.invoke(posId, synset30Id)
         if (synset31Id != null) {
             // 31 to XX
             val synsetId = "${"%08d".format(synset31Id)}-$posId"

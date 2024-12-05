@@ -99,7 +99,7 @@ open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
                 // 30 to 31
                 val posId = map.posId // {n,v,a,r,s}
                 val synset30Id = map.synsetId
-                val synset31Id = synset31Resolver.apply(posId, synset30Id)
+                val synset31Id = synset31Resolver.invoke(posId, synset30Id)
 
                 // 31 to XX
                 var resolvedSynsetId: Int? = null
