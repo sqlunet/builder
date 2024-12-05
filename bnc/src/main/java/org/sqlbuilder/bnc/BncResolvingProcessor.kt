@@ -9,7 +9,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.BiConsumer
 
 open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
 
@@ -34,14 +33,14 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
     }
 
     @Throws(IOException::class)
-    override fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
+    override fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { BncRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
-    override fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
+    override fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
         ps.print(';')

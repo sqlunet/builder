@@ -88,7 +88,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                 Insert.insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
                     ps.println("-- $header")
-                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), BiConsumer<PmEntry, Int> { entry, i ->
+                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), { entry, i ->
                         val wordid = wordResolver.apply(entry.word!!)
                         val sk = sensekeyResolver.apply(entry.sensekey!!)
 

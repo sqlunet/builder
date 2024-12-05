@@ -10,7 +10,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.BiConsumer
 
 class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
     init {
@@ -22,12 +21,12 @@ class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
     }
 
     @Throws(IOException::class)
-    private fun processBNCFile(ps: PrintStream, file: File, consumer: BiConsumer<BncRecord, Int>) {
+    private fun processBNCFile(ps: PrintStream, file: File, consumer: (BncRecord, Int) -> Unit) {
         process(file, { BncRecord.Companion.parse(it) }, consumer)
     }
 
     @Throws(IOException::class)
-    private fun processBNCSubFile(ps: PrintStream, file: File, consumer: BiConsumer<BncRecord, Int>) {
+    private fun processBNCSubFile(ps: PrintStream, file: File, consumer: (BncRecord, Int) -> Unit) {
         process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
     }
 

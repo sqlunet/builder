@@ -66,13 +66,20 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
         val pb = pbRoleResolver.apply(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
         val fn = fnRoleResolver.apply(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
 
-        val setClause = "${columns[0]}=${nullableInt(vnWordid)},${columns[1]}=${nullableInt(pbWordid)},${columns[2]}=${nullableInt(fnWordid)},${columns[3]}=${nullable(vn) { nullableInt(it.first) }},${columns[4]}=${nullable(vn) { nullableInt(it.second) }},${columns[5]}=${nullable(pb) { nullableInt(it.first) }},${columns[6]}=${nullable(pb) { nullableInt(it.second) }},${columns[7]}=${nullable(fn) { nullableInt(it.first) }},${columns[8]}=${nullable(fn) { nullableInt(it.second) }},${columns[9]}=${nullable(fn) { nullableInt(it.third) }}"
-        val whereClause = "${columns[10]}=${nullable(entry.word) { quote(escape(it)) }} AND ${columns[11]}=${nullable(entry.vn.clazz) { quote(escape(it)) }} AND ${columns[12]}=${nullable(entry.vn.role) { quote(escape(it)) }} AND ${columns[13]}=${nullable(entry.pb.roleset) { quote(escape(it)) }} AND ${columns[14]}=${nullable(entry.pb.arg) { quote(escape(it)) }} AND ${columns[15]}=${nullable(entry.fn.frame) { quote(escape(it)) }} AND ${columns[16]}=${nullable(entry.fn.fetype) { quote(escape(it)) }}"
+        val setClause =
+            "${columns[0]}=${nullableInt(vnWordid)},${columns[1]}=${nullableInt(pbWordid)},${columns[2]}=${nullableInt(fnWordid)},${columns[3]}=${nullable(vn) { nullableInt(it.first) }},${columns[4]}=${nullable(vn) { nullableInt(it.second) }},${columns[5]}=${
+                nullable(pb) { nullableInt(it.first) }
+            },${columns[6]}=${nullable(pb) { nullableInt(it.second) }},${columns[7]}=${nullable(fn) { nullableInt(it.first) }},${columns[8]}=${nullable(fn) { nullableInt(it.second) }},${columns[9]}=${nullable(fn) { nullableInt(it.third) }}"
+        val whereClause = "${columns[10]}=${nullable(entry.word) { quote(escape(it)) }} AND ${columns[11]}=${nullable(entry.vn.clazz) { quote(escape(it)) }} AND ${columns[12]}=${nullable(entry.vn.role) { quote(escape(it)) }} AND ${columns[13]}=${
+            nullable(entry.pb.roleset) {
+                quote(escape(it))
+            }
+        } AND ${columns[14]}=${nullable(entry.pb.arg) { quote(escape(it)) }} AND ${columns[15]}=${nullable(entry.fn.frame) { quote(escape(it)) }} AND ${columns[16]}=${nullable(entry.fn.fetype) { quote(escape(it)) }}"
         ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1}")
     }
 
-    private fun makeWnConsumer(ps: PrintStream): BiConsumer<PmEntry, Int> {
-        return BiConsumer { entry, i ->
+    private fun makeWnConsumer(ps: PrintStream): (PmEntry, Int) -> Unit {
+        return { entry, i ->
             updateWordSenseRow(
                 ps,
                 names.table("pms"), i, entry,
@@ -84,8 +91,8 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
         }
     }
 
-    private fun makeXnConsumer(ps: PrintStream): BiConsumer<PmEntry, Int> {
-        return BiConsumer { entry, i ->
+    private fun makeXnConsumer(ps: PrintStream): (PmEntry, Int) -> Unit {
+        return { entry, i ->
             updateVnPbFnRow(
                 ps,
                 names.table("pms"), i, entry,
@@ -111,7 +118,7 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     }
 
     @Throws(IOException::class)
-    private fun processPmFile(file: File, consumer: BiConsumer<PmEntry, Int>) {
+    private fun processPmFile(file: File, consumer: (PmEntry, Int) -> Unit) {
         process(file, { PmEntry.Companion.parse(it) }, consumer)
     }
 }

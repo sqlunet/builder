@@ -11,8 +11,8 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.BiConsumer
 import java.util.function.Function
+import kotlin.Throws
 
 open class PmProcessor(conf: Properties) : Processor("pm") {
 
@@ -53,7 +53,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
     }
 
     @Throws(IOException::class)
-    protected fun processPmFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<PmEntry, Int>) {
+    protected fun processPmFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (PmEntry, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { parse(it) }, consumer)
         ps.print(';')
@@ -70,7 +70,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
         @JvmStatic
         @Throws(IOException::class)
-        protected fun <T> process(file: File, producer: Function<String, T>, consumer: BiConsumer<T, Int>?) {
+        protected fun <T> process(file: File, producer: Function<String, T>, consumer: ((T, Int) -> Unit)?) {
             file.useLines {
                 var count = 0
                 var lineNo = 0
@@ -92,7 +92,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
                     }
                     .filterNotNull()
                     .forEach {
-                        consumer?.accept(it, count)
+                        consumer?.invoke(it, count)
                         count++
                     }
             }

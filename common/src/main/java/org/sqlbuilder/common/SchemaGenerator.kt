@@ -95,14 +95,14 @@ class SchemaGenerator(private val variables: Variables) {
      * @throws IOException io exception
      */
     @Throws(IOException::class)
-    private fun processTemplates(module: String, path: String, inputs: Array<String>?, consumer: BiConsumer<InputStream, String>) {
+    private fun processTemplates(module: String, path: String, inputs: Array<String>?, consumer: (InputStream, String) -> Unit) {
         // external resources
         if (inputs != null && inputs.isNotEmpty()) {
             for (input in inputs) {
                 val file = File(path, input)
                 val fileName = Paths.get(input).fileName.toString()
                 FileInputStream(file).use { fis ->
-                    consumer.accept(fis, fileName)
+                    consumer.invoke(fis, fileName)
                 }
             }
             return
@@ -125,8 +125,8 @@ class SchemaGenerator(private val variables: Variables) {
                     //filter according to the path
                     if (name.startsWith(prefix)) {
                         val fileName = Paths.get(name).fileName.toString()
-                        jar.getInputStream(entry).use { `is` ->
-                            consumer.accept(`is`, fileName)
+                        jar.getInputStream(entry).use {
+                            consumer.invoke(it, fileName)
                         }
                     }
                 }
@@ -140,8 +140,8 @@ class SchemaGenerator(private val variables: Variables) {
                     val files = dir.listFiles()
                     if (files != null) {
                         for (file in files) {
-                            FileInputStream(file).use { fis ->
-                                consumer.accept(fis, file.getName())
+                            FileInputStream(file).use {
+                                consumer.invoke(it, file.getName())
                             }
                         }
                     } else {

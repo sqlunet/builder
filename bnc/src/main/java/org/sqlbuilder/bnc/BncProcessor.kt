@@ -9,7 +9,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.BiConsumer
 import java.util.function.Function
 import kotlin.Throws
 
@@ -34,21 +33,21 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
     }
 
     @Throws(IOException::class)
-    protected open fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
+    protected open fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { BncRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
-    protected open fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: BiConsumer<BncRecord, Int>) {
+    protected open fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
-    protected fun process(file: File, producer: Function<String, BncRecord>, consumer: BiConsumer<BncRecord, Int>) {
+    protected fun process(file: File, producer: Function<String, BncRecord>, consumer: (BncRecord, Int) -> Unit) {
         file.useLines {
             var lineNum = 0
             var count = 0
@@ -74,7 +73,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                 .filterNotNull()
                 .forEach {
                     try {
-                        consumer.accept(it, count.toInt())
+                        consumer.invoke(it, count.toInt())
                         count++
                     } catch (_: NotFoundException) {
                         // Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), null, nfe)
