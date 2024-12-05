@@ -8,7 +8,6 @@ import java.io.PrintStream
 object Update {
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Resolvable<U, R>, U, R> update(
         items: Iterable<T>,
         file: File,

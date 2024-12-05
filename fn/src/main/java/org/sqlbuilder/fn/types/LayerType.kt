@@ -11,12 +11,10 @@ object LayerType {
     @JvmField
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-    @JvmStatic
     fun add(type: String) {
         COLLECTOR.add(type)
     }
 
-    @JvmStatic
     @RequiresIdFrom(type = LayerType::class)
     fun getIntId(value: String?): Int? {
         return if (value == null) null else COLLECTOR.invoke(value)

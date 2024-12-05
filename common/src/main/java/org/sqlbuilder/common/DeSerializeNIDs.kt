@@ -110,7 +110,6 @@ object DeSerializeNIDs {
      * @throws ClassNotFoundException class not found exception
      */
     @Throws(IOException::class, ClassNotFoundException::class)
-    @JvmStatic
     fun main(args: Array<String>) {
         val inDir = File(args[0])
         if (!inDir.isDirectory()) {

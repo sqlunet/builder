@@ -17,14 +17,12 @@ import javax.xml.xpath.XPathFactory
 
 object XPathUtils {
 
-    @JvmStatic
     @Throws(XPathExpressionException::class)
     fun getXPath(start: Node, xpathExpr: String): Node? {
         val xpath = XPathFactory.newInstance().newXPath()
         return xpath.evaluate(xpathExpr, start, XPathConstants.NODE) as Node?
     }
 
-    @JvmStatic
     @Throws(XPathExpressionException::class)
     fun getXPaths(start: Node, xpathExpr: String): NodeList? {
         val xpath = XPathFactory.newInstance().newXPath()
@@ -41,7 +39,6 @@ object XPathUtils {
             .toList()
     }
 
-    @JvmStatic
     @Throws(TransformerException::class)
     fun Node.getXML(): String {
 

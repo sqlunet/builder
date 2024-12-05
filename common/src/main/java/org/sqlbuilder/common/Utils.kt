@@ -20,7 +20,6 @@ object Utils {
      * @param str string
      * @return SQL quoted string
      */
-    @JvmStatic
     fun quote(str: String): String {
         return QUOTE + str + QUOTE
     }
@@ -33,7 +32,6 @@ object Utils {
      * @param str string
      * @return SQL escaped string
      */
-    @JvmStatic
     fun escape(str: String): String {
         return str.replace(QUOTE, ESCAPED_QUOTE)
     }
@@ -46,7 +44,6 @@ object Utils {
      * @param obj object
      * @return SQL string
      */
-    @JvmStatic
     fun <T> nullable(obj: T?): String {
         return obj?.toString() ?: NULLSTR
     }
@@ -58,7 +55,6 @@ object Utils {
      * @param toString stringifier
      * @return SQL string
      */
-    @JvmStatic
     fun <T> nullable(obj: T?, toString: (T) -> String): String {
         return if (obj == null) NULLSTR else toString(obj)
     }
@@ -71,7 +67,6 @@ object Utils {
      * @param obj object
      * @return SQL string
      */
-    @JvmStatic
     fun <T> quotedEscapedString(obj: T): String {
         return quotedEscapedString(obj) { it.toString() }
     }
@@ -83,7 +78,6 @@ object Utils {
      * @param toString string function
      * @return SQL string
      */
-    @JvmStatic
     fun <T> quotedEscapedString(obj: T, toString: (T) -> String): String {
         return quote(escape(toString(obj)))
     }
@@ -97,7 +91,6 @@ object Utils {
      * @param toString string function
      * @return SQL string
      */
-    @JvmStatic
     fun <T> nullableQuotedString(obj: T?, toString: (T) -> String): String {
         return nullable(obj) { quote(toString(it)) }
     }
@@ -109,7 +102,6 @@ object Utils {
      * @param toString string function
      * @return SQL string
      */
-    @JvmStatic
     fun <T> nullableQuotedEscapedString(obj: T?, toString: (T) -> String): String {
         return nullable(obj) { quote(escape(toString(it))) }
     }
@@ -120,7 +112,6 @@ object Utils {
      * @param obj object
      * @return SQL string
      */
-    @JvmStatic
     fun <T> nullableQuotedString(obj: T?): String {
         return nullableQuotedString(obj) { it.toString() }
     }
@@ -131,7 +122,6 @@ object Utils {
      * @param obj object
      * @return SQL non-escaped string or NULL
      */
-    @JvmStatic
     fun <T> nullableQuotedEscapedString(obj: T?): String {
         return nullableQuotedEscapedString(obj) { it.toString() }
     }
@@ -144,7 +134,6 @@ object Utils {
      * @param c character
      * @return SQL char or NULL
      */
-    @JvmStatic
     fun nullableQuotedChar(c: Char?): String {
         return nullable(c) { quote(it.toString()) }
     }
@@ -155,7 +144,6 @@ object Utils {
      * @param i int
      * @return SQL int or NULL
      */
-    @JvmStatic
     fun nullableInt(i: Int?): String {
         return nullable(i) { it.toString() }
     }
@@ -166,7 +154,6 @@ object Utils {
      * @param l long
      * @return SQL long or NULL
      */
-    @JvmStatic
     fun nullableLong(l: Long?): String {
         return nullable(l) { it.toString() }
     }
@@ -177,7 +164,6 @@ object Utils {
      * @param f float
      * @return SQL float or NULL
      */
-    @JvmStatic
     fun nullableFloat(f: Float?): String {
         return nullable(f) { it.toString() }
     }
@@ -188,7 +174,6 @@ object Utils {
      * @param date date
      * @return SQL timestamp or NULL
      */
-    @JvmStatic
     fun nullableDate(date: Date?): String {
         return nullable(date) { it.time.toString() }
     }
@@ -200,7 +185,6 @@ object Utils {
      * @param i int
      * @return SQL escaped string or NULL
      */
-    @JvmStatic
     fun zeroableInt(i: Int): String {
         return if (i == 0) NULLSTR else i.toString()
     }
@@ -211,7 +195,6 @@ object Utils {
      * @param value value to backtick
      * @return backticked string value
      */
-    @JvmStatic
     fun backtick(value: String): String {
         return "${BACKTICK}$value${BACKTICK}"
     }
@@ -222,7 +205,6 @@ object Utils {
      * @param str str
      * @return camel-cased string
      */
-    @JvmStatic
     fun camelCase(str: String): String {
         if (!str.isEmpty()) {
             return "${str.substring(0, 1).uppercase()}${str.substring(1).lowercase()}"

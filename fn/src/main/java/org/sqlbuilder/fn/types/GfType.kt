@@ -11,7 +11,6 @@ object GfType {
     @JvmField
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-    @JvmStatic
     fun add(type: String) {
         LabelType.COLLECTOR.add(type)
     }
@@ -21,7 +20,6 @@ object GfType {
         return if (value == null) null else COLLECTOR.invoke(value)
     }
 
-    @JvmStatic
     @RequiresIdFrom(type = GfType::class)
     fun getSqlId(value: String?): Any {
         return getSqlId(getIntId(value))

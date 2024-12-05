@@ -11,7 +11,6 @@ object PtType {
     @JvmField
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-    @JvmStatic
     fun add(type: String) {
         COLLECTOR.add(type)
     }
@@ -21,7 +20,6 @@ object PtType {
         return if (value == null) null else COLLECTOR.invoke(value)
     }
 
-    @JvmStatic
     @RequiresIdFrom(type = PtType::class)
     fun getSqlId(value: String?): Any {
         return getSqlId(getIntId(value))

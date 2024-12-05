@@ -11,13 +11,11 @@ object FeType {
     @JvmField
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-    @JvmStatic
     @RequiresIdFrom(type = FeType::class)
     fun getIntId(value: String?): Int? {
         return if (value == null) null else COLLECTOR.invoke(value)
     }
 
-    @JvmStatic
     @RequiresIdFrom(type = FeType::class)
     fun getSqlId(value: String?): Any {
         return getSqlId(getIntId(value))

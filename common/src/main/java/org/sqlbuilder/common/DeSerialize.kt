@@ -28,7 +28,6 @@ object DeSerialize {
      * @throws IOException            io exception
      * @throws ClassNotFoundException class not found exception
     </T> */
-    @JvmStatic
     @Throws(IOException::class, ClassNotFoundException::class)
     fun <T> deserialize(inFile: File): T {
         return safeCast<T>(deSerialize(inFile))

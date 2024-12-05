@@ -11,7 +11,6 @@ object Status {
 
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-    @JvmStatic
     fun add(value: String) {
         COLLECTOR.add(value)
     }

@@ -11,12 +11,10 @@ object LabelType {
     @JvmField
     val COLLECTOR = SetCollector<String>(COMPARATOR)
 
-    @JvmStatic
     fun add(type: String) {
         COLLECTOR.add(type)
     }
 
-    @JvmStatic
     @RequiresIdFrom(type = LabelType::class)
     fun getIntId(value: String?): Int? {
         return if (value == null) null else COLLECTOR.invoke(value)

@@ -8,7 +8,6 @@ object XmlChecker {
 
     var errors: Int = 0
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkEmpty(node: Node, context: String?, logOnly: Boolean) {
         if (!node.nodeValue.matches(" *".toRegex())) {
@@ -22,7 +21,6 @@ object XmlChecker {
         }
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkSubElements(e: Element, regex: String?, context: String?, logOnly: Boolean) {
         val nodes = e.childNodes
@@ -43,7 +41,6 @@ object XmlChecker {
         }
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkElementName(name: String, regex: String, context: String?) {
         if (!name.matches(regex.toRegex())) {
@@ -52,7 +49,6 @@ object XmlChecker {
         }
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeName(e: Element, regex: String?, context: String?, logOnly: Boolean): Boolean {
         val attrs = e.attributes
@@ -94,19 +90,16 @@ object XmlChecker {
         return true
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeValue(value: String?, regex: String, context: String?, logOnly: Boolean): Boolean {
         return checkAttributeValue(value, "\\s+", regex, context, logOnly)
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeValue(value: String?, pattern: Pattern, context: String?, logOnly: Boolean): Boolean {
         return checkAttributeValue(value, "\\s+", pattern, context, logOnly)
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeValue(value: String?, delim: String, regex: String, context: String?, logOnly: Boolean): Boolean {
         if (value == null || value.isEmpty()) {
@@ -116,7 +109,6 @@ object XmlChecker {
         return checkAttributeValues(items, regex, context, logOnly)
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeValue(value: String?, delim: String, pattern: Pattern, context: String?, logOnly: Boolean): Boolean {
         if (value == null || value.isEmpty()) {
@@ -126,7 +118,6 @@ object XmlChecker {
         return checkAttributeValues(items, pattern, context, logOnly)
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeValues(values: Array<String>?, regex: String, context: String?, logOnly: Boolean): Boolean {
         if (values == null || values.isEmpty()) {
@@ -149,7 +140,6 @@ object XmlChecker {
         return true
     }
 
-    @JvmStatic
     @Throws(RuntimeException::class)
     fun checkAttributeValues(values: Array<String>?, pattern: Pattern, context: String?, logOnly: Boolean): Boolean {
         if (values == null || values.isEmpty()) {

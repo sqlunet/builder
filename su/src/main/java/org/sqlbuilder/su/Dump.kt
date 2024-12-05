@@ -9,7 +9,6 @@ object Dump {
 
     private const val DOWN = "\uD83E\uDC47"
 
-    @JvmStatic
     fun dumpTerms(kb: KB, ps: PrintStream) {
         kb.terms.forEach {
             val doc = getDoc(kb, it)
@@ -38,7 +37,6 @@ object Dump {
             }
     }
 
-    @JvmStatic
     fun dumpFormulas(kb: KB, ps: PrintStream) {
         var count = 0
         kb.formulas.values
@@ -51,7 +49,6 @@ object Dump {
         ps.println(count)
     }
 
-    @JvmStatic
     fun dumpFunctions(kb: KB, ps: PrintStream) {
         var count = 0
         kb.collectFunctions()
@@ -76,7 +73,6 @@ object Dump {
         ps.println(count)
     }
 
-    @JvmStatic
     fun dumpPredicates(kb: KB, ps: PrintStream) {
         var count = 0
         kb.collectPredicates()

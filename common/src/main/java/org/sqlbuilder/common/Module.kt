@@ -11,8 +11,7 @@ abstract class Module protected constructor(val id: String?, conf: String, @JvmF
 
         companion object {
 
-            @JvmStatic
-            fun read(arg: String): Mode {
+                    fun read(arg: String): Mode {
                 return when (arg) {
                     "-resolve" -> RESOLVE
                     "-update"  -> UPDATE

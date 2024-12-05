@@ -17,7 +17,6 @@ import javax.xml.xpath.XPathExpressionException
 object XmlTextUtils {
 
     @Throws(XPathExpressionException::class)
-    @JvmStatic
     fun getXPathText(start: Node, xpathExpr: String): String? {
         val node = XPathUtils.getXPath(start, xpathExpr)
         val element = node as Element
@@ -25,7 +24,6 @@ object XmlTextUtils {
     }
 
     @Throws(XPathExpressionException::class)
-    @JvmStatic
     fun getXPathTexts(start: Node, xpathExpr: String): List<String>? {
         var result: MutableList<String>? = null
         val nodes: NodeList? = getXPaths(start, xpathExpr)
@@ -47,7 +45,6 @@ object XmlTextUtils {
 
     // X M L   A S   T E X T
 
-    @JvmStatic
     @Throws(TransformerException::class)
     fun getXML(nodes: NodeList): MutableList<String> {
         val result = ArrayList<String>()

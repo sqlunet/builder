@@ -12,7 +12,6 @@ object Insert {
     // I N S E R T A B L E S
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Insertable> insert(
         items: Iterable<T>,
         file: File,
@@ -42,7 +41,6 @@ object Insert {
     }
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Insertable> insert(
         items: Iterable<T>,
         comparator: Comparator<T>?,
@@ -77,7 +75,6 @@ object Insert {
     }
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Insertable> insert(
         items: Iterable<T>,
         resolver: (T) -> Int,
@@ -90,7 +87,6 @@ object Insert {
     }
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Insertable> insert(
         items: Iterable<T>,
         resolver: (T) -> Int,
@@ -127,7 +123,6 @@ object Insert {
     }
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Insertable> insertAndIncrement(
         items: Iterable<T>,
         comparator: Comparator<T>?,
@@ -161,7 +156,6 @@ object Insert {
     }
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Insertable> insertFragmented(
         items: Iterable<T>,
         comparator: Comparator<T>?,
@@ -202,7 +196,6 @@ object Insert {
     // S T R I N G
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun insertStrings(
         items: Iterable<String>,
         resolver: (String) -> Int,
@@ -234,7 +227,6 @@ object Insert {
     // G E N E R I C
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <K, V> insert(
         items: Iterable<K>,
         resolver: (K) -> V,
@@ -268,7 +260,6 @@ object Insert {
     // R E S O L V A L B L E
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Resolvable<U, R>, U, R> resolveAndInsert(
         items: Iterable<T>,
         comparator: Comparator<T>?,
@@ -308,7 +299,6 @@ object Insert {
     }
 
     @Throws(FileNotFoundException::class)
-    @JvmStatic
     fun <T : Resolvable<U, R>, U, R> resolveAndInsert(
         items: Iterable<T>,
         resolver: (T) -> Int,
