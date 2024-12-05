@@ -76,6 +76,7 @@ class TestXPath {
             traceTailer(fileCount.toLong())
         }
 
+        @JvmStatic
         @BeforeClass
         fun init() {
             home = System.getenv("TEST_HOME")

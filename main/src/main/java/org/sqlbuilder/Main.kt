@@ -18,6 +18,7 @@ class Main {
          * @param args command-line arguments
           */
         fun main(args: Array<String>) {
+            // empty
         }
     }
 }

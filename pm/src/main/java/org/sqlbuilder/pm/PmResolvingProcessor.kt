@@ -1,10 +1,8 @@
 package org.sqlbuilder.pm
 
-import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Utils.nullableInt
-import org.sqlbuilder.pm.objects.PmEntry
 import org.sqlbuilder.pm.objects.PmEntry.Companion.parse
 import org.sqlbuilder.pm.objects.PmPredicate
 import org.sqlbuilder.pm.objects.PmRole
@@ -80,7 +78,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                 insert(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
                     ps.println("-- $header")
-                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), { entry, i ->
+                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true)) { entry, i ->
                         val wordid = wordResolver.invoke(entry.word!!)
                         val sk = sensekeyResolver.invoke(entry.sensekey!!)
 
@@ -103,7 +101,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         val fnResolved = if (fn == null) "NULL,NULL,NULL" else "${nullableInt(fn.second)},${nullableInt(fn.first)},${nullableInt(fn.third)}"
                         val fnLuResolved = if (fnLu == null) "NULL" else nullableInt(fnLu.first)
                         insertRow(ps, i!!, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${senseResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
-                    })
+                    }
                 }
             }
         }

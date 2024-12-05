@@ -35,6 +35,7 @@ class TestVariables {
 
         private var variables: Variables? = null
 
+        @JvmStatic
         @BeforeClass
         fun init() {
             val bundle = ResourceBundle.getBundle("Names")

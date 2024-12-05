@@ -2,10 +2,8 @@ package org.sqlbuilder.pb
 
 import org.junit.Test
 import org.sqlbuilder.common.Module.Companion.getProperties
-import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.pb.collectors.PbCollector
 import org.sqlbuilder.pb.foreign.AliasFnFeLinks
-import org.sqlbuilder.pb.foreign.AliasRoleLinks
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import org.sqlbuilder.pb.objects.*
 import java.io.File

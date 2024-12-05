@@ -31,8 +31,10 @@ class TestSerialize {
 
     companion object {
 
+        @JvmStatic
         @BeforeClass
         fun init() {
+            // empty
         }
     }
 }

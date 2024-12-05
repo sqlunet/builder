@@ -18,6 +18,7 @@ class TestWordResolver {
 
         lateinit var resolver: SuWordResolver
 
+        @JvmStatic
         @BeforeAll
         fun init() {
             val ser: String = System.getenv()["SUWORDRESOLVER"]!!

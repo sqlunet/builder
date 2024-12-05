@@ -2,7 +2,6 @@ package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
-import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
 import java.util.*

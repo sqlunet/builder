@@ -14,6 +14,6 @@ class LegacyLemmaPosOffsetResolver(
     val map: Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved>,
 ) {
 
-    public constructor(ser: String) : this(deserialize(File(ser)) as Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved>) {
+    constructor(ser: String) : this(deserialize(File(ser)) as Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved>) {
     }
 }

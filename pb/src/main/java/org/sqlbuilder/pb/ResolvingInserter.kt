@@ -1,6 +1,5 @@
 package org.sqlbuilder.pb
 
-import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.Utils.nullable

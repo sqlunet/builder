@@ -8,16 +8,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="type aliases">
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="remove @JvmField">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEGroupRealization.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/joins/FE_FEGroupRealization.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/objects/Word.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleSetToFn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/foreign/RoleSetToFn.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Word.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/objects/Word.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PbRoleAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/PbRoleAlias.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/VnRoleAlias.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/objects/VnRoleAlias.kt" afterDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
+      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +42,13 @@
         <projects_view />
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -127,6 +132,9 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/.idea" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="org.sqlbuilder.sn" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="og.sqlbuilder.sumo" />
@@ -302,190 +310,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00079" summary="fixes format">
-      <option name="closed" value="true" />
-      <created>1733076176326</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1733076176326</updated>
-    </task>
-    <task id="LOCAL-00080" summary="fixes format">
-      <option name="closed" value="true" />
-      <created>1733079999259</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1733079999259</updated>
-    </task>
-    <task id="LOCAL-00081" summary="fixes format">
-      <option name="closed" value="true" />
-      <created>1733080006757</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1733080006758</updated>
-    </task>
-    <task id="LOCAL-00082" summary="fixes format">
-      <option name="closed" value="true" />
-      <created>1733080398732</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1733080398732</updated>
-    </task>
-    <task id="LOCAL-00083" summary="fix to add i if uncommented (silent bug)">
-      <option name="closed" value="true" />
-      <created>1733081280597</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1733081280597</updated>
-    </task>
-    <task id="LOCAL-00084" summary="sort labels and layers">
-      <option name="closed" value="true" />
-      <created>1733082936546</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1733082936546</updated>
-    </task>
-    <task id="LOCAL-00085" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733128262808</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1733128262808</updated>
-    </task>
-    <task id="LOCAL-00086" summary="various minor fixes">
-      <option name="closed" value="true" />
-      <created>1733128275073</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1733128275073</updated>
-    </task>
-    <task id="LOCAL-00087" summary="various minor fixes">
-      <option name="closed" value="true" />
-      <created>1733128340112</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1733128340112</updated>
-    </task>
-    <task id="LOCAL-00088" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733166267793</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1733166267793</updated>
-    </task>
-    <task id="LOCAL-00089" summary="to kotlin, fixes">
-      <option name="closed" value="true" />
-      <created>1733168373276</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1733168373276</updated>
-    </task>
-    <task id="LOCAL-00090" summary="inspection fixes">
-      <option name="closed" value="true" />
-      <created>1733168629789</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1733168629789</updated>
-    </task>
-    <task id="LOCAL-00091" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733217219483</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1733217219484</updated>
-    </task>
-    <task id="LOCAL-00092" summary="fixes">
-      <option name="closed" value="true" />
-      <created>1733231622100</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1733231622100</updated>
-    </task>
-    <task id="LOCAL-00093" summary="fixes">
-      <option name="closed" value="true" />
-      <created>1733233477806</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1733233477807</updated>
-    </task>
-    <task id="LOCAL-00094" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733233486205</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1733233486205</updated>
-    </task>
-    <task id="LOCAL-00095" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733243565970</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1733243565971</updated>
-    </task>
-    <task id="LOCAL-00096" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733247362875</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1733247362875</updated>
-    </task>
-    <task id="LOCAL-00097" summary="printf fixes">
-      <option name="closed" value="true" />
-      <created>1733249175353</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1733249175353</updated>
-    </task>
-    <task id="LOCAL-00098" summary="printf fixes">
-      <option name="closed" value="true" />
-      <created>1733251336744</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1733251336744</updated>
-    </task>
-    <task id="LOCAL-00099" summary="inspection fixes">
-      <option name="closed" value="true" />
-      <created>1733251652821</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1733251652821</updated>
-    </task>
-    <task id="LOCAL-00100" summary="inspection fixes">
-      <option name="closed" value="true" />
-      <created>1733252320185</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1733252320185</updated>
-    </task>
-    <task id="LOCAL-00101" summary="to kotlin">
-      <option name="closed" value="true" />
-      <created>1733253635427</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1733253635427</updated>
     </task>
     <task id="LOCAL-00102" summary="clean up">
       <option name="closed" value="true" />
@@ -695,7 +519,191 @@
       <option name="project" value="LOCAL" />
       <updated>1733341556628</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733342476823</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1733342476823</updated>
+    </task>
+    <task id="LOCAL-00129" summary="type aliases split">
+      <option name="closed" value="true" />
+      <created>1733376958373</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1733376958373</updated>
+    </task>
+    <task id="LOCAL-00130" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733377271886</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1733377271886</updated>
+    </task>
+    <task id="LOCAL-00131" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733377750359</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1733377750359</updated>
+    </task>
+    <task id="LOCAL-00132" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733379402787</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1733379402787</updated>
+    </task>
+    <task id="LOCAL-00133" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733380154061</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1733380154061</updated>
+    </task>
+    <task id="LOCAL-00134" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733381177279</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1733381177279</updated>
+    </task>
+    <task id="LOCAL-00135" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733382031298</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1733382031298</updated>
+    </task>
+    <task id="LOCAL-00136" summary="change join pairs to data class">
+      <option name="closed" value="true" />
+      <created>1733385592323</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1733385592323</updated>
+    </task>
+    <task id="LOCAL-00137" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733389589168</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1733389589168</updated>
+    </task>
+    <task id="LOCAL-00138" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733390146027</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1733390146027</updated>
+    </task>
+    <task id="LOCAL-00139" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733390723565</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1733390723565</updated>
+    </task>
+    <task id="LOCAL-00140" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733390958094</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1733390958094</updated>
+    </task>
+    <task id="LOCAL-00141" summary="type aliases">
+      <option name="closed" value="true" />
+      <created>1733391349936</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1733391349936</updated>
+    </task>
+    <task id="LOCAL-00142" summary="remove bifunction">
+      <option name="closed" value="true" />
+      <created>1733391558543</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1733391558543</updated>
+    </task>
+    <task id="LOCAL-00143" summary="trim biconsumer">
+      <option name="closed" value="true" />
+      <created>1733391842075</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1733391842076</updated>
+    </task>
+    <task id="LOCAL-00144" summary="remove biconsumer">
+      <option name="closed" value="true" />
+      <created>1733392470153</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1733392470153</updated>
+    </task>
+    <task id="LOCAL-00145" summary="remove biconsumer">
+      <option name="closed" value="true" />
+      <created>1733392613627</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1733392613627</updated>
+    </task>
+    <task id="LOCAL-00146" summary="remove bifunction">
+      <option name="closed" value="true" />
+      <created>1733392731827</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1733392731827</updated>
+    </task>
+    <task id="LOCAL-00147" summary="remove function">
+      <option name="closed" value="true" />
+      <created>1733394085772</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1733394085772</updated>
+    </task>
+    <task id="LOCAL-00148" summary="remove @JvmStatic">
+      <option name="closed" value="true" />
+      <created>1733394401713</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1733394401713</updated>
+    </task>
+    <task id="LOCAL-00149" summary="remove @JvmStatic">
+      <option name="closed" value="true" />
+      <created>1733394484577</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1733394484577</updated>
+    </task>
+    <task id="LOCAL-00150" summary="remove @JvmField">
+      <option name="closed" value="true" />
+      <created>1733394659816</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1733394659816</updated>
+    </task>
+    <option name="localTasksCounter" value="151" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -746,20 +754,11 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="skip tests" />
-    <MESSAGE value="skip tests" />
-    <MESSAGE value="fixes format" />
-    <MESSAGE value="fix to add i if uncommented (silent bug)" />
-    <MESSAGE value="sort labels and layers" />
-    <MESSAGE value="various minor fixes" />
-    <MESSAGE value="to kotlin, fixes" />
-    <MESSAGE value="fixes" />
     <MESSAGE value="printf fixes" />
     <MESSAGE value="inspection fixes" />
     <MESSAGE value="clean up" />
     <MESSAGE value="new main module" />
     <MESSAGE value="remove uber, add main" />
-    <MESSAGE value="cleanup" />
     <MESSAGE value="to kotlin" />
     <MESSAGE value="house keeping" />
     <MESSAGE value="remove ThrowingBiConsumer" />
@@ -768,10 +767,19 @@
     <MESSAGE value="test kotlin pair serializability" />
     <MESSAGE value="removed adhoc pairs and triplets" />
     <MESSAGE value="simplify" />
+    <MESSAGE value="type aliases split" />
+    <MESSAGE value="cleanup" />
+    <MESSAGE value="change join pairs to data class" />
     <MESSAGE value="type aliases" />
     <MESSAGE value="type aliases" />
     <MESSAGE value="type aliases" />
-    <option name="LAST_COMMIT_MESSAGE" value="type aliases" />
+    <MESSAGE value="trim biconsumer" />
+    <MESSAGE value="remove biconsumer" />
+    <MESSAGE value="remove bifunction" />
+    <MESSAGE value="remove function" />
+    <MESSAGE value="remove @JvmStatic" />
+    <MESSAGE value="remove @JvmField" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove @JvmField" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
