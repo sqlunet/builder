@@ -59,7 +59,7 @@ class Collocation private constructor(
     }
 
     override fun resolving(): SnCollocationResolvable {
-        return Pair<String, String>(sensekey1.toString(), sensekey2.toString())
+        return SnCollocationResolvable(sensekey1.toString(), sensekey2.toString())
     }
 
     companion object {

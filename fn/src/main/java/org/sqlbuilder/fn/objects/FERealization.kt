@@ -51,9 +51,8 @@ class FERealization private constructor(
 
     override fun dataRow(): String {
         val fetypeid: Int = getIntId(fEName)!!
-        val key = Pair(fetypeid, frameId)
+        val key = fetypeid to frameId
         val feid = FE.BY_FETYPEID_AND_FRAMEID!![key]!!.iD
-
         return "$intId,$fetypeid,$feid,$total,$luId"
     }
 
