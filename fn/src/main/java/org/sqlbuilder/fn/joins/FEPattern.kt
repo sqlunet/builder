@@ -63,7 +63,6 @@ data class FEPattern(
         @JvmField
         val SET = HashSet<FEPattern>()
 
-        @JvmStatic
         fun make(fer: FERealization, vu: ValenceUnit): FEPattern {
             val vr = FEPattern(fer, vu)
             SET.add(vr)

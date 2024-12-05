@@ -48,7 +48,6 @@ data class FE_FEExcluded(
         @JvmField
         val SET = HashSet<FE_FEExcluded>()
 
-        @JvmStatic
         fun make(feid: Int, fe2: InternalFrameRelationFEType): FE_FEExcluded {
             val ff = FE_FEExcluded(feid, fe2.getID())
             SET.add(ff)

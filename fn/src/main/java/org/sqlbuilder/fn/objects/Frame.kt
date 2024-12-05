@@ -76,7 +76,6 @@ class Frame private constructor(
 
         private val definitionProcessor = FnFrameXmlProcessor()
 
-        @JvmStatic
         @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
         fun make(frame: FrameDocument.Frame): Frame {
             val f = Frame(frame)

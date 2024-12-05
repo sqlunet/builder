@@ -50,7 +50,6 @@ class Governor private constructor(
         @JvmField
         val COLLECTOR = SetCollector<Governor>(COMPARATOR)
 
-        @JvmStatic
         fun make(governor: GovernorType): Governor {
             val g = Governor(governor)
             COLLECTOR.add(g)

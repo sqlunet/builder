@@ -11,7 +11,6 @@ open class KBLoader {
         @JvmField
         var kb: Kb? = null
 
-        @JvmStatic
         val path: String
             get() {
                 var kbPath = System.getProperty("sumopath")

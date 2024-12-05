@@ -45,7 +45,6 @@ data class FEGroupPattern_AnnoSet(
         @JvmField
         val SET = HashSet<FEGroupPattern_AnnoSet>()
 
-        @JvmStatic
         fun make(pattern: FEGroupPattern, annoset: AnnoSetType): FEGroupPattern_AnnoSet {
             val pa = FEGroupPattern_AnnoSet(pattern, annoset.getID())
             SET.add(pa)

@@ -86,7 +86,6 @@ class PmEntry : Insertable {
         const val ROLE_MAPPING: Int = 0x800
         const val WN_MISSING: Int = 0x1000
 
-        @JvmStatic
         @Throws(ParseException::class)
         fun parse(line: String): PmEntry {
             // split into fields

@@ -48,7 +48,6 @@ data class LexUnit_SemType(
         @JvmField
         val SET = HashSet<LexUnit_SemType>()
 
-        @JvmStatic
         fun make(luid: Int, semtype: SemTypeRefType): LexUnit_SemType {
             val ut = LexUnit_SemType(luid, semtype.getID())
             SET.add(ut)

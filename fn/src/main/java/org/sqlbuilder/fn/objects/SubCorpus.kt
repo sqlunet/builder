@@ -40,7 +40,6 @@ class SubCorpus private constructor(
         @JvmField
         val COLLECTOR = SetCollector<SubCorpus>(COMPARATOR)
 
-        @JvmStatic
         fun make(subcorpus: SubCorpusType, luid: Int): SubCorpus {
             val c = SubCorpus(subcorpus.getName(), luid)
             COLLECTOR.add(c)

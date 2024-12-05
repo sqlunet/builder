@@ -74,7 +74,6 @@ class FEGroupRealization private constructor(
         @JvmField
         val LIST = ListCollector<FEGroupRealization>()
 
-        @JvmStatic
         fun make(fegr: FEGroupRealizationType, luid: Int, frameid: Int): FEGroupRealization {
             val r = FEGroupRealization(fegr, luid, frameid)
             LIST.add(r)

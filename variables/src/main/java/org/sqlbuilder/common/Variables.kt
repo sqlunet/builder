@@ -222,7 +222,6 @@ private constructor() {
          * @param bundles resource bundles
          * @return variables
          */
-        @JvmStatic
         fun make(vararg bundles: ResourceBundle): Variables {
             val vars = Variables()
             for (bundle in bundles) {

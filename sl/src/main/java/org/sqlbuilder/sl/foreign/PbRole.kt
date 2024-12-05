@@ -41,7 +41,6 @@ class PbRole private constructor(
             .comparing<PbRole, String>{ it.roleSet }
             .thenComparing<String> { it.arg }
 
-        @JvmStatic
         fun make(roleSet: String, arg: String): PbRole {
             return PbRole(roleSet, arg)
         }

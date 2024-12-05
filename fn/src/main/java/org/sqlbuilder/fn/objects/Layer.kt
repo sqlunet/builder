@@ -54,7 +54,6 @@ class Layer private constructor(
         @JvmField
         val COLLECTOR = SetCollector<Layer>(COMPARATOR)
 
-        @JvmStatic
         fun make(layer: LayerType, annosetid: Int): Layer {
             val l = Layer(layer, annosetid)
             add(l.name)

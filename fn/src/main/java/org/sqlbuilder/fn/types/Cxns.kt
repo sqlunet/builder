@@ -43,7 +43,6 @@ class Cxns private constructor(
         @JvmField
         val SET = HashSet<Cxns>()
 
-        @JvmStatic
         fun make(id: Int, name: String): Cxns {
             val c = Cxns(id, name)
             SET.add(c)

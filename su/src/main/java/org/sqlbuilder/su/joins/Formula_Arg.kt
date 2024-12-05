@@ -54,7 +54,6 @@ class Formula_Arg private constructor(
         private val COMPARATOR: Comparator<Formula_Arg> = Comparator
             .comparing<Formula_Arg, Int> { it.argNum }
 
-        @JvmStatic
         @Throws(IllegalArgumentException::class, ParseException::class, IOException::class)
         fun make(formula: Formula): Collection<Formula_Arg> {
             return FormulaParser.parse(formula.formula)

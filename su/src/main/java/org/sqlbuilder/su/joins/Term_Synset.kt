@@ -71,7 +71,6 @@ class Term_Synset private constructor(
         @JvmField
         val SET = TreeSet<Term_Synset>()
 
-        @JvmStatic
         @Throws(IllegalArgumentException::class)
         fun parse(termstr: String, line: String): Term_Synset {
             // split into fields

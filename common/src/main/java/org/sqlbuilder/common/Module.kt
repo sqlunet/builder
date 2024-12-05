@@ -30,7 +30,6 @@ abstract class Module protected constructor(val id: String?, conf: String, @JvmF
 
     companion object {
 
-        @JvmStatic
         @Nullable
         fun getProperties(conf: String): Properties {
             val confFile = File(conf)

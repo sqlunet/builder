@@ -51,7 +51,6 @@ class Presets {
 
     companion object {
 
-        @JvmStatic
         @BeforeClass
         fun init() {
             FnEnumCollector().run()

@@ -47,7 +47,6 @@ data class FE_SemType(
         @JvmField
         val SET = HashSet<FE_SemType>()
 
-        @JvmStatic
         fun make(feid: Int, semtypeid: Int): FE_SemType {
             val fs = FE_SemType(feid, semtypeid)
             SET.add(fs)

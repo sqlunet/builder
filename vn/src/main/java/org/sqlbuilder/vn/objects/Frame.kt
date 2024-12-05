@@ -85,7 +85,6 @@ class Frame private constructor(
         @JvmField
         val COLLECTOR: SetCollector<Frame> = SetCollector<Frame>(COMPARATOR)
 
-        @JvmStatic
         @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
         fun make(descriptionNumber: String, descriptionXTag: String, descriptionPrimary: String, descriptionSecondary: String?, syntax: String, semantics: String): Frame {
             val f = Frame(descriptionNumber, descriptionXTag, descriptionPrimary, descriptionSecondary, syntax, semantics)

@@ -53,7 +53,6 @@ data class FEGroupPattern_FEPattern(
         @JvmField
         val LIST = ArrayList<FEGroupPattern_FEPattern>()
 
-        @JvmStatic
         fun make(groupPattern: FEGroupPattern, fer: FERealization, vu: ValenceUnit): FEGroupPattern_FEPattern {
             val p = FEGroupPattern_FEPattern(groupPattern, fer, vu)
             LIST.add(p)

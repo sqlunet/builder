@@ -15,7 +15,6 @@ private constructor(
 
     companion object {
 
-        @JvmStatic
         fun make(wnword: String, wnSenses: String?, wnGrouping: String?): Member {
             val isDefiniteFlag = wnword.startsWith("?")
             val word: String = makeWord(wnword)
@@ -25,7 +24,6 @@ private constructor(
             return Member(word, senseKeys, groupings, isDefiniteFlag)
         }
 
-        @JvmStatic
         fun makeWord(wnword: String): String {
             // word
             var word = wnword
@@ -35,7 +33,6 @@ private constructor(
             return word.replace('_', ' ')
         }
 
-        @JvmStatic
         fun makeSensekeys(wnSenses: String?): List<Sensekey>? {
             // senses
             var senseKeys: MutableList<Sensekey>? = null

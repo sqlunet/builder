@@ -77,7 +77,6 @@ class TestXPath {
         }
 
         @BeforeClass
-        @JvmStatic
         fun init() {
             home = System.getenv("TEST_HOME")
             xPath = System.getenv("TEST_XPATH")

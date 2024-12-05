@@ -68,7 +68,6 @@ class FEGroupPattern private constructor(
         @JvmField
         val LIST: ListCollector<FEGroupPattern> = ListCollector<FEGroupPattern>()
 
-        @JvmStatic
         fun make(fegr: FEGroupRealization, pattern: FEGroupRealizationType.Pattern): FEGroupPattern {
             val p = FEGroupPattern(pattern, fegr)
             LIST.add(p)

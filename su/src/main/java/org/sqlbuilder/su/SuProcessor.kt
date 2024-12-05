@@ -119,28 +119,24 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
 
         // C O L L E C T
 
-        @JvmStatic
         fun collectFiles(kb: Kb) {
             for (filename in kb.filenames) {
                 SUFile.make(filename)
             }
         }
 
-        @JvmStatic
         fun collectTerms(kb: Kb) {
             for (term in kb.terms) {
                 Term.make(term)
             }
         }
 
-        @JvmStatic
         fun collectFormulas(kb: Kb) {
             for (formula in kb.formulas.values) {
                 make(formula)
             }
         }
 
-        @JvmStatic
         @Throws(IOException::class)
         fun collectSynsets(fileTemplate: String, pse: PrintStream) {
             for (posName in POSES) {

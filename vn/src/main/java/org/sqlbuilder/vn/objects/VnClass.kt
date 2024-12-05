@@ -61,7 +61,6 @@ class VnClass private constructor(
         @JvmField
         val COLLECTOR: SetCollector<VnClass> = SetCollector<VnClass>(COMPARATOR)
 
-        @JvmStatic
         fun make(name: String): VnClass {
             if (name.isEmpty()) {
                 throw RuntimeException("No name")

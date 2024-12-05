@@ -49,8 +49,7 @@ class Predicate private constructor(
         @JvmField
         val COLLECTOR: SetCollector<Predicate> = SetCollector<Predicate>(COMPARATOR)
 
-         @JvmStatic
-        fun make(name: String): Predicate {
+         fun make(name: String): Predicate {
             val p = Predicate(name)
             COLLECTOR.add(p)
             return p

@@ -72,7 +72,6 @@ class Sentence private constructor(
         @JvmField
         val SET = HashSet<Sentence>()
 
-        @JvmStatic
         fun make(sentence: SentenceType): Sentence {
             val s = Sentence(sentence)
             SET.add(s)

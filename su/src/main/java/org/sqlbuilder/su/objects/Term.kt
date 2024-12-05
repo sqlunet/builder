@@ -85,7 +85,6 @@ class Term private constructor(
             "Relation", "Predicate", "Function", "Class"
         )
 
-        @JvmStatic
         @Throws(IllegalArgumentException::class, StringIndexOutOfBoundsException::class)
         fun parse(line: String): String {
             // split into fields
@@ -110,7 +109,6 @@ class Term private constructor(
             }
         }
 
-        @JvmStatic
         fun make(term: String): Term {
             require(!term.isEmpty()) { "Empty term" }
 

@@ -24,7 +24,6 @@ class SemlinkDocument(filePath: String) : XmlDocument(filePath) {
 
     companion object {
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeMappings(start: Node) {
             getXPaths(start, "./predicate")!!

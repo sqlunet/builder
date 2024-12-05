@@ -30,7 +30,6 @@ class PmModule(
 
         const val MODULE_ID: String = "pm"
 
-        @JvmStatic
         fun main(args: Array<String>) {
             var i = 0
             var mode = Mode.PLAIN

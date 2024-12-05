@@ -61,7 +61,6 @@ class FnModule(
 
         const val MODULE_ID: String = "fn"
 
-        @JvmStatic
         fun main(args: Array<String>) {
             var i = 0
             var mode = Mode.PLAIN

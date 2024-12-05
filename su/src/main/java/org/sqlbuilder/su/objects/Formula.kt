@@ -93,7 +93,6 @@ class Formula private constructor(
         @JvmField
         val COLLECTOR = SetCollector<Formula>(COMPARATOR)
 
-        @JvmStatic
         fun make(formula: com.articulate.sigma.Formula): Formula {
             val filename = formula.getSourceFile()
             val f = Formula(formula, SUFile.make(filename))

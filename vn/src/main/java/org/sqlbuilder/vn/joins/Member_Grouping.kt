@@ -64,7 +64,6 @@ class Member_Grouping private constructor(
         @JvmField
         val SET: MutableSet<Member_Grouping> = HashSet<Member_Grouping>()
 
-        @JvmStatic
         fun make(clazz: VnClass, word: Word, grouping: Grouping): Member_Grouping {
             val m = Member_Grouping(clazz, word, grouping)
             SET.add(m)

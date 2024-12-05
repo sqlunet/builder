@@ -35,7 +35,6 @@ abstract class XmlProcessor {
 
         val factory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
 
-        @JvmStatic
         @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
         fun docFromString(xml: String): Element {
             try {

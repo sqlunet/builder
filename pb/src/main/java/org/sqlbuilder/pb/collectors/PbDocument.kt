@@ -23,7 +23,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             }
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun getPredicates(head: String, start: Node): Collection<Predicate> {
             return getXPaths(start, "./predicate")!!
@@ -35,7 +34,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 .toList()
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun getAliasPredicates(start: Node): Collection<LexItem> {
             return getXPaths(start, ".//alias")!!
@@ -47,7 +45,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 .toList()
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
             var result: MutableList<RoleSet> = ArrayList<RoleSet>()
@@ -125,7 +122,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             return result
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeVnRoleSetLinks(roleSetElement: Element): Set<String>? {
             return getXPaths(roleSetElement, "./roles/role/rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
@@ -134,7 +130,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 ?.toSet()
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeFnFrameLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./roles/role/rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
@@ -143,7 +138,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 ?.toSet()
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeRoles(head: String, start: Node): Collection<Role> {
             var result: MutableList<Role> = ArrayList<Role>()
@@ -193,7 +187,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             return result
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeVnRoleLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
@@ -203,7 +196,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 ?.toSet()
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeFnFeLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
@@ -256,7 +248,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                 }
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeExamples(head: String, start: Node): Collection<Example> {
             var result: MutableList<Example> = ArrayList<Example>()
@@ -311,7 +302,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             return result
         }
 
-        @JvmStatic
         @Throws(XPathExpressionException::class)
         fun makeExampleArgs(head: String, start: Node): Collection<Arg> {
             var result = ArrayList<Arg>()

@@ -63,7 +63,6 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
          abandon%2:40:01:: 02227741 2 6
          */
 
-        @JvmStatic
         @Throws(IOException::class)
         fun getLemmaPosOffsetToSensekey(file: File): Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved> {
             file.useLines {

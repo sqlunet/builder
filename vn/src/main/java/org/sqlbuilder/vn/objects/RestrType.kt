@@ -66,7 +66,6 @@ class RestrType private constructor(
         @JvmField
         val COLLECTOR = SetCollector<RestrType>(COMPARATOR)
 
-        @JvmStatic
         fun make(value: String, type: String, isSyntactic: Boolean): RestrType {
             val r = RestrType(value, type, isSyntactic)
             COLLECTOR.add(r)

@@ -48,8 +48,7 @@ data class FE_FERequired(
         @JvmField
         val SET = HashSet<FE_FERequired>()
 
-         @JvmStatic
-        fun make(fe: Int, fe2: InternalFrameRelationFEType): FE_FERequired {
+         fun make(fe: Int, fe2: InternalFrameRelationFEType): FE_FERequired {
             val ff = FE_FERequired(fe, fe2.getID())
             SET.add(ff)
             return ff

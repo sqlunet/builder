@@ -49,7 +49,6 @@ data class SemType_SemTypeSuper(
         @JvmField
         val SET = HashSet<SemType_SemTypeSuper>()
 
-        @JvmStatic
         fun make(semtype: SemType, supersemtype: SuperType): SemType_SemTypeSuper {
             val tt = SemType_SemTypeSuper(semtype.iD, supersemtype.getSupID())
             SET.add(tt)

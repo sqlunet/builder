@@ -102,7 +102,6 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
             "SEQ" to "sequence of individual units",
         )
 
-        @JvmStatic
         fun make(f: String): Func {
             if (f == "" || f == "_") {
                 print("'$f'")
@@ -112,7 +111,6 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
             return func
         }
 
-        @JvmStatic
         fun makeOrNull(f: String): Func? {
             if (f == "" || f == "_")
                 return null

@@ -54,7 +54,6 @@ class Predicate_Semantics private constructor(
                 .comparing<Predicate_Semantics, Semantics> { it.semantics }
                 .thenComparing<Predicate> { it.predicate }
 
-        @JvmStatic
         fun make(predicate: Predicate, semantics: Semantics): Predicate_Semantics {
             val m = Predicate_Semantics(predicate, semantics)
             SET.add(m)

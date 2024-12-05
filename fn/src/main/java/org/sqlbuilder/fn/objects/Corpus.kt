@@ -57,7 +57,6 @@ class Corpus private constructor(
         @JvmField
         val SET = HashSet<Corpus>()
 
-        @JvmStatic
         fun make(corpus: CorpDocType, luid: Int?): Corpus {
             val c = Corpus(corpus, luid)
             SET.add(c)

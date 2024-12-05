@@ -53,11 +53,9 @@ class FnEnumCollector : Processor("preset") {
         val poses: Array<String>
             get() = getValues(POSType.Enum.table)
 
-        @JvmStatic
         val coreTypes: Array<String>
             get() = getValues(CoreType.Enum.table)
 
-        @JvmStatic
         val labelITypes: Array<String>
             get() = getValues(LabelType.Itype.Enum.table)
     }

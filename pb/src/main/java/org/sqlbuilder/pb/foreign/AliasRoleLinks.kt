@@ -50,12 +50,11 @@ abstract class AliasRoleLinks internal constructor(
 
         val COMPARATOR: Comparator<AliasRoleLinks> = Comparator.comparing<AliasRoleLinks, String> { it.names.toString() }
 
-        protected fun normalize(link: String): String {
+        fun normalize(link: String): String {
             return Utils.camelCase(link)
         }
 
-        @JvmStatic
-        protected fun normalize(links: Collection<String>): Set<String> {
+        fun normalize(links: Collection<String>): Set<String> {
             return links
                 .asSequence()
                 .map { normalize(it) }

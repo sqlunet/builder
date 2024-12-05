@@ -69,7 +69,6 @@ class SUFile private constructor(
         @JvmField
         val COLLECTOR = SetCollector<SUFile>(COMPARATOR)
 
-        @JvmStatic
         fun make(filepath: String): SUFile {
             val file = File(filepath)
             val filename = file.getName()

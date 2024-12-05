@@ -89,7 +89,6 @@ class Member_Sense private constructor(
             if (r == null) "NULL,NULL" else "${nullableInt(r.first)},${nullableInt(r.second)}"
         }
 
-        @JvmStatic
         fun make(member: Class_Word, sensenum: Int, sensekey: Sensekey?, quality: Float?): Member_Sense {
             val m = Member_Sense(member, sensenum, sensekey, quality)
             SET.add(m)

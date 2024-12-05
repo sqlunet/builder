@@ -57,7 +57,6 @@ class SemType private constructor(
         @JvmField
         val SET = HashSet<SemType>()
 
-        @JvmStatic
         fun make(type: SemTypeType): SemType {
             val t = SemType(type)
             SET.add(t)

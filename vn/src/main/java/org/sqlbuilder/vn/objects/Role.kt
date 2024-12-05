@@ -68,7 +68,6 @@ class Role private constructor(
         @JvmField
         val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
 
-        @JvmStatic
         fun make(clazz: VnClass, restrainedRole: RestrainedRole): Role {
             val m = Role(clazz, restrainedRole)
             COLLECTOR.add(m)

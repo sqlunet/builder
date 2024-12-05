@@ -69,7 +69,6 @@ class Lexeme private constructor(lexeme: LexemeType, val luid: Long) : Insertabl
         @JvmField
         val SET = HashSet<Lexeme>()
 
-        @JvmStatic
         fun make(lexeme: LexemeType, luid: Long): Lexeme {
             val l = Lexeme(lexeme, luid)
             SET.add(l)

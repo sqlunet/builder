@@ -63,7 +63,6 @@ data class FE_FEGroupRealization(
         @JvmField
         val SET = HashSet<FE_FEGroupRealization>()
 
-        @JvmStatic
         fun make(fe: FEValenceType, fegr: FEGroupRealization): FE_FEGroupRealization {
             val fr = FE_FEGroupRealization(fe.getName(), fegr)
             SET.add(fr)

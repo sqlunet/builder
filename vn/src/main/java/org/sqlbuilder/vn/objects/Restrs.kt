@@ -74,7 +74,6 @@ class Restrs private constructor(
 
         private val RESTRS_XML_PROCESSOR = VnRestrsXmlProcessor()
 
-        @JvmStatic
         @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
         fun make(value: String, isSyntactic: Boolean): Restrs {
             try {

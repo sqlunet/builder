@@ -50,7 +50,6 @@ class Frame_Example private constructor(
         @JvmField
         val SET = HashSet<Frame_Example>()
 
-        @JvmStatic
         fun make(frame: Frame, example: FrameExample): Frame_Example {
             val m = Frame_Example(frame, example)
             SET.add(m)

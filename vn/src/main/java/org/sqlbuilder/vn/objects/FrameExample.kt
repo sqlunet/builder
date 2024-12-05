@@ -50,8 +50,7 @@ class FrameExample private constructor(
         @JvmField
         val COLLECTOR: SetCollector<FrameExample> = SetCollector<FrameExample>(COMPARATOR)
 
-         @JvmStatic
-        fun make(example: String): FrameExample {
+         fun make(example: String): FrameExample {
             val e = FrameExample(example)
             COLLECTOR.add(e)
             return e

@@ -139,7 +139,6 @@ class LexUnit : HasID, Insertable, Serializable {
         @JvmField
         val SET = HashSet<LexUnit>()
 
-        @JvmStatic
         fun make(lu: LexUnitDocument.LexUnit): LexUnit {
             val u = LexUnit(lu)
 
@@ -150,7 +149,6 @@ class LexUnit : HasID, Insertable, Serializable {
             return u
         }
 
-        @JvmStatic
         fun make(lu: FrameLUType, frameid: Int, frameName: String): LexUnit {
             val u = LexUnit(lu, frameid, frameName)
 

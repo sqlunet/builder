@@ -67,9 +67,8 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
     companion object {
 
-        @JvmStatic
         @Throws(IOException::class)
-        protected fun <T> process(file: File, producer: (String) -> T, consumer: ((T, Int) -> Unit)?) {
+        fun <T> process(file: File, producer: (String) -> T, consumer: ((T, Int) -> Unit)?) {
             file.useLines {
                 var count = 0
                 var lineNo = 0

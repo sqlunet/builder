@@ -76,7 +76,6 @@ class FERealization private constructor(
         @JvmField
         val LIST = ListCollector<FERealization>()
 
-        @JvmStatic
         fun make(fer: FERealizationType, luid: Int, frameid: Int): FERealization {
             val r = FERealization(fer, luid, frameid)
             LIST.add(r)

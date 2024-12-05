@@ -61,7 +61,6 @@ class Class_Frame private constructor(
         @JvmField
         val SET = HashSet<Class_Frame>()
 
-        @JvmStatic
         fun make(clazz: VnClass, frame: Frame): Class_Frame {
             val m = Class_Frame(clazz, frame)
             SET.add(m)

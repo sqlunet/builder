@@ -72,7 +72,6 @@ class Word private constructor(
         @JvmField
         val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
-        @JvmStatic
         fun make(lemma: String): Word {
             val w = Word(lemma)
             COLLECTOR.add(w)

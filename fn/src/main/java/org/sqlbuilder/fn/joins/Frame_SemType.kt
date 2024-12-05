@@ -47,7 +47,6 @@ data class Frame_SemType(
         @JvmField
         val SET = HashSet<Frame_SemType>()
 
-        @JvmStatic
         fun make(frameid: Int, semtypeid: Int): Frame_SemType {
             val ft = Frame_SemType(frameid, semtypeid)
             SET.add(ft)

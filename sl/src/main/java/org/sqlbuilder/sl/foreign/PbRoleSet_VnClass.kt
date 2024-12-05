@@ -42,7 +42,6 @@ class PbRoleSet_VnClass private constructor(
             if (r == null) "NULL,NULL" else "${r.first},${r.second}"
         }
 
-        @JvmStatic
         fun make(pbRoleSet: String, vnClass: String): PbRoleSet_VnClass {
             val a = PbRoleSet_VnClass(pbRoleSet, vnClass)
             SET.add(a)

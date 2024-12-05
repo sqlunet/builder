@@ -17,7 +17,6 @@ data class SynsetToSynsetMapping(
     companion object {
 
         //1740 00001740 1 m
-        @JvmStatic
         @Throws(ParseException::class)
         fun parse(line: String): SynsetToSynsetMapping {
             try {

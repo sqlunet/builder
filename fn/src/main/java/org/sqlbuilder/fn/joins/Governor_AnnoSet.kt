@@ -51,7 +51,6 @@ data class Governor_AnnoSet(
         @JvmField
         val SET = HashSet<Governor_AnnoSet>()
 
-        @JvmStatic
         fun make(governor: Governor, annoset: AnnoSetType): Governor_AnnoSet {
             val ga = Governor_AnnoSet(governor, annoset.getID())
             SET.add(ga)

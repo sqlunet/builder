@@ -56,7 +56,6 @@ class Syntax private constructor(
 
         private val SYNTAX_XML_PROCESSOR = VnSyntaxXmlProcessor()
 
-        @JvmStatic
         @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
         fun make(syntax: String): Syntax {
             var syntax2 = syntax.replaceFirst("^<SYNTAX>".toRegex(), "").replaceFirst("</SYNTAX>$".toRegex(), "")

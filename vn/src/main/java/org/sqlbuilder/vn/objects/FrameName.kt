@@ -53,7 +53,6 @@ class FrameName private constructor(
         val COLLECTOR: SetCollector<FrameName> = SetCollector<FrameName>(COMPARATOR)
 
         // C O N S T R U C T O R
-        @JvmStatic
         fun make(name: String): FrameName {
             val n = FrameName(name)
             COLLECTOR.add(n)

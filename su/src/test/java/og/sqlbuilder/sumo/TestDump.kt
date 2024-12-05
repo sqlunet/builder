@@ -41,7 +41,6 @@ class TestDump {
 
     companion object {
 
-        @JvmStatic
         @BeforeAll
         fun init() {
             KBLoader.kb!!.buildRelationCaches()
@@ -55,7 +54,6 @@ class TestDump {
             Formula.COLLECTOR.open()
         }
 
-        @JvmStatic
         @AfterAll
         fun shutdown() {
             SUFile.COLLECTOR.close()
@@ -63,7 +61,6 @@ class TestDump {
             Formula.COLLECTOR.close()
         }
 
-        @JvmStatic
         fun main(args: Array<String>) {
             KBLoader().load()
 

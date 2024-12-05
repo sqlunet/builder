@@ -162,7 +162,6 @@ class SchemaGenerator(private val variables: Variables) {
          * @throws IOException io exception
          */
         @Throws(IOException::class)
-        @JvmStatic
         fun main(args: Array<String>) {
             var args = args
             var compat = false

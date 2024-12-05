@@ -105,7 +105,6 @@ class TestProcessor {
 
     companion object {
 
-        @JvmStatic
         @BeforeAll
         fun init() {
             SuProcessor.collectFiles(KBLoader.kb!!)
@@ -117,7 +116,6 @@ class TestProcessor {
             Formula.COLLECTOR.open()
         }
 
-        @JvmStatic
         @AfterAll
         fun shutdown() {
             SUFile.COLLECTOR.close()
@@ -125,7 +123,6 @@ class TestProcessor {
             Formula.COLLECTOR.close()
         }
 
-        @JvmStatic
         fun main(args: Array<String>) {
             KBLoader().load()
             init()

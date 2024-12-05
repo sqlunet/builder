@@ -56,7 +56,6 @@ class Semantics private constructor(
         private val SEMANTICS_PROCESSOR = VnSemanticsXmlProcessor()
 
         // C O N S T R U C T O R
-        @JvmStatic
         @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
         fun make(semantics: String): Semantics {
             var semantics2 = semantics.replaceFirst("^<SEMANTICS>".toRegex(), "").replaceFirst("</SEMANTICS>$".toRegex(), "")

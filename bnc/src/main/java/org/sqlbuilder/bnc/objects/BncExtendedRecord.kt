@@ -31,7 +31,6 @@ class BncExtendedRecord(
 
     companion object {
 
-        @JvmStatic
         @Throws(ParseException::class, NotFoundException::class, IgnoreException::class)
         fun parse(line: String): BncExtendedRecord {
             val fields = line.split("\\t+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()

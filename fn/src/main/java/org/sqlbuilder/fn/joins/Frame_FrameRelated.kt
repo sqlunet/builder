@@ -59,7 +59,6 @@ data class Frame_FrameRelated(
         @JvmField
         val SET = HashSet<Frame_FrameRelated>()
 
-        @JvmStatic
         fun make(frameid: Int, frame2: FrameIDNameType, relation: String): Frame_FrameRelated {
             val ff = Frame_FrameRelated(frameid, frame2.getID(), relation)
             add(relation)

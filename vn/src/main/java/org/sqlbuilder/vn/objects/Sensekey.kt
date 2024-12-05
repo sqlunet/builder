@@ -18,7 +18,6 @@ class Sensekey private constructor(
 
     companion object {
 
-        @JvmStatic
         fun parse(str0: String): Sensekey {
             // handle question mark
             var str = str0

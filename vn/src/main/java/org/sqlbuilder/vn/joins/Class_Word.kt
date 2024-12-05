@@ -62,7 +62,6 @@ class Class_Word private constructor(
         @JvmField
         val SET = HashSet<Class_Word>()
 
-        @JvmStatic
         fun make(clazz: VnClass, word: Word): Class_Word {
             val m = Class_Word(clazz, word)
             SET.add(m)

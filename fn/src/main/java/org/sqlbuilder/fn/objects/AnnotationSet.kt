@@ -111,7 +111,6 @@ class AnnotationSet private constructor(
         @JvmField
         val SET = HashSet<AnnotationSet>()
 
-        @JvmStatic
         fun make(annoset: AnnotationSetType, sentenceid: Int): AnnotationSet {
             val a = AnnotationSet(annoset, sentenceid, null, null)
 
@@ -125,7 +124,6 @@ class AnnotationSet private constructor(
             return a
         }
 
-        @JvmStatic
         fun make(annoset: AnnotationSetType, sentenceid: Int, luid: Int, frameid: Int): AnnotationSet {
             val a = AnnotationSet(annoset, sentenceid, luid, frameid)
 

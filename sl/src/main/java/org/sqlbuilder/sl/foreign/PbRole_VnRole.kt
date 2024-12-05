@@ -70,7 +70,6 @@ class PbRole_VnRole private constructor(
             }
         }
 
-        @JvmStatic
         fun make(role: PbRole, vnRole: VnRole): PbRole_VnRole {
             val a = PbRole_VnRole(role, vnRole)
             SET.add(a)

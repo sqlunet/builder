@@ -38,7 +38,6 @@ class Predicate private constructor(
             return if (predicate == null) null else COLLECTOR.invoke(predicate)
         }
 
-        @JvmStatic
         fun make(lemma: String): Predicate {
             return Predicate(lemma)
         }

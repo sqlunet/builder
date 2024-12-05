@@ -50,14 +50,12 @@ class FrameSubName private constructor(
         val COLLECTOR: SetCollector<FrameSubName> = SetCollector<FrameSubName>(COMPARATOR)
 
         // C O N S T R U C T O R
-        @JvmStatic
         fun make(subname: String): FrameSubName {
             val s = FrameSubName(subname)
             COLLECTOR.add(s)
             return s
         }
 
-        @JvmStatic
         @RequiresIdFrom(type = FrameSubName::class)
         fun getIntId(subname: FrameSubName?): Int? {
             return if (subname == null) null else COLLECTOR.invoke(subname)

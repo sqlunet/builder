@@ -43,7 +43,6 @@ data class ValenceUnit_AnnoSet(
         @JvmField
         val SET = HashSet<ValenceUnit_AnnoSet>()
 
-        @JvmStatic
         fun make(vu: ValenceUnit, annosetid: Int): ValenceUnit_AnnoSet {
             val va = ValenceUnit_AnnoSet(vu, annosetid)
             SET.add(va)

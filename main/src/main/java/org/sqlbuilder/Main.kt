@@ -17,7 +17,6 @@ class Main {
          *
          * @param args command-line arguments
           */
-        @JvmStatic
         fun main(args: Array<String>) {
         }
     }

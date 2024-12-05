@@ -55,7 +55,6 @@ class RestrainedRole private constructor(
 
         val SET = HashSet<RestrainedRole>()
 
-        @JvmStatic
         @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
         fun make(type: String, restrsXML: String?): RestrainedRole {
             val roleType = make(type)

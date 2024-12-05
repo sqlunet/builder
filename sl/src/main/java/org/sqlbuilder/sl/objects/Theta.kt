@@ -64,7 +64,6 @@ class Theta private constructor(
             return thetaName.substring(0, 1).uppercase(Locale.getDefault()) + thetaName.substring(1).lowercase(Locale.getDefault())
         }
 
-        @JvmStatic
         fun make(thetaName: String): Theta {
             val t = Theta(camelCase(thetaName))
             COLLECTOR.add(t)

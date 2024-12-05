@@ -49,7 +49,6 @@ class TermAttr private constructor(
 
         private const val CHILDOFATTRIBUTE = 'a'
 
-        @JvmStatic
         @Throws(NotFoundException::class)
         fun make(sumoTerm: Term, kb: Kb): MutableCollection<TermAttr> {
             val term = sumoTerm.term

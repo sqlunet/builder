@@ -68,7 +68,6 @@ class Collocation private constructor(
             .comparing<Collocation, String>({ it.sensekey1 }, nullsFirst(naturalOrder()))
             .thenComparing<String>({ it.sensekey2 }, nullsFirst(naturalOrder()))
 
-        @JvmStatic
         @Throws(ParseException::class)
         fun parse(line: String): Collocation {
             try {

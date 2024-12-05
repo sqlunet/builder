@@ -66,7 +66,6 @@ class Word private constructor(@JvmField val word: String) : HasId, Insertable, 
         @JvmField
         val COLLECTOR = SetCollector<Word>(COMPARATOR)
 
-        @JvmStatic
         fun make(word: String): Word {
             val w = Word(word)
             COLLECTOR.add(w)

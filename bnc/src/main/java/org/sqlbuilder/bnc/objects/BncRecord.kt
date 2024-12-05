@@ -79,13 +79,10 @@ open class BncRecord protected constructor(
             // "Uncl",
         )
 
-        @JvmStatic
-        protected var lastLemma: String? = null
+        var lastLemma: String? = null
 
-        @JvmStatic
-        protected var lastPos: String? = null
+        var lastPos: String? = null
 
-        @JvmStatic
         @Throws(ParseException::class, NotFoundException::class, IgnoreException::class)
         fun parse(line: String): BncRecord {
             val fields = line.split("\\t+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -125,7 +122,6 @@ open class BncRecord protected constructor(
             return BncRecord(lemma, pos, freq, range, dispersion)
         }
 
-        @JvmStatic
         fun makeLemma(word: String): String {
             var word = word
             word = word.trim { it <= ' ' }

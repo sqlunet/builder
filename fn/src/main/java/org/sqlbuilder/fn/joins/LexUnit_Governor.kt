@@ -50,7 +50,6 @@ data class LexUnit_Governor(
         @JvmField
         val SET = HashSet<LexUnit_Governor>()
 
-        @JvmStatic
         fun make(luid: Int, governor: Governor): LexUnit_Governor {
             val ug = LexUnit_Governor(luid, governor)
             SET.add(ug)

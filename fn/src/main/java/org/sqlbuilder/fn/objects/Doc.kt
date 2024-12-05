@@ -58,7 +58,6 @@ class Doc private constructor(
         @JvmField
         val SET = HashSet<Doc>()
 
-        @JvmStatic
         fun make(doc: CorpDocType.Document, corpus: CorpDocType) {
             val d = Doc(doc, corpus)
             SET.add(d)

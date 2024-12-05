@@ -94,7 +94,6 @@ class FE private constructor(
 
         private val definitionProcessor = FnFEXmlProcessor()
 
-        @JvmStatic
         @Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
         fun make(fe: FEType, coreset: Int?, frameid: Int): FE {
             val e = FE(fe, coreset, frameid)

@@ -43,7 +43,6 @@ class VnRole private constructor(
             .comparing<VnRole, String> { it.vnClass }
             .thenComparing<Theta> { it.theta }
 
-        @JvmStatic
         fun make(vnClass: String, theta: Theta): VnRole {
             return VnRole(vnClass, theta)
         }

@@ -87,7 +87,6 @@ class ValenceUnit private constructor(
         @JvmField
         val COLLECTOR = SetCollector<ValenceUnit>(COMPARATOR)
 
-        @JvmStatic
         fun make(vu: ValenceUnitType): ValenceUnit {
             val v = ValenceUnit(vu)
             if (v.fE != null) {

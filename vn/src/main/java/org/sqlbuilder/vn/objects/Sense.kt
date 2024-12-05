@@ -42,7 +42,6 @@ class Sense private constructor(
         @JvmField
         val SET = HashSet<Sense>()
 
-        @JvmStatic
         fun make(sensekey: Sensekey): Sense {
             val m = Sense(sensekey)
             SET.add(m)

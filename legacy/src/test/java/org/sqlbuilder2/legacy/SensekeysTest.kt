@@ -28,7 +28,6 @@ class SensekeysTest {
 
         private lateinit var map: Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved>
 
-        @JvmStatic
         @BeforeAll
         @Throws(IOException::class)
         fun init() {

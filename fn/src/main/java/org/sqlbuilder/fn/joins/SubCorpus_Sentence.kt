@@ -51,7 +51,6 @@ data class SubCorpus_Sentence(
         @JvmField
         val SET = HashSet<SubCorpus_Sentence>()
 
-        @JvmStatic
         fun make(subcorpus: SubCorpus, sentence: Sentence): SubCorpus_Sentence {
             val ss = SubCorpus_Sentence(subcorpus, sentence.iD)
             SET.add(ss)

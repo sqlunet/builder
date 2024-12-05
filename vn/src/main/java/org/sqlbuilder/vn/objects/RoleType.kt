@@ -56,7 +56,6 @@ class RoleType private constructor(
         val COLLECTOR: SetCollector<RoleType> = SetCollector<RoleType>(COMPARATOR)
 
         // C O N S T R U C T O R
-        @JvmStatic
         fun make(type: String): RoleType {
             val t = RoleType(type)
             COLLECTOR.add(t)

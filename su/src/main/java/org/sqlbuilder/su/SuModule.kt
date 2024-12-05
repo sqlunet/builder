@@ -44,7 +44,6 @@ class SuModule(
             }
         }
 
-        @JvmStatic
         fun turnOffLogging() {
             setLogging()
 
@@ -56,7 +55,6 @@ class SuModule(
         }
 
         @Throws(NotFoundException::class)
-        @JvmStatic
         fun main(args: Array<String>) {
             turnOffLogging()
 

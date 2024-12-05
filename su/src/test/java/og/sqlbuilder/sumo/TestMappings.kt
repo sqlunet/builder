@@ -29,7 +29,6 @@ class TestMappings {
 
     companion object {
 
-        @JvmStatic
         @BeforeAll
         @Throws(IOException::class)
         fun init() {
@@ -40,14 +39,12 @@ class TestMappings {
             Term.COLLECTOR.open()
         }
 
-        @JvmStatic
         @AfterAll
         fun shutdown() {
             Term.COLLECTOR.close()
         }
 
         @Throws(IOException::class)
-        @JvmStatic
         fun main(args: Array<String>) {
             KBLoader().load()
             init()

@@ -64,7 +64,6 @@ class PmRole private constructor(
         @JvmField
         val COLLECTOR = SetCollector<PmRole>(COMPARATOR)
 
-        @JvmStatic
         @Throws(ParseException::class)
         fun parse(line: String): PmRole {
             // split into fields

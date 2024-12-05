@@ -55,7 +55,6 @@ class Grouping private constructor(
         @JvmField
         val COLLECTOR: SetCollector<Grouping> = SetCollector<Grouping>(COMPARATOR)
 
-        @JvmStatic
         fun make(groupingName: String): Grouping {
             val g = Grouping(groupingName)
             COLLECTOR.add(g)
