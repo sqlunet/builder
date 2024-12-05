@@ -71,16 +71,6 @@ class PbRole_VnRole private constructor(
             }
         }
 
-        val RESOLVE_RESULT_STRINGIFIER0: (Pair<Pair<Int, Int>, Triple<Int, Int, Int>>?) -> String = {
-            if (it == null)
-                "NULL,NULL,NULL,NULL"
-            else {
-                val s1 = if (it.first == null) "NULL,NULL" else "${nullableInt(it.first.first)},${nullableInt(it.first.second)}"
-                val s2 = if (it.second == null) "NULL,NULL,NULL" else "${nullableInt(it.second.first)},${nullableInt(it.second.second)},${nullableInt(it.second.third)}"
-                "$s1,$s2"
-            }
-        }
-
         @JvmStatic
         fun make(role: PbRole, vnRole: VnRole): PbRole_VnRole {
             val a = PbRole_VnRole(role, vnRole)
