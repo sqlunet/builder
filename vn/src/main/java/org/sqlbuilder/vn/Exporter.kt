@@ -177,7 +177,7 @@ class Exporter
      *
      * @return roletype to roletypeid map
      */
-    fun makeRoleTypesMap(): MutableMap<String?, Int?> {
+    fun makeRoleTypesMap(): Map<String, Int> {
         return RoleType.COLLECTOR
             .associate { it.type to RoleType.COLLECTOR.apply(it) }
             .toSortedMap()
