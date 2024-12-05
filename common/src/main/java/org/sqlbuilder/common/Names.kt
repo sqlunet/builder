@@ -69,7 +69,6 @@ class Names(module: String) {
         return backtick(get("$key.table"))
     }
 
-    @JvmOverloads
     fun columns(key: String, resolve: Boolean = false): String {
         return backtickAll(get(key + (if (resolve) ".columns.resolved" else ".columns")))
     }

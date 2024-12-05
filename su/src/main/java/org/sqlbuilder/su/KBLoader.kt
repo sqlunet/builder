@@ -37,7 +37,6 @@ open class KBLoader {
                 }
             }
 
-        @JvmOverloads
         fun loadKb(files: Array<String>? = scope): Kb {
             val kbPath: String = path
             val kb = Kb(kbPath)

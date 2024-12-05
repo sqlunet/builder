@@ -45,7 +45,6 @@ private constructor() {
      * @param check    for remaining variable patterns
      * @throws IOException io exception
      */
-    @JvmOverloads
     @Throws(IOException::class)
     fun varSubstitutionInFile(file: File, ps: PrintStream, useBackticks: Boolean, compress: Boolean, check: Boolean = false) {
         try {
@@ -67,7 +66,6 @@ private constructor() {
      * @param check    for remaining variable patterns
      * @throws IOException io exception
      */
-    @JvmOverloads
     @Throws(IOException::class)
     fun varSubstitutionInIS(input: InputStream, ps: PrintStream, useBackticks: Boolean, compress: Boolean, check: Boolean = false) {
         BufferedReader(InputStreamReader(input, Charset.defaultCharset())).use { reader ->

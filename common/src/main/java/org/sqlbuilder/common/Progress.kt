@@ -6,7 +6,6 @@ object Progress {
         print("$tag $message")
     }
 
-    @JvmOverloads
     fun traceDone(message: String? = null) {
         if (message == null) {
             println(" ✓")
