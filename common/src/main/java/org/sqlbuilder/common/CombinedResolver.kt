@@ -1,20 +1,18 @@
 package org.sqlbuilder.common
 
-import java.util.function.Function
-
 /*
 t->r
 u->s
 (t,u)->(r,s)
  */
 class CombinedResolver<T, R, U, S>(
-    private val r1: Function<T, R?>,
-    private val r2: Function<U, S?>,
-) : Function<Pair<T, U>, Pair<R, S>?> {
+    private val r1: (T) -> R?,
+    private val r2: (U) -> S?,
+) : (Pair<T, U>) -> Pair<R, S>? {
 
-    override fun apply(inputs: Pair<T, U>): Pair<R, S>? {
-        val v1: R? = r1.apply(inputs.first)
-        val v2: S? = r2.apply(inputs.second)
+    override fun invoke(inputs: Pair<T, U>): Pair<R, S>? {
+        val v1: R? = r1.invoke(inputs.first)
+        val v2: S? = r2.invoke(inputs.second)
         if (v1 == null || v2 == null)
             return null
         val n1: R = v1

@@ -5,7 +5,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.PrintStream
-import java.util.function.Function
 import kotlin.Throws
 
 object Insert {
@@ -81,7 +80,7 @@ object Insert {
     @JvmStatic
     fun <T : Insertable> insert(
         items: Iterable<T>,
-        resolver: Function<T, Int>,
+        resolver: (T) -> Int,
         file: File,
         table: String,
         columns: String,
@@ -94,7 +93,7 @@ object Insert {
     @JvmStatic
     fun <T : Insertable> insert(
         items: Iterable<T>,
-        resolver: Function<T, Int>,
+        resolver: (T) -> Int,
         file: File,
         table: String,
         columns: String,
@@ -112,7 +111,7 @@ object Insert {
                     } else {
                         ps.println(",")
                     }
-                    val id = resolver.apply(it)
+                    val id = resolver.invoke(it)
                     val values = it.dataRow()
                     val comment = it.comment()
                     val row =
@@ -206,7 +205,7 @@ object Insert {
     @JvmStatic
     fun insertStrings(
         items: Iterable<String>,
-        resolver: Function<String, Int>,
+        resolver: (String) -> Int,
         file: File,
         table: String,
         columns: String,
@@ -223,7 +222,7 @@ object Insert {
                     } else {
                         ps.println(",")
                     }
-                    val id = resolver.apply(it)
+                    val id = resolver.invoke(it)
                     val row = "($id,'${escape(it)}')"
                     ps.print(row)
                 }
@@ -238,7 +237,7 @@ object Insert {
     @JvmStatic
     fun <K, V> insert(
         items: Iterable<K>,
-        resolver: Function<K, V>,
+        resolver: (K) -> V,
         file: File,
         table: String,
         columns: String,
@@ -256,7 +255,7 @@ object Insert {
                     } else {
                         ps.println(",")
                     }
-                    val v = resolver.apply(it)
+                    val v = resolver.invoke(it)
                     val values = stringifier.invoke(it, v)
                     val row = "($values)"
                     ps.print(row)
@@ -277,8 +276,8 @@ object Insert {
         table: String,
         columns: String,
         header: String,
-        foreignResolver: Function<U, R?>,
-        stringifier: Function<R?, String>,
+        foreignResolver: (U) -> R?,
+        stringifier: (R?) -> String,
         vararg resolvedColumns: String,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->
@@ -297,7 +296,7 @@ object Insert {
                         ps.println(",")
                     }
                     val resolved = it.resolve(foreignResolver)
-                    val sqlResolved = stringifier.apply(resolved)
+                    val sqlResolved = stringifier.invoke(resolved)
                     val values = it.dataRow()
                     val comment = it.comment()
                     val row = if (comment != null) "($values,$sqlResolved) /* $comment */" else "($values,$sqlResolved)"
@@ -312,14 +311,14 @@ object Insert {
     @JvmStatic
     fun <T : Resolvable<U, R>, U, R> resolveAndInsert(
         items: Iterable<T>,
-        resolver: Function<T, Int>,
+        resolver: (T) -> Int,
         file: File,
         table: String,
         columns: String,
         header: String,
         withNumber: Boolean,
-        foreignResolver: Function<U, R?>,
-        stringifier: Function<R?, String>,
+        foreignResolver: (U) -> R?,
+        stringifier: (R?) -> String,
         vararg resolvedColumns: String,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->
@@ -333,9 +332,9 @@ object Insert {
                     } else {
                         ps.println(",")
                     }
-                    val id = resolver.apply(it)
+                    val id = resolver.invoke(it)
                     val resolved = it.resolve(foreignResolver)
-                    val sqlResolved = stringifier.apply(resolved)
+                    val sqlResolved = stringifier.invoke(resolved)
                     val values = it.dataRow()
                     val comment = it.comment()
                     val row =

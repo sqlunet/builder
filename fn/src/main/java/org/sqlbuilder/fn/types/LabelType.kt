@@ -19,7 +19,7 @@ object LabelType {
     @JvmStatic
     @RequiresIdFrom(type = LabelType::class)
     fun getIntId(value: String?): Int? {
-        return if (value == null) null else COLLECTOR.apply(value)
+        return if (value == null) null else COLLECTOR.invoke(value)
     }
 
     @RequiresIdFrom(type = LabelType::class)

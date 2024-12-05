@@ -39,8 +39,8 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
             ps.println("-- $header")
             processSyntagNetFile(ps, File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true)) { collocation: Collocation, i: Int ->
                 val unresolved = collocation.dataRow()
-                val r1 = senseResolver.apply(collocation.sensekey1!!) // (word,synsetid)
-                val r2 = senseResolver.apply(collocation.sensekey2!!) // (word,synsetid)
+                val r1 = senseResolver.invoke(collocation.sensekey1!!) // (word,synsetid)
+                val r2 = senseResolver.invoke(collocation.sensekey2!!) // (word,synsetid)
                 if (r1 != null && r2 != null) {
                     val word1nid = nullableInt(r1.first)
                     val synset1nid = nullableInt(r1.second)

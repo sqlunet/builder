@@ -119,7 +119,7 @@ class Exporter(
     fun makeWordMap(): Map<String, Int> {
         return Word.COLLECTOR.iterator()
             .asSequence()
-            .map { it.word to Word.COLLECTOR.apply(it) }
+            .map { it.word to Word.COLLECTOR.invoke(it) }
             .toMap()
             .toSortedMap()
     }

@@ -2,9 +2,8 @@ package org.sqlbuilder.common
 
 import java.io.Closeable
 import java.util.*
-import java.util.function.Function
 
-class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>, Closeable {
+class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, (T) -> Int, Closeable {
 
     private val map = TreeMap<T, Int?>(comparator)
 
@@ -40,7 +39,7 @@ class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>
         return map.keys.iterator()
     }
 
-    override fun apply(key: T): Int {
+    override fun invoke(key: T): Int {
         check(isOpen) { "$this not open" }
         return map.get(key)!!
     }
@@ -57,7 +56,7 @@ class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, Function<T, Int>
     fun toMap(toString: (T) -> String): Map<String, Int> {
         return this
             .asSequence()
-            .map { toString(it) to apply(it) }
+            .map { toString(it) to invoke(it) }
             .toMap()
             .toSortedMap()
     }

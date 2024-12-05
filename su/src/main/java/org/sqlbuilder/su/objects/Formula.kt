@@ -78,7 +78,7 @@ class Formula private constructor(
     }
 
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     override fun resolving(): String {

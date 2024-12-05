@@ -21,7 +21,7 @@ class Layer private constructor(
 
     @RequiresIdFrom(type = Layer::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // O R D E R

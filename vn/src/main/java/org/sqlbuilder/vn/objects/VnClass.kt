@@ -16,7 +16,7 @@ class VnClass private constructor(
         }
 
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y

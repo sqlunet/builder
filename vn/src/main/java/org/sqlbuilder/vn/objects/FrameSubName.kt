@@ -13,7 +13,7 @@ class FrameSubName private constructor(
     val subName: String = subname.trim { it <= ' ' }.uppercase(Locale.getDefault()).replace("\\s+".toRegex(), " ")
 
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y
@@ -60,7 +60,7 @@ class FrameSubName private constructor(
         @JvmStatic
         @RequiresIdFrom(type = FrameSubName::class)
         fun getIntId(subname: FrameSubName?): Int? {
-            return if (subname == null) null else COLLECTOR.apply(subname)
+            return if (subname == null) null else COLLECTOR.invoke(subname)
         }
     }
 }

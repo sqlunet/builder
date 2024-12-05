@@ -162,7 +162,7 @@ open class Exporter(conf: Properties) {
     fun makeWordMap(): Map<String, Int> {
         return Word.COLLECTOR
             .asSequence()
-            .map { it.word to Word.COLLECTOR.apply(it) }
+            .map { it.word to Word.COLLECTOR.invoke(it) }
             .toMap()
             .toSortedMap()
     }
@@ -170,7 +170,7 @@ open class Exporter(conf: Properties) {
     fun makeRoleSetsMap(): Map<String, Int> {
         return RoleSet.COLLECTOR
             .asSequence()
-            .map { it.name to RoleSet.COLLECTOR.apply(it) }
+            .map { it.name to RoleSet.COLLECTOR.invoke(it) }
             .toMap()
             .toSortedMap()
     }
@@ -178,7 +178,7 @@ open class Exporter(conf: Properties) {
     fun makeVnRolesMap(): Map<String, Int> {
         return AliasVnRoleLinks.COLLECTOR
             .asSequence()
-            .map { it.names.toString() to AliasVnRoleLinks.COLLECTOR.apply(it) }
+            .map { it.names.toString() to AliasVnRoleLinks.COLLECTOR.invoke(it) }
             .toMap()
             .toSortedMap()
     }
@@ -186,7 +186,7 @@ open class Exporter(conf: Properties) {
     fun makeFnFesMap(): Map<String, Int> {
         return AliasFnFeLinks.COLLECTOR
             .asSequence()
-            .map { it.names.toString() to AliasFnFeLinks.COLLECTOR.apply(it) }
+            .map { it.names.toString() to AliasFnFeLinks.COLLECTOR.invoke(it) }
             .toMap()
             .toSortedMap()
     }
@@ -197,7 +197,7 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map {
                 val rs = it.roleSet
-                (rs.name to it.argType) to Role.COLLECTOR.apply(it)
+                (rs.name to it.argType) to Role.COLLECTOR.invoke(it)
             }
             .toMap()
     }
@@ -207,7 +207,7 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map {
                 val rs = it.roleSet
-                (rs.name to it.argType) to Role.COLLECTOR.apply(it)
+                (rs.name to it.argType) to Role.COLLECTOR.invoke(it)
             }
             .toMap()
             .toSortedMap(COMPARATOR)
@@ -223,7 +223,7 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map {
                 val rs = it.roleSet
-                (rs.name to it.argType) to (Role.COLLECTOR.apply(it) to rs.intId)
+                (rs.name to it.argType) to (Role.COLLECTOR.invoke(it) to rs.intId)
             }
             .toMap()
     }
@@ -238,7 +238,7 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map {
                 val rs = it.roleSet
-                (rs.name to it.argType) to (Role.COLLECTOR.apply(it) to rs.intId)
+                (rs.name to it.argType) to (Role.COLLECTOR.invoke(it) to rs.intId)
             }
             .toMap()
             .toSortedMap(COMPARATOR)

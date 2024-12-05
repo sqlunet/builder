@@ -14,7 +14,7 @@ class SubCorpus private constructor(
 
     @RequiresIdFrom(type = SubCorpus::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I N S E R T

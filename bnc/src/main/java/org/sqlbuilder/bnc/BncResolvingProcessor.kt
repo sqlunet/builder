@@ -75,7 +75,7 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
     @Throws(NotFoundException::class)
     private fun resolveAndInsert(ps: PrintStream, record: BncRecord, i: Int) {
         val nr = record.dataRow()
-        val r: Int? = wordResolver.apply(record.word)
+        val r: Int? = wordResolver.invoke(record.word)
         if (r != null) {
             val values = "$nr,$r"
             insertRow(ps, i.toLong(), values)

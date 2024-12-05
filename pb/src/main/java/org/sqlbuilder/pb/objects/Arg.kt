@@ -40,7 +40,7 @@ class Arg private constructor(example0: Example, text0: String, val type: String
     // N I D
 
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // O R D E R

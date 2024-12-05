@@ -10,7 +10,7 @@ class TestWordResolver {
 
     @Test
     fun testResolver() {
-        val id: Int? = resolver.apply("airport")
+        val id: Int? = resolver.invoke("airport")
         println(id)
     }
 

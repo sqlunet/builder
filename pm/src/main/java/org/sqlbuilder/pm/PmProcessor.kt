@@ -11,7 +11,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.Function
 import kotlin.Throws
 
 open class PmProcessor(conf: Properties) : Processor("pm") {
@@ -70,7 +69,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
         @JvmStatic
         @Throws(IOException::class)
-        protected fun <T> process(file: File, producer: Function<String, T>, consumer: ((T, Int) -> Unit)?) {
+        protected fun <T> process(file: File, producer: (String) -> T, consumer: ((T, Int) -> Unit)?) {
             file.useLines {
                 var count = 0
                 var lineNo = 0
@@ -79,7 +78,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
                     .filter { !it.isEmpty() && it[0] != '\t' }
                     .map { line ->
                         try {
-                            return@map producer.apply(line)
+                            return@map producer.invoke(line)
                         } catch (e: CommonException) {
                             val cause = e.cause
                             if (cause is ParseException) {

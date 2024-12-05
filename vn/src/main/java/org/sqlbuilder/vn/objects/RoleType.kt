@@ -10,7 +10,7 @@ class RoleType private constructor(
 ) : HasId, Insertable, Comparable<RoleType> {
 
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y

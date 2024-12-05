@@ -11,7 +11,6 @@ import org.sqlbuilder.sl.foreign.PbRole_VnRole
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
-import java.util.function.Function
 
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {
@@ -60,7 +59,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnroleidCol = names.column("pbroles_vnroles.vnroleid")
         val vnroletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
 
-        val setStringifier = Function { r: PbVnRoleResolved? ->
+        val setStringifier = { r: PbVnRoleResolved? ->
             if (r == null)
                 "$pbrolesetidCol=NULL,$pbroleidCol=NULL,$vnclassidCol=NULL,$vnroleidCol=NULL,$vnroletypeidCol=NULL"
             else {
@@ -69,7 +68,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                 "$v1,$v2"
             }
         }
-        val whereStringifier = Function { r: PbVnRoleResolvable ->
+        val whereStringifier = { r: PbVnRoleResolvable ->
             "$pbrolesetCol='${escape(r.first.first)}' AND $pbroleCol='${escape(r.first.second)}' AND $vnclassCol='${escape(r.second.first)}' AND $vnroleCol='${escape(r.second.second)}'"
         }
 

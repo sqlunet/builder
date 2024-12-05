@@ -9,7 +9,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.Function
 import kotlin.Throws
 
 open class BncProcessor(@JvmField protected val conf: Properties) : Processor("bnc") {
@@ -47,7 +46,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
     }
 
     @Throws(IOException::class)
-    protected fun process(file: File, producer: Function<String, BncRecord>, consumer: (BncRecord, Int) -> Unit) {
+    protected fun process(file: File, producer: (String) -> BncRecord, consumer: (BncRecord, Int) -> Unit) {
         file.useLines {
             var lineNum = 0
             var count = 0
@@ -56,7 +55,7 @@ open class BncProcessor(@JvmField protected val conf: Properties) : Processor("b
                 .filter { !it.isEmpty() && it[0] == '\t' }
                 .map {
                     try {
-                        return@map producer.apply(it)
+                        return@map producer.invoke(it)
                     } catch (e: CommonException) {
                         val cause = e.cause
                         if (cause is ParseException) {

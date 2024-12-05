@@ -14,29 +14,29 @@ class TestCollector {
         System.err.println("[BEFORE]" + C.status())
         C.open().use {
             System.err.println("[ACTIVE]" + C.status())
-            println(C.apply("one"))
-            println(C.apply("two"))
-            println(C.apply("three"))
-            println(C.apply("four"))
+            println(C.invoke("one"))
+            println(C.invoke("two"))
+            println(C.invoke("three"))
+            println(C.invoke("four"))
         }
         System.err.println("[AFTER]" + C.status())
         try {
-            println(C.apply("one"))
+            println(C.invoke("one"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println(C.apply("two"))
+            println(C.invoke("two"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println(C.apply("three"))
+            println(C.invoke("three"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println(C.apply("four"))
+            println(C.invoke("four"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
@@ -51,13 +51,13 @@ class TestCollector {
         System.err.println("[BEFORE]" + C.status())
         C.open().use {
             System.err.println("[ACTIVE]" + C.status())
-            println(C.apply("one"))
-            println(C.apply("two"))
-            println(C.apply("three"))
-            println(C.apply("four"))
+            println(C.invoke("one"))
+            println(C.invoke("two"))
+            println(C.invoke("three"))
+            println(C.invoke("four"))
         }
         System.err.println("[AFTER]" + C.status())
-        println(C.apply("one"))
+        println(C.invoke("one"))
     }
 
     @Test
@@ -71,54 +71,54 @@ class TestCollector {
         C.open().use {
             D.open().use {
                 System.err.println("[ACTIVE]" + C.status() + D.status())
-                println("c " + C.apply("one"))
-                println("c " + C.apply("two"))
-                println("c " + C.apply("three"))
-                println("c " + C.apply("four"))
-                println("d " + D.apply("one"))
-                println("d " + D.apply("two"))
-                println("d " + D.apply("three"))
-                println("d " + D.apply("four"))
+                println("c " + C.invoke("one"))
+                println("c " + C.invoke("two"))
+                println("c " + C.invoke("three"))
+                println("c " + C.invoke("four"))
+                println("d " + D.invoke("one"))
+                println("d " + D.invoke("two"))
+                println("d " + D.invoke("three"))
+                println("d " + D.invoke("four"))
             }
         }
         System.err.println("[AFTER]" + C.status())
         try {
-            println("c " + C.apply("one"))
+            println("c " + C.invoke("one"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("c " + C.apply("two"))
+            println("c " + C.invoke("two"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("c " + C.apply("three"))
+            println("c " + C.invoke("three"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("c " + C.apply("four"))
+            println("c " + C.invoke("four"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("d " + D.apply("one"))
+            println("d " + D.invoke("one"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("d " + D.apply("two"))
+            println("d " + D.invoke("two"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("d " + D.apply("three"))
+            println("d " + D.invoke("three"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
         try {
-            println("d " + D.apply("four"))
+            println("d " + D.invoke("four"))
         } catch (ise: IllegalStateException) {
             println(ise.message)
         }
@@ -135,18 +135,18 @@ class TestCollector {
         C.open().use {
             D.open().use {
                 System.err.println("[ACTIVE]" + C.status() + D.status())
-                println("c " + C.apply("one"))
-                println("c " + C.apply("two"))
-                println("c " + C.apply("three"))
-                println("c " + C.apply("four"))
-                println("d " + D.apply("one"))
-                println("d " + D.apply("two"))
-                println("d " + D.apply("three"))
-                println("d " + D.apply("four"))
+                println("c " + C.invoke("one"))
+                println("c " + C.invoke("two"))
+                println("c " + C.invoke("three"))
+                println("c " + C.invoke("four"))
+                println("d " + D.invoke("one"))
+                println("d " + D.invoke("two"))
+                println("d " + D.invoke("three"))
+                println("d " + D.invoke("four"))
             }
         }
         System.err.println("[AFTER]" + C.status())
-        println("c " + C.apply("one"))
+        println("c " + C.invoke("one"))
     }
 
     companion object {

@@ -11,7 +11,7 @@ class Predicate private constructor(
 
     @RequiresIdFrom(type = Predicate::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // O R D E R
@@ -35,7 +35,7 @@ class Predicate private constructor(
 
         @RequiresIdFrom(type = Predicate::class)
         fun getIntId(predicate: Predicate?): Int? {
-            return if (predicate == null) null else COLLECTOR.apply(predicate)
+            return if (predicate == null) null else COLLECTOR.invoke(predicate)
         }
 
         @JvmStatic

@@ -34,7 +34,7 @@ open class SnProcessor(
 
     private var toSenseKeys = SnLemmaPosOffsetResolver(conf.getProperty("to_sensekeys"))
 
-    protected val sensekeyResolver = { lpo: SnLemmaPosOffsetResolvable -> toSenseKeys.apply(lpo) }
+    protected val sensekeyResolver = { lpo: SnLemmaPosOffsetResolvable -> toSenseKeys.invoke(lpo) }
 
     init {
         if (!this.outDir.exists()) {

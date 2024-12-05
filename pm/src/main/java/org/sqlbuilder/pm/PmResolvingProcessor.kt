@@ -1,6 +1,7 @@
 package org.sqlbuilder.pm
 
 import org.sqlbuilder.common.Insert
+import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.pm.objects.PmEntry
@@ -82,22 +83,22 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
         val inputFile = File(pMHome, pMFile)
         process(inputFile, { parse(it) }, null)
         PmPredicate.COLLECTOR.open().use {
-            Insert.insert<PmPredicate>(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
+            insert(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
             PmRole.COLLECTOR.open().use {
-                Insert.insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                insert(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
                     ps.println("-- $header")
                     processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), { entry, i ->
-                        val wordid = wordResolver.apply(entry.word!!)
-                        val sk = sensekeyResolver.apply(entry.sensekey!!)
+                        val wordid = wordResolver.invoke(entry.word!!)
+                        val sk = sensekeyResolver.invoke(entry.sensekey!!)
 
-                        val vnWordid = vnWordResolver.apply(entry.word!!)
-                        val vn = vnRoleResolver.apply(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
-                        val pbWordid = pbWordResolver.apply(entry.word!!)
-                        val pb = pbRoleResolver.apply(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
-                        val fnWordid = fnWordResolver.apply(entry.word!!)
-                        val fn = fnRoleResolver.apply(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
-                        val fnLu = fnLexUnitResolver.apply(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
+                        val vnWordid = vnWordResolver.invoke(entry.word!!)
+                        val vn = vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
+                        val pbWordid = pbWordResolver.invoke(entry.word!!)
+                        val pb = pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
+                        val fnWordid = fnWordResolver.invoke(entry.word!!)
+                        val fn = fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
+                        val fnLu = fnLexUnitResolver.invoke(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
 
                         val wordResolved = nullableInt(wordid)
                         val senseResolved = if (sk == null) "NULL" else nullableInt(sk.second)

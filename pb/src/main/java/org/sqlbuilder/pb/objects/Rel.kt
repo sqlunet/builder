@@ -15,7 +15,7 @@ class Rel private constructor(val example: Example, text: String) : HasId, Inser
 
     @RequiresIdFrom(type = Rel::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // O R D E R

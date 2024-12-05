@@ -54,7 +54,7 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
     }
 
     private fun updateTermRow(ps: PrintStream, table: String, index: Int, term: Term, vararg columns: String) {
-        val resolvedWordId = wordResolver.apply(term.term.lowercase())
+        val resolvedWordId = wordResolver.invoke(term.term.lowercase())
         if (resolvedWordId != null) {
             val resolvedTermId = term.resolve()
 
@@ -85,7 +85,7 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
         if (synset31Id != null) {
             // 31 to XX
             val synsetId = "${"%08d".format(synset31Id)}-$posId"
-            val resolvedSynsetId = synsetResolver.apply(synsetId)
+            val resolvedSynsetId = synsetResolver.invoke(synsetId)
             if (resolvedSynsetId != null) {
                 val setClause = "${columns[0]}=$resolvedSynsetId"
                 val whereClause = "${columns[1]}=$synsetId AND ${columns[2]}='$posId'"

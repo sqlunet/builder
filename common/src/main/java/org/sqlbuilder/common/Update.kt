@@ -4,7 +4,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.PrintStream
-import java.util.function.Function
 
 object Update {
 
@@ -15,9 +14,9 @@ object Update {
         file: File,
         header: String,
         table: String,
-        resolver: Function<U, R?>,
-        setStringifier: Function<R?, String>,
-        whereStringifier: Function<U, String>,
+        resolver: (U) -> R?,
+        setStringifier: (R?) -> String,
+        whereStringifier: (U) -> String,
     ) {
         PrintStream(FileOutputStream(file)).use { ps ->
             ps.println("-- $header")
@@ -26,8 +25,8 @@ object Update {
                     val resolved = it.resolve(resolver)
                     if (resolved != null) {
                         val resolving = it.resolving()
-                        val sqlResolving = whereStringifier.apply(resolving)
-                        val sqlResolved = setStringifier.apply(resolved)
+                        val sqlResolving = whereStringifier.invoke(resolving)
+                        val sqlResolved = setStringifier.invoke(resolved)
                         val comment = it.comment()
                         var row = "UPDATE $table SET $sqlResolved WHERE $sqlResolving;"
                         if (comment != null) {

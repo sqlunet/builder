@@ -12,7 +12,7 @@ class RestrType private constructor(
 ) : HasId, Insertable, Comparable<RestrType> {
 
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y

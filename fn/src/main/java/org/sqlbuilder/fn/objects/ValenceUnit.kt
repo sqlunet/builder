@@ -31,7 +31,7 @@ class ValenceUnit private constructor(
 
     @RequiresIdFrom(type = ValenceUnit::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y

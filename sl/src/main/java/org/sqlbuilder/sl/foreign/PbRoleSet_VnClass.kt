@@ -5,7 +5,6 @@ import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.sl.PbVnClassResolvable
 import org.sqlbuilder.sl.PbVnClassResolved
 import java.util.*
-import java.util.function.Function
 
 class PbRoleSet_VnClass private constructor(
     val pbRoleset: String,
@@ -39,7 +38,7 @@ class PbRoleSet_VnClass private constructor(
         val SET: MutableSet<PbRoleSet_VnClass> = TreeSet<PbRoleSet_VnClass>(COMPARATOR)
 
         @JvmField
-        val RESOLVE_RESULT_STRINGIFIER  =  Function { r: PbVnClassResolved? ->
+        val RESOLVE_RESULT_STRINGIFIER  =  { r: PbVnClassResolved? ->
             if (r == null) "NULL,NULL" else "${r.first},${r.second}"
         }
 

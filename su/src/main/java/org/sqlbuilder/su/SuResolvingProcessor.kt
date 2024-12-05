@@ -52,7 +52,7 @@ open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
                 val term = iterator.next()
                 val isLast = !iterator.hasNext()
                 val row = term.dataRow()
-                val wordId = wordResolver.apply(term.term.lowercase())
+                val wordId = wordResolver.invoke(term.term.lowercase())
                 ps.println("($row,${nullableInt(wordId)})${if (isLast) ";" else ","}")
             }
         }
@@ -68,7 +68,7 @@ open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
                 val term = iterator.next()
                 val isLast = !iterator.hasNext()
                 val row = term.dataRow()
-                val wordId = wordResolver.apply(term.term.lowercase())
+                val wordId = wordResolver.invoke(term.term.lowercase())
                 ps.println("($row,${nullableInt(wordId)})${if (isLast) ";" else ","}")
 
                 val termid = term.resolve()
@@ -105,7 +105,7 @@ open class SuResolvingProcessor(conf: Properties) : SuProcessor(conf) {
                 var resolvedSynsetId: Int? = null
                 if (synset31Id != null) {
                     val synsetId = "${"%08d".format(synset31Id)}-$posId"
-                    resolvedSynsetId = synsetResolver.apply(synsetId)
+                    resolvedSynsetId = synsetResolver.invoke(synsetId)
                 }
                 val comment = map.comment()
                 ps.println("($row,${nullableInt(resolvedSynsetId)})${if (isLast) ";" else ","} -- $comment")

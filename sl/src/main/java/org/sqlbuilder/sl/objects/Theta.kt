@@ -16,7 +16,7 @@ class Theta private constructor(
 
     @RequiresIdFrom(type = Theta::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y
@@ -57,7 +57,7 @@ class Theta private constructor(
 
         @RequiresIdFrom(type = Theta::class)
         fun getIntId(theta: Theta?): Int? {
-            return if (theta == null) null else COLLECTOR.apply(theta)
+            return if (theta == null) null else COLLECTOR.invoke(theta)
         }
 
         private fun normalize(thetaName: String): String {

@@ -24,7 +24,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y
@@ -84,7 +84,7 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
         @Suppress("unused")
         @RequiresIdFrom(type = RoleSet::class)
         fun getIntId(roleset: RoleSet): Int {
-            return COLLECTOR.apply(roleset)
+            return COLLECTOR.invoke(roleset)
         }
     }
 }

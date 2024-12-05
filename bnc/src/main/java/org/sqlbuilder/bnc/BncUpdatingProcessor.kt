@@ -57,7 +57,7 @@ class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
     }
 
     private fun updateRow(ps: PrintStream, table: String, index: Int, bncRecord: BncRecord, vararg columns: String) {
-        val wordid: Int? = wordResolver.apply(bncRecord.word)
+        val wordid: Int? = wordResolver.invoke(bncRecord.word)
         if (wordid != null) {
             val setClause = "${columns[0]}=$wordid"
             val whereClause = "${columns[1]}=${quote(escape(bncRecord.word))}"

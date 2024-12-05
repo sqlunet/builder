@@ -46,8 +46,8 @@ class SnUpdatingProcessor(
     }
 
     private fun updateRow(ps: PrintStream, table: String?, index: Int, collocation: Collocation, vararg columns: String?) {
-        val r1 = senseResolver.apply(collocation.sensekey1!!)
-        val r2 = senseResolver.apply(collocation.sensekey2!!)
+        val r1 = senseResolver.invoke(collocation.sensekey1!!)
+        val r2 = senseResolver.invoke(collocation.sensekey2!!)
         if (r1 != null && r2 != null) {
             val setClause = "${columns[0]}=${nullableInt(r1.first)},${columns[1]}=${nullableInt(r1.second)},${columns[2]}=${nullableInt(r2.first)},${columns[3]}=${nullableInt(r2.second)}"
             val whereClause = "${columns[4]}=${quote(escape(collocation.sensekey1!!))} AND ${columns[5]}=${quote(escape(collocation.sensekey2!!))}"

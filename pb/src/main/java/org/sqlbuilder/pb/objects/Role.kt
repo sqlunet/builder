@@ -31,7 +31,7 @@ class Role private constructor(
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I D E N T I T Y
@@ -95,7 +95,7 @@ class Role private constructor(
         @Suppress("unused")
         @RequiresIdFrom(type = Role::class)
         fun getIntId(role: Role): Int {
-            return COLLECTOR.apply(role)
+            return COLLECTOR.invoke(role)
         }
     }
 }

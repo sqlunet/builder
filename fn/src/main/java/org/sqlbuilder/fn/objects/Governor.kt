@@ -22,7 +22,7 @@ class Governor private constructor(
 
     @RequiresIdFrom(type = Governor::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     // I N S E R T

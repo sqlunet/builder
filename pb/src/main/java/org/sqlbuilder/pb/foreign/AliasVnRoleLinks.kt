@@ -11,7 +11,7 @@ class AliasVnRoleLinks private constructor(
 
     @RequiresIdFrom(type = AliasVnRoleLinks::class)
     override fun getIntId(): Int {
-        return COLLECTOR.apply(this)
+        return COLLECTOR.invoke(this)
     }
 
     companion object {
@@ -28,7 +28,7 @@ class AliasVnRoleLinks private constructor(
         @Suppress("unused")
         @RequiresIdFrom(type = AliasVnRoleLinks::class)
         fun getIntId(links: AliasVnRoleLinks): Int {
-            return COLLECTOR.apply(links)
+            return COLLECTOR.invoke(links)
         }
     }
 }

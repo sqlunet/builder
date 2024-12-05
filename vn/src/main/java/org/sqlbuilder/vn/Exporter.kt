@@ -146,7 +146,7 @@ class Exporter
      */
     fun makeWordMap(): Map<String, Int> {
         return Word.COLLECTOR
-            .associate { it.word to Word.COLLECTOR.apply(it) }
+            .associate { it.word to Word.COLLECTOR.invoke(it) }
             .toSortedMap()
     }
 
@@ -157,7 +157,7 @@ class Exporter
      */
     fun makeClassesMap(): Map<String, Int> {
         return VnClass.COLLECTOR
-            .associate { it.name to VnClass.COLLECTOR.apply(it) }
+            .associate { it.name to VnClass.COLLECTOR.invoke(it) }
             .toSortedMap()
     }
 
@@ -168,7 +168,7 @@ class Exporter
      */
     fun makeClassTagsMap(): Map<String, Int> {
         return VnClass.COLLECTOR
-            .associate { it.tag to VnClass.COLLECTOR.apply(it) }
+            .associate { it.tag to VnClass.COLLECTOR.invoke(it) }
             .toSortedMap()
     }
 
@@ -179,7 +179,7 @@ class Exporter
      */
     fun makeRoleTypesMap(): Map<String, Int> {
         return RoleType.COLLECTOR
-            .associate { it.type to RoleType.COLLECTOR.apply(it) }
+            .associate { it.type to RoleType.COLLECTOR.invoke(it) }
             .toSortedMap()
     }
 

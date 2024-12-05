@@ -18,7 +18,7 @@ object FrameRelation {
 
     @RequiresIdFrom(type = FrameRelation::class)
     fun getIntId(value: String?): Int? {
-        return if (value == null) null else COLLECTOR.apply(value)
+        return if (value == null) null else COLLECTOR.invoke(value)
     }
 
     @JvmStatic

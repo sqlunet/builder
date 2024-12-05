@@ -18,7 +18,7 @@ object Status {
 
     @RequiresIdFrom(type = Status::class)
     fun getIntId(value: String?): Int? {
-        return if (value == null) null else COLLECTOR.apply(value)
+        return if (value == null) null else COLLECTOR.invoke(value)
     }
 
     @RequiresIdFrom(type = Status::class)

@@ -47,9 +47,9 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     }
 
     private fun updateWordSenseRow(ps: PrintStream, table: String, index: Int, entry: PmEntry, vararg columns: String) {
-        val wordid = wordResolver.apply(entry.word!!)
+        val wordid = wordResolver.invoke(entry.word!!)
         val wordResolved = nullableInt(wordid)
-        val sk = sensekeyResolver.apply(entry.sensekey!!)
+        val sk = sensekeyResolver.invoke(entry.sensekey!!)
         val senseResolved = nullable(sk) { nullableInt(it.second) }
 
         val setClause = "${columns[0]}=$wordResolved,${columns[1]}=$senseResolved"
@@ -58,12 +58,12 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     }
 
     private fun updateVnPbFnRow(ps: PrintStream, table: String, index: Int, entry: PmEntry, vararg columns: String) {
-        val vnWordid = vnWordResolver.apply(entry.word!!)
-        val pbWordid = pbWordResolver.apply(entry.word!!)
-        val fnWordid = fnWordResolver.apply(entry.word!!)
-        val vn = vnRoleResolver.apply(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
-        val pb = pbRoleResolver.apply(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
-        val fn = fnRoleResolver.apply(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
+        val vnWordid = vnWordResolver.invoke(entry.word!!)
+        val pbWordid = pbWordResolver.invoke(entry.word!!)
+        val fnWordid = fnWordResolver.invoke(entry.word!!)
+        val vn = vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
+        val pb = pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
+        val fn = fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
 
         val setClause =
             "${columns[0]}=${nullableInt(vnWordid)},${columns[1]}=${nullableInt(pbWordid)},${columns[2]}=${nullableInt(fnWordid)},${columns[3]}=${nullable(vn) { nullableInt(it.first) }},${columns[4]}=${nullable(vn) { nullableInt(it.second) }},${columns[5]}=${
