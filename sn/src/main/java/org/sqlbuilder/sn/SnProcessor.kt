@@ -33,9 +33,9 @@ open class SnProcessor(
     @JvmField
     protected var outDir: File = File(conf.getProperty("sn_outdir", "sql/data"))
 
-    private var toSenseKeys = SnWordPosOffsetResolver(conf.getProperty("to_sensekeys"))
+    private var toSenseKeys = SnLemmaPosOffsetResolver(conf.getProperty("to_sensekeys"))
 
-    protected val sensekeyResolver = { lpo: SnWordPosOffsetResolvable -> toSenseKeys.apply(lpo) }
+    protected val sensekeyResolver = { lpo: SnLemmaPosOffsetResolvable -> toSenseKeys.apply(lpo) }
 
     init {
         if (!this.outDir.exists()) {

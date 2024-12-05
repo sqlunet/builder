@@ -5,7 +5,10 @@ import org.sqlbuilder.common.ParseException
 import java.io.Serializable
 import kotlin.Throws
 
-class SynsetToSynsetMapping(val from: Long, val to: Long) : Insertable, Serializable {
+data class SynsetToSynsetMapping(
+    val from: Long,
+    val to: Long
+) : Insertable, Serializable {
 
     override fun dataRow(): String {
         return "$from,$to"

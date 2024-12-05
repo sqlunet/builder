@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.common.ParseException
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
-import org.sqlbuilder.sn.SnWordPosOffsetResolvable
+import org.sqlbuilder.sn.SnLemmaPosOffsetResolvable
 import org.sqlbuilder.sn.SnSensekeyResolvable
 import org.sqlbuilder.sn.SnSensekeyResolved
 import java.util.function.Function
@@ -38,8 +38,8 @@ class Collocation private constructor(
 
     // R E S O L V E
 
-    fun resolveOffsets(skResolver: Function<SnWordPosOffsetResolvable, String?>): Boolean {
-        val sk1 = skResolver.apply(SnWordPosOffsetResolvable(word1, pos1, offset1))
+    fun resolveOffsets(skResolver: Function<SnLemmaPosOffsetResolvable, String?>): Boolean {
+        val sk1 = skResolver.apply(SnLemmaPosOffsetResolvable(word1, pos1, offset1))
         val resolved1 = sk1 != null
         if (!resolved1) {
             println("[RK] $word1 $pos1 $offset1")
@@ -47,7 +47,7 @@ class Collocation private constructor(
         if (resolved1) {
             sensekey1 = sk1
         }
-        val sk2 = skResolver.apply(SnWordPosOffsetResolvable(word2, pos2, offset2))
+        val sk2 = skResolver.apply(SnLemmaPosOffsetResolvable(word2, pos2, offset2))
         val resolved2 = sk2 != null
         if (!resolved2) {
             println("[RK] $word2, $pos2, $offset2")

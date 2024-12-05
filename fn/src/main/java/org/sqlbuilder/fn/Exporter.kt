@@ -148,7 +148,6 @@ class Exporter(
             .asSequence()
             .map { it.iD to it.name }
             .toMap()
-
         return FE.SET
             .asSequence()
             .map { Pair(id2frame[it.frameID]!!, it.name) to Triple(it.iD, it.frameID, getIntId(it.name)!!) }
