@@ -3,23 +3,41 @@ package org.sqlbuilder.fn.joins
 import edu.berkeley.icsi.framenet.AnnoSetType
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
+import java.util.*
 
-class FEGroupPattern_AnnoSet private constructor(
-    pattern: FEGroupPattern,
-    annosetid: Int,
-) : Pair<FEGroupPattern, Int>(pattern, annosetid), Insertable {
+data class FEGroupPattern_AnnoSet(
+    val pattern: FEGroupPattern,
+    val annosetid: Int,
+) : Insertable {
 
     // I N S E R T A B L E
 
     @RequiresIdFrom(type = FEGroupPattern::class)
     override fun dataRow(): String {
-        return "${first.getSqlId()},$second"
+        return "${pattern.getSqlId()},$annosetid"
+    }
+
+    // I D E N T I T Y
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FEGroupPattern_AnnoSet
+        return pattern == that.pattern && annosetid == that.annosetid
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(pattern, annosetid)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return "[PAT-AS pattern=$first annosetid=$second]"
+        return "[PAT-AS pattern=$pattern annosetid=$annosetid]"
     }
 
     companion object {

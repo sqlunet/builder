@@ -2,34 +2,52 @@ package org.sqlbuilder.fn.joins
 
 import edu.berkeley.icsi.framenet.SemTypeRefType
 import org.sqlbuilder.common.Insertable
+import java.util.*
 
-class LexUnit_SemType private constructor(
-    luid: Int, semtypeid: Int,
-) : Pair<Int, Int>(luid, semtypeid), Insertable {
+data class LexUnit_SemType(
+    val luid: Int,
+    val semtypeid: Int,
+) : Insertable {
 
     // I N S E R T
 
     override fun dataRow(): String {
-        return "$first,$second"
+        return "$luid,$semtypeid"
+    }
+
+    // I D E N T I T Y
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as LexUnit_SemType
+        return luid == that.luid && semtypeid == that.semtypeid
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(luid, semtypeid)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return "[LU-SEM luid=$first semtypeid=$second]"
+        return "[LU-SEM luid=$luid semtypeid=$semtypeid]"
     }
 
     companion object {
 
         @JvmField
         val COMPARATOR: Comparator<LexUnit_SemType> = Comparator
-            .comparing<LexUnit_SemType, Int> { it.first }
-            .thenComparing<Int> { it.second }
+            .comparing<LexUnit_SemType, Int> { it.luid }
+            .thenComparing<Int> { it.semtypeid }
 
         @JvmField
         val SET = HashSet<LexUnit_SemType>()
 
-        // C O N S T R U C T O R
         @JvmStatic
         fun make(luid: Int, semtype: SemTypeRefType): LexUnit_SemType {
             val ut = LexUnit_SemType(luid, semtype.getID())

@@ -6,28 +6,46 @@ import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.fn.types.FrameRelation
 import org.sqlbuilder.fn.types.FrameRelation.add
 import org.sqlbuilder.fn.types.FrameRelation.getSqlId
+import java.util.*
 
-class Frame_FrameRelated private constructor(
-    frameid: Int,
-    frame2id: Int,
+data class Frame_FrameRelated(
+    val frameid: Int,
+    val frame2id: Int,
     val relation: String,
-) : Pair<Int, Int>(frameid, frame2id), Insertable {
+) : Insertable {
 
     // I N S E R T
 
     @RequiresIdFrom(type = FrameRelation::class)
     override fun dataRow(): String {
-        return "$first,$second,${getSqlId(relation)}"
+        return "$frameid,$frame2id,${getSqlId(relation)}"
     }
 
     override fun comment(): String {
         return "rel=$relation"
     }
 
+    // I D E N T I T Y
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Frame_FrameRelated
+        return frameid == that.frameid && frame2id == that.frame2id
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(frameid, frame2id)
+    }
+
     // T O S T R I N G
 
     override fun toString(): String {
-        return "[relFR frameid=$first frame2id=$second type=$relation]"
+        return "[relFR frameid=$frameid frame2id=$frame2id type=$relation]"
     }
 
     companion object {
@@ -35,8 +53,8 @@ class Frame_FrameRelated private constructor(
         @JvmField
         val COMPARATOR: Comparator<Frame_FrameRelated> = Comparator
             .comparing<Frame_FrameRelated, String> { it.relation }
-            .thenComparing<Int> { it.first }
-            .thenComparing<Int> { it.second }
+            .thenComparing<Int> { it.frameid }
+            .thenComparing<Int> { it.frame2id }
 
         @JvmField
         val SET = HashSet<Frame_FrameRelated>()

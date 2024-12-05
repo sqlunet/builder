@@ -4,36 +4,52 @@ import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.fn.objects.FERealization
 import org.sqlbuilder.fn.objects.ValenceUnit
+import java.util.Objects
 
-class FEPattern private constructor(
-    fer: FERealization, vu: ValenceUnit,
-) : Pair<FERealization, ValenceUnit>(fer, vu), Insertable {
-
-    val fer: FERealization
-        get() = first
+data class FEPattern(
+    val fer: FERealization,
+    val vu: ValenceUnit,
+) : Insertable {
 
     val feName: String
-        get() = first.fEName
+        get() = fer.fEName
 
     val luId: Int
-        get() = first.luId
+        get() = fer.luId
 
     // I N S E R T
 
     @RequiresIdFrom(type = FERealization::class)
     @RequiresIdFrom(type = ValenceUnit::class)
     override fun dataRow(): String {
-        return "${first.getSqlId()},${second.getSqlId()}"
+        return "${fer.getSqlId()},${vu.getSqlId()}"
     }
 
     override fun comment(): String {
-        return "luid=${first.luId},fe=${first.fEName},vu={${second.fE},${second.pT},${second.gF}}"
+        return "luid=${fer.luId},fe=${fer.fEName},vu={${vu.fE},${vu.pT},${vu.gF}}"
+    }
+
+    // I D E N T I T Y
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as FEPattern
+        return fer == that.fer && vu == that.vu
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(fer, vu)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return "[FER-VU fer=$first vu=$second]"
+        return "[FER-VU fer=$fer vu=$vu]"
     }
 
     companion object {
@@ -42,7 +58,7 @@ class FEPattern private constructor(
         val COMPARATOR: Comparator<FEPattern> = Comparator
             .comparing<FEPattern, Int> { it.luId }
             .thenComparing<String> { it.feName }
-            .thenComparing<ValenceUnit> { it.second }
+            .thenComparing<ValenceUnit> { it.vu }
 
         @JvmField
         val SET = HashSet<FEPattern>()

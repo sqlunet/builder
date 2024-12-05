@@ -3,30 +3,49 @@ package org.sqlbuilder.fn.joins
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.fn.objects.Governor
+import java.util.*
 
-class LexUnit_Governor private constructor(
-    luid: Int, governor: Governor,
-) : Pair<Int, Governor>(luid, governor), Insertable {
+data class LexUnit_Governor(
+    val luid: Int,
+    val governor: Governor,
+) : Insertable {
 
     // I N S E R T
 
     @RequiresIdFrom(type = Governor::class)
     override fun dataRow(): String {
-        return "$first,${second.getSqlId()}"
+        return "$luid,${governor.getSqlId()}"
+    }
+
+    // I D E N T I T Y
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as LexUnit_Governor
+        return luid == that.luid && governor == that.governor
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(luid, governor)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return "[LU-GOV lu=$first governor=$second]"
+        return "[LU-GOV lu=$luid governor=$governor]"
     }
 
     companion object {
 
         @JvmField
         val COMPARATOR: Comparator<LexUnit_Governor> = Comparator
-            .comparing<LexUnit_Governor, Int> { it.first }
-            .thenComparing<Governor>({ it.second }, Governor.COMPARATOR)
+            .comparing<LexUnit_Governor, Int> { it.luid }
+            .thenComparing<Governor>({ it.governor }, Governor.COMPARATOR)
 
         @JvmField
         val SET = HashSet<LexUnit_Governor>()

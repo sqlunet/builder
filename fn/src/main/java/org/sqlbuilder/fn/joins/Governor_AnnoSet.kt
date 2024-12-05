@@ -4,31 +4,49 @@ import edu.berkeley.icsi.framenet.AnnoSetType
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.Insertable
 import org.sqlbuilder.fn.objects.Governor
+import java.util.*
 
-class Governor_AnnoSet private constructor(
-    governor: Governor,
-    annosetid: Int,
-) : Pair<Governor, Int>(governor, annosetid), Insertable {
+data class Governor_AnnoSet(
+    val governor: Governor,
+    val annosetid: Int,
+) : Insertable {
 
     // I N S E R T
 
     @RequiresIdFrom(type = Governor::class)
     override fun dataRow(): String {
-        return "${first.getSqlId()},$second"
+        return "${governor.getSqlId()},$annosetid"
+    }
+
+    // I D E N T I T Y
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+        val that = o as Governor_AnnoSet
+        return governor == that.governor && annosetid == that.annosetid
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(governor, annosetid)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return "[GOV-AS governor=$first annosetid=$second]"
+        return "[GOV-AS governor=$governor annosetid=$annosetid]"
     }
 
     companion object {
 
         @JvmField
         val COMPARATOR: Comparator<Governor_AnnoSet> = Comparator
-            .comparing<Governor_AnnoSet, Governor>({ it.first }, Governor.COMPARATOR)
-            .thenComparing<Int> { it.second }
+            .comparing<Governor_AnnoSet, Governor>({ it.governor }, Governor.COMPARATOR)
+            .thenComparing<Int> { it.annosetid }
 
         @JvmField
         val SET = HashSet<Governor_AnnoSet>()
