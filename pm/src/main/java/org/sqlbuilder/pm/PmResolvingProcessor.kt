@@ -88,17 +88,17 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                 Insert.insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
                     ps.println("-- $header")
-                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), BiConsumer { entry: PmEntry?, i: Int? ->
-                        val wordid = wordResolver.apply(entry!!.word!!)
+                    processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true), BiConsumer { entry: PmEntry, i: Int ->
+                        val wordid = wordResolver.apply(entry.word!!)
                         val sk = sensekeyResolver.apply(entry.sensekey!!)
 
                         val vnWordid = vnWordResolver.apply(entry.word!!)
-                        val vn = vnRoleResolver.apply(Pair(entry.vn.clazz!!, entry.vn.role!!))
+                        val vn = vnRoleResolver.apply(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
                         val pbWordid = pbWordResolver.apply(entry.word!!)
-                        val pb = pbRoleResolver.apply(Pair(entry.pb.roleset!!, entry.pb.arg!!))
+                        val pb = pbRoleResolver.apply(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
                         val fnWordid = fnWordResolver.apply(entry.word!!)
-                        val fn = fnRoleResolver.apply(Pair(entry.fn.frame!!, entry.fn.fetype!!))
-                        val fnLu = fnLexUnitResolver.apply(Pair(entry.fn.frame!!, entry.fn.lu!!))
+                        val fn = fnRoleResolver.apply(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
+                        val fnLu = fnLexUnitResolver.apply(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
 
                         val wordResolved = nullableInt(wordid)
                         val senseResolved = if (sk == null) "NULL" else nullableInt(sk.second)

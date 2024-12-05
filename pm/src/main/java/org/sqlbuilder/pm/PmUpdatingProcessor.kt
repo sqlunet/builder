@@ -62,9 +62,9 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
         val vnWordid = vnWordResolver.apply(entry.word!!)
         val pbWordid = pbWordResolver.apply(entry.word!!)
         val fnWordid = fnWordResolver.apply(entry.word!!)
-        val vn = vnRoleResolver.apply(Pair(entry.vn.clazz!!, entry.vn.role!!))
-        val pb = pbRoleResolver.apply(Pair(entry.pb.roleset!!, entry.pb.arg!!))
-        val fn = fnRoleResolver.apply(Pair(entry.fn.frame!!, entry.fn.fetype!!))
+        val vn = vnRoleResolver.apply(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
+        val pb = pbRoleResolver.apply(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
+        val fn = fnRoleResolver.apply(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
 
         val setClause = "${columns[0]}=${nullableInt(vnWordid)},${columns[1]}=${nullableInt(pbWordid)},${columns[2]}=${nullableInt(fnWordid)},${columns[3]}=${nullable(vn) { nullableInt(it.first) }},${columns[4]}=${nullable(vn) { nullableInt(it.second) }},${columns[5]}=${nullable(pb) { nullableInt(it.first) }},${columns[6]}=${nullable(pb) { nullableInt(it.second) }},${columns[7]}=${nullable(fn) { nullableInt(it.first) }},${columns[8]}=${nullable(fn) { nullableInt(it.second) }},${columns[9]}=${nullable(fn) { nullableInt(it.third) }}"
         val whereClause = "${columns[10]}=${nullable(entry.word) { quote(escape(it)) }} AND ${columns[11]}=${nullable(entry.vn.clazz) { quote(escape(it)) }} AND ${columns[12]}=${nullable(entry.vn.role) { quote(escape(it)) }} AND ${columns[13]}=${nullable(entry.pb.roleset) { quote(escape(it)) }} AND ${columns[14]}=${nullable(entry.pb.arg) { quote(escape(it)) }} AND ${columns[15]}=${nullable(entry.fn.frame) { quote(escape(it)) }} AND ${columns[16]}=${nullable(entry.fn.fetype) { quote(escape(it)) }}"
