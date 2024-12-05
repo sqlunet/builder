@@ -2,8 +2,10 @@ package org.sqlbuilder.pm.objects
 
 import org.sqlbuilder.common.Resolvable
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
+import org.sqlbuilder.pm.PmFnRoleAndLuResolvable
+import org.sqlbuilder.pm.PmFnRoleAndLuResolved
 
-class FnRoleAlias : Resolvable<Triple<String, String, String>, Triple<Int, Int, Int>> {
+class FnRoleAlias : Resolvable<PmFnRoleAndLuResolvable, PmFnRoleAndLuResolved> {
 
     @JvmField
     var frame: String? = null
@@ -18,7 +20,7 @@ class FnRoleAlias : Resolvable<Triple<String, String, String>, Triple<Int, Int, 
         return "${nullableQuotedEscapedString(frame)},${nullableQuotedEscapedString(fetype)},${nullableQuotedEscapedString(lu)}"
     }
 
-    override fun resolving(): Triple<String, String, String> {
-        return Triple(frame!!, fetype!!, lu!!)
+    override fun resolving(): PmFnRoleAndLuResolvable {
+        return PmFnRoleAndLuResolvable(frame!!, fetype!!, lu!!)
     }
 }
