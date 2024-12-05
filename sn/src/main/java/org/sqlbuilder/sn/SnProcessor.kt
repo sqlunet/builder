@@ -9,7 +9,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.BiConsumer
 
 open class SnProcessor(
     conf: Properties,
@@ -59,7 +58,7 @@ open class SnProcessor(
     }
 
     @Throws(IOException::class)
-    protected fun process(file: File, producer: (String) -> Collocation, consumer: BiConsumer<Collocation, Int>) {
+    protected fun process(file: File, producer: (String) -> Collocation, consumer: (Collocation, Int) -> Unit) {
         file.useLines { lines ->
             var count0 = 0
             var count1 = 0
@@ -83,7 +82,7 @@ open class SnProcessor(
                 .filter { it.resolveOffsets(sensekeyResolver) }
                 .sortedWith(COMPARATOR)
                 .forEach {
-                    consumer.accept(it, count0)
+                    consumer.invoke(it, count0)
                     count0++
                 }
         }

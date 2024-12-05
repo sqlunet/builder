@@ -11,7 +11,6 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
-import java.util.function.BiConsumer
 
 class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     init {
