@@ -32,7 +32,7 @@ class Main {
             "fn",
             "pm",
             "su",
-            "leg",
+            "legacy",
         )
 
         fun run0(module: String, args: Array<String>) {
@@ -45,7 +45,7 @@ class Main {
                 "fn"  -> FnModule.main(args)
                 "pm"  -> PmModule.main(args)
                 "su"  -> SuModule.main(args)
-                "leg" -> LegacyModule.main(args)
+                "legacy" -> LegacyModule.main(args)
                 else  -> {}
             }
         }
@@ -66,7 +66,7 @@ class Main {
                 ops.forEach { o ->
                     val args = if ("all" == o) arrayOf("-data", "-resolve", "-update", "-export") else arrayOf(o)
                     args.forEach {
-                        run(m, if ("-data" == it) arrayOf("$m/$m.properties") else arrayOf(it, "$m/$m.properties"))
+                        run(m, if ("-data" == it) arrayOf("$m.properties") else arrayOf(it, "$m.properties"))
                     }
                 }
             }
