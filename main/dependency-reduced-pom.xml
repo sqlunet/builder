@@ -11,7 +11,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -26,20 +26,42 @@
                   </manifestEntries>
                   <mainClass>org.sqlbuilder.Main</mainClass>
                 </transformer>
+                <transformer>
+                  <resource>bnc.properties</resource>
+                  <file>${project.parent.basedir}/bnc/bnc.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>sn.properties</resource>
+                  <file>${project.parent.basedir}/sn/sn.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>vn.properties</resource>
+                  <file>${project.parent.basedir}/vn/vn.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>pb.properties</resource>
+                  <file>${project.parent.basedir}/pb/pb.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>sl.properties</resource>
+                  <file>${project.parent.basedir}/sl/sl.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>pm.properties</resource>
+                  <file>${project.parent.basedir}/pm/pm.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>su.properties</resource>
+                  <file>${project.parent.basedir}/su/su.properties</file>
+                </transformer>
+                <transformer>
+                  <resource>legacy.properties</resource>
+                  <file>${project.parent.basedir}/legacy/legacy.properties</file>
+                </transformer>
               </transformers>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
-                  <includes>
-                    <include>bnc/bnc.properties</include>
-                    <include>sn/sn.properties</include>
-                    <include>vn/vn.properties</include>
-                    <include>pb/pb.properties</include>
-                    <include>sl/sl.properties</include>
-                    <include>pm/pm.properties</include>
-                    <include>su/su.properties</include>
-                    <include>legacy/legacy.properties</include>
-                  </includes>
                   <excludes>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                   </excludes>

@@ -18,8 +18,8 @@
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
-    
-   <dependency>
+
+    <dependency>
       <groupId>org.sqlbuilder2</groupId>
       <artifactId>vn</artifactId>
       <version>1.0.0</version>
@@ -95,7 +95,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -110,20 +110,42 @@
                   </manifestEntries>
                   <mainClass>org.sqlbuilder.Main</mainClass>
                 </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>bnc.properties</resource>
+                  <file>${project.parent.basedir}/bnc/bnc.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>sn.properties</resource>
+                  <file>${project.parent.basedir}/sn/sn.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>vn.properties</resource>
+                  <file>${project.parent.basedir}/vn/vn.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>pb.properties</resource>
+                  <file>${project.parent.basedir}/pb/pb.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>sl.properties</resource>
+                  <file>${project.parent.basedir}/sl/sl.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>pm.properties</resource>
+                  <file>${project.parent.basedir}/pm/pm.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>su.properties</resource>
+                  <file>${project.parent.basedir}/su/su.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>legacy.properties</resource>
+                  <file>${project.parent.basedir}/legacy/legacy.properties</file>
+                </transformer>
               </transformers>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
-                  <includes>
-                    <include>bnc/bnc.properties</include>
-                    <include>sn/sn.properties</include>
-                    <include>vn/vn.properties</include>
-                    <include>pb/pb.properties</include>
-                    <include>sl/sl.properties</include>
-                    <include>pm/pm.properties</include>
-                    <include>su/su.properties</include>
-                    <include>legacy/legacy.properties</include>
-                  </includes>
                   <excludes>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                   </excludes>
