@@ -1,14 +1,13 @@
 /target/
-/data/
-/sers/
-/sers
-/sers31/
-/sers31
+/data*/
+/data*
+/sers*/
+/sers*
 /resources/
 
-/dist/mysql/
 /dist/wn*/
 /dist/oewn*/
+
 /dist/doc/cases
 /dist/doc/pages
 /dist/doc/schemas
@@ -25,14 +24,5 @@
 /dist/doc/site/sql/
 /dist/doc/site/*.pdf
 /dist/test_*
-/bnc/bnc0.sqlite
-/fn/fn0.sqlite
-/pb/pb0.sqlite
-/pm/pm0.sqlite
-/sl/sl0.sqlite
-/sn/sn0.sqlite
-/vn/vn0.sqlite
-/queries/out/
-/querybuilder-gradle/dummy/build/
-/querybuilder/target/
-/querybuilder-gradle/target/
+
+/**/*.sqlite

@@ -10,7 +10,629 @@
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.pb.collectors.PbCollector conf" />
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.pm.PmProcessor conf" />
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.sn.SnProcessor conf" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pb.foreign.RoleSetTo COMPARATOR" />
+      <entry_point TYPE="field" FQNAME="og.sqlbuilder.sumo.TestUtils OUT_INFO" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.su.SuProcessor resolve" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.Normalizer SQLS_LENGTH" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.su.objects.Term wellKnownTerms" />
     </entry_points>
+    <pattern value="org.sqlbuilder.fn.types.GfType" method="add" />
+    <pattern value="org.sqlbuilder.fn.types.PtType" method="add" />
+    <pattern value="org.sqlbuilder.fn.types.Status" method="add" />
+    <pattern value="org.sqlbuilder.pb.foreign.AliasRoleLinks" />
+    <pattern value="org.sqlbuilder.common.AlreadyFoundException" />
+    <pattern value="org.sqlbuilder.common.AlreadyFoundException" method="AlreadyFoundException" />
+    <pattern value="org.sqlbuilder.fn.objects.AnnotationSet" />
+    <pattern value="org.sqlbuilder.fn.objects.AnnotationSet" method="AnnotationSet" />
+    <pattern value="org.sqlbuilder.bnc.objects.BncExtendedRecord" />
+    <pattern value="org.sqlbuilder.bnc.objects.BncExtendedRecord" method="BncExtendedRecord" />
+    <pattern value="org.sqlbuilder.bnc.BncModule" />
+    <pattern value="org.sqlbuilder.bnc.objects.BncRecord" />
+    <pattern value="org.sqlbuilder.bnc.objects.BncRecord" method="BncRecord" />
+    <pattern value="org.sqlbuilder.bnc.BncResolvingProcessor" />
+    <pattern value="org.sqlbuilder.bnc.BncResolvingProcessor" method="BncResolvingProcessor" />
+    <pattern value="org.sqlbuilder.bnc.BncUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.bnc.BncUpdatingProcessor" method="BncUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.bnc.BncWordResolver" />
+    <pattern value="org.sqlbuilder.bnc.BncWordResolver" method="BncWordResolver" />
+    <pattern value="org.sqlbuilder.vn.joins.Class_Frame" />
+    <pattern value="org.sqlbuilder.vn.joins.Class_Frame" method="Class_Frame" />
+    <pattern value="org.sqlbuilder.vn.joins.Class_Word" />
+    <pattern value="org.sqlbuilder.vn.joins.Class_Word" method="Class_Word" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="cleanup" />
+    <pattern value="org.sqlbuilder.sn.objects.Collocation" />
+    <pattern value="org.sqlbuilder.sn.objects.Collocation" method="Collocation" />
+    <pattern value="org.sqlbuilder.common.CombinedResolver" />
+    <pattern value="org.sqlbuilder.common.CombinedResolver" method="CombinedResolver" />
+    <pattern value="og.sqlbuilder.sumo.KbLoaderExtension.Companion" />
+    <pattern value="og.sqlbuilder.sumo.TestDump.Companion" />
+    <pattern value="og.sqlbuilder.sumo.TestMappings.Companion" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor.Companion" />
+    <pattern value="og.sqlbuilder.sumo.TestWordResolver.Companion" />
+    <pattern value="org.sqlbuilder.bnc.BncModule.Companion" />
+    <pattern value="org.sqlbuilder.bnc.objects.BncExtendedRecord.Companion" />
+    <pattern value="org.sqlbuilder.bnc.objects.BncRecord.Companion" />
+    <pattern value="org.sqlbuilder.common.Module.Companion" />
+    <pattern value="org.sqlbuilder.common.Module.Mode.Companion" />
+    <pattern value="org.sqlbuilder.common.SchemaGenerator.Companion" />
+    <pattern value="org.sqlbuilder.common.TestVariables.Companion" />
+    <pattern value="org.sqlbuilder.common.TestXPath.Companion" />
+    <pattern value="org.sqlbuilder.common.Variables.Companion" />
+    <pattern value="org.sqlbuilder.common.XmlDocument.Companion" />
+    <pattern value="org.sqlbuilder.common.XmlProcessor.Companion" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnEnumCollector.Companion" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFEXmlProcessor.Companion" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFrameXmlProcessor.Companion" />
+    <pattern value="org.sqlbuilder.fn.Exporter.Companion" />
+    <pattern value="org.sqlbuilder.fn.FnModule.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FEExcluded.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FEGroupRealization.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FERequired.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_SemType.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern_AnnoSet.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern_FEPattern.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.FEPattern.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_CoreFEMember.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_FrameRelated.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_SemType.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.Governor_AnnoSet.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.LexUnit_Governor.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.LexUnit_SemType.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.SemType_SemTypeSuper.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.SubCorpus_Sentence.Companion" />
+    <pattern value="org.sqlbuilder.fn.joins.ValenceUnit_AnnoSet.Companion" />
+    <pattern value="org.sqlbuilder.fn.Normalizer.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.AnnotationSet.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Corpus.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Doc.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.FE.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.FEGroupRealization.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.FERealization.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Frame.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Governor.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Label.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Layer.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Lexeme.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.LexUnit.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.LexUnit.Definition.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.SemType.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Sentence.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.SubCorpus.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.ValenceUnit.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Word.Companion" />
+    <pattern value="org.sqlbuilder.fn.Presets.Companion" />
+    <pattern value="org.sqlbuilder.fn.Resources.Companion" />
+    <pattern value="org.sqlbuilder.fn.TestCollector.Companion" />
+    <pattern value="org.sqlbuilder.fn.types.Cxns.Companion" />
+    <pattern value="org.sqlbuilder.Main.Companion" />
+    <pattern value="org.sqlbuilder.pb.collectors.PbDocument.Companion" />
+    <pattern value="org.sqlbuilder.pb.Exporter.Companion" />
+    <pattern value="org.sqlbuilder.pb.foreign.AliasRoleLinks.Companion" />
+    <pattern value="org.sqlbuilder.pb.PbModule.Companion" />
+    <pattern value="org.sqlbuilder.pm.objects.PmEntry.Companion" />
+    <pattern value="org.sqlbuilder.pm.objects.PmPredicate.Companion" />
+    <pattern value="org.sqlbuilder.pm.objects.PmRole.Companion" />
+    <pattern value="org.sqlbuilder.pm.PmModule.Companion" />
+    <pattern value="org.sqlbuilder.pm.PmProcessor.Companion" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkDocument.Companion" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkProcessor.Companion" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor.Companion" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRole.Companion" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRole_VnRole.Companion" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRoleSet_VnClass.Companion" />
+    <pattern value="org.sqlbuilder.sl.foreign.VnRole.Companion" />
+    <pattern value="org.sqlbuilder.sl.objects.Predicate.Companion" />
+    <pattern value="org.sqlbuilder.sl.objects.Theta.Companion" />
+    <pattern value="org.sqlbuilder.sl.SlModule.Companion" />
+    <pattern value="org.sqlbuilder.sn.objects.Collocation.Companion" />
+    <pattern value="org.sqlbuilder.sn.SnModule.Companion" />
+    <pattern value="org.sqlbuilder.su.joins.Formula_Arg.Companion" />
+    <pattern value="org.sqlbuilder.su.Kb.Companion" />
+    <pattern value="org.sqlbuilder.su.objects.TermAttr.Companion" />
+    <pattern value="org.sqlbuilder.su.SuModule.Companion" />
+    <pattern value="org.sqlbuilder.vn.collector.VnCollector.Companion" />
+    <pattern value="org.sqlbuilder.vn.collector.VnExportCollector.Companion" />
+    <pattern value="org.sqlbuilder.vn.collector.VnRestrsXmlProcessor.Companion" />
+    <pattern value="org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor.Companion" />
+    <pattern value="org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor.Companion" />
+    <pattern value="org.sqlbuilder.vn.collector.VnUpdateCollector.Companion" />
+    <pattern value="org.sqlbuilder.vn.Exporter.Companion" />
+    <pattern value="org.sqlbuilder.vn.joins.Class_Frame.Companion" />
+    <pattern value="org.sqlbuilder.vn.joins.Class_Word.Companion" />
+    <pattern value="org.sqlbuilder.vn.joins.Frame_Example.Companion" />
+    <pattern value="org.sqlbuilder.vn.joins.Member_Grouping.Companion" />
+    <pattern value="org.sqlbuilder.vn.joins.Member_Sense.Companion" />
+    <pattern value="org.sqlbuilder.vn.joins.Predicate_Semantics.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Frame.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameExample.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameName.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameSubName.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Grouping.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Member.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Predicate.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.RestrainedRole.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Restrs.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.RestrType.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Role.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.RoleType.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Semantics.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Sense.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Sensekey.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Syntax.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.VnClass.Companion" />
+    <pattern value="org.sqlbuilder.vn.objects.Word.Companion" />
+    <pattern value="org.sqlbuilder.vn.VnDocument.Companion" />
+    <pattern value="org.sqlbuilder.vn.VnModule.Companion" />
+    <pattern value="org.sqlbuilder2.legacy.LegacyModule.Companion" />
+    <pattern value="org.sqlbuilder2.legacy.SensekeysTest.Companion" />
+    <pattern value="org.sqlbuilder2.legacy.SenseToSensekeyProcessor.Companion" />
+    <pattern value="org.sqlbuilder2.legacy.SynsetToSynsetMapping.Companion" />
+    <pattern value="org.sqlbuilder2.ser.TestSerialize.Companion" />
+    <pattern value="org.sqlbuilder.fn.objects.Corpus" />
+    <pattern value="org.sqlbuilder.fn.objects.Corpus" method="Corpus" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="create" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="create2" />
+    <pattern value="org.sqlbuilder.fn.types.Cxns" />
+    <pattern value="org.sqlbuilder.fn.types.Cxns" method="Cxns" />
+    <pattern value="org.sqlbuilder.fn.objects.LexUnit.Definition" />
+    <pattern value="org.sqlbuilder.fn.objects.LexUnit.Definition" method="Definition" />
+    <pattern value="org.sqlbuilder.common.DeSerialize" />
+    <pattern value="org.sqlbuilder2.ser.DeSerialize" />
+    <pattern value="org.sqlbuilder.common.DeSerializeNIDs" />
+    <pattern value="org.sqlbuilder.common.DeSerializeNIDs" method="deserializeNIDs" />
+    <pattern value="org.sqlbuilder.fn.objects.Doc" />
+    <pattern value="org.sqlbuilder.fn.objects.Doc" method="Doc" />
+    <pattern value="org.sqlbuilder.su.Dump" />
+    <pattern value="org.sqlbuilder.fn.Resources" method="dumpAll" />
+    <pattern value="org.sqlbuilder.fn.Resources" method="dumpKeys" />
+    <pattern value="org.sqlbuilder.fn.Resources" method="dumpRawKeys" />
+    <pattern value="org.sqlbuilder.su.Dump" method="dumpRelations" />
+    <pattern value="org.sqlbuilder.common.Variables.Companion" method="dumpVars" />
+    <pattern value="org.sqlbuilder.common.Variables" method="dumpVarsVals" />
+    <pattern value="org.sqlbuilder.common.Variables" method="export" />
+    <pattern value="org.sqlbuilder.fn.Exporter" />
+    <pattern value="org.sqlbuilder.pb.Exporter" />
+    <pattern value="org.sqlbuilder.vn.Exporter" />
+    <pattern value="org.sqlbuilder.fn.Exporter" method="Exporter" />
+    <pattern value="org.sqlbuilder.pb.Exporter" method="Exporter" />
+    <pattern value="org.sqlbuilder.vn.Exporter" method="Exporter" />
+    <pattern value="org.sqlbuilder.fn.objects.FE" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FEExcluded" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FEExcluded" method="FE_FEExcluded" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FEGroupRealization" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FEGroupRealization" method="FE_FEGroupRealization" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FERequired" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_FERequired" method="FE_FERequired" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_SemType" />
+    <pattern value="org.sqlbuilder.fn.joins.FE_SemType" method="FE_SemType" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern" method="FEGroupPattern" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern_AnnoSet" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern_AnnoSet" method="FEGroupPattern_AnnoSet" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern_FEPattern" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern_FEPattern" method="FEGroupPattern_FEPattern" />
+    <pattern value="org.sqlbuilder.fn.objects.FEGroupRealization" />
+    <pattern value="org.sqlbuilder.fn.objects.FEGroupRealization" method="FEGroupRealization" />
+    <pattern value="org.sqlbuilder.fn.joins.FEPattern" />
+    <pattern value="org.sqlbuilder.fn.joins.FEPattern" method="FEPattern" />
+    <pattern value="org.sqlbuilder.fn.objects.FERealization" />
+    <pattern value="org.sqlbuilder.fn.objects.FERealization" method="FERealization" />
+    <pattern value="org.sqlbuilder.fn.types.FeType" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnEnumCollector" />
+    <pattern value="org.sqlbuilder.pb.FnFeResolver" />
+    <pattern value="org.sqlbuilder.pb.FnFeResolver" method="FnFeResolver" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFEXmlProcessor" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFrameCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFrameCollector" method="FnFrameCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFrameExportCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFrameExportCollector" method="FnFrameExportCollector" />
+    <pattern value="org.sqlbuilder.pb.FnFrameResolver" />
+    <pattern value="org.sqlbuilder.pb.FnFrameResolver" method="FnFrameResolver" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFrameXmlProcessor" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFullTextCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnFullTextCollector" method="FnFullTextCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnLexUnitCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnLexUnitCollector" method="FnLexUnitCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnLexUnitExportCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnLexUnitExportCollector" method="FnLexUnitExportCollector" />
+    <pattern value="org.sqlbuilder.pm.FnLexUnitResolver" />
+    <pattern value="org.sqlbuilder.pm.FnLexUnitResolver" method="FnLexUnitResolver" />
+    <pattern value="org.sqlbuilder.fn.FnModule" />
+    <pattern value="org.sqlbuilder.pm.objects.FnRoleAlias" />
+    <pattern value="org.sqlbuilder.pm.FnRoleResolver" />
+    <pattern value="org.sqlbuilder.pm.FnRoleResolver" method="FnRoleResolver" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnSemTypeCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnSemTypeCollector" method="FnSemTypeCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnWordCollector" />
+    <pattern value="org.sqlbuilder.fn.collectors.FnWordCollector" method="FnWordCollector" />
+    <pattern value="org.sqlbuilder.fn.FnWordResolver" />
+    <pattern value="org.sqlbuilder.pm.FnWordResolver" />
+    <pattern value="org.sqlbuilder.pm.FnWordResolver" method="FnWordResolver" />
+    <pattern value="org.sqlbuilder.fn.FnWordResolver" method="FnWordResolver" />
+    <pattern value="org.sqlbuilder.su.objects.Formula" />
+    <pattern value="org.sqlbuilder.su.joins.Formula_Arg" />
+    <pattern value="org.sqlbuilder.su.FormulaParser" />
+    <pattern value="org.sqlbuilder.fn.objects.Frame" />
+    <pattern value="org.sqlbuilder.vn.objects.Frame" />
+    <pattern value="org.sqlbuilder.fn.objects.Frame" method="Frame" />
+    <pattern value="org.sqlbuilder.vn.objects.Frame" method="Frame" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_CoreFEMember" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_CoreFEMember" method="Frame_CoreFEMember" />
+    <pattern value="org.sqlbuilder.vn.joins.Frame_Example" />
+    <pattern value="org.sqlbuilder.vn.joins.Frame_Example" method="Frame_Example" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_FrameRelated" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_FrameRelated" method="Frame_FrameRelated" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_SemType" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_SemType" method="Frame_SemType" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameExample" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameExample" method="FrameExample" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameName" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameName" method="FrameName" />
+    <pattern value="org.sqlbuilder.fn.types.FrameRelation" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameSubName" />
+    <pattern value="org.sqlbuilder.vn.objects.FrameSubName" method="FrameSubName" />
+    <pattern value="org.sqlbuilder.su.objects.Formula" method="getFile" />
+    <pattern value="org.sqlbuilder.sl.objects.Predicate.Companion" method="getIntId" />
+    <pattern value="org.sqlbuilder.sl.objects.Theta.Companion" method="getIntId" />
+    <pattern value="org.sqlbuilder.vn.objects.Member" method="getQuality" />
+    <pattern value="org.sqlbuilder.vn.objects.Role" method="getRoleType" />
+    <pattern value="org.sqlbuilder2.legacy.SenseToSensekeyProcessor.Companion" method="getSensekeyToOffset" />
+    <pattern value="org.sqlbuilder.fn.types.LabelType" method="getSqlId" />
+    <pattern value="org.sqlbuilder.fn.types.LayerType" method="getSqlId" />
+    <pattern value="org.sqlbuilder.fn.types.Status" method="getSqlId" />
+    <pattern value="org.sqlbuilder.fn.Resources" method="getTables" />
+    <pattern value="org.sqlbuilder.common.XmlTextUtils" method="getXML" />
+    <pattern value="org.sqlbuilder.fn.types.GfType" />
+    <pattern value="org.sqlbuilder.fn.objects.Governor" />
+    <pattern value="org.sqlbuilder.fn.objects.Governor" method="Governor" />
+    <pattern value="org.sqlbuilder.fn.joins.Governor_AnnoSet" />
+    <pattern value="org.sqlbuilder.fn.joins.Governor_AnnoSet" method="Governor_AnnoSet" />
+    <pattern value="org.sqlbuilder.vn.objects.Grouping" />
+    <pattern value="org.sqlbuilder.vn.objects.Grouping" method="Grouping" />
+    <pattern value="org.sqlbuilder.common.Progress" method="info" />
+    <pattern value="org.sqlbuilder.vn.Inherit" />
+    <pattern value="org.sqlbuilder.fn.Presets.Companion" method="init" />
+    <pattern value="org.sqlbuilder2.legacy.SensekeysTest.Companion" method="init" />
+    <pattern value="org.sqlbuilder2.ser.TestSerialize.Companion" method="init" />
+    <pattern value="org.sqlbuilder.common.TestVariables.Companion" method="init" />
+    <pattern value="org.sqlbuilder.common.TestXPath.Companion" method="init" />
+    <pattern value="org.sqlbuilder.common.Insert" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="insert" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="insert2" />
+    <pattern value="org.sqlbuilder.fn.Inserter" />
+    <pattern value="org.sqlbuilder.pb.Inserter" />
+    <pattern value="org.sqlbuilder.sl.Inserter" />
+    <pattern value="org.sqlbuilder.vn.Inserter" />
+    <pattern value="org.sqlbuilder.fn.Inserter" method="Inserter" />
+    <pattern value="org.sqlbuilder.pb.Inserter" method="Inserter" />
+    <pattern value="org.sqlbuilder.vn.Inserter" method="Inserter" />
+    <pattern value="org.sqlbuilder.sl.Inserter" method="Inserter" />
+    <pattern value="org.sqlbuilder.common.Resolver" method="invoke" />
+    <pattern value="org.sqlbuilder.su.Kb" />
+    <pattern value="og.sqlbuilder.sumo.KbLoaderExtension" />
+    <pattern value="org.sqlbuilder.fn.objects.Label" />
+    <pattern value="org.sqlbuilder.fn.objects.Label" method="Label" />
+    <pattern value="org.sqlbuilder.fn.types.LabelType" />
+    <pattern value="org.sqlbuilder.fn.objects.Layer" />
+    <pattern value="org.sqlbuilder.fn.objects.Layer" method="Layer" />
+    <pattern value="org.sqlbuilder.fn.types.LayerType" />
+    <pattern value="org.sqlbuilder2.legacy.LegacyLemmaPosOffsetResolver" />
+    <pattern value="org.sqlbuilder2.legacy.LegacyLemmaPosOffsetResolver" method="LegacyLemmaPosOffsetResolver" />
+    <pattern value="org.sqlbuilder2.legacy.LegacyModule" />
+    <pattern value="org.sqlbuilder.fn.objects.Lexeme" />
+    <pattern value="org.sqlbuilder.fn.objects.Lexeme" method="Lexeme" />
+    <pattern value="org.sqlbuilder.fn.objects.LexUnit" />
+    <pattern value="org.sqlbuilder.fn.objects.LexUnit" method="LexUnit" />
+    <pattern value="org.sqlbuilder.fn.joins.LexUnit_Governor" />
+    <pattern value="org.sqlbuilder.fn.joins.LexUnit_Governor" method="LexUnit_Governor" />
+    <pattern value="org.sqlbuilder.fn.joins.LexUnit_SemType" />
+    <pattern value="org.sqlbuilder.fn.joins.LexUnit_SemType" method="LexUnit_SemType" />
+    <pattern value="org.sqlbuilder.common.ListCollector" />
+    <pattern value="org.sqlbuilder.Main" />
+    <pattern value="org.sqlbuilder.bnc.BncModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.common.DeSerializeNIDs" method="main" />
+    <pattern value="org.sqlbuilder.fn.FnModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder2.legacy.LegacyModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.Main.Companion" method="main" />
+    <pattern value="org.sqlbuilder.pb.PbModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.pm.PmModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.common.SchemaGenerator.Companion" method="main" />
+    <pattern value="org.sqlbuilder.sl.SlModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.sn.SnModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.su.SuModule.Companion" method="main" />
+    <pattern value="og.sqlbuilder.sumo.TestDump.Companion" method="main" />
+    <pattern value="og.sqlbuilder.sumo.TestMappings.Companion" method="main" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor.Companion" method="main" />
+    <pattern value="og.sqlbuilder.sumo.TestWordResolver.Companion" method="main" />
+    <pattern value="org.sqlbuilder.vn.VnModule.Companion" method="main" />
+    <pattern value="org.sqlbuilder.su.Kb" method="make" />
+    <pattern value="org.sqlbuilder.fn.joins.Frame_CoreFEMember.Companion" method="make" />
+    <pattern value="org.sqlbuilder.common.Variables.Companion" method="make" />
+    <pattern value="org.sqlbuilder.su.Kb" method="makeClausalForms" />
+    <pattern value="org.sqlbuilder.fn.Resources.Companion" method="makeProps" />
+    <pattern value="org.sqlbuilder.common.Names" method="mapFile" />
+    <pattern value="org.sqlbuilder.vn.objects.Member" />
+    <pattern value="org.sqlbuilder.vn.objects.Member" method="Member" />
+    <pattern value="org.sqlbuilder.vn.joins.Member_Grouping" />
+    <pattern value="org.sqlbuilder.vn.joins.Member_Grouping" method="Member_Grouping" />
+    <pattern value="org.sqlbuilder.vn.joins.Member_Sense" />
+    <pattern value="org.sqlbuilder.vn.joins.Member_Sense" method="Member_Sense" />
+    <pattern value="org.sqlbuilder.common.Module.Mode" />
+    <pattern value="org.sqlbuilder.common.Module" />
+    <pattern value="org.sqlbuilder.common.Names" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="newPk" />
+    <pattern value="org.sqlbuilder.fn.TestNormalizer" method="normalize1" />
+    <pattern value="org.sqlbuilder.fn.TestNormalizer" method="normalize2" />
+    <pattern value="org.sqlbuilder.fn.TestNormalizer" method="normalize3" />
+    <pattern value="org.sqlbuilder.fn.TestNormalizer" method="normalize4" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" />
+    <pattern value="org.sqlbuilder.common.NotNull" />
+    <pattern value="org.sqlbuilder.common.Utils" method="nullableLong" />
+    <pattern value="org.sqlbuilder.su.FormulaParser" method="parseArg" />
+    <pattern value="org.sqlbuilder.pb.collectors.PbDocument" />
+    <pattern value="org.sqlbuilder.pb.PbModule" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRole" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRole" method="PbRole" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRole_VnRole" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRole_VnRole" method="PbRole_VnRole" />
+    <pattern value="org.sqlbuilder.pm.objects.PbRoleAlias" />
+    <pattern value="org.sqlbuilder.pm.PbRoleResolver" />
+    <pattern value="org.sqlbuilder.sl.PbRoleResolver" />
+    <pattern value="org.sqlbuilder.pm.PbRoleResolver" method="PbRoleResolver" />
+    <pattern value="org.sqlbuilder.sl.PbRoleResolver" method="PbRoleResolver" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRoleSet_VnClass" />
+    <pattern value="org.sqlbuilder.sl.foreign.PbRoleSet_VnClass" method="PbRoleSet_VnClass" />
+    <pattern value="org.sqlbuilder.sl.PbRoleSetResolver" />
+    <pattern value="org.sqlbuilder.sl.PbRoleSetResolver" method="PbRoleSetResolver" />
+    <pattern value="org.sqlbuilder.pm.PbWordResolver" />
+    <pattern value="org.sqlbuilder.pm.PbWordResolver" method="PbWordResolver" />
+    <pattern value="org.sqlbuilder.pm.objects.PmEntry" />
+    <pattern value="org.sqlbuilder.pm.PmModule" />
+    <pattern value="org.sqlbuilder.pm.objects.PmPredicate" />
+    <pattern value="org.sqlbuilder.pm.objects.PmPredicate" method="PmPredicate" />
+    <pattern value="org.sqlbuilder.pm.PmProcessor" />
+    <pattern value="org.sqlbuilder.pm.PmResolvingProcessor" />
+    <pattern value="org.sqlbuilder.pm.PmResolvingProcessor" method="PmResolvingProcessor" />
+    <pattern value="org.sqlbuilder.pm.objects.PmRole" />
+    <pattern value="org.sqlbuilder.pm.objects.PmRole" method="PmRole" />
+    <pattern value="org.sqlbuilder.pm.PmUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.pm.PmUpdatingProcessor" method="PmUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.sl.objects.Predicate" />
+    <pattern value="org.sqlbuilder.vn.objects.Predicate" />
+    <pattern value="org.sqlbuilder.vn.objects.Predicate" method="Predicate" />
+    <pattern value="org.sqlbuilder.sl.objects.Predicate" method="Predicate" />
+    <pattern value="org.sqlbuilder.vn.joins.Predicate_Semantics" />
+    <pattern value="org.sqlbuilder.vn.joins.Predicate_Semantics" method="Predicate_Semantics" />
+    <pattern value="org.sqlbuilder.fn.Presets" />
+    <pattern value="org.sqlbuilder.fn.Presets" method="presetsCoreTypeDataRows" />
+    <pattern value="org.sqlbuilder.fn.Presets" method="presetsCoreTypes" />
+    <pattern value="org.sqlbuilder.fn.Presets" method="presetsITypeDataRows" />
+    <pattern value="org.sqlbuilder.fn.Presets" method="presetsITypes" />
+    <pattern value="org.sqlbuilder.fn.Presets" method="presetsPosDataRows" />
+    <pattern value="org.sqlbuilder.fn.Presets" method="presetsPoses" />
+    <pattern value="org.sqlbuilder.common.XmlProcessor" method="process" />
+    <pattern value="org.sqlbuilder.bnc.BncUpdatingProcessor" method="processBNCFile" />
+    <pattern value="org.sqlbuilder.bnc.BncUpdatingProcessor" method="processBNCSubFile" />
+    <pattern value="org.sqlbuilder.common.Processor" />
+    <pattern value="org.sqlbuilder.sn.SnUpdatingProcessor" method="processSyntagNetFile" />
+    <pattern value="org.sqlbuilder.su.SuProcessor" method="processTerms" />
+    <pattern value="org.sqlbuilder.common.Progress" />
+    <pattern value="org.sqlbuilder.annotations.ProvidesIdTo" />
+    <pattern value="org.sqlbuilder.annotations.ProvidesIdTo" method="ProvidesIdTo" />
+    <pattern value="org.sqlbuilder.annotations.ProvidesIdTo2" />
+    <pattern value="org.sqlbuilder.annotations.ProvidesIdTo2" method="ProvidesIdTo2" />
+    <pattern value="org.sqlbuilder.fn.types.PtType" />
+    <pattern value="org.sqlbuilder.common.Variables" method="put" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="reference" />
+    <pattern value="org.sqlbuilder.fn.Resources" method="removeKeys" />
+    <pattern value="org.sqlbuilder.annotations.RequiresIdFrom" />
+    <pattern value="org.sqlbuilder.annotations.RequiresIdFrom" method="RequiresIdFrom" />
+    <pattern value="org.sqlbuilder.annotations.RequiresIdsFrom" />
+    <pattern value="org.sqlbuilder.annotations.RequiresIdsFrom" method="RequiresIdsFrom" />
+    <pattern value="org.sqlbuilder.annotations.RequiresProvidesProcessor" />
+    <pattern value="org.sqlbuilder.su.joins.Formula_Arg" method="resolve" />
+    <pattern value="org.sqlbuilder.common.Resolver" />
+    <pattern value="org.sqlbuilder.common.Resolver" method="Resolver" />
+    <pattern value="org.sqlbuilder.common.Resolver2" />
+    <pattern value="org.sqlbuilder.common.Resolver2" method="Resolver2" />
+    <pattern value="org.sqlbuilder.fn.ResolvingInserter" />
+    <pattern value="org.sqlbuilder.pb.ResolvingInserter" />
+    <pattern value="org.sqlbuilder.sl.ResolvingInserter" />
+    <pattern value="org.sqlbuilder.vn.ResolvingInserter" />
+    <pattern value="org.sqlbuilder.pb.ResolvingInserter" method="ResolvingInserter" />
+    <pattern value="org.sqlbuilder.fn.ResolvingInserter" method="ResolvingInserter" />
+    <pattern value="org.sqlbuilder.vn.ResolvingInserter" method="ResolvingInserter" />
+    <pattern value="org.sqlbuilder.sl.ResolvingInserter" method="ResolvingInserter" />
+    <pattern value="org.sqlbuilder.fn.ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.pb.ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.sl.ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.vn.ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.fn.ResolvingUpdater" method="ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.pb.ResolvingUpdater" method="ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.vn.ResolvingUpdater" method="ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.sl.ResolvingUpdater" method="ResolvingUpdater" />
+    <pattern value="org.sqlbuilder.fn.Resources" />
+    <pattern value="org.sqlbuilder.vn.objects.RestrainedRole" />
+    <pattern value="org.sqlbuilder.vn.objects.RestrainedRole" method="RestrainedRole" />
+    <pattern value="org.sqlbuilder.vn.objects.Restrs" />
+    <pattern value="org.sqlbuilder.vn.objects.Restrs" method="Restrs" />
+    <pattern value="org.sqlbuilder.vn.objects.RestrType" />
+    <pattern value="org.sqlbuilder.vn.objects.RestrType" method="RestrType" />
+    <pattern value="org.sqlbuilder.vn.objects.Role" />
+    <pattern value="org.sqlbuilder.vn.objects.Role" method="Role" />
+    <pattern value="org.sqlbuilder.pb.foreign.RoleSetTo" />
+    <pattern value="org.sqlbuilder.vn.objects.RoleType" />
+    <pattern value="org.sqlbuilder.vn.objects.RoleType" method="RoleType" />
+    <pattern value="org.sqlbuilder.common.Module" method="run" />
+    <pattern value="org.sqlbuilder.common.Processor" method="run" />
+    <pattern value="org.sqlbuilder.common.SchemaGenerator" />
+    <pattern value="org.sqlbuilder.common.SchemaGenerator" method="SchemaGenerator" />
+    <pattern value="org.sqlbuilder.vn.objects.Semantics" />
+    <pattern value="org.sqlbuilder.vn.objects.Semantics" method="Semantics" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkDocument" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkProcessor" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.sl.collectors.SemlinkUpdatingProcessor" method="SemlinkUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.fn.objects.SemType" />
+    <pattern value="org.sqlbuilder.fn.objects.SemType" method="SemType" />
+    <pattern value="org.sqlbuilder.fn.joins.SemType_SemTypeSuper" />
+    <pattern value="org.sqlbuilder.fn.joins.SemType_SemTypeSuper" method="SemType_SemTypeSuper" />
+    <pattern value="org.sqlbuilder.vn.objects.Sense" />
+    <pattern value="org.sqlbuilder.vn.objects.Sense" method="Sense" />
+    <pattern value="org.sqlbuilder.vn.objects.Sensekey" />
+    <pattern value="org.sqlbuilder.vn.objects.Sensekey" method="Sensekey" />
+    <pattern value="org.sqlbuilder.pm.SensekeyResolver" />
+    <pattern value="org.sqlbuilder.pm.SensekeyResolver" method="SensekeyResolver" />
+    <pattern value="org.sqlbuilder2.legacy.SensekeysTest" />
+    <pattern value="org.sqlbuilder2.legacy.SenseToSensekeyProcessor" />
+    <pattern value="org.sqlbuilder.fn.objects.Sentence" />
+    <pattern value="org.sqlbuilder.fn.objects.Sentence" method="Sentence" />
+    <pattern value="org.sqlbuilder.common.Names" method="serFile" />
+    <pattern value="org.sqlbuilder2.ser.Serialize" />
+    <pattern value="org.sqlbuilder.common.SetCollector" />
+    <pattern value="org.sqlbuilder.fn.joins.FEGroupPattern" method="setId" />
+    <pattern value="org.sqlbuilder.fn.objects.FEGroupRealization" method="setId" />
+    <pattern value="org.sqlbuilder.fn.objects.FERealization" method="setId" />
+    <pattern value="og.sqlbuilder.sumo.TestDump.Companion" method="shutdown" />
+    <pattern value="org.sqlbuilder.sl.SlModule" />
+    <pattern value="org.sqlbuilder.sn.SnModule" />
+    <pattern value="org.sqlbuilder.sn.SnResolvingProcessor" />
+    <pattern value="org.sqlbuilder.sn.SnResolvingProcessor" method="SnResolvingProcessor" />
+    <pattern value="org.sqlbuilder.sn.SnUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.sn.SnUpdatingProcessor" method="SnUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.common.SqlId" />
+    <pattern value="org.sqlbuilder.fn.types.Status" />
+    <pattern value="org.sqlbuilder.common.ListCollector" method="status" />
+    <pattern value="org.sqlbuilder.fn.objects.SubCorpus" />
+    <pattern value="org.sqlbuilder.fn.objects.SubCorpus" method="SubCorpus" />
+    <pattern value="org.sqlbuilder.fn.joins.SubCorpus_Sentence" />
+    <pattern value="org.sqlbuilder.fn.joins.SubCorpus_Sentence" method="SubCorpus_Sentence" />
+    <pattern value="org.sqlbuilder.su.SuModule" />
+    <pattern value="org.sqlbuilder.su.SuProcessor" />
+    <pattern value="org.sqlbuilder.su.SuUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.su.SuUpdatingProcessor" method="SuUpdatingProcessor" />
+    <pattern value="org.sqlbuilder.su.SuWordResolver" />
+    <pattern value="org.sqlbuilder.su.SuWordResolver" method="SuWordResolver" />
+    <pattern value="org.sqlbuilder.fn.Normalizer" method="swapPk" />
+    <pattern value="org.sqlbuilder2.legacy.SynsetToSynsetMapping" />
+    <pattern value="org.sqlbuilder2.legacy.SynsetToSynsetMapping" method="SynsetToSynsetMapping" />
+    <pattern value="org.sqlbuilder.vn.objects.Syntax" />
+    <pattern value="org.sqlbuilder.vn.objects.Syntax" method="Syntax" />
+    <pattern value="org.sqlbuilder.su.objects.Term" />
+    <pattern value="org.sqlbuilder.su.objects.TermAttr" />
+    <pattern value="org.sqlbuilder.fn.TestCollector" method="test" />
+    <pattern value="org.sqlbuilder.fn.TestCollector" method="test2" />
+    <pattern value="org.sqlbuilder.fn.TestCollector" method="test2Fail" />
+    <pattern value="org.sqlbuilder.fn.TestCollector" />
+    <pattern value="og.sqlbuilder.sumo.TestDump" />
+    <pattern value="og.sqlbuilder.sumo.TestDump" method="testDumpFormulas" />
+    <pattern value="og.sqlbuilder.sumo.TestDump" method="testDumpFunctions" />
+    <pattern value="og.sqlbuilder.sumo.TestDump" method="testDumpPredicates" />
+    <pattern value="og.sqlbuilder.sumo.TestDump" method="testDumpRelations" />
+    <pattern value="og.sqlbuilder.sumo.TestDump" method="testDumpTerms" />
+    <pattern value="org.sqlbuilder.fn.TestCollector" method="testFail" />
+    <pattern value="org.sqlbuilder2.ser.TestSerialize" method="testKotlinPair" />
+    <pattern value="org.sqlbuilder2.ser.TestSerialize" method="testKotlinTriple" />
+    <pattern value="org.sqlbuilder.fn.TestListCollector" />
+    <pattern value="org.sqlbuilder.fn.TestListCollector" method="testListCollector" />
+    <pattern value="og.sqlbuilder.sumo.TestMappings" />
+    <pattern value="og.sqlbuilder.sumo.TestMappings" method="testMappings" />
+    <pattern value="org.sqlbuilder.fn.TestNames" />
+    <pattern value="org.sqlbuilder.pb.TestNames" />
+    <pattern value="org.sqlbuilder.vn.TestNames" />
+    <pattern value="org.sqlbuilder.pb.TestNames" method="testNames" />
+    <pattern value="org.sqlbuilder.fn.TestNames" method="testNames" />
+    <pattern value="org.sqlbuilder.vn.TestNames" method="testNames" />
+    <pattern value="org.sqlbuilder.fn.TestNormalizer" />
+    <pattern value="org.sqlbuilder.pb.TestParseFile" method="testParse" />
+    <pattern value="org.sqlbuilder.pb.TestParseFile" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessFiles" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessFormulas" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessFormulasAndArgs" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessFormulasArgs" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessTermAttrs" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessTerms" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor" method="testProcessTermsAndAttrs" />
+    <pattern value="org.sqlbuilder2.legacy.SensekeysTest" method="testResolution" />
+    <pattern value="org.sqlbuilder2.legacy.SensekeysTest" method="testResolvableEq" />
+    <pattern value="og.sqlbuilder.sumo.TestWordResolver" method="testResolver" />
+    <pattern value="org.sqlbuilder2.ser.TestSerialize" />
+    <pattern value="og.sqlbuilder.sumo.TestUtils" />
+    <pattern value="org.sqlbuilder.common.TestVariables" />
+    <pattern value="org.sqlbuilder.common.TestVariables" method="testVariablesWithAt" />
+    <pattern value="org.sqlbuilder.common.TestVariables" method="testVariablesWithDollar" />
+    <pattern value="og.sqlbuilder.sumo.TestWordResolver" />
+    <pattern value="org.sqlbuilder.common.TestXPath" />
+    <pattern value="org.sqlbuilder.common.TestXPath" method="testXPath" />
+    <pattern value="org.sqlbuilder.common.TestXPath" method="testXPathElements" />
+    <pattern value="org.sqlbuilder.sl.objects.Theta" />
+    <pattern value="org.sqlbuilder.sl.objects.Theta" method="Theta" />
+    <pattern value="org.sqlbuilder.common.SetCollector" method="toMap" />
+    <pattern value="org.sqlbuilder.common.Progress" method="trace" />
+    <pattern value="org.sqlbuilder.common.Progress" method="traceTailer" />
+    <pattern value="org.sqlbuilder.common.Update" />
+    <pattern value="org.sqlbuilder.common.Utils" />
+    <pattern value="org.sqlbuilder.fn.objects.ValenceUnit" />
+    <pattern value="org.sqlbuilder.fn.objects.ValenceUnit" method="ValenceUnit" />
+    <pattern value="org.sqlbuilder.fn.joins.ValenceUnit_AnnoSet" />
+    <pattern value="org.sqlbuilder.fn.joins.ValenceUnit_AnnoSet" method="ValenceUnit_AnnoSet" />
+    <pattern value="org.sqlbuilder.annotations.RequiresIdsFrom" method="value" />
+    <pattern value="org.sqlbuilder.common.Variables" />
+    <pattern value="org.sqlbuilder.common.Variables" method="varSubstitution" />
+    <pattern value="org.sqlbuilder.common.Variables" method="varSubstitutionInFile" />
+    <pattern value="org.sqlbuilder.common.Variables" method="varSubstitutions" />
+    <pattern value="org.sqlbuilder.vn.objects.VnClass" />
+    <pattern value="org.sqlbuilder.vn.objects.VnClass" method="VnClass" />
+    <pattern value="org.sqlbuilder.pb.VnClassResolver" />
+    <pattern value="org.sqlbuilder.sl.VnClassResolver" />
+    <pattern value="org.sqlbuilder.pb.VnClassResolver" method="VnClassResolver" />
+    <pattern value="org.sqlbuilder.sl.VnClassResolver" method="VnClassResolver" />
+    <pattern value="org.sqlbuilder.vn.collector.VnCollector" />
+    <pattern value="org.sqlbuilder.vn.VnDocument" />
+    <pattern value="org.sqlbuilder.vn.VnDocument" method="VnDocument" />
+    <pattern value="org.sqlbuilder.vn.collector.VnExportCollector" />
+    <pattern value="org.sqlbuilder.vn.collector.VnExportCollector" method="VnExportCollector" />
+    <pattern value="org.sqlbuilder.vn.VnModule" />
+    <pattern value="org.sqlbuilder.vn.collector.VnRestrsXmlProcessor" />
+    <pattern value="org.sqlbuilder.sl.foreign.VnRole" />
+    <pattern value="org.sqlbuilder.sl.foreign.VnRole" method="VnRole" />
+    <pattern value="org.sqlbuilder.pm.objects.VnRoleAlias" />
+    <pattern value="org.sqlbuilder.pb.VnRoleResolver" />
+    <pattern value="org.sqlbuilder.pm.VnRoleResolver" />
+    <pattern value="org.sqlbuilder.sl.VnRoleResolver" />
+    <pattern value="org.sqlbuilder.pm.VnRoleResolver" method="VnRoleResolver" />
+    <pattern value="org.sqlbuilder.pb.VnRoleResolver" method="VnRoleResolver" />
+    <pattern value="org.sqlbuilder.sl.VnRoleResolver" method="VnRoleResolver" />
+    <pattern value="org.sqlbuilder.vn.collector.VnSemanticsXmlProcessor" />
+    <pattern value="org.sqlbuilder.vn.VnSensekeyResolver" />
+    <pattern value="org.sqlbuilder.vn.VnSensekeyResolver" method="VnSensekeyResolver" />
+    <pattern value="org.sqlbuilder.vn.collector.VnSyntaxXmlProcessor" />
+    <pattern value="org.sqlbuilder.vn.collector.VnUpdateCollector" />
+    <pattern value="org.sqlbuilder.vn.collector.VnUpdateCollector" method="VnUpdateCollector" />
+    <pattern value="org.sqlbuilder.pm.VnWordResolver" />
+    <pattern value="org.sqlbuilder.vn.VnWordResolver" />
+    <pattern value="org.sqlbuilder.pm.VnWordResolver" method="VnWordResolver" />
+    <pattern value="org.sqlbuilder.vn.VnWordResolver" method="VnWordResolver" />
+    <pattern value="org.sqlbuilder.fn.objects.Word" />
+    <pattern value="org.sqlbuilder.vn.objects.Word" />
+    <pattern value="org.sqlbuilder.fn.objects.Word" method="Word" />
+    <pattern value="org.sqlbuilder.vn.objects.Word" method="Word" />
+    <pattern value="org.sqlbuilder.pb.WordResolver" />
+    <pattern value="org.sqlbuilder.pm.WordResolver" />
+    <pattern value="org.sqlbuilder.pm.WordResolver" method="WordResolver" />
+    <pattern value="org.sqlbuilder.pb.WordResolver" method="WordResolver" />
+    <pattern value="org.sqlbuilder.common.XmlChecker" />
+    <pattern value="org.sqlbuilder.common.XmlDocument" />
+    <pattern value="org.sqlbuilder.common.XmlProcessor" />
+    <pattern value="org.sqlbuilder.common.XmlTextUtils" />
+    <pattern value="og.sqlbuilder.sumo.TestDump.Companion" method="init" />
+    <pattern value="og.sqlbuilder.sumo.TestMappings.Companion" method="init" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor.Companion" method="init" />
+    <pattern value="og.sqlbuilder.sumo.TestWordResolver.Companion" method="init" />
+    <pattern value="og.sqlbuilder.sumo.TestMappings.Companion" method="shutdown" />
+    <pattern value="og.sqlbuilder.sumo.TestProcessor.Companion" method="shutdown" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">

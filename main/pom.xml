@@ -61,14 +61,21 @@
       <scope>compile</scope>
     </dependency>
 
-     <dependency>
+    <dependency>
       <groupId>org.sqlbuilder2</groupId>
       <artifactId>su</artifactId>
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
 
-   <dependency>
+    <dependency>
+      <groupId>org.sqlbuilder2</groupId>
+      <artifactId>legacy</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
@@ -107,6 +114,16 @@
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
+                  <includes>
+                    <include>bnc/bnc.properties</include>
+                    <include>sn/sn.properties</include>
+                    <include>vn/vn.properties</include>
+                    <include>pb/pb.properties</include>
+                    <include>sl/sl.properties</include>
+                    <include>pm/pm.properties</include>
+                    <include>su/su.properties</include>
+                    <include>legacy/legacy.properties</include>
+                  </includes>
                   <excludes>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                   </excludes>

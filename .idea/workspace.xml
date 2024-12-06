@@ -8,8 +8,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="remove @JvmField">
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection fixes">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/fn/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/legacy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/legacy.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pb/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pm/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sl/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/sl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sl/sl.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sn/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/su/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/su/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Dump.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Dump.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/FormulaParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/FormulaParser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Formula.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Formula.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/vn/.gitignore" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -76,58 +97,61 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FnModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.FnModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
-    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (export).executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (resolve).executor&quot;: &quot;Run&quot;,
-    &quot;Application.VnModule (update).executor&quot;: &quot;Debug&quot;,
-    &quot;Application.VnModule.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.SensekeysTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestCollector.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestCollector.test.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestSerialize.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.all [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.common [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.main [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;devkt2&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/devel/sqlbuilder/sqlbuilder2/bnc&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.smartKeys&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BncModule (resolve).executor": "Run",
+    "Application.BncModule (update).executor": "Run",
+    "Application.BncModule.executor": "Run",
+    "Application.FnModule (update).executor": "Run",
+    "Application.FnModule.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.PbModule (resolve).executor": "Run",
+    "Application.PbModule (update).executor": "Run",
+    "Application.PbModule.executor": "Run",
+    "Application.VnModule (export).executor": "Run",
+    "Application.VnModule (resolve).executor": "Run",
+    "Application.VnModule (update).executor": "Debug",
+    "Application.VnModule.executor": "Run",
+    "JUnit.SensekeysTest.executor": "Run",
+    "JUnit.TestCollector.executor": "Run",
+    "JUnit.TestCollector.test.executor": "Run",
+    "JUnit.TestParseFile.executor": "Run",
+    "JUnit.TestSerialize.executor": "Run",
+    "JUnit.TestXPath.executor": "Run",
+    "Maven.all [clean].executor": "Run",
+    "Maven.all [compile].executor": "Run",
+    "Maven.all [install].executor": "Run",
+    "Maven.all [package].executor": "Run",
+    "Maven.common [install].executor": "Run",
+    "Maven.fn [install].executor": "Run",
+    "Maven.fn-beans [install].executor": "Run",
+    "Maven.fn-jaxb [install].executor": "Run",
+    "Maven.main [package].executor": "Run",
+    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.reqprov [install].executor": "Run",
+    "Maven.su [package].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "devkt2",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/sl",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TEXT&quot;,
-      &quot;JAVA&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT",
+      "JAVA"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sl" />
+      <recent name="$PROJECT_DIR$/legacy" />
       <recent name="$PROJECT_DIR$/bnc" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -141,13 +165,13 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestSerialize">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" folderName="Modules">
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
       <module name="main" />
-      <option name="PROGRAM_PARAMETERS" value="main.properties" />
+      <option name="PROGRAM_PARAMETERS" value="all all" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
@@ -233,6 +257,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.sqlbuilder2.ser" />
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.ser.TestSerialize" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -260,8 +285,8 @@
       <item itemvalue="Application.SchemaGenerator (vn create)" />
       <item itemvalue="Application.SchemaGenerator (vn index)" />
       <item itemvalue="Application.SchemaGenerator (vn reference)" />
-      <item itemvalue="Application.BncModule" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.BncModule" />
       <item itemvalue="Application.BncModule (resolve)" />
       <item itemvalue="Application.BncModule (update)" />
       <item itemvalue="Application.FnModule" />
@@ -310,22 +335,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00102" summary="clean up">
-      <option name="closed" value="true" />
-      <created>1733292050307</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1733292050307</updated>
-    </task>
-    <task id="LOCAL-00103" summary="new main module">
-      <option name="closed" value="true" />
-      <created>1733292104535</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1733292104535</updated>
     </task>
     <task id="LOCAL-00104" summary="remove uber, add main">
       <option name="closed" value="true" />
@@ -703,7 +712,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733394659816</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="remove @JvmOverloads">
+      <option name="closed" value="true" />
+      <created>1733394800333</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1733394800333</updated>
+    </task>
+    <task id="LOCAL-00152" summary="inspection fixes">
+      <option name="closed" value="true" />
+      <created>1733395448504</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1733395448504</updated>
+    </task>
+    <option name="localTasksCounter" value="153" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -754,8 +779,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="printf fixes" />
-    <MESSAGE value="inspection fixes" />
     <MESSAGE value="clean up" />
     <MESSAGE value="new main module" />
     <MESSAGE value="remove uber, add main" />
@@ -779,7 +802,9 @@
     <MESSAGE value="remove function" />
     <MESSAGE value="remove @JvmStatic" />
     <MESSAGE value="remove @JvmField" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove @JvmField" />
+    <MESSAGE value="remove @JvmOverloads" />
+    <MESSAGE value="inspection fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="inspection fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -793,6 +818,26 @@
           <url>file://$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt</url>
           <line>21</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/PbModule.kt</url>
+          <line>58</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt</url>
+          <line>67</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt</url>
+          <line>38</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../sqlbuilder1/sqlbuilder/core/builder/src/main/java/org/sqlbuilder/Builder.java</url>
+          <line>266</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

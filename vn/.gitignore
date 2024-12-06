@@ -1,7 +1,9 @@
 /target/
-/sers/
-/sers_out/
-/_sers_out/
-/data/
+/data*/
+/data*
+/sers*
+/sers*/
 /sql*/
+/sql*
 /_sql*/
+/_sql*
