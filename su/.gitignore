@@ -3,6 +3,8 @@
 /data*
 /sers*
 /sers*/
+/_sers*
+/_sers*/
 /sql*/
 /sql*
 /_sql*/
