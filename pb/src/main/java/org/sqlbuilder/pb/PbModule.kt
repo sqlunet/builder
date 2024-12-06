@@ -54,6 +54,7 @@ open class PbModule protected constructor(conf: String, mode: Mode) : Module(MOD
 
         const val MODULE_ID: String = "pb"
 
+        @JvmStatic
         fun main(args: Array<String>) {
             var i = 0
             var mode: Mode = Mode.PLAIN

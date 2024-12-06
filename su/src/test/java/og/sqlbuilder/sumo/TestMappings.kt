@@ -46,6 +46,7 @@ class TestMappings {
             Term.COLLECTOR.close()
         }
 
+        @JvmStatic
         @Throws(IOException::class)
         fun main(args: Array<String>) {
             KBLoader().load()

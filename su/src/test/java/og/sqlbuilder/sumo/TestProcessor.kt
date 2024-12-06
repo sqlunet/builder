@@ -125,6 +125,7 @@ class TestProcessor {
             Formula.COLLECTOR.close()
         }
 
+        @JvmStatic
         fun main(args: Array<String>) {
             KBLoader().load()
             init()

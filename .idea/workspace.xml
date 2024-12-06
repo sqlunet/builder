@@ -10,15 +10,22 @@
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/bnc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/bnc.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/fn.properties" beforeDir="false" afterPath="$PROJECT_DIR$/fn/fn.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerializeNIDs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerializeNIDs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/SchemaGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/SchemaGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyModule.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/pb.properties" beforeDir="false" afterPath="$PROJECT_DIR$/pb/pb.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/pm.properties" beforeDir="false" afterPath="$PROJECT_DIR$/pm/pm.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/sl.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sl/sl.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/sn.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sn/sn.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/su.properties" beforeDir="false" afterPath="$PROJECT_DIR$/su/su.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/vn.properties" beforeDir="false" afterPath="$PROJECT_DIR$/vn/vn.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/PbModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/PbModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/SlModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/SlModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestDump.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestDump.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestMappings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestMappings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestWordResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnModule.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -99,6 +106,7 @@
     "Application.PbModule (resolve).executor": "Run",
     "Application.PbModule (update).executor": "Run",
     "Application.PbModule.executor": "Run",
+    "Application.SnModule.executor": "Run",
     "Application.VnModule (export).executor": "Run",
     "Application.VnModule (resolve).executor": "Run",
     "Application.VnModule (update).executor": "Debug",
@@ -127,7 +135,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "devkt2",
-    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/sl",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder1/sqlbuilder/core/builder/src/main/java/org/sqlbuilder/SystemUtils.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -158,7 +166,7 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.VnModule (update)">
     <configuration name="Main" type="Application" factoryName="Application" folderName="Modules">
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
       <module name="main" />
@@ -328,14 +336,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00110" summary="house keeping">
-      <option name="closed" value="true" />
-      <created>1733297329410</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1733297329410</updated>
     </task>
     <task id="LOCAL-00111" summary="house keeping">
       <option name="closed" value="true" />
@@ -721,7 +721,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733474698792</updated>
     </task>
-    <option name="localTasksCounter" value="159" />
+    <task id="LOCAL-00159" summary="house keeping">
+      <option name="closed" value="true" />
+      <created>1733477360405</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1733477360405</updated>
+    </task>
+    <option name="localTasksCounter" value="160" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -813,19 +821,9 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/PbModule.kt</url>
-          <line>58</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt</url>
-          <line>67</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt</url>
-          <line>38</line>
-          <option name="timeStamp" value="11" />
+          <line>86</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../sqlbuilder1/sqlbuilder/core/builder/src/main/java/org/sqlbuilder/Builder.java</url>

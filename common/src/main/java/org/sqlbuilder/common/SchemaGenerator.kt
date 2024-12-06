@@ -161,6 +161,7 @@ class SchemaGenerator(private val variables: Variables) {
          * @param args command-line arguments
          * @throws IOException io exception
          */
+        @JvmStatic
         @Throws(IOException::class)
         fun main(args: Array<String>) {
             var args = args

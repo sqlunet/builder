@@ -29,6 +29,7 @@ class BncModule(
 
         const val MODULE_ID: String = "bnc"
 
+        @JvmStatic
         fun main(args: Array<String>) {
             var i = 0
             var mode = Mode.PLAIN

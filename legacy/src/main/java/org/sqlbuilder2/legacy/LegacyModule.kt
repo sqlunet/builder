@@ -32,6 +32,7 @@ class LegacyModule private constructor(
 
         const val MODULE_ID: String = "legacy"
 
+        @JvmStatic
         fun main(args: Array<String>) {
             LegacyModule(args).run()
         }

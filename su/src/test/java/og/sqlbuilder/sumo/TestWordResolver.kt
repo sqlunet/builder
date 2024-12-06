@@ -25,6 +25,7 @@ class TestWordResolver {
             resolver = SuWordResolver(ser)
         }
 
+        @JvmStatic
         @Throws(IOException::class)
         fun main(args: Array<String>) {
             KBLoader().load()

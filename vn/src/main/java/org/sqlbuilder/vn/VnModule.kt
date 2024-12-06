@@ -55,6 +55,7 @@ class VnModule(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
 
         const val MODULE_ID: String = "vn"
 
+        @JvmStatic
         fun main(args: Array<String>) {
             var i = 0
             var mode = Mode.PLAIN

@@ -63,6 +63,7 @@ class TestDump {
             Formula.COLLECTOR.close()
         }
 
+        @JvmStatic
         fun main(args: Array<String>) {
             KBLoader().load()
 
