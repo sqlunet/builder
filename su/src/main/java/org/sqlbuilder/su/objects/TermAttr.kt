@@ -1,6 +1,6 @@
 package org.sqlbuilder.su.objects
 
-import com.articulate.sigma.Formula
+import org.sigma.core.Formula
 import org.sqlbuilder.common.NotFoundException
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
 import org.sqlbuilder.su.Kb

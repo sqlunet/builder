@@ -8,7 +8,7 @@ import org.sqlbuilder.common.Utils.quotedEscapedString
 import java.io.Serializable
 import java.util.*
 
-typealias SUFormula = com.articulate.sigma.Formula
+typealias SUFormula = org.sigma.core.Formula
 
 class Formula private constructor(
     val formula: SUFormula, val file: SUFile,
@@ -92,7 +92,7 @@ class Formula private constructor(
 
         val COLLECTOR = SetCollector<Formula>(COMPARATOR)
 
-        fun make(formula: com.articulate.sigma.Formula): Formula {
+        fun make(formula: org.sigma.core.Formula): Formula {
             val filename = formula.getSourceFile()
             val f = Formula(formula, SUFile.make(filename))
             COLLECTOR.add(f)

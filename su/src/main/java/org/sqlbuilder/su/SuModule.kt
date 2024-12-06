@@ -1,6 +1,6 @@
 package org.sqlbuilder.su
 
-import com.articulate.sigma.Logging
+import org.sigma.core.Logging
 import org.sqlbuilder.common.Module
 import org.sqlbuilder.common.Module.Mode.Companion.read
 import org.sqlbuilder.common.NotFoundException

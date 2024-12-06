@@ -1,6 +1,6 @@
 package org.sqlbuilder.su
 
-import com.articulate.sigma.KB
+import org.sigma.core.KB
 import java.io.PrintStream
 
 object Dump {

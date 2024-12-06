@@ -1,7 +1,7 @@
 package org.sqlbuilder.su
 
-import com.articulate.sigma.FileUtil.basename
-import com.articulate.sigma.KB
+import org.sigma.core.FileUtil.basename
+import org.sigma.core.KB
 import java.io.File
 import java.io.Serializable
 

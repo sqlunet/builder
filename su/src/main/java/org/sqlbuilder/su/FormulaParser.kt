@@ -1,7 +1,7 @@
 package org.sqlbuilder.su
 
-import com.articulate.sigma.IterableFormula
-import com.articulate.sigma.kif.StreamTokenizer_s
+import org.sigma.core.IterableFormula
+import org.sigma.core.kif.StreamTokenizer_s
 import org.sqlbuilder.su.objects.Arg
 import org.sqlbuilder.su.objects.Formula
 import org.sqlbuilder.su.objects.SUFormula
