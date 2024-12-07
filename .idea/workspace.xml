@@ -8,30 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fix allowed null sensekey to stand for all senses">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/frameRelations.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/frameRelations.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/header.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/header.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/lexUnit.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/lexUnit.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/semTypes.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/semTypes.xsd" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection fixes">
       <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/sentence.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/sentence.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/frameRelations.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/frameRelations.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/header.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/header.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/lexUnit.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/lexUnit.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/semTypes.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/semTypes.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/sentence.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/sentence.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/src/main/test/org/sqlbuilder2/ser/TestSerialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/foreign/src/main/test/org/sqlbuilder2/ser/TestSerialize.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/SUFile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/SUFile.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Term.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Term.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Member.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Member.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Role.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Role.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyLemmaPosOffsetResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyLemmaPosOffsetResolver.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -152,10 +131,10 @@
     "git-widget-placeholder": "devkt2",
     "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder1/sqlbuilder/core/builder/src/main/java/org/sqlbuilder/SystemUtils.java",
     "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.37327188",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "project.scopes"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable"
   },
   "keyToStringList": {
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
@@ -487,14 +466,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00117" summary="removed adhoc pairs and triplets">
-      <option name="closed" value="true" />
-      <created>1733330289219</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1733330289219</updated>
     </task>
     <task id="LOCAL-00118" summary="simplify">
       <option name="closed" value="true" />
@@ -880,7 +851,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733551517187</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="inspection fixes">
+      <option name="closed" value="true" />
+      <created>1733554197422</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1733554197422</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -946,7 +925,6 @@
     <MESSAGE value="remove @JvmStatic" />
     <MESSAGE value="remove @JvmField" />
     <MESSAGE value="remove @JvmOverloads" />
-    <MESSAGE value="inspection fixes" />
     <MESSAGE value="upgrade to sigma-core 2.20" />
     <MESSAGE value="main entry point" />
     <MESSAGE value="house keeping" />
@@ -956,7 +934,8 @@
     <MESSAGE value="cosmetic" />
     <MESSAGE value="cleanup" />
     <MESSAGE value="fix allowed null sensekey to stand for all senses" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix allowed null sensekey to stand for all senses" />
+    <MESSAGE value="inspection fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="inspection fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
