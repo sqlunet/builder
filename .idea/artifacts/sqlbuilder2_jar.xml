@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="sqlbuilder2:jar">
+  <artifact type="jar" name="sqlbuilder2:jar">
     <output-path>$PROJECT_DIR$</output-path>
     <root id="archive" name="sqlbuilder2.jar">
       <element id="module-output" name="common" />
@@ -11,21 +11,15 @@
       <element id="module-output" name="sl" />
       <element id="module-output" name="su" />
       <element id="module-output" name="pm" />
-      <element id="module-output" name="foreign" />
       <element id="module-output" name="legacy" />
-      <element id="module-output" name="fn-jaxb" />
       <element id="module-output" name="fn-beans" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.17.1/log4j-core-2.17.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/xmlbeans/xmlbeans/5.0.3/xmlbeans-5.0.3.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-core/3.0.1/jaxb-core-3.0.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/3.0.1/jaxb-impl-3.0.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/sqlunet/sigma-core/2.10.2-SNAPSHOT/sigma-core-2.10.2-SNAPSHOT.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$/fn-beans/target/generated-resources" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/2.0.21/kotlin-stdlib-2.0.21.jar" path-in-jar="/" />
       <element id="module-output" name="variables" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/sqlunet/sigma-core/2.20.0/sigma-core-2.20.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

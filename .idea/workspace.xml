@@ -8,26 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerialize.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/foreign.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/DeSerialize.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Serialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Serialize.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foreign/src/main/test/org/sqlbuilder2/ser/TestSerialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/test/java/org/sqlbuilder/common/TestSerialize.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/KBLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/KBLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" afterDir="false" />
-    </list>
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fix unit result" />
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
@@ -145,8 +126,8 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "devkt2",
-    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder1/sqlbuilder/core/builder/src/main/java/org/sqlbuilder/SystemUtils.java",
-    "project.structure.last.edited": "Modules",
+    "last_opened_file_path": "/mnt/data2/repository/io/github/sqlunet/sigma-core/2.20.0/sigma-core-2.20.0.jar",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.37327188",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -485,38 +466,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00119" summary="tyoe aliases">
-      <option name="closed" value="true" />
-      <created>1733338263158</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1733338263158</updated>
-    </task>
-    <task id="LOCAL-00120" summary="tyoe aliases">
-      <option name="closed" value="true" />
-      <created>1733338747251</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1733338747251</updated>
-    </task>
-    <task id="LOCAL-00121" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733339367467</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1733339367467</updated>
-    </task>
-    <task id="LOCAL-00122" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733339579632</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1733339579632</updated>
     </task>
     <task id="LOCAL-00123" summary="type aliases">
       <option name="closed" value="true" />
@@ -878,7 +827,39 @@
       <option name="project" value="LOCAL" />
       <updated>1733554551083</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="allow for nullability of sensekey">
+      <option name="closed" value="true" />
+      <created>1733555734844</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1733555734844</updated>
+    </task>
+    <task id="LOCAL-00169" summary="remove foreign module">
+      <option name="closed" value="true" />
+      <created>1733555807471</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1733555807471</updated>
+    </task>
+    <task id="LOCAL-00170" summary="remove foreign module">
+      <option name="closed" value="true" />
+      <created>1733555846209</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1733555846209</updated>
+    </task>
+    <task id="LOCAL-00171" summary="fix unit result">
+      <option name="closed" value="true" />
+      <created>1733555869741</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1733555869741</updated>
+    </task>
+    <option name="localTasksCounter" value="172" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -929,9 +910,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="test kotlin pair serializability" />
-    <MESSAGE value="removed adhoc pairs and triplets" />
-    <MESSAGE value="simplify" />
     <MESSAGE value="type aliases split" />
     <MESSAGE value="change join pairs to data class" />
     <MESSAGE value="type aliases" />
@@ -954,7 +932,10 @@
     <MESSAGE value="cleanup" />
     <MESSAGE value="fix allowed null sensekey to stand for all senses" />
     <MESSAGE value="inspection fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="inspection fixes" />
+    <MESSAGE value="allow for nullability of sensekey" />
+    <MESSAGE value="remove foreign module" />
+    <MESSAGE value="fix unit result" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix unit result" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
