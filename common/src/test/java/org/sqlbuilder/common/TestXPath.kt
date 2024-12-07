@@ -3,6 +3,7 @@ package org.sqlbuilder.common
 import org.junit.BeforeClass
 import org.junit.Test
 import org.sqlbuilder.common.Progress.trace
+import org.sqlbuilder.common.Progress.traceHeader
 import org.sqlbuilder.common.Progress.traceTailer
 import org.sqlbuilder.common.XPathUtils.getXML
 import org.sqlbuilder.common.XPathUtils.getXPaths
@@ -64,7 +65,7 @@ class TestXPath {
             }
             // iterate
             var fileCount = 0
-            println("reading files")
+            traceHeader("xpath", "reading files")
             files
                 .asSequence()
                 .sortedWith(Comparator.comparing<File, String> { it.name })

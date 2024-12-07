@@ -1,53 +1,52 @@
 package org.sqlbuilder.common
 
+import java.io.PrintStream
+
 object Progress {
 
+    val INFO: PrintStream = System.out
+
     fun tracePending(tag: String, message: String?) {
-        print("$tag $message")
+        INFO.print("$tag $message")
+    }
+
+    // P R O G R E S S
+
+    val PROGRESS: PrintStream = System.err
+
+    private const val GRANULARITY: Long = 10
+
+    fun traceHeader(tag: String, message: String) {
+        PROGRESS.println(">$tag $message")
+    }
+
+    fun traceTailer(tag: String, message: String) {
+        PROGRESS.println("<$tag $message")
+    }
+
+    fun traceTailer(count: Long) {
+        PROGRESS.println("\r<$count")
+    }
+
+    fun trace(progress: Long) {
+        if (progress % GRANULARITY == 0L) {
+            var occurs: Long = progress / GRANULARITY
+            val c = when (occurs % 4L) {
+                0L   -> '—'
+                1L   -> '\\'
+                2L   -> '|'
+                3L   -> '/'
+                else -> '.'
+            }
+            PROGRESS.print("\r$c $progress")
+        }
     }
 
     fun traceDone(message: String? = null) {
         if (message == null) {
-            println(" ✓")
+            INFO.println(" ✓")
         } else {
-            System.err.println(" ✘ $message")
+            PROGRESS.println(" ✘ $message")
         }
-    }
-
-    fun traceHeader(tag: String, message: String) {
-        System.err.println(">$tag $message")
-    }
-
-    fun traceTailer(tag: String, message: String) {
-        System.err.println("<$tag $message")
-    }
-
-    fun traceTailer(count: Long) {
-        System.err.println("<$count")
-    }
-
-    fun trace(tag: String, message: String?) {
-        System.err.println("$tag $message")
-    }
-
-    fun trace(message: String) {
-        System.err.println("mesg: $message")
-    }
-
-    private const val GRANULARITY: Long = 10
-
-    private const val PERLINE: Long = 100
-
-    fun trace(count: Long) {
-        if (count % GRANULARITY == 0L) {
-            System.err.print('.')
-        }
-        if (count % (GRANULARITY * PERLINE) == 0L) {
-            System.err.print('\n')
-        }
-    }
-
-    fun info(message: String) {
-        System.err.println(message)
     }
 }
