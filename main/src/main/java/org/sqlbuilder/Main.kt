@@ -72,7 +72,7 @@ class Main {
                 .directory(cwd)
                 .inheritIO() // Inherit I/O to see the output in the current console
                 .start()
-            println("Forked a new JVM process with PID: ${process.pid()}")
+            println("Forked a new JVM process with PID ${process.pid()}")
             return process
         }
 
@@ -100,7 +100,6 @@ class Main {
         }
 
         fun data(module: String, args: List<String>): File {
-            println("$module ${args.joinToString(separator = " ")}")
             val confPath = args[args.size - 1]
             val top = File(module)
             val conf = File(top, confPath)
@@ -118,13 +117,12 @@ class Main {
             val ops = args.slice(1..args.size - 1)
             val runModules = if ("all" == module) modules else listOf(module)
             runModules.forEach { m ->
-                println("\nMODULE: $m")
                 ops.forEach { o ->
-                    val args = if ("all" == o) arrayOf("-data", "-resolve", "-update", "-export") else arrayOf(o)
+                    val args = if ("all" == o) arrayOf("data", "resolve", "update", "export") else arrayOf(o)
                     args.forEach {
-                        val args = if ("-data" == it) listOf("$m.properties") else listOf(it, "$m.properties")
+                        val args = if ("data" == it) listOf("$m.properties") else listOf("-$it", "$m.properties")
                         val data = data(m, args)
-                        println("\tdata $data ${data.absolutePath}")
+                        println("MODULE:$module DATA:$data->${data.absolutePath} ARGS:${args.joinToString(separator = " ")}")
                         run(m, args)
                     }
                 }

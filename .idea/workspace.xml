@@ -8,7 +8,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="increment version to 2.3.1" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="increment version to 2.3.1">
+      <change afterPath="$PROJECT_DIR$/sort-dir.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,7 +126,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "devkt2",
-    "last_opened_file_path": "/mnt/data2/repository/io/github/sqlunet/sigma-core/2.20.0/sigma-core-2.20.0.jar",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2551724",
@@ -138,6 +142,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/sl" />
       <recent name="$PROJECT_DIR$/legacy" />
       <recent name="$PROJECT_DIR$/bnc" />
@@ -156,7 +161,7 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.VnModule (resolve)">
+  <component name="RunManager" selected="Application.Main (ask,ask)">
     <configuration name="Legacy (sensekeys)" type="Application" factoryName="Application" folderName="Modules">
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.legacy.LegacyModule" />
       <module name="legacy" />
@@ -461,14 +466,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00126" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733341386610</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1733341386610</updated>
     </task>
     <task id="LOCAL-00127" summary="type aliases">
       <option name="closed" value="true" />
@@ -854,7 +851,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733562700604</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="increment version to 2.3.1">
+      <option name="closed" value="true" />
+      <created>1733563049660</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1733563049661</updated>
+    </task>
+    <option name="localTasksCounter" value="176" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
