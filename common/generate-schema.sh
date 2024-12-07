@@ -10,6 +10,8 @@
 
 source define_colors.sh
 
+JAR=generate-schema.jar
+
 if [ "$1" == "-compat" ]; then
   compatswitch="-compat"
   shift
@@ -29,14 +31,14 @@ if [ "$*" != "" ]; then
   shift
   for sql in $*; do
     base=$(basename ${sql})
-    java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${outdir}" "${indir}" "${sql}"
+    java -ea -cp "${JAR}" org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${outdir}" "${indir}" "${sql}"
   done
 else
   echo -e "${C}$(readlink -f ${outdir})${Z}"
   for db in mysql sqlite; do
     for type in create index reference; do
       echo -e "${M}${db}/${type}${Z}"
-      java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${outdir}/${db}/${type}" "${db}/${type}" $*
+      java -ea -cp "${JAR}" org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${outdir}/${db}/${type}" "${db}/${type}" $*
     done
   done
 fi

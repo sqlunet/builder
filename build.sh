@@ -8,6 +8,8 @@ set -e
 
 source define_colors.sh
 
+JAR=sqlbuilder2.jar
+
 vmargs='-Xmx9G -ea'
 
 # module
@@ -39,7 +41,7 @@ for m in ${modules}; do
     if [ "${t}" = "-base" ]; then
       t=
     fi
-    java ${vmargs} -cp ../sqlbuilder2.jar org.sqlbuilder.${m}.${m^}Module ${t} ${m}.properties
+    java ${vmargs} -cp "../${JAR}" org.sqlbuilder.${m}.${m^}Module ${t} ${m}.properties
   done
   popd > /dev/null
 done

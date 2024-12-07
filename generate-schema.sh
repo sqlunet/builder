@@ -7,6 +7,8 @@ set -e
 # indir
 # files*: external sql template file names, if none they are taken from resources
 
+JAR=generate-schema.jar
+
 source define_colors.sh
 
 # -compat
@@ -57,7 +59,7 @@ for module in ${modules}; do
     for sql in ${inputs}; do
       base=$(basename ${sql})
       echo -e "${M}${sql}/${type}${Z}"
-      java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
+      java -ea -cp "${JAR}" org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
     done
   else
     # all sqls
@@ -65,7 +67,7 @@ for module in ${modules}; do
     for db in mysql sqlite; do
       for type in create index reference anchor cleanup views; do
         echo -e "${M}${db}/${type}${Z}"
-        java -ea -cp generate-schema.jar org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
+        java -ea -cp "${JAR}" org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
       done
     done
   fi

@@ -8,12 +8,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fix unit result" />
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
-      <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate-schema.jar" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.jar" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
+      <change beforePath="$PROJECT_DIR$/generate-schema.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-schema31.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema31.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-dump-schema.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mysql-dump-schema.sh" afterDir="false" />
     </list>
+    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,7 +130,7 @@
     "last_opened_file_path": "/mnt/data2/repository/io/github/sqlunet/sigma-core/2.20.0/sigma-core-2.20.0.jar",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.37327188",
+    "project.structure.side.proportion": "0.2551724",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable"
   },
@@ -466,14 +467,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00123" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733340193470</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1733340193470</updated>
     </task>
     <task id="LOCAL-00124" summary="type aliases">
       <option name="closed" value="true" />
@@ -859,7 +852,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733555869741</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="house keeping">
+      <option name="closed" value="true" />
+      <created>1733556333766</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1733556333766</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -924,7 +925,6 @@
     <MESSAGE value="remove @JvmOverloads" />
     <MESSAGE value="upgrade to sigma-core 2.20" />
     <MESSAGE value="main entry point" />
-    <MESSAGE value="house keeping" />
     <MESSAGE value="JvmStatic" />
     <MESSAGE value="clarify arguments" />
     <MESSAGE value="fork" />
@@ -935,7 +935,8 @@
     <MESSAGE value="allow for nullability of sensekey" />
     <MESSAGE value="remove foreign module" />
     <MESSAGE value="fix unit result" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix unit result" />
+    <MESSAGE value="house keeping" />
+    <option name="LAST_COMMIT_MESSAGE" value="house keeping" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
