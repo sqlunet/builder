@@ -11,7 +11,6 @@ import org.sqlbuilder.sl.SlModule
 import org.sqlbuilder.sn.SnModule
 import org.sqlbuilder.su.SuModule
 import org.sqlbuilder.vn.VnModule
-import org.sqlbuilder2.legacy.LegacyModule
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -36,12 +35,11 @@ class Main {
             "fn",
             "pm",
             "su",
-            "legacy",
         )
 
-        private fun getProperties0(conf: String): Properties {
+        private fun getProperties(conf: String, clazz: Class<*>): Properties {
             val props = Properties()
-            val url: URL = Main::class.java.getResource(conf)!!
+            val url: URL = clazz.getResource(conf)!!
             try {
                 url.openStream().use {
                     props.load(it)
@@ -65,27 +63,51 @@ class Main {
             return props
         }
 
-        fun run0(module: String, args: Array<String>) {
-            when (module) {
-                "bnc"    -> BncModule.main(args)
-                "sn"     -> SnModule.main(args)
-                "vn"     -> VnModule.main(args)
-                "pb"     -> PbModule.main(args)
-                "sl"     -> SlModule.main(args)
-                "fn"     -> FnModule.main(args)
-                "pm"     -> PmModule.main(args)
-                "su"     -> SuModule.main(args)
-                "legacy" -> LegacyModule.main(args)
-                else     -> {}
+        fun forkJvm(mainClass: String, args: List<String> = emptyList(), cwd: File = File(".")): Process {
+            val javaHome = System.getProperty("java.home")
+            val javaExec = File(javaHome, "bin/java").absolutePath
+            val classpath = System.getProperty("java.class.path")
+            val command = listOf(javaExec, "-cp", classpath, mainClass) + args
+            val process = ProcessBuilder(command)
+                .directory(cwd)
+                .inheritIO() // Inherit I/O to see the output in the current console
+                .start()
+            println("Forked a new JVM process with PID: ${process.pid()}")
+            return process
+        }
+
+        fun mainClass(module: String): Class<*>? {
+            return when (module) {
+                "bnc" -> BncModule::class.java
+                "sn"  -> SnModule::class.java
+                "vn"  -> VnModule::class.java
+                "pb"  -> PbModule::class.java
+                "sl"  -> SlModule::class.java
+                "fn"  -> FnModule::class.java
+                "pm"  -> PmModule::class.java
+                "su"  -> SuModule::class.java
+                else  -> null
             }
         }
 
-        fun run(module: String, args: Array<String>) {
-            println("$module ${args.joinToString(separator = " ")}")
-            val conf = args[args.size - 1]
+        fun run(module: String, args: List<String>) {
+            val mainClass = mainClass(module)
+            if (mainClass != null) {
+                val process = forkJvm(mainClass.canonicalName, args, File(".", module))
+                val exitCode = process.waitFor()
+                println("Forked process with PID ${process.pid()} exited with code $exitCode")
+            }
+        }
 
-            val props = getProperties("${module}/$conf")
-            println(props["${module}_home"])
+        fun data(module: String, args: List<String>): File {
+            println("$module ${args.joinToString(separator = " ")}")
+            val confPath = args[args.size - 1]
+            val top = File(module)
+            val conf = File(top, confPath)
+            val props = getProperties(conf.absolutePath)
+            val dataPath = props["${module}_home"] as String
+            val data = File(top, dataPath)
+            return data
         }
 
         @JvmStatic
@@ -96,14 +118,18 @@ class Main {
             val ops = args.slice(1..args.size - 1)
             val runModules = if ("all" == module) modules else listOf(module)
             runModules.forEach { m ->
-                println("\nMOD: $m")
+                println("\nMODULE: $m")
                 ops.forEach { o ->
                     val args = if ("all" == o) arrayOf("-data", "-resolve", "-update", "-export") else arrayOf(o)
                     args.forEach {
-                        run(m, if ("-data" == it) arrayOf("$m.properties") else arrayOf(it, "$m.properties"))
+                        val args = if ("-data" == it) listOf("$m.properties") else listOf(it, "$m.properties")
+                        val data = data(m, args)
+                        println("\tdata $data ${data.absolutePath}")
+                        run(m, args)
                     }
                 }
             }
         }
     }
 }
+
