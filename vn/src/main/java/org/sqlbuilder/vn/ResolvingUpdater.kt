@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Progress.traceDone
 import org.sqlbuilder.common.Progress.tracePending
 import org.sqlbuilder.common.Update.update
 import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.vn.objects.Sense
 import org.sqlbuilder.vn.objects.Word
@@ -56,7 +57,8 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             names.table("members_senses"),
             sensekeyResolver,
             { resolved -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved.first)},$synsetidCol=${nullableInt(resolved.second)}" },
-            { resolving -> "$sensekeyCol='${escape(resolving)}'" })
+            { resolving -> "$sensekeyCol='${nullable(resolving) { escape(it) }}'" }
+        )
         traceDone()
     }
 }
