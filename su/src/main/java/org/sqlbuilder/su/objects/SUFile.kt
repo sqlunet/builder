@@ -13,8 +13,8 @@ import java.util.*
 class SUFile private constructor(
 
     val filename: String,
-    val fileVersion: String?,
-    val fileDate: Date?,
+    @Suppress("SameParameterValue") val fileVersion: String?,
+    @Suppress("SameParameterValue") val fileDate: Date?,
 ) : HasId, Insertable, Serializable, Comparable<SUFile>, Resolvable<String, Int> {
 
     // I D E N T I T Y

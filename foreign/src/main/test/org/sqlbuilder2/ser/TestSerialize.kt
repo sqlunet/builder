@@ -1,7 +1,6 @@
 package org.sqlbuilder2.ser
 
 import org.junit.Assert
-import org.junit.BeforeClass
 import org.junit.Test
 import org.sqlbuilder2.ser.DeSerialize.deserialize
 import org.sqlbuilder2.ser.Serialize.serialize
@@ -31,10 +30,10 @@ class TestSerialize {
 
     companion object {
 
-        @JvmStatic
-        @BeforeClass
-        fun init() {
-            // empty
-        }
+        // @JvmStatic
+        // @BeforeClass
+        // fun init() {
+        //     // empty
+        // }
     }
 }

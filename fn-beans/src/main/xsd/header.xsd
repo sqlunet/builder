@@ -26,7 +26,7 @@
                The <address-book> can contain multiple <item> elements
                with unique <name> values.
                Notice that <mobile> element is specified as a restriction of xsd:string
-               and must match the pattern: three digits followed by a hypen followed 
+               and must match the pattern: three digits followed by a hyphen followed
                by six digits.
    -->
     <xsd:include schemaLocation="commonTypes.xsd"/>

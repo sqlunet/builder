@@ -1,7 +1,6 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Progress
-import org.sqlbuilder.common.Update
 import org.sqlbuilder.common.Update.update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt

@@ -10,21 +10,19 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
     lateinit var filenames: Array<String>
         private set
 
-    fun make(full: Boolean): Boolean {
+    fun make(full: Boolean) {
         make(getFiles(kbDir, full))
-        return true
     }
 
-    fun make(files: Array<String>?): Boolean {
+    fun make(files: Array<String>?) {
         filenames = files ?: getFiles(kbDir, true)
         val filePaths: Array<String> = Array(filenames.size) {
             kbDir + File.separatorChar + filenames[it]
         }
         makeKB(this, filePaths)
-        return true
     }
 
-    fun makeClausalForms(): Boolean {
+    fun makeClausalForms() {
         var count: Long = 0
         for (fs in formulaIndex.values) {
             for (f in fs) {
@@ -37,7 +35,6 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
                 }
             }
         }
-        return true
     }
 
     companion object {

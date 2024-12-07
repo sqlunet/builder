@@ -105,7 +105,7 @@
         <xsd:attribute name="total" type="fn:countType" use="required"/>
     </xsd:complexType>
   
-    <!-- FEGRoupRealization type -->
+    <!-- FEGroupRealization type -->
     <xsd:complexType name="FEGroupRealizationType">
         <xsd:sequence>
             <xsd:element name="FE" type="fn:FEValenceType" maxOccurs="unbounded"/>

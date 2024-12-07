@@ -633,6 +633,7 @@
     <pattern value="og.sqlbuilder.sumo.TestWordResolver.Companion" method="init" />
     <pattern value="og.sqlbuilder.sumo.TestMappings.Companion" method="shutdown" />
     <pattern value="og.sqlbuilder.sumo.TestProcessor.Companion" method="shutdown" />
+    <pattern value="org.sqlbuilder.Main.Companion" method="getProperties" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">

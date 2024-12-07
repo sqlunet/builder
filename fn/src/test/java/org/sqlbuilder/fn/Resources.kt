@@ -94,8 +94,8 @@ class Resources {
         }
     }
 
+    @Suppress("unused")
     val tables: List<String>
-        // tables
         get() = getValuesWithOp("table", true)
 
     fun getTables(vararg tableKeys0: String): List<String?> {

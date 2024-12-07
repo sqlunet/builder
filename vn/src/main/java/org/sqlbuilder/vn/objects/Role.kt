@@ -12,6 +12,7 @@ class Role private constructor(
     val restrRole: RestrainedRole
 ) : Insertable, HasId {
 
+    @Suppress("unused")
     val roleType: RoleType
         get() = restrRole.roleType
 

@@ -14,6 +14,7 @@ object TestUtils {
 
     var OUT: PrintStream = System.out
 
+    @Suppress("unused")
     val OUT_INFO: PrintStream = System.out
 
     var OUT_WARN: PrintStream = System.out

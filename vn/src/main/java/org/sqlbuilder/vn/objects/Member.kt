@@ -10,6 +10,7 @@ private constructor(
     private val isDefinite: Boolean,
 ) {
 
+    @Suppress("unused")
     val quality: Float
         get() = if (isDefinite) 1f else .5f
 

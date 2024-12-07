@@ -124,9 +124,12 @@ class Normalizer(
 
         private val SQLS_NEW_PK = arrayOf(Resources.resources.getString("Normalizer.new-pk")!!)
 
-        private val SQLS_LENGTH = Resources.resources.getString("Normalizer.length")
+        // private val SQLS_LENGTH = Resources.resources.getString("Normalizer.length")
 
-        private fun joinAs(alias: String, vararg args: String): String {
+        private fun joinAs(
+            @Suppress("SameParameterValue") alias: String,
+            vararg args: String
+        ): String {
             val sb = StringBuilder()
             var i = 0
             while (i < args.size) {

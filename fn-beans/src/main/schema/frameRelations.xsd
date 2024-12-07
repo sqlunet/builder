@@ -5,7 +5,7 @@
 Removed restriction that frameRelationType must contain a
      FrameRelation element; changed to zero or more. Needed if a new
      frameRelationType has been created but not yet populated, as
-     recently happened with the Metaphor relatation type.
+     recently happened with the Metaphor relation type.
 -->
 
 

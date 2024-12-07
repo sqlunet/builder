@@ -20,7 +20,7 @@ QUESTION: should this be required?
 5. "semType" always have the element "definition" 
 6. "definition" is just text
 7. "semType" has the element "superType"
-9. "superType" element has two attibutes
+9. "superType" element has two attributes
     9a. "superTypeName", a string
     9b. "supID", a non-negative integer
     NOTE: "superTypeName" and "supID" correspond to the same "semType", which is
@@ -62,7 +62,7 @@ for validation -->
             <xsd:element name="definition" type="xsd:string"/>
             <xsd:element name="superType" minOccurs="0" maxOccurs="unbounded"> <!-- Q: Should there be a maxOccurs? -->
                 <xsd:complexType>
-                                <!-- "superType" element has two attibutes
+                                <!-- "superType" element has two attributes
                                         1. "superTypeName", a string
                                         2. "supID", a non-negative integer-->
                     <xsd:attribute name="superTypeName" 

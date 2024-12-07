@@ -72,6 +72,7 @@ class Term private constructor(
 
         val COLLECTOR = SetCollector<Term>(COMPARATOR)
 
+        @Suppress("unused")
         val wellKnownTerms = arrayOf<String>(
             "subclass", "subrelation", "instance", "disjoint",
             "domain", "partition",

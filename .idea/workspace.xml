@@ -8,24 +8,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fix allowed null sensekey to stand for all senses">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/src/main/java/org/sqlbuilder/bnc/BncModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerializeNIDs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerializeNIDs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/SchemaGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/SchemaGenerator.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/FnModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/PbModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/PbModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/SlModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sl/src/main/java/org/sqlbuilder/sl/SlModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sn/src/main/java/org/sqlbuilder/sn/SnModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/SuModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestDump.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestDump.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestMappings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestMappings.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestWordResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestWordResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/VnModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/frameRelations.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/frameRelations.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/header.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/header.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/lexUnit.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/lexUnit.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/semTypes.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/semTypes.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/sentence.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/sentence.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/frameRelations.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/frameRelations.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/header.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/header.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/lexUnit.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/lexUnit.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/semTypes.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/semTypes.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/xsd/sentence.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/xsd/sentence.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Normalizer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/Resources.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/test/org/sqlbuilder2/ser/TestSerialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/foreign/src/main/test/org/sqlbuilder2/ser/TestSerialize.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/ResolvingUpdater.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/Kb.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/SUFile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/SUFile.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Term.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/objects/Term.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/test/java/og/sqlbuilder/sumo/TestUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Member.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Member.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Role.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/objects/Role.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -102,6 +108,15 @@
     "Application.BncModule.executor": "Run",
     "Application.FnModule (update).executor": "Run",
     "Application.FnModule.executor": "Run",
+    "Application.Legacy (sensekeys).executor": "Run",
+    "Application.Legacy (synsets 30 31).executor": "Run",
+    "Application.Legacy (synsets).executor": "Run",
+    "Application.Main (all,export).executor": "Run",
+    "Application.Main (ask,ask).executor": "Run",
+    "Application.Main (pb).executor": "Debug",
+    "Application.Main (pb,all).executor": "Run",
+    "Application.Main (pb,data).executor": "Run",
+    "Application.Main (vn,all).executor": "Run",
     "Application.Main.executor": "Run",
     "Application.PbModule (resolve).executor": "Run",
     "Application.PbModule (update).executor": "Run",
@@ -166,11 +181,139 @@
       <recent name="org.sqlbuilder.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.VnModule (update)">
-    <configuration name="Main" type="Application" factoryName="Application" folderName="Modules">
+  <component name="RunManager" selected="Application.VnModule (resolve)">
+    <configuration name="Legacy (sensekeys)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.legacy.LegacyModule" />
+      <module name="legacy" />
+      <option name="PROGRAM_PARAMETERS" value="legacy.properties sensekeys from=30" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Legacy (synsets 30 31)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.legacy.LegacyModule" />
+      <module name="legacy" />
+      <option name="PROGRAM_PARAMETERS" value="legacy.properties synsets from=30 to=31 " />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Legacy (synsets)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.legacy.LegacyModule" />
+      <module name="legacy" />
+      <option name="PROGRAM_PARAMETERS" value="legacy.properties synsets from=30 to=XX " />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (all,all)" type="Application" factoryName="Application" folderName="Modules">
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
       <module name="main" />
       <option name="PROGRAM_PARAMETERS" value="all all" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (all,export)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
+      <module name="main" />
+      <option name="PROGRAM_PARAMETERS" value="all -export" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (ask,ask)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
+      <module name="main" />
+      <option name="PROGRAM_PARAMETERS" value="$Prompt$ $Prompt$" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (fn,all)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
+      <module name="main" />
+      <option name="PROGRAM_PARAMETERS" value="fn all" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (pb,all)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
+      <module name="main" />
+      <option name="PROGRAM_PARAMETERS" value="pb all" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (vn,all)" type="Application" factoryName="Application" folderName="Modules">
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
+      <module name="main" />
+      <option name="PROGRAM_PARAMETERS" value="vn all" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
       <extension name="coverage">
@@ -286,7 +429,15 @@
       <item itemvalue="Application.SchemaGenerator (vn create)" />
       <item itemvalue="Application.SchemaGenerator (vn index)" />
       <item itemvalue="Application.SchemaGenerator (vn reference)" />
-      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Legacy (sensekeys)" />
+      <item itemvalue="Application.Legacy (synsets)" />
+      <item itemvalue="Application.Legacy (synsets 30 31)" />
+      <item itemvalue="Application.Main (ask,ask)" />
+      <item itemvalue="Application.Main (all,all)" />
+      <item itemvalue="Application.Main (all,export)" />
+      <item itemvalue="Application.Main (vn,all)" />
+      <item itemvalue="Application.Main (pb,all)" />
+      <item itemvalue="Application.Main (fn,all)" />
       <item itemvalue="Application.BncModule" />
       <item itemvalue="Application.BncModule (resolve)" />
       <item itemvalue="Application.BncModule (update)" />
@@ -336,54 +487,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00111" summary="house keeping">
-      <option name="closed" value="true" />
-      <created>1733298785317</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1733298785317</updated>
-    </task>
-    <task id="LOCAL-00112" summary="remove ThrowingBiConsumer">
-      <option name="closed" value="true" />
-      <created>1733299178497</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1733299178497</updated>
-    </task>
-    <task id="LOCAL-00113" summary="remove ThrowingBiConsumer">
-      <option name="closed" value="true" />
-      <created>1733299269815</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1733299269815</updated>
-    </task>
-    <task id="LOCAL-00114" summary="remove ThrowingFunction">
-      <option name="closed" value="true" />
-      <created>1733299842686</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1733299842687</updated>
-    </task>
-    <task id="LOCAL-00115" summary="remove printf">
-      <option name="closed" value="true" />
-      <created>1733300047068</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1733300047068</updated>
-    </task>
-    <task id="LOCAL-00116" summary="test kotlin pair serializability">
-      <option name="closed" value="true" />
-      <created>1733328832782</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1733328832782</updated>
     </task>
     <task id="LOCAL-00117" summary="removed adhoc pairs and triplets">
       <option name="closed" value="true" />
@@ -729,7 +832,55 @@
       <option name="project" value="LOCAL" />
       <updated>1733477360405</updated>
     </task>
-    <option name="localTasksCounter" value="160" />
+    <task id="LOCAL-00160" summary="JvmStatic">
+      <option name="closed" value="true" />
+      <created>1733480263504</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1733480263504</updated>
+    </task>
+    <task id="LOCAL-00161" summary="clarify arguments">
+      <option name="closed" value="true" />
+      <created>1733551112259</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1733551112259</updated>
+    </task>
+    <task id="LOCAL-00162" summary="fork">
+      <option name="closed" value="true" />
+      <created>1733551134448</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1733551134448</updated>
+    </task>
+    <task id="LOCAL-00163" summary="cosmetic">
+      <option name="closed" value="true" />
+      <created>1733551171926</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1733551171926</updated>
+    </task>
+    <task id="LOCAL-00164" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733551416870</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1733551416870</updated>
+    </task>
+    <task id="LOCAL-00165" summary="fix allowed null sensekey to stand for all senses">
+      <option name="closed" value="true" />
+      <created>1733551517187</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1733551517187</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -780,16 +931,10 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="remove uber, add main" />
-    <MESSAGE value="to kotlin" />
-    <MESSAGE value="remove ThrowingBiConsumer" />
-    <MESSAGE value="remove ThrowingFunction" />
-    <MESSAGE value="remove printf" />
     <MESSAGE value="test kotlin pair serializability" />
     <MESSAGE value="removed adhoc pairs and triplets" />
     <MESSAGE value="simplify" />
     <MESSAGE value="type aliases split" />
-    <MESSAGE value="cleanup" />
     <MESSAGE value="change join pairs to data class" />
     <MESSAGE value="type aliases" />
     <MESSAGE value="type aliases" />
@@ -805,32 +950,16 @@
     <MESSAGE value="upgrade to sigma-core 2.20" />
     <MESSAGE value="main entry point" />
     <MESSAGE value="house keeping" />
-    <option name="LAST_COMMIT_MESSAGE" value="house keeping" />
+    <MESSAGE value="JvmStatic" />
+    <MESSAGE value="clarify arguments" />
+    <MESSAGE value="fork" />
+    <MESSAGE value="cosmetic" />
+    <MESSAGE value="cleanup" />
+    <MESSAGE value="fix allowed null sensekey to stand for all senses" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix allowed null sensekey to stand for all senses" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt</url>
-          <line>9</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/fn/src/test/java/org/sqlbuilder/fn/TestCollector.kt</url>
-          <line>21</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt</url>
-          <line>86</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../sqlbuilder1/sqlbuilder/core/builder/src/main/java/org/sqlbuilder/Builder.java</url>
-          <line>266</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -839,5 +968,11 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="args[1]" language="kotlin" />
+        <watch expression="args[1] != &quot;generate&quot;" language="kotlin" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
