@@ -124,7 +124,7 @@ class Main {
                     args.forEach {
                         val args = if ("data" == it) listOf("$m.properties") else listOf("-$it", "$m.properties")
                         val data = data(m, args)
-                        println(magenta("MODULE:$module DATA:$data->${data.absolutePath} ARGS:${args.joinToString(separator = " ")}"))
+                        println(magenta("MODULE:$m OP:$o DATA:$data->${data.absolutePath} ARGS:${args.joinToString(separator = " ")}"))
                         run(m, args)
                     }
                 }
