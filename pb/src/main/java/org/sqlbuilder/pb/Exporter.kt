@@ -1,12 +1,12 @@
 package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Serialize
 import org.sqlbuilder.pb.foreign.AliasFnFeLinks
 import org.sqlbuilder.pb.foreign.AliasVnRoleLinks
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
 import org.sqlbuilder.pb.objects.Word
-import org.sqlbuilder.common.Serialize
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -77,21 +77,9 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportWords() {
-        val m = makeWordMap()
-        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
-    }
-
-    @Throws(IOException::class)
     fun serializeRoleSets() {
         val m = makeRoleSetsMap()
         Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
-    }
-
-    @Throws(IOException::class)
-    fun exportRoleSets() {
-        val m = makeRoleSetsMap()
-        export(m, File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")))
     }
 
     @Throws(IOException::class)
@@ -101,21 +89,9 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportRoles() {
-        val m = makeRolesFromArgTypeToFullTreeMap()
-        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid,rolesetid]")))
-    }
-
-    @Throws(IOException::class)
     fun serializeRolesBare() {
         val m = makeRolesMap()
         Serialize.serialize(m, File(outDir, names.serFile("roles", ".resolve_[roleset,argtype]-[roleid]")))
-    }
-
-    @Throws(IOException::class)
-    fun exportRolesBare() {
-        val m = makeRolesTreeMap()
-        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
     }
 
     @Throws(IOException::class)
@@ -125,20 +101,44 @@ open class Exporter(conf: Properties) {
     }
 
     @Throws(IOException::class)
-    fun exportVnRoles() {
-        val m = makeVnRolesMap()
-        export(m, File(outDir, names.mapFile("vnroles.resolve", "_[vnrole]-[vnroleid]")))
-    }
-
-    @Throws(IOException::class)
     fun serializeFnFes() {
         val m = makeFnFesMap()
         Serialize.serialize(m, File(outDir, names.serFile("fnfes", ".resolve_[fe]-[feid]")))
     }
 
     @Throws(IOException::class)
+    fun exportWords() {
+        val m = makeWordMap().toSortedMap()
+        export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportRoleSets() {
+        val m = makeRoleSetsMap().toSortedMap()
+        export(m, File(outDir, names.mapFile("rolesets.resolve", "_[roleset]-[rolesetid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportRoles() {
+        val m = makeRolesFromArgTypeToFullTreeMap().toSortedMap(STRING_PAIR_COMPARATOR)
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid,rolesetid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportRolesBare() {
+        val m = makeRolesMap().toSortedMap(STRING_PAIR_COMPARATOR)
+        export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid]")))
+    }
+
+    @Throws(IOException::class)
+    fun exportVnRoles() {
+        val m = makeVnRolesMap().toSortedMap()
+        export(m, File(outDir, names.mapFile("vnroles.resolve", "_[vnrole]-[vnroleid]")))
+    }
+
+    @Throws(IOException::class)
     fun exportFnFes() {
-        val m = makeFnFesMap()
+        val m = makeFnFesMap().toSortedMap()
         export(m, File(outDir, names.mapFile("fnfes.resolve", "_[fe]-[feid]")))
     }
 
@@ -164,7 +164,6 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map { it.word to Word.COLLECTOR.invoke(it) }
             .toMap()
-            .toSortedMap()
     }
 
     fun makeRoleSetsMap(): Map<String, Int> {
@@ -172,7 +171,6 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map { it.name to RoleSet.COLLECTOR.invoke(it) }
             .toMap()
-            .toSortedMap()
     }
 
     fun makeVnRolesMap(): Map<String, Int> {
@@ -180,7 +178,6 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map { it.names.toString() to AliasVnRoleLinks.COLLECTOR.invoke(it) }
             .toMap()
-            .toSortedMap()
     }
 
     fun makeFnFesMap(): Map<String, Int> {
@@ -188,7 +185,6 @@ open class Exporter(conf: Properties) {
             .asSequence()
             .map { it.names.toString() to AliasFnFeLinks.COLLECTOR.invoke(it) }
             .toMap()
-            .toSortedMap()
     }
 
     fun makeRolesMap(): Map<Pair<String, String>, Int> {
@@ -200,17 +196,6 @@ open class Exporter(conf: Properties) {
                 (rs.name to it.argType) to Role.COLLECTOR.invoke(it)
             }
             .toMap()
-    }
-
-    fun makeRolesTreeMap(): Map<Pair<String, String>, Int> {
-        return Role.COLLECTOR
-            .asSequence()
-            .map {
-                val rs = it.roleSet
-                (rs.name to it.argType) to Role.COLLECTOR.invoke(it)
-            }
-            .toMap()
-            .toSortedMap(COMPARATOR)
     }
 
     /**
@@ -241,12 +226,11 @@ open class Exporter(conf: Properties) {
                 (rs.name to it.argType) to (Role.COLLECTOR.invoke(it) to rs.intId)
             }
             .toMap()
-            .toSortedMap(COMPARATOR)
     }
 
     companion object {
 
-        private val COMPARATOR: Comparator<Pair<String, String>> =
+        private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> =
             Comparator.comparing { p: Pair<String, String> -> p.first }
                 .thenComparing<String> { it.second }
 

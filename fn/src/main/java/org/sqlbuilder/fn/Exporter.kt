@@ -1,19 +1,20 @@
 package org.sqlbuilder.fn
 
 import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Serialize
 import org.sqlbuilder.fn.objects.FE
 import org.sqlbuilder.fn.objects.Frame
 import org.sqlbuilder.fn.objects.LexUnit
 import org.sqlbuilder.fn.objects.Word
 import org.sqlbuilder.fn.types.FeType
 import org.sqlbuilder.fn.types.FeType.getIntId
-import org.sqlbuilder.common.Serialize
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
+import kotlin.Throws
 
 class Exporter(
     conf: Properties,
@@ -87,25 +88,25 @@ class Exporter(
 
     @Throws(IOException::class)
     fun exportFrames() {
-        val m = makeFramesMap()
+        val m = makeFramesMap().toSortedMap()
         export<String, Int>(m, File(outDir, names.mapFile("frames.resolve", "_[frame]-[frameid]")))
     }
 
     @Throws(IOException::class)
     fun exportFEs() {
-        val m = makeFEsTreeMap()
+        val m = makeFEsMap().toSortedMap(STRING_PAIR_COMPARATOR)
         export(m, File(outDir, names.mapFile("fes.resolve", "_[frame,fetype]-[feid,frameid,fetypeid]")))
     }
 
     @Throws(IOException::class)
     fun exportLexUnits() {
-        val m = makeLexUnitsTreeMap()
+        val m = makeLexUnitsMap().toSortedMap(STRING_PAIR_COMPARATOR)
         export(m, File(outDir, names.mapFile("lexunits.resolve", "_[frame,lexunit]-[luid,frameid]")))
     }
 
     @Throws(IOException::class)
     fun exportWords() {
-        val m = makeWordMap()
+        val m = makeWordMap().toSortedMap()
         export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[fnwordid]")))
     }
 
@@ -121,7 +122,6 @@ class Exporter(
             .asSequence()
             .map { it.word to Word.COLLECTOR.invoke(it) }
             .toMap()
-            .toSortedMap()
     }
 
     fun makeFramesMap(): Map<String, Int> {
@@ -129,7 +129,6 @@ class Exporter(
             .asSequence()
             .map { it.name to it.iD }
             .toMap()
-            .toSortedMap()
     }
 
     fun makeFEsMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
@@ -143,18 +142,6 @@ class Exporter(
             .toMap()
     }
 
-    fun makeFEsTreeMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
-        val id2frame = Frame.SET
-            .asSequence()
-            .map { it.iD to it.name }
-            .toMap()
-        return FE.SET
-            .asSequence()
-            .map { Pair(id2frame[it.frameID]!!, it.name) to Triple(it.iD, it.frameID, getIntId(it.name)!!) }
-            .toMap()
-            .toSortedMap(COMPARATOR)
-    }
-
     fun makeLexUnitsMap(): Map<Pair<String, String>, Pair<Int, Int>> {
         return LexUnit.SET
             .asSequence()
@@ -162,17 +149,9 @@ class Exporter(
             .toMap()
     }
 
-    fun makeLexUnitsTreeMap(): Map<Pair<String, String>, Pair<Int, Int>> {
-        return LexUnit.SET
-            .asSequence()
-            .map { Pair(it.frameName, it.name) to Pair(it.iD, it.frameID) }
-            .toMap()
-            .toSortedMap(COMPARATOR)
-    }
-
     companion object {
 
-        private val COMPARATOR: Comparator<Pair<String, String>> = Comparator
+        private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> = Comparator
             .comparing<Pair<String, String>, String> { it.first }
             .thenComparing<String> { it.second }
 

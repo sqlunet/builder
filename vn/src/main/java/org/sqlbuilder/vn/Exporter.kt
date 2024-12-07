@@ -1,17 +1,18 @@
 package org.sqlbuilder.vn
 
 import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Serialize
 import org.sqlbuilder.vn.objects.Role
 import org.sqlbuilder.vn.objects.RoleType
 import org.sqlbuilder.vn.objects.VnClass
 import org.sqlbuilder.vn.objects.Word
-import org.sqlbuilder.common.Serialize
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
+import kotlin.Throws
 
 class Exporter
     (conf: Properties) {
@@ -103,37 +104,37 @@ class Exporter
 
     @Throws(IOException::class)
     fun exportClassTags() {
-        val m = makeClassTagsMap()
+        val m = makeClassTagsMap().toSortedMap()
         export(m, File(outDir, names.mapFile("classes.resolve", "_[classtag]-[classid]")))
     }
 
     @Throws(IOException::class)
     fun exportClasses() {
-        val m = makeClassesMap()
+        val m = makeClassesMap().toSortedMap()
         export(m, File(outDir, names.mapFile("classes.resolve", "_[classname]-[classid]")))
     }
 
     @Throws(IOException::class)
     fun exportRoleTypes() {
-        val m = makeRoleTypesMap()
+        val m = makeRoleTypesMap().toSortedMap()
         export(m, File(outDir, names.mapFile("roletypes.resolve", "_[roletype]-[roletypeid]")))
     }
 
     @Throws(IOException::class)
     fun exportRolesUsingClassTags() {
-        val m = makeClassTagsRolesTreeMap()
+        val m = makeClassTagsRolesMap().toSortedMap(STRING_PAIR_COMPARATOR)
         export(m, File(outDir, names.mapFile("roles.resolve", "_[classtag,roletype]-[roleid,classid,roletypeid]")))
     }
 
     @Throws(IOException::class)
     fun exportRolesUsingClassNames() {
-        val m = makeClassesRolesTreeMap()
+        val m = makeClassesRolesMap().toSortedMap(STRING_PAIR_COMPARATOR)
         export(m, File(outDir, names.mapFile("roles.resolve", "_[classname,roletype]-[roleid,classid,roletypeid]")))
     }
 
     @Throws(IOException::class)
     fun exportWords() {
-        val m = makeWordMap()
+        val m = makeWordMap().toSortedMap()
         export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[vnwordid]")))
     }
 
@@ -147,7 +148,6 @@ class Exporter
     fun makeWordMap(): Map<String, Int> {
         return Word.COLLECTOR
             .associate { it.word to Word.COLLECTOR.invoke(it) }
-            .toSortedMap()
     }
 
     /**
@@ -158,7 +158,6 @@ class Exporter
     fun makeClassesMap(): Map<String, Int> {
         return VnClass.COLLECTOR
             .associate { it.name to VnClass.COLLECTOR.invoke(it) }
-            .toSortedMap()
     }
 
     /**
@@ -169,7 +168,6 @@ class Exporter
     fun makeClassTagsMap(): Map<String, Int> {
         return VnClass.COLLECTOR
             .associate { it.tag to VnClass.COLLECTOR.invoke(it) }
-            .toSortedMap()
     }
 
     /**
@@ -180,7 +178,6 @@ class Exporter
     fun makeRoleTypesMap(): Map<String, Int> {
         return RoleType.COLLECTOR
             .associate { it.type to RoleType.COLLECTOR.invoke(it) }
-            .toSortedMap()
     }
 
     /**
@@ -194,19 +191,6 @@ class Exporter
     }
 
     /**
-     * Make classtag,roletype to ids treemap
-     *
-     * @return (classtag, roletype) to (roleid,classid,roletypeid)
-     */
-    fun makeClassTagsRolesTreeMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
-        return Role.COLLECTOR
-            .asSequence()
-            .map { Pair(it.clazz.tag, it.restrRole.roleType.type) to Triple(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
-            .toMap()
-            .toSortedMap(COMPARATOR)
-    }
-
-    /**
      * Make classname,roletype to ids map
      *
      * @return (classnameroletype) to (roleid,classid,roletypeid)
@@ -216,20 +200,9 @@ class Exporter
             .associate { Pair(it.clazz.name, it.restrRole.roleType.type) to Triple(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
     }
 
-    /**
-     * Make classname,roletype to ids treemap
-     *
-     * @return (classname, roletype) to (roleid,classid,roletypeid)
-     */
-    fun makeClassesRolesTreeMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
-        return Role.COLLECTOR
-            .associate { Pair(it.clazz.name, it.restrRole.roleType.type) to Triple(it.intId, it.clazz.intId, it.restrRole.roleType.intId) }
-            .toSortedMap(COMPARATOR)
-    }
-
     companion object {
 
-        private val COMPARATOR: Comparator<Pair<String, String>> =
+        private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> =
             Comparator
                 .comparing<Pair<String, String>, String> { it.first }
                 .thenComparing<String> { it.second }
