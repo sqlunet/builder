@@ -17,7 +17,7 @@ class SemlinkUpdatingProcessor(conf: Properties) : SemlinkProcessor(conf) {
 
     override fun run() {
         try {
-            val document = SemlinkDocument(this.semlinkFile)
+            val document = SemlinkDocument(semlinkFile)
             processSemlinks(getXPath(document.document, "./pbvn-typemap")!!)
         } catch (e: ParserConfigurationException) {
             Logger.instance.logXmlException(SlModule.MODULE_ID, tag, semlinkFile, e)

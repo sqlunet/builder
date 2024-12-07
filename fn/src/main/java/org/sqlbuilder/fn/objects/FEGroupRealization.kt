@@ -28,7 +28,7 @@ class FEGroupRealization private constructor(
     }
 
     override fun setId(id0: Int) {
-        this.id = id0
+        id = id0
     }
 
     // I D E N T I T Y
@@ -41,11 +41,11 @@ class FEGroupRealization private constructor(
             return false
         }
         val that = o as FEGroupRealization
-        return this.fENames == that.fENames && this.luID == that.luID && this.frameID == that.frameID
+        return fENames == that.fENames && luID == that.luID && frameID == that.frameID
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(this.fENames, this.luID, this.frameID)
+        return Objects.hash(fENames, luID, frameID)
     }
 
     // I N S E R T

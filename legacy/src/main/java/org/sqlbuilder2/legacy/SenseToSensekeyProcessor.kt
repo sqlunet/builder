@@ -48,8 +48,8 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
     }
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 

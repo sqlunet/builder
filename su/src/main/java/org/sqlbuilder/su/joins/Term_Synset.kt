@@ -51,7 +51,7 @@ class Term_Synset private constructor(
     }
 
     override fun comment(): String {
-        return this.term.term
+        return term.term
     }
 
     // R E S O L V E

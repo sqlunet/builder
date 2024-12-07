@@ -18,8 +18,8 @@ class TestListCollector {
             return id
         }
 
-        override fun setId(id: Int) {
-            this.id = id
+        override fun setId(id0: Int) {
+            id = id0
         }
 
         companion object {

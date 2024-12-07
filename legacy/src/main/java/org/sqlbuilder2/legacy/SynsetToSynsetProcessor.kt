@@ -26,8 +26,8 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
     private val outDir: File = File(conf.getProperty("synsets_to_synsets.destdir", "mappings"))
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 

@@ -31,8 +31,8 @@ open class SnProcessor(
     protected val sensekeyResolver = { lpo: SnLemmaPosOffsetResolvable -> toSenseKeys.invoke(lpo) }
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 

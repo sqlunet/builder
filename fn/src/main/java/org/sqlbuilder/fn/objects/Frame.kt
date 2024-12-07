@@ -45,11 +45,11 @@ class Frame private constructor(
             return false
         }
         val that = o as Frame
-        return this.iD == that.iD
+        return iD == that.iD
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(this.iD)
+        return Objects.hash(iD)
     }
 
     // I N S E R T

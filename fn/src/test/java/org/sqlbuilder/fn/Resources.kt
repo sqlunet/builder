@@ -11,7 +11,7 @@ class Resources {
     // initialize
     fun addResource(bundle: ResourceBundle) {
         for (key in bundle.keySet()) {
-            this.resourceMap.put(key, bundle.getString(key))
+            resourceMap.put(key, bundle.getString(key))
         }
     }
 
@@ -19,7 +19,7 @@ class Resources {
     fun removeKeys(vararg keys: String?): Int {
         var count = 0
         for (key in keys) {
-            val value = this.resourceMap.remove(key)
+            val value = resourceMap.remove(key)
             if (value != null) {
                 count++
                 // System.err.println("removed key $key val=$value")
@@ -31,7 +31,7 @@ class Resources {
     // keys
     fun getKeysWithOp(str: String): List<String> {
         val result = ArrayList<String>()
-        for (key in this.resourceMap.keys) {
+        for (key in resourceMap.keys) {
             val fields = key.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val opKey = fields[fields.size - 1]
             if (opKey.startsWith(str)) {
@@ -45,7 +45,7 @@ class Resources {
 
     fun getValuesWithOp(str: String, strict: Boolean): List<String> {
         val result = ArrayList<String>()
-        for (key in this.resourceMap.keys) {
+        for (key in resourceMap.keys) {
             val fields = key.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val opKey = fields[fields.size - 1]
             if (if (strict) (opKey == str) else opKey.startsWith(str)) {
@@ -58,7 +58,7 @@ class Resources {
     }
 
     fun dumpAll() {
-        for (key in this.resourceMap.keys) {
+        for (key in resourceMap.keys) {
             val value = getString(key)
             if (value != null)
                 if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
@@ -68,7 +68,7 @@ class Resources {
     }
 
     fun dumpKeys(regExp: String) {
-        for (key in this.resourceMap.keys) {
+        for (key in resourceMap.keys) {
             if (!key.matches(regExp.toRegex())) {
                 continue
             }
@@ -81,7 +81,7 @@ class Resources {
     }
 
     fun dumpRawKeys(regExp: String) {
-        for (entry in this.resourceMap.entries) {
+        for (entry in resourceMap.entries) {
             val key = entry.key
             val value = entry.value
 
@@ -116,7 +116,7 @@ class Resources {
     // get value
     fun getString(key: String): String? {
         try {
-            var str: String? = this.resourceMap[key]!!
+            var str: String? = resourceMap[key]!!
             if (str == null) throw MissingResourceException(key, Resources::class.java.getName(), key)
 
             // print("\n>[$key] $str")

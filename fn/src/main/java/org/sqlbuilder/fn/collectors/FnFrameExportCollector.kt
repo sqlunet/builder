@@ -78,7 +78,7 @@ class FnFrameExportCollector(props: Properties) : FnCollector("frame", props, "f
                 }
 
             // L E X U N I T S
-            if (!this.skipLexUnits) {
+            if (!skipLexUnits) {
                 f.getLexUnitArray()
                     .forEach { lexunit ->
                         make(lexunit, frameid, f.getName())

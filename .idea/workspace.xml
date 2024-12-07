@@ -8,10 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="increment version to 2.3.1">
-      <change afterPath="$PROJECT_DIR$/sort-dir.sh" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="fix operation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/main/java/org/sqlbuilder/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +94,10 @@
     "Application.PbModule (resolve).executor": "Run",
     "Application.PbModule (update).executor": "Run",
     "Application.PbModule.executor": "Run",
+    "Application.PmModule (update).executor": "Debug",
     "Application.SnModule.executor": "Run",
+    "Application.TestAnsiColors.executor": "Run",
+    "Application.TestProgress.executor": "Run",
     "Application.VnModule (export).executor": "Run",
     "Application.VnModule (resolve).executor": "Run",
     "Application.VnModule (update).executor": "Debug",
@@ -104,7 +105,10 @@
     "JUnit.SensekeysTest.executor": "Run",
     "JUnit.TestCollector.executor": "Run",
     "JUnit.TestCollector.test.executor": "Run",
+    "JUnit.TestDeSerialize.executor": "Run",
+    "JUnit.TestDeSerialize.testDeserializePm.executor": "Run",
     "JUnit.TestParseFile.executor": "Run",
+    "JUnit.TestProgress.executor": "Run",
     "JUnit.TestSerialize.executor": "Run",
     "JUnit.TestXPath.executor": "Run",
     "Maven.all [clean].executor": "Run",
@@ -126,7 +130,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "devkt2",
-    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2",
+    "last_opened_file_path": "/opt/devel/sqlbuilder/sqlbuilder2/common/src/test/java",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2551724",
@@ -135,6 +139,7 @@
   },
   "keyToStringList": {
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "kotlin",
       "TEXT",
       "JAVA"
     ]
@@ -151,6 +156,7 @@
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="org.sqlbuilder.common" />
       <recent name="org.sqlbuilder.sn" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
@@ -245,7 +251,7 @@
     <configuration name="Main (ask,ask)" type="Application" factoryName="Application" folderName="Modules">
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.Main" />
       <module name="main" />
-      <option name="PROGRAM_PARAMETERS" value="$Prompt$ $Prompt$" />
+      <option name="PROGRAM_PARAMETERS" value="$Prompt$" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
       <extension name="coverage">
@@ -306,6 +312,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestAnsiColors" type="Application" factoryName="Application">
+      <classpathModifications>
+        <entry path="$PROJECT_DIR$/common/src/test/java" />
+      </classpathModifications>
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestAnsi" />
+      <module name="common" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestProgress" type="Application" factoryName="Application">
+      <classpathModifications>
+        <entry path="$PROJECT_DIR$/common/src/test/java" />
+      </classpathModifications>
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestProgress" />
+      <module name="common" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SensekeysTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="legacy" />
       <extension name="coverage">
@@ -316,71 +342,69 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.sqlbuilder2.legacy" />
       <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.legacy.SensekeysTest" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestCollector" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="fn" />
+    <configuration name="TestDeSerialize" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="common" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sqlbuilder.fn.*" />
+          <option name="PATTERN" value="org.sqlbuilder.common.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.sqlbuilder.fn" />
-      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.TestCollector" />
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.common" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestDeSerialize" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestCollector.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="fn" />
+    <configuration name="TestDeSerialize.testDeserializePm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="common" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sqlbuilder.fn.*" />
+          <option name="PATTERN" value="org.sqlbuilder.common.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.sqlbuilder.fn" />
-      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.TestCollector" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.common" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestDeSerialize" />
+      <option name="METHOD_NAME" value="testDeserializePm" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestParseFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="pb" />
+    <configuration name="TestProgress" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="common" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sqlbuilder.pb.*" />
+          <option name="PATTERN" value="org.sqlbuilder.common.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.sqlbuilder.pb" />
-      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.pb.TestParseFile" />
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.common" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestProgress" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <envs>
-        <env name="PARSE" value="data/propbank-3.4/abandon.xml" />
-      </envs>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="TestSerialize" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="foreign" />
+      <module name="common" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.sqlbuilder2.ser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.sqlbuilder2.ser" />
-      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder2.ser.TestSerialize" />
+      <option name="PACKAGE_NAME" value="org.sqlbuilder.common" />
+      <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.TestSerialize" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -442,19 +466,21 @@
       <item itemvalue="Application.VnModule (export)" />
       <item itemvalue="Application.VnModule (resolve)" />
       <item itemvalue="Application.VnModule (update)" />
+      <item itemvalue="Application.TestProgress" />
+      <item itemvalue="Application.TestAnsiColors" />
+      <item itemvalue="JUnit.TestDeSerialize" />
+      <item itemvalue="JUnit.TestDeSerialize.testDeserializePm" />
+      <item itemvalue="JUnit.TestProgress" />
       <item itemvalue="JUnit.SensekeysTest" />
       <item itemvalue="JUnit.TestSerialize" />
-      <item itemvalue="JUnit.TestCollector" />
-      <item itemvalue="JUnit.TestCollector.test" />
-      <item itemvalue="JUnit.TestParseFile" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestDeSerialize" />
+        <item itemvalue="JUnit.TestDeSerialize.testDeserializePm" />
+        <item itemvalue="JUnit.TestProgress" />
         <item itemvalue="JUnit.TestSerialize" />
         <item itemvalue="JUnit.SensekeysTest" />
-        <item itemvalue="JUnit.TestParseFile" />
-        <item itemvalue="JUnit.TestCollector.test" />
-        <item itemvalue="JUnit.TestCollector" />
       </list>
     </recent_temporary>
   </component>
@@ -466,110 +492,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00127" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733341556628</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1733341556628</updated>
-    </task>
-    <task id="LOCAL-00128" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733342476823</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1733342476823</updated>
-    </task>
-    <task id="LOCAL-00129" summary="type aliases split">
-      <option name="closed" value="true" />
-      <created>1733376958373</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1733376958373</updated>
-    </task>
-    <task id="LOCAL-00130" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733377271886</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1733377271886</updated>
-    </task>
-    <task id="LOCAL-00131" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733377750359</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1733377750359</updated>
-    </task>
-    <task id="LOCAL-00132" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733379402787</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
-      <option name="project" value="LOCAL" />
-      <updated>1733379402787</updated>
-    </task>
-    <task id="LOCAL-00133" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733380154061</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1733380154061</updated>
-    </task>
-    <task id="LOCAL-00134" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733381177279</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1733381177279</updated>
-    </task>
-    <task id="LOCAL-00135" summary="cleanup">
-      <option name="closed" value="true" />
-      <created>1733382031298</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
-      <option name="project" value="LOCAL" />
-      <updated>1733382031298</updated>
-    </task>
-    <task id="LOCAL-00136" summary="change join pairs to data class">
-      <option name="closed" value="true" />
-      <created>1733385592323</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1733385592323</updated>
-    </task>
-    <task id="LOCAL-00137" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733389589168</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1733389589168</updated>
-    </task>
-    <task id="LOCAL-00138" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733390146027</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
-      <option name="project" value="LOCAL" />
-      <updated>1733390146027</updated>
-    </task>
-    <task id="LOCAL-00139" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733390723565</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
-      <option name="project" value="LOCAL" />
-      <updated>1733390723565</updated>
     </task>
     <task id="LOCAL-00140" summary="type aliases">
       <option name="closed" value="true" />
@@ -859,7 +781,111 @@
       <option name="project" value="LOCAL" />
       <updated>1733563049661</updated>
     </task>
-    <option name="localTasksCounter" value="176" />
+    <task id="LOCAL-00176" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733564440233</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1733564440233</updated>
+    </task>
+    <task id="LOCAL-00177" summary="progress as wheel">
+      <option name="closed" value="true" />
+      <created>1733582787562</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1733582787563</updated>
+    </task>
+    <task id="LOCAL-00178" summary="progress with colors">
+      <option name="closed" value="true" />
+      <created>1733588009426</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1733588009426</updated>
+    </task>
+    <task id="LOCAL-00179" summary="fix nullability">
+      <option name="closed" value="true" />
+      <created>1733590048380</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1733590048380</updated>
+    </task>
+    <task id="LOCAL-00180" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733590637928</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1733590637928</updated>
+    </task>
+    <task id="LOCAL-00181" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733590654043</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1733590654043</updated>
+    </task>
+    <task id="LOCAL-00182" summary="cleanup">
+      <option name="closed" value="true" />
+      <created>1733590660015</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1733590660015</updated>
+    </task>
+    <task id="LOCAL-00183" summary="fix display">
+      <option name="closed" value="true" />
+      <created>1733590682340</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1733590682340</updated>
+    </task>
+    <task id="LOCAL-00184" summary="fix exporters not serialize treemaps (pb with comparator)">
+      <option name="closed" value="true" />
+      <created>1733599704942</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1733599704942</updated>
+    </task>
+    <task id="LOCAL-00185" summary="fix pm">
+      <option name="closed" value="true" />
+      <created>1733599733266</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1733599733266</updated>
+    </task>
+    <task id="LOCAL-00186" summary="remove this">
+      <option name="closed" value="true" />
+      <created>1733599765993</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1733599765993</updated>
+    </task>
+    <task id="LOCAL-00187" summary="test deserialization">
+      <option name="closed" value="true" />
+      <created>1733599777654</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1733599777654</updated>
+    </task>
+    <task id="LOCAL-00188" summary="fix operation">
+      <option name="closed" value="true" />
+      <created>1733599798157</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1733599798157</updated>
+    </task>
+    <option name="localTasksCounter" value="189" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -910,15 +936,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="type aliases" />
-    <MESSAGE value="type aliases" />
-    <MESSAGE value="type aliases" />
-    <MESSAGE value="trim biconsumer" />
-    <MESSAGE value="remove biconsumer" />
-    <MESSAGE value="remove bifunction" />
-    <MESSAGE value="remove function" />
-    <MESSAGE value="remove @JvmStatic" />
-    <MESSAGE value="remove @JvmField" />
     <MESSAGE value="remove @JvmOverloads" />
     <MESSAGE value="upgrade to sigma-core 2.20" />
     <MESSAGE value="main entry point" />
@@ -926,7 +943,6 @@
     <MESSAGE value="clarify arguments" />
     <MESSAGE value="fork" />
     <MESSAGE value="cosmetic" />
-    <MESSAGE value="cleanup" />
     <MESSAGE value="fix allowed null sensekey to stand for all senses" />
     <MESSAGE value="inspection fixes" />
     <MESSAGE value="allow for nullability of sensekey" />
@@ -935,10 +951,37 @@
     <MESSAGE value="house keeping" />
     <MESSAGE value="isolate JAR reference" />
     <MESSAGE value="increment version to 2.3.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="increment version to 2.3.1" />
+    <MESSAGE value="progress as wheel" />
+    <MESSAGE value="progress with colors" />
+    <MESSAGE value="fix nullability" />
+    <MESSAGE value="cleanup" />
+    <MESSAGE value="fix display" />
+    <MESSAGE value="fix exporters not serialize treemaps (pb with comparator)" />
+    <MESSAGE value="fix pm" />
+    <MESSAGE value="remove this" />
+    <MESSAGE value="test deserialization" />
+    <MESSAGE value="fix operation" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix operation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.ClassCastException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmUpdatingProcessor.kt</url>
+          <line>64</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-field">
+          <url>file://$PROJECT_DIR$/pm/src/main/java/org/sqlbuilder/pm/PmResolvingProcessor.kt</url>
+          <line>47</line>
+          <properties myFieldName="vnRoleResolver" myClassName="org.sqlbuilder.pm.PmResolvingProcessor" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
