@@ -8,7 +8,7 @@ set -e
 
 source define_colors.sh
 
-JAR=sqlbuilder2.jar
+JAR=sqlunet-builder.jar
 
 vmargs='-Xmx9G -ea'
 
