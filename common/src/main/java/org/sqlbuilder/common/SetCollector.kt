@@ -33,7 +33,8 @@ class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, (T) -> Int, Clos
         return map.put(item, null) == null // null if there was no mapping
     }
 
-    val size = map.size
+    val size
+        get() = map.size
 
     override fun iterator(): Iterator<T> {
         return map.keys.iterator()
