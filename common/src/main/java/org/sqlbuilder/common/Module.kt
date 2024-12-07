@@ -28,7 +28,6 @@ abstract class Module protected constructor(val id: String?, conf: String, prote
 
     companion object {
 
-        @Nullable
         fun getProperties(conf: String): Properties {
             val confFile = File(conf)
             FileInputStream(confFile).use {
