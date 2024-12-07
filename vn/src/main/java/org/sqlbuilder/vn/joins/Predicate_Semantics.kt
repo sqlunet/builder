@@ -7,7 +7,7 @@ import org.sqlbuilder.vn.objects.Semantics
 import java.util.*
 
 class Predicate_Semantics private constructor(
-    val predicate: Predicate, // A C C E S S
+    val predicate: Predicate,
     val semantics: Semantics,
 ) : Insertable, Comparable<Predicate_Semantics> {
 

@@ -38,7 +38,7 @@ class RestrType private constructor(
         return COMPARATOR.compare(this, that)
     }
 
-    // A C C E S S
+    // T O S T R I N G
 
     override fun toString(): String {
         val buffer = StringBuilder()

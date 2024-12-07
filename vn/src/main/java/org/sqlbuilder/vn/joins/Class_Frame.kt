@@ -7,7 +7,8 @@ import org.sqlbuilder.vn.objects.VnClass
 import java.util.*
 
 class Class_Frame private constructor(
-    val clazz: VnClass, val frame: Frame,
+    val clazz: VnClass,
+    val frame: Frame,
 ) : Insertable, Comparable<Class_Frame> {
 
     // I D E N T I T Y
