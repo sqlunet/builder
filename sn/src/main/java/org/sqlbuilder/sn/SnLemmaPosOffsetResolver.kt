@@ -1,7 +1,7 @@
 package org.sqlbuilder.sn
 
+import org.sqlbuilder.common.DeSerialize
 import org.sqlbuilder.common.Resolver
-import org.sqlbuilder2.ser.DeSerialize
 import java.io.File
 
 typealias SnWord =  String

@@ -8,13 +8,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="house keeping">
-      <change beforePath="$PROJECT_DIR$/generate-schema.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate-schema31.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-schema31.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/generate-legacy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/generate-legacy.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql-dump-schema.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mysql-dump-schema.sh" afterDir="false" />
+    <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="isolate JAR reference">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bnc/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bnc/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn-beans/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fn/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pb/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pm/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pm/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reqprov/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reqprov/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sl/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sn/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sn/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/su/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/variables/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/variables/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vn/pom.xml" afterDir="false" />
     </list>
-    <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,7 +76,7 @@
     <scope name="confs" pattern="file[bnc]:bnc.properties||file[fn]:fn.properties||file[legacy]:legacy.properties||file[pb]:pb.properties||file[pm]:pm.properties||file[sl]:sl.properties||file[sn]:sn.properties||file[su]:su.properties||file[vn]:vn.properties" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -78,69 +91,69 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BncModule (resolve).executor": "Run",
-    "Application.BncModule (update).executor": "Run",
-    "Application.BncModule.executor": "Run",
-    "Application.FnModule (update).executor": "Run",
-    "Application.FnModule.executor": "Run",
-    "Application.Legacy (sensekeys).executor": "Run",
-    "Application.Legacy (synsets 30 31).executor": "Run",
-    "Application.Legacy (synsets).executor": "Run",
-    "Application.Main (all,export).executor": "Run",
-    "Application.Main (ask,ask).executor": "Run",
-    "Application.Main (pb).executor": "Debug",
-    "Application.Main (pb,all).executor": "Run",
-    "Application.Main (pb,data).executor": "Run",
-    "Application.Main (vn,all).executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.PbModule (resolve).executor": "Run",
-    "Application.PbModule (update).executor": "Run",
-    "Application.PbModule.executor": "Run",
-    "Application.SnModule.executor": "Run",
-    "Application.VnModule (export).executor": "Run",
-    "Application.VnModule (resolve).executor": "Run",
-    "Application.VnModule (update).executor": "Debug",
-    "Application.VnModule.executor": "Run",
-    "JUnit.SensekeysTest.executor": "Run",
-    "JUnit.TestCollector.executor": "Run",
-    "JUnit.TestCollector.test.executor": "Run",
-    "JUnit.TestParseFile.executor": "Run",
-    "JUnit.TestSerialize.executor": "Run",
-    "JUnit.TestXPath.executor": "Run",
-    "Maven.all [clean].executor": "Run",
-    "Maven.all [compile].executor": "Run",
-    "Maven.all [install].executor": "Run",
-    "Maven.all [package].executor": "Run",
-    "Maven.common [install].executor": "Run",
-    "Maven.fn [install].executor": "Run",
-    "Maven.fn-beans [install].executor": "Run",
-    "Maven.fn-jaxb [install].executor": "Run",
-    "Maven.main [clean].executor": "Run",
-    "Maven.main [package].executor": "Run",
-    "Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
-    "Maven.reqprov [install].executor": "Run",
-    "Maven.su [install].executor": "Run",
-    "Maven.su [package].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "devkt2",
-    "last_opened_file_path": "/mnt/data2/repository/io/github/sqlunet/sigma-core/2.20.0/sigma-core-2.20.0.jar",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2551724",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BncModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BncModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FnModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.FnModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Legacy (sensekeys).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Legacy (synsets 30 31).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Legacy (synsets).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (all,export).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (ask,ask).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (pb).executor&quot;: &quot;Debug&quot;,
+    &quot;Application.Main (pb,all).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (pb,data).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (vn,all).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule (update).executor&quot;: &quot;Run&quot;,
+    &quot;Application.PbModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SnModule.executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (export).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (resolve).executor&quot;: &quot;Run&quot;,
+    &quot;Application.VnModule (update).executor&quot;: &quot;Debug&quot;,
+    &quot;Application.VnModule.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SensekeysTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestCollector.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestCollector.test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestParseFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestSerialize.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestXPath.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.all [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.common [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-beans [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.fn-jaxb [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.main [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.main [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.pb [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.reqprov [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.su [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.su [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;devkt2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/mnt/data2/repository/io/github/sqlunet/sigma-core/2.20.0/sigma-core-2.20.0.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2551724&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT",
-      "JAVA"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;,
+      &quot;JAVA&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/sl" />
@@ -462,19 +475,10 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="" />
-      <changelist id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="" />
       <created>1732528262398</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00124" summary="type aliases">
-      <option name="closed" value="true" />
-      <created>1733340263834</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1733340263834</updated>
     </task>
     <task id="LOCAL-00125" summary="type aliases">
       <option name="closed" value="true" />
@@ -860,7 +864,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733556333766</updated>
     </task>
-    <option name="localTasksCounter" value="173" />
+    <task id="LOCAL-00173" summary="isolate JAR reference">
+      <option name="closed" value="true" />
+      <created>1733557326766</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1733557326766</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -911,7 +923,6 @@
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo2" />
       <path value="$PROJECT_DIR$/semantikos/dist/repos/bitbucket/repo3" />
     </ignored-roots>
-    <MESSAGE value="type aliases split" />
     <MESSAGE value="change join pairs to data class" />
     <MESSAGE value="type aliases" />
     <MESSAGE value="type aliases" />
@@ -936,7 +947,8 @@
     <MESSAGE value="remove foreign module" />
     <MESSAGE value="fix unit result" />
     <MESSAGE value="house keeping" />
-    <option name="LAST_COMMIT_MESSAGE" value="house keeping" />
+    <MESSAGE value="isolate JAR reference" />
+    <option name="LAST_COMMIT_MESSAGE" value="isolate JAR reference" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

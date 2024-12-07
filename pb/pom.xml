@@ -4,9 +4,11 @@
 
   <parent>
     <artifactId>all</artifactId>
-    <groupId>org.sqlbuilder2</groupId>
-    <version>1.0.0</version>
+    <groupId>org.sqlunet-builder</groupId>
+    <version>2.3.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
+
   <artifactId>pb</artifactId>
 
   <properties>
@@ -17,23 +19,16 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.sqlbuilder2</groupId>
+      <groupId>org.sqlunet-builder</groupId>
       <artifactId>common</artifactId>
-      <version>1.0.0</version>
+      <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlbuilder2</groupId>
-      <artifactId>foreign</artifactId>
-      <version>1.0.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sqlbuilder2</groupId>
+      <groupId>org.sqlunet-builder</groupId>
       <artifactId>reqprov</artifactId>
-      <version>1.0.0</version>
+      <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
