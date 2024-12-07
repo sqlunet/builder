@@ -4,6 +4,8 @@
 package org.sqlbuilder
 
 import org.sqlbuilder.bnc.BncModule
+import org.sqlbuilder.common.AnsiColors.grey
+import org.sqlbuilder.common.AnsiColors.magenta
 import org.sqlbuilder.fn.FnModule
 import org.sqlbuilder.pb.PbModule
 import org.sqlbuilder.pm.PmModule
@@ -72,7 +74,7 @@ class Main {
                 .directory(cwd)
                 .inheritIO() // Inherit I/O to see the output in the current console
                 .start()
-            println("Forked a new JVM process with PID ${process.pid()}")
+            println(grey(">Fork PID ${process.pid()}"))
             return process
         }
 
@@ -95,7 +97,7 @@ class Main {
             if (mainClass != null) {
                 val process = forkJvm(mainClass.canonicalName, args, File(".", module))
                 val exitCode = process.waitFor()
-                println("Forked process with PID ${process.pid()} exited with code $exitCode")
+                println(grey("<Fork PID ${process.pid()} with exit code $exitCode"))
             }
         }
 
@@ -122,7 +124,7 @@ class Main {
                     args.forEach {
                         val args = if ("data" == it) listOf("$m.properties") else listOf("-$it", "$m.properties")
                         val data = data(m, args)
-                        println("MODULE:$module DATA:$data->${data.absolutePath} ARGS:${args.joinToString(separator = " ")}")
+                        println(magenta("MODULE:$module DATA:$data->${data.absolutePath} ARGS:${args.joinToString(separator = " ")}"))
                         run(m, args)
                     }
                 }

@@ -1,5 +1,8 @@
 package org.sqlbuilder.common
 
+import org.sqlbuilder.common.AnsiColors.green
+import org.sqlbuilder.common.AnsiColors.redb
+import org.sqlbuilder.common.AnsiColors.yellow
 import java.io.PrintStream
 
 object Progress {
@@ -7,7 +10,7 @@ object Progress {
     val INFO: PrintStream = System.out
 
     fun tracePending(tag: String, message: String?) {
-        INFO.print("$tag $message")
+        INFO.print(yellow("$tag $message"))
     }
 
     // P R O G R E S S
@@ -44,9 +47,9 @@ object Progress {
 
     fun traceDone(message: String? = null) {
         if (message == null) {
-            INFO.println(" ✓")
+            INFO.println(green(" ✓"))
         } else {
-            PROGRESS.println(" ✘ $message")
+            PROGRESS.println(redb(" ✘ $message"))
         }
     }
 }
