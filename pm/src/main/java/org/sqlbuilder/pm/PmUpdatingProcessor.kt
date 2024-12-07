@@ -15,9 +15,9 @@ import java.util.*
 class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     init {
         // output
-        this.outDir = File(conf.getProperty("pm_outdir_updated", "sql/data_updated"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("pm_outdir_updated", "sql/data_updated"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 
@@ -49,7 +49,7 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     private fun updateWordSenseRow(ps: PrintStream, table: String, index: Int, entry: PmEntry, vararg columns: String) {
         val wordid = wordResolver.invoke(entry.word!!)
         val wordResolved = nullableInt(wordid)
-        val sk = sensekeyResolver.invoke(entry.sensekey!!)
+        val sk = if (entry.sensekey == null) null else sensekeyResolver.invoke(entry.sensekey!!)
         val senseResolved = nullable(sk) { nullableInt(it.second) }
 
         val setClause = "${columns[0]}=$wordResolved,${columns[1]}=$senseResolved"

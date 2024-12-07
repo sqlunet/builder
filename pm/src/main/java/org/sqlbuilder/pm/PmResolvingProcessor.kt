@@ -53,7 +53,6 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
 
     protected val fnLexUnitResolver: FnLexUnitResolver = FnLexUnitResolver(fnLexUnitSerFile)
 
-    override var outDir: File = File(conf.getProperty("pm_outdir_resolved", "sql/data_resolved"))
 
     init {
 
@@ -63,6 +62,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
         header += "\n-- " + conf.getProperty("pb_resolve_against")
 
         // output
+        outDir = File(conf.getProperty("pm_outdir_resolved", "sql/data_resolved"))
         if (!outDir.exists()) {
             outDir.mkdirs()
         }

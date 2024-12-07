@@ -21,7 +21,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
     protected open val names: Names = Names("pm")
 
-    protected open var outDir: File = File(conf.getProperty("pm_outdir", "sql/data"))
+    protected var outDir: File = File(conf.getProperty("pm_outdir", "sql/data"))
 
     protected var header: String = conf.getProperty("pm_header")
 
