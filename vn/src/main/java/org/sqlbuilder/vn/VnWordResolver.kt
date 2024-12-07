@@ -7,4 +7,4 @@ import java.io.File
 typealias VnWordResolvable = String
 typealias VnWordResolved = Int
 
-class VnWordResolver(ser: String) : Resolver<VnWordResolvable, VnWordResolved>(deserialize<MutableMap<VnWordResolvable, VnWordResolved>>(File(ser)))
+class VnWordResolver(ser: String) : Resolver<VnWordResolvable, VnWordResolved>(deserialize<Map<VnWordResolvable, VnWordResolved>>(File(ser)))
