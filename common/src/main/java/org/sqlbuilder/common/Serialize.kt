@@ -1,6 +1,10 @@
-package org.sqlbuilder2.ser
+package org.sqlbuilder.common
 
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.ObjectOutputStream
+import java.io.OutputStream
 
 object Serialize {
 
@@ -9,7 +13,7 @@ object Serialize {
      *
      * @param obj object
      * @param outFile output file
-     * @throws IOException io exception
+     * @throws java.io.IOException io exception
      */
     @Throws(IOException::class)
     fun serialize(obj: Any?, outFile: File) {

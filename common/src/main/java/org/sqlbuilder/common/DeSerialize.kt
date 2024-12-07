@@ -51,14 +51,14 @@ object DeSerialize {
     /**
      * Deserialize object from input stream
      *
-     * @param input input stream
+     * @param inStream input stream
      * @return object
      * @throws IOException            io exception
      * @throws ClassNotFoundException class not found exception
      */
     @Throws(IOException::class, ClassNotFoundException::class)
-    fun deSerialize(input: InputStream): Any {
-        ObjectInputStream(input).use {
+    fun deSerialize(inStream: InputStream): Any {
+        ObjectInputStream(inStream).use {
             return it.readObject()
         }
     }

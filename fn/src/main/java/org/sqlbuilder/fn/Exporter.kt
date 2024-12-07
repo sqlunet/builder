@@ -7,7 +7,7 @@ import org.sqlbuilder.fn.objects.LexUnit
 import org.sqlbuilder.fn.objects.Word
 import org.sqlbuilder.fn.types.FeType
 import org.sqlbuilder.fn.types.FeType.getIntId
-import org.sqlbuilder2.ser.Serialize
+import org.sqlbuilder.common.Serialize
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

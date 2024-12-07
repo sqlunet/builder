@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Logger
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.ParseException
 import org.sqlbuilder.common.Processor
-import org.sqlbuilder2.ser.Serialize
+import org.sqlbuilder.common.Serialize
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

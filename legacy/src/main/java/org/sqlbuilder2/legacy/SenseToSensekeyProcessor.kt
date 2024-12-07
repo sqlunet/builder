@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Processor
 import org.sqlbuilder.common.Utils.escape
-import org.sqlbuilder2.ser.Serialize
+import org.sqlbuilder.common.Serialize
 import java.io.File
 import java.io.IOException
 import java.util.*
