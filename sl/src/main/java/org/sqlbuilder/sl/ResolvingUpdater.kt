@@ -15,9 +15,9 @@ import java.util.*
 class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
     init {
         // output
-        this.outDir = File(conf.getProperty("sl_outdir_updated", "sql/data_updated"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("sl_outdir_updated", "sql/data_updated"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 
