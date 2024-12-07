@@ -64,7 +64,7 @@ class Member_Sense private constructor(
     // R E S O L V E
 
     override fun resolving(): VnSensekeyResolvable {
-        return sensekey!!.sensekey
+        return sensekey?.sensekey
     }
 
     // T O S T R I N G
