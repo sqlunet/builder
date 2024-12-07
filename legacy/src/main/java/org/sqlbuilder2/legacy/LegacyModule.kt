@@ -4,20 +4,21 @@ import org.sqlbuilder.common.Module
 import java.io.IOException
 
 class LegacyModule private constructor(
-    private val args: Array<String>
+    private val args: Array<String>,
 ) : Module(MODULE_ID, args[0], null) {
 
     override fun run() {
         checkNotNull(props)
+        if (args.size < 3) {
+            System.err.println("Incorrect arguments")
+            return
+        }
         for (i in 2..<args.size) {
-            if (args[i].startsWith("from=")) {
-                props.setProperty("from", args[i].substring(5))
-            }
-            if (args[i].startsWith("to=")) {
-                props.setProperty("to", args[i].substring(3))
+            when {
+                args[i].startsWith("from=") -> props.setProperty("from", args[i].substring(5))
+                args[i].startsWith("to=")   -> props.setProperty("to", args[i].substring(3))
             }
         }
-
         try {
             when (args[1]) {
                 "synsets"   -> SynsetToSynsetProcessor(props).run()
