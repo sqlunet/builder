@@ -12,7 +12,6 @@
         <module name="fn" />
         <module name="main" />
         <module name="reqprov" />
-        <module name="foreign" />
         <module name="pb" />
         <module name="common" />
         <module name="bnc" />
@@ -25,6 +24,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="fn-jaxb" target="1.8" />
+      <module name="foreign" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

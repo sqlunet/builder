@@ -8,7 +8,6 @@
   <version>1.0.0</version>
   <modules>
     <module>common</module>
-    <module>foreign</module>
     <module>bnc</module>
     <module>fn-beans</module>
     <module>fn</module>

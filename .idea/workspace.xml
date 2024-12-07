@@ -9,8 +9,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51d39210-7c3f-41a5-8276-2f35692eab8d" name="Changes" comment="inspection fixes">
-      <change beforePath="$PROJECT_DIR$/fn-beans/src/main/schema/sentence.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/fn-beans/src/main/schema/sentence.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyLemmaPosOffsetResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/LegacyLemmaPosOffsetResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/DeSerialize.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/fn/src/main/java/org/sqlbuilder/fn/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/foreign.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/DeSerialize.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/java/org/sqlbuilder2/ser/Serialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/sqlbuilder/common/Serialize.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foreign/src/main/test/org/sqlbuilder2/ser/TestSerialize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/test/java/org/sqlbuilder/common/TestSerialize.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SenseToSensekeyProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/src/main/java/org/sqlbuilder2/legacy/SynsetToSynsetProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pb/src/main/java/org/sqlbuilder/pb/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/KBLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/su/src/main/java/org/sqlbuilder/su/KBLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/Exporter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vn/src/main/java/org/sqlbuilder/vn/ResolvingUpdater.kt" afterDir="false" />
     </list>
     <list id="75759453-875b-4807-b98c-8b6a0386c360" name="Jars" comment="">
       <change afterPath="$PROJECT_DIR$/sqlbuilder2.jar" afterDir="false" />
@@ -154,6 +170,9 @@
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="org.sqlbuilder.sn" />
+    </key>
+    <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="org.sqlbuilder.common" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="og.sqlbuilder.sumo" />
@@ -466,14 +485,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732528262398</updated>
-    </task>
-    <task id="LOCAL-00118" summary="simplify">
-      <option name="closed" value="true" />
-      <created>1733331289018</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1733331289018</updated>
     </task>
     <task id="LOCAL-00119" summary="tyoe aliases">
       <option name="closed" value="true" />
@@ -859,7 +870,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733554197422</updated>
     </task>
-    <option name="localTasksCounter" value="167" />
+    <task id="LOCAL-00167" summary="inspection fixes">
+      <option name="closed" value="true" />
+      <created>1733554551083</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1733554551083</updated>
+    </task>
+    <option name="localTasksCounter" value="168" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
