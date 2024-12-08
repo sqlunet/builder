@@ -53,7 +53,6 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
 
     protected val fnLexUnitResolver: FnLexUnitResolver = FnLexUnitResolver(fnLexUnitSerFile)
 
-
     init {
 
         // header
@@ -79,16 +78,17 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
                     ps.println("-- $header")
                     processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true)) { entry, i ->
-                        val wordid = wordResolver.invoke(entry.word!!)
-                        val sk = sensekeyResolver.invoke(entry.sensekey!!)
+                        val wordid = if (entry.word == null) null else wordResolver.invoke(entry.word!!)
+                        val sk = if (entry.sensekey == null) null else sensekeyResolver.invoke(entry.sensekey!!)
 
-                        val vnWordid = vnWordResolver.invoke(entry.word!!)
-                        val vn = vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
-                        val pbWordid = pbWordResolver.invoke(entry.word!!)
-                        val pb = pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
-                        val fnWordid = fnWordResolver.invoke(entry.word!!)
-                        val fn = fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
-                        val fnLu = fnLexUnitResolver.invoke(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
+                        val vnWordid = if (entry.word == null) null else vnWordResolver.invoke(entry.word!!)
+                        val pbWordid = if (entry.word == null) null else pbWordResolver.invoke(entry.word!!)
+                        val fnWordid = if (entry.word == null) null else fnWordResolver.invoke(entry.word!!)
+                        val fnLu = if (entry.fn.frame == null|| entry.fn.lu == null) null else fnLexUnitResolver.invoke(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
+
+                        val vn = if (entry.vn.clazz == null || entry.vn.role == null) null else vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
+                        val pb = if (entry.pb.roleset == null || entry.pb.arg == null) null else pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
+                        val fn = if (entry.fn.frame == null || entry.fn.fetype == null) null else fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
 
                         val wordResolved = nullableInt(wordid)
                         val senseResolved = if (sk == null) "NULL" else nullableInt(sk.second)
@@ -96,11 +96,13 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         val vnWordResolved = nullableInt(vnWordid)
                         val pbWordResolved = nullableInt(pbWordid)
                         val fnWordResolved = nullableInt(fnWordid)
+
                         val vnResolved = if (vn == null) "NULL,NULL" else "${nullableInt(vn.second)},${nullableInt(vn.first)}"
                         val pbResolved = if (pb == null) "NULL,NULL" else "${nullableInt(pb.second)},${nullableInt(pb.first)}"
                         val fnResolved = if (fn == null) "NULL,NULL,NULL" else "${nullableInt(fn.second)},${nullableInt(fn.first)},${nullableInt(fn.third)}"
                         val fnLuResolved = if (fnLu == null) "NULL" else nullableInt(fnLu.first)
-                        insertRow(ps, i!!, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${senseResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
+
+                        insertRow(ps, i, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${senseResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
                     }
                 }
             }

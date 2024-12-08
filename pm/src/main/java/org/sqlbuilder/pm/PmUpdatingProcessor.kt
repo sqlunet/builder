@@ -58,22 +58,29 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     }
 
     private fun updateVnPbFnRow(ps: PrintStream, table: String, index: Int, entry: PmEntry, vararg columns: String) {
-        val vnWordid = vnWordResolver.invoke(entry.word!!)
-        val pbWordid = pbWordResolver.invoke(entry.word!!)
-        val fnWordid = fnWordResolver.invoke(entry.word!!)
-        val vn = vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
-        val pb = pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
-        val fn = fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
+        val vnWordid = if (entry.word == null) null else vnWordResolver.invoke(entry.word!!)
+        val pbWordid = if (entry.word == null) null else pbWordResolver.invoke(entry.word!!)
+        val fnWordid = if (entry.word == null) null else fnWordResolver.invoke(entry.word!!)
+        val vn = if (entry.vn.clazz == null || entry.vn.role == null) null else vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
+        val pb = if (entry.pb.roleset == null || entry.pb.arg == null) null else pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
+        val fn = if (entry.fn.frame == null || entry.fn.fetype == null) null else fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
 
         val setClause =
-            "${columns[0]}=${nullableInt(vnWordid)},${columns[1]}=${nullableInt(pbWordid)},${columns[2]}=${nullableInt(fnWordid)},${columns[3]}=${nullable(vn) { nullableInt(it.first) }},${columns[4]}=${nullable(vn) { nullableInt(it.second) }},${columns[5]}=${
-                nullable(pb) { nullableInt(it.first) }
-            },${columns[6]}=${nullable(pb) { nullableInt(it.second) }},${columns[7]}=${nullable(fn) { nullableInt(it.first) }},${columns[8]}=${nullable(fn) { nullableInt(it.second) }},${columns[9]}=${nullable(fn) { nullableInt(it.third) }}"
-        val whereClause = "${columns[10]}=${nullable(entry.word) { quote(escape(it)) }} AND ${columns[11]}=${nullable(entry.vn.clazz) { quote(escape(it)) }} AND ${columns[12]}=${nullable(entry.vn.role) { quote(escape(it)) }} AND ${columns[13]}=${
-            nullable(entry.pb.roleset) {
-                quote(escape(it))
-            }
-        } AND ${columns[14]}=${nullable(entry.pb.arg) { quote(escape(it)) }} AND ${columns[15]}=${nullable(entry.fn.frame) { quote(escape(it)) }} AND ${columns[16]}=${nullable(entry.fn.fetype) { quote(escape(it)) }}"
+            "${columns[0]}=${nullableInt(vnWordid)},${columns[1]}=${nullableInt(pbWordid)}," +
+                    "${columns[2]}=${nullableInt(fnWordid)},${columns[3]}=${nullable(vn) { nullableInt(it.first) }}," +
+                    "${columns[4]}=${nullable(vn) { nullableInt(it.second) }},${columns[5]}=${nullable(pb) { nullableInt(it.first) }}," +
+                    "${columns[6]}=${nullable(pb) { nullableInt(it.second) }}," +
+                    "${columns[7]}=${nullable(fn) { nullableInt(it.first) }}," +
+                    "${columns[8]}=${nullable(fn) { nullableInt(it.second) }}," +
+                    "${columns[9]}=${nullable(fn) { nullableInt(it.third) }}"
+        val whereClause =
+            "${columns[10]}=${nullable(entry.word) { quote(escape(it)) }} AND " +
+                    "${columns[11]}=${nullable(entry.vn.clazz) { quote(escape(it)) }} AND " +
+                    "${columns[12]}=${nullable(entry.vn.role) { quote(escape(it)) }} AND " +
+                    "${columns[13]}=${nullable(entry.pb.roleset) { quote(escape(it)) }} AND " +
+                    "${columns[14]}=${nullable(entry.pb.arg) { quote(escape(it)) }} AND " +
+                    "${columns[15]}=${nullable(entry.fn.frame) { quote(escape(it)) }} AND " +
+                    "${columns[16]}=${nullable(entry.fn.fetype) { quote(escape(it)) }}"
         ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1}")
     }
 
