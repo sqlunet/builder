@@ -120,7 +120,7 @@ open class Exporter(conf: Properties) {
 
     @Throws(IOException::class)
     fun exportRoles() {
-        val m = makeRolesFromArgTypeToFullTreeMap().toSortedMap(STRING_PAIR_COMPARATOR)
+        val m = makeRolesFromArgTypeToFullMap().toSortedMap(STRING_PAIR_COMPARATOR)
         export(m, File(outDir, names.mapFile("roles.resolve", "_[roleset,argtype]-[roleid,rolesetid]")))
     }
 
@@ -204,21 +204,6 @@ open class Exporter(conf: Properties) {
      * @return (rolesetname, argtype) -> (roleid, rolesetid)
      */
     fun makeRolesFromArgTypeToFullMap(): Map<Pair<String, String>, Pair<Int, Int>> {
-        return Role.COLLECTOR
-            .asSequence()
-            .map {
-                val rs = it.roleSet
-                (rs.name to it.argType) to (Role.COLLECTOR.invoke(it) to rs.intId)
-            }
-            .toMap()
-    }
-
-    /**
-     * Detailed role maps
-     *
-     * @return (rolesetname, argtype) -> (roleid, rolesetid)
-     */
-    fun makeRolesFromArgTypeToFullTreeMap(): Map<Pair<String, String>, Pair<Int, Int>> {
         return Role.COLLECTOR
             .asSequence()
             .map {
