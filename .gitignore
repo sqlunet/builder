@@ -29,3 +29,5 @@
 
 /**/*.sqlite
 /**/*.jar
+
+/.idea/workspace.xml
