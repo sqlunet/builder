@@ -2,6 +2,7 @@ package org.sqlbuilder.sn
 
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.sn.objects.Collocation
+import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR_BY_SENSEKEYS
 import org.sqlbuilder.sn.objects.Collocation.Companion.parse
 import java.io.File
 import java.io.FileOutputStream
@@ -55,7 +56,7 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
     @Throws(IOException::class)
     override fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, { parse(it) }, consumer)
+        process(file, COMPARATOR_BY_SENSEKEYS, { parse(it) }, consumer)
         ps.print(';')
     }
 }

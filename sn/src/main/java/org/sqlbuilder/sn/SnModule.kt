@@ -16,7 +16,7 @@ class SnModule(
                 Mode.PLAIN   -> SnProcessor(props).run()
                 Mode.RESOLVE -> SnResolvingProcessor(props).run()
                 Mode.UPDATE  -> SnUpdatingProcessor(props).run()
-                Mode.EXPORT  -> {}
+                Mode.EXPORT  -> SnExportingProcessor(props).run()
                 else         -> {}
             }
         } catch (e: IOException) {

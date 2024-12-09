@@ -17,7 +17,8 @@ class Collocation private constructor(
     val pos1: Char,
     val word1: String,
     val offset2: Int,
-    val pos2: Char, val word2: String,
+    val pos2: Char,
+    val word2: String,
 ) : Insertable, Resolvable<SnCollocationResolvable, SnCollocationResolved> {
 
     var sensekey1: String? = null
@@ -62,8 +63,16 @@ class Collocation private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Collocation> = Comparator
+        val COMPARATOR_BY_SENSEKEYS: Comparator<Collocation> = Comparator
             .comparing<Collocation, String>({ it.sensekey1 }, nullsFirst(naturalOrder()))
+            .thenComparing<String>({ it.sensekey2 }, nullsFirst(naturalOrder()))
+
+        val COMPARATOR_BY_WORDS_POSES: Comparator<Collocation> = Comparator
+            .comparing<Collocation, String> { it.word1 }
+            .thenComparing<Char> { it.pos1 }
+            .thenComparing<String>({ it.sensekey1 }, nullsFirst(naturalOrder()))
+            .thenComparing<String> { it.word2 }
+            .thenComparing<Char> { it.pos2 }
             .thenComparing<String>({ it.sensekey2 }, nullsFirst(naturalOrder()))
 
         @Throws(ParseException::class)

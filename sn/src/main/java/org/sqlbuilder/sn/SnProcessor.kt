@@ -2,7 +2,8 @@ package org.sqlbuilder.sn
 
 import org.sqlbuilder.common.*
 import org.sqlbuilder.sn.objects.Collocation
-import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR
+import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR_BY_SENSEKEYS
+import org.sqlbuilder.sn.objects.Collocation.Companion.parse
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -47,12 +48,12 @@ open class SnProcessor(
     @Throws(IOException::class)
     protected open fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns)")
-        process(file, { line: String -> Collocation.Companion.parse(line) }, consumer)
+        process(file, COMPARATOR_BY_SENSEKEYS, { line: String -> parse(line) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
-    protected fun process(file: File, producer: (String) -> Collocation, consumer: (Collocation, Int) -> Unit) {
+    protected fun process(file: File, comparator: Comparator<Collocation>, producer: (String) -> Collocation, consumer: (Collocation, Int) -> Unit) {
         file.useLines { lines ->
             var count0 = 0
             var count1 = 0
@@ -74,7 +75,7 @@ open class SnProcessor(
                 }
                 .filterNotNull()
                 .filter { it.resolveOffsets(sensekeyResolver) }
-                .sortedWith(COMPARATOR)
+                .sortedWith(comparator)
                 .forEach {
                     consumer.invoke(it, count0)
                     count0++

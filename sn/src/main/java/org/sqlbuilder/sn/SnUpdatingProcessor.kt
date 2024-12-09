@@ -4,6 +4,7 @@ import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.common.Utils.quote
 import org.sqlbuilder.sn.objects.Collocation
+import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR_BY_SENSEKEYS
 import org.sqlbuilder.sn.objects.Collocation.Companion.parse
 import java.io.File
 import java.io.FileOutputStream
@@ -57,6 +58,6 @@ class SnUpdatingProcessor(
 
     @Throws(IOException::class)
     private fun processSyntagNetFile(ps: PrintStream, file: File, consumer: (Collocation, Int) -> Unit) {
-        process(file, { parse(it) }, consumer)
+        process(file, COMPARATOR_BY_SENSEKEYS, { parse(it) }, consumer)
     }
 }
