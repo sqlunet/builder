@@ -18,13 +18,13 @@ class RoleToVn private constructor(
 
     companion object {
 
-        val RESOLVE_RESULT_STRINGIFIER = { r: PbVnRoleResolved? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
-
         val COMPARATOR: Comparator<RoleToVn> = Comparator
             .comparing<RoleToVn, Role> { it.role }
             .thenComparing<AliasRole> { it.aliasRole }
 
         val SET: MutableSet<RoleToVn> = HashSet<RoleToVn>()
+
+        val RESOLVE_RESULT_STRINGIFIER = { r: PbVnRoleResolved? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 
         fun make(role: Role, aliasRole: AliasRole): RoleToVn {
             val m = RoleToVn(role, aliasRole)

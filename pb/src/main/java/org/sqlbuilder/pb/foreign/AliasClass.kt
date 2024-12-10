@@ -47,7 +47,7 @@ class AliasClass private constructor(
             return AliasClass(head, classTag)
         }
 
-        fun toTag(className: String): String{
+        fun toTag(className: String): String {
             return className.substring(className.indexOf('-') + 1)
         }
     }
