@@ -4,9 +4,10 @@ import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Insert.insertStrings
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Progress
-import org.sqlbuilder.pb.foreign.FnAlias
-import org.sqlbuilder.pb.foreign.VnAlias
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.foreign.RoleSetToFn
+import org.sqlbuilder.pb.foreign.RoleSetToVn
+import org.sqlbuilder.pb.foreign.RoleToVn
+import org.sqlbuilder.pb.foreign.Theta
 import org.sqlbuilder.pb.objects.*
 import java.io.File
 import java.io.FileNotFoundException
@@ -14,18 +15,15 @@ import java.util.*
 
 open class Inserter(conf: Properties) {
 
-    @JvmField
     protected val names: Names = Names("pb")
 
-    @JvmField
     protected var header: String = conf.getProperty("pb_header")
 
-    @JvmField
     protected var outDir: File = File(conf.getProperty("pb_outdir", "sql/data"))
 
     init {
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
     }
 
@@ -217,6 +215,7 @@ open class Inserter(conf: Properties) {
         Progress.tracePending("collector", "word")
         insert(
             Word.COLLECTOR,
+            Word.COLLECTOR,
             File(outDir, names.file("words")),
             names.table("words"),
             names.columns("words"),
@@ -229,8 +228,8 @@ open class Inserter(conf: Properties) {
     protected open fun insertFnAliases() {
         Progress.tracePending("collector", "fnalias")
         insert(
-            FnAlias.SET,
-            FnAlias.COMPARATOR,
+            RoleSetToFn.SET,
+            RoleSetToFn.COMPARATOR,
             File(outDir, names.file("pbrolesets_fnframes")),
             names.table("pbrolesets_fnframes"),
             names.columns("pbrolesets_fnframes"),
@@ -243,8 +242,8 @@ open class Inserter(conf: Properties) {
     protected open fun insertVnAliases() {
         Progress.tracePending("set", "vnalias")
         insert(
-            VnAlias.SET,
-            VnAlias.COMPARATOR,
+            RoleSetToVn.SET,
+            RoleSetToVn.COMPARATOR,
             File(outDir, names.file("pbrolesets_vnclasses")),
             names.table("pbrolesets_vnclasses"),
             names.columns("pbrolesets_vnclasses"),
@@ -257,8 +256,8 @@ open class Inserter(conf: Properties) {
     protected open fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
         insert(
-            VnRoleAlias.SET,
-            VnRoleAlias.COMPARATOR,
+            RoleToVn.SET,
+            RoleToVn.COMPARATOR,
             File(outDir, names.file("pbroles_vnroles")),
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),

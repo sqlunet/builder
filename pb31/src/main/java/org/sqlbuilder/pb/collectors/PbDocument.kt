@@ -5,10 +5,11 @@ import org.sqlbuilder.common.XPathUtils.getXPaths
 import org.sqlbuilder.common.XmlDocument
 import org.sqlbuilder.common.XmlProcessor.Companion.iteratorOfElements
 import org.sqlbuilder.common.XmlTextUtils.getXPathText
-import org.sqlbuilder.pb.foreign.Alias
-import org.sqlbuilder.pb.foreign.VnClass
-import org.sqlbuilder.pb.foreign.VnRole
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.pb.foreign.RoleSetTo
+import org.sqlbuilder.pb.foreign.AliasClass
+import org.sqlbuilder.pb.foreign.AliasRole
+import org.sqlbuilder.pb.foreign.RoleToVn
+import org.sqlbuilder.pb.foreign.Theta
 import org.sqlbuilder.pb.objects.*
 import org.w3c.dom.Element
 import org.w3c.dom.Node
@@ -79,6 +80,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             val m = getXPaths(roleSetElement, "./aliases/alias")
                                 ?.asSequence()
                                 ?.map { aliasElement ->
+
                                     val alias: String = aliasElement.textContent.trim { it <= ' ' }
                                     val pos: String = aliasElement.getAttribute("pos").trim { it <= ' ' }
 
@@ -105,7 +107,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                                 //System.err.println('>' + clazz);
                                             }
 
-                                            val alias = Alias.make(Alias.Db.VERBNET, clazz, pos, roleSet, pbword2)
+                                            val alias = RoleSetTo.make(RoleSetTo.Db.VERBNET, clazz, pos, roleSet, pbword2)
                                             roleSet.aliases.add(alias)
                                         }
                                     }
@@ -120,7 +122,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                             if (frame.isEmpty() || "-" == frame) {
                                                 continue
                                             }
-                                            val fnalias = Alias.make(Alias.Db.FRAMENET, frame, pos, roleSet, pbword2)
+                                            val fnalias = RoleSetTo.make(RoleSetTo.Db.FRAMENET, frame, pos, roleSet, pbword2)
                                             roleSet.aliases.add(fnalias)
                                         }
                                     }
@@ -143,14 +145,12 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeRoles(head: String, start: Node): Collection<Role> {
             var result: MutableList<Role> = ArrayList<Role>()
             getXPaths(start, "./predicate")
-                ?.iteratorOfElements()
                 ?.asSequence()
                 ?.forEach { predicateElement ->
                     val lemmaAttribute = predicateElement.getAttribute("lemma")
                     val predicate = Predicate.make(head, lemmaAttribute)
 
                     getXPaths(predicateElement, "./roleset")!!
-                        .iteratorOfElements()
                         .asSequence()
                         .forEach { roleSetElement ->
 
@@ -163,7 +163,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                             // roles
                             getXPaths(roleSetElement, "./roles/role")!!
-                                .iteratorOfElements()
                                 .asSequence()
                                 .forEach { roleElement ->
 
@@ -171,15 +170,17 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val n = roleElement.getAttribute("n")
                                     val f = roleElement.getAttribute("f")
                                     val descriptor = roleElement.getAttribute("descr")
-                                    var theta: String? = null
+
+                                    // links
+                                    var vnLink: String? = null
                                     val vnRoleNodes = getXPaths(roleElement, "./vnrole")
                                     if (vnRoleNodes != null && vnRoleNodes.length > 0) {
                                         val vnRoleElement = vnRoleNodes.item(0) as Element
-                                        theta = vnRoleElement.getAttribute("vntheta")
+                                        vnLink = vnRoleElement.getAttribute("vntheta")
                                     }
 
                                     // role
-                                    val role = Role.make(roleSet, n, f, descriptor, theta)
+                                    val role = Role.make(roleSet, n, f, descriptor, vnLink)
                                     result.add(role)
 
                                     // role-vnrole maps
@@ -193,19 +194,20 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         @Throws(XPathExpressionException::class)
         private fun makeVnRoleMaps(head: String, role: Role, roleElement: Element) {
             getXPaths(roleElement, "./vnrole")!!
-                .iteratorOfElements()
                 .asSequence()
                 .forEach { vnRoleElement ->
+
+                    // extract
                     val vnClassAttribute = vnRoleElement.getAttribute("vncls")
-                    val vnClass = VnClass.make(head, vnClassAttribute)
+                    val vnClass = AliasClass.make(head, vnClassAttribute)
                     val thetaAttribute = vnRoleElement.getAttribute("vntheta")
                     val theta = Theta.make(thetaAttribute)
 
                     // verbnet role
-                    val vnRole = VnRole.make(vnClass, theta)
+                    val vnRole = AliasRole.make(vnClass, theta)
 
                     // propbank role -> verbnet roles
-                    VnRoleAlias.make(role, vnRole)
+                    RoleToVn.make(role, vnRole)
                 }
         }
 
@@ -213,7 +215,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeExamples(head: String, start: Node): Collection<Example> {
             var result: MutableList<Example> = ArrayList<Example>()
             getXPaths(start, "./predicate")!!
-                .iteratorOfElements()
                 .asSequence()
                 .forEach { predicateElement ->
 
@@ -221,7 +222,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                     val predicate = Predicate.make(head, lemmaAttribute)
 
                     getXPaths(predicateElement, "./roleset")!!
-                        .iteratorOfElements()
                         .asSequence()
                         .forEach { roleSetElement ->
 
@@ -230,7 +230,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
 
                             getXPaths(roleSetElement, "./example")
-                                ?.iteratorOfElements()
                                 ?.asSequence()
                                 ?.forEach { exampleElement ->
 
@@ -255,7 +254,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                                     // relations
                                     getXPaths(exampleElement, "./rel")!!
-                                        .iteratorOfElements()
                                         .asSequence()
                                         .forEach { relElement ->
                                             val f = relElement.getAttribute("f")
@@ -267,7 +265,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                                     // arguments
                                     getXPaths(exampleElement, "./arg")!!
-                                        .iteratorOfElements()
                                         .asSequence()
                                         .forEach { argElement ->
                                             val f = argElement.getAttribute("f")

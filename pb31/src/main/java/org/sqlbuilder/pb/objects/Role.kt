@@ -2,6 +2,7 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
+import org.sqlbuilder.pb.foreign.Theta
 import java.io.Serializable
 import java.util.*
 

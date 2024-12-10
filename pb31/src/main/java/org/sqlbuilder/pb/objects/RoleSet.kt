@@ -7,13 +7,13 @@ import org.sqlbuilder.common.SetCollector
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
-import org.sqlbuilder.pb.foreign.Alias
+import org.sqlbuilder.pb.foreign.RoleSetTo
 import java.io.Serializable
 import java.util.*
 
 class RoleSet private constructor(private val predicate: Predicate, val name: String, private val descr: String) : HasId, Insertable, Comparable<RoleSet>, Serializable {
 
-    internal val aliases: MutableList<Alias> = ArrayList<Alias>()
+    internal val aliases: MutableList<RoleSetTo> = ArrayList<RoleSetTo>()
 
     val head: String
         get() {

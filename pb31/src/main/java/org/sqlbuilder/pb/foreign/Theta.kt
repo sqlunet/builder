@@ -1,8 +1,13 @@
-package org.sqlbuilder.pb.objects
+package org.sqlbuilder.pb.foreign
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
-import java.util.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils
+import java.util.Comparator
+import java.util.Locale
+import java.util.Objects
 
 class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, Insertable {
 

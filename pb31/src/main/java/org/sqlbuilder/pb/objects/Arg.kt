@@ -1,11 +1,13 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.pb.PbNormalizer
-import java.util.*
 
-class Arg private constructor(example: Example, text: String, n: String, f: String?) : HasId, Insertable, Comparable<Arg> {
+class Arg private constructor(example0: Example, text0: String, n0: String, f0: String?) : HasId, Insertable, Comparable<Arg> {
 
     private val example: Example
 
@@ -18,14 +20,14 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
     // C O N S T R U C T O R
 
     init {
-        assert(!n.isEmpty())
-        this.example = example
-        this.text = PbNormalizer.normalize(text)
-        this.n = ArgType.make(n)
-        this.f = if (f == null || f.isEmpty()) null else Func.make(f.lowercase(Locale.getDefault()))
+        example = example0
+        text = PbNormalizer.normalize(text0)
+        assert(!n0.isEmpty())
+        n = ArgType.make(n0)
+        f = if (f0 == null || f0.isEmpty()) null else Func.make(f0.lowercase())
     }
 
-    // A C C E S S
+    // N I D
 
     override fun getIntId(): Int {
         return COLLECTOR.invoke(this)
@@ -40,7 +42,7 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("arg %s[%s][%s]", example, n, f)
+        return "arg $example[$n][$f]"
     }
 
     // I N S E R T
@@ -48,18 +50,11 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = Example::class)
     override fun dataRow(): String {
-        // (argid),text,n,f,exampleid
-        return String.format(
-            "'%s','%s',%s,%s",
-            Utils.escape(text),
-            n.argType,
-            if (f == null) "NULL" else Func.getIntId(f),
-            example.intId
-        )
+        return "'${escape(text)}','${n.argType}',${if (f == null) "NULL" else Func.getIntId(f)},${example.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s", n.argType, f?.func)
+        return "${n.argType},${f?.func}"
     }
 
     companion object {
@@ -68,9 +63,8 @@ class Arg private constructor(example: Example, text: String, n: String, f: Stri
             .comparing<Arg, Example> { it.example }
             .thenComparing<String> { it.text }
             .thenComparing<ArgType> { it.n }
-            .thenComparing<Func?>({ it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
+            .thenComparing<Func>({ it.f }, Comparator.nullsFirst<Func>(Comparator.naturalOrder()))
 
-        @JvmField
         val COLLECTOR = SetCollector<Arg>(COMPARATOR)
 
         fun make(example: Example, text: String, n: String, f: String?): Arg {

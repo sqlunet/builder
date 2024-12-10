@@ -2,10 +2,10 @@ package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress
-import org.sqlbuilder.common.Utils
-import org.sqlbuilder.pb.foreign.FnAlias
-import org.sqlbuilder.pb.foreign.VnAlias
-import org.sqlbuilder.pb.foreign.VnRoleAlias
+import org.sqlbuilder.common.Utils.nullable
+import org.sqlbuilder.pb.foreign.RoleSetToFn
+import org.sqlbuilder.pb.foreign.RoleSetToVn
+import org.sqlbuilder.pb.foreign.RoleToVn
 import org.sqlbuilder.pb.objects.Word
 import java.io.File
 import java.io.FileNotFoundException
@@ -31,26 +31,26 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     init {
         // header
-        this.header += "\n-- " + conf.getProperty("wn_resolve_against")
-        this.header += "\n-- " + conf.getProperty("vn_resolve_against")
-        this.header += "\n-- " + conf.getProperty("fn_resolve_against")
+        header += "\n-- " + conf.getProperty("wn_resolve_against")
+        header += "\n-- " + conf.getProperty("vn_resolve_against")
+        header += "\n-- " + conf.getProperty("fn_resolve_against")
 
         // output
-        this.outDir = File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"))
-        if (!this.outDir.exists()) {
-            this.outDir.mkdirs()
+        outDir = File(conf.getProperty("pb_outdir_resolved", "sql/data_resolved"))
+        if (!outDir.exists()) {
+            outDir.mkdirs()
         }
 
         // resolve
-        this.wordSerFile = conf.getProperty("word_nids")
-        this.vnClassSerFile = conf.getProperty("vnclass_nids")
-        this.vnClassRoleSerFile = conf.getProperty("vnrole_nids")
-        this.fnFrameSerFile = conf.getProperty("fnframe_nids")
+        wordSerFile = conf.getProperty("word_nids")
+        vnClassSerFile = conf.getProperty("vnclass_nids")
+        vnClassRoleSerFile = conf.getProperty("vnrole_nids")
+        fnFrameSerFile = conf.getProperty("fnframe_nids")
 
-        this.wordResolver = WordResolver(wordSerFile)
-        this.vnClassResolver = VnClassResolver(vnClassSerFile)
-        this.vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
-        this.fnFrameResolver = FnFrameResolver(this.fnFrameSerFile)
+        wordResolver = WordResolver(wordSerFile)
+        vnClassResolver = VnClassResolver(vnClassSerFile)
+        vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
+        fnFrameResolver = FnFrameResolver(this.fnFrameSerFile)
     }
 
     @Throws(FileNotFoundException::class)
@@ -65,7 +65,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             header,
             true,
             wordResolver,
-            { "TODO" /*Objects.toString(it)*/ },
+            { nullable(it) { it.toString() } },
             names.column("words.wordid")
         )
         Progress.traceDone()
@@ -75,14 +75,14 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     override fun insertFnAliases() {
         Progress.tracePending("set", "fnalias")
         resolveAndInsert(
-            FnAlias.SET,
-            FnAlias.COMPARATOR,
+            RoleSetToFn.SET,
+            RoleSetToFn.COMPARATOR,
             File(outDir, names.file("pbrolesets_fnframes")),
             names.table("pbrolesets_fnframes"),
             names.columns("pbrolesets_fnframes"),
             header,
             fnFrameResolver,
-            { r -> Utils.nullable(r) { Objects.toString(it) } },
+            { nullable(it) { it.toString() } },
             names.column("pbrolesets_fnframes.fnframeid")
         )
         Progress.traceDone()
@@ -92,14 +92,14 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     override fun insertVnAliases() {
         Progress.tracePending("set", "vnalias")
         resolveAndInsert(
-            VnAlias.SET,
-            VnAlias.COMPARATOR,
+            RoleSetToVn.SET,
+            RoleSetToVn.COMPARATOR,
             File(outDir, names.file("pbrolesets_vnclasses")),
             names.table("pbrolesets_vnclasses"),
             names.columns("pbrolesets_vnclasses"),
             header,
             vnClassResolver,
-            { r -> Utils.nullable(r) { Objects.toString(it) } },
+            { nullable(it) { it.toString() } },
             names.column("pbrolesets_vnclasses.vnclassid")
         )
         Progress.traceDone()
@@ -109,14 +109,14 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     override fun insertVnRoleAliases() {
         Progress.tracePending("set", "vnaliasrole")
         resolveAndInsert(
-            VnRoleAlias.SET,
-            VnRoleAlias.COMPARATOR,
+            RoleToVn.SET,
+            RoleToVn.COMPARATOR,
             File(outDir, names.file("pbroles_vnroles")),
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
             vnClassRoleResolver,
-            VnRoleAlias.RESOLVE_RESULT_STRINGIFIER,
+            RoleToVn.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.vnroleid"),
             names.column("pbroles_vnroles.vnclassid"),
             names.column("pbroles_vnroles.vnroletypeid")

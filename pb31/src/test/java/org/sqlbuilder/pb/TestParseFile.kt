@@ -3,6 +3,7 @@ package org.sqlbuilder.pb
 import org.junit.Test
 import org.sqlbuilder.common.Module
 import org.sqlbuilder.pb.collectors.PbCollector
+import org.sqlbuilder.pb.foreign.Theta
 import org.sqlbuilder.pb.objects.*
 import java.io.File
 

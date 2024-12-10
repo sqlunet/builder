@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Serialize
 import org.sqlbuilder.pb.objects.Role
 import org.sqlbuilder.pb.objects.RoleSet
-import org.sqlbuilder.pb.objects.Theta
+import org.sqlbuilder.pb.foreign.Theta
 import org.sqlbuilder.pb.objects.Word
 import java.io.File
 import java.io.FileOutputStream
@@ -76,7 +76,6 @@ open class Exporter(conf: Properties) {
         Serialize.serialize(m, File(outDir, names.serFile("rolesets", ".resolve_[roleset]-[rolesetid]")))
     }
 
-
     @Throws(IOException::class)
     private fun serializeRoles() {
         val m = makeRolesFromArgTypeToFullMap()
@@ -100,7 +99,6 @@ open class Exporter(conf: Properties) {
         val m = makeWordMap().toSortedMap()
         export(m, File(outDir, names.mapFile("words.resolve", "_[word]-[pbwordid]")))
     }
-
 
     @Throws(IOException::class)
     fun exportRoleSets() {

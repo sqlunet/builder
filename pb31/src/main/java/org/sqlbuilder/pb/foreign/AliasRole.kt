@@ -1,11 +1,11 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.pb.objects.Theta
+import org.sqlbuilder.pb.foreign.Theta
 import java.util.*
 
-class VnRole private constructor(
-    val vnClass: VnClass, val vnTheta: Theta,
-) : Comparable<VnRole> {
+class AliasRole private constructor(
+    val vnClass: AliasClass, val vnTheta: Theta,
+) : Comparable<AliasRole> {
 
     // I D E N T I T Y
 
@@ -16,7 +16,7 @@ class VnRole private constructor(
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val vnRole = o as VnRole
+        val vnRole = o as AliasRole
         return vnClass == vnRole.vnClass && vnTheta == vnRole.vnTheta
     }
 
@@ -26,7 +26,7 @@ class VnRole private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: VnRole): Int {
+    override fun compareTo(that: AliasRole): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -37,12 +37,12 @@ class VnRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnRole> = Comparator
-            .comparing<VnRole, VnClass> { it.vnClass }
+        val COMPARATOR: Comparator<AliasRole> = Comparator
+            .comparing<AliasRole, AliasClass> { it.vnClass }
             .thenComparing{ it.vnTheta }
 
-        fun make(vnClass: VnClass, vnTheta: Theta): VnRole {
-            return VnRole(vnClass, vnTheta)
+        fun make(vnClass: AliasClass, vnTheta: Theta): AliasRole {
+            return AliasRole(vnClass, vnTheta)
         }
     }
 }

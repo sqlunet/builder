@@ -2,9 +2,9 @@ package org.sqlbuilder.pb.foreign
 
 import java.util.*
 
-class VnClass private constructor(
+class AliasClass private constructor(
     val head: String?, val classTag: String
-) : Comparable<VnClass> {
+) : Comparable<AliasClass> {
 
     val className: String
         get() = String.format("%s-%s", head ?: "%", classTag)
@@ -18,7 +18,7 @@ class VnClass private constructor(
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val that = o as VnClass
+        val that = o as AliasClass
         return head == that.head && classTag == that.classTag
     }
 
@@ -28,7 +28,7 @@ class VnClass private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: VnClass): Int {
+    override fun compareTo(that: AliasClass): Int {
         return COMPARATOR.compare(this, that)
     }
 
@@ -40,10 +40,10 @@ class VnClass private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnClass> = Comparator.comparing<VnClass, String> { it.className }
+        val COMPARATOR: Comparator<AliasClass> = Comparator.comparing<AliasClass, String> { it.className }
 
-        fun make(head: String?, classTag: String): VnClass {
-            return VnClass(head, classTag)
+        fun make(head: String?, classTag: String): AliasClass {
+            return AliasClass(head, classTag)
         }
     }
 }
