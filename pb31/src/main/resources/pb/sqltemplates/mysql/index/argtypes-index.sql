@@ -1,0 +1,1 @@
+ALTER TABLE ${argtypes.table} ADD CONSTRAINT `pk_@{argtypes.table}` PRIMARY KEY (${argtypes.argtypeid});

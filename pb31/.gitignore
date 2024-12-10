@@ -1,0 +1,8 @@
+/target/
+/sers/
+/sers_out/
+/data/
+/sql*
+/sql*/
+/_sql*
+/_sql*/

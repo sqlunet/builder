@@ -1,0 +1,1 @@
+ALTER TABLE ${aspects.table} ADD CONSTRAINT `pk_@{aspects.table}` PRIMARY KEY (${aspects.aspectid});
