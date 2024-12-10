@@ -33,6 +33,7 @@ class Main {
             "sn",
             "vn",
             "pb",
+            "pb31",
             "sl",
             "fn",
             "pm",
@@ -84,6 +85,7 @@ class Main {
                 "sn"  -> SnModule::class.java
                 "vn"  -> VnModule::class.java
                 "pb"  -> PbModule::class.java
+                "pb31"  -> org.sqlbuilder.pb31.PbModule::class.java
                 "sl"  -> SlModule::class.java
                 "fn"  -> FnModule::class.java
                 "pm"  -> PmModule::class.java

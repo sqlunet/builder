@@ -43,6 +43,10 @@
                   <file>${project.parent.basedir}/pb/pb.properties</file>
                 </transformer>
                 <transformer>
+                  <resource>pb31.properties</resource>
+                  <file>${project.parent.basedir}/pb31/pb31.properties</file>
+                </transformer>
+                <transformer>
                   <resource>sl.properties</resource>
                   <file>${project.parent.basedir}/sl/sl.properties</file>
                 </transformer>

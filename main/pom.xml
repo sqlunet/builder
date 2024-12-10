@@ -14,6 +14,13 @@
   <dependencies>
     <dependency>
       <groupId>org.sqlunet-builder</groupId>
+      <artifactId>common</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sqlunet-builder</groupId>
       <artifactId>bnc</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
@@ -29,6 +36,13 @@
     <dependency>
       <groupId>org.sqlunet-builder</groupId>
       <artifactId>pb</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sqlunet-builder</groupId>
+      <artifactId>pb31</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
@@ -124,6 +138,10 @@
                 <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
                   <resource>pb.properties</resource>
                   <file>${project.parent.basedir}/pb/pb.properties</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>pb31.properties</resource>
+                  <file>${project.parent.basedir}/pb31/pb31.properties</file>
                 </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
                   <resource>sl.properties</resource>
