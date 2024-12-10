@@ -9,6 +9,7 @@
         <module name="su" />
         <module name="variables" />
         <module name="legacy" />
+        <module name="pb31" />
         <module name="fn" />
         <module name="main" />
         <module name="reqprov" />
