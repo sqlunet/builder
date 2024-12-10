@@ -100,6 +100,7 @@ open class Inserter(conf: Properties) {
                                                             Progress.tracePending("collector", "func")
                                                             insert(
                                                                 Func.COLLECTOR,
+                                                                Func.COLLECTOR,
                                                                 File(outDir, names.file("funcs")),
                                                                 names.table("funcs"),
                                                                 names.columns("funcs"),
@@ -109,6 +110,7 @@ open class Inserter(conf: Properties) {
 
                                                             Progress.tracePending("collector", "theta")
                                                             insert(
+                                                                Theta.COLLECTOR,
                                                                 Theta.COLLECTOR,
                                                                 File(outDir, names.file("thetas")),
                                                                 names.table("thetas"),
@@ -131,6 +133,7 @@ open class Inserter(conf: Properties) {
                                                             Progress.tracePending("collector", "roleset")
                                                             insert(
                                                                 RoleSet.COLLECTOR,
+                                                                RoleSet.COLLECTOR,
                                                                 File(outDir, names.file("rolesets")),
                                                                 names.table("rolesets"),
                                                                 names.columns("rolesets"),
@@ -140,6 +143,7 @@ open class Inserter(conf: Properties) {
 
                                                             Progress.tracePending("collector", "role")
                                                             insert(
+                                                                Role.COLLECTOR,
                                                                 Role.COLLECTOR,
                                                                 File(outDir, names.file("roles")),
                                                                 names.table("roles"),
@@ -151,6 +155,7 @@ open class Inserter(conf: Properties) {
                                                             Progress.tracePending("collector", "example")
                                                             insert(
                                                                 Example.COLLECTOR,
+                                                                Example.COLLECTOR,
                                                                 File(outDir, names.file("examples")),
                                                                 names.table("examples"),
                                                                 names.columns("examples"),
@@ -159,7 +164,8 @@ open class Inserter(conf: Properties) {
                                                             Progress.traceDone()
 
                                                             Progress.tracePending("collector", "arg")
-                                                            insert<Arg>(
+                                                            insert(
+                                                                Arg.COLLECTOR,
                                                                 Arg.COLLECTOR,
                                                                 File(outDir, names.file("args")),
                                                                 names.table("args"),
@@ -170,6 +176,7 @@ open class Inserter(conf: Properties) {
 
                                                             Progress.tracePending("collector", "rel")
                                                             insert(
+                                                                Rel.COLLECTOR,
                                                                 Rel.COLLECTOR,
                                                                 File(outDir, names.file("rels")),
                                                                 names.table("rels"),
@@ -188,8 +195,6 @@ open class Inserter(conf: Properties) {
                                                                 header
                                                             )
                                                             Progress.traceDone()
-
-                                                            // R E S O L V A B L E
 
                                                             insertWords()
                                                             insertFnAliases()

@@ -81,9 +81,6 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
          */
 
         fun make(f: String): Func {
-            if (f == "" || f == "_") {
-                print("'$f'")
-            }
             val func = Func(f.uppercase().trim())
             COLLECTOR.add(func)
             return func

@@ -258,7 +258,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                         .forEach { relElement ->
                                             val f = relElement.getAttribute("f")
                                             val relText: String = relElement.textContent.trim { it <= ' ' }
-                                            val func = Func.make(f)
+                                            val func = Func.makeOrNull(f)
                                             val rel = Rel.make(example, relText, func)
                                             example.rels.add(rel)
                                         }

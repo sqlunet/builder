@@ -18,7 +18,7 @@ class Role private constructor(
     vnLink0: String?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
-    private val func: Func? = if (func == null || func.isEmpty()) null else Func.make(func)
+    private val func: Func? = if (func == null || func.isEmpty()) null else Func.makeOrNull(func)
 
     private val descr: String? = descriptor
 
