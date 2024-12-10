@@ -57,10 +57,8 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, I
 
         val COMPARATOR: Comparator<Theta> = Comparator.comparing<Theta, String> { it.theta }
 
-        @JvmField
         val COLLECTOR = SetCollector<Theta>(COMPARATOR)
 
-        @JvmStatic
         fun make(thetaName: String): Theta {
             val t = Theta(Utils.camelCase(thetaName))
             COLLECTOR.add(t)

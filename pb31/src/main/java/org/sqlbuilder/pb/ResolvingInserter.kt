@@ -50,7 +50,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
         wordResolver = WordResolver(wordSerFile)
         vnClassResolver = VnClassResolver(vnClassSerFile)
         vnClassRoleResolver = VnClassRoleResolver(vnClassRoleSerFile)
-        fnFrameResolver = FnFrameResolver(this.fnFrameSerFile)
+        fnFrameResolver = FnFrameResolver(fnFrameSerFile)
     }
 
     @Throws(FileNotFoundException::class)

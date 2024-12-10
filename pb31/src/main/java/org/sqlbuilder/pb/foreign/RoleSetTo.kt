@@ -8,10 +8,10 @@ import org.sqlbuilder.pb.objects.Word
 import java.util.*
 
 abstract class RoleSetTo protected constructor(
-	val ref: String,
+    val ref: String,
     pos: String,
-	val pbRoleSet: RoleSet,
-    val pbWord: Word
+    val pbRoleSet: RoleSet,
+    val pbWord: Word,
 ) : Insertable, Resolvable<String, Int> {
 
     enum class Db {
@@ -34,7 +34,7 @@ abstract class RoleSetTo protected constructor(
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(ref, pos, pbRoleSet, this.pbWord)
+        return Objects.hash(ref, pos, pbRoleSet, pbWord)
     }
 
     // I N S E R T
@@ -42,18 +42,11 @@ abstract class RoleSetTo protected constructor(
     @RequiresIdFrom(type = RoleSet::class)
     @RequiresIdFrom(type = Word::class)
     override fun dataRow(): String {
-        // rolesetid,refid,ref,pos,pbwordid
-        return String.format(
-            "%d,'%s',%d,'%s'",
-            pbRoleSet.intId,
-            pos,
-            pbWord.intId,
-            ref
-        )
+        return "${pbRoleSet.intId},'$pos',${pbWord.intId},'$ref'"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s", pbRoleSet.name, pbWord.word)
+        return "${pbRoleSet.name},${pbWord.word}"
     }
 
     // R E S O L V E
@@ -62,20 +55,24 @@ abstract class RoleSetTo protected constructor(
         return ref
     }
 
+    // T O   S T R I N G
+
     override fun toString(): String {
-        return String.format("%s,%s,%s", ref, pos, pbWord.word)
+        return "$ref,$pos,${pbWord.word}"
     }
 
     companion object {
 
         val COMPARATOR: Comparator<RoleSetTo> = Comparator
-            .comparing<RoleSetTo, RoleSet>{ it.pbRoleSet }
+            .comparing<RoleSetTo, RoleSet> { it.pbRoleSet }
             .thenComparing<Word> { it.pbWord }
             .thenComparing<String> { it.ref }
             .thenComparing<String> { it.pos }
 
         fun make(db: Db, clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): RoleSetTo {
-            return if (db == Db.VERBNET) RoleSetToVn.make(clazz, pos, pbRoleSet, word) else (if (db == Db.FRAMENET) RoleSetToFn.make(clazz, pos, pbRoleSet, word) else throw IllegalArgumentException(db.name))
+            return if (db == Db.VERBNET) RoleSetToVn.make(clazz, pos, pbRoleSet, word)
+            else (if (db == Db.FRAMENET) RoleSetToFn.make(clazz, pos, pbRoleSet, word)
+            else throw IllegalArgumentException(db.name))
         }
     }
 }

@@ -8,7 +8,7 @@ open class LexItem(lemma: String) : Comparable<LexItem> {
 
     fun put() {
         val keyExisted = map.containsKey(this)
-        map.put(this, Word.make(this.word))
+        map.put(this, Word.make(word))
         if (keyExisted) {
             throw RuntimeException(toString())
         }
@@ -17,18 +17,17 @@ open class LexItem(lemma: String) : Comparable<LexItem> {
     // O R D E R
 
     override fun compareTo(p: LexItem): Int {
-        return this.word.compareTo(p.word)
+        return word.compareTo(p.word)
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("%s", this.word)
+        return word
     }
 
     companion object {
 
-        @JvmField
         val map: MutableMap<LexItem, Word> = TreeMap<LexItem, Word>()
 
         fun make(lemma: String): LexItem {

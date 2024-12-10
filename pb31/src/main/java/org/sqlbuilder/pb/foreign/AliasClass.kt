@@ -3,11 +3,12 @@ package org.sqlbuilder.pb.foreign
 import java.util.*
 
 class AliasClass private constructor(
-    val head: String?, val classTag: String
+    val head: String?,
+    val classTag: String,
 ) : Comparable<AliasClass> {
 
     val className: String
-        get() = String.format("%s-%s", head ?: "%", classTag)
+        get() = "${head ?: "%"}-$classTag"
 
     // I D E N T I T Y
 
@@ -35,7 +36,7 @@ class AliasClass private constructor(
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("<%s>", classTag)
+        return "<$classTag>"
     }
 
     companion object {
@@ -44,6 +45,10 @@ class AliasClass private constructor(
 
         fun make(head: String?, classTag: String): AliasClass {
             return AliasClass(head, classTag)
+        }
+
+        fun toTag(className: String): String{
+            return className.substring(className.indexOf('-') + 1)
         }
     }
 }

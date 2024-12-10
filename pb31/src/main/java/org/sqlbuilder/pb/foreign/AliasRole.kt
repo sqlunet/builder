@@ -1,10 +1,10 @@
 package org.sqlbuilder.pb.foreign
 
-import org.sqlbuilder.pb.foreign.Theta
 import java.util.*
 
 class AliasRole private constructor(
-    val vnClass: AliasClass, val vnTheta: Theta,
+    val aliasClass: AliasClass,
+    val aliasLink: Theta,
 ) : Comparable<AliasRole> {
 
     // I D E N T I T Y
@@ -16,12 +16,12 @@ class AliasRole private constructor(
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val vnRole = o as AliasRole
-        return vnClass == vnRole.vnClass && vnTheta == vnRole.vnTheta
+        val aliasRole = o as AliasRole
+        return aliasClass == aliasRole.aliasClass && aliasLink == aliasRole.aliasLink
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(vnClass, vnTheta)
+        return Objects.hash(aliasClass, aliasLink)
     }
 
     // O R D E R I N G
@@ -31,18 +31,19 @@ class AliasRole private constructor(
     }
 
     // T O S T R I N G
+
     override fun toString(): String {
-        return String.format("%s[%s]", this.vnClass, this.vnTheta)
+        return "$aliasClass[$aliasLink]"
     }
 
     companion object {
 
         val COMPARATOR: Comparator<AliasRole> = Comparator
-            .comparing<AliasRole, AliasClass> { it.vnClass }
-            .thenComparing{ it.vnTheta }
+            .comparing<AliasRole, AliasClass> { it.aliasClass }
+            .thenComparing { it.aliasLink }
 
-        fun make(vnClass: AliasClass, vnTheta: Theta): AliasRole {
-            return AliasRole(vnClass, vnTheta)
+        fun make(aliasVnClass: AliasClass, aliasLink: Theta): AliasRole {
+            return AliasRole(aliasVnClass, aliasLink)
         }
     }
 }

@@ -8,7 +8,8 @@ import org.sqlbuilder.pb.objects.RoleSet
 import java.util.*
 
 class RoleToVn private constructor(
-    val role: Role, val vnRole: AliasRole,
+    val role: Role,
+    val aliasRole: AliasRole,
 ) : Insertable, Resolvable<Pair<String, String>, Triple<Int, Int, Int>> {
 
     // I D E N T I T Y
@@ -21,11 +22,11 @@ class RoleToVn private constructor(
             return false
         }
         val that = o as RoleToVn
-        return role == that.role && vnRole == that.vnRole
+        return role == that.role && aliasRole == that.aliasRole
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(role, vnRole)
+        return Objects.hash(role, aliasRole)
     }
 
     // I N S E R T
@@ -38,8 +39,8 @@ class RoleToVn private constructor(
             "%d,%d,'%s','%s'",
             role.roleSet.intId,
             role.intId,
-            vnRole.vnClass.classTag,
-            vnRole.vnTheta.theta
+            aliasRole.aliasClass.classTag,
+            aliasRole.aliasLink.theta
         )
     }
 
@@ -47,39 +48,39 @@ class RoleToVn private constructor(
         return String.format(
             "%s,%s,%s",
             role.roleSet.name,
-            role.argType, role.theta
+            role.argType, role.vnLink
         )
     }
 
     // R E S O L V E
 
     override fun resolving(): Pair<String, String> {
-        return vnRole.vnClass.classTag to  vnRole.vnTheta.theta
+        return aliasRole.aliasClass.classTag to  aliasRole.aliasLink.theta
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        return String.format("%s > %s", role, vnRole)
+        return String.format("%s > %s", role, aliasRole)
     }
 
     companion object {
 
         val COMPARATOR: Comparator<RoleToVn> = Comparator
-            .comparing<RoleToVn, Role> { obj: RoleToVn -> obj.role }
-            .thenComparing<AliasRole> { obj: RoleToVn -> obj.vnRole }
+            .comparing<RoleToVn, Role> { it.role }
+            .thenComparing<AliasRole> { it.aliasRole }
 
         val SET: MutableSet<RoleToVn> = HashSet<RoleToVn>()
 
-        val RESOLVE_RESULT_STRINGIFIER = { r: Triple<Int, Int, Int>? -> if (r == null) "NULL,NULL,NULL" else String.format("%s,%s,%s", r.first, r.second, r.third) }
+        val RESOLVE_RESULT_STRINGIFIER = { r: Triple<Int, Int, Int>? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 
-        fun make(role: Role, vnRole: AliasRole): RoleToVn {
-            val m = RoleToVn(role, vnRole)
-            /* boolean wasThere = ! */
+        fun make(role: Role, aliasRole: AliasRole): RoleToVn {
+            val m = RoleToVn(role, aliasRole)
+            /* val wasThere = ! */
             SET.add(m)
             /*
 			if (wasThere) {
-				System.err.printf("%nduplicate %s%n", m);
+				println("\nduplicate $m")
 			}
 			*/
             return m

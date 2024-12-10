@@ -11,7 +11,7 @@ class Role private constructor(
     val argType: String,
     func: String?,
     descriptor: String?,
-    theta: String?,
+    vnLink0: String?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
     private val func: Func? = if (func == null || func.isEmpty()) null else Func.make(func)
@@ -19,7 +19,7 @@ class Role private constructor(
     private val descr: String? = descriptor
 
     // role name for VerbNet
-    val theta: Theta? = if (theta == null || theta.isEmpty()) null else Theta.make(theta)
+    val vnLink: Theta? = if (vnLink0 == null || vnLink0.isEmpty()) null else Theta.make(vnLink0)
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {
@@ -59,7 +59,7 @@ class Role private constructor(
         return String.format(
             "'%s',%s,%s,%s,%d",
             argType,
-            Utils.nullable<Theta?>(theta) { it!!.sqlId },
+            Utils.nullable<Theta?>(this@Role.vnLink) { it!!.sqlId },
             Utils.nullable<Func?>(func) { it!!.sqlId },
             Utils.nullableQuotedEscapedString(descr),
             roleSet.intId
@@ -67,16 +67,13 @@ class Role private constructor(
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s", roleSet.name, theta?.theta ?: "∅", func?.func ?: "∅")
+        return String.format("%s,%s,%s", roleSet.name, vnLink?.theta ?: "∅", func?.func ?: "∅")
     }
 
     // T O S T R I N G
 
     override fun toString(): String {
-        if (this.descr == null) {
-            return String.format("%s[%s-%s]", roleSet, argType, func)
-        }
-        return String.format("%s[%s-%s '%s']", roleSet, argType, func, descr)
+        return "$roleSet[$argType-$func '$descr']"
     }
 
     companion object {
@@ -84,21 +81,20 @@ class Role private constructor(
         val COMPARATOR: Comparator<Role> = Comparator
             .comparing<Role, RoleSet> { it.roleSet }
             .thenComparing<String> { it.argType }
-            .thenComparing<Func?>({ it.func }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder<Func?>()))
+            .thenComparing<Func>({ it.func }, Comparator.nullsFirst<Func>(Comparator.naturalOrder()))
 
-        @JvmField
         val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
-        fun make(roleSet: RoleSet, n: String, f: String?, descriptor: String?, theta: String?): Role {
-            val r = Role(roleSet, n, f, descriptor, theta)
+        fun make(roleSet: RoleSet, n: String, f: String, descriptor: String, vnLink: String?): Role {
+            val r = Role(roleSet, n, f, descriptor, vnLink)
             COLLECTOR.add(r)
             return r
         }
 
         @Suppress("unused")
         @RequiresIdFrom(type = Role::class)
-        fun getIntId(role: Role?): Int? {
-            return if (role == null) null else COLLECTOR.invoke(role)
+        fun getIntId(role: Role): Int {
+            return COLLECTOR.invoke(role)
         }
     }
 }
