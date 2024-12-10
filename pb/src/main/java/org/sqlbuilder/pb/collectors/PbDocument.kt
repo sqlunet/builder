@@ -214,11 +214,11 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                     val vnClassAttribute = vnRoleElement.getAttribute("class").trim { it <= ' ' }
                     val vnRoleContent = vnRoleElement.textContent.trim { it <= ' ' }
 
-                    // objects
+                    // verbnet class alias
                     val aliasVnClass = AliasClass.make(head, toTag(vnClassAttribute))
                     val aliasVnRoleLink = Utils.camelCase(vnRoleContent)
 
-                    // verbnet role
+                    // verbnet role alias
                     val aliasVnRole = AliasRole.make(aliasVnClass, aliasVnRoleLink)
 
                     // propbank role -> verbnet roles
