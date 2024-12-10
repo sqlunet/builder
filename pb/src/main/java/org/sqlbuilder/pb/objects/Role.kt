@@ -81,7 +81,7 @@ class Role private constructor(
         val COMPARATOR: Comparator<Role> = Comparator
             .comparing<Role, RoleSet> { it.roleSet }
             .thenComparing<String> { it.argType }
-            .thenComparing<Func>({ it.func }, Comparator.nullsFirst<Func>(Comparator.naturalOrder<Func>()))
+            .thenComparing<Func>({ it.func }, Comparator.nullsFirst<Func>(Comparator.naturalOrder()))
 
         val COLLECTOR = SetCollector<Role>(COMPARATOR)
 
