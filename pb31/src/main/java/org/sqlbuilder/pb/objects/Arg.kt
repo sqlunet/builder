@@ -9,9 +9,9 @@ import org.sqlbuilder.pb.PbNormalizer
 
 class Arg private constructor(example0: Example, text0: String, n0: String, f0: String?) : HasId, Insertable, Comparable<Arg> {
 
-    private val example: Example
+    private val example: Example = example0
 
-    private val text: String
+    private val text: String = PbNormalizer.normalize(text0)
 
     private val n: ArgType
 
@@ -20,8 +20,6 @@ class Arg private constructor(example0: Example, text0: String, n0: String, f0: 
     // C O N S T R U C T O R
 
     init {
-        example = example0
-        text = PbNormalizer.normalize(text0)
         assert(!n0.isEmpty())
         n = ArgType.make(n0)
         f = if (f0 == null || f0.isEmpty()) null else Func.make(f0.lowercase())

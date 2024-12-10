@@ -1,8 +1,12 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.SqlId
 import org.sqlbuilder.common.Utils.escape
+import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.pb.PbNormalizer
 
 class Example private constructor(
@@ -39,21 +43,16 @@ class Example private constructor(
 
     @RequiresIdFrom(type = RoleSet::class)
     override fun dataRow(): String {
-        // (exampleid),examplename,text,aspect,form,tense,voice,person,rolesetid
-        return String.format(
-            "'%s','%s',%s,%s,%s,%s,%s,%d",
-            escape(name),
-            escape(text),
-            SqlId.getSqlId(ASPECT_COLLECTOR.invoke(aspect!!)),
-            SqlId.getSqlId(FORM_COLLECTOR.invoke(form!!)),
-            SqlId.getSqlId(TENSE_COLLECTOR.invoke(tense!!)),
-            SqlId.getSqlId(VOICE_COLLECTOR.invoke(voice!!)),
-            SqlId.getSqlId(PERSON_COLLECTOR.invoke(person!!)),
-            roleSet.intId)
+        val aspectId = SqlId.getSqlId(if (aspect != null && aspect != "ns") ASPECT_COLLECTOR.invoke(aspect) else null)
+        val formId = SqlId.getSqlId(if (form != null && form != "ns") FORM_COLLECTOR.invoke(form) else null)
+        val tenseId = SqlId.getSqlId(if (tense != null && tense != "ns") TENSE_COLLECTOR.invoke(tense) else null)
+        val voiceId = SqlId.getSqlId(if (voice != null && voice != "ns") VOICE_COLLECTOR.invoke(voice) else null)
+        val personId = SqlId.getSqlId(if (person != null && person != "ns") PERSON_COLLECTOR.invoke(person) else null)
+        return "'${escape(name)}','${escape(text)}',${nullable(aspectId)},${nullable(formId)},${nullable(tenseId)},${nullable(voiceId)},${nullable(personId)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s,%s,%s,%s", aspect, form, tense, voice, person, roleSet.name)
+        return "$aspect,$form,$tense,$voice,$person,${roleSet.name}"
     }
 
     override fun toString(): String {

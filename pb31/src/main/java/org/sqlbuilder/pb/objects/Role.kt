@@ -1,7 +1,11 @@
 package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
-import org.sqlbuilder.common.*
+import org.sqlbuilder.common.HasId
+import org.sqlbuilder.common.Insertable
+import org.sqlbuilder.common.SetCollector
+import org.sqlbuilder.common.Utils.nullable
+import org.sqlbuilder.common.Utils.nullableQuotedEscapedString
 import org.sqlbuilder.pb.foreign.Theta
 import java.io.Serializable
 import java.util.*
@@ -55,19 +59,11 @@ class Role private constructor(
     @RequiresIdFrom(type = Func::class)
     @RequiresIdFrom(type = Theta::class)
     override fun dataRow(): String {
-        // (roleid),argtype,theta,func,roledescr,rolesetid
-        return String.format(
-            "'%s',%s,%s,%s,%d",
-            argType,
-            Utils.nullable<Theta?>(this@Role.vnLink) { it!!.sqlId },
-            Utils.nullable<Func?>(func) { it!!.sqlId },
-            Utils.nullableQuotedEscapedString(descr),
-            roleSet.intId
-        )
+        return "'$argType',${nullable(vnLink) { it.sqlId }},${nullable(func) { it.sqlId }},${nullableQuotedEscapedString(descr)},${roleSet.intId}"
     }
 
     override fun comment(): String {
-        return String.format("%s,%s,%s", roleSet.name, vnLink?.theta ?: "∅", func?.func ?: "∅")
+        return "${roleSet.name},${vnLink?.theta ?: "∅"},${func?.func ?: "∅"}"
     }
 
     // T O S T R I N G

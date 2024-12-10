@@ -44,7 +44,7 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, I
     // I N S E R T
 
     override fun dataRow(): String {
-        return String.format("'%s'", theta)
+        return "'${theta}'"
     }
 
     // T O S T R I N G

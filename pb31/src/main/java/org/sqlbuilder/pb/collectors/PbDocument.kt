@@ -284,7 +284,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeExampleArgs(head: String, start: Node): Collection<Arg> {
             var result = ArrayList<Arg>()
             getXPaths(start, "./predicate")!!
-                .iteratorOfElements()
                 .asSequence()
                 .forEach { predicateElement ->
 
@@ -292,7 +291,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                     val predicate = Predicate.make(head, lemmaAttribute)
 
                     getXPaths(predicateElement, "./roleset")!!
-                        .iteratorOfElements()
                         .asSequence()
                         .forEach { roleSetElement ->
 
@@ -301,7 +299,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             val roleSet = RoleSet.make(predicate, roleSetIdAttribute, nameAttribute)
 
                             getXPaths(roleSetElement, "./example")
-                                ?.iteratorOfElements()
                                 ?.asSequence()
                                 ?.forEach { exampleElement ->
 
@@ -324,8 +321,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
 
                                     // args
-                                    getXPaths(exampleElement, "./arg")!!
-                                        .iteratorOfElements()
+                                    getXPaths(exampleElement, "./propbank/arg")!!
                                         .asSequence()
                                         .forEach { argElement ->
 

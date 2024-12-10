@@ -2,6 +2,7 @@ package org.sqlbuilder.pb.objects
 
 import org.sqlbuilder.annotations.RequiresIdFrom
 import org.sqlbuilder.common.*
+import org.sqlbuilder.common.Utils.escape
 import java.io.Serializable
 import java.util.*
 
@@ -41,10 +42,7 @@ class Word private constructor(
 
     @RequiresIdFrom(type = Word::class)
     override fun dataRow(): String {
-        return String.format(
-            "'%s'",
-            Utils.escape(word)
-        )
+        return "'${escape(word)}'"
     }
 
     // R E S O L V E
