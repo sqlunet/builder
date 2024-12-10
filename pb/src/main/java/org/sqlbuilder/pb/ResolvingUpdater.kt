@@ -93,7 +93,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
             names.table("pbroles_vnroles"),
-            { vnRoleResolver.invoke(it) },
+            vnRoleResolver,
             { resolved ->
                 if (resolved == null)
                     "$vnClassidCol=NULL,$vnRoleidCol=NULL,$vnRoletypeidCol=NULL"
