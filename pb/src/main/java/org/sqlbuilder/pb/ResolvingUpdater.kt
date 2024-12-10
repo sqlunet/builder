@@ -117,7 +117,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             File(outDir, names.updateFile("pbroles_fnfes")),
             header,
             names.table("pbroles_fnfes"),
-            { fnFeResolver.invoke(it) },
+            fnFeResolver,
             { resolved ->
                 if (resolved == null)
                     "$fnframeidCol=NULL,$fnfeidCol=NULL,$fnfetypeidCol=NULL"
