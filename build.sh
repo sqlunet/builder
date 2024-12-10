@@ -21,7 +21,7 @@ fi
 shift
 modules="${module}"
 if [ "${modules}" == "all" ]; then
-  modules="bnc sn vn pb fn sl su pm"
+  modules="bnc sn vn pb pb31 fn sl su pm"
   echo "All modules: ${modules}"
 fi
 

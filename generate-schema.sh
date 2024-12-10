@@ -7,7 +7,8 @@ set -e
 # indir
 # files*: external sql template file names, if none they are taken from resources
 
-JAR=generate-schema.jar
+JAR=sqlunet-builder.jar
+JAR=$(readlink -m "${JAR}")
 
 source define_colors.sh
 
