@@ -49,7 +49,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
                 insert(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                 traceDone()
 
-                traceSaving("pm", "roles")
+                traceSaving("pm", "pms")
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use {
                     it.println("-- $header")
                     processPmFile(it, inputFile, names.table("pms"), names.columns("pms", false)) { role, i -> insertRow(it, i, role.dataRow()) }
