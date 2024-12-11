@@ -52,7 +52,7 @@ open class SnProcessor(
 
     @Throws(IOException::class)
     protected open fun processSyntagNetFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (Collocation, Int) -> Unit) {
-        ps.println("INSERT INTO $table ($columns)")
+        ps.println("INSERT INTO $table ($columns) VALUES")
         process(file, COMPARATOR_BY_SENSEKEYS, { line: String -> parse(line) }, consumer)
         ps.print(';')
     }
