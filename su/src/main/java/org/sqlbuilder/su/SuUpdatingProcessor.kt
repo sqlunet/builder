@@ -1,5 +1,7 @@
 package org.sqlbuilder.su
 
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.su.joins.Term_Synset
 import org.sqlbuilder.su.objects.Term
 import java.io.File
@@ -25,14 +27,19 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
         collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
 
         Term.COLLECTOR.open().use {
+            traceSaving("terms")
             PrintStream(FileOutputStream(File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8).use { ps ->
                 ps.println("-- $header")
                 processTerms(ps, Term.COLLECTOR, names.table("terms"), termsColumns)
             }
+            traceDone()
+
+            traceSaving("terms_synsets")
             PrintStream(FileOutputStream(File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8).use { ps ->
                 ps.println("-- $header")
                 processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns)
             }
+           traceDone()
         }
     }
 

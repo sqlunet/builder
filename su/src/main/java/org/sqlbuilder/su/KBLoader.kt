@@ -1,5 +1,10 @@
 package org.sqlbuilder.su
 
+import org.sqlbuilder.common.Progress.resetGranularity
+import org.sqlbuilder.common.Progress.setGranularity
+import org.sqlbuilder.common.Progress.traceHeader
+import org.sqlbuilder.common.Progress.traceTailer
+
 open class KBLoader {
 
     open fun load() {
@@ -40,9 +45,11 @@ open class KBLoader {
         fun loadKb(files: Array<String>? = scope): Kb {
             val kbPath: String = path
             val kb = Kb(kbPath)
-            System.err.println("Kb building")
-            kb.make(files)
-            System.err.println("\nKb built")
+            traceHeader("sumo", path)
+            setGranularity(1L)
+            val n = kb.make(files)
+            resetGranularity()
+            traceTailer(n.toLong())
             return kb
         }
     }

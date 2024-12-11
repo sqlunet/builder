@@ -1,7 +1,7 @@
 package org.sqlbuilder.su
 
-import org.sigma.core.FileUtil.basename
 import org.sigma.core.KB
+import org.sqlbuilder.common.Progress.trace
 import java.io.File
 import java.io.Serializable
 
@@ -10,16 +10,17 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
     lateinit var filenames: Array<String>
         private set
 
-    fun make(full: Boolean) {
-        make(getFiles(kbDir, full))
+    fun make(full: Boolean) : Int {
+        return make(getFiles(kbDir, full))
     }
 
-    fun make(files: Array<String>?) {
+    fun make(files: Array<String>?) : Int {
         filenames = files ?: getFiles(kbDir, true)
         val filePaths: Array<String> = Array(filenames.size) {
             kbDir + File.separatorChar + filenames[it]
         }
         makeKB(this, filePaths)
+        return filenames.size
     }
 
     fun makeClausalForms() {
@@ -44,10 +45,13 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
         private val silent = System.getProperties().containsKey("SILENT")
 
         private fun makeKB(kb: KB, filePaths: Array<String>) {
-            filePaths.forEach {
-                System.err.println(basename(it))
-                kb.addConstituent(it)
-            }
+            filePaths
+                .withIndex()
+                .forEach { (i, f) ->
+                    //System.err.println(basename(f))
+                    kb.addConstituent(f)
+                    trace(i.toLong())
+                }
         }
 
         private fun getFiles(dirName: String, full: Boolean): Array<String> {

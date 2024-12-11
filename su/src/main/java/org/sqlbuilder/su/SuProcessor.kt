@@ -4,6 +4,9 @@ import org.sqlbuilder.common.AlreadyFoundException
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.NotFoundException
 import org.sqlbuilder.common.Processor
+import org.sqlbuilder.common.Progress.NONE
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.su.joins.Formula_Arg
 import org.sqlbuilder.su.joins.Formula_Arg.Companion.make
 import org.sqlbuilder.su.joins.Term_Synset
@@ -66,16 +69,20 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         collectFiles(KBLoader.kb!!)
         collectTerms(KBLoader.kb!!)
         collectFormulas(KBLoader.kb!!)
-        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
+        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, NONE)
 
         try {
             SUFile.COLLECTOR.open().use {
                 Term.COLLECTOR.open().use {
                     Formula.COLLECTOR.open().use {
+                        traceSaving("files")
                         PrintStream(FileOutputStream(File(outDir, names.file("files"))), true, StandardCharsets.UTF_8).use { ps ->
                             ps.println("-- $header")
                             insertFiles(ps, SUFile.COLLECTOR, names.table("files"), names.columns("files"))
                         }
+                        traceDone()
+
+                        traceSaving("terms")
                         PrintStream(FileOutputStream(File(outDir, names.file("terms"))), true, StandardCharsets.UTF_8).use { ps ->
                             PrintStream(FileOutputStream(File(outDir, names.file("terms_attrs"))), true, StandardCharsets.UTF_8).use { ps2 ->
                                 ps.println("-- $header")
@@ -83,6 +90,9 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
                                 processTermsAndAttrs(ps, ps2, Term.COLLECTOR, KBLoader.kb!!, names.table("terms"), termsColumns, names.table("terms_attrs"), names.columns("terms_attrs"))
                             }
                         }
+                        traceDone()
+
+                        traceSaving("formulas")
                         PrintStream(FileOutputStream(File(outDir, names.file("formulas"))), true, StandardCharsets.UTF_8).use { ps ->
                             PrintStream(FileOutputStream(File(outDir, names.file("formulas_args"))), true, StandardCharsets.UTF_8).use { ps2 ->
                                 ps.println("-- $header")
@@ -90,10 +100,14 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
                                 insertFormulasAndArgs(ps, ps2, Formula.COLLECTOR, names.table("formulas"), names.columns("formulas"), names.table("formulas_args"), names.columns("formulas_args"))
                             }
                         }
+                        traceDone()
+
+                        traceSaving("term-synsets")
                         PrintStream(FileOutputStream(File(outDir, names.file("terms_synsets"))), true, StandardCharsets.UTF_8).use { ps ->
                             ps.println("-- $header")
                             processSynsets(ps, Term_Synset.SET, names.table("terms_synsets"), synsetsColumns)
                         }
+                        traceDone()
                     }
                 }
             }

@@ -1,15 +1,17 @@
 package org.sqlbuilder.su
 
+import org.sigma.core.FileUtil
 import org.sigma.core.Logging
 import org.sqlbuilder.common.Module
 import org.sqlbuilder.common.Module.Mode.Companion.read
 import org.sqlbuilder.common.NotFoundException
+import org.sqlbuilder.common.Progress
 import java.io.IOException
 import java.util.logging.LogManager
 
 class SuModule(
     conf: String,
-    mode: Mode
+    mode: Mode,
 ) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
@@ -36,8 +38,8 @@ class SuModule(
 
         private fun setLogging() {
             try {
-                Logging::class.java.getClassLoader().getResourceAsStream("logging.properties").use {
-                     LogManager.getLogManager().readConfiguration(it)
+                SuModule::class.java.getClassLoader().getResourceAsStream("logging.properties").use {
+                    LogManager.getLogManager().readConfiguration(it)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -46,12 +48,12 @@ class SuModule(
 
         fun turnOffLogging() {
             setLogging()
-
             val classKey = "java.util.logging.config.class"
             val classValue = System.getProperty(classKey)
             if (classValue != null && !classValue.isEmpty()) {
                 System.err.println("$classKey = $classValue")
             }
+            FileUtil.PROGRESS_OUT = Progress.NONE
         }
 
         @JvmStatic
