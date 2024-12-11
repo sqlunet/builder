@@ -22,7 +22,17 @@ object Progress {
 
     val PROGRESS: PrintStream = System.err
 
-    private const val GRANULARITY: Long = 10
+    private const val GRANULARITY: Long = 10L
+
+    private var granularity: Long = GRANULARITY
+
+    fun setGranularity(g: Long) {
+        granularity = g
+    }
+
+    fun resetGranularity() {
+        granularity = GRANULARITY
+    }
 
     fun traceHeader(tag: String, message: String) {
         PROGRESS.println(">$tag $message")
@@ -37,8 +47,8 @@ object Progress {
     }
 
     fun trace(progress: Long) {
-        if (progress % GRANULARITY == 0L) {
-            var occurs: Long = progress / GRANULARITY
+        if (progress % granularity == 0L) {
+            var occurs: Long = progress / granularity
             val c = when (occurs % 4L) {
                 0L   -> '—'
                 1L   -> '\\'
