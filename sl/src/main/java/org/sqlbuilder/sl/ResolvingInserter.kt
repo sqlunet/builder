@@ -1,7 +1,7 @@
 package org.sqlbuilder.sl
 
 import org.sqlbuilder.common.CombinedResolver
-import org.sqlbuilder.common.Insert
+import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress.traceDone
 import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
@@ -48,7 +48,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertClassAliases() {
         traceSaving("vnalias")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             PbRoleSet_VnClass.SET,
             PbRoleSet_VnClass.COMPARATOR,
             File(outDir, names.file("pbrolesets_vnclasses")),
@@ -66,7 +66,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertRoleAliases() {
         traceSaving("vnaliasrole")
-        Insert.resolveAndInsert(
+        resolveAndInsert(
             PbRole_VnRole.SET,
             PbRole_VnRole.COMPARATOR,
             File(outDir, names.file("pbroles_vnroles")),
