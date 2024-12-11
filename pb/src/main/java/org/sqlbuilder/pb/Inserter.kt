@@ -174,7 +174,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertFnFrameAliases() {
-        traceSaving("fnframealias")
+        traceSaving("fnframe aliases")
         insert(
             RoleSetToFn.SET,
             RoleSetToFn.COMPARATOR,
@@ -188,7 +188,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnClassAliases() {
-        traceSaving("vnclassalias")
+        traceSaving("vnclass aliases")
         insert(
             RoleSetToVn.SET,
             RoleSetToVn.COMPARATOR,
@@ -202,7 +202,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnRoleAliases() {
-        traceSaving("vnrolealias")
+        traceSaving("vnrole aliases")
         insert(
             RoleToVn.SET,
             RoleToVn.COMPARATOR,
@@ -216,7 +216,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertFnFeAliases() {
-        traceSaving("fnfealias")
+        traceSaving("fnfe aliases")
         insert(
             RoleToFn.SET,
             RoleToFn.COMPARATOR,

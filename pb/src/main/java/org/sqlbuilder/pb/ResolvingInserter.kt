@@ -81,7 +81,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertFnFrameAliases() {
-        traceSaving("fnalias")
+        traceSaving("fnframe aliases")
         resolveAndInsert(
             RoleSetToFn.SET,
             RoleSetToFn.COMPARATOR,
@@ -98,7 +98,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertVnClassAliases() {
-        traceSaving("vnalias")
+        traceSaving("vnclass aliases")
         resolveAndInsert(
             RoleSetToVn.SET,
             RoleSetToVn.COMPARATOR,
@@ -115,7 +115,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
-        traceSaving("vnaliasrole")
+        traceSaving("vnrole aliases")
         resolveAndInsert(
             RoleToVn.SET,
             RoleToVn.COMPARATOR,
@@ -134,7 +134,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertFnFeAliases() {
-        traceSaving("fnaliasrole")
+        traceSaving("fnfe aliases")
         resolveAndInsert(
             RoleToFn.SET,
             RoleToFn.COMPARATOR,

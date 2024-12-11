@@ -51,7 +51,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertVnClassAliases() {
-        traceSaving("vnalias")
+        traceSaving("vnclass aliases")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         update(
@@ -67,7 +67,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertFnFrameAliases() {
-        traceSaving("fnalias")
+        traceSaving("fnframe aliases")
         val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
         val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
         update(
@@ -83,7 +83,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
-        traceSaving("vnaliasrole")
+        traceSaving("vnrole aliases")
         val vnClassidCol = names.column("pbroles_vnroles.vnclassid")
         val vnRoleidCol = names.column("pbroles_vnroles.vnroleid")
         val vnRoletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
@@ -107,7 +107,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertFnFeAliases() {
-        traceSaving("fnaliasrole")
+        traceSaving("fnrole aliases")
         val fnframeidCol = names.column("pbroles_fnfes.fnframeid")
         val fnfeidCol = names.column("pbroles_fnfes.fnfeid")
         val fnfetypeidCol = names.column("pbroles_fnfes.fnfetypeid")
