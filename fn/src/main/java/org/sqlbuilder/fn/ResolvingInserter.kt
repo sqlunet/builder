@@ -2,7 +2,7 @@ package org.sqlbuilder.fn
 
 import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress.traceDone
-import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.fn.objects.Word
 import java.io.File
@@ -28,7 +28,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
-        tracePending("collector", "word")
+        traceSaving("word")
         resolveAndInsert<Word, String, Int>(
             Word.COLLECTOR,
             Word.COLLECTOR,
