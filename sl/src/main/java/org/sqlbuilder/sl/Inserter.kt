@@ -37,14 +37,14 @@ open class Inserter(
     @Throws(FileNotFoundException::class)
     protected open fun insertClassAliases() {
         traceSaving("vnalias")
-        insert<PbRoleSet_VnClass>(PbRoleSet_VnClass.SET, PbRoleSet_VnClass.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
+        insert(PbRoleSet_VnClass.SET, PbRoleSet_VnClass.COMPARATOR, File(outDir, names.file("pbrolesets_vnclasses")), names.table("pbrolesets_vnclasses"), names.columns("pbrolesets_vnclasses"), header)
         traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertRoleAliases() {
         traceSaving("vnaliasrole")
-        insert<PbRole_VnRole>(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
+        insert(PbRole_VnRole.SET, PbRole_VnRole.COMPARATOR, File(outDir, names.file("pbroles_vnroles")), names.table("pbroles_vnroles"), names.columns("pbroles_vnroles"), header)
         traceDone()
     }
 }

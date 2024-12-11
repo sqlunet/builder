@@ -41,12 +41,12 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
         PmPredicate.COLLECTOR.open().use {
             traceSaving("pm", "predicates")
-            Insert.insert<PmPredicate>(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
+            insert(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
             traceDone()
 
             PmRole.COLLECTOR.open().use {
                 traceSaving("pm", "roles")
-                insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                insert(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
                 traceDone()
 
                 traceSaving("pm", "roles")

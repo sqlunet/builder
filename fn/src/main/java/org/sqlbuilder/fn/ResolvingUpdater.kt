@@ -32,7 +32,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         traceSaving("word")
         val wordidCol = names.column("words.wordid")
         val wordCol = names.column("words.word")
-        update<Word, String, Int>(
+        update(
             Word.COLLECTOR, File(outDir, names.updateFile("words")), header, names.table("words"),
             resolver,
             { resolved -> "$wordidCol=${nullableInt(resolved)}" },

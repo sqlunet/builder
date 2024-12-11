@@ -89,7 +89,7 @@ class Exporter(
     @Throws(IOException::class)
     fun exportFrames() {
         val m = makeFramesMap().toSortedMap()
-        export<String, Int>(m, File(outDir, names.mapFile("frames.resolve", "_[frame]-[frameid]")))
+        export(m, File(outDir, names.mapFile("frames.resolve", "_[frame]-[frameid]")))
     }
 
     @Throws(IOException::class)

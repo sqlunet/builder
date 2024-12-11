@@ -29,7 +29,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
         traceSaving("word")
-        resolveAndInsert<Word, String, Int>(
+        resolveAndInsert(
             Word.COLLECTOR,
             Word.COLLECTOR,
             File(outDir, names.file("words")),
