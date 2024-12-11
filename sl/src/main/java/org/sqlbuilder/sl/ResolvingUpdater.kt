@@ -3,7 +3,7 @@ package org.sqlbuilder.sl
 import org.sqlbuilder.common.CombinedResolver
 import org.sqlbuilder.common.Progress.traceDone
 import org.sqlbuilder.common.Progress.traceSaving
-import org.sqlbuilder.common.Update
+import org.sqlbuilder.common.Update.update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
@@ -34,7 +34,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         val pbrolesetidCol = names.column("pbrolesets_vnclasses.pbrolesetid")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
-        Update.update(
+        update(
             PbRoleSet_VnClass.SET,
             File(outDir, names.updateFile("pbrolesets_vnclasses")),
             header,
@@ -72,7 +72,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             "$pbrolesetCol='${escape(r.first.first)}' AND $pbroleCol='${escape(r.first.second)}' AND $vnclassCol='${escape(r.second.first)}' AND $vnroleCol='${escape(r.second.second)}'"
         }
 
-        Update.update(
+        update(
             PbRole_VnRole.SET,
             File(outDir, names.updateFile("pbroles_vnroles")),
             header,
