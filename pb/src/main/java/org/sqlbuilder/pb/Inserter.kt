@@ -2,7 +2,8 @@ package org.sqlbuilder.pb
 
 import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
-import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.pb.foreign.*
 import org.sqlbuilder.pb.objects.*
 import java.io.File
@@ -35,7 +36,7 @@ open class Inserter(conf: Properties) {
                                     Arg.COLLECTOR.open().use {
                                         Word.COLLECTOR.open().use {
 
-                                            Progress.tracePending("collector", "func")
+                                            traceSaving("func")
                                             insert(
                                                 Func.COLLECTOR,
                                                 Func.COLLECTOR,
@@ -44,9 +45,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("funcs"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "vnroles")
+                                            traceSaving("vnroles")
                                             insert(
                                                 AliasVnRoleLinks.COLLECTOR,
                                                 AliasVnRoleLinks.COLLECTOR,
@@ -55,9 +56,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("vnroles"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "fnfes")
+                                            traceSaving("fnfes")
                                             insert(
                                                 AliasFnFeLinks.COLLECTOR,
                                                 AliasFnFeLinks.COLLECTOR,
@@ -66,9 +67,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("fnfes"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("set", "argtype")
+                                            traceSaving("argtype")
                                             insert(
                                                 ArgType.SET,
                                                 ArgType.COMPARATOR,
@@ -77,17 +78,17 @@ open class Inserter(conf: Properties) {
                                                 names.columns("argtypes"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "roleset")
+                                            traceSaving("roleset")
                                             insert(
                                                 RoleSet.COLLECTOR,
                                                 RoleSet.COLLECTOR,
                                                 File(outDir, names.file("rolesets")), names.table("rolesets"), names.columns("rolesets"), header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "role")
+                                            traceSaving("role")
                                             insert(
                                                 Role.COLLECTOR,
                                                 Role.COLLECTOR,
@@ -96,9 +97,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("roles"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "example")
+                                            traceSaving("example")
                                             insert(
                                                 Example.COLLECTOR,
                                                 Example.COLLECTOR,
@@ -107,9 +108,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("examples"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "arg")
+                                            traceSaving("arg")
                                             insert(
                                                 Arg.COLLECTOR,
                                                 Arg.COLLECTOR,
@@ -118,9 +119,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("args"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("collector", "rel")
+                                            traceSaving("rel")
                                             insert(
                                                 Rel.COLLECTOR,
                                                 Rel.COLLECTOR,
@@ -129,9 +130,9 @@ open class Inserter(conf: Properties) {
                                                 names.columns("rels"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
-                                            Progress.tracePending("set", "member")
+                                            traceSaving("member")
                                             insert(
                                                 Member.SET,
                                                 Member.COMPARATOR,
@@ -139,7 +140,7 @@ open class Inserter(conf: Properties) {
                                                 names.table("members"), names.columns("members"),
                                                 header
                                             )
-                                            Progress.traceDone()
+                                            traceDone()
 
                                             insertWords()
                                             insertFnFrameAliases()
@@ -159,7 +160,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertWords() {
-        Progress.tracePending("collector", "word")
+        traceSaving("word")
         insert(
             Word.COLLECTOR,
             Word.COLLECTOR,
@@ -168,12 +169,12 @@ open class Inserter(conf: Properties) {
             names.columns("words"),
             header
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertFnFrameAliases() {
-        Progress.tracePending("set", "fnframealias")
+        traceSaving("fnframealias")
         insert(
             RoleSetToFn.SET,
             RoleSetToFn.COMPARATOR,
@@ -182,12 +183,12 @@ open class Inserter(conf: Properties) {
             names.columns("pbrolesets_fnframes"),
             header
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnClassAliases() {
-        Progress.tracePending("set", "vnclassalias")
+        traceSaving("vnclassalias")
         insert(
             RoleSetToVn.SET,
             RoleSetToVn.COMPARATOR,
@@ -196,12 +197,12 @@ open class Inserter(conf: Properties) {
             names.columns("pbrolesets_vnclasses"),
             header
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertVnRoleAliases() {
-        Progress.tracePending("set", "vnrolealias")
+        traceSaving("vnrolealias")
         insert(
             RoleToVn.SET,
             RoleToVn.COMPARATOR,
@@ -210,12 +211,12 @@ open class Inserter(conf: Properties) {
             names.columns("pbroles_vnroles"),
             header
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     protected open fun insertFnFeAliases() {
-        Progress.tracePending("set", "fnfealias")
+        traceSaving("fnfealias")
         insert(
             RoleToFn.SET,
             RoleToFn.COMPARATOR,
@@ -224,6 +225,6 @@ open class Inserter(conf: Properties) {
             names.columns("pbroles_fnfes"),
             header
         )
-        Progress.traceDone()
+        traceDone()
     }
 }

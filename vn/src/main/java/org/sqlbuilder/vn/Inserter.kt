@@ -3,7 +3,7 @@ package org.sqlbuilder.vn
 import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
 import org.sqlbuilder.common.Progress.traceDone
-import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.vn.joins.*
 import org.sqlbuilder.vn.objects.*
 import java.io.File
@@ -40,7 +40,7 @@ open class Inserter(conf: Properties) {
                                                     Grouping.COLLECTOR.open().use {
                                                         Predicate.COLLECTOR.open().use {
                                                             Word.COLLECTOR.open().use {
-                                                                tracePending("collector", "class")
+                                                                traceSaving("class")
                                                                 insert(
                                                                     VnClass.COLLECTOR,
                                                                     VnClass.COLLECTOR,
@@ -51,7 +51,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "roletype")
+                                                                traceSaving("roletype")
                                                                 insert(
                                                                     RoleType.COLLECTOR,
                                                                     RoleType.COLLECTOR,
@@ -62,7 +62,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "role")
+                                                                traceSaving("role")
                                                                 insert(
                                                                     Role.COLLECTOR,
                                                                     Role.COLLECTOR,
@@ -73,7 +73,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "restrtype")
+                                                                traceSaving("restrtype")
                                                                 insert(
                                                                     RestrType.COLLECTOR,
                                                                     RestrType.COLLECTOR,
@@ -84,7 +84,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "restrs")
+                                                                traceSaving("restrs")
                                                                 insert(
                                                                     Restrs.COLLECTOR,
                                                                     Restrs.COLLECTOR,
@@ -95,7 +95,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "name")
+                                                                traceSaving("name")
                                                                 insert(
                                                                     FrameName.COLLECTOR,
                                                                     FrameName.COLLECTOR,
@@ -106,7 +106,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "subname")
+                                                                traceSaving("subname")
                                                                 insert(
                                                                     FrameSubName.COLLECTOR,
                                                                     FrameSubName.COLLECTOR,
@@ -117,7 +117,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "frame example")
+                                                                traceSaving("frame example")
                                                                 insert(
                                                                     FrameExample.COLLECTOR,
                                                                     FrameExample.COLLECTOR,
@@ -128,7 +128,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "syntax")
+                                                                traceSaving("syntax")
                                                                 insert(
                                                                     Syntax.COLLECTOR,
                                                                     Syntax.COLLECTOR,
@@ -139,7 +139,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "semantics")
+                                                                traceSaving("semantics")
                                                                 insert(
                                                                     Semantics.COLLECTOR,
                                                                     Semantics.COLLECTOR,
@@ -150,7 +150,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "predicate")
+                                                                traceSaving("predicate")
                                                                 insert(
                                                                     Predicate.COLLECTOR,
                                                                     Predicate.COLLECTOR,
@@ -161,7 +161,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "frame")
+                                                                traceSaving("frame")
                                                                 insert(
                                                                     Frame.COLLECTOR,
                                                                     Frame.COLLECTOR,
@@ -172,7 +172,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("set", "frame example")
+                                                                traceSaving("frame example")
                                                                 insert(
                                                                     Frame_Example.SET,
                                                                     null as Comparator<Frame_Example>?,
@@ -183,7 +183,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("set", "predicate semantics")
+                                                                traceSaving("predicate semantics")
                                                                 insert(
                                                                     Predicate_Semantics.SET,
                                                                     null as Comparator<Predicate_Semantics>?,
@@ -194,7 +194,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("set", "class word")
+                                                                traceSaving("class word")
                                                                 insert(
                                                                     Class_Word.SET,
                                                                     Class_Word.COMPARATOR,
@@ -205,7 +205,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("set", "class frame")
+                                                                traceSaving("class frame")
                                                                 insert(
                                                                     Class_Frame.SET,
                                                                     Class_Frame.COMPARATOR,
@@ -216,7 +216,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("collector", "grouping")
+                                                                traceSaving("grouping")
                                                                 insert(
                                                                     Grouping.COLLECTOR,
                                                                     Grouping.COLLECTOR,
@@ -227,7 +227,7 @@ open class Inserter(conf: Properties) {
                                                                 )
                                                                 traceDone()
 
-                                                                tracePending("set", "member grouping")
+                                                                traceSaving("member grouping")
                                                                 insert(
                                                                     Member_Grouping.SET,
                                                                     Member_Grouping.COMPARATOR,
@@ -260,7 +260,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertWords() {
-        tracePending("collector", "word")
+        traceSaving("word")
         insert(
             Word.COLLECTOR,
             Word.COLLECTOR,
@@ -274,7 +274,7 @@ open class Inserter(conf: Properties) {
 
     @Throws(FileNotFoundException::class)
     protected open fun insertMemberSenses() {
-        tracePending("set", "member sense")
+        traceSaving("member sense")
         insert(
             Member_Sense.SET,
             Member_Sense.COMPARATOR,

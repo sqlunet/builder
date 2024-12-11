@@ -1,6 +1,7 @@
 package org.sqlbuilder.pb31
 
-import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Update.update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
@@ -33,7 +34,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
-        Progress.tracePending("collector", "word")
+        traceSaving("word")
         val wordidCol = names.column("words.wordid")
         val wordCol = names.column("words.word")
         update(
@@ -44,12 +45,12 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             wordResolver,
             { resolved -> "$wordidCol=${nullableInt(resolved)}" },
             { resolving -> "$wordCol='${escape(resolving)}'" })
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertVnAliases() {
-        Progress.tracePending("set", "vnalias")
+        traceSaving("vnalias")
         val vnclassidCol = names.column("pbrolesets_vnclasses.vnclassid")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         update(
@@ -60,12 +61,12 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             vnClassResolver,
             { resolved -> "$vnclassidCol=${nullableInt(resolved)}" },
             { resolving -> "$vnclassCol='${escape(resolving)}'" })
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertFnAliases() {
-        Progress.tracePending("set", "fnalias")
+        traceSaving("fnalias")
         val fnframeidCol = names.column("pbrolesets_fnframes.fnframeid")
         val vnclassCol = names.column("pbrolesets_fnframes.fnframe")
         update(
@@ -76,12 +77,12 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             fnFrameResolver,
             { resolved -> "$fnframeidCol=${nullableInt(resolved)}" },
             { resolving -> "$vnclassCol='${escape(resolving)}'" })
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
-        Progress.tracePending("set", "vnaliasrole")
+        traceSaving("vnaliasrole")
         val vnClassidCol = names.column("pbroles_vnroles.vnclassid")
         val vnRoleidCol = names.column("pbroles_vnroles.vnroleid")
         val vnRoletypeidCol = names.column("pbroles_vnroles.vnroletypeid")
@@ -100,6 +101,6 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
                     "$vnClassidCol=${nullableInt(resolved.first)},$vnRoleidCol=${nullableInt(resolved.second)},$vnRoletypeidCol=${nullableInt(resolved.third)}"
             },
             { resolving -> "$vnClassCol='${escape(resolving.first)}' AND $vnRoleCol='${escape(resolving.second)}'" })
-        Progress.traceDone()
+        traceDone()
     }
 }

@@ -1,7 +1,8 @@
 package org.sqlbuilder.pb31
 
 import org.sqlbuilder.common.Insert.resolveAndInsert
-import org.sqlbuilder.common.Progress
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.pb31.foreign.RoleSetToFn
 import org.sqlbuilder.pb31.foreign.RoleSetToVn
@@ -55,7 +56,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
-        Progress.tracePending("collector", "word")
+        traceSaving("word")
         resolveAndInsert(
             Word.COLLECTOR,
             Word.COLLECTOR,
@@ -68,12 +69,12 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             { nullable(it) { it.toString() } },
             names.column("words.wordid")
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertFnAliases() {
-        Progress.tracePending("set", "fnalias")
+        traceSaving("fnalias")
         resolveAndInsert(
             RoleSetToFn.SET,
             RoleSetToFn.COMPARATOR,
@@ -85,12 +86,12 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             { nullable(it) { it.toString() } },
             names.column("pbrolesets_fnframes.fnframeid")
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertVnAliases() {
-        Progress.tracePending("set", "vnalias")
+        traceSaving("vnalias")
         resolveAndInsert(
             RoleSetToVn.SET,
             RoleSetToVn.COMPARATOR,
@@ -102,12 +103,12 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             { nullable(it) { it.toString() } },
             names.column("pbrolesets_vnclasses.vnclassid")
         )
-        Progress.traceDone()
+        traceDone()
     }
 
     @Throws(FileNotFoundException::class)
     override fun insertVnRoleAliases() {
-        Progress.tracePending("set", "vnaliasrole")
+        traceSaving("vnaliasrole")
         resolveAndInsert(
             RoleToVn.SET,
             RoleToVn.COMPARATOR,
@@ -121,6 +122,6 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.column("pbroles_vnroles.vnclassid"),
             names.column("pbroles_vnroles.vnroletypeid")
         )
-        Progress.traceDone()
+        traceDone()
     }
 }

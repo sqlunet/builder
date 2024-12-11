@@ -2,7 +2,7 @@ package org.sqlbuilder.vn
 
 import org.sqlbuilder.common.Insert.resolveAndInsert
 import org.sqlbuilder.common.Progress.traceDone
-import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.vn.joins.Member_Sense
 import org.sqlbuilder.vn.objects.Word
@@ -39,7 +39,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
-        tracePending("collector", "word")
+        traceSaving("word")
         resolveAndInsert(
             Word.COLLECTOR,
             Word.COLLECTOR,
@@ -57,7 +57,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertMemberSenses() {
-        tracePending("set", "member sense")
+        traceSaving("member sense")
         resolveAndInsert(
             Member_Sense.SET,
             Member_Sense.COMPARATOR,

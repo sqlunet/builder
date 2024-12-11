@@ -3,7 +3,7 @@ package org.sqlbuilder.sl
 import org.sqlbuilder.common.CombinedResolver
 import org.sqlbuilder.common.Insert
 import org.sqlbuilder.common.Progress.traceDone
-import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.sl.foreign.PbRoleSet_VnClass
 import org.sqlbuilder.sl.foreign.PbRole_VnRole
 import java.io.File
@@ -47,7 +47,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertClassAliases() {
-        tracePending("set", "vnalias")
+        traceSaving("vnalias")
         Insert.resolveAndInsert(
             PbRoleSet_VnClass.SET,
             PbRoleSet_VnClass.COMPARATOR,
@@ -65,7 +65,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertRoleAliases() {
-        tracePending("set", "vnaliasrole")
+        traceSaving("vnaliasrole")
         Insert.resolveAndInsert(
             PbRole_VnRole.SET,
             PbRole_VnRole.COMPARATOR,

@@ -2,7 +2,7 @@ package org.sqlbuilder.sl
 
 import org.sqlbuilder.common.CombinedResolver
 import org.sqlbuilder.common.Progress.traceDone
-import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
@@ -29,7 +29,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertClassAliases() {
-        tracePending("set", "vnalias")
+        traceSaving("vnalias")
         val pbrolesetCol = names.column("pbrolesets_vnclasses.pbroleset")
         val vnclassCol = names.column("pbrolesets_vnclasses.vnclass")
         val pbrolesetidCol = names.column("pbrolesets_vnclasses.pbrolesetid")
@@ -48,7 +48,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertRoleAliases() {
-        tracePending("set", "vnaliasrole")
+        traceSaving("vnaliasrole")
         val pbrolesetCol = names.column("pbroles_vnroles.pbroleset")
         val pbroleCol = names.column("pbroles_vnroles.pbarg")
         val vnclassCol = names.column("pbroles_vnroles.vnclass")

@@ -1,7 +1,7 @@
 package org.sqlbuilder.vn
 
 import org.sqlbuilder.common.Progress.traceDone
-import org.sqlbuilder.common.Progress.tracePending
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Update.update
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullable
@@ -30,7 +30,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertWords() {
-        tracePending("collector", "word")
+        traceSaving("word")
         val wordidCol = names.column("words.wordid")
         val wordCol = names.column("words.word")
         update(
@@ -46,7 +46,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
 
     @Throws(FileNotFoundException::class)
     override fun insertMemberSenses() {
-        tracePending("set", "members senses")
+        traceSaving("members senses")
         val wordidCol = names.column("members_senses.wordid")
         val synsetidCol = names.column("members_senses.synsetid")
         val sensekeyCol = names.column("members_senses.sensekey")
