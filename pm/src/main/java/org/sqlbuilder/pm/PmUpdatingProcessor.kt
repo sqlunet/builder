@@ -1,5 +1,7 @@
 package org.sqlbuilder.pm
 
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullable
 import org.sqlbuilder.common.Utils.nullableInt
@@ -29,20 +31,27 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
         val xnOutput = names.updateFileNullable("pms.xn")
 
         if (wnOutput == null || xnOutput == null) {
+            traceSaving("pm", "pms")
             PrintStream(FileOutputStream(File(outDir, singleOutput)), true, StandardCharsets.UTF_8).use { ps ->
                 ps.println("-- $header")
                 processPmFile(inputFile, makeWnConsumer(ps))
                 processPmFile(inputFile, makeXnConsumer(ps))
             }
+            traceDone()
         } else {
+            traceSaving("pm", "pms wn")
             PrintStream(FileOutputStream(File(outDir, wnOutput)), true, StandardCharsets.UTF_8).use { ps ->
                 ps.println("-- $header")
                 processPmFile(inputFile, makeWnConsumer(ps))
             }
+            traceDone()
+
+            traceSaving("pm", "pms xn")
             PrintStream(FileOutputStream(File(outDir, xnOutput)), true, StandardCharsets.UTF_8).use { ps ->
                 ps.println("-- $header")
                 processPmFile(inputFile, makeXnConsumer(ps))
             }
+            traceDone()
         }
     }
 

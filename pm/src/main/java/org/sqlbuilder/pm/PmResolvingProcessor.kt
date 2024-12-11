@@ -2,6 +2,8 @@ package org.sqlbuilder.pm
 
 import org.sqlbuilder.common.Insert.insert
 import org.sqlbuilder.common.Names
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.pm.objects.PmEntry.Companion.parse
 import org.sqlbuilder.pm.objects.PmPredicate
@@ -72,9 +74,16 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
         val inputFile = File(pMHome, pMFile)
         process(inputFile, { parse(it) }, null)
         PmPredicate.COLLECTOR.open().use {
+            traceSaving("pm", "predicates")
             insert(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
+            traceDone()
+
             PmRole.COLLECTOR.open().use {
+                traceSaving("pm", "roles")
                 insert(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                traceDone()
+
+                traceSaving("pm", "pms")
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use { ps ->
                     ps.println("-- $header")
                     processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true)) { entry, i ->
@@ -84,7 +93,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         val vnWordid = if (entry.word == null) null else vnWordResolver.invoke(entry.word!!)
                         val pbWordid = if (entry.word == null) null else pbWordResolver.invoke(entry.word!!)
                         val fnWordid = if (entry.word == null) null else fnWordResolver.invoke(entry.word!!)
-                        val fnLu = if (entry.fn.frame == null|| entry.fn.lu == null) null else fnLexUnitResolver.invoke(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
+                        val fnLu = if (entry.fn.frame == null || entry.fn.lu == null) null else fnLexUnitResolver.invoke(PmFnLexUnitResolvable(entry.fn.frame!!, entry.fn.lu!!))
 
                         val vn = if (entry.vn.clazz == null || entry.vn.role == null) null else vnRoleResolver.invoke(PmVnRoleResolvable(entry.vn.clazz!!, entry.vn.role!!))
                         val pb = if (entry.pb.roleset == null || entry.pb.arg == null) null else pbRoleResolver.invoke(PmPbRoleResolvable(entry.pb.roleset!!, entry.pb.arg!!))
@@ -105,6 +114,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         insertRow(ps, i, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${senseResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
                     }
                 }
+                traceDone()
             }
         }
     }

@@ -1,6 +1,9 @@
 package org.sqlbuilder.pm
 
 import org.sqlbuilder.common.*
+import org.sqlbuilder.common.Insert.insert
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.pm.objects.PmEntry
 import org.sqlbuilder.pm.objects.PmEntry.Companion.parse
 import org.sqlbuilder.pm.objects.PmPredicate
@@ -37,13 +40,21 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
         process<PmRole>(inputFile, { PmRole.Companion.parse(it) }, null)
 
         PmPredicate.COLLECTOR.open().use {
+            traceSaving("pm", "predicates")
             Insert.insert<PmPredicate>(PmPredicate.COLLECTOR, PmPredicate.COLLECTOR, File(outDir, names.file("predicates")), names.table("predicates"), names.columns("predicates"), header)
+            traceDone()
+
             PmRole.COLLECTOR.open().use {
-                Insert.insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                traceSaving("pm", "roles")
+                insert<PmRole>(PmRole.COLLECTOR, PmRole.COLLECTOR, File(outDir, names.file("roles")), names.table("roles"), names.columns("roles"), header)
+                traceDone()
+
+                traceSaving("pm", "roles")
                 PrintStream(FileOutputStream(File(outDir, names.file("pms"))), true, StandardCharsets.UTF_8).use {
                     it.println("-- $header")
                     processPmFile(it, inputFile, names.table("pms"), names.columns("pms", false)) { role, i -> insertRow(it, i, role.dataRow()) }
                 }
+                traceDone()
             }
         }
     }
