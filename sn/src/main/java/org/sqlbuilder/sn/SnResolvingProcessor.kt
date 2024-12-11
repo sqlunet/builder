@@ -1,5 +1,7 @@
 package org.sqlbuilder.sn
 
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.sn.objects.Collocation
 import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR_BY_SENSEKEYS
@@ -35,6 +37,7 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
 
     @Throws(IOException::class)
     override fun run() {
+        traceSaving("sn", "syntagms")
         PrintStream(FileOutputStream(File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8).use { ps ->
             ps.println("-- $header")
             processSyntagNetFile(ps, File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", true)) { collocation: Collocation, i: Int ->
@@ -51,6 +54,7 @@ open class SnResolvingProcessor(conf: Properties) : SnProcessor(conf) {
                 }
             }
         }
+        traceDone()
     }
 
     @Throws(IOException::class)

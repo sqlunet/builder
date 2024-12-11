@@ -1,5 +1,7 @@
 package org.sqlbuilder.sn
 
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.common.Utils.escape
 import org.sqlbuilder.common.Utils.nullableInt
 import org.sqlbuilder.common.Utils.quote
@@ -27,6 +29,7 @@ class SnUpdatingProcessor(
 
     @Throws(IOException::class)
     override fun run() {
+        traceSaving("sn", "syntagms")
         PrintStream(FileOutputStream(File(outDir, names.updateFile("syntagms"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processSyntagNetFile(it, File(snHome, snMain)) { collocation: Collocation, i: Int ->
@@ -44,6 +47,7 @@ class SnUpdatingProcessor(
                 )
             }
         }
+        traceDone()
     }
 
     private fun updateRow(ps: PrintStream, table: String?, index: Int, collocation: Collocation, vararg columns: String?) {

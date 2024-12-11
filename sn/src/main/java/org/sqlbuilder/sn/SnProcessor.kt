@@ -1,6 +1,8 @@
 package org.sqlbuilder.sn
 
 import org.sqlbuilder.common.*
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import org.sqlbuilder.sn.objects.Collocation
 import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR_BY_SENSEKEYS
 import org.sqlbuilder.sn.objects.Collocation.Companion.parse
@@ -10,6 +12,7 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.*
+import kotlin.Throws
 
 open class SnProcessor(
     conf: Properties,
@@ -39,10 +42,12 @@ open class SnProcessor(
 
     @Throws(IOException::class)
     override fun run() {
+        traceSaving("sn", "syntagms")
         PrintStream(FileOutputStream(File(outDir, names.file("syntagms"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processSyntagNetFile(it, File(snHome, snMain), names.table("syntagms"), names.columns("syntagms", resolve)) { collocation: Collocation, i: Int -> insertRow(it, i.toLong(), collocation.dataRow()) }
         }
+        traceDone()
     }
 
     @Throws(IOException::class)
