@@ -3,6 +3,8 @@ package org.sqlbuilder.bnc
 import org.sqlbuilder.bnc.objects.BncExtendedRecord
 import org.sqlbuilder.bnc.objects.BncRecord
 import org.sqlbuilder.common.NotFoundException
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -48,27 +50,38 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
     @Throws(IOException::class)
     override fun run() {
         // main
+        traceSaving("bnc", "bncs")
         val bNCMain = conf.getProperty("bnc_main", "bnc.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCFile(it, File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs", true)) { record: BncRecord, i: Int -> resolveAndInsert(it, record, i) }
         }
+        traceDone()
+
         // subfiles
+        traceSaving("bnc", "sp wr")
         val bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCSubFile(it, File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs", true)) { record: BncRecord, i: Int -> resolveAndInsert(it, record, i) }
         }
+        traceDone()
+
+        traceSaving("bnc", "conv task")
         val bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCSubFile(it, File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks", true)) { record: BncRecord, i: Int -> resolveAndInsert(it, record, i) }
         }
+        traceDone()
+
+        traceSaving("bnc", "imag inf")
         val bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCSubFile(it, File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs", true)) { record: BncRecord, i: Int -> resolveAndInsert(it, record, i) }
         }
+        traceDone()
     }
 
     @Throws(NotFoundException::class)

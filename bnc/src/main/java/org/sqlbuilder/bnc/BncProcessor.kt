@@ -3,6 +3,8 @@ package org.sqlbuilder.bnc
 import org.sqlbuilder.bnc.objects.BncExtendedRecord
 import org.sqlbuilder.bnc.objects.BncRecord
 import org.sqlbuilder.common.*
+import org.sqlbuilder.common.Progress.traceDone
+import org.sqlbuilder.common.Progress.traceSaving
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -82,27 +84,38 @@ open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
     @Throws(IOException::class)
     override fun run() {
         // main
+        traceSaving("bnc", "bncs")
         val bNCMain = conf.getProperty("bnc_main", "bnc.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("bncs"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCFile(it, File(bncHome, bNCMain), names.table("bncs"), names.columns("bncs")) { record: BncRecord, i: Int -> insertRow(it, i.toLong(), record.dataRow()) }
         }
+        traceDone()
+
         // subfiles
+        traceSaving("bnc", "sp wr")
         val bNCSpWr = conf.getProperty("bnc_spwr", "bnc-spoken-written.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("spwrs"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCSubFile(it, File(bncHome, bNCSpWr), names.table("spwrs"), names.columns("spwrs")) { record: BncRecord, i: Int -> insertRow(it, i.toLong(), record.dataRow()) }
         }
+        traceDone()
+
+        traceSaving("bnc", "conv task")
         val bNCConvTask = conf.getProperty("bnc_convtask", "bnc-conv-task.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("convtasks"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCSubFile(it, File(bncHome, bNCConvTask), names.table("convtasks"), names.columns("convtasks")) { record: BncRecord, i: Int -> insertRow(it, i.toLong(), record.dataRow()) }
         }
+        traceDone()
+
+        traceSaving("bnc", "imag inf")
         val bNCImagInf = conf.getProperty("bnc_imaginf", "bnc-imag-inf.txt")
         PrintStream(FileOutputStream(File(outDir, names.file("imaginfs"))), true, StandardCharsets.UTF_8).use {
             it.println("-- $header")
             processBNCSubFile(it, File(bncHome, bNCImagInf), names.table("imaginfs"), names.columns("imaginfs")) { record: BncRecord, i: Int -> insertRow(it, i.toLong(), record.dataRow()) }
         }
+        traceDone()
     }
 
     protected fun insertRow(ps: PrintStream, index: Long, values: String) {
