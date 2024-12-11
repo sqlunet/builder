@@ -4,6 +4,10 @@
     <content url="file://$MODULE_DIR$" dumb="true">
       <excludeFolder url="file://$MODULE_DIR$/_sql" />
       <excludeFolder url="file://$MODULE_DIR$/data_mappings" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/sers" />
+      <excludeFolder url="file://$MODULE_DIR$/sql" />
+      <excludeFolder url="file://$MODULE_DIR$/sql31" />
     </content>
   </component>
 </module>

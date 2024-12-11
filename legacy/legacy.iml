@@ -4,6 +4,9 @@
     <content url="file://$MODULE_DIR$" dumb="true">
       <excludeFolder url="file://$MODULE_DIR$/_mappings" />
       <excludeFolder url="file://$MODULE_DIR$/_sensekeys" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/mappings" />
+      <excludeFolder url="file://$MODULE_DIR$/sensekeys" />
     </content>
   </component>
 </module>
