@@ -24,7 +24,7 @@ class SuUpdatingProcessor(conf: Properties) : SuResolvingProcessor(conf) {
     override fun run() {
         KBLoader().load()
         collectTerms(KBLoader.kb!!)
-        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, System.err)
+        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, WARNINGS)
 
         Term.COLLECTOR.open().use {
             traceSaving("terms")

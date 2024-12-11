@@ -69,7 +69,7 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         collectFiles(KBLoader.kb!!)
         collectTerms(KBLoader.kb!!)
         collectFormulas(KBLoader.kb!!)
-        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, NONE)
+        collectSynsets(inDir.toString() + File.separator + SUMO_TEMPLATE, WARNINGS)
 
         try {
             SUFile.COLLECTOR.open().use {
@@ -119,6 +119,8 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
     }
 
     companion object {
+
+        val WARNINGS = NONE
 
         private val POSES = arrayOf<String?>("noun", "verb", "adj", "adv")
 

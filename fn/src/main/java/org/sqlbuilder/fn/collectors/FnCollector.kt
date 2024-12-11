@@ -19,7 +19,7 @@ abstract class FnCollector(protected val fnDir: String, props: Properties, tag: 
         val folder = File(folderName)
         val filter = FilenameFilter { dir: File, filename2: String -> filename2.endsWith(".xml") }
 
-        traceHeader("framenet", "reading files")
+        traceHeader("framenet", "reading files $fnDir")
         var fileCount = 0
         val files = folder.listFiles(filter)
         if (files == null) {
