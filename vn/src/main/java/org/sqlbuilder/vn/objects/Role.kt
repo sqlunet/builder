@@ -9,7 +9,7 @@ import java.util.*
 
 class Role private constructor(
     val clazz: VnClass,
-    val restrRole: RestrainedRole
+    val restrRole: RestrainedRole,
 ) : Insertable, HasId {
 
     @Suppress("unused")
@@ -50,8 +50,7 @@ class Role private constructor(
     }
 
     override fun comment(): String {
-        val r = restrRole.restrs
-        return  "${clazz.name}, ${restrRole.roleType.type},${r}"
+        return "${clazz.name}, ${restrRole.roleType.type},${restrRole.restrs ?: "∅"}"
     }
 
     // T O S T R I N G
