@@ -1,16 +1,21 @@
 package org.sqlbuilder.common
 
+import org.sqlbuilder.common.AnsiColors.blue
 import org.sqlbuilder.common.AnsiColors.green
 import org.sqlbuilder.common.AnsiColors.redb
-import org.sqlbuilder.common.AnsiColors.yellow
+import java.io.OutputStream
 import java.io.PrintStream
 
 object Progress {
 
+    val NONE = PrintStream(object : OutputStream() {
+        override fun write(b: Int) {}
+    })
+
     val INFO: PrintStream = System.out
 
-    fun tracePending(tag: String, message: String?) {
-        INFO.print(yellow("$tag $message"))
+    fun traceSaving(tag: String, message: String? = "") {
+        INFO.print(blue("$tag $message"))
     }
 
     // P R O G R E S S
