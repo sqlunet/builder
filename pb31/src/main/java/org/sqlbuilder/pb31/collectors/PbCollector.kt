@@ -4,7 +4,7 @@ import org.sqlbuilder.common.Logger
 import org.sqlbuilder.common.Processor
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.XPathUtils.getXPath
-import org.sqlbuilder.pb31.PbModule
+import org.sqlbuilder.pb31.Pb31Module
 import org.sqlbuilder.pb31.collectors.PbDocument.Companion.getAliasPredicates
 import org.sqlbuilder.pb31.collectors.PbDocument.Companion.getPredicates
 import org.sqlbuilder.pb31.collectors.PbDocument.Companion.makeExampleArgs
@@ -22,7 +22,7 @@ import javax.xml.xpath.XPathExpressionException
 
 open class PbCollector(conf: Properties) : Processor("pb") {
 
-    protected val propBankHome: String = conf.getProperty("pb_home", System.getenv()["PBHOME"])
+    protected val propBankHome: String = conf.getProperty("pb31_home", System.getenv()["PBHOME"])
 
     override fun run() {
         val folder = File(propBankHome)
@@ -49,13 +49,13 @@ open class PbCollector(conf: Properties) : Processor("pb") {
             val document = PbDocument(fileName)
             processFrameset(document, getXPath(document.document, "./frameset")!!, head)
         } catch (e: ParserConfigurationException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, fileName, e)
         } catch (e: SAXException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, fileName, e)
         } catch (e: XPathExpressionException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, fileName, e)
         } catch (e: IOException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, fileName, e)
         }
     }
 
@@ -92,7 +92,7 @@ open class PbCollector(conf: Properties) : Processor("pb") {
             // args
             makeExampleArgs(head, start)
         } catch (e: XPathExpressionException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, document.fileName, e)
         }
     }
 }

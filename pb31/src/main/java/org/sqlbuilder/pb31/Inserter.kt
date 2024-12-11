@@ -18,7 +18,7 @@ open class Inserter(conf: Properties) {
 
     protected val names: Names = Names("pb31")
 
-    protected var header: String = conf.getProperty("pb_header")
+    protected var header: String = conf.getProperty("pb31_header")
 
     protected var outDir: File = File(conf.getProperty("pb_outdir", "sql/data"))
 

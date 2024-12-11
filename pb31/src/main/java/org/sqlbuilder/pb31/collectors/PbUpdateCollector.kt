@@ -3,7 +3,7 @@ package org.sqlbuilder.pb31.collectors
 import org.sqlbuilder.common.Logger
 import org.sqlbuilder.common.Progress
 import org.sqlbuilder.common.XPathUtils.getXPath
-import org.sqlbuilder.pb31.PbModule
+import org.sqlbuilder.pb31.Pb31Module
 import org.sqlbuilder.pb31.collectors.PbDocument.Companion.getAliasPredicates
 import org.sqlbuilder.pb31.collectors.PbDocument.Companion.getPredicates
 import org.sqlbuilder.pb31.collectors.PbDocument.Companion.makeExampleArgs
@@ -43,7 +43,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
             val document = PbDocument(fileName)
             processFrameset(document, getXPath(document.document, "./frameset")!!, head)
         } catch (e: XPathExpressionException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, fileName, e)
         }
     }
 
@@ -79,7 +79,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
             // args
             makeExampleArgs(head, start)
         } catch (e: XPathExpressionException) {
-            Logger.instance.logXmlException(PbModule.MODULE_ID, tag, document.fileName, e)
+            Logger.instance.logXmlException(Pb31Module.MODULE_ID, tag, document.fileName, e)
         }
     }
 }

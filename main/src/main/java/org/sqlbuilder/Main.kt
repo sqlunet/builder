@@ -8,6 +8,7 @@ import org.sqlbuilder.common.AnsiColors.grey
 import org.sqlbuilder.common.AnsiColors.magenta
 import org.sqlbuilder.fn.FnModule
 import org.sqlbuilder.pb.PbModule
+import org.sqlbuilder.pb31.Pb31Module
 import org.sqlbuilder.pm.PmModule
 import org.sqlbuilder.sl.SlModule
 import org.sqlbuilder.sn.SnModule
@@ -81,16 +82,16 @@ class Main {
 
         fun mainClass(module: String): Class<*>? {
             return when (module) {
-                "bnc" -> BncModule::class.java
-                "sn"  -> SnModule::class.java
-                "vn"  -> VnModule::class.java
-                "pb"  -> PbModule::class.java
-                "pb31"  -> org.sqlbuilder.pb31.PbModule::class.java
-                "sl"  -> SlModule::class.java
-                "fn"  -> FnModule::class.java
-                "pm"  -> PmModule::class.java
-                "su"  -> SuModule::class.java
-                else  -> null
+                "bnc"  -> BncModule::class.java
+                "sn"   -> SnModule::class.java
+                "vn"   -> VnModule::class.java
+                "pb"   -> PbModule::class.java
+                "pb31" -> Pb31Module::class.java
+                "sl"   -> SlModule::class.java
+                "fn"   -> FnModule::class.java
+                "pm"   -> PmModule::class.java
+                "su"   -> SuModule::class.java
+                else   -> null
             }
         }
 
