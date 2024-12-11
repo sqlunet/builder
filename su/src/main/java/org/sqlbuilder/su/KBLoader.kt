@@ -45,7 +45,7 @@ open class KBLoader {
         fun loadKb(files: Array<String>? = scope): Kb {
             val kbPath: String = path
             val kb = Kb(kbPath)
-            traceHeader("sumo", path)
+            traceHeader("sumo", "reading files")
             setGranularity(1L)
             val n = kb.make(files)
             resetGranularity()

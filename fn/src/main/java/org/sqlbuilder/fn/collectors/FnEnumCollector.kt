@@ -12,7 +12,7 @@ import org.sqlbuilder.fn.objects.Values
 class FnEnumCollector : Processor("preset") {
 
     override fun run() {
-        traceHeader("preset framenet tables", "poses coretypes labelitypes")
+        traceHeader("framenet", "presets")
         makePoses()
         makeCoreTypes()
         makeLabelITypes()

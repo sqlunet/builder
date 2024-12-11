@@ -12,7 +12,7 @@ abstract class FnCollector1(protected val filename: String, props: Properties, t
     protected val fnHome: String = props.getProperty("fn_home", System.getenv()["FNHOME"])
 
     override fun run() {
-        traceHeader("framenet file", filename)
+        traceHeader("framenet", "reading file $filename")
         val file = File(fnHome + File.separatorChar + filename)
         processFrameNetFile(file.absolutePath)
         trace(1)

@@ -29,7 +29,7 @@ class VnUpdateCollector(props: Properties) : VnCollector(props) {
         }
         // iterate
         var fileCount = 0
-        traceHeader("reading verbnet files", "")
+        traceHeader("verbnet", "reading files")
         files
             .sortedWith(Comparator.comparing<File, String> { it.name })
             .forEach {

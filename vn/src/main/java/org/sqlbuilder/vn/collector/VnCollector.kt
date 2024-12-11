@@ -42,7 +42,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
         }
         // iterate
         var fileCount = 0
-        traceHeader("reading verbnet files", "")
+        traceHeader("verbnet", "reading files")
         files
             .asSequence()
             .sortedWith(Comparator.comparing<File, String> { it.name })
