@@ -15,7 +15,7 @@ class SnExportingProcessor(
     conf: Properties,
 ) : SnProcessor(conf) {
 
-    private val outFile = conf.getProperty("sn_outfile_exported")
+    private val outFile = conf.getProperty("sn_outfile_exported") + ".csv"
 
     init {
         // output

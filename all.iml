@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/semantikos" />
       <excludeFolder url="file://$MODULE_DIR$/sers" />
       <excludeFolder url="file://$MODULE_DIR$/fn-jaxb" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
     </content>
   </component>
 </module>

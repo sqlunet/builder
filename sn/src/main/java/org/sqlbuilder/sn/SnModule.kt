@@ -16,7 +16,11 @@ class SnModule(
                 Mode.PLAIN   -> SnProcessor(props).run()
                 Mode.RESOLVE -> SnResolvingProcessor(props).run()
                 Mode.UPDATE  -> SnUpdatingProcessor(props).run()
-                Mode.EXPORT  -> SnExportingProcessor(props).run()
+                Mode.EXPORT  -> {
+                    SnExportingProcessor(props).run()
+                    SnExportingYAMLProcessor(props).run()
+                }
+
                 else         -> {}
             }
         } catch (e: IOException) {
