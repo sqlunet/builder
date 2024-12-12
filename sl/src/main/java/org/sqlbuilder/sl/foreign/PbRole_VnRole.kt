@@ -40,7 +40,7 @@ class PbRole_VnRole private constructor(
     // R E S O L V E
 
     override fun resolving(): PbVnRoleResolvable {
-        return PbVnRoleResolvable(SlPbRoleResolvable(pbRole.roleSet, pbRole.arg), SlVnRoleResolvable(vnRole.vnClass, vnRole.theta.theta))
+        return PbVnRoleResolvable(SlPbRoleResolvable(pbRole.roleSet.lowercase(), pbRole.arg), SlVnRoleResolvable(vnRole.vnClass, vnRole.theta.theta))
     }
 
     // T O S T R I N G
