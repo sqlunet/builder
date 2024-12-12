@@ -1,6 +1,5 @@
 package org.sqlbuilder.sn
 
-import org.sqlbuilder.common.Utils.quote
 import org.sqlbuilder.sn.objects.Collocation
 import org.sqlbuilder.sn.objects.Collocation.Companion.COMPARATOR_BY_WORDS_POSES
 import org.sqlbuilder.sn.objects.Collocation.Companion.parse
@@ -41,10 +40,10 @@ class SnExportingYAMLProcessor(
                 .toMap()
                 .toSortedMap()
                 .forEach { k, vs ->
-                    ps.println("${quote(k)}:")
-                    ps.println("${indent}collocation:")
+                    ps.println("${k.yamlFormat()}:")
+                    ps.println("${INDENT}collocation:")
                     vs.forEach {
-                        ps.println("${indent}${indent}-${quote(it)}")
+                        ps.println("${INDENT}- ${it.yamlFormat()}")
                     }
                 }
         }
@@ -55,8 +54,13 @@ class SnExportingYAMLProcessor(
         process(file, COMPARATOR_BY_WORDS_POSES, { parse(it) }, consumer)
     }
 
-    companion object
-    const
+    companion object {
 
-    val indent = "  "
+        const val INDENT = "  "
+
+        private fun String.yamlFormat(): String {
+            val esc = this.replace("'", "''")
+            return "'${esc}'"
+        }
+    }
 }
