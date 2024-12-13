@@ -31,12 +31,13 @@ class SnExportingProcessor(
         PrintStream(FileOutputStream(File(outDir, outFile)), true, StandardCharsets.UTF_8).use {
             it.println("# $header")
             processSyntagNetFile(it, File(snHome, snMain)) { collocation: Collocation, i: Int ->
-                updateRow(it, i, collocation)
+                if (collocation.sensekey1 != collocation.sensekey2)
+                    printRow(it, i, collocation)
             }
         }
     }
 
-    private fun updateRow(ps: PrintStream, index: Int, collocation: Collocation) {
+    private fun printRow(ps: PrintStream, index: Int, collocation: Collocation) {
         val c1 = quote(collocation.sensekey1.toString())
         val c2 = quote(collocation.sensekey2.toString())
         ps.println("$c1,$c2,${index + 1}")

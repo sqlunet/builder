@@ -32,7 +32,8 @@ class SnExportingYAMLProcessor(
             ps.println("# $header")
             val accumulator = ArrayList<Pair<String, String>>()
             processSyntagNetFile(File(snHome, snMain)) { collocation: Collocation, i: Int ->
-                accumulator.add(collocation.sensekey1.toString() to collocation.sensekey2.toString())
+                if (collocation.sensekey1 != collocation.sensekey2)
+                    accumulator.add(collocation.sensekey1.toString() to collocation.sensekey2.toString())
             }
             accumulator
                 .asSequence()
