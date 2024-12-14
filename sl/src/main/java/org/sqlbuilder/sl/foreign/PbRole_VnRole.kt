@@ -59,7 +59,7 @@ class PbRole_VnRole private constructor(
 
         val RESOLVE_RESULT_STRINGIFIER = { r: PbVnRoleResolved? ->
             if (r == null)
-                "NULL,NULL,NULL,NULL"
+                "NULL,NULL,NULL,NULL,NULL"
             else {
                 val s1 = "${nullableInt(r.first.first)},${nullableInt(r.first.second)}"
                 val s2 = "${nullableInt(r.second.first)},${nullableInt(r.second.second)},${nullableInt(r.second.third)}"
