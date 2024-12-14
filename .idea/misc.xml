@@ -15,6 +15,35 @@
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.su.SuProcessor resolve" />
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.fn.Normalizer SQLS_LENGTH" />
       <entry_point TYPE="field" FQNAME="org.sqlbuilder.su.objects.Term wellKnownTerms" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors bC" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors BG_BLACK" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors Bl" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors bM" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors bW" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors bY" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors Cl" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.pb31.foreign.RoleSetTo COMPARATOR" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors E" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors Gl" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_BLACK" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_BLUE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_CYAN" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_GREEN" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_MAGENTA" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_RED" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_WHITE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BG_YELLOW" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BLACK" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors Ml" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors Rl" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors STOP_UNDERLINE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors UNDERLINE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors Yl" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors ZE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors BG_WHITE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_BLUE" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors LIGHT_GREEN" />
+      <entry_point TYPE="field" FQNAME="org.sqlbuilder.common.AnsiColors YELLOW" />
     </entry_points>
     <pattern value="org.sqlbuilder.fn.types.GfType" method="add" />
     <pattern value="org.sqlbuilder.fn.types.PtType" method="add" />
@@ -634,6 +663,52 @@
     <pattern value="og.sqlbuilder.sumo.TestMappings.Companion" method="shutdown" />
     <pattern value="og.sqlbuilder.sumo.TestProcessor.Companion" method="shutdown" />
     <pattern value="org.sqlbuilder.Main.Companion" method="getProperties" />
+    <pattern value="org.sqlbuilder.pb31.foreign.AliasClass" />
+    <pattern value="org.sqlbuilder.common.AnsiColors" />
+    <pattern value="org.sqlbuilder.common.TestAnsi.Companion" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize.Companion" />
+    <pattern value="org.sqlbuilder.common.TestProgress.Companion" />
+    <pattern value="org.sqlbuilder.common.TestSerialize.Companion" />
+    <pattern value="org.sqlbuilder.pb31.collectors.PbDocument.Companion" />
+    <pattern value="org.sqlbuilder.pb31.Exporter.Companion" />
+    <pattern value="org.sqlbuilder.pb31.foreign.AliasClass.Companion" />
+    <pattern value="org.sqlbuilder.pb31.Pb31Module.Companion" />
+    <pattern value="org.sqlbuilder.sn.SnExportingYAMLProcessor.Companion" />
+    <pattern value="org.sqlbuilder.common.TestProgress" method="displayProgress" />
+    <pattern value="org.sqlbuilder.common.TestProgress" method="displayProgressBarPercent" />
+    <pattern value="org.sqlbuilder.common.TestProgress" method="displayProgressDots" />
+    <pattern value="org.sqlbuilder.pb31.Exporter" />
+    <pattern value="org.sqlbuilder.pb31.Pb31Module.Companion" method="main" />
+    <pattern value="org.sqlbuilder.common.TestAnsi.Companion" method="main" />
+    <pattern value="org.sqlbuilder.common.TestProgress.Companion" method="main" />
+    <pattern value="org.sqlbuilder.pb31.Pb31Module" />
+    <pattern value="org.sqlbuilder.pb31.collectors.PbDocument" />
+    <pattern value="org.sqlbuilder.sn.SnExportingProcessor" method="processSyntagNetFile" />
+    <pattern value="org.sqlbuilder.pb31.foreign.RoleSetTo" />
+    <pattern value="org.sqlbuilder.sn.SnExportingProcessor" />
+    <pattern value="org.sqlbuilder.sn.SnExportingYAMLProcessor" />
+    <pattern value="org.sqlbuilder.common.TestAnsi" />
+    <pattern value="org.sqlbuilder.common.TestAnsi" method="testAnsi" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeBnc" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeFn" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeLegacy" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializePb" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializePm" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeSl" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeSn" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeSu" />
+    <pattern value="org.sqlbuilder.common.TestDeSerialize" method="testDeserializeVn" />
+    <pattern value="org.sqlbuilder.common.TestSerialize" method="testKotlinPair" />
+    <pattern value="org.sqlbuilder.common.TestSerialize" method="testKotlinTriple" />
+    <pattern value="org.sqlbuilder.pb31.TestNames" />
+    <pattern value="org.sqlbuilder.pb31.TestNames" method="testNames" />
+    <pattern value="org.sqlbuilder.pb31.TestParseFile" method="testParse" />
+    <pattern value="org.sqlbuilder.pb31.TestParseFile" />
+    <pattern value="org.sqlbuilder.common.TestProgress" />
+    <pattern value="org.sqlbuilder.common.TestProgress" method="testProgressBar" />
+    <pattern value="org.sqlbuilder.common.TestSerialize" />
+    <pattern value="org.sqlbuilder.pb31.foreign.AliasClass.Companion" method="toTag" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
