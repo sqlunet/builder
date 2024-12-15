@@ -8,7 +8,7 @@ set -e
 
 source define_colors.sh
 
-JAR=sqlunet-builder.jar
+JAR=semantikos-builder.jar
 
 vmargs='-Xmx9G -ea'
 

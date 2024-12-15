@@ -2,7 +2,7 @@
 
 source define_colors.sh
 
-JAR=sqlunet-builder.jar
+JAR=semantikos-builder.jar
 JAR=$(readlink -m "${JAR}")
 
 function generate()
