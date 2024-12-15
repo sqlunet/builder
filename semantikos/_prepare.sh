@@ -39,7 +39,7 @@ ${from}/sn/sql/sn-data_resolved-oewn${TAG}-sqlite-${BUILD}.zip
 ${from}/vn/sql/vn-data_resolved-oewn${TAG}-sqlite-${BUILD}.zip
 "
 
-rm "${dir}"/*.zip
+rm -f "${dir}"/*.zip
 for z in $zs; do
   if check "${z}"; then
     pushd "${dir}" > /dev/null

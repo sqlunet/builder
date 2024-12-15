@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="PbModule (export)" type="Application" factoryName="Application" folderName="Modules">
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.pb.PbModule" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.pb.PbModule" />
     <module name="pb" />
     <option name="PROGRAM_PARAMETERS" value="-export pb.properties" />
     <option name="VM_PARAMETERS" value="-ea" />

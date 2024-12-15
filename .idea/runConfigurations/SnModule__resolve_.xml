@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SnModule (resolve)" type="Application" factoryName="Application" folderName="Modules">
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.sn.SnModule" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.sn.SnModule" />
     <module name="sn" />
     <option name="PROGRAM_PARAMETERS" value="-resolve sn.properties" />
     <option name="VM_PARAMETERS" value="-ea" />

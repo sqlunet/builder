@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SchemaGenerator (pb index)" type="Application" factoryName="Application" folderName="Generate Schemas">
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.common.SchemaGenerator" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.common.SchemaGenerator" />
     <module name="pb" />
     <option name="PROGRAM_PARAMETERS" value="pb sql/mysql/index mysql/index/" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />

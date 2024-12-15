@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="FnModule (resolve)" type="Application" factoryName="Application" folderName="Modules">
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.fn.FnModule" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.fn.FnModule" />
     <module name="fn" />
     <option name="PROGRAM_PARAMETERS" value="-resolve fn.properties" />
     <option name="VM_PARAMETERS" value="-Xmx9G -ea" />

@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="PmModule" type="Application" factoryName="Application" folderName="Modules">
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.pm.PmModule" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.pm.PmModule" />
     <module name="pm" />
     <option name="PROGRAM_PARAMETERS" value="pm.properties" />
     <option name="VM_PARAMETERS" value="-ea" />

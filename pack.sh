@@ -7,8 +7,6 @@ set -e
 source define_colors.sh
 source define_build.sh
 
-
-
 # P A R A M S
 
 # Usage modules                  dbtag        dbdir

@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SlModule" type="Application" factoryName="Application" folderName="Modules">
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.sl.SlModule" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.sl.SlModule" />
     <module name="sl" />
     <option name="PROGRAM_PARAMETERS" value="sl.properties" />
     <option name="VM_PARAMETERS" value="-ea" />

@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="VnModule" type="Application" factoryName="Application" folderName="Modules">
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.vn.VnModule" />
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.vn.VnModule" />
     <module name="vn" />
     <option name="PROGRAM_PARAMETERS" value="vn.properties" />
     <option name="VM_PARAMETERS" value="-ea" />
