@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <artifactId>all</artifactId>
-    <groupId>org.sqlunet-builder</groupId>
+    <artifactId>semantikos-builder</artifactId>
+    <groupId>org.semantikos-builder</groupId>
     <version>2.3.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -24,7 +24,7 @@
                   <manifestEntries>
                     <Build-Number>2.2.2</Build-Number>
                   </manifestEntries>
-                  <mainClass>org.sqlbuilder.Main</mainClass>
+                  <mainClass>org.semantikos.Main</mainClass>
                 </transformer>
                 <transformer>
                   <resource>bnc.properties</resource>
@@ -95,7 +95,7 @@
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-test-junit</artifactId>
+      <artifactId>kotlin-test</artifactId>
       <version>2.0.21</version>
       <scope>test</scope>
     </dependency>

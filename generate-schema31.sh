@@ -60,7 +60,7 @@ for module in ${modules}; do
     for sql in ${inputs}; do
       base=$(basename ${sql})
       echo -e "${M}${sql}/${type}${Z}"
-      java -ea -cp "${JAR}" org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
+      java -ea -cp "${JAR}" org.semantikos.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}" "${indir}" "${sql}"
     done
   else
     # all sqls
@@ -68,7 +68,7 @@ for module in ${modules}; do
     for db in mysql sqlite; do
       for type in create index reference anchor cleanup views; do
         echo -e "${M}${db}/${type}${Z}"
-        java -ea -cp "${JAR}" org.sqlbuilder.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
+        java -ea -cp "${JAR}" org.semantikos.common.SchemaGenerator ${compatswitch} "${module}" "${outdir}/${db}/${type}" "${db}/${type}" $*
       done
     done
   fi

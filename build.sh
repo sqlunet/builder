@@ -41,7 +41,7 @@ for m in ${modules}; do
     if [ "${t}" = "-base" ]; then
       t=
     fi
-    java ${vmargs} -cp "../${JAR}" org.sqlbuilder.${m}.${m^}Module ${t} ${m}.properties
+    java ${vmargs} -cp "../${JAR}" org.semantikos.${m}.${m^}Module ${t} ${m}.properties
   done
   popd > /dev/null
 done

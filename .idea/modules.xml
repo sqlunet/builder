@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/all.iml" filepath="$PROJECT_DIR$/all.iml" />
       <module fileurl="file://$PROJECT_DIR$/bnc/bnc.iml" filepath="$PROJECT_DIR$/bnc/bnc.iml" />
       <module fileurl="file://$PROJECT_DIR$/fn/fn.iml" filepath="$PROJECT_DIR$/fn/fn.iml" />
       <module fileurl="file://$PROJECT_DIR$/legacy/legacy.iml" filepath="$PROJECT_DIR$/legacy/legacy.iml" />
       <module fileurl="file://$PROJECT_DIR$/pb/pb.iml" filepath="$PROJECT_DIR$/pb/pb.iml" />
       <module fileurl="file://$PROJECT_DIR$/pb31/pb31.iml" filepath="$PROJECT_DIR$/pb31/pb31.iml" />
       <module fileurl="file://$PROJECT_DIR$/pm/pm.iml" filepath="$PROJECT_DIR$/pm/pm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/semantikos-builder.iml" filepath="$PROJECT_DIR$/semantikos-builder.iml" />
       <module fileurl="file://$PROJECT_DIR$/sl/sl.iml" filepath="$PROJECT_DIR$/sl/sl.iml" />
       <module fileurl="file://$PROJECT_DIR$/sn/sn.iml" filepath="$PROJECT_DIR$/sn/sn.iml" />
       <module fileurl="file://$PROJECT_DIR$/su/su.iml" filepath="$PROJECT_DIR$/su/su.iml" />

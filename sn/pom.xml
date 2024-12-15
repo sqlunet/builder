@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>all</artifactId>
-    <groupId>org.sqlunet-builder</groupId>
+    <artifactId>semantikos-builder</artifactId>
+    <groupId>org.semantikos-builder</groupId>
     <version>2.3.1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
@@ -19,7 +19,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>common</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>

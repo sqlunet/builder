@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.sqlunet-builder</groupId>
-    <artifactId>all</artifactId>
+    <groupId>org.semantikos-builder</groupId>
+    <artifactId>semantikos-builder</artifactId>
     <version>2.3.1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
@@ -13,77 +13,77 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>common</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>bnc</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>vn</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>pb</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>pb31</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>sl</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>sn</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>fn</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>pm</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>su</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.sqlunet-builder</groupId>
+      <groupId>org.semantikos-builder</groupId>
       <artifactId>legacy</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
@@ -121,7 +121,7 @@
                   <manifestEntries>
                     <Build-Number>2.2.2</Build-Number>
                   </manifestEntries>
-                  <mainClass>org.sqlbuilder.Main</mainClass>
+                  <mainClass>org.semantikos.Main</mainClass>
                 </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
                   <resource>bnc.properties</resource>
