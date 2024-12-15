@@ -1,13 +1,13 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="PbModule" type="Application" factoryName="Application" folderName="Modules" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="org.sqlbuilder.pb.PbModule" />
-    <module name="pb" />
-    <option name="PROGRAM_PARAMETERS" value="pb.properties" />
+  <configuration default="false" name="org.semantikos.bnc.BncModule" type="Application" factoryName="Application" folderName="Modules" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="org.semantikos.bnc.BncModule" />
+    <module name="bnc" />
+    <option name="PROGRAM_PARAMETERS" value="bnc.properties" />
     <option name="VM_PARAMETERS" value="-ea" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="org.sqlbuilder.sl.collectors.*" />
+        <option name="PATTERN" value="org.sqlbuilder.annotations.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
