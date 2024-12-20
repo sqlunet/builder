@@ -99,7 +99,7 @@ echo -e "${Y}T R I M${Z}"
 for t in vn_words pb_words; do
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN word;"
 done
-sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'VerbNet' AND name <> 'PropBank'"
+sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'VerbNet' AND name <> 'PropBank' AND name <> 'SyntagNet'"
 
 echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'

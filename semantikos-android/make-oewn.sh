@@ -81,7 +81,7 @@ echo -e "${Y}T R I M${Z}"
 for t in bnc_bncs bnc_convtasks bnc_imaginfs bnc_spwrs; do
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN word;"
 done
-sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'BNC'"
+sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'BNC' AND name <> 'SyntagNet'"
 
 echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'

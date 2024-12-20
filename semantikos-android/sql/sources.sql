@@ -15,7 +15,7 @@ Christiane Fellbaum (1998, ed.) WordNet: An Electronic Lexical Database. Cambrid
  (2,'Open English Wordnet','2024','3.x','https://github.com/globalwordnet/english-wordnet','Global WordNet Association','John P. McCrae, Alexandre Rademaker, Francis Bond, Ewa Rudnicka, and Christiane Fellbaum, English WordNet 2019 – An Open-Source WordNet for English, Proceedings of the 10th Global Wordnet Conference, pp. 245–252, Wroclaw, Poland. Global Wordnet Association, 2019'),
  (10,'VerbNet','3.4','3.0','http://verbs.colorado.edu/~mpalmer/projects/verbnet.html','University of Colorado','Kain Kipper, Anna Korhonen, Neville Ryant, Martha Palmer, A Large-scale Classification of English Verbs, Language Resources and Evaluation Journal, 42(1), pp. 21-40, Springer Netherland, 2008.
 Karin Kipper Schuler, Anna Korhonen, Susan W. Brown, VerbNet overview, extensions, mappings and apps, Tutorial, NAACL-HLT 2009, Boulder, Colorado'),
- (11,'PropBank','3.1',NULL,'http://verbs.colorado.edu/~mpalmer/projects/ace.html','University of Colorado','Paul Kingsbury and Martha Palmer. From Treebank to PropBank. 2002. In Proceedings of the 3rd International Conference on Language Resources and Evaluation (LREC-2002), Las Palmas, Spain.
+ (11,'PropBank','3.4',NULL,'http://verbs.colorado.edu/~mpalmer/projects/ace.html','University of Colorado','Paul Kingsbury and Martha Palmer. From Treebank to PropBank. 2002. In Proceedings of the 3rd International Conference on Language Resources and Evaluation (LREC-2002), Las Palmas, Spain.
 Martha Palmer, Dan Gildea, Paul Kingsbury, The Proposition Bank: A Corpus Annotated with Semantic Roles Computational Linguistics Journal, 31:1, 2005.
 The Necessity of Parsing for Predicate Argument Recognition. Daniel Gildea and Martha Palmer. 2002. In Proceedings of ACL 2002, Philadelphia, PA.'),
  (12,'SemLink','1.2.2c',NULL,'https://verbs.colorado.edu/semlink/','University of Colorado','Martha Palmer. 2009. Semlink: Linking PropBank, VerbNet and FrameNet. Proceedings of the Generative Lexicon Conference Pisa, Italy.'),
@@ -25,7 +25,7 @@ López de Lacalle M., Laparra E. and Rigau G. Predicate Matrix: extending SemLin
 López de Lacalle M., Laparra E., Aldabe I. and Rigau G. Predicate Matrix. Automatically extending the semantic interoperability between predicate resources. Language Resources and Evaluation. Forthcoming.
 López de Lacalle M., Laparra E., Aldabe I. and Rigau G. A Multilingual Predicate Matrix. Proceedings of the 10th international conference on Language Resources and Evaluation (LREC 2016). Portoroẑ, Slovenia. 2016.'),
  (40,'BNC','2001','any','http://ucrel.lancs.ac.uk/bncfreq/',NULL,NULL),
- 
+
  (41,'SyntagNet','1.0','3.0','http://syntagnet.org/','The Sapienza NLP Group, Sapienza University of Rome.','Marco Maru, Federico Scozzafava, Federico Martelli and Roberto Navigli. SyntagNet: Challenging Supervised Word Sense Disambiguation with Lexical-Semantic Combinations. Proc. of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP 2019), Hong Kong, China, November 3-7, 2019.'),
  (50,'SUMO','cvs','3.0','http://www.ontologyportal.org/','SUMO','Niles, I., & Pease, A., (2001), Toward a Standard Upper Ontology, in Proceedings of the 2nd International Conference on Formal Ontology in Information Systems (FOIS-2001), Chris Welty and Barry Smith, eds, pp2-9. '),
  (51,'GlossLF','3.0','3.0','http://wordnet.princeton.edu/wordnet/download/standoff/','Princeton University',NULL),
