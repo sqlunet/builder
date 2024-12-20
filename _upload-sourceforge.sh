@@ -13,7 +13,7 @@ FROM="dist/oewn${TAG}"
 
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
-REMOTEDIR=/home/frs/project/s/sq/sqlunet/sqlunet2/${BUILDMAJOR}
+REMOTEDIR=/home/frs/project/s/sq/sqlunet/sqlunet${BUILDMAJOR}/${BUILDMINOR}
 
 # M A I N
 
