@@ -69,7 +69,7 @@ class SchemaGenerator(private val variables: Variables) {
         } else if (outputFileOrDir.isDirectory()) {
             val dir = outputFileOrDir
             processTemplates(module, inputSubdir, inputs) { input: InputStream, name: String ->
-                System.err.println(name)
+                //System.err.println(name)
                 val output = File(dir, name)
                 try {
                     PrintStream(output).use {
