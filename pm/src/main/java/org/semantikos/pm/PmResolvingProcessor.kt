@@ -21,31 +21,31 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
 
     protected val wordSerFile: String = conf.getProperty("word_nids")
 
-    protected val vnWordSerFile: String = conf.getProperty("vnword_nids")
-
-    protected val pbWordSerFile: String = conf.getProperty("pbrole_nids")
-
-    protected val fnWordSerFile: String = conf.getProperty("fnrole_nids")
-
     protected val sensekeySerFile: String = conf.getProperty("sense_nids")
 
-    protected val vnRoleSerFile: String = conf.getProperty("vnrole_nids")
+    protected val vnWordSerFile: String = conf.getProperty("vnword_nids")
 
-    protected val pbRoleSerFile: String = conf.getProperty("pbword_nids")
+    protected val pbWordSerFile: String = conf.getProperty("pbword_nids")
 
-    protected val fnRoleSerFile: String = conf.getProperty("fnword_nids")
+    protected val fnWordSerFile: String = conf.getProperty("fnword_nids")
 
     protected val fnLexUnitSerFile: String = conf.getProperty("fnlexunit_nids")
 
+    protected val vnRoleSerFile: String = conf.getProperty("vnrole_nids")
+
+    protected val pbRoleSerFile: String = conf.getProperty("pbrole_nids")
+
+    protected val fnRoleSerFile: String = conf.getProperty("fnrole_nids")
+
     protected val wordResolver: WordResolver = WordResolver(wordSerFile)
+
+    protected val sensekeyResolver: SensekeyResolver = SensekeyResolver(sensekeySerFile)
 
     protected val vnWordResolver: VnWordResolver = VnWordResolver(vnWordSerFile)
 
     protected val pbWordResolver: PbWordResolver = PbWordResolver(pbWordSerFile)
 
     protected val fnWordResolver: FnWordResolver = FnWordResolver(fnWordSerFile)
-
-    protected val sensekeyResolver: SensekeyResolver = SensekeyResolver(sensekeySerFile)
 
     protected val vnRoleResolver: VnRoleResolver = VnRoleResolver(vnRoleSerFile)
 
