@@ -53,7 +53,7 @@ for dbmodule in ${dbmodules}; do
     echo -e "${Y}${wd}${Z}"
     for dbdata in data data_resolved data_updated; do
       echo -e "${M}${dbmodule} ${dbdata} ${dbtag} ${dbdir}${Z}"
-      ant -f ../make-dist-sql.xml -Dbasedir=${wd} -Ddbmodule=${dbmodule} -Ddbdata=${dbdata} -Ddbdir=${dbdir} -Ddbtag=${dbtag} -Dversion=${version}
+      ant -quiet -f ../make-dist-sql.xml -Dbasedir=${wd} -Ddbmodule=${dbmodule} -Ddbdata=${dbdata} -Ddbdir=${dbdir} -Ddbtag=${dbtag} -Dversion=${version}
       target1="${dbdir}/${dbmodule}-${dbdata}-${dbtag}-mysql-${version}.zip"
       target2="${dbdir}/${dbmodule}-${dbdata}-${dbtag}-sqlite-${version}.zip"
       for t in "${target1}" "${target2}"; do

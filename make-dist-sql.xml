@@ -66,8 +66,8 @@
 	</target>
 
 	<!-- main -->
-	<target name="dist" depends="dump,makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir,dist-sqlite,dist-mysql">
-		<echo message="done"/>
+	<target name="dist" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir,dist-sqlite,dist-mysql">
+		<!-- <echo message="done"/> -->
 	</target>
 
 	<target name="dist-sqlite" depends="makestamp,ask-dbmodule,ask-dbdata,ask-dbtag,ask-version,ask-dbdir">
@@ -108,7 +108,7 @@
 		<attribute name="dbtag"/>
 		<attribute name="version"/>
 		<sequential>
-			<echo message="define fs.@{dbtype}"/>
+			<!-- <echo message="define fs.@{dbtype}"/> -->
 			<fileset id="fs.@{dbtype}.@{dbtag}.sql" dir="${dir.release}/${dbdir}">
 				<include name="@{dbdata}/*.sql"/>
 				<include name="@{dbtype}/create/*.sql"/>
