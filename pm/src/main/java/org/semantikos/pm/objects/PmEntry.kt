@@ -3,6 +3,7 @@ package org.semantikos.pm.objects
 import org.semantikos.common.Insertable
 import org.semantikos.common.ParseException
 import org.semantikos.common.Utils.nullable
+import org.semantikos.common.Utils.nullableQuotedString
 
 class PmEntry : Insertable {
 
@@ -26,11 +27,11 @@ class PmEntry : Insertable {
     private var sources: Long = 0
 
     override fun dataRow(): String {
-        return "${role!!.intId},'$word','${nullable(sensekey)}',${vn.dataRow()},${pb.dataRow()},${fn.dataRow()},$sources"
+        return "${role!!.intId},'$word',${nullableQuotedString(sensekey)},${vn.dataRow()},${pb.dataRow()},${fn.dataRow()},$sources"
     }
 
     override fun comment(): String {
-        return "PM[${role!!.intId}], WN['${word}','${nullable(sensekey)}'], VN[${vn.dataRow()}], PB[${pb.dataRow()}], FN[${fn.dataRow()}], SRC[$sources]"
+        return "PM[${role!!.intId}], WN['${word}',${nullable(sensekey)}], VN[${vn.dataRow()}], PB[${pb.dataRow()}], FN[${fn.dataRow()}], SRC[$sources]"
         return "${role!!.predicate},${role!!.role},${role!!.pos}"
     }
 
