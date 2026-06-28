@@ -4,7 +4,13 @@
 
 # Usage [all|wn|bnc|sn|vn|pb|sl|fn] (-resolve|-update)
 
-set -e
+set -Eeo pipefail
+on_err() {
+  local exit_code=$?
+  local line_no=${BASH_LINENO[0]}
+  echo "Error on line $line_no (exit code: $exit_code)."
+}
+trap on_err ERR
 
 source define_colors.sh
 
@@ -25,13 +31,15 @@ if [ "${modules}" == "all" ]; then
   echo -e "${K}All modules: ${modules}${Z}"
 fi
 
-# module
+# targets
 targets="$1"
 [ "$#" -eq 0 ] || shift
 if [ "${targets}" == "" ]; then
   targets="-base -resolve -update"
   echo "All targets: ${targets}"
 fi
+
+# M A I N
 
 for m in ${modules}; do
   echo -e "${Y}${m}${Z}"

@@ -10,7 +10,7 @@ FROM=.
 
 # R E M O T E
 
-RELEASE="4"
+RELEASE="5"
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
 REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos${BUILDMAJOR}/${RELEASE}

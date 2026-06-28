@@ -91,7 +91,7 @@ for t in sn_syntagms; do
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN sensekey1;"
 	sqlite3 "${db}" "ALTER TABLE ${t} DROP COLUMN sensekey2;"
 done
-sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'SyntagNet' AND name <> 'BNC'"
+sqlite3 "${db}" "DELETE FROM sources WHERE name <> 'WordNet' AND name <> 'Open English Wordnet' AND name <> 'Open English Namenet' AND name <> 'SyntagNet' AND name <> 'BNC'"
 
 echo -e "${Y}V A C U U M ${Z}"
 sqlite3 "${db}" 'VACUUM'

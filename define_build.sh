@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export TAG=2025
+export TAG=2026
 export TAG31=31
-export BUILDMAJOR=2
-export BUILDMINOR=3
-export BUILDREV=2
+export BUILDMAJOR=3
+export BUILDMINOR=0
+export BUILDREV=1
 export BUILD="${BUILDMAJOR}.${BUILDMINOR}.${BUILDREV}"

@@ -8,10 +8,10 @@ FROM=dist
 
 # R E M O T E
 
-VERSION="3"
+RELEASE="5"
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
-REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos2/${VERSION}
+REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos2/${RELEASE}
 
 # C O L O R S
 

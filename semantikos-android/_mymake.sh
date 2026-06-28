@@ -7,3 +7,4 @@ source define_build.sh
 
 ./_prepare.sh
 ./make-all.sh
+./_upload.sh

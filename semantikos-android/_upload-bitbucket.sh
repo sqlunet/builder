@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 
 ms="$@"
 if [ -z "${ms}" ]; then

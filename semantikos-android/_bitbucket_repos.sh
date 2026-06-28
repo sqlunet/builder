@@ -1,7 +1,7 @@
 #!/bin/bash
 # 06/09/2023
 
-set -e
+#set -e
 
 REPODIR='dist/repos/bitbucket'
 
