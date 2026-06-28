@@ -33,7 +33,7 @@ case "$from" in
                     age "${f}"
                 done
                 popd  > /dev/null
-                ;;
+                ;&
 
         oewnplus) echo -e "${bY}${K}oewnplus${Z}"
                 pushd nids/oewn-plus > /dev/null
@@ -41,7 +41,7 @@ case "$from" in
                     age "${f}"
                 done
                 popd  > /dev/null
-                ;;
+                ;&
 
         initial) echo -e "${bY}${K}initial${Z}"
                 confirm_or_exit "Start"
@@ -52,7 +52,7 @@ case "$from" in
                ./generate-legacy.sh all
                ;&
                 
-        legacy) echo -e "${bY}${K}schema${Z}"
+        schema) echo -e "${bY}${K}schema${Z}"
                echo -e "${Y}S C H E M A${Z}"
                ./generate-schema.sh all
                ;&
