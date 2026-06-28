@@ -5,6 +5,26 @@
       <excludeFolder url="file://$MODULE_DIR$/_sers" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/nids" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/bnc" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/bnc31" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-ewn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-fn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-oewn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-sn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-vn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-wn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-wn31" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/fn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/pb" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/pm" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/sl" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/sn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/vn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/wn" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/wn31" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/zip" />
     </content>
   </component>
 </module>

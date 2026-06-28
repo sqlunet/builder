@@ -20,7 +20,7 @@ function check()
 }
 
 dir=zip
-from_oewn=/mnt/data2/devel/oewn/oewn-grind_yaml2sql/sql
+from_oewn=/mnt/data2/devel/oewn/dist/data/sql
 from_wn=/mnt/data2/devel/oewn/oewn-grind_wndb2sql/sql31
 from=..
 dir=$(readlink -m ${dir})
@@ -45,5 +45,7 @@ for z in $zs; do
     pushd "${dir}" > /dev/null
     ln -s "${z}"
     popd > /dev/null
+  else
+    exit 1
   fi
 done
