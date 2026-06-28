@@ -11,6 +11,7 @@ trap on_err ERR
 # S O U R C E
 
 source define_colors.sh
+source define_confirm.sh
 source define_age.sh
 
 # A R G S
