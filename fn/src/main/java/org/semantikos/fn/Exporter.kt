@@ -16,13 +16,11 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.Throws
 
-class Exporter(
-    conf: Properties,
-) {
+class Exporter(conf: Properties,) {
 
     private val names: Names = Names("fn")
 
-    private val outDir: File = File(conf.getProperty("fn_outdir_ser", "sers"))
+    private val outDir: File = File(conf.getProperty("fn_outdir_nids", "nids_out"))
 
     init {
         if (!outDir.exists()) {

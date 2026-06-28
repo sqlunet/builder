@@ -19,7 +19,7 @@ class Exporter
 
     private val names: Names = Names("vn")
 
-    private val outDir: File = File(conf.getProperty("vn_outdir_ser", "sers"))
+    private val outDir: File = File(conf.getProperty("vn_outdir_nids", "nids_out"))
 
     init {
         if (!outDir.exists()) {

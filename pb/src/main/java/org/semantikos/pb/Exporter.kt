@@ -19,7 +19,7 @@ open class Exporter(conf: Properties) {
 
     protected val names: Names = Names("pb")
 
-    protected val outDir: File = File(conf.getProperty("pb_outdir_ser", "sers"))
+    protected val outDir: File = File(conf.getProperty("pb_outdir_nids", "nids_out"))
 
     init {
         if (!outDir.exists()) {
