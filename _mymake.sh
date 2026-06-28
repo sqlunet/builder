@@ -57,6 +57,11 @@ case "$from" in
                ./generate-schema.sh all
                ;&
                 
+        export) echo -e "${bY}${K}export${Z}"
+                echo -e "${Y}E X P O R T ${Z}"
+                ./build.sh "vn pb fn" "-export"
+                ;&
+
         build) echo -e "${bY}${K}build${Z}"
                 echo -e "${Y}B U I L D${Z}"
                 ./build.sh all
