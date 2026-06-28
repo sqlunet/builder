@@ -17,4 +17,5 @@ function generate()
 }
 
 generate sensekeys 30
+generate synsets 30 31
 generate synsets 30 XX
