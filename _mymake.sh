@@ -1,39 +1,65 @@
 #!/bin/bash
 
-set -e
-
-# C O L O R S
-
-R='\u001b[31m'
-G='\u001b[32m'
-B='\u001b[34m'
-Y='\u001b[33m'
-M='\u001b[35m'
-C='\u001b[36m'
-Z='\u001b[0m'
+set -Eeo pipefail
+on_err() {
+  local exit_code=$?
+  local line_no=${BASH_LINENO[0]}
+  echo "Error on line $line_no (exit code: $exit_code)."
+}
+trap on_err ERR
 
 # S O U R C E
 
+source define_colors.sh
 source define_age.sh
+
+# A R G S
+
+from=$1
+[ "$#" -eq 0 ] || shift
+if [ -z "${from}" ]; then
+  from=initial
+fi
 
 # M A I N
 
 echo -e "${Y}O E W N${Z}"
-pushd sers > /dev/null
-for f in *.ser; do
-  age "${f}"
-done
-popd  > /dev/null
 
-echo -e "${Y}L E G A C Y${Z}"
-./generate-legacy.sh all
+case "$from" in
+        status) echo -e "${bY}${K}status${Z}"
+                pushd sers > /dev/null
+                for f in *.ser; do
+                    age "${f}"
+                done
+                popd  > /dev/null
+                ;;
 
-echo -e "${Y}S C H E M A${Z}"
-./generate-schema.sh all
+        initial) echo -e "${bY}${K}initial${Z}"
+                confirm_or_exit "Start"
+                ;&
+                
+        legacy) echo -e "${bY}${K}legacy${Z}"
+               echo -e "${Y}L E G A C Y${Z}"
+               ./generate-legacy.sh all
+               ;&
+                
+        legacy) echo -e "${bY}${K}schema${Z}"
+               echo -e "${Y}S C H E M A${Z}"
+               ./generate-schema.sh all
+               ;&
+                
+        build) echo -e "${bY}${K}build${Z}"
+                echo -e "${Y}B U I L D${Z}"
+                ./build.sh all
+                ;&
 
-echo -e "${Y}B U I L D${Z}"
-./build.sh all
+        pack) echo -e "${bY}${K}pack${Z}"
+                echo -e "${Y}P A C K${Z}"
+                ./pack.sh
+                ./pack31.sh
+                ;&
 
-echo -e "${Y}P A C K${Z}"
-./pack.sh
-./pack31.sh
+        end) echo -e "${bY}${K}end${Z}"
+                ;;
+esac
+
