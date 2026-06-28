@@ -1,4 +1,6 @@
 /target/
+/nids*/
+/nids*
 /sers/
 /sers_out/
 /data/
