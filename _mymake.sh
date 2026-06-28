@@ -27,8 +27,16 @@ fi
 echo -e "${Y}O E W N${Z}"
 
 case "$from" in
-        status) echo -e "${bY}${K}status${Z}"
-                pushd sers > /dev/null
+        oewn) echo -e "${bY}${K}oewn${Z}"
+                pushd nids/oewn > /dev/null
+                for f in *.ser; do
+                    age "${f}"
+                done
+                popd  > /dev/null
+                ;;
+
+        oewnplus) echo -e "${bY}${K}oewnplus${Z}"
+                pushd nids/oewn-plus > /dev/null
                 for f in *.ser; do
                     age "${f}"
                 done
