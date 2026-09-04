@@ -1,8 +1,7 @@
 package org.semantikos.pb31
 
-import org.semantikos.common.DeSerialize
+import org.semantikos.common.DeSerializeJsonNIDs.deserializeJsonMap
 import org.semantikos.common.Resolver
 import java.io.File
 
-class WordResolver(ser: String) : Resolver<String, Int>(DeSerialize.deserialize<Map<String, Int>>(File(ser)))
-
+class WordResolver(ser: String) : Resolver<String, Int>(deserializeJsonMap(File(ser)))
