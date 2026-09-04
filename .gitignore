@@ -36,3 +36,4 @@
 /**/*.jar
 
 /.idea/workspace.xml
+/**/archive/*
