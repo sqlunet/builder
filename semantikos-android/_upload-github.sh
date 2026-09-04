@@ -2,35 +2,32 @@
 
 # set -e
 
+source define_colors.sh
+source _confirm.sh
+
+# P A R A M S
+
+# stage
+from="$1"
+shift
+
+# tag
+tag="$1"
+shift
+if [ -z "${tag}" ]; then
+	echo -e "${R}No tag${Z}"
+	exit 1
+fi
+
 ms="$@"
 if [ -z "${ms}" ]; then
 	ms="xn wn ewn sn vn fn"
 fi
 
-# C O L O R S
-
-export K='\u001b[30m'
-export R='\u001b[31m'
-export G='\u001b[32m'
-export B='\u001b[34m'
-export Y='\u001b[33m'
-export M='\u001b[35m'
-export C='\u001b[36m'
-export Z='\u001b[0m'
-export LR='\u001b[91m'
-export LG='\u001b[92m'
-export LY='\u001b[93m'
-export LB='\u001b[94m'
-export LM='\u001b[95m'
-export LC='\u001b[96m'
-export LW='\u001b[97m'
-
-# R E L E A S E
-
-# make release
-RELEASE_NAME="Semantikos-2025-2"
-RELEASE_TITLE="Semantikos 2025-2"
-RELEASE_NOTES="2025-2"
+# release params
+RELEASE_NAME="Semantikos-${tag}"
+RELEASE_TITLE="Semantikos ${tag}"
+RELEASE_NOTES="${tag} snapshot"
 
 # assets
 assets=""
@@ -48,7 +45,7 @@ for suffix in '' ewn vn fn sn wn; do
 	                echo -e "${R}${f}${Z}"        
 	        fi
                 assets="${assets}
-                ../../../${f}"
+../../../${f}"
 	done
 	for ext in db.zip db.zip.md5 db.md5; do
 	        f="${fn2}.${ext}"
@@ -56,19 +53,59 @@ for suffix in '' ewn vn fn sn wn; do
 	                echo -e "${R}${f}${Z}"        
 	        fi
                 assets="${assets}
-                ../../../${f}"
+../../../${f}"
 	done
  done
-echo -e "${C}${assets}${Z}"
 
-pushd dist/repos/github > /dev/null
-gh auth status
-#gh auth logout
-#gh auth login
-gh release create "${RELEASE_NAME}" --title "${RELEASE_TITLE}" --notes "${RELEASE_NOTES}" 
-gh release upload "${RELEASE_NAME}" ${assets}
-gh release list
-gh release view
+# M A I N
 
-popd > /dev/null
+echo -e "${Y}Make GitHub release${Z}"
+echo -e "Github assets:
+${C}${assets}${Z}"
+if confirm 'Github' "Make release ${RELEASE_NAME}?" 'proceeding...'; then
 
+case "$from" in
+       initial) echo -e "${bY}${K}initial${Z}"
+                ;&
+       auth) echo -e "${bY}${K}auth${Z}"
+                pushd dist/repos/github > /dev/null
+                gh auth status
+                #gh auth logout
+                #gh auth login
+                popd > /dev/null
+                ;&
+
+        create) echo -e "${bY}${K}create${Z}"
+                pushd dist/repos/github > /dev/null
+                gh release create "${RELEASE_NAME}" --title "${RELEASE_TITLE}" --notes "${RELEASE_NOTES}" 
+                popd > /dev/null
+                ;&
+
+        upload) echo -e "${bY}${K}upload${Z}"
+                pushd dist/repos/github > /dev/null
+                gh release upload "${RELEASE_NAME}" ${assets}
+                popd > /dev/null
+                ;&
+                
+        list) echo -e "${bY}${K}list${Z}"
+                pushd dist/repos/github > /dev/null
+                gh release list
+                popd > /dev/null
+                ;&
+               
+        view) echo -e "${bY}${K}view${Z}"
+                pushd dist/repos/github > /dev/null
+                gh release view
+                popd > /dev/null
+                ;&
+                
+        end) echo -e "${bY}${K}end${Z}"
+                ;;
+esac
+
+
+
+
+
+
+fi

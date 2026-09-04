@@ -3,8 +3,5 @@
 set -e
 
 ./_upload-sourceforge.sh
+./_upload-github.sh initial "2026-1"
 
-#./_upload-bitbucket.sh 		wn ewn sn vn
-#./_upload-reset-bitbucket.sh 	xn fn
-
-echo "Make GitHub release"

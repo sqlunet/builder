@@ -20,14 +20,14 @@ function confirm()
 	local message="$2"
 	local proceed="$3"
 
-	echo -e "${title}"
-	echo -en "${message} "
+	echo "${title}"
+	echo -n "${message} "
 	read -n 1 -r
-	echo -e "${Z}"
+	echo
 	if ! [[ $REPLY =~ ^[Yy]$ ]]; then
 		return 2
 	fi
-	echo -e "${proceed}"
+	echo "${proceed}"
 	return 0
 }
 

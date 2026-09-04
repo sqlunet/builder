@@ -13,7 +13,7 @@ FROM=.
 RELEASE="5"
 SITE=frs.sourceforge.net
 USER=bbou,sqlunet
-REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos${BUILDMAJOR}/${RELEASE}
+REMOTEDIR=/home/frs/project/s/sq/sqlunet/semantikos/${TAG}
 
 # C O L O R S
 
