@@ -50,8 +50,7 @@ class Resources {
             val opKey = fields[fields.size - 1]
             if (if (strict) (opKey == str) else opKey.startsWith(str)) {
                 val v = getString(key)
-                if (v != null)
-                    result.add(v)
+                result.add(v)
             }
         }
         return result
@@ -60,10 +59,9 @@ class Resources {
     fun dumpAll() {
         for (key in resourceMap.keys) {
             val value = getString(key)
-            if (value != null)
-                if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
-                    println("$key+$value")
-                }
+            if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
+                println("$key+$value")
+            }
         }
     }
 
@@ -73,10 +71,9 @@ class Resources {
                 continue
             }
             val value = getString(key)
-            if (value != null)
-                if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
-                    println("$key+$value")
-                }
+            if (value.indexOf('!') != -1 || value.indexOf('%') != -1) {
+                println("$key+$value")
+            }
         }
     }
 
@@ -112,9 +109,9 @@ class Resources {
     }
 
     // get value
-    fun getString(key: String): String? {
+    fun getString(key: String): String {
         try {
-            var str: String? = resourceMap[key]!!
+            var str: String = resourceMap[key] ?: throw MissingResourceException(key, Resources::class.java.name, key)
 
             // print("\n>[$key] $str")
             str = expandPercent(str)
@@ -126,7 +123,7 @@ class Resources {
         }
     }
 
-    private fun expandPercent(str: String): String? {
+    private fun expandPercent(str: String): String {
         val pattern = Pattern.compile("%[^%]*%")
 
         // percents
@@ -135,7 +132,7 @@ class Resources {
         while ((str.indexOf('"', p + 1).also { p = it }) != -1) {
             percentCount++
         }
-        if (percentCount % 2 != 0) return null
+        if (percentCount % 2 != 0) throw IllegalArgumentException(str)
 
         // macro map
         val map = HashMap<String, String?>()

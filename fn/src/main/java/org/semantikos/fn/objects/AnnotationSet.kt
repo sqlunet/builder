@@ -111,7 +111,7 @@ class AnnotationSet private constructor(
         fun make(annoset: AnnotationSetType, sentenceid: Int): AnnotationSet {
             val a = AnnotationSet(annoset, sentenceid, null, null)
 
-            if (a.cxnid != null && a.cxnName != null) {
+            if (a.cxnName != null) {
                 make(a.cxnid, a.cxnName)
             }
             val isNew: Boolean = SET.add(a)
@@ -124,7 +124,7 @@ class AnnotationSet private constructor(
         fun make(annoset: AnnotationSetType, sentenceid: Int, luid: Int, frameid: Int): AnnotationSet {
             val a = AnnotationSet(annoset, sentenceid, luid, frameid)
 
-            if (a.cxnid != null && a.cxnName != null) {
+            if (a.cxnName != null) {
                 make(a.cxnid, a.cxnName)
             }
             val isNew: Boolean = SET.add(a)

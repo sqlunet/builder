@@ -102,27 +102,27 @@ class Normalizer(
 
         const val PASSTHROUGH: Boolean = false
 
-        private val SQLS_CREATE = arrayOf(Resources.resources.getString("Normalizer.drop-table")!!, Resources.resources.getString("Normalizer.create-table")!!, Resources.resources.getString("Normalizer.create-unq-index")!!)
+        private val SQLS_CREATE = arrayOf(Resources.resources.getString("Normalizer.drop-table"), Resources.resources.getString("Normalizer.create-table"), Resources.resources.getString("Normalizer.create-unq-index"))
 
-        private val SQLS_CREATE2 = arrayOf(Resources.resources.getString("Normalizer.drop-table")!!, Resources.resources.getString("Normalizer.create2-table")!!, Resources.resources.getString("Normalizer.create-unq-index")!!)
+        private val SQLS_CREATE2 = arrayOf(Resources.resources.getString("Normalizer.drop-table"), Resources.resources.getString("Normalizer.create2-table"), Resources.resources.getString("Normalizer.create-unq-index"))
 
-        private val SQLS_INSERT = arrayOf(Resources.resources.getString("Normalizer.insert")!!)
+        private val SQLS_INSERT = arrayOf(Resources.resources.getString("Normalizer.insert"))
 
-        private val SQLS_INSERT2 = arrayOf(Resources.resources.getString("Normalizer.insert2")!!)
+        private val SQLS_INSERT2 = arrayOf(Resources.resources.getString("Normalizer.insert2"))
 
-        private val SQLS_CREATE_FK_COLUMN = arrayOf(Resources.resources.getString("Normalizer.add-column-fk")!!)
+        private val SQLS_CREATE_FK_COLUMN = arrayOf(Resources.resources.getString("Normalizer.add-column-fk"))
 
-        private val SQLS_DROP_FK_COLUMN = arrayOf(Resources.resources.getString("Normalizer.drop-column-fk")!!)
+        private val SQLS_DROP_FK_COLUMN = arrayOf(Resources.resources.getString("Normalizer.drop-column-fk"))
 
-        private val SQLS_UPDATE_FK_COLUMN = arrayOf(Resources.resources.getString("Normalizer.update")!!)
+        private val SQLS_UPDATE_FK_COLUMN = arrayOf(Resources.resources.getString("Normalizer.update"))
 
-        private val SQLS_UPDATE_FK_COLUMN2 = arrayOf(Resources.resources.getString("Normalizer.update2")!!)
+        private val SQLS_UPDATE_FK_COLUMN2 = arrayOf(Resources.resources.getString("Normalizer.update2"))
 
-        private val SQL_CLEANUP = arrayOf(Resources.resources.getString("Normalizer.drop-column-data")!!)
+        private val SQL_CLEANUP = arrayOf(Resources.resources.getString("Normalizer.drop-column-data"))
 
-        private val SQLS_SWAP_PK = arrayOf(Resources.resources.getString("Normalizer.drop-auto-pk")!!, Resources.resources.getString("Normalizer.change-pk")!!, Resources.resources.getString("Normalizer.drop-pk")!!)
+        private val SQLS_SWAP_PK = arrayOf(Resources.resources.getString("Normalizer.drop-auto-pk"), Resources.resources.getString("Normalizer.change-pk"), Resources.resources.getString("Normalizer.drop-pk"))
 
-        private val SQLS_NEW_PK = arrayOf(Resources.resources.getString("Normalizer.new-pk")!!)
+        private val SQLS_NEW_PK = arrayOf(Resources.resources.getString("Normalizer.new-pk"))
 
         // private val SQLS_LENGTH = Resources.resources.getString("Normalizer.length")
 
