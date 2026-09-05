@@ -117,8 +117,8 @@ class VnDocument(
                 .flatMap {
                     it
                         .split("\\s".toRegex())
-                        .dropLastWhile { it.isEmpty() }
-                        .map { Grouping.make(it) }
+                        .dropLastWhile { it2 -> it2.isEmpty() }
+                        .map { it2 -> Grouping.make(it2) }
                 }
                 .toSet()
         }
@@ -269,8 +269,8 @@ class VnDocument(
 
                     getXPathTexts(it, "./EXAMPLES/EXAMPLE")!!
                         .asSequence()
-                        .map {
-                            val vnExample = FrameExample.make(it)
+                        .map { it2 ->
+                            val vnExample = FrameExample.make(it2)
                             make(frame, vnExample)
                         }
                 }
@@ -317,8 +317,8 @@ class VnDocument(
                     getXPaths(it, "./PRED")!!
                         .iteratorOfElements()
                         .asSequence()
-                        .map {
-                            val predicate = Predicate.make(it.getAttribute("value"))
+                        .map { it2 ->
+                            val predicate = Predicate.make(it2.getAttribute("value"))
                             make(predicate, semantics)
                         }
                 }
