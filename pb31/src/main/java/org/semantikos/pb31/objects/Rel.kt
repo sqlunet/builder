@@ -36,7 +36,7 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
         private val COMPARATOR: Comparator<Rel> = Comparator
             .comparing<Rel, Example> { it.example }
             .thenComparing<String> { it.text }
-            .thenComparing<Func?>( { it.f }, Comparator.nullsFirst<Func?>(Comparator.naturalOrder()))
+            .thenComparing<Func?>( { it.f }, Comparator.nullsFirst<Func>(Comparator.naturalOrder()))
 
         val COLLECTOR = SetCollector<Rel>(COMPARATOR)
 
