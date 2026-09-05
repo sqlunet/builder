@@ -1,4 +1,4 @@
-package og.semantikos.sumo
+package org.semantikos.sumo
 
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

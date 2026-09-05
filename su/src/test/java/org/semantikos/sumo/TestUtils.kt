@@ -1,4 +1,4 @@
-package og.semantikos.sumo
+package org.semantikos.sumo
 
 import org.semantikos.su.SuModule
 import java.io.OutputStream

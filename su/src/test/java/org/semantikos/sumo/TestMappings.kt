@@ -1,5 +1,6 @@
-package og.semantikos.sumo
+package org.semantikos.sumo
 
+import og.semantikos.sumo.KbLoaderExtension
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -13,7 +14,6 @@ import org.semantikos.su.joins.Term_Synset
 import org.semantikos.su.objects.Term
 import java.io.File
 import java.io.IOException
-import kotlin.Throws
 
 @ExtendWith(KbLoaderExtension::class)
 class TestMappings {
