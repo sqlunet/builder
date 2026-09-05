@@ -69,11 +69,10 @@ class Arg private constructor(example0: Example, text0: String, val type: String
 
     companion object {
 
-        private val COMPARATOR: Comparator<Arg> = Comparator
-            .comparing<Arg, Example> { it.example }
-            .thenComparing { it.text }
-            .thenComparing { it.n }
-            .thenComparing<Func>({ it.f }, Comparator.nullsFirst(Comparator.naturalOrder()))
+        private val COMPARATOR: Comparator<Arg> = compareBy<Arg> { it.example }
+            .thenBy { it.text }
+            .thenBy { it.n }
+            .thenBy(nullsFirst()) { it.f }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

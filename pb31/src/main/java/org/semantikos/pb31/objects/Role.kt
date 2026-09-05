@@ -74,10 +74,9 @@ class Role private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Role> = Comparator
-            .comparing<Role, RoleSet> { it.roleSet }
-            .thenComparing { it.argType }
-            .thenComparing<Func>({ it.func }, Comparator.nullsFirst(Comparator.naturalOrder()))
+        val COMPARATOR: Comparator<Role> = compareBy<Role> { it.roleSet }
+            .thenBy { it.argType }
+            .thenBy(nullsFirst()) { it.func }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

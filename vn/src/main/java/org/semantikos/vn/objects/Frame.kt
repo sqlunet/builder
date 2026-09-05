@@ -73,13 +73,12 @@ class Frame private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Frame> = Comparator
-            .comparing<Frame, FrameName> { it.name }
-            .thenComparing<FrameSubName>({ it.subName }, Comparator.nullsFirst(Comparator.naturalOrder()))
-            .thenComparing { it.descriptionNumber }
-            .thenComparing { it.descriptionXTag }
-            .thenComparing { it.syntax }
-            .thenComparing { it.semantics }
+        val COMPARATOR: Comparator<Frame> = compareBy<Frame> { it.name }
+            .thenBy(nullsFirst()) { it.subName }
+            .thenBy { it.descriptionNumber }
+            .thenBy { it.descriptionXTag }
+            .thenBy { it.syntax }
+            .thenBy { it.semantics }
 
         val COLLECTOR: SetCollector<Frame> = SetCollector(COMPARATOR)
 
