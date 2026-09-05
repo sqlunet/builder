@@ -1,6 +1,5 @@
 package org.semantikos.sumo
 
-import og.semantikos.sumo.KbLoaderExtension
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -19,7 +18,7 @@ class TestProcessor {
     fun testProcessFiles() {
         try {
             //SUFile.COLLECTOR.open().use {
-                SuProcessor.insertFiles(TestUtils.OUT, SUFile.COLLECTOR, "files", "fileid,file,version,date")
+            SuProcessor.insertFiles(TestUtils.OUT, SUFile.COLLECTOR, "files", "fileid,file,version,date")
             //}
         } catch (e: Exception) {
             Assertions.fail<Any?>(e.message)
@@ -30,7 +29,7 @@ class TestProcessor {
     fun testProcessTermsAndAttrs() {
         try {
             //Term.COLLECTOR.open().use {
-                SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.ERR, Term.COLLECTOR, KBLoader.kb!!, "terms", "sumoid,term", "terms_attr", "sumoid,attr")
+            SuProcessor.insertTermsAndAttrs(TestUtils.OUT, TestUtils.ERR, Term.COLLECTOR, KBLoader.kb!!, "terms", "sumoid,term", "terms_attr", "sumoid,attr")
             //}
         } catch (e: Exception) {
             Assertions.fail<Any?>(e.message)
@@ -41,7 +40,7 @@ class TestProcessor {
     fun testProcessTermAttrs() {
         try {
             //Term.COLLECTOR.open().use {
-                SuProcessor.insertTermAttrs(TestUtils.OUT, Term.COLLECTOR, KBLoader.kb!!, "terms_attr", "sumoid,attr")
+            SuProcessor.insertTermAttrs(TestUtils.OUT, Term.COLLECTOR, KBLoader.kb!!, "terms_attr", "sumoid,attr")
             //}
         } catch (e: Exception) {
             Assertions.fail<Any?>(e.message)
@@ -52,7 +51,7 @@ class TestProcessor {
     fun testProcessTerms() {
         try {
             //Term.COLLECTOR.open().use {
-                SuProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR, "terms", "sumoid,term")
+            SuProcessor.insertTerms(TestUtils.OUT, Term.COLLECTOR, "terms", "sumoid,term")
             //}
         } catch (e: Exception) {
             Assertions.fail<Any?>(e.message)
@@ -65,7 +64,7 @@ class TestProcessor {
             //Term.COLLECTOR.open().use {
             //    SUFile.COLLECTOR.open().use {
             //        Formula.COLLECTOR.open().use {
-                        SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.ERR, Formula.COLLECTOR, "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum")
+            SuProcessor.insertFormulasAndArgs(TestUtils.OUT, TestUtils.ERR, Formula.COLLECTOR, "formulas", "formulaid,formula,fileid", "formulas_args", "formulaid,sumoid,argtype,argnum")
             //        }
             //    }
             //}
@@ -80,7 +79,7 @@ class TestProcessor {
             //Term.COLLECTOR.open().use {
             //    SUFile.COLLECTOR.open().use {
             //        Formula.COLLECTOR.open().use {
-                        SuProcessor.insertFormulas(TestUtils.OUT, Formula.COLLECTOR, "formulas", "formulaid,formula,fileid")
+            SuProcessor.insertFormulas(TestUtils.OUT, Formula.COLLECTOR, "formulas", "formulaid,formula,fileid")
             //        }
             //    }
             //}
@@ -95,7 +94,7 @@ class TestProcessor {
             //Term.COLLECTOR.open().use {
             //    SUFile.COLLECTOR.open().use {
             //        Formula.COLLECTOR.open().use {
-                        SuProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR, "formulas_args", "formulaid,sumoid,argtype,argnum")
+            SuProcessor.insertFormulaArgs(TestUtils.OUT, Formula.COLLECTOR, "formulas_args", "formulaid,sumoid,argtype,argnum")
             //        }
             //    }
             //}

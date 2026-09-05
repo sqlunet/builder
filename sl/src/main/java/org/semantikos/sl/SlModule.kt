@@ -12,8 +12,6 @@ class SlModule(
 ) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
-
         when (mode) {
             Mode.PLAIN, Mode.RESOLVE -> {
                 SemlinkProcessor(props).run()
@@ -27,7 +25,7 @@ class SlModule(
                 }
             }
 
-            Mode.UPDATE              -> {
+            Mode.UPDATE -> {
                 SemlinkUpdatingProcessor(props).run()
                 try {
                     val inserter: Inserter = ResolvingUpdater(props)
@@ -39,8 +37,8 @@ class SlModule(
                 }
             }
 
-            Mode.EXPORT              -> {}
-            else                     -> {}
+            Mode.EXPORT -> {}
+            else -> {}
         }
     }
 

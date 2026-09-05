@@ -49,7 +49,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             header,
             true,
             wordResolver,
-            { nullable(it) { it.toString() } },
+            { nullable(it) { it2 -> it2.toString() } },
             names.column("words.wordid")
         )
         traceDone()

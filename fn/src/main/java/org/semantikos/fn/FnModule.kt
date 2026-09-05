@@ -10,8 +10,6 @@ class FnModule(
 ) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
-
         when (mode) {
             Mode.PLAIN, Mode.RESOLVE -> {
                 FnEnumCollector().run()
@@ -29,7 +27,7 @@ class FnModule(
                 }
             }
 
-            Mode.UPDATE              -> {
+            Mode.UPDATE -> {
                 FnWordCollector(props).run()
                 try {
                     val inserter: Inserter = ResolvingUpdater(props)
@@ -41,7 +39,7 @@ class FnModule(
                 }
             }
 
-            Mode.EXPORT              -> {
+            Mode.EXPORT -> {
                 FnFrameExportCollector(props).run()
                 FnLexUnitExportCollector(props).run()
                 FnWordCollector(props).run()
@@ -53,7 +51,7 @@ class FnModule(
                 }
             }
 
-            else                     -> {}
+            else -> {}
         }
     }
 

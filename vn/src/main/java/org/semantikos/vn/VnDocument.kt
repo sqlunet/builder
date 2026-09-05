@@ -94,9 +94,9 @@ class VnDocument(
         fun makeResolvableMembers(start: Node) {
             getXPaths(start, "./MEMBERS/MEMBER")!!
                 .iteratorOfElements()
-                .forEach {
-                    val wordAttribute = it.getAttribute("name")
-                    val wnAttribute = it.getAttribute("wn")
+                .forEach { e ->
+                    val wordAttribute = e.getAttribute("name")
+                    val wnAttribute = e.getAttribute("wn")
                     makeWord(wordAttribute)
                     makeSensekeys(wnAttribute)
                         ?.forEach {

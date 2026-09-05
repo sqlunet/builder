@@ -51,8 +51,6 @@ object FormulaParser {
     @Throws(IllegalArgumentException::class, ParseException::class, IOException::class)
     fun parse(reader: Reader): Map<String, Arg> {
         // reader
-        requireNotNull(reader) { "Null reader" }
-
         val map: MutableMap<String, Arg> = HashMap()
         val sb = StringBuilder(40)
 

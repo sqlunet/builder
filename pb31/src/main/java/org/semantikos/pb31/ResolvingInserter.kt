@@ -66,7 +66,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             header,
             true,
             wordResolver,
-            { nullable(it) { it.toString() } },
+            { nullable(it) { it2 -> it2.toString() } },
             names.column("words.wordid")
         )
         traceDone()
@@ -83,7 +83,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_fnframes"),
             header,
             fnFrameResolver,
-            { nullable(it) { it.toString() } },
+            { nullable(it) { it2 -> it2.toString() } },
             names.column("pbrolesets_fnframes.fnframeid")
         )
         traceDone()
@@ -100,7 +100,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.columns("pbrolesets_vnclasses"),
             header,
             vnClassResolver,
-            { nullable(it) { it.toString() } },
+            { nullable(it) { it2 -> it2.toString() } },
             names.column("pbrolesets_vnclasses.vnclassid")
         )
         traceDone()

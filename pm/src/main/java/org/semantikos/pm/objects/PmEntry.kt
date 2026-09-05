@@ -32,7 +32,7 @@ class PmEntry : Insertable {
 
     override fun comment(): String {
         return "PM[${role!!.intId}], WN['${word}',${nullable(sensekey)}], VN[${vn.dataRow()}], PB[${pb.dataRow()}], FN[${fn.dataRow()}], SRC[$sources]"
-        return "${role!!.predicate},${role!!.role},${role!!.pos}"
+        //return "${role!!.predicate},${role!!.role},${role!!.pos}"
     }
 
     companion object {
@@ -43,8 +43,10 @@ class PmEntry : Insertable {
         const val ID_ROLE: Int = 3 // this column contains the role. id:0
 
         const val VN_CLASS: Int = 4 // this column contains the information of the VerbNet class. vn:withdraw-82
+
         //	const val VN_CLASS_NUMBER = 5 // this column contains the information of the VerbNet class number. vn:82
         const val VN_SUBCLASS: Int = 6 // this column contains the information of VerbNet subclass. vn:withdraw-82-1
+
         //	const val VN_SUBCLASS_NUMBER = 7 // this column contains the information of the VerbNet subclass number. vn:82-1
         const val VN_LEMMA: Int = 8 // this column contains the information of the verb lemma. vn:pull_back
         const val VN_ROLE: Int = 9 // this column contains the information of the VerbNet thematic-role. vn:Source

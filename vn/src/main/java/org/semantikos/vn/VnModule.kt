@@ -10,8 +10,6 @@ import java.io.IOException
 class VnModule(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
-
         when (mode) {
             Mode.PLAIN, Mode.RESOLVE -> {
                 VnCollector(props).run()
@@ -25,7 +23,7 @@ class VnModule(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
                 }
             }
 
-            Mode.UPDATE              -> {
+            Mode.UPDATE -> {
                 VnUpdateCollector(props).run()
                 try {
                     val inserter: Inserter = ResolvingUpdater(props)
@@ -37,7 +35,7 @@ class VnModule(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
                 }
             }
 
-            Mode.EXPORT              -> {
+            Mode.EXPORT -> {
                 VnExportCollector(props).run()
                 try {
                     val exporter = Exporter(props)
@@ -47,7 +45,7 @@ class VnModule(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
                 }
             }
 
-            else                     -> {}
+            else -> {}
         }
     }
 

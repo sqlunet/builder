@@ -48,10 +48,10 @@ open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
 
     @Throws(IOException::class)
     protected fun process(file: File, producer: (String) -> BncRecord, consumer: (BncRecord, Int) -> Unit) {
-        file.useLines {
+        file.useLines { lines ->
             var lineNum = 0
             var count = 0
-            it
+            lines
                 .also { ++lineNum }
                 .filter { it.isNotEmpty() && it[0] == '\t' }
                 .map {
@@ -73,7 +73,7 @@ open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
                 .filterNotNull()
                 .forEach {
                     try {
-                        consumer.invoke(it, count.toInt())
+                        consumer.invoke(it, count)
                         count++
                     } catch (_: NotFoundException) {
                         // Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), null, nfe)

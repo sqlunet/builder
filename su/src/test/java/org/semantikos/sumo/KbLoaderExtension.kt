@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.BeforeAllCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource
 import org.semantikos.su.KBLoader
-import org.semantikos.sumo.TestUtils
 
 class KbLoaderExtension : KBLoader(), BeforeAllCallback, CloseableResource {
 

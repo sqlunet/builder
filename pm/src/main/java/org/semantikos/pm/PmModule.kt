@@ -9,15 +9,13 @@ class PmModule(
 ) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
-
         try {
             when (mode) {
-                Mode.PLAIN   -> PmProcessor(props).run()
+                Mode.PLAIN -> PmProcessor(props).run()
                 Mode.RESOLVE -> PmResolvingProcessor(props).run()
-                Mode.UPDATE  -> PmUpdatingProcessor(props).run()
-                Mode.EXPORT  -> {}
-                else         -> {}
+                Mode.UPDATE -> PmUpdatingProcessor(props).run()
+                Mode.EXPORT -> {}
+                else -> {}
             }
         } catch (e: IOException) {
             e.printStackTrace()

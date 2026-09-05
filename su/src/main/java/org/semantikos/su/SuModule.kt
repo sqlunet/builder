@@ -14,15 +14,13 @@ class SuModule(
 ) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
-
         try {
             when (mode) {
-                Mode.PLAIN   -> SuProcessor(props).run()
+                Mode.PLAIN -> SuProcessor(props).run()
                 Mode.RESOLVE -> SuResolvingProcessor(props).run()
-                Mode.UPDATE  -> SuUpdatingProcessor(props).run()
-                Mode.EXPORT  -> {}
-                else         -> {}
+                Mode.UPDATE -> SuUpdatingProcessor(props).run()
+                Mode.EXPORT -> {}
+                else -> {}
             }
         } catch (e: IOException) {
             e.printStackTrace()

@@ -9,8 +9,6 @@ import java.io.IOException
 open class Pb31Module protected constructor(conf: String, mode: Mode) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
-
         when (mode) {
             Mode.PLAIN, Mode.RESOLVE -> {
                 PbCollector(props).run()

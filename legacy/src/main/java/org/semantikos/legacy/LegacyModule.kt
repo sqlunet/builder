@@ -8,7 +8,6 @@ class LegacyModule private constructor(
 ) : Module(MODULE_ID, args[0], null) {
 
     override fun run() {
-        checkNotNull(props)
         if (args.size < 3) {
             System.err.println("Incorrect arguments")
             return
@@ -16,12 +15,12 @@ class LegacyModule private constructor(
         for (i in 2..<args.size) {
             when {
                 args[i].startsWith("from=") -> props.setProperty("from", args[i].substring(5))
-                args[i].startsWith("to=")   -> props.setProperty("to", args[i].substring(3))
+                args[i].startsWith("to=") -> props.setProperty("to", args[i].substring(3))
             }
         }
         try {
             when (args[1]) {
-                "synsets"   -> SynsetToSynsetProcessor(props).run()
+                "synsets" -> SynsetToSynsetProcessor(props).run()
                 "sensekeys" -> SenseToSensekeyProcessor(props).run()
             }
         } catch (e: IOException) {

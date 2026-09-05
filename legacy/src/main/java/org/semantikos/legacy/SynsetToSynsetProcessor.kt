@@ -65,10 +65,10 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
 
     @Throws(IOException::class)
     private fun processSerSynsetToSynsetFile(file: File): Map<Long, Long> {
-        file.useLines {
-            val count = 0L
-            return it
-                .also { count }
+        file.useLines { lines ->
+            var count = 0L
+            return lines
+                .also { count++ }
                 .filter { it.isNotEmpty() && it[0] != '#' }
                 .map {
                     try {
@@ -116,9 +116,7 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
         ps.println("INSERT INTO $table ($columns) VALUES")
         file.useLines {
             var count = 0L
-            var count1 = 0L
             it
-                .also { count1++ }
                 .filter { it.isNotEmpty() && it[0] != '#' }
                 .map {
                     try {

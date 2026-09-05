@@ -77,10 +77,10 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
 
         @Throws(IOException::class)
         fun <T> process(file: File, producer: (String) -> T, consumer: ((T, Int) -> Unit)?) {
-            file.useLines {
+            file.useLines { lines ->
                 var count = 0
                 var lineNo = 0
-                it
+                lines
                     .also { ++lineNo }
                     .filter { it.isNotEmpty() && it[0] != '\t' }
                     .map { line ->
