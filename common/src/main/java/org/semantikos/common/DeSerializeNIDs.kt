@@ -3,6 +3,7 @@
  */
 package org.semantikos.common
 
+import org.semantikos.common.DeSerializeJsonNIDs.SENSES_WORDS_SYNSETS_FILE
 import java.io.*
 import kotlin.system.exitProcess
 
@@ -42,8 +43,8 @@ object DeSerializeNIDs {
      * @throws ClassNotFoundException class not found exception
      */
     @Throws(IOException::class, ClassNotFoundException::class)
-    fun deserializeAllNIDs(inDir: File): Map<String, Map<String, Int>> {
-        val maps = HashMap<String, Map<String, Int>>()
+    fun deserializeAllNIDs(inDir: File): Map<String, Map<String, *>> {
+        val maps = HashMap<String, Map<String, *>>()
         FileInputStream(File(inDir, "$NID_PREFIX$WORDS_FILE$SER_EXTENSION")).use {
             val m = deSerializeNIDs(it)
             maps.put(WORDS_FILE, m)
@@ -55,6 +56,10 @@ object DeSerializeNIDs {
         FileInputStream(File(inDir, "$NID_PREFIX$SYNSETS_FILE$SER_EXTENSION")).use {
             val m = deSerializeNIDs(it)
             maps.put(SYNSETS_FILE, m)
+        }
+        FileInputStream(File(inDir, "$SENSES_WORDS_SYNSETS_FILE$SER_EXTENSION")).use {
+            val m = deSerializeNIDTuples(it)
+            maps.put(SENSES_WORDS_SYNSETS_FILE, m)
         }
         return maps
     }
@@ -88,6 +93,19 @@ object DeSerializeNIDs {
     }
 
     /**
+     * Deserialize id-to_nid tuple map
+     *
+     * @param input input stream
+     * @return id-to-nid tuple map
+     * @throws IOException            io exception
+     * @throws ClassNotFoundException class not found exception
+     */
+    @Throws(IOException::class, ClassNotFoundException::class)
+    fun deSerializeNIDTuples(input: InputStream): Map<String, List<Int>> {
+        return safeCast(deSerialize(input))
+    }
+
+    /**
      * Deserialize object
      *
      * @param input input stream
@@ -117,11 +135,11 @@ object DeSerializeNIDs {
             exitProcess(1)
         }
         val maps = deserializeAllNIDs(inDir)
-        println("$WORDS_FILE ${maps[WORDS_FILE]!!.size}")
-        println(maps[WORDS_FILE]!!.entries.iterator().next().javaClass)
-        println("$SENSES_FILE ${maps[SENSES_FILE]!!.size}")
-        println(maps[SENSES_FILE]!!.entries.iterator().next().javaClass)
-        println("$SYNSETS_FILE ${maps[SYNSETS_FILE]!!.size}")
-        println(maps[SYNSETS_FILE]!!.entries.iterator().next().javaClass)
+        maps.keys.forEach { mk ->
+            val m = maps[mk]!!
+            println("$mk ${m.size}")
+            m.asSequence().take(10).forEach { (k, v) -> println("\t$k -> $v") }
+            //println(maps[k]!!.entries.iterator().next().javaClass)
+        }
     }
 }
