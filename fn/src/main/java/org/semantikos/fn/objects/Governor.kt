@@ -6,6 +6,7 @@ import org.semantikos.common.HasId
 import org.semantikos.common.Insertable
 import org.semantikos.common.SetCollector
 import org.semantikos.common.Utils.escape
+import org.semantikos.fn.objects.Word.Companion.make
 
 class Governor private constructor(
     governor: GovernorType,
