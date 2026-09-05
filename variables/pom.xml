@@ -2,20 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>semantikos-builder</artifactId>
-		<groupId>org.semantikos-builder</groupId>
-    <version>2.3.2</version>
-    <relativePath>../pom.xml</relativePath>
-	</parent>
+    <parent>
+        <artifactId>semantikos-builder</artifactId>
+        <groupId>org.semantikos-builder</groupId>
+        <version>2.3.3</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<artifactId>variables</artifactId>
+    <artifactId>variables</artifactId>
 
-	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-	</properties>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
 
 </project>
