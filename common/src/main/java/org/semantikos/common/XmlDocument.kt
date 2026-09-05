@@ -1,7 +1,6 @@
 package org.semantikos.common
 
 import org.w3c.dom.Document
-import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.File
@@ -36,7 +35,7 @@ open class XmlDocument(filePath: String) {
     @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
     private fun load(filePath: String): Document {
         val builder: DocumentBuilder = makeDocumentBuilder()
-        builder.setEntityResolver(EntityResolver { publicId: String?, systemId: String? -> InputSource(StringReader("")) })
+        builder.setEntityResolver { publicId: String?, systemId: String? -> InputSource(StringReader("")) }
         return builder.parse(filePath)
     }
 

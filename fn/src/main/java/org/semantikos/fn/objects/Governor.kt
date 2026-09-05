@@ -6,7 +6,6 @@ import org.semantikos.common.HasId
 import org.semantikos.common.Insertable
 import org.semantikos.common.SetCollector
 import org.semantikos.common.Utils.escape
-import org.semantikos.fn.objects.Word.Companion.make
 
 class Governor private constructor(
     governor: GovernorType,
@@ -44,9 +43,9 @@ class Governor private constructor(
 
         val COMPARATOR: Comparator<Governor> = Comparator
             .comparing<Governor, String> { it.getWord() }
-            .thenComparing<String> { it.type }
+            .thenComparing { it.type }
 
-        val COLLECTOR = SetCollector<Governor>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(governor: GovernorType): Governor {
             val g = Governor(governor)

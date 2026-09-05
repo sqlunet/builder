@@ -11,7 +11,7 @@ class Resources {
     // initialize
     fun addResource(bundle: ResourceBundle) {
         for (key in bundle.keySet()) {
-            resourceMap.put(key, bundle.getString(key))
+            resourceMap[key] = bundle.getString(key)
         }
     }
 
@@ -81,9 +81,7 @@ class Resources {
     }
 
     fun dumpRawKeys(regExp: String) {
-        for (entry in resourceMap.entries) {
-            val key = entry.key
-            val value = entry.value
+        for ((key, value) in resourceMap) {
 
             if (!key.matches(regExp.toRegex())) {
                 continue
@@ -117,7 +115,6 @@ class Resources {
     fun getString(key: String): String? {
         try {
             var str: String? = resourceMap[key]!!
-            if (str == null) throw MissingResourceException(key, Resources::class.java.name, key)
 
             // print("\n>[$key] $str")
             str = expandPercent(str)
@@ -149,15 +146,13 @@ class Resources {
             // println(" *$key")
             if (!map.containsKey(key)) {
                 val value = getString(key)
-                map.put(key, value)
+                map[key] = value
             }
         }
 
         // macro substitution
         var result = str
-        for (entry in map.entries) {
-            val key = entry.key
-            val value: String? = entry.value
+        for ((key, value) in map) {
             // val regExp = "%" + key.replace("$", "\\$") + "%"
             // result = result.replaceAll(regExp, value)
             result = result.replace("%$key%", value.toString())
@@ -181,7 +176,7 @@ class Resources {
             while (i < strs.size) {
                 val key = strs[i]
                 val value = strs[i + 1]
-                props.put(key, value)
+                props[key] = value
                 i += 2
             }
             return props

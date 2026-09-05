@@ -34,9 +34,9 @@ class SubCorpus private constructor(
 
         val COMPARATOR: Comparator<SubCorpus> = Comparator
             .comparing<SubCorpus, String> { it.name }
-            .thenComparing<Int> { it.luid }
+            .thenComparing { it.luid }
 
-        val COLLECTOR = SetCollector<SubCorpus>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(subcorpus: SubCorpusType, luid: Int): SubCorpus {
             val c = SubCorpus(subcorpus.getName(), luid)

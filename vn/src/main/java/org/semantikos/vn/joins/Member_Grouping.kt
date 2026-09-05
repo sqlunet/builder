@@ -57,8 +57,8 @@ class Member_Grouping private constructor(
 
         val COMPARATOR: Comparator<Member_Grouping> = Comparator
             .comparing<Member_Grouping, Word> { it.word }
-            .thenComparing<VnClass> { it.vnClass }
-            .thenComparing<Grouping> { it.grouping }
+            .thenComparing { it.vnClass }
+            .thenComparing { it.grouping }
 
         val SET: MutableSet<Member_Grouping> = HashSet<Member_Grouping>()
 

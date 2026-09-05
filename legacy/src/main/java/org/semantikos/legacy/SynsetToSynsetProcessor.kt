@@ -46,19 +46,19 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
 
         val legacyNoun = mappings.replace("\\$\\{pos}".toRegex(), "noun")
         val nMap = processSerSynsetToSynsetFile(File(inDir, legacyNoun))
-        allMaps.put('n', nMap)
+        allMaps['n'] = nMap
 
         val legacyVerb = mappings.replace("\\$\\{pos}".toRegex(), "verb")
         val vMap = processSerSynsetToSynsetFile(File(inDir, legacyVerb))
-        allMaps.put('v', vMap)
+        allMaps['v'] = vMap
 
         val legacyAdj = mappings.replace("\\$\\{pos}".toRegex(), "adj")
         val aMap = processSerSynsetToSynsetFile(File(inDir, legacyAdj))
-        allMaps.put('a', aMap)
+        allMaps['a'] = aMap
 
         val legacyAdv = mappings.replace("\\$\\{pos}".toRegex(), "adv")
         val rMap = processSerSynsetToSynsetFile(File(inDir, legacyAdv))
-        allMaps.put('r', rMap)
+        allMaps['r'] = rMap
 
         Serialize.serialize(allMaps, File(outDir, outFile))
     }

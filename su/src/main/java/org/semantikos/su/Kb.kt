@@ -56,7 +56,7 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
 
         private fun getFiles(dirName: String, full: Boolean): Array<String> {
             if (full) {
-                val list: MutableList<String> = ArrayList(listOf<String>(*CORE_FILES))
+                val list: MutableList<String> = ArrayList(listOf(*CORE_FILES))
                 getKifs(dirName)
                     ?.filterNot { list.contains(it) }
                     ?.forEach {
@@ -72,7 +72,7 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
             if (file.exists() && file.isDirectory) {
                 return file.list { dir: File, name: String -> name.endsWith(".kif") }
             }
-            return arrayOf<String>()
+            return arrayOf()
         }
     }
 }

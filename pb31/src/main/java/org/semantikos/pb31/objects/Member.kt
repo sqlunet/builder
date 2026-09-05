@@ -49,7 +49,7 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
 
         val COMPARATOR: Comparator<Member> = Comparator
             .comparing<Member, Word> { it.word }
-            .thenComparing<RoleSet> { it.roleSet }
+            .thenComparing { it.roleSet }
 
         val SET: MutableSet<Member> = HashSet<Member>()
 

@@ -37,7 +37,7 @@ class Cxns private constructor(
 
         val COMPARATOR: Comparator<Cxns> = Comparator
             .comparing<Cxns, String> { it.name }
-            .thenComparing<Int> { it.id }
+            .thenComparing { it.id }
 
         val SET = HashSet<Cxns>()
 

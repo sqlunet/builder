@@ -67,9 +67,9 @@ class Restrs private constructor(
         private const val LOG_ONLY = false
 
         val COMPARATOR: Comparator<Restrs> = Comparator.comparing<Restrs, String> { it.value }
-            .thenComparing<Boolean> { it.isSyntactic }
+            .thenComparing { it.isSyntactic }
 
-        val COLLECTOR = SetCollector<Restrs>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         private val RESTRS_XML_PROCESSOR = VnRestrsXmlProcessor()
 

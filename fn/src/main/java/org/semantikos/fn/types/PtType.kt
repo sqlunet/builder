@@ -6,9 +6,9 @@ import org.semantikos.common.SqlId.getSqlId
 
 object PtType {
 
-    val COMPARATOR: Comparator<String> = Comparator.naturalOrder<String>()
+    val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-    val COLLECTOR = SetCollector<String>(COMPARATOR)
+    val COLLECTOR = SetCollector(COMPARATOR)
 
     fun add(type: String) {
         COLLECTOR.add(type)

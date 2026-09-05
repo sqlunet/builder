@@ -64,9 +64,9 @@ class SUFile private constructor(
     companion object {
 
         val COMPARATOR: Comparator<SUFile> = Comparator
-            .comparing<SUFile, String> { it.filename }
+            .comparing { it.filename }
 
-        val COLLECTOR = SetCollector<SUFile>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(filepath: String): SUFile {
             val file = File(filepath)

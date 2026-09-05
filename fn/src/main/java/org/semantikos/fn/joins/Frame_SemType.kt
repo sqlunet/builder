@@ -41,7 +41,7 @@ data class Frame_SemType(
 
         val COMPARATOR: Comparator<Frame_SemType> = Comparator
             .comparing<Frame_SemType, Int> { it.frameid }
-            .thenComparing<Int> { it.semtypeid }
+            .thenComparing { it.semtypeid }
 
         val SET = HashSet<Frame_SemType>()
 

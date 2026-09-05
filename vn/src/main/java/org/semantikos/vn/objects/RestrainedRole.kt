@@ -50,7 +50,7 @@ class RestrainedRole private constructor(
         val COMPARATOR: Comparator<RestrainedRole> = Comparator
             .comparing<RestrainedRole, RoleType> { it.roleType }
             .thenComparing(
-                { it.restrs }, Comparator.nullsFirst<Restrs?>(Comparator.naturalOrder<Restrs>())
+                { it.restrs }, Comparator.nullsFirst(Comparator.naturalOrder<Restrs>())
             )
 
         val SET = HashSet<RestrainedRole>()

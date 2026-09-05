@@ -42,7 +42,7 @@ data class LexUnit_SemType(
 
         val COMPARATOR: Comparator<LexUnit_SemType> = Comparator
             .comparing<LexUnit_SemType, Int> { it.luid }
-            .thenComparing<Int> { it.semtypeid }
+            .thenComparing { it.semtypeid }
 
         val SET = HashSet<LexUnit_SemType>()
 

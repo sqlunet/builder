@@ -44,7 +44,7 @@ data class LexUnit_Governor(
 
         val COMPARATOR: Comparator<LexUnit_Governor> = Comparator
             .comparing<LexUnit_Governor, Int> { it.luid }
-            .thenComparing<Governor>({ it.governor }, Governor.COMPARATOR)
+            .thenComparing({ it.governor }, Governor.COMPARATOR)
 
         val SET = HashSet<LexUnit_Governor>()
 

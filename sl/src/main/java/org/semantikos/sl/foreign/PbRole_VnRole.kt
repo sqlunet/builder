@@ -53,7 +53,7 @@ class PbRole_VnRole private constructor(
 
         val COMPARATOR: Comparator<PbRole_VnRole> = Comparator
             .comparing<PbRole_VnRole, PbRole> { it.pbRole }
-            .thenComparing<VnRole> { it.vnRole }
+            .thenComparing { it.vnRole }
 
         val SET: MutableSet<PbRole_VnRole> = TreeSet<PbRole_VnRole>(COMPARATOR)
 

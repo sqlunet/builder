@@ -51,7 +51,7 @@ class Corpus private constructor(
 
         val COMPARATOR: Comparator<Corpus> = Comparator
             .comparing<Corpus, String> { it.name }
-            .thenComparing<Int> { it.iD }
+            .thenComparing { it.iD }
 
         val SET = HashSet<Corpus>()
 

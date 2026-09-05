@@ -51,7 +51,7 @@ class Predicate_Semantics private constructor(
         val COMPARATOR: Comparator<Predicate_Semantics> =
             Comparator
                 .comparing<Predicate_Semantics, Semantics> { it.semantics }
-                .thenComparing<Predicate> { it.predicate }
+                .thenComparing { it.predicate }
 
         fun make(predicate: Predicate, semantics: Semantics): Predicate_Semantics {
             val m = Predicate_Semantics(predicate, semantics)

@@ -77,8 +77,8 @@ class Member_Sense private constructor(
 
         val COMPARATOR: Comparator<Member_Sense> = Comparator
             .comparing<Member_Sense, VnClass> { it.memberClass }
-            .thenComparing<Word> { it.memberWord }
-            .thenComparing<Sensekey?>({ it.sensekey }, nullsFirst(naturalOrder<Sensekey>()))
+            .thenComparing { it.memberWord }
+            .thenComparing({ it.sensekey }, nullsFirst(naturalOrder()))
 
         val SET = HashSet<Member_Sense>()
 

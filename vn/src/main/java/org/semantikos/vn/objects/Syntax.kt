@@ -49,9 +49,9 @@ class Syntax private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Syntax> = Comparator.comparing<Syntax, String> { it.syntax }
+        val COMPARATOR: Comparator<Syntax> = Comparator.comparing { it.syntax }
 
-        val COLLECTOR: SetCollector<Syntax> = SetCollector<Syntax>(COMPARATOR)
+        val COLLECTOR: SetCollector<Syntax> = SetCollector(COMPARATOR)
 
         private val SYNTAX_XML_PROCESSOR = VnSyntaxXmlProcessor()
 

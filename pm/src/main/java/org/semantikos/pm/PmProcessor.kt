@@ -37,7 +37,7 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
     @Throws(IOException::class)
     override fun run() {
         val inputFile = File(pMHome, pMFile)
-        process<PmRole>(inputFile, { PmRole.Companion.parse(it) }, null)
+        process(inputFile, { PmRole.parse(it) }, null)
 
         PmPredicate.COLLECTOR.open().use {
             traceSaving("pm", "predicates")

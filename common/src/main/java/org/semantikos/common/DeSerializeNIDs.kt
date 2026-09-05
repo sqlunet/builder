@@ -84,7 +84,7 @@ object DeSerializeNIDs {
      */
     @Throws(IOException::class, ClassNotFoundException::class)
     fun deSerializeNIDs(input: InputStream): Map<String, Int> {
-        return safeCast<Map<String, Int>>(deSerialize(input))
+        return safeCast(deSerialize(input))
     }
 
     /**

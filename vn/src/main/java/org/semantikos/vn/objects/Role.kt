@@ -63,9 +63,9 @@ class Role private constructor(
 
         val COMPARATOR: Comparator<Role> = Comparator
             .comparing<Role, VnClass> { it.clazz }
-            .thenComparing<RestrainedRole> { it.restrRole }
+            .thenComparing { it.restrRole }
 
-        val COLLECTOR: SetCollector<Role> = SetCollector<Role>(COMPARATOR)
+        val COLLECTOR: SetCollector<Role> = SetCollector(COMPARATOR)
 
         fun make(clazz: VnClass, restrainedRole: RestrainedRole): Role {
             val m = Role(clazz, restrainedRole)

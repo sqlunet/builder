@@ -56,7 +56,7 @@ class Class_Frame private constructor(
 
         val COMPARATOR: Comparator<Class_Frame> = Comparator
             .comparing<Class_Frame, VnClass> { it.clazz }
-            .thenComparing<Frame> { it.frame }
+            .thenComparing { it.frame }
 
         val SET = HashSet<Class_Frame>()
 

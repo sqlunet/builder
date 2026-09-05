@@ -31,7 +31,7 @@ class PbRoleSet_VnClass private constructor(
 
         val COMPARATOR: Comparator<PbRoleSet_VnClass> = Comparator
             .comparing<PbRoleSet_VnClass, String> { it.pbRoleset }
-            .thenComparing<String> { it.vnClass }
+            .thenComparing { it.vnClass }
 
         val SET: MutableSet<PbRoleSet_VnClass> = TreeSet<PbRoleSet_VnClass>(COMPARATOR)
 

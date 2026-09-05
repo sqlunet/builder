@@ -28,7 +28,7 @@ open class RoleSetToVn protected constructor(
             .thenComparing { it.ref }
             .thenComparing { it.pos }
 
-        val SET: MutableSet<RoleSetToVn> = HashSet<RoleSetToVn>()
+        val SET: MutableSet<RoleSetToVn> = HashSet()
 
         fun make(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): RoleSetToVn {
             val a = RoleSetToVn(clazz, pos, pbRoleSet, word)

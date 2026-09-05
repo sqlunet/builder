@@ -52,7 +52,7 @@ class Doc private constructor(
 
         val COMPARATOR: Comparator<Doc> = Comparator
             .comparing<Doc, String> { it.name }
-            .thenComparing<Int> { it.iD }
+            .thenComparing { it.iD }
 
         val SET = HashSet<Doc>()
 

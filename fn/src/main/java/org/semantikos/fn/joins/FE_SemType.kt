@@ -41,7 +41,7 @@ data class FE_SemType(
 
         val COMPARATOR: Comparator<FE_SemType> = Comparator
             .comparing<FE_SemType, Int> { it.feid }
-            .thenComparing<Int> { it.semtypeid }
+            .thenComparing { it.semtypeid }
 
         val SET = HashSet<FE_SemType>()
 

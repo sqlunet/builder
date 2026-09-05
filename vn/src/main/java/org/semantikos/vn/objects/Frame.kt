@@ -75,13 +75,13 @@ class Frame private constructor(
 
         val COMPARATOR: Comparator<Frame> = Comparator
             .comparing<Frame, FrameName> { it.name }
-            .thenComparing<FrameSubName>({ it.subName }, Comparator.nullsFirst<FrameSubName>(Comparator.naturalOrder()))
-            .thenComparing<String> { it.descriptionNumber }
-            .thenComparing<String> { it.descriptionXTag }
-            .thenComparing<Syntax> { it.syntax }
-            .thenComparing<Semantics> { it.semantics }
+            .thenComparing<FrameSubName>({ it.subName }, Comparator.nullsFirst(Comparator.naturalOrder()))
+            .thenComparing { it.descriptionNumber }
+            .thenComparing { it.descriptionXTag }
+            .thenComparing { it.syntax }
+            .thenComparing { it.semantics }
 
-        val COLLECTOR: SetCollector<Frame> = SetCollector<Frame>(COMPARATOR)
+        val COLLECTOR: SetCollector<Frame> = SetCollector(COMPARATOR)
 
         @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
         fun make(descriptionNumber: String, descriptionXTag: String, descriptionPrimary: String, descriptionSecondary: String?, syntax: String, semantics: String): Frame {

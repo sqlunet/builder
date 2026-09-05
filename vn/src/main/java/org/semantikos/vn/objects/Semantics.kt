@@ -48,9 +48,9 @@ class Semantics private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Semantics> = Comparator.comparing<Semantics, String> { it.semantics }
+        val COMPARATOR: Comparator<Semantics> = Comparator.comparing { it.semantics }
 
-        val COLLECTOR: SetCollector<Semantics> = SetCollector<Semantics>(COMPARATOR)
+        val COLLECTOR: SetCollector<Semantics> = SetCollector(COMPARATOR)
 
         private val SEMANTICS_PROCESSOR = VnSemanticsXmlProcessor()
 

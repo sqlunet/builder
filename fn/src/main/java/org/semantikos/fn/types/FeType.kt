@@ -8,7 +8,7 @@ object FeType {
 
     val COMPARATOR: Comparator<String> = Comparator { obj, str -> obj.compareTo(str, ignoreCase = true) }
 
-    val COLLECTOR = SetCollector<String>(COMPARATOR)
+    val COLLECTOR = SetCollector(COMPARATOR)
 
     @RequiresIdFrom(type = FeType::class)
     fun getIntId(value: String?): Int? {

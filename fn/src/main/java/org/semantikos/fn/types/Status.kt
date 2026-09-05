@@ -9,7 +9,7 @@ object Status {
 
     val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-    val COLLECTOR = SetCollector<String>(COMPARATOR)
+    val COLLECTOR = SetCollector(COMPARATOR)
 
     fun add(value: String) {
         COLLECTOR.add(value)

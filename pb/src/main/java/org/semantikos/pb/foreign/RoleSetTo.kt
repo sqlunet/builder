@@ -58,9 +58,9 @@ abstract class RoleSetTo protected constructor(
 
         val COMPARATOR: Comparator<RoleSetTo> = Comparator
             .comparing<RoleSetTo, RoleSet> { it.pbRoleSet }
-            .thenComparing<Word> { it.pbWord }
-            .thenComparing<String> { it.ref }
-            .thenComparing<String> { it.pos }
+            .thenComparing { it.pbWord }
+            .thenComparing { it.ref }
+            .thenComparing { it.pos }
 
         fun make(db: Db, clazz: String, pos: String, pbRoleSet: RoleSet, word: Word): RoleSetTo {
             return if (db == Db.VERBNET) RoleSetToVn.make(clazz, pos, pbRoleSet, word)

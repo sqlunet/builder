@@ -55,9 +55,9 @@ class Theta private constructor(thetaName: String) : HasId, Comparable<Theta>, I
 
     companion object {
 
-        val COMPARATOR: Comparator<Theta> = Comparator.comparing<Theta, String> { it.theta }
+        val COMPARATOR: Comparator<Theta> = Comparator.comparing { it.theta }
 
-        val COLLECTOR = SetCollector<Theta>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(thetaName: String): Theta {
             val t = Theta(Utils.camelCase(thetaName))

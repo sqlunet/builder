@@ -151,12 +151,12 @@ class TestCollector {
 
     companion object {
 
-        private val SET = mutableSetOf<String>("one", "two", "three", "four")
+        private val SET = mutableSetOf("one", "two", "three", "four")
 
         private val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-        private val C = SetCollector<String>(COMPARATOR)
+        private val C = SetCollector(COMPARATOR)
 
-        private val D = SetCollector<String>(COMPARATOR)
+        private val D = SetCollector(COMPARATOR)
     }
 }

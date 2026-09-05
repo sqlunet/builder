@@ -25,7 +25,7 @@ class TestListCollector {
         companion object {
 
             fun <T> w(wrapped: T?): W<T?> {
-                return W<T?>(wrapped)
+                return W(wrapped)
             }
         }
     }
@@ -33,11 +33,11 @@ class TestListCollector {
     @Test
     fun testListCollector() {
         val collector = ListCollector<W<String?>>()
-        collector.add(W.Companion.w<String?>("one"))
-        collector.add(W.Companion.w<String?>("two"))
-        collector.add(W.Companion.w<String?>("two"))
-        collector.add(W.Companion.w<String?>("one"))
-        collector.add(W.Companion.w<String?>("three"))
+        collector.add(W.w<String?>("one"))
+        collector.add(W.w<String?>("two"))
+        collector.add(W.w<String?>("two"))
+        collector.add(W.w<String?>("one"))
+        collector.add(W.w<String?>("three"))
         for (item in collector) {
             // println(item)
             // println("$item ${collector.indexOf(item) + 1}")

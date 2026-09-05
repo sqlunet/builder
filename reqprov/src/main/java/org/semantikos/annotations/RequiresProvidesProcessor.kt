@@ -34,7 +34,7 @@ class RequiresProvidesProcessor : AbstractProcessor() {
                             when (annotation.simpleName.toString()) {
 
                                 "RequiresIdFrom" -> {
-                                    val reqAnnotation = it.getAnnotation<RequiresIdFrom>(RequiresIdFrom::class.java)
+                                    val reqAnnotation = it.getAnnotation(RequiresIdFrom::class.java)
                                     clazz = try {
                                         "type()=" + reqAnnotation.type // this should throw
                                     } catch (mte: MirroredTypeException) {
@@ -44,7 +44,7 @@ class RequiresProvidesProcessor : AbstractProcessor() {
                                 }
 
                                 "ProvidesIdTo"   -> {
-                                    val provAnnotation = it.getAnnotation<ProvidesIdTo>(ProvidesIdTo::class.java)
+                                    val provAnnotation = it.getAnnotation(ProvidesIdTo::class.java)
                                     clazz = try {
                                         "type()=" + provAnnotation.type // this should throw
                                     } catch (mte: MirroredTypeException) {
@@ -54,7 +54,7 @@ class RequiresProvidesProcessor : AbstractProcessor() {
                                 }
 
                                 "ProvidesIdTo2"  -> {
-                                    val provAnnotation = it.getAnnotation<ProvidesIdTo2>(ProvidesIdTo2::class.java)
+                                    val provAnnotation = it.getAnnotation(ProvidesIdTo2::class.java)
                                     clazz = provAnnotation.value
                                     msg.printMessage(Diagnostic.Kind.WARNING, "Provides $clazz")
                                 }

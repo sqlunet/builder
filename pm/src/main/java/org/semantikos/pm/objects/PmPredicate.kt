@@ -54,9 +54,9 @@ class PmPredicate private constructor(
     companion object {
 
         val COMPARATOR: Comparator<PmPredicate> = Comparator
-            .comparing<PmPredicate, String> { it.predicate }
+            .comparing { it.predicate }
 
-        val COLLECTOR = SetCollector<PmPredicate>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(predicate: String): PmPredicate {
             val p = PmPredicate(predicate)

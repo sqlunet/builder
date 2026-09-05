@@ -60,10 +60,10 @@ class RestrType private constructor(
 
         val COMPARATOR: Comparator<RestrType> =
             Comparator.comparing<RestrType, String> { it.type }
-                .thenComparing<String> { it.value }
-                .thenComparing<Boolean> { it.isSyntactic }
+                .thenComparing { it.value }
+                .thenComparing { it.isSyntactic }
 
-        val COLLECTOR = SetCollector<RestrType>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(value: String, type: String, isSyntactic: Boolean): RestrType {
             val r = RestrType(value, type, isSyntactic)

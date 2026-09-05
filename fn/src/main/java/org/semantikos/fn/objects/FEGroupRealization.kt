@@ -68,7 +68,7 @@ class FEGroupRealization private constructor(
 
         val COMPARATOR: Comparator<FEGroupRealization> = Comparator
             .comparing<FEGroupRealization, Int> { it.luID }
-            .thenComparing<String> { it.fENames }
+            .thenComparing { it.fENames }
 
         val LIST = ListCollector<FEGroupRealization>()
 

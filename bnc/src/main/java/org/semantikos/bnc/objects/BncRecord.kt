@@ -108,10 +108,7 @@ open class BncRecord protected constructor(
 
             // convert data
             val lemma: String = makeLemma(word)
-            val pos: Char? = posMap[bncPos]
-            if (pos == null) {
-                throw NotFoundException(bncPos)
-            }
+            val pos: Char = posMap[bncPos] ?: throw NotFoundException(bncPos)
 
             // freq data
             val freq = fields[4].toInt()

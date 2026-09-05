@@ -1,7 +1,6 @@
 package org.semantikos.su
 
 import org.sigma.core.FileUtil
-import org.sigma.core.Logging
 import org.semantikos.common.Module
 import org.semantikos.common.Module.Mode.Companion.read
 import org.semantikos.common.NotFoundException

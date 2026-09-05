@@ -22,9 +22,9 @@ class Example private constructor(
 
     private val text: String = PbNormalizer.normalize(text)
 
-    val rels: MutableList<Rel> = ArrayList<Rel>()
+    val rels: MutableList<Rel> = ArrayList()
 
-    val args: MutableList<Arg> = ArrayList<Arg>()
+    val args: MutableList<Arg> = ArrayList()
 
     // N I D
 
@@ -73,7 +73,7 @@ class Example private constructor(
 
         private val STRING_COMPARATOR = Comparator { s1: String, s2: String -> s1.compareTo(s2) }
 
-        val COLLECTOR = SetCollector<Example>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         val ASPECT_COLLECTOR = SetCollector<String>(STRING_COMPARATOR)
 

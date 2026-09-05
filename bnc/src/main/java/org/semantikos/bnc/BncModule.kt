@@ -1,8 +1,5 @@
 package org.semantikos.bnc
 
-import org.semantikos.bnc.BncProcessor
-import org.semantikos.bnc.BncResolvingProcessor
-import org.semantikos.bnc.BncUpdatingProcessor
 import org.semantikos.common.Module
 import java.io.IOException
 
@@ -36,7 +33,7 @@ class BncModule(
             var i = 0
             var mode = Mode.PLAIN
             if (args[i].startsWith("-")) {
-                mode = Mode.Companion.read(args[i++])
+                mode = Mode.read(args[i++])
             }
             val conf = args[i]
             BncModule(conf, mode).run()

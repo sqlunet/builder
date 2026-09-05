@@ -22,12 +22,12 @@ class BncUpdatingProcessor(conf: Properties) : BncResolvingProcessor(conf) {
 
     @Throws(IOException::class)
     private fun processBNCFile(ps: PrintStream, file: File, consumer: (BncRecord, Int) -> Unit) {
-        process(file, { BncRecord.Companion.parse(it) }, consumer)
+        process(file, { BncRecord.parse(it) }, consumer)
     }
 
     @Throws(IOException::class)
     private fun processBNCSubFile(ps: PrintStream, file: File, consumer: (BncRecord, Int) -> Unit) {
-        process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
+        process(file, { BncExtendedRecord.parse(it) }, consumer)
     }
 
     @Throws(IOException::class)

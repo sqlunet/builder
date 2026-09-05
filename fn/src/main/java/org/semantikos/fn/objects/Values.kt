@@ -23,14 +23,14 @@ class Values {
         companion object {
 
             val COMPARATOR: Comparator<Pos> = Comparator
-                .comparing<Pos, String> { it.pos }
+                .comparing { it.pos }
 
                 val MAP = TreeMap<Pos, Int>(COMPARATOR)
 
                     fun make(pos: String, idx: Int): Pos {
                 val p = Pos(pos)
-                MAP.put(p, idx)
-                return p
+                        MAP[p] = idx
+                        return p
             }
         }
     }
@@ -51,14 +51,14 @@ class Values {
         companion object {
 
             val COMPARATOR: Comparator<CoreType> = Comparator
-                .comparing<CoreType, String> { it.coretype }
+                .comparing { it.coretype }
 
                 val MAP = TreeMap<CoreType, Int>(COMPARATOR)
 
                     fun make(coretype: String, idx: Int): CoreType {
                 val t = CoreType(coretype)
-                MAP.put(t, idx)
-                return t
+                        MAP[t] = idx
+                        return t
             }
         }
     }
@@ -77,14 +77,14 @@ class Values {
         companion object {
 
             val COMPARATOR: Comparator<LabelIType> = Comparator
-                .comparing<LabelIType, String> { it.labelitype }
+                .comparing { it.labelitype }
 
                 val MAP = TreeMap<LabelIType, Int>(COMPARATOR)
 
                     fun make(labelitype: String, idx: Int): LabelIType {
                 val l = LabelIType(labelitype)
-                MAP.put(l, idx)
-                return l
+                        MAP[l] = idx
+                        return l
             }
         }
     }

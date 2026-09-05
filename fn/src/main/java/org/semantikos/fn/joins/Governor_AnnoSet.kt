@@ -45,7 +45,7 @@ data class Governor_AnnoSet(
 
         val COMPARATOR: Comparator<Governor_AnnoSet> = Comparator
             .comparing<Governor_AnnoSet, Governor>({ it.governor }, Governor.COMPARATOR)
-            .thenComparing<Int> { it.annosetid }
+            .thenComparing { it.annosetid }
 
         val SET = HashSet<Governor_AnnoSet>()
 

@@ -42,7 +42,7 @@ data class FE_FEExcluded(
 
         val COMPARATOR: Comparator<FE_FEExcluded> = Comparator
             .comparing<FE_FEExcluded, Int> { it.feid }
-            .thenComparing<Int> { it.feid2 }
+            .thenComparing { it.feid2 }
 
         val SET = HashSet<FE_FEExcluded>()
 

@@ -69,10 +69,10 @@ class Collocation private constructor(
 
         val COMPARATOR_BY_WORDS_POSES: Comparator<Collocation> = Comparator
             .comparing<Collocation, String> { it.word1 }
-            .thenComparing<Char> { it.pos1 }
+            .thenComparing { it.pos1 }
             .thenComparing<String>({ it.sensekey1 }, nullsFirst(naturalOrder()))
-            .thenComparing<String> { it.word2 }
-            .thenComparing<Char> { it.pos2 }
+            .thenComparing { it.word2 }
+            .thenComparing { it.pos2 }
             .thenComparing<String>({ it.sensekey2 }, nullsFirst(naturalOrder()))
 
         @Throws(ParseException::class)

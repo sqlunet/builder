@@ -88,9 +88,9 @@ class Formula private constructor(
     companion object {
 
         val COMPARATOR: Comparator<Formula> = Comparator
-            .comparing<Formula, String> { it.formulaText }
+            .comparing { it.formulaText }
 
-        val COLLECTOR = SetCollector<Formula>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(formula: org.sigma.core.Formula): Formula {
             val filename = formula.getSourceFile()

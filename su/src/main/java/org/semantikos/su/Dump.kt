@@ -89,7 +89,7 @@ object Dump {
         return kb.askWithRestriction(0, "documentation", 1, term)
             .asSequence()
             .sorted().joinToString(separator = "\n") {
-                var doc = it.getArgument(3)
+                val doc = it.getArgument(3)
                 doc.replace("\\n".toRegex(), "")
 
             }

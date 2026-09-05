@@ -27,14 +27,11 @@ open class PbCollector(conf: Properties) : Processor("pb") {
     override fun run() {
         val folder = File(propBankHome)
         val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
-        val fileArray = folder.listFiles(filter)
-        if (fileArray == null) {
-            throw RuntimeException("Dir:$propBankHome is empty")
-        }
+        val fileArray = folder.listFiles(filter) ?: throw RuntimeException("Dir:$propBankHome is empty")
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
         listOf<File>(*fileArray)
-            .sortedWith(Comparator.comparing<File, String> { it!!.name })
+            .sortedWith(Comparator.comparing { it!!.name })
             .forEach {
                 fileCount++
                 processPropBankFile(it.absolutePath, it.name)

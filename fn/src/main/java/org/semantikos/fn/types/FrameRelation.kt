@@ -8,7 +8,7 @@ object FrameRelation {
 
     val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
 
-    val COLLECTOR = SetCollector<String>(COMPARATOR)
+    val COLLECTOR = SetCollector(COMPARATOR)
 
     fun add(type: String) {
         COLLECTOR.add(type)

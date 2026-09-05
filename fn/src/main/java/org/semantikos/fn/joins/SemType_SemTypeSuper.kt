@@ -43,7 +43,7 @@ data class SemType_SemTypeSuper(
 
         val COMPARATOR: Comparator<SemType_SemTypeSuper> = Comparator
             .comparing<SemType_SemTypeSuper, Int> { it.semtypeid }
-            .thenComparing<Int> { it.supersemtypeid }
+            .thenComparing { it.supersemtypeid }
 
         val SET = HashSet<SemType_SemTypeSuper>()
 

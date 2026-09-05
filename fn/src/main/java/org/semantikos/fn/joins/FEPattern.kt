@@ -56,8 +56,8 @@ data class FEPattern(
 
         val COMPARATOR: Comparator<FEPattern> = Comparator
             .comparing<FEPattern, Int> { it.luId }
-            .thenComparing<String> { it.feName }
-            .thenComparing<ValenceUnit> { it.vu }
+            .thenComparing { it.feName }
+            .thenComparing { it.vu }
 
         val SET = HashSet<FEPattern>()
 

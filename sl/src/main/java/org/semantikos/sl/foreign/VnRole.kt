@@ -41,7 +41,7 @@ class VnRole private constructor(
 
         val COMPARATOR: Comparator<VnRole> = Comparator
             .comparing<VnRole, String> { it.vnClass }
-            .thenComparing<Theta> { it.theta }
+            .thenComparing { it.theta }
 
         fun make(vnClass: String, theta: Theta): VnRole {
             return VnRole(vnClass, theta)

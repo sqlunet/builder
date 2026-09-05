@@ -70,9 +70,9 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
         val COMPARATOR: Comparator<RoleSet> = Comparator
             .comparing<RoleSet, Predicate> { it.predicate }
-            .thenComparing<String> { it.name }
+            .thenComparing { it.name }
 
-        val COLLECTOR = SetCollector<RoleSet>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(predicate: Predicate, roleSetId: String, name: String): RoleSet {
             val s = RoleSet(predicate, roleSetId, name)

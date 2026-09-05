@@ -15,9 +15,9 @@ class Example private constructor(
 
     private val text: String = PbNormalizer.normalize(text)
 
-    val rels: MutableList<Rel> = ArrayList<Rel>()
+    val rels: MutableList<Rel> = ArrayList()
 
-    val args: MutableList<Arg> = ArrayList<Arg>()
+    val args: MutableList<Arg> = ArrayList()
 
     // N I D
 
@@ -54,7 +54,7 @@ class Example private constructor(
             .thenComparing { it.name }
             .thenComparing { it.text }
 
-        val COLLECTOR = SetCollector<Example>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(roleSet: RoleSet, name: String, text: String): Example {
             val e = Example(roleSet, name, text)

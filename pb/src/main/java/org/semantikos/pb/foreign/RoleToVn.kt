@@ -20,9 +20,9 @@ class RoleToVn private constructor(
 
         val COMPARATOR: Comparator<RoleToVn> = Comparator
             .comparing<RoleToVn, Role> { it.role }
-            .thenComparing<AliasRole> { it.aliasRole }
+            .thenComparing { it.aliasRole }
 
-        val SET: MutableSet<RoleToVn> = HashSet<RoleToVn>()
+        val SET: MutableSet<RoleToVn> = HashSet()
 
         val RESOLVE_RESULT_STRINGIFIER = { r: PbVnRoleResolved? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 

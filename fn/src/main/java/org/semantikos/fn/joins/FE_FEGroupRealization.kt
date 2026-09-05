@@ -57,7 +57,7 @@ data class FE_FEGroupRealization(
 
         val COMPARATOR: Comparator<FE_FEGroupRealization> = Comparator
             .comparing<FE_FEGroupRealization, String> { it.feName }
-            .thenComparing<String> { it.fENames }
+            .thenComparing { it.fENames }
 
         val SET = HashSet<FE_FEGroupRealization>()
 

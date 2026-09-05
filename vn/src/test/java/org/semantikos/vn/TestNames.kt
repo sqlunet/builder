@@ -6,7 +6,7 @@ import org.semantikos.common.Names
 
 class TestNames {
 
-    val tables: Array<String> = arrayOf<String>(
+    val tables: Array<String> = arrayOf(
         "classes",
         "members",
         "members_senses",

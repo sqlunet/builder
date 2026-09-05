@@ -166,7 +166,7 @@ open class Inserter(
                             traceDone()
                             Word.COLLECTOR.open().use {
                                 traceSaving("lexeme")
-                                insertAndIncrement<Lexeme>(Lexeme.SET, Lexeme.COMPARATOR, File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"), header)
+                                insertAndIncrement(Lexeme.SET, Lexeme.COMPARATOR, File(outDir, names.file("lexemes")), names.table("lexemes"), names.columns("lexemes"), header)
                                 Lexeme.SET.clear()
                                 traceDone()
 

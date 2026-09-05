@@ -20,7 +20,6 @@ import org.semantikos.vn.objects.Restrs.Companion.make
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
-import org.xml.sax.EntityResolver
 import org.xml.sax.SAXException
 import java.io.IOException
 import javax.xml.parsers.DocumentBuilder
@@ -59,7 +58,7 @@ class VnDocument(
 
             //factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             val builder = factory.newDocumentBuilder()
-            builder.setEntityResolver(EntityResolver { publicId: String?, systemId: String? -> null })
+            builder.setEntityResolver { publicId: String?, systemId: String? -> null }
             return builder
         }
 

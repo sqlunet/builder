@@ -55,7 +55,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbrolesets_vnclasses"),
             names.columns("pbrolesets_vnclasses"),
             header,
-            CombinedResolver<SlPbRoleSetResolvable, SlPbRoleSetResolved, SlVnClassResolvable, SlVnClassResolved>(pbRoleSetResolver, vnClassResolver),
+            CombinedResolver(pbRoleSetResolver, vnClassResolver),
             PbRoleSet_VnClass.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbrolesets_vnclasses.pbrolesetid"),
             names.column("pbrolesets_vnclasses.vnclassid")
@@ -73,7 +73,7 @@ open class ResolvingInserter(conf: Properties) : Inserter(conf) {
             names.table("pbroles_vnroles"),
             names.columns("pbroles_vnroles"),
             header,
-            CombinedResolver<SlPbRoleResolvable, SlPbRoleResolved, SlVnRoleResolvable, SlVnRoleResolved>(pbRoleResolver, vnRoleResolver),
+            CombinedResolver(pbRoleResolver, vnRoleResolver),
             PbRole_VnRole.RESOLVE_RESULT_STRINGIFIER,
             names.column("pbroles_vnroles.pbroleid"),
             names.column("pbroles_vnroles.pbrolesetid"),

@@ -45,9 +45,9 @@ class FrameExample private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FrameExample> = Comparator.comparing<FrameExample, String> { it.example }
+        val COMPARATOR: Comparator<FrameExample> = Comparator.comparing { it.example }
 
-        val COLLECTOR: SetCollector<FrameExample> = SetCollector<FrameExample>(COMPARATOR)
+        val COLLECTOR: SetCollector<FrameExample> = SetCollector(COMPARATOR)
 
          fun make(example: String): FrameExample {
             val e = FrameExample(example)

@@ -65,7 +65,7 @@ class TestXPath {
             traceHeader("xpath", "reading files")
             files
                 .asSequence()
-                .sortedWith(Comparator.comparing<File, String> { it.name })
+                .sortedWith(Comparator.comparing { it.name })
                 .forEach {
                     fileCount++
                     process(it.absolutePath)

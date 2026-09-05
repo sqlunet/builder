@@ -35,14 +35,14 @@ open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
     @Throws(IOException::class)
     protected open fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, { BncRecord.Companion.parse(it) }, consumer)
+        process(file, { BncRecord.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
     protected open fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
+        process(file, { BncExtendedRecord.parse(it) }, consumer)
         ps.print(';')
     }
 
@@ -60,7 +60,7 @@ open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
                     } catch (e: CommonException) {
                         val cause = e.cause
                         if (cause is ParseException) {
-                            Logger.Companion.instance.logParseException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
+                            Logger.instance.logParseException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
                         } /* else if (cause is NotFoundException) {
                             Logger.instance.logNotFoundException(BncModule.MODULE_ID, tag, file.name, lineNum.toLong(), it, cause)
                         }  else if (cause is IgnoreException) {

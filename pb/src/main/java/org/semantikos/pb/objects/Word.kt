@@ -61,9 +61,9 @@ class Word private constructor(val word: String) : HasId, Insertable, Resolvable
     companion object {
 
         val COMPARATOR: Comparator<Word> = Comparator
-            .comparing<Word, String> { it.word }
+            .comparing { it.word }
 
-        val COLLECTOR = SetCollector<Word>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(word: String): Word {
             val w = Word(word)

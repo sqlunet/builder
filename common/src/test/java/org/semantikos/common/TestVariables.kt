@@ -30,8 +30,8 @@ class TestVariables {
 
     companion object {
 
-        private val dollarVs = arrayOf<String>($$"${var.a}", $$"${var.b}", $$"${var.c}", $$"__${var.a}__", $$"__${var.b}__", $$"__${var.c}__", $$"${var.z}")
-        private val atVs = arrayOf<String>("@{var.a}", "@{var.b}", "@{var.c}", "__@{var.a}__", "__@{var.b}__", "__@{var.c}__", "@{var.z}")
+        private val dollarVs = arrayOf($$"${var.a}", $$"${var.b}", $$"${var.c}", $$"__${var.a}__", $$"__${var.b}__", $$"__${var.c}__", $$"${var.z}")
+        private val atVs = arrayOf("@{var.a}", "@{var.b}", "@{var.c}", "__@{var.a}__", "__@{var.b}__", "__@{var.c}__", "@{var.z}")
 
         private var variables: Variables? = null
 

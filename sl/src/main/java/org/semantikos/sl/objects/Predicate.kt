@@ -29,9 +29,9 @@ class Predicate private constructor(
     companion object {
 
         val COMPARATOR: Comparator<Predicate> = Comparator
-            .comparing<Predicate, String> { it.predicate }
+            .comparing { it.predicate }
 
-        val COLLECTOR = SetCollector<Predicate>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         @RequiresIdFrom(type = Predicate::class)
         fun getIntId(predicate: Predicate?): Int? {

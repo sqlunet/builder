@@ -47,7 +47,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
-            val result: MutableList<RoleSet> = ArrayList<RoleSet>()
+            val result: MutableList<RoleSet> = ArrayList()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -137,7 +137,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoles(head: String, start: Node): Collection<Role> {
-            val result: MutableList<Role> = ArrayList<Role>()
+            val result: MutableList<Role> = ArrayList()
             getXPaths(start, "./predicate")
                 ?.asSequence()
                 ?.forEach { predicateElement ->
@@ -247,7 +247,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeExamples(head: String, start: Node): Collection<Example> {
-            val result: MutableList<Example> = ArrayList<Example>()
+            val result: MutableList<Example> = ArrayList()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -268,7 +268,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                 ?.forEach { exampleElement ->
 
                                     val exampleName = exampleElement.getAttribute("name")
-                                    val exampleText = getXPathText(exampleElement, "./text")!!
+                                    val exampleText = getXPathText(exampleElement, "./text")
 
                                     val example = Example.make(roleSet, exampleName, exampleText)
 
@@ -322,7 +322,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                 ?.forEach { exampleElement ->
 
                                     val exampleName = exampleElement.getAttribute("name")
-                                    val exampleText = getXPathText(exampleElement, "./text")!!
+                                    val exampleText = getXPathText(exampleElement, "./text")
                                     val example = Example.make(roleSet, exampleName, exampleText)
 
                                     // args

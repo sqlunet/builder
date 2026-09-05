@@ -39,7 +39,7 @@ class PbRole private constructor(
 
         val COMPARATOR: Comparator<PbRole> = Comparator
             .comparing<PbRole, String>{ it.roleSet }
-            .thenComparing<String> { it.arg }
+            .thenComparing { it.arg }
 
         fun make(roleSet: String, arg: String): PbRole {
             return PbRole(roleSet, arg)

@@ -56,7 +56,7 @@ class Class_Word private constructor(
 
         val COMPARATOR: Comparator<Class_Word> = Comparator
             .comparing<Class_Word, Word> { it.word }
-            .thenComparing<VnClass> { it.clazz }
+            .thenComparing { it.clazz }
 
         val SET = HashSet<Class_Word>()
 

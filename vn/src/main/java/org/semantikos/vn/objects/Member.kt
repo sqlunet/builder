@@ -50,7 +50,7 @@ private constructor(
                     // get sensekey
                     val sensekey = parse(senseKeyName)
                     if (senseKeys == null) {
-                        senseKeys = ArrayList<Sensekey>()
+                        senseKeys = ArrayList()
                     }
                     senseKeys.add(sensekey)
                 }
@@ -67,7 +67,7 @@ private constructor(
                     // get sensekey
                     val grouping = Grouping.make(groupingName)
                     if (groupings == null) {
-                        groupings = ArrayList<Grouping>()
+                        groupings = ArrayList()
                     }
                     groupings.add(grouping)
                 }

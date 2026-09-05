@@ -46,9 +46,9 @@ class Label private constructor(label: LabelType, val layer: Layer) : Insertable
 
         val COMPARATOR: Comparator<Label> = Comparator
             .comparing<Label, String> { it.name }
-            .thenComparing<Layer> { it.layer }
-            .thenComparing<Int> { it.start }
-            .thenComparing<Int> { it.end }
+            .thenComparing { it.layer }
+            .thenComparing { it.start }
+            .thenComparing { it.end }
 
         val SET = HashSet<Label>()
 

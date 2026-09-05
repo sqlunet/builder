@@ -50,9 +50,9 @@ class Theta private constructor(
     companion object {
 
         val COMPARATOR: Comparator<Theta> = Comparator
-            .comparing<Theta, String> { it.theta }
+            .comparing { it.theta }
 
-        val COLLECTOR = SetCollector<Theta>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         @RequiresIdFrom(type = Theta::class)
         fun getIntId(theta: Theta?): Int? {

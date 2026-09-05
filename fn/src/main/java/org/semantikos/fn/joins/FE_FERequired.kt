@@ -42,7 +42,7 @@ data class FE_FERequired(
 
         val COMPARATOR: Comparator<FE_FERequired> = Comparator
             .comparing<FE_FERequired, Int> { it.feid }
-            .thenComparing<Int> { it.feid2 }
+            .thenComparing { it.feid2 }
 
         val SET = HashSet<FE_FERequired>()
 

@@ -17,7 +17,7 @@ import javax.xml.xpath.XPathExpressionException
 object XmlTextUtils {
 
     @Throws(XPathExpressionException::class)
-    fun getXPathText(start: Node, xpathExpr: String): String? {
+    fun getXPathText(start: Node, xpathExpr: String): String {
         val node = XPathUtils.getXPath(start, xpathExpr)
         val element = node as Element
         return element.textContent.trim { it <= ' ' }
@@ -30,7 +30,7 @@ object XmlTextUtils {
         if (nodes != null) {
             for (i in 0..<nodes.length) {
                 if (result == null) {
-                    result = ArrayList<String>()
+                    result = ArrayList()
                 }
                 val element = nodes.item(i) as Element
                 var text = element.textContent.trim { it <= ' ' }

@@ -68,12 +68,12 @@ class Term private constructor(
     companion object {
 
         val COMPARATOR: Comparator<Term> = Comparator
-            .comparing<Term, String> { it.term }
+            .comparing { it.term }
 
-        val COLLECTOR = SetCollector<Term>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         @Suppress("unused")
-        val wellKnownTerms = arrayOf<String>(
+        val wellKnownTerms = arrayOf(
             "subclass", "subrelation", "instance", "disjoint",
             "domain", "partition",
             "attribute", "property",

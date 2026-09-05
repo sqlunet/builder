@@ -84,7 +84,7 @@ class ValenceUnit private constructor(
             .thenComparing<String>({ it.pT }, nullsFirst(naturalOrder()))
             .thenComparing<String>({ it.gF }, nullsFirst(naturalOrder()))
 
-        val COLLECTOR = SetCollector<ValenceUnit>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(vu: ValenceUnitType): ValenceUnit {
             val v = ValenceUnit(vu)

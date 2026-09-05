@@ -75,8 +75,8 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
 
         var resolvableComparator: Comparator<LegacyLemmaPosOffsetResolvable> = Comparator
             .comparing<LegacyLemmaPosOffsetResolvable, LegacyWord> { it.first }
-            .thenComparing<LegacyPos> { it.second }
-            .thenComparing<LegacyOffset> { it.third }
+            .thenComparing { it.second }
+            .thenComparing { it.third }
 
         @Throws(IOException::class)
         fun getLemmaPosOffsetToSensekeyOrdered(file: File): Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved> {
@@ -84,8 +84,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
                 return it
                     .filter { it.isNotEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
-                    .map { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
-                    .toMap()
+                    .associate { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
                     .toSortedMap(resolvableComparator)
             }
         }
@@ -96,8 +95,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
                 return it
                     .filter { it.isNotEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
-                    .map { it[0] to it[1].toInt() }
-                    .toMap()
+                    .associate { it[0] to it[1].toInt() }
             }
         }
 

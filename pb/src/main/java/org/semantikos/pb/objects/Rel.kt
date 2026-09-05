@@ -36,9 +36,9 @@ class Rel private constructor(val example: Example, text: String) : HasId, Inser
 
         private val COMPARATOR: Comparator<Rel> = Comparator
             .comparing<Rel, Example> { it.example }
-            .thenComparing<String> { it.text }
+            .thenComparing { it.text }
 
-        val COLLECTOR = SetCollector<Rel>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(example: Example, text: String): Rel {
             val r = Rel(example, text)

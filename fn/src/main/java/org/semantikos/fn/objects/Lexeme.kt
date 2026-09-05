@@ -63,7 +63,7 @@ class Lexeme private constructor(lexeme: LexemeType, val luid: Long) : Insertabl
 
         val COMPARATOR: Comparator<Lexeme> = Comparator
             .comparing<Lexeme, String> { it.getWord() }
-            .thenComparing<Long> { it.luid }
+            .thenComparing { it.luid }
 
         val SET = HashSet<Lexeme>()
 

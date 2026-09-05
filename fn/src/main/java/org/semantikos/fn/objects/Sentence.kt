@@ -65,8 +65,8 @@ class Sentence private constructor(
 
         val COMPARATOR: Comparator<Sentence> = Comparator
             .comparing<Sentence, Int> { it.iD }
-            .thenComparing<Int> { it.docID }
-            .thenComparing<Int> { it.corpusID }
+            .thenComparing { it.docID }
+            .thenComparing { it.corpusID }
 
         val SET = HashSet<Sentence>()
 

@@ -19,11 +19,7 @@ class FrameSubName private constructor(
     // I D E N T I T Y
 
     override fun equals(other: Any?): Boolean {
-        if (other !is FrameSubName) {
-            return false
-        }
-        val that = other
-        return subName == that.subName
+        return other is FrameSubName && subName == other.subName
     }
 
     override fun hashCode(): Int {
@@ -44,9 +40,9 @@ class FrameSubName private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FrameSubName> = Comparator.comparing<FrameSubName, String> { it.subName }
+        val COMPARATOR: Comparator<FrameSubName> = Comparator.comparing { it.subName }
 
-        val COLLECTOR: SetCollector<FrameSubName> = SetCollector<FrameSubName>(COMPARATOR)
+        val COLLECTOR: SetCollector<FrameSubName> = SetCollector(COMPARATOR)
 
         // C O N S T R U C T O R
         fun make(subname: String): FrameSubName {

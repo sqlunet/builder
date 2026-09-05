@@ -53,7 +53,7 @@ class TermAttr private constructor(
         fun make(sumoTerm: Term, kb: Kb): MutableCollection<TermAttr> {
             val term = sumoTerm.term
 
-            val result: MutableList<TermAttr> = ArrayList<TermAttr>()
+            val result: MutableList<TermAttr> = ArrayList()
 
             if (Formula.isFunction(term)) {
                 result.add(TermAttr(ISFUNCTION))

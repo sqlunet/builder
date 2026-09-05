@@ -49,9 +49,9 @@ class Layer private constructor(
 
         val COMPARATOR: Comparator<Layer> = Comparator
             .comparing<Layer, String> { it.name }
-            .thenComparing<Long> { it.annosetid }
+            .thenComparing { it.annosetid }
 
-        val COLLECTOR = SetCollector<Layer>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         fun make(layer: LayerType, annosetid: Int): Layer {
             val l = Layer(layer, annosetid)

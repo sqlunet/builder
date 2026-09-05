@@ -13,7 +13,7 @@ import java.util.*
 
 class FnLexUnitExportCollector(props: Properties) : FnCollector("lu", props, "lu") {
 
-    private val vuToFer: MutableMap<ValenceUnit?, FERealization?> = HashMap<ValenceUnit?, FERealization?>()
+    private val vuToFer: MutableMap<ValenceUnit?, FERealization?> = HashMap()
 
     override fun processFrameNetFile(fileName: String) {
         vuToFer.clear()

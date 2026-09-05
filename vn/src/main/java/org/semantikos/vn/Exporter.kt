@@ -205,7 +205,7 @@ class Exporter
         private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> =
             Comparator
                 .comparing<Pair<String, String>, String> { it.first }
-                .thenComparing<String> { it.second }
+                .thenComparing { it.second }
 
         @Throws(IOException::class)
         fun <K, V> export(m: Map<K, V>, file: File) {

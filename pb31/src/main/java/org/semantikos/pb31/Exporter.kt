@@ -172,24 +172,22 @@ open class Exporter(conf: Properties) {
      */
     fun makeRolesFromArgTypeToFullMap(): Map<Pair<String, String>, Pair<Int, Int>> {
         return Role.COLLECTOR
-            .asSequence()
-            .map {
+            .associate {
                 val rs = it.roleSet
                 (rs.name to it.argType) to (Role.COLLECTOR.invoke(it) to rs.intId)
             }
-            .toMap()
     }
 
     companion object {
 
         private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> =
             Comparator.comparing { p: Pair<String, String> -> p.first }
-                .thenComparing<String> { it.second }
+                .thenComparing { it.second }
 
         @Throws(IOException::class)
         fun <K, V> export(m: Map<K, V>, file: File) {
             PrintStream(FileOutputStream(file), true, StandardCharsets.UTF_8).use { ps ->
-                export<K, V>(ps, m)
+                export(ps, m)
             }
         }
 

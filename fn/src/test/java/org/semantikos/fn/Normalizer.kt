@@ -15,18 +15,18 @@ class Normalizer(
     private val ignoreExceptionSqls: MutableCollection<String> = ArrayList<String>()
 
     init {
-        props.put("newtable", getTable(newTable))
-        props.put("newcol", newCol)
-        props.put("newidcol", newIdCol)
-        props.put("collength", "80")
+        props["newtable"] = getTable(newTable)
+        props["newcol"] = newCol
+        props["newidcol"] = newIdCol
+        props["collength"] = "80"
     }
 
     // T A R G E T
 
     fun targets(oldTable: String, oldCol: String, oldIdCol: String): Normalizer {
-        props.put("oldtable", getTable(oldTable))
-        props.put("oldcol", oldCol)
-        props.put("oldidcol", oldIdCol)
+        props["oldtable"] = getTable(oldTable)
+        props["oldcol"] = oldCol
+        props["oldidcol"] = oldIdCol
         return this
     }
 
@@ -61,7 +61,7 @@ class Normalizer(
 
     fun referenceThrough(vararg args: String): Normalizer {
         val meanExpr: String = joinAs("m", *args)
-        props.put("through", meanExpr)
+        props["through"] = meanExpr
         sqls.addAll(expand(SQLS_UPDATE_FK_COLUMN2))
         return this
     }
@@ -72,14 +72,14 @@ class Normalizer(
     }
 
     fun swapPk(oldPk: String, newPk: String): Normalizer {
-        props.put("oldpk", oldPk)
-        props.put("newpk", newPk)
+        props["oldpk"] = oldPk
+        props["newpk"] = newPk
         sqls.addAll(expand(SQLS_SWAP_PK))
         return this
     }
 
     fun newPk(newPk: String): Normalizer {
-        props.put("newpk", newPk)
+        props["newpk"] = newPk
         sqls.addAll(expand(SQLS_NEW_PK))
         return this
     }

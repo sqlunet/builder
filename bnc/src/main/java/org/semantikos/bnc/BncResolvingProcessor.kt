@@ -2,7 +2,6 @@ package org.semantikos.bnc
 
 import org.semantikos.bnc.objects.BncExtendedRecord
 import org.semantikos.bnc.objects.BncRecord
-import org.semantikos.bnc.BncWordResolver
 import org.semantikos.common.NotFoundException
 import org.semantikos.common.Progress
 import java.io.File
@@ -36,14 +35,14 @@ open class BncResolvingProcessor(conf: Properties) : BncProcessor(conf) {
     @Throws(IOException::class)
     override fun processBNCFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, { BncRecord.Companion.parse(it) }, consumer)
+        process(file, { BncRecord.parse(it) }, consumer)
         ps.print(';')
     }
 
     @Throws(IOException::class)
     override fun processBNCSubFile(ps: PrintStream, file: File, table: String, columns: String, consumer: (BncRecord, Int) -> Unit) {
         ps.println("INSERT INTO $table ($columns) VALUES")
-        process(file, { BncExtendedRecord.Companion.parse(it) }, consumer)
+        process(file, { BncExtendedRecord.parse(it) }, consumer)
         ps.print(';')
     }
 

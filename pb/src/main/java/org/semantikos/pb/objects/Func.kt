@@ -26,7 +26,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
     // I N S E R T
 
     override fun dataRow(): String {
-        return "'$func',${nullableQuotedString<String>(PREDEFINED[func])}"
+        return "'$func',${nullableQuotedString(PREDEFINED[func])}"
     }
 
     override fun toString(): String {
@@ -35,9 +35,9 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
 
     companion object {
 
-        val COMPARATOR: Comparator<Func> = Comparator.comparing<Func, String> { it.func }
+        val COMPARATOR: Comparator<Func> = Comparator.comparing { it.func }
 
-        val COLLECTOR = SetCollector<Func>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         private val PREDEFINED = mapOf(
             "ADJ" to "adjectival",

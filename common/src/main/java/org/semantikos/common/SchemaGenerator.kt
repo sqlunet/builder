@@ -173,7 +173,7 @@ class SchemaGenerator(private val variables: Variables) {
             val module = args[0]
             val output = args[1]
             val inputSubdir = args[2]
-            val inputs = args.copyOfRange<String>(3, args.size)
+            val inputs = args.copyOfRange(3, args.size)
             val bundle = ResourceBundle.getBundle("$module/${if (compat) "NamesCompat" else "Names"}")
             val variables = make(bundle)
             SchemaGenerator(variables).generate(module, output, inputSubdir, inputs)

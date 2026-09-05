@@ -36,16 +36,13 @@ open class VnCollector(props: Properties) : Processor("vn") {
     override fun run() {
         val folder = File(verbNetHome)
         val filter = FilenameFilter { _, name -> name.endsWith(".xml") }
-        val files = folder.listFiles(filter)
-        if (files == null) {
-            throw RuntimeException("Dir:$verbNetHome is empty")
-        }
+        val files = folder.listFiles(filter) ?: throw RuntimeException("Dir:$verbNetHome is empty")
         // iterate
         var fileCount = 0
         traceHeader("verbnet", "reading files")
         files
             .asSequence()
-            .sortedWith(Comparator.comparing<File, String> { it.name })
+            .sortedWith(Comparator.comparing { it.name })
             .forEach {
                 fileCount++
                 processVerbNetFile(it.absolutePath, it.name)

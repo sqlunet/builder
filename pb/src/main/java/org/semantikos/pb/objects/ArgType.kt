@@ -39,7 +39,7 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
 
     companion object {
 
-        val COMPARATOR: Comparator<ArgType> = Comparator.comparing<ArgType, String> { it.argType }
+        val COMPARATOR: Comparator<ArgType> = Comparator.comparing { it.argType }
 
         val SET: MutableSet<ArgType> = HashSet<ArgType>()
 

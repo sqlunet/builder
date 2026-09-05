@@ -39,7 +39,7 @@ class LexUnit : HasID, Insertable, Serializable {
         iD = lu.getID()
         name = lu.getName()
         pos = lu.getPOS().intValue()
-        val def = Definition.Companion.make(lu.getDefinition())
+        val def = Definition.make(lu.getDefinition())
         definition = def.text
         dict = def.dict
         incorporatedFE = lu.getIncorporatedFE()
@@ -52,7 +52,7 @@ class LexUnit : HasID, Insertable, Serializable {
         iD = lu.getID()
         name = lu.getName()
         pos = lu.getPOS().intValue()
-        val def = Definition.Companion.make(lu.getDefinition())
+        val def = Definition.make(lu.getDefinition())
         definition = def.text
         dict = def.dict
         incorporatedFE = lu.getIncorporatedFE()
@@ -131,7 +131,7 @@ class LexUnit : HasID, Insertable, Serializable {
 
         val COMPARATOR: Comparator<LexUnit> = Comparator
             .comparing<LexUnit, String> { it.name }
-            .thenComparing<Int> { it.iD }
+            .thenComparing { it.iD }
 
         val SET = HashSet<LexUnit>()
 

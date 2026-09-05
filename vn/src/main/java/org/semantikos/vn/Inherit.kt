@@ -21,7 +21,7 @@ object Inherit {
             .forEach {
                 val inheritedType = it.key
                 if (!map.containsKey(inheritedType)) {
-                    map.put(inheritedType, it.value)
+                    map[inheritedType] = it.value
                 }
             }
         return map.values

@@ -8,7 +8,7 @@ open class LexItem(lemma: String) : Comparable<LexItem> {
 
     fun put() {
         val keyExisted = map.containsKey(this)
-        map.put(this, Word.make(word))
+        map[this] = Word.make(word)
         if (keyExisted) {
             throw RuntimeException(toString())
         }

@@ -83,7 +83,7 @@ object Insert {
         columns: String,
         header: String,
     ) {
-        insert<T>(items, resolver, file, table, columns, header, true)
+        insert(items, resolver, file, table, columns, header, true)
     }
 
     @Throws(FileNotFoundException::class)

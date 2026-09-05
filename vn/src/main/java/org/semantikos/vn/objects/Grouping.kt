@@ -50,9 +50,9 @@ class Grouping private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Grouping> = Comparator.comparing<Grouping, String> { it.name }
+        val COMPARATOR: Comparator<Grouping> = Comparator.comparing { it.name }
 
-        val COLLECTOR: SetCollector<Grouping> = SetCollector<Grouping>(COMPARATOR)
+        val COLLECTOR: SetCollector<Grouping> = SetCollector(COMPARATOR)
 
         fun make(groupingName: String): Grouping {
             val g = Grouping(groupingName)

@@ -3,7 +3,6 @@ package org.semantikos.pb31.collectors
 import org.semantikos.common.XPathUtils.getXPath
 import org.semantikos.common.XPathUtils.getXPaths
 import org.semantikos.common.XmlDocument
-import org.semantikos.common.XmlProcessor.Companion.iteratorOfElements
 import org.semantikos.common.XmlTextUtils.getXPathText
 import org.semantikos.pb31.foreign.RoleSetTo
 import org.semantikos.pb31.foreign.AliasClass
@@ -51,7 +50,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
-            val result: MutableList<RoleSet> = ArrayList<RoleSet>()
+            val result: MutableList<RoleSet> = ArrayList()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -114,7 +113,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                                     // f r a m e n e t
                                     val frameNet: String = aliasElement.getAttribute("framenet").trim { it <= ' ' }
-                                    if (!frameNet.isEmpty()) {
+                                    if (frameNet.isNotEmpty()) {
                                         val frames: Array<String> = frameNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                                         for (frame in frames) {
                                             var frame = frame
@@ -142,7 +141,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoles(head: String, start: Node): Collection<Role> {
-            val result: MutableList<Role> = ArrayList<Role>()
+            val result: MutableList<Role> = ArrayList()
             getXPaths(start, "./predicate")
                 ?.asSequence()
                 ?.forEach { predicateElement ->
@@ -212,7 +211,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeExamples(head: String, start: Node): Collection<Example> {
-            val result: MutableList<Example> = ArrayList<Example>()
+            val result: MutableList<Example> = ArrayList()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -233,7 +232,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                 ?.forEach { exampleElement ->
 
                                     val exampleName = exampleElement.getAttribute("name")
-                                    val exampleText = getXPathText(exampleElement, "./text")!!
+                                    val exampleText = getXPathText(exampleElement, "./text")
 
                                     var aspect: String? = null
                                     var form: String? = null
@@ -302,7 +301,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                 ?.forEach { exampleElement ->
 
                                     val exampleName = exampleElement.getAttribute("name")
-                                    val exampleText = getXPathText(exampleElement, "./text")!!
+                                    val exampleText = getXPathText(exampleElement, "./text")
                                     var aspect: String? = null
                                     var form: String? = null
                                     var person: String? = null

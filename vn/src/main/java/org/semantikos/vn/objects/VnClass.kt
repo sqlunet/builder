@@ -56,9 +56,9 @@ class VnClass private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnClass> = Comparator.comparing<VnClass, String> { it.name }
+        val COMPARATOR: Comparator<VnClass> = Comparator.comparing { it.name }
 
-        val COLLECTOR: SetCollector<VnClass> = SetCollector<VnClass>(COMPARATOR)
+        val COLLECTOR: SetCollector<VnClass> = SetCollector(COMPARATOR)
 
         fun make(name: String): VnClass {
             if (name.isEmpty()) {

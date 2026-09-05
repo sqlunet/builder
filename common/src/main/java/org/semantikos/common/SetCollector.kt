@@ -12,7 +12,7 @@ class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, (T) -> Int, Clos
     fun open(): SetCollector<T> {
         var i = 1
         for (k in map.keys) {
-            map.put(k, i++)
+            map[k] = i++
         }
         isOpen = true
         return this

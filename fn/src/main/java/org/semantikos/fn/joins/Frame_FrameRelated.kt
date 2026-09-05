@@ -52,8 +52,8 @@ data class Frame_FrameRelated(
 
         val COMPARATOR: Comparator<Frame_FrameRelated> = Comparator
             .comparing<Frame_FrameRelated, String> { it.relation }
-            .thenComparing<Int> { it.frameid }
-            .thenComparing<Int> { it.frame2id }
+            .thenComparing { it.frameid }
+            .thenComparing { it.frame2id }
 
         val SET = HashSet<Frame_FrameRelated>()
 

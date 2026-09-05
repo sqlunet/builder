@@ -82,7 +82,7 @@ class FE private constructor(
 
         val COMPARATOR: Comparator<FE> = Comparator
             .comparing<FE, String> { it.name }
-            .thenComparing<Int> { it.iD }
+            .thenComparing { it.iD }
 
         val SET = HashSet<FE>()
 

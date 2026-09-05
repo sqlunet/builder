@@ -1,4 +1,4 @@
-package og.semantikos.sumo
+package org.semantikos.sumo
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.extension.BeforeAllCallback

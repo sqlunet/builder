@@ -70,8 +70,8 @@ class FERealization private constructor(
 
         val COMPARATOR: Comparator<FERealization> = Comparator
             .comparing<FERealization, Int> { it.luId }
-            .thenComparing<String> { it.fEName }
-            .thenComparing<Int> { it.frameId }
+            .thenComparing { it.fEName }
+            .thenComparing { it.frameId }
 
         val LIST = ListCollector<FERealization>()
 

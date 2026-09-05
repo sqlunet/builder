@@ -177,7 +177,7 @@ private constructor() {
         toValue.keys.asSequence()
             .map { it to if (it.contains(".")) it.substring(it.lastIndexOf('.') + 1) else it }  // (key, key2)
             .filter { setOf("table", "file", "columns", "resolved").contains(it.second) }
-            .sortedWith(Comparator.comparing<Pair<String, String>, String> { it.second })
+            .sortedWith(Comparator.comparing { it.second })
             .map { it.second.uppercase() to toValue[it.first] }  // (key2, value)
             .distinct()
             .map { "public static final String ${it.first}=\"${it.second}\";" }
@@ -209,7 +209,7 @@ private constructor() {
             }
             for (o in properties.keys) {
                 val k: String = o.toString()
-                vars.toValue.put(k, properties.getProperty(k))
+                vars.toValue[k] = properties.getProperty(k)
             }
             return vars
         }
@@ -224,7 +224,7 @@ private constructor() {
             val vars = Variables()
             for (bundle in bundles) {
                 for (k in bundle.keySet()) {
-                    vars.toValue.put(k, bundle.getString(k))
+                    vars.toValue[k] = bundle.getString(k)
                 }
             }
             return vars

@@ -63,9 +63,9 @@ class FEGroupPattern private constructor(
     companion object {
 
         val COMPARATOR: Comparator<FEGroupPattern> = Comparator
-            .comparing<FEGroupPattern, FEGroupRealization>({ it.fegr }, FEGroupRealization.COMPARATOR)
+            .comparing({ it.fegr }, FEGroupRealization.COMPARATOR)
 
-        val LIST: ListCollector<FEGroupPattern> = ListCollector<FEGroupPattern>()
+        val LIST: ListCollector<FEGroupPattern> = ListCollector()
 
         fun make(fegr: FEGroupRealization, pattern: FEGroupRealizationType.Pattern): FEGroupPattern {
             val p = FEGroupPattern(pattern, fegr)

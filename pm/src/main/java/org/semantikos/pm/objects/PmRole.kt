@@ -58,10 +58,10 @@ class PmRole private constructor(
 
         val COMPARATOR: Comparator<PmRole> = Comparator
             .comparing<PmRole, PmPredicate> { it.predicate }
-            .thenComparing<String> { it.role }
-            .thenComparing<Char> { it.pos }
+            .thenComparing { it.role }
+            .thenComparing { it.pos }
 
-        val COLLECTOR = SetCollector<PmRole>(COMPARATOR)
+        val COLLECTOR = SetCollector(COMPARATOR)
 
         @Throws(ParseException::class)
         fun parse(line: String): PmRole {

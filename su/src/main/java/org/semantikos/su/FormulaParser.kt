@@ -53,7 +53,7 @@ object FormulaParser {
         // reader
         requireNotNull(reader) { "Null reader" }
 
-        val map: MutableMap<String, Arg> = HashMap<String, Arg>()
+        val map: MutableMap<String, Arg> = HashMap()
         val sb = StringBuilder(40)
 
         // tokenizer
@@ -196,7 +196,7 @@ object FormulaParser {
                     val tokenRelation = Arg(inAntecedent, inConsequent, argumentNum, parenLevel)
                     tokenRelation.check()
 
-                    map.put(term, tokenRelation)
+                    map[term] = tokenRelation
                 }
             } else if (tokenizer.ttype != StreamTokenizer.TT_EOF) {
                 throw ParseException("Parsing error : Illegal character", startLine)
@@ -242,7 +242,7 @@ object FormulaParser {
         while (!f.empty()) {
             val arg = f.car()
             if (arg != null && arg.isNotEmpty()) {
-                map[arg] = Arg(false, false, i, 1)
+                map[arg] = Arg(isInAntecedent = false, isInConsequent = false, argumentNum = i, parenLevel = 1)
             }
             f.pop()
             i++

@@ -22,9 +22,9 @@ class RoleToFn private constructor(
 
         val COMPARATOR: Comparator<RoleToFn> = Comparator
             .comparing<RoleToFn, Role> { it.role }
-            .thenComparing<AliasRole> { it.aliasRole }
+            .thenComparing { it.aliasRole }
 
-        val SET: MutableSet<RoleToFn> = HashSet<RoleToFn>()
+        val SET: MutableSet<RoleToFn> = HashSet()
 
         fun make(role: Role, aliasRole: AliasRole): RoleToFn {
             val m = RoleToFn(role, aliasRole)

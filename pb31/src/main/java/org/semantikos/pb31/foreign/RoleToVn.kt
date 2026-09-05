@@ -58,7 +58,7 @@ class RoleToVn private constructor(
 
         val COMPARATOR: Comparator<RoleToVn> = Comparator
             .comparing<RoleToVn, Role> { it.role }
-            .thenComparing<AliasRole> { it.aliasRole }
+            .thenComparing { it.aliasRole }
 
         val SET: MutableSet<RoleToVn> = HashSet<RoleToVn>()
 

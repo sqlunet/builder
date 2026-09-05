@@ -134,6 +134,6 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
 
     @Throws(IOException::class)
     private fun processPmFile(file: File, consumer: (PmEntry, Int) -> Unit) {
-        process(file, { PmEntry.Companion.parse(it) }, consumer)
+        process(file, { PmEntry.parse(it) }, consumer)
     }
 }
