@@ -63,7 +63,7 @@ class Member_Sense private constructor(
 
     // R E S O L V E
 
-    override fun resolving(): VnSensekeyResolvable {
+    override fun resolving(): VnSensekeyResolvable? {
         return sensekey?.sensekey
     }
 
@@ -83,7 +83,7 @@ class Member_Sense private constructor(
         val SET = HashSet<Member_Sense>()
 
         val RESOLVE_RESULT_STRINGIFIER = { r: VnSensekeyResolved? ->
-            if (r == null) "NULL,NULL" else "${nullableInt(r.first)},${nullableInt(r.second)}"
+            if (r == null) "NULL,NULL" else "${nullableInt(r[0])},${nullableInt(r[1])}"
         }
 
         fun make(member: Class_Word, sensenum: Int, sensekey: Sensekey?, quality: Float?): Member_Sense {

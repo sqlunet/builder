@@ -56,7 +56,7 @@ class ResolvingUpdater(conf: Properties) : ResolvingInserter(conf) {
             header,
             names.table("members_senses"),
             sensekeyResolver,
-            { resolved -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved.first)},$synsetidCol=${nullableInt(resolved.second)}" },
+            { resolved -> if (resolved == null) "$wordidCol=NULL,$synsetidCol=NULL" else "$wordidCol=${nullableInt(resolved[0])},$synsetidCol=${nullableInt(resolved[1])}" },
             { resolving -> "$sensekeyCol='${nullable(resolving) { escape(it) }}'" }
         )
         traceDone()
