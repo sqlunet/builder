@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bnc/bnc.iml" filepath="$PROJECT_DIR$/bnc/bnc.iml" />
       <module fileurl="file://$PROJECT_DIR$/fn/fn.iml" filepath="$PROJECT_DIR$/fn/fn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fn-beans/fn-beans.iml" filepath="$PROJECT_DIR$/fn-beans/fn-beans.iml" />
       <module fileurl="file://$PROJECT_DIR$/legacy/legacy.iml" filepath="$PROJECT_DIR$/legacy/legacy.iml" />
       <module fileurl="file://$PROJECT_DIR$/pb/pb.iml" filepath="$PROJECT_DIR$/pb/pb.iml" />
       <module fileurl="file://$PROJECT_DIR$/pb31/pb31.iml" filepath="$PROJECT_DIR$/pb31/pb31.iml" />

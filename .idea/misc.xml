@@ -709,6 +709,122 @@
     <pattern value="org.sqlbuilder.common.TestProgress" method="testProgressBar" />
     <pattern value="org.sqlbuilder.common.TestSerialize" />
     <pattern value="org.sqlbuilder.pb31.foreign.AliasClass.Companion" method="toTag" />
+    <pattern value="org.semantikos.bnc.BncUpdatingProcessor" />
+    <pattern value="org.semantikos.common.TestAnsi.Companion" />
+    <pattern value="org.semantikos.common.TestProgress.Companion" />
+    <pattern value="org.semantikos.common.TestVariables.Companion" />
+    <pattern value="org.semantikos.common.TestXPath.Companion" />
+    <pattern value="org.semantikos.fn.Presets.Companion" />
+    <pattern value="org.semantikos.legacy.SensekeysTest.Companion" />
+    <pattern value="org.semantikos.sumo.TestDump.Companion" />
+    <pattern value="org.semantikos.sumo.TestMappings.Companion" />
+    <pattern value="org.semantikos.sumo.TestProcessor.Companion" />
+    <pattern value="org.semantikos.sumo.TestWordResolver.Companion" />
+    <pattern value="org.semantikos.common.DeSerializeJsonNIDs" />
+    <pattern value="org.semantikos.common.DeSerializeNIDs" />
+    <pattern value="org.semantikos.common.TestProgress" method="displayProgress" />
+    <pattern value="org.semantikos.common.TestProgress" method="displayProgressDots" />
+    <pattern value="org.semantikos.fn.Presets.Companion" method="init" />
+    <pattern value="org.semantikos.legacy.SensekeysTest.Companion" method="init" />
+    <pattern value="org.semantikos.sumo.TestDump.Companion" method="init" />
+    <pattern value="org.semantikos.sumo.TestMappings.Companion" method="init" />
+    <pattern value="org.semantikos.sumo.TestProcessor.Companion" method="init" />
+    <pattern value="org.semantikos.common.TestVariables.Companion" method="init" />
+    <pattern value="org.semantikos.sumo.TestWordResolver.Companion" method="init" />
+    <pattern value="org.semantikos.common.TestXPath.Companion" method="init" />
+    <pattern value="org.semantikos.Main" />
+    <pattern value="org.semantikos.common.DeSerializeJsonNIDs" method="main" />
+    <pattern value="org.semantikos.common.DeSerializeNIDs" method="main" />
+    <pattern value="org.semantikos.common.TestAnsi.Companion" method="main" />
+    <pattern value="org.semantikos.sumo.TestDump.Companion" method="main" />
+    <pattern value="org.semantikos.sumo.TestMappings.Companion" method="main" />
+    <pattern value="org.semantikos.sumo.TestProcessor.Companion" method="main" />
+    <pattern value="org.semantikos.common.TestProgress.Companion" method="main" />
+    <pattern value="org.semantikos.sumo.TestWordResolver.Companion" method="main" />
+    <pattern value="org.semantikos.fn.TestNormalizer" method="normalize1" />
+    <pattern value="org.semantikos.fn.TestNormalizer" method="normalize2" />
+    <pattern value="org.semantikos.fn.TestNormalizer" method="normalize3" />
+    <pattern value="org.semantikos.fn.TestNormalizer" method="normalize4" />
+    <pattern value="org.semantikos.fn.Presets" />
+    <pattern value="org.semantikos.fn.Presets" method="presetsCoreTypeDataRows" />
+    <pattern value="org.semantikos.fn.Presets" method="presetsCoreTypes" />
+    <pattern value="org.semantikos.fn.Presets" method="presetsITypeDataRows" />
+    <pattern value="org.semantikos.fn.Presets" method="presetsITypes" />
+    <pattern value="org.semantikos.fn.Presets" method="presetsPosDataRows" />
+    <pattern value="org.semantikos.fn.Presets" method="presetsPoses" />
+    <pattern value="org.semantikos.bnc.BncUpdatingProcessor" method="processBNCFile" />
+    <pattern value="org.semantikos.bnc.BncUpdatingProcessor" method="processBNCSubFile" />
+    <pattern value="org.semantikos.sn.SnExportingProcessor" method="processSyntagNetFile" />
+    <pattern value="org.semantikos.sn.SnUpdatingProcessor" method="processSyntagNetFile" />
+    <pattern value="org.semantikos.legacy.SensekeysTest" />
+    <pattern value="org.semantikos.sumo.TestDump.Companion" method="shutdown" />
+    <pattern value="org.semantikos.sumo.TestMappings.Companion" method="shutdown" />
+    <pattern value="org.semantikos.sumo.TestProcessor.Companion" method="shutdown" />
+    <pattern value="org.semantikos.sn.SnExportingProcessor" />
+    <pattern value="org.semantikos.sn.SnUpdatingProcessor" />
+    <pattern value="org.semantikos.fn.TestCollector" method="test" />
+    <pattern value="org.semantikos.fn.TestCollector" method="test2" />
+    <pattern value="org.semantikos.fn.TestCollector" method="test2Fail" />
+    <pattern value="org.semantikos.common.TestAnsi" />
+    <pattern value="org.semantikos.common.TestAnsi" method="testAnsi" />
+    <pattern value="org.semantikos.fn.TestCollector" />
+    <pattern value="org.semantikos.common.TestDeSerialize" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeBnc" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeFn" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeLegacy" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializePb" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializePm" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeSl" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeSn" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeSu" />
+    <pattern value="org.semantikos.common.TestDeSerialize" method="testDeserializeVn" />
+    <pattern value="org.semantikos.sumo.TestDump" />
+    <pattern value="org.semantikos.sumo.TestDump" method="testDumpFormulas" />
+    <pattern value="org.semantikos.sumo.TestDump" method="testDumpFunctions" />
+    <pattern value="org.semantikos.sumo.TestDump" method="testDumpPredicates" />
+    <pattern value="org.semantikos.sumo.TestDump" method="testDumpRelations" />
+    <pattern value="org.semantikos.sumo.TestDump" method="testDumpTerms" />
+    <pattern value="org.semantikos.fn.TestCollector" method="testFail" />
+    <pattern value="org.semantikos.common.TestSerialize" method="testKotlinPair" />
+    <pattern value="org.semantikos.common.TestSerialize" method="testKotlinTriple" />
+    <pattern value="org.semantikos.fn.TestListCollector" />
+    <pattern value="org.semantikos.fn.TestListCollector" method="testListCollector" />
+    <pattern value="org.semantikos.sumo.TestMappings" />
+    <pattern value="org.semantikos.sumo.TestMappings" method="testMappings" />
+    <pattern value="org.semantikos.fn.TestNames" />
+    <pattern value="org.semantikos.pb.TestNames" />
+    <pattern value="org.semantikos.pb31.TestNames" />
+    <pattern value="org.semantikos.vn.TestNames" />
+    <pattern value="org.semantikos.fn.TestNames" method="testNames" />
+    <pattern value="org.semantikos.pb.TestNames" method="testNames" />
+    <pattern value="org.semantikos.vn.TestNames" method="testNames" />
+    <pattern value="org.semantikos.pb31.TestNames" method="testNames" />
+    <pattern value="org.semantikos.fn.TestNormalizer" />
+    <pattern value="org.semantikos.pb.TestParseFile" method="testParse" />
+    <pattern value="org.semantikos.pb31.TestParseFile" method="testParse" />
+    <pattern value="org.semantikos.pb.TestParseFile" />
+    <pattern value="org.semantikos.pb31.TestParseFile" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessFiles" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessFormulas" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessFormulasAndArgs" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessFormulasArgs" />
+    <pattern value="org.semantikos.sumo.TestProcessor" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessTermAttrs" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessTerms" />
+    <pattern value="org.semantikos.sumo.TestProcessor" method="testProcessTermsAndAttrs" />
+    <pattern value="org.semantikos.common.TestProgress" />
+    <pattern value="org.semantikos.common.TestProgress" method="testProgressBar" />
+    <pattern value="org.semantikos.legacy.SensekeysTest" method="testResolution" />
+    <pattern value="org.semantikos.legacy.SensekeysTest" method="testResolvableEq" />
+    <pattern value="org.semantikos.sumo.TestWordResolver" method="testResolver" />
+    <pattern value="org.semantikos.common.TestSerialize" />
+    <pattern value="org.semantikos.common.TestVariables" />
+    <pattern value="org.semantikos.common.TestVariables" method="testVariablesWithAt" />
+    <pattern value="org.semantikos.common.TestVariables" method="testVariablesWithDollar" />
+    <pattern value="org.semantikos.sumo.TestWordResolver" />
+    <pattern value="org.semantikos.common.TestXPath" />
+    <pattern value="org.semantikos.common.TestXPath" method="testXPath" />
+    <pattern value="org.semantikos.common.TestXPath" method="testXPathElements" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
