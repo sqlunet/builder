@@ -20,14 +20,14 @@ class Theta private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val theta1 = o as Theta
+        val theta1 = other as Theta
         return theta == theta1.theta
     }
 
@@ -37,8 +37,8 @@ class Theta private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Theta): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Theta): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

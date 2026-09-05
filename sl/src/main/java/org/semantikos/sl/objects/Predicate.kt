@@ -16,8 +16,8 @@ class Predicate private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Predicate): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Predicate): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

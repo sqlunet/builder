@@ -21,8 +21,8 @@ class Formula_Arg private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Formula_Arg): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Formula_Arg): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

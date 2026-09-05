@@ -17,14 +17,14 @@ class Term_Synset private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as Term_Synset
+        val that = other as Term_Synset
         return synsetId == that.synsetId && posId == that.posId && term == that.term
     }
 
@@ -34,8 +34,8 @@ class Term_Synset private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Term_Synset): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Term_Synset): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // T O S T R I N G
