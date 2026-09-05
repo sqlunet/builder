@@ -65,7 +65,7 @@ class AnnotationSet private constructor(
 
     val iD: Int = annoset.getID()
 
-    val cxnid: Int? = annoset.getCxnID()
+    val cxnid: Int = annoset.getCxnID()
 
     val cxnName: String? = annoset.getCxnName()
 

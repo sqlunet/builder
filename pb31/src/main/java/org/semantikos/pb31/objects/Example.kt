@@ -74,15 +74,15 @@ class Example private constructor(
 
         val COLLECTOR = SetCollector(COMPARATOR)
 
-        val ASPECT_COLLECTOR = SetCollector<String>(STRING_COMPARATOR)
+        val ASPECT_COLLECTOR = SetCollector(STRING_COMPARATOR)
 
-        val FORM_COLLECTOR = SetCollector<String>(STRING_COMPARATOR)
+        val FORM_COLLECTOR = SetCollector(STRING_COMPARATOR)
 
-        val PERSON_COLLECTOR = SetCollector<String>(STRING_COMPARATOR)
+        val PERSON_COLLECTOR = SetCollector(STRING_COMPARATOR)
 
-        val TENSE_COLLECTOR = SetCollector<String>(STRING_COMPARATOR)
+        val TENSE_COLLECTOR = SetCollector(STRING_COMPARATOR)
 
-        val VOICE_COLLECTOR = SetCollector<String>(STRING_COMPARATOR)
+        val VOICE_COLLECTOR = SetCollector(STRING_COMPARATOR)
 
         fun make(roleSet: RoleSet, name: String, text: String, aspect: String?, form: String?, person: String?, tense: String?, voice: String?): Example {
             val e = Example(roleSet, name, text, aspect, form, person, tense, voice)

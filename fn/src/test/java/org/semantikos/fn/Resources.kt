@@ -115,7 +115,6 @@ class Resources {
     fun getString(key: String): String? {
         try {
             var str: String? = resourceMap[key]!!
-            if (str == null) throw MissingResourceException(key, Resources::class.java.getName(), key)
 
             // print("\n>[$key] $str")
             str = expandPercent(str)
