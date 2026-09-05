@@ -13,14 +13,14 @@ class Class_Frame private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as Class_Frame
+        val that = other as Class_Frame
         return clazz == that.clazz && frame == that.frame
     }
 
@@ -30,8 +30,8 @@ class Class_Frame private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Class_Frame): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Class_Frame): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

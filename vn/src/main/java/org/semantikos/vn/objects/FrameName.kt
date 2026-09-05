@@ -17,11 +17,11 @@ class FrameName private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (o !is FrameName) {
+    override fun equals(other: Any?): Boolean {
+        if (other !is FrameName) {
             return false
         }
-        val that = o
+        val that = other
         return name == that.name
     }
 
@@ -31,8 +31,8 @@ class FrameName private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: FrameName): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: FrameName): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     override fun toString(): String {

@@ -22,14 +22,14 @@ class Word private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(that: Any?): Boolean {
-        if (this === that) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (that == null || javaClass != that.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val vnWord = that as Word
+        val vnWord = other as Word
         return word == vnWord.word
     }
 
@@ -39,8 +39,8 @@ class Word private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Word): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Word): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

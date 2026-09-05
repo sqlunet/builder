@@ -12,8 +12,8 @@ class Sense private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: Sense): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Sense): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

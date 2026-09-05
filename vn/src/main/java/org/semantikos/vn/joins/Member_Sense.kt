@@ -28,14 +28,14 @@ class Member_Sense private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as Member_Sense
+        val that = other as Member_Sense
         return member == that.member && sensekey == that.sensekey
     }
 
@@ -45,8 +45,8 @@ class Member_Sense private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: Member_Sense): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Member_Sense): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

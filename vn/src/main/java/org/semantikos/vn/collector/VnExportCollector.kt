@@ -20,7 +20,7 @@ import javax.xml.xpath.XPathExpressionException
 
 class VnExportCollector(props: Properties) : VnCollector(props) {
 
-    override fun processVerbNetClass(start: Node, head: String, inheritedRestrainedRoles: Collection<RestrainedRole>?, ignored: Collection<Frame>?) {
+    override fun processVerbNetClass(start: Node, head: String, inheritedRestrainedRoles: Collection<RestrainedRole>?, inheritedFrames: Collection<Frame>?) {
         try {
             val clazz: VnClass = processClass(start)
             processItems(start)
@@ -31,7 +31,7 @@ class VnExportCollector(props: Properties) : VnCollector(props) {
             val subclasses = getXPaths(start, "./SUBCLASSES/VNSUBCLASS")
             for (i in 0..<subclasses!!.length) {
                 val subNode = subclasses.item(i)
-                processVerbNetClass(subNode, head, inheritableRestrainedRoles, ignored)
+                processVerbNetClass(subNode, head, inheritableRestrainedRoles, inheritedFrames)
             }
         } catch (e: XPathExpressionException) {
             Logger.instance.logXmlException(VnModule.MODULE_ID, tag, start.ownerDocument.documentURI, e)

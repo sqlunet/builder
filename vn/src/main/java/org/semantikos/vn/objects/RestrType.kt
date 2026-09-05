@@ -17,14 +17,14 @@ class RestrType private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as RestrType
+        val that = other as RestrType
         return isSyntactic == that.isSyntactic && value == that.value && type == that.type
     }
 
@@ -34,8 +34,8 @@ class RestrType private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: RestrType): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: RestrType): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // T O S T R I N G

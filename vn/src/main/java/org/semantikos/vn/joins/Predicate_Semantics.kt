@@ -13,14 +13,14 @@ class Predicate_Semantics private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as Predicate_Semantics
+        val that = other as Predicate_Semantics
         return semantics == that.semantics && predicate == that.predicate
     }
 
@@ -28,8 +28,8 @@ class Predicate_Semantics private constructor(
         return Objects.hash(semantics, predicate)
     }
 
-    override fun compareTo(that: Predicate_Semantics): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Predicate_Semantics): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

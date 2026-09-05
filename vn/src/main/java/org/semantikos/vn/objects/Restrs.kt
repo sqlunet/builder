@@ -20,14 +20,14 @@ class Restrs private constructor(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as Restrs
+        val that = other as Restrs
         return isSyntactic == that.isSyntactic && value == that.value
     }
 
@@ -37,12 +37,12 @@ class Restrs private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: Restrs): Int {
-        val cmp = value.compareTo(that.value)
+    override fun compareTo(other: Restrs): Int {
+        val cmp = value.compareTo(other.value)
         if (cmp != 0) {
             return cmp
         }
-        return java.lang.Boolean.compare(isSyntactic, that.isSyntactic)
+        return java.lang.Boolean.compare(isSyntactic, other.isSyntactic)
     }
 
     // S T R I N G

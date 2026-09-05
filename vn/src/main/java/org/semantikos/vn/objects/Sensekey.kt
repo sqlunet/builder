@@ -8,8 +8,8 @@ class Sensekey private constructor(
     val quality: Float
         get() = if (isDefinite) 1f else .5f
 
-    override fun compareTo(that: Sensekey): Int {
-        return sensekey.compareTo(that.sensekey)
+    override fun compareTo(other: Sensekey): Int {
+        return sensekey.compareTo(other.sensekey)
     }
 
     override fun toString(): String {
