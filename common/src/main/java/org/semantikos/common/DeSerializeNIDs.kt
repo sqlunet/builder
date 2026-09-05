@@ -113,7 +113,7 @@ object DeSerializeNIDs {
     @Throws(IOException::class, ClassNotFoundException::class)
     fun main(args: Array<String>) {
         val inDir = File(args[0])
-        if (!inDir.isDirectory()) {
+        if (!inDir.isDirectory) {
             exitProcess(1)
         }
         val maps = deserializeAllNIDs(inDir)

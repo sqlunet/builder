@@ -55,7 +55,7 @@ class VnSemanticsXmlProcessor : XmlProcessor() {
                 val pred = preds.item(i) as Element
 
                 val neg = pred.getAttribute("bool").trim { it <= ' ' }
-                if (!neg.isEmpty()) {
+                if (neg.isNotEmpty()) {
                     sb.append(neg)
                 }
 

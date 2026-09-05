@@ -82,16 +82,16 @@ open class PmProcessor(conf: Properties) : Processor("pm") {
                 var lineNo = 0
                 it
                     .also { ++lineNo }
-                    .filter { !it.isEmpty() && it[0] != '\t' }
+                    .filter { it.isNotEmpty() && it[0] != '\t' }
                     .map { line ->
                         try {
                             return@map producer.invoke(line)
                         } catch (e: CommonException) {
                             val cause = e.cause
                             if (cause is ParseException) {
-                                Logger.instance.logParseException(PmModule.MODULE_ID, "pm", file.getName(), lineNo.toLong(), line, cause)
+                                Logger.instance.logParseException(PmModule.MODULE_ID, "pm", file.name, lineNo.toLong(), line, cause)
                             } else if (cause is NotFoundException) {
-                                Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.getName(), lineNo.toLong(), line, cause)
+                                Logger.instance.logNotFoundException(PmModule.MODULE_ID, "pm", file.name, lineNo.toLong(), line, cause)
                             }
                         }
                         null

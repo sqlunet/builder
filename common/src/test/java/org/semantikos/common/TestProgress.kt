@@ -6,7 +6,7 @@ class TestProgress {
 
     fun displayProgress(progress: Int, total: Int) {
         if (progress % GRANULARITY == 0) {
-            var occurs: Int = progress / GRANULARITY
+            val occurs: Int = progress / GRANULARITY
             val c = when (occurs % 4) {
                 0    -> '—'
                 1    -> '\\'

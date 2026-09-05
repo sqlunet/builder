@@ -69,7 +69,7 @@ class Kb(dirName: String?) : KB("SUMO", dirName), Serializable {
 
         private fun getKifs(dirName: String): Array<String>? {
             val file = File(dirName)
-            if (file.exists() && file.isDirectory()) {
+            if (file.exists() && file.isDirectory) {
                 return file.list { dir: File, name: String -> name.endsWith(".kif") }
             }
             return arrayOf<String>()

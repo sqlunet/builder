@@ -89,19 +89,19 @@ class Example private constructor(
             val e = Example(roleSet, name, text, aspect, form, person, tense, voice)
 
             COLLECTOR.add(e)
-            if (e.aspect != null && !e.aspect.isEmpty() && e.aspect != "ns") {
+            if (!e.aspect.isNullOrEmpty() && e.aspect != "ns") {
                 ASPECT_COLLECTOR.add(e.aspect)
             }
-            if (e.form != null && !e.form.isEmpty() && e.form != "ns") {
+            if (!e.form.isNullOrEmpty() && e.form != "ns") {
                 FORM_COLLECTOR.add(e.form)
             }
-            if (e.person != null && !e.person.isEmpty() && e.person != "ns") {
+            if (!e.person.isNullOrEmpty() && e.person != "ns") {
                 PERSON_COLLECTOR.add(e.person)
             }
-            if (e.tense != null && !e.tense.isEmpty() && e.tense != "ns") {
+            if (!e.tense.isNullOrEmpty() && e.tense != "ns") {
                 TENSE_COLLECTOR.add(e.tense)
             }
-            if (e.voice != null && !e.voice.isEmpty() && e.voice != "ns") {
+            if (!e.voice.isNullOrEmpty() && e.voice != "ns") {
                 VOICE_COLLECTOR.add(e.voice)
             }
             return e

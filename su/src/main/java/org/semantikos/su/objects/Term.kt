@@ -110,7 +110,7 @@ class Term private constructor(
         }
 
         fun make(term: String): Term {
-            require(!term.isEmpty()) { "Empty term" }
+            require(term.isNotEmpty()) { "Empty term" }
 
             val t = Term(term.trim { it <= ' ' })
             COLLECTOR.add(t)

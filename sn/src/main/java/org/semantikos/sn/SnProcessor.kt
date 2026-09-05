@@ -63,7 +63,7 @@ open class SnProcessor(
             var count0 = 0
             var count1 = 0
             lines
-                .filter { !it.isEmpty() && it[0] != '#' }
+                .filter { it.isNotEmpty() && it[0] != '#' }
                 .map { line ->
                     try {
                         ++count1
@@ -71,9 +71,9 @@ open class SnProcessor(
                     } catch (e: CommonException) {
                         val cause = e.cause
                         if (cause is ParseException) {
-                            Logger.instance.logParseException(SnModule.MODULE_ID, tag, file.getName(), count1.toLong(), line, cause)
+                            Logger.instance.logParseException(SnModule.MODULE_ID, tag, file.name, count1.toLong(), line, cause)
                         } else if (cause is NotFoundException) {
-                            Logger.instance.logNotFoundException(SnModule.MODULE_ID, tag, file.getName(), count1.toLong(), line, cause)
+                            Logger.instance.logNotFoundException(SnModule.MODULE_ID, tag, file.name, count1.toLong(), line, cause)
                         }
                     }
                     null

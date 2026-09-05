@@ -56,24 +56,24 @@ class SchemaGenerator(private val variables: Variables) {
 
         // Input
         // Single output if console or file
-        if (outputFileOrDir == null || outputFileOrDir.isFile()) {
+        if (outputFileOrDir == null || outputFileOrDir.isFile) {
             if (outputFileOrDir == null) System.out else PrintStream(outputFileOrDir).use {
                 processTemplates(module, inputSubdir, inputs) { input: InputStream, name: String ->
                     try {
-                        variables.varSubstitutionInIS(input, it, true, true)
+                        variables.varSubstitutionInIS(input, it, useBackticks = true, compress = true)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
                 }
             }
-        } else if (outputFileOrDir.isDirectory()) {
+        } else if (outputFileOrDir.isDirectory) {
             val dir = outputFileOrDir
             processTemplates(module, inputSubdir, inputs) { input: InputStream, name: String ->
                 //System.err.println(name)
                 val output = File(dir, name)
                 try {
                     PrintStream(output).use {
-                        variables.varSubstitutionInIS(input, it, true, true)
+                        variables.varSubstitutionInIS(input, it, useBackticks = true, compress = true)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -96,7 +96,7 @@ class SchemaGenerator(private val variables: Variables) {
     @Throws(IOException::class)
     private fun processTemplates(module: String, path: String, inputs: Array<String>?, consumer: (InputStream, String) -> Unit) {
         // external resources
-        if (inputs != null && inputs.isNotEmpty()) {
+        if (!inputs.isNullOrEmpty()) {
             for (input in inputs) {
                 val file = File(path, input)
                 val fileName = Paths.get(input).fileName.toString()
@@ -108,8 +108,8 @@ class SchemaGenerator(private val variables: Variables) {
         }
 
         // internal resources
-        val jarFile = File(javaClass.getProtectionDomain().codeSource.location.path)
-        if (jarFile.isFile()) {
+        val jarFile = File(javaClass.protectionDomain.codeSource.location.path)
+        if (jarFile.isFile) {
             // Run with JAR file
             val prefix = "$module/sqltemplates/$path/"
             JarFile(jarFile).use { jar ->
@@ -140,7 +140,7 @@ class SchemaGenerator(private val variables: Variables) {
                     if (files != null) {
                         for (file in files) {
                             FileInputStream(file).use {
-                                consumer.invoke(it, file.getName())
+                                consumer.invoke(it, file.name)
                             }
                         }
                     } else {

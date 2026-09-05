@@ -20,7 +20,7 @@ class Arg private constructor(example0: Example, text0: String, val type: String
     // C O N S T R U C T O R
 
     init {
-        assert(!type.isEmpty())
+        assert(type.isNotEmpty())
         val fn = extractFN(type)
         n = fn.first
         f = fn.second
@@ -30,7 +30,7 @@ class Arg private constructor(example0: Example, text0: String, val type: String
         val fields = type.split("-")
         val nFields = fields.size
         // find first field starting with 'ARG'
-        var index = fields.indexOfFirst { it.startsWith("ARG") }
+        val index = fields.indexOfFirst { it.startsWith("ARG") }
         // make
         val n = ArgType.make(fields[index].replace("ARG", ""))
         val f = if (nFields > index + 1) Func.makeOrNull(fields[index + 1]) else null

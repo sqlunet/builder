@@ -57,10 +57,7 @@ class BncExtendedRecord(
 
             // convert data
             val lemma = makeLemma(word)
-            val pos: Char? = posMap[bncPos]
-            if (pos == null) {
-                throw NotFoundException(bncPos)
-            }
+            val pos: Char = posMap[bncPos] ?: throw NotFoundException(bncPos)
 
             // data
             val freq = fields[4].toInt()

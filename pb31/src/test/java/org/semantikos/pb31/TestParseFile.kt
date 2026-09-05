@@ -15,7 +15,7 @@ class TestParseFile {
         println(path)
         val file = File(path)
         val props = Module.getProperties("pb.properties")
-        PbCollector(props).processPropBankFile(file.absolutePath, file.getName())
+        PbCollector(props).processPropBankFile(file.absolutePath, file.name)
 
         val aspects = Example.ASPECT_COLLECTOR
         val forms = Example.FORM_COLLECTOR
@@ -35,10 +35,8 @@ class TestParseFile {
 
         val names = arrayOf("aspects", "forms", "persons", "tenses", "voices", "funcs", "thetas", "rolesets", "roles", "examples", "rels", "args", "words")
         val collectors = arrayOf(aspects, forms, persons, tenses, voices, funcs, thetas, rolesets, roles, examples, rels, args, words)
-        var i = 0
-        for (c in collectors) {
+        for ((i, c) in collectors.withIndex()) {
             println(names[i] + " " + c.size)
-            i++
         }
     }
 }

@@ -20,9 +20,9 @@ class Arg private constructor(example0: Example, text0: String, n0: String, f0: 
     // C O N S T R U C T O R
 
     init {
-        assert(!n0.isEmpty())
+        assert(n0.isNotEmpty())
         n = ArgType.make(n0)
-        f = if (f0 == null || f0.isEmpty()) null else Func.makeOrNull(f0.lowercase())
+        f = if (f0.isNullOrEmpty()) null else Func.makeOrNull(f0.lowercase())
     }
 
     // N I D

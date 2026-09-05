@@ -36,11 +36,10 @@ class SnExportingYAMLProcessor(
                     accumulator.add(collocation.sensekey1.toString() to collocation.sensekey2.toString())
             }
             accumulator
-                .asSequence()
                 .groupBy({ it.first }, { it.second })
                 .toMap()
                 .toSortedMap()
-                .forEach { k, vs ->
+                .forEach { (k, vs) ->
                     ps.println("${k.yamlFormat()}:")
                     ps.println("${INDENT}collocation:")
                     vs.forEach {

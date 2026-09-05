@@ -114,7 +114,7 @@ class VnDocument(
                 .iteratorOfElements()
                 .asSequence()
                 .map { it.getAttribute("grouping") }
-                .filter { !it.isEmpty() }
+                .filter { it.isNotEmpty() }
                 .flatMap {
                     it
                         .split("\\s".toRegex())
@@ -183,7 +183,7 @@ class VnDocument(
                 .iteratorOfElements()
                 .asSequence()
                 .map { it.getXML() }
-                .filter { !it.isEmpty() && it != "<SELRESTRS/>" }
+                .filter { it.isNotEmpty() && it != "<SELRESTRS/>" }
                 .map { make(it, false) }
                 .toList()
         }
@@ -194,7 +194,7 @@ class VnDocument(
                 .iteratorOfElements()
                 .asSequence()
                 .map { it.getXML() }
-                .filter { !it.isEmpty() && it != "<SYNRESTRS/>" }
+                .filter { it.isNotEmpty() && it != "<SYNRESTRS/>" }
                 .map { make(it, true) }
                 .toList()
         }
@@ -237,7 +237,7 @@ class VnDocument(
                 .iteratorOfElements()
                 .asSequence()
                 .map { it.getAttribute("secondary") }
-                .filter { !it.isEmpty() }
+                .filter { it.isNotEmpty() }
                 .map {
                     val subName = it.replace("\\s+".toRegex(), " ")
                     FrameSubName.make(subName)

@@ -68,15 +68,14 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
         file.useLines {
             val count = 0L
             return it
-                .asSequence()
                 .also { count }
-                .filter { !it.isEmpty() && it[0] != '#' }
+                .filter { it.isNotEmpty() && it[0] != '#' }
                 .map {
                     try {
                         val m = SynsetToSynsetMapping.parse(it)
                         return@map m.from to m.to
                     } catch (pe: ParseException) {
-                        Logger.instance.logParseException(LegacyModule.MODULE_ID, tag, file.getName(), count, it, pe)
+                        Logger.instance.logParseException(LegacyModule.MODULE_ID, tag, file.name, count, it, pe)
                     }
                     null
                 }
@@ -119,14 +118,13 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
             var count = 0L
             var count1 = 0L
             it
-                .asSequence()
                 .also { count1++ }
-                .filter { !it.isEmpty() && it[0] != '#' }
+                .filter { it.isNotEmpty() && it[0] != '#' }
                 .map {
                     try {
                         return@map SynsetToSynsetMapping.parse(it)
                     } catch (pe: ParseException) {
-                        Logger.instance.logParseException(LegacyModule.MODULE_ID, tag, file.getName(), count, it, pe)
+                        Logger.instance.logParseException(LegacyModule.MODULE_ID, tag, file.name, count, it, pe)
                     }
                     null
                 }

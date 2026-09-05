@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.Throws
 
-class Exporter(conf: Properties,) {
+class Exporter(conf: Properties) {
 
     private val names: Names = Names("fn")
 
@@ -118,33 +118,24 @@ class Exporter(conf: Properties,) {
     fun makeWordMap(): Map<String, Int> {
         return Word.COLLECTOR.iterator()
             .asSequence()
-            .map { it.word to Word.COLLECTOR.invoke(it) }
-            .toMap()
+            .associate { it.word to Word.COLLECTOR.invoke(it) }
     }
 
     fun makeFramesMap(): Map<String, Int> {
         return Frame.SET
-            .asSequence()
-            .map { it.name to it.iD }
-            .toMap()
+            .associate { it.name to it.iD }
     }
 
     fun makeFEsMap(): Map<Pair<String, String>, Triple<Int, Int, Int>> {
         val id2frame = Frame.SET
-            .asSequence()
-            .map { it.iD to it.name }
-            .toMap()
+            .associate { it.iD to it.name }
         return FE.SET
-            .asSequence()
-            .map { Pair(id2frame[it.frameID]!!, it.name) to Triple(it.iD, it.frameID, getIntId(it.name)!!) }
-            .toMap()
+            .associate { Pair(id2frame[it.frameID]!!, it.name) to Triple(it.iD, it.frameID, getIntId(it.name)!!) }
     }
 
     fun makeLexUnitsMap(): Map<Pair<String, String>, Pair<Int, Int>> {
         return LexUnit.SET
-            .asSequence()
-            .map { Pair(it.frameName, it.name) to Pair(it.iD, it.frameID) }
-            .toMap()
+            .associate { Pair(it.frameName, it.name) to Pair(it.iD, it.frameID) }
     }
 
     companion object {

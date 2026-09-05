@@ -206,7 +206,7 @@ object Utils {
      * @return camel-cased string
      */
     fun camelCase(str: String): String {
-        if (!str.isEmpty()) {
+        if (str.isNotEmpty()) {
             return "${str.substring(0, 1).uppercase()}${str.substring(1).lowercase()}"
         }
         return str

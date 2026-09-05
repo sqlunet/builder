@@ -42,7 +42,7 @@ class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, (T) -> Int, Clos
 
     override fun invoke(key: T): Int {
         check(isOpen) { "$this not open" }
-        return map.get(key)!!
+        return map[key]!!
     }
 
     override fun close() {
@@ -56,9 +56,7 @@ class SetCollector<T>(comparator: Comparator<T>) : Iterable<T>, (T) -> Int, Clos
 
     fun toMap(toString: (T) -> String): Map<String, Int> {
         return this
-            .asSequence()
-            .map { toString(it) to invoke(it) }
-            .toMap()
+            .associate { toString(it) to invoke(it) }
             .toSortedMap()
     }
 }

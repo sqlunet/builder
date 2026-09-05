@@ -67,10 +67,9 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
         fun getLemmaPosOffsetToSensekey(file: File): Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved> {
             file.useLines {
                 return it
-                    .filter { !it.isEmpty() && it[0] != '#' }
+                    .filter { it.isNotEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
-                    .map { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
-                    .toMap()
+                    .associate { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
             }
         }
 
@@ -83,7 +82,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
         fun getLemmaPosOffsetToSensekeyOrdered(file: File): Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved> {
             file.useLines {
                 return it
-                    .filter { !it.isEmpty() && it[0] != '#' }
+                    .filter { it.isNotEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
                     .map { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
                     .toMap()
@@ -95,7 +94,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
         fun getSensekeyToOffset(file: File): Map<String, Int> {
             file.useLines {
                 return it
-                    .filter { !it.isEmpty() && it[0] != '#' }
+                    .filter { it.isNotEmpty() && it[0] != '#' }
                     .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
                     .map { it[0] to it[1].toInt() }
                     .toMap()

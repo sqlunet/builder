@@ -33,8 +33,7 @@ open class KBLoader {
 
         val scope: Array<String>?
             get() {
-                val scope = System.getProperties().getProperty("SCOPE", "all")
-                return when (scope) {
+                return when (val scope = System.getProperties().getProperty("SCOPE", "all")) {
                     "all"     -> ALL_FILES
                     "core"    -> CORE_FILES
                     "samples" -> SAMPLE_FILES

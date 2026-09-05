@@ -38,7 +38,7 @@ class SuModule(
 
         private fun setLogging() {
             try {
-                SuModule::class.java.getClassLoader().getResourceAsStream("logging.properties").use {
+                SuModule::class.java.classLoader.getResourceAsStream("logging.properties").use {
                     LogManager.getLogManager().readConfiguration(it)
                 }
             } catch (e: IOException) {
@@ -50,7 +50,7 @@ class SuModule(
             setLogging()
             val classKey = "java.util.logging.config.class"
             val classValue = System.getProperty(classKey)
-            if (classValue != null && !classValue.isEmpty()) {
+            if (classValue != null && classValue.isNotEmpty()) {
                 System.err.println("$classKey = $classValue")
             }
             FileUtil.PROGRESS_OUT = Progress.NONE

@@ -37,7 +37,7 @@ private constructor(
         fun makeSensekeys(wnSenses: String?): List<Sensekey>? {
             // senses
             var senseKeys: MutableList<Sensekey>? = null
-            if (wnSenses != null && !wnSenses.trim { it <= ' ' }.isEmpty()) {
+            if (wnSenses != null && wnSenses.trim { it <= ' ' }.isNotEmpty()) {
                 var wnSenses2 = wnSenses.trim { it <= ' ' }
                 if (wnSenses2.indexOf('\n') != -1) {
                     wnSenses2 = wnSenses2.replace("\n", "")
@@ -60,7 +60,7 @@ private constructor(
 
         fun makeGroupings(groupingAttribute: String?): List<Grouping>? {
             var groupings: MutableList<Grouping>? = null
-            if (groupingAttribute != null && !groupingAttribute.trim { it <= ' ' }.isEmpty()) {
+            if (groupingAttribute != null && groupingAttribute.trim { it <= ' ' }.isNotEmpty()) {
                 val groupingAttribute2 = groupingAttribute.trim { it <= ' ' }
                 val groupingNames = groupingAttribute2.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 for (groupingName in groupingNames) {

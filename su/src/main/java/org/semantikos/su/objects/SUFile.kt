@@ -70,7 +70,7 @@ class SUFile private constructor(
 
         fun make(filepath: String): SUFile {
             val file = File(filepath)
-            val filename = file.getName()
+            val filename = file.name
             val f = SUFile(filename, null, null)
             COLLECTOR.add(f)
             return f

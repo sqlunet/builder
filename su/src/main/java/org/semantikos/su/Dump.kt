@@ -88,12 +88,10 @@ object Dump {
     private fun getDoc(kb: KB, term: String): String {
         return kb.askWithRestriction(0, "documentation", 1, term)
             .asSequence()
-            .sorted()
-            .map {
+            .sorted().joinToString(separator = "\n") {
                 var doc = it.getArgument(3)
                 doc.replace("\\n".toRegex(), "")
 
             }
-            .joinToString(separator = "\n")
     }
 }

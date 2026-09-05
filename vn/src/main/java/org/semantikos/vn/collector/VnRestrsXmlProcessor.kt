@@ -90,7 +90,7 @@ class VnRestrsXmlProcessor : XmlProcessor() {
 
             // 'Value' attribute value
             var logic = e2.getAttribute("logic").trim { it <= ' ' }
-            if (!logic.isEmpty()) {
+            if (logic.isNotEmpty()) {
                 checkAttributeValue(logic, "or|and", "RESTR: $name2 has 'logic' attribute value outside or|and", LOG_ONLY)
             }
 
@@ -125,13 +125,13 @@ class VnRestrsXmlProcessor : XmlProcessor() {
 
                     // 'Value' attribute value
                     val value3 = e3.getAttribute("Value").trim { it <= ' ' }
-                    if (!value3.isEmpty()) {
+                    if (value3.isNotEmpty()) {
                         checkAttributeValue(value3, "(\\+|\\-)", "RESTR: $name3 has 'value' not in (+/-)", LOG_ONLY)
                     }
 
                     // 'type' attribute value
                     val type3 = e3.getAttribute("type").trim { it <= ' ' }
-                    if (!type3.isEmpty()) {
+                    if (type3.isNotEmpty()) {
                         if (isSynRestr) {
                             checkAttributeValue(type3, SYNRESTR_PATTERN, "SYNRESTR: $name3 has no 'type' in $name3, expected: ${SYNRESTR_PATTERN.pattern()}", LOG_ONLY)
                         }
@@ -140,7 +140,7 @@ class VnRestrsXmlProcessor : XmlProcessor() {
                         }
                     }
 
-                    if (!value3.isEmpty() || !type3.isEmpty()) {
+                    if (value3.isNotEmpty() || type3.isNotEmpty()) {
                         sb.append(if (isSynRestr) START_SYNRESTR else START_SELRESTR)
                         sb.append(value3)
                         sb.append(type3)

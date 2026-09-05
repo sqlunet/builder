@@ -23,9 +23,9 @@ open class XmlDocument(filePath: String) {
             if (uriString != null) {
                 try {
                     val uri = URI(uriString)
-                    val path = uri.getPath()
+                    val path = uri.path
                     val file = File(path)
-                    return file.getName()
+                    return file.name
                 } catch (_: URISyntaxException) {
 
                 }

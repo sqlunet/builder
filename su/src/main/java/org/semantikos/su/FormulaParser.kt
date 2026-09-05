@@ -154,7 +154,7 @@ object FormulaParser {
                 sb.append(tokenizer.sval)
                 sb.append("\"")
                 if (parenLevel < 2) {
-                    argumentNum = argumentNum + 1
+                    argumentNum += 1
                 }
             } else if (tokenizer.ttype == StreamTokenizer.TT_NUMBER || tokenizer.sval != null && Character.isDigit(tokenizer.sval[0])) {
                 if (lastTokenType != 40) {
@@ -166,7 +166,7 @@ object FormulaParser {
                     sb.append(tokenizer.nval)
                 }
                 if (parenLevel < 2) {
-                    argumentNum = argumentNum + 1 // RAP - added on 11/27/04
+                    argumentNum += 1 // RAP - added on 11/27/04
                 }
             } else if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
                 checkNotNull(tokenizer.sval)
@@ -176,7 +176,7 @@ object FormulaParser {
                     inRule = true
                 }
                 if (parenLevel < 2) {
-                    argumentNum = argumentNum + 1
+                    argumentNum += 1
                 }
                 if (lastTokenType != 40) {
                     sb.append(" ")
@@ -241,8 +241,8 @@ object FormulaParser {
         val f = IterableFormula(formula0.formula.form)
         while (!f.empty()) {
             val arg = f.car()
-            if (arg != null && !arg.isEmpty()) {
-                map.put(arg, Arg(false, false, i, 1))
+            if (arg != null && arg.isNotEmpty()) {
+                map[arg] = Arg(false, false, i, 1)
             }
             f.pop()
             i++

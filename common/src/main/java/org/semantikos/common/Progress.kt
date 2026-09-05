@@ -48,7 +48,7 @@ object Progress {
 
     fun trace(progress: Long) {
         if (progress % granularity == 0L) {
-            var occurs: Long = progress / granularity
+            val occurs: Long = progress / granularity
             val c = when (occurs % 4L) {
                 0L   -> '—'
                 1L   -> '\\'

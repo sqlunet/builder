@@ -95,7 +95,7 @@ class VnSyntaxXmlProcessor : XmlProcessor() {
 
                 // 'value' attribute value
                 var value = e.getAttribute("value").trim { it <= ' ' }
-                if (!value.isEmpty()) {
+                if (value.isNotEmpty()) {
                     when (name) {
                         "PREP"        -> {
                             val values = getAttrs(value.trim { it <= ' ' })
@@ -158,7 +158,7 @@ class VnSyntaxXmlProcessor : XmlProcessor() {
 
                     // 'Value' attribute value
                     var logic = e2.getAttribute("logic").trim { it <= ' ' }
-                    if (!logic.isEmpty()) {
+                    if (logic.isNotEmpty()) {
                         checkAttributeValue(logic, "or|and", "SYNTAX $name has unexpected 'logic' attr: $logic", LOG_ONLY)
                     }
 
@@ -188,13 +188,13 @@ class VnSyntaxXmlProcessor : XmlProcessor() {
 
                         // 'Value' attribute value
                         val value3 = e3.getAttribute("Value").trim { it <= ' ' }
-                        if (!value3.isEmpty()) {
+                        if (value3.isNotEmpty()) {
                             checkAttributeValue(value3, "(\\+|\\-)", "SYNTAX $name3 has unexpected 'Value' attr: $value3", LOG_ONLY)
                         }
 
                         // 'type' attribute value
                         val type3 = e3.getAttribute("type").trim { it <= ' ' }
-                        if (!type3.isEmpty()) {
+                        if (type3.isNotEmpty()) {
                             if (isSynRestr) {
                                 checkAttributeValue(type3, SYNRESTR, "SYNTAX $name3 has unexpected synrestr 'Value' attr: $type3", LOG_ONLY)
                                 // println("@SYN " + type3)
@@ -205,7 +205,7 @@ class VnSyntaxXmlProcessor : XmlProcessor() {
                             }
                         }
 
-                        if (!value3.isEmpty() || !type3.isEmpty()) {
+                        if (value3.isNotEmpty() || type3.isNotEmpty()) {
                             sb.append(if (isSynRestr) START_SYNRESTR else START_SELRESTR)
                             sb.append(value3)
                             sb.append(type3)

@@ -26,8 +26,8 @@ class Role private constructor(
     private val descr: String = descriptor
 
     // role names for VerbNet and FrameNet
-    val aliasVnRoleLinks: AliasRoleLinks? = if (vnLinks == null || vnLinks.isEmpty()) null else AliasVnRoleLinks.make(vnLinks)
-    val aliasFnFeLinks: AliasRoleLinks? = if (fnLinks == null || fnLinks.isEmpty()) null else AliasFnFeLinks.make(fnLinks)
+    val aliasVnRoleLinks: AliasRoleLinks? = if (vnLinks.isNullOrEmpty()) null else AliasVnRoleLinks.make(vnLinks)
+    val aliasFnFeLinks: AliasRoleLinks? = if (fnLinks.isNullOrEmpty()) null else AliasFnFeLinks.make(fnLinks)
 
     // N I D
 

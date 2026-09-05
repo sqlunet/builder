@@ -23,10 +23,7 @@ class VnUpdateCollector(props: Properties) : VnCollector(props) {
     override fun run() {
         val folder = File(verbNetHome)
         val filter = FilenameFilter { dir: File, name: String -> name.endsWith(".xml") }
-        val files = folder.listFiles(filter)
-        if (files == null) {
-            throw RuntimeException("Dir:$verbNetHome is empty")
-        }
+        val files = folder.listFiles(filter) ?: throw RuntimeException("Dir:$verbNetHome is empty")
         // iterate
         var fileCount = 0
         traceHeader("verbnet", "reading files")

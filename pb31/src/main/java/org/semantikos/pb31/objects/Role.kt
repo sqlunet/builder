@@ -18,12 +18,12 @@ class Role private constructor(
     vnLink0: String?,
 ) : HasId, Insertable, Comparable<Role>, Serializable {
 
-    private val func: Func? = if (func == null || func.isEmpty()) null else Func.makeOrNull(func)
+    private val func: Func? = if (func.isNullOrEmpty()) null else Func.makeOrNull(func)
 
     private val descr: String? = descriptor
 
     // role name for VerbNet
-    val vnLink: Theta? = if (vnLink0 == null || vnLink0.isEmpty()) null else Theta.make(vnLink0)
+    val vnLink: Theta? = if (vnLink0.isNullOrEmpty()) null else Theta.make(vnLink0)
 
     @RequiresIdFrom(type = Role::class)
     override fun getIntId(): Int {

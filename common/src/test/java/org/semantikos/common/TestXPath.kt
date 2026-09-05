@@ -59,10 +59,7 @@ class TestXPath {
 
         fun runFor(process: (path: String) -> Unit) {
             val filter = FilenameFilter { _, name -> name.endsWith(".xml") }
-            val files = File(home).listFiles(filter)
-            if (files == null) {
-                throw RuntimeException("Dir:$home is empty")
-            }
+            val files = File(home).listFiles(filter) ?: throw RuntimeException("Dir:$home is empty")
             // iterate
             var fileCount = 0
             traceHeader("xpath", "reading files")

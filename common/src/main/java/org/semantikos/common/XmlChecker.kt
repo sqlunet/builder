@@ -102,7 +102,7 @@ object XmlChecker {
 
     @Throws(RuntimeException::class)
     fun checkAttributeValue(value: String?, delim: String, regex: String, context: String?, logOnly: Boolean): Boolean {
-        if (value == null || value.isEmpty()) {
+        if (value.isNullOrEmpty()) {
             return true
         }
         val items = value.trim { it <= ' ' }.split(delim.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -111,7 +111,7 @@ object XmlChecker {
 
     @Throws(RuntimeException::class)
     fun checkAttributeValue(value: String?, delim: String, pattern: Pattern, context: String?, logOnly: Boolean): Boolean {
-        if (value == null || value.isEmpty()) {
+        if (value.isNullOrEmpty()) {
             return true
         }
         val items = value.trim { it <= ' ' }.split(delim.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -120,7 +120,7 @@ object XmlChecker {
 
     @Throws(RuntimeException::class)
     fun checkAttributeValues(values: Array<String>?, regex: String, context: String?, logOnly: Boolean): Boolean {
-        if (values == null || values.isEmpty()) {
+        if (values.isNullOrEmpty()) {
             return true
         }
         val p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
@@ -142,7 +142,7 @@ object XmlChecker {
 
     @Throws(RuntimeException::class)
     fun checkAttributeValues(values: Array<String>?, pattern: Pattern, context: String?, logOnly: Boolean): Boolean {
-        if (values == null || values.isEmpty()) {
+        if (values.isNullOrEmpty()) {
             return true
         }
         for (value in values) {

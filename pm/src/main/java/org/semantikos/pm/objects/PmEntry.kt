@@ -110,7 +110,7 @@ class PmEntry : Insertable {
 
             // sensekey
             var sensekey = columns[WN_SENSE].trim { it <= ' ' }.substring(3) // .replace('_', ' ')
-            if (!sensekey.isEmpty() && "NULL" != sensekey) {
+            if (sensekey.isNotEmpty() && "NULL" != sensekey) {
                 if (sensekey.startsWith("?")) {
                     sensekey = sensekey.substring(1)
                 }

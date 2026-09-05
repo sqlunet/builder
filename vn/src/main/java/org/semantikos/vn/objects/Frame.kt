@@ -22,7 +22,7 @@ class Frame private constructor(
 
     val name: FrameName = FrameName.make(descriptionPrimary)
 
-    val subName: FrameSubName? = if (descriptionSecondary == null || descriptionSecondary.isEmpty()) null else FrameSubName.make(descriptionSecondary)
+    val subName: FrameSubName? = if (descriptionSecondary.isNullOrEmpty()) null else FrameSubName.make(descriptionSecondary)
 
     val syntax: Syntax = Syntax.make(syntax)
 

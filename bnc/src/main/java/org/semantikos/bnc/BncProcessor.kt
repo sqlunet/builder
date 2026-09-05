@@ -53,7 +53,7 @@ open class BncProcessor(protected val conf: Properties) : Processor("bnc") {
             var count = 0
             it
                 .also { ++lineNum }
-                .filter { !it.isEmpty() && it[0] == '\t' }
+                .filter { it.isNotEmpty() && it[0] == '\t' }
                 .map {
                     try {
                         return@map producer.invoke(it)

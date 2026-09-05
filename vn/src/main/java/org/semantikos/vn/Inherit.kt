@@ -8,16 +8,12 @@ object Inherit {
     fun mergeRoles(restrainedRoles: Collection<RestrainedRole>, inheritedRestrainedRoles: Collection<RestrainedRole>): Collection<RestrainedRole> {
         // map child roles by type
         val map = restrainedRoles
-            .asSequence()
-            .map { it.roleType.type to it }
-            .toMap()
+            .associateBy { it.roleType.type }
             .toMutableMap()
 
         // map parent roles by type
         val inheritedMap = inheritedRestrainedRoles
-            .asSequence()
-            .map { it.roleType.type to it }
-            .toMap()
+            .associateBy { it.roleType.type }
 
         // merge roles : add role for which there is no overriding value in child
         inheritedMap

@@ -119,7 +119,7 @@ class Main {
             val cwd = File(".").absolutePath
             println("CWD: $cwd")
             val module = args[0]
-            val ops = args.slice(1..args.size - 1)
+            val ops = args.slice(1..<args.size)
             val runModules = if ("all" == module) modules else listOf(module)
             runModules.forEach { m ->
                 ops.forEach { o ->

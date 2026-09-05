@@ -51,7 +51,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
-            var result: MutableList<RoleSet> = ArrayList<RoleSet>()
+            val result: MutableList<RoleSet> = ArrayList<RoleSet>()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -79,7 +79,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             // roleset aliases
                             val m = getXPaths(roleSetElement, "./aliases/alias")
                                 ?.asSequence()
-                                ?.map { aliasElement ->
+                                ?.associate { aliasElement ->
 
                                     val alias: String = aliasElement.textContent.trim { it <= ' ' }
                                     val pos: String = aliasElement.getAttribute("pos").trim { it <= ' ' }
@@ -93,7 +93,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                                     // v e r b n e t
                                     val verbNet: String = aliasElement.getAttribute("verbnet").trim { it <= ' ' }
-                                    if (!verbNet.isEmpty()) {
+                                    if (verbNet.isNotEmpty()) {
                                         val classes: Array<String> = verbNet.split("[\\s,]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                                         for (clazz in classes) {
                                             var clazz = clazz
@@ -130,7 +130,6 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     // w o r d   a l i a s
                                     pbword2 to pos
                                 }
-                                ?.toMap()
                             m?.keys
                                 ?.asSequence()
                                 ?.forEach {
@@ -143,7 +142,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoles(head: String, start: Node): Collection<Role> {
-            var result: MutableList<Role> = ArrayList<Role>()
+            val result: MutableList<Role> = ArrayList<Role>()
             getXPaths(start, "./predicate")
                 ?.asSequence()
                 ?.forEach { predicateElement ->
@@ -213,7 +212,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeExamples(head: String, start: Node): Collection<Example> {
-            var result: MutableList<Example> = ArrayList<Example>()
+            val result: MutableList<Example> = ArrayList<Example>()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -250,7 +249,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                         tense = inflectionElement.getAttribute("tense")
                                         voice = inflectionElement.getAttribute("voice")
                                     }
-                                    var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
+                                    val example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
 
                                     // relations
                                     getXPaths(exampleElement, "./rel")!!
@@ -282,7 +281,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeExampleArgs(head: String, start: Node): Collection<Arg> {
-            var result = ArrayList<Arg>()
+            val result = ArrayList<Arg>()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -318,7 +317,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                         tense = inflectionElement.getAttribute("tense")
                                         voice = inflectionElement.getAttribute("voice")
                                     }
-                                    var example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
+                                    val example = Example.make(roleSet, exampleName, exampleText, aspect, form, person, tense, voice)
 
                                     // args
                                     getXPaths(exampleElement, "./propbank/arg")!!

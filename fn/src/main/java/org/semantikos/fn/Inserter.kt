@@ -321,8 +321,6 @@ open class Inserter(
     @RequiresIdFrom(type = FeType::class)
     private fun makeFEByFETypeIdAndFrameIdMap(): Map<Pair<Int, Int>, FE> {
         return FE.SET
-            .asSequence()
-            .map { (getIntId(it.name)!! to it.frameID) to it }
-            .toMap()
+            .associateBy { (getIntId(it.name)!! to it.frameID) }
     }
 }

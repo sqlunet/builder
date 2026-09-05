@@ -161,41 +161,31 @@ open class Exporter(conf: Properties) {
      */
     fun makeWordMap(): Map<String, Int> {
         return Word.COLLECTOR
-            .asSequence()
-            .map { it.word to Word.COLLECTOR.invoke(it) }
-            .toMap()
+            .associate { it.word to Word.COLLECTOR.invoke(it) }
     }
 
     fun makeRoleSetsMap(): Map<String, Int> {
         return RoleSet.COLLECTOR
-            .asSequence()
-            .map { it.name to RoleSet.COLLECTOR.invoke(it) }
-            .toMap()
+            .associate { it.name to RoleSet.COLLECTOR.invoke(it) }
     }
 
     fun makeVnRolesMap(): Map<String, Int> {
         return AliasVnRoleLinks.COLLECTOR
-            .asSequence()
-            .map { it.names.toString() to AliasVnRoleLinks.COLLECTOR.invoke(it) }
-            .toMap()
+            .associate { it.names.toString() to AliasVnRoleLinks.COLLECTOR.invoke(it) }
     }
 
     fun makeFnFesMap(): Map<String, Int> {
         return AliasFnFeLinks.COLLECTOR
-            .asSequence()
-            .map { it.names.toString() to AliasFnFeLinks.COLLECTOR.invoke(it) }
-            .toMap()
+            .associate { it.names.toString() to AliasFnFeLinks.COLLECTOR.invoke(it) }
     }
 
     fun makeRolesMap(): Map<Pair<String, String>, Int> {
         duplicateRoles()
         return Role.COLLECTOR
-            .asSequence()
-            .map {
+            .associate {
                 val rs = it.roleSet
                 (rs.name to it.argType) to Role.COLLECTOR.invoke(it)
             }
-            .toMap()
     }
 
     /**

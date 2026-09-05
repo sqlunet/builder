@@ -58,7 +58,7 @@ class RestrainedRole private constructor(
         @Throws(ParserConfigurationException::class, SAXException::class, IOException::class)
         fun make(type: String, restrsXML: String?): RestrainedRole {
             val roleType = make(type)
-            val restrs = if (restrsXML == null || restrsXML.isEmpty() || restrsXML == "<SELRESTRS/>") null else Restrs.make(restrsXML, false)
+            val restrs = if (restrsXML.isNullOrEmpty() || restrsXML == "<SELRESTRS/>") null else Restrs.make(restrsXML, false)
             val r = RestrainedRole(roleType, restrs)
             SET.add(r)
             return r

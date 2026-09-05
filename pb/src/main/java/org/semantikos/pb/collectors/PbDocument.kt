@@ -47,7 +47,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoleSets(head: String, start: Node): Collection<RoleSet> {
-            var result: MutableList<RoleSet> = ArrayList<RoleSet>()
+            val result: MutableList<RoleSet> = ArrayList<RoleSet>()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -74,14 +74,11 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                             // roleset aliases
                             val m = getXPaths(roleSetElement, "./aliases/alias")
-                                ?.asSequence()
-                                ?.map { aliasElement ->
-
+                                ?.asSequence()?.associate { aliasElement ->
                                     val alias: String = aliasElement.textContent.trim { it <= ' ' }
                                     val pos: String = aliasElement.getAttribute("pos").trim { it <= ' ' }
                                     Word.make(alias) to pos
                                 }
-                                ?.toMap()
                             m?.keys
                                 ?.asSequence()
                                 ?.forEach {
@@ -92,8 +89,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             makeVnRoleSetLinks(roleSetElement)
                                 ?.asSequence()
                                 ?.forEach {
-                                    var clazz = it.trim { it <= ' ' }
-                                    if (!clazz.isEmpty() && "-" != clazz) {
+                                    val clazz = it.trim { it <= ' ' }
+                                    if (clazz.isNotEmpty() && "-" != clazz) {
                                         m?.entries
                                             ?.asSequence()
                                             ?.forEach {
@@ -107,8 +104,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             makeFnFrameLinks(roleSetElement)
                                 ?.asSequence()
                                 ?.forEach {
-                                    var frame = it.trim { it <= ' ' }
-                                    if (!frame.isEmpty() && "-" != frame) {
+                                    val frame = it.trim { it <= ' ' }
+                                    if (frame.isNotEmpty() && "-" != frame) {
                                         m
                                             ?.asSequence()
                                             ?.forEach {
@@ -140,7 +137,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeRoles(head: String, start: Node): Collection<Role> {
-            var result: MutableList<Role> = ArrayList<Role>()
+            val result: MutableList<Role> = ArrayList<Role>()
             getXPaths(start, "./predicate")
                 ?.asSequence()
                 ?.forEach { predicateElement ->
@@ -169,8 +166,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val descriptor = roleElement.getAttribute("descr")
 
                                     // links
-                                    var vnLinks: Set<String>? = makeVnRoleLinks(roleElement)
-                                    var fnLinks: Set<String>? = makeFnFeLinks(roleElement)
+                                    val vnLinks: Set<String>? = makeVnRoleLinks(roleElement)
+                                    val fnLinks: Set<String>? = makeFnFeLinks(roleElement)
 
                                     // role
                                     val role = Role.make(roleSet, n, f, descriptor, vnLinks, fnLinks)
@@ -250,7 +247,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeExamples(head: String, start: Node): Collection<Example> {
-            var result: MutableList<Example> = ArrayList<Example>()
+            val result: MutableList<Example> = ArrayList<Example>()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -273,7 +270,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                                     val exampleName = exampleElement.getAttribute("name")
                                     val exampleText = getXPathText(exampleElement, "./text")!!
 
-                                    var example = Example.make(roleSet, exampleName, exampleText)
+                                    val example = Example.make(roleSet, exampleName, exampleText)
 
                                     // relations
                                     getXPaths(exampleElement, "./propbank/rel")!!
@@ -304,7 +301,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
         @Throws(XPathExpressionException::class)
         fun makeExampleArgs(head: String, start: Node): Collection<Arg> {
-            var result = ArrayList<Arg>()
+            val result = ArrayList<Arg>()
             getXPaths(start, "./predicate")!!
                 .asSequence()
                 .forEach { predicateElement ->
@@ -326,7 +323,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
 
                                     val exampleName = exampleElement.getAttribute("name")
                                     val exampleText = getXPathText(exampleElement, "./text")!!
-                                    var example = Example.make(roleSet, exampleName, exampleText)
+                                    val example = Example.make(roleSet, exampleName, exampleText)
 
                                     // args
                                     getXPaths(exampleElement, "./propbank/arg")!!
