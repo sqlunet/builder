@@ -11,15 +11,15 @@ class SnModule(
     override fun run() {
         try {
             when (mode) {
-                Mode.PLAIN -> SnProcessor(props).run()
+                Mode.PLAIN   -> SnProcessor(props).run()
                 Mode.RESOLVE -> SnResolvingProcessor(props).run()
-                Mode.UPDATE -> SnUpdatingProcessor(props).run()
-                Mode.EXPORT -> {
+                Mode.UPDATE  -> SnUpdatingProcessor(props).run()
+                Mode.EXPORT  -> {
                     SnExportingProcessor(props).run()
                     SnExportingYAMLProcessor(props).run()
                 }
 
-                else -> {}
+                else         -> {}
             }
         } catch (e: IOException) {
             e.printStackTrace()
