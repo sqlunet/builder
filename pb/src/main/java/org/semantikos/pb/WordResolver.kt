@@ -7,4 +7,4 @@ import java.io.File
 typealias PbWordResolvable = String
 typealias PbWordResolved = Int
 
-class WordResolver(ser: String) : Resolver<PbWordResolvable, PbWordResolved>(deserializeJsonMap(File(ser)))
+class WordResolver(ser: String) : Resolver<PbWordResolvable, PbWordResolved>(deserializeJsonMap<Int>(File(ser)))

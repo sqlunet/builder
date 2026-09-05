@@ -7,4 +7,4 @@ import java.io.File
 typealias BncWordResolvable = String
 typealias BncWordResolved = Int
 
-class BncWordResolver(ser: String) : Resolver<BncWordResolvable, BncWordResolved>(deserializeJsonMap(File(ser)))
+class BncWordResolver(ser: String) : Resolver<BncWordResolvable, BncWordResolved>(deserializeJsonMap<Int>(File(ser)))
