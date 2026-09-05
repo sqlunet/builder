@@ -54,7 +54,7 @@ class SnUpdatingProcessor(
         val r1 = senseResolver.invoke(collocation.sensekey1!!)
         val r2 = senseResolver.invoke(collocation.sensekey2!!)
         if (r1 != null && r2 != null) {
-            val setClause = "${columns[0]}=${nullableInt(r1.first)},${columns[1]}=${nullableInt(r1.second)},${columns[2]}=${nullableInt(r2.first)},${columns[3]}=${nullableInt(r2.second)}"
+            val setClause = "${columns[0]}=${nullableInt(r1[0])},${columns[1]}=${nullableInt(r1[1])},${columns[2]}=${nullableInt(r2[0])},${columns[3]}=${nullableInt(r2[0])}"
             val whereClause = "${columns[4]}=${quote(escape(collocation.sensekey1!!))} AND ${columns[5]}=${quote(escape(collocation.sensekey2!!))}"
             ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1}")
         }

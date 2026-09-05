@@ -1,12 +1,12 @@
 package org.semantikos.sn
 
 import org.semantikos.common.DeSerialize
+import org.semantikos.common.DeSerializeJsonNIDs.deserializeJson
 import org.semantikos.common.Resolver
 import java.io.File
 
-typealias SnWordResolved = Int
-typealias SnSynsetResolved = Int
 typealias SnSensekeyResolvable = String
-typealias SnSensekeyResolved = Pair<SnWordResolved, SnSynsetResolved>
+typealias SnSensekeyResolved = List<Int>
 
-class SnSensekeyResolver(ser: String) : Resolver<SnSensekeyResolvable, SnSensekeyResolved>(DeSerialize.deserialize(File(ser)))
+class SnSensekeyResolver(ser: String) :
+    Resolver<SnSensekeyResolvable, SnSensekeyResolved>(if (ser.endsWith(".json")) deserializeJson<SnSensekeyResolved>(File(ser)) else DeSerialize.deserialize(File(ser)))

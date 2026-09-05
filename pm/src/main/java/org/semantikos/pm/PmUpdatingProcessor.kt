@@ -58,10 +58,10 @@ class PmUpdatingProcessor(conf: Properties) : PmResolvingProcessor(conf) {
     private fun updateWordSenseRow(ps: PrintStream, table: String, index: Int, entry: PmEntry, vararg columns: String) {
         val wordid = wordResolver.invoke(entry.word!!)
         val wordResolved = nullableInt(wordid)
-        val sk = if (entry.sensekey == null) null else sensekeyResolver.invoke(entry.sensekey!!)
-        val senseResolved = nullable(sk) { nullableInt(it.second) }
+        val senseResolved = if (entry.sensekey == null) null else sensekeyResolver.invoke(entry.sensekey!!)
+        val synsetResolved = nullable(senseResolved) { nullableInt(it[1]) }
 
-        val setClause = "${columns[0]}=$wordResolved,${columns[1]}=$senseResolved"
+        val setClause = "${columns[0]}=$wordResolved,${columns[1]}=$synsetResolved"
         val whereClause = "${columns[2]}=${quote(escape(entry.word!!))} AND ${columns[3]}=${nullable(entry.sensekey) { quote(escape(escape(it))) }}"
         ps.println("UPDATE $table SET $setClause WHERE $whereClause; -- ${index + 1}")
     }

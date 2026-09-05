@@ -88,7 +88,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                     ps.println("-- $header")
                     processPmFile(ps, inputFile, names.table("pms"), names.columns("pms", true)) { entry, i ->
                         val wordid = if (entry.word == null) null else wordResolver.invoke(entry.word!!)
-                        val sk = if (entry.sensekey == null) null else sensekeyResolver.invoke(entry.sensekey!!)
+                        val senseResolved = if (entry.sensekey == null) null else sensekeyResolver.invoke(entry.sensekey!!)
 
                         val vnWordid = if (entry.word == null) null else vnWordResolver.invoke(entry.word!!)
                         val pbWordid = if (entry.word == null) null else pbWordResolver.invoke(entry.word!!)
@@ -100,7 +100,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         val fn = if (entry.fn.frame == null || entry.fn.fetype == null) null else fnRoleResolver.invoke(PmFnRoleResolvable(entry.fn.frame!!, entry.fn.fetype!!))
 
                         val wordResolved = nullableInt(wordid)
-                        val senseResolved = if (sk == null) "NULL" else nullableInt(sk.second)
+                        val synsetResolved = if (senseResolved == null) "NULL" else nullableInt(senseResolved[1]) // synset id
 
                         val vnWordResolved = nullableInt(vnWordid)
                         val pbWordResolved = nullableInt(pbWordid)
@@ -111,7 +111,7 @@ open class PmResolvingProcessor(conf: Properties) : PmProcessor(conf) {
                         val fnResolved = if (fn == null) "NULL,NULL,NULL" else "${nullableInt(fn.second)},${nullableInt(fn.first)},${nullableInt(fn.third)}"
                         val fnLuResolved = if (fnLu == null) "NULL" else nullableInt(fnLu.first)
 
-                        insertRow(ps, i, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${senseResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
+                        insertRow(ps, i, "${entry.dataRow()},${wordResolved},${vnWordResolved},${pbWordResolved},${fnWordResolved},${synsetResolved},${vnResolved},${pbResolved},${fnResolved},${fnLuResolved}")
                     }
                 }
                 traceDone()
