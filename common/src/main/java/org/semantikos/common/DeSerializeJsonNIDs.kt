@@ -4,9 +4,6 @@
 package org.semantikos.common
 
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.int
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -20,9 +17,11 @@ object DeSerializeJsonNIDs {
     const val WORDS_FILE: String = "words"
 
     const val SENSES_FILE: String = "senses"
-    const val SENSES_WORDS_FILE: String = "senses_words"
+    const val SENSES_WORDS_FILE: String = "senseswords"
 
     const val SYNSETS_FILE: String = "synsets"
+
+    const val SENSES_WORDS_SYNSETS_FILE: String = "sensekeys_words_synsets"
 
     const val EXTENSION: String = ".json"
 
@@ -31,9 +30,30 @@ object DeSerializeJsonNIDs {
      * @param file file
      * @return id-to-nid map
      */
-    fun deserializeJsonMap(file: File): Map<String, Int> {
-        val element = Json.parseToJsonElement(file.readText())
-        return element.jsonObject.mapValues { it.value.jsonPrimitive.int }
+    fun deserializeJsonIntMap(file: File): Map<String, Int> {
+        //val element = Json.parseToJsonElement(file.readText())
+        //return element.jsonObject.mapValues { it.value.jsonPrimitive.int }
+        return Json.decodeFromString(file.readText())
+    }
+
+    /**
+     * Deserialize map in file
+     * @param file file
+     * @return id-to-nid map
+     */
+    fun deserializeJsonIntsMap(file: File): Map<String, List<Int>> {
+        //val element = Json.parseToJsonElement(file.readText())
+        //return element.jsonObject.mapValues { it.value.jsonArray.map { it.jsonPrimitive.int }}
+        return Json.decodeFromString(file.readText())
+    }
+
+    /**
+     * Deserialize map in file
+     * @param file file
+     * @return id-to-nid map
+     */
+    inline fun <reified V> deserializeJsonMap(file: File): Map<String, V> {
+        return Json.decodeFromString(file.readText())
     }
 
     /**
@@ -43,12 +63,13 @@ object DeSerializeJsonNIDs {
      * @return id-to-nid maps indexed by name
      * @throws ClassNotFoundException class not found exception
      */
-    fun deserializeAllNIDs(inDir: File): Map<String, Map<String, Int>> {
+    fun deserializeAllNIDs(inDir: File): Map<String, Map<String, *>> {
         return mapOf(
-            WORDS_FILE to deserializeJsonMap(File(inDir, "$NID_PREFIX$WORDS_FILE$EXTENSION")),
-            SENSES_FILE to deserializeJsonMap(File(inDir, "$NID_PREFIX$SENSES_FILE$EXTENSION")),
-            SENSES_WORDS_FILE to deserializeJsonMap(File(inDir, "$NID_PREFIX${SENSES_WORDS_FILE}_FILE$EXTENSION")),
-            SYNSETS_FILE to deserializeJsonMap(File(inDir, "$NID_PREFIX$SYNSETS_FILE$EXTENSION")),
+            WORDS_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$WORDS_FILE$EXTENSION")),
+            SENSES_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$SENSES_FILE$EXTENSION")),
+            SENSES_WORDS_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$SENSES_WORDS_FILE$EXTENSION")),
+            SYNSETS_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$SYNSETS_FILE$EXTENSION")),
+            SENSES_WORDS_SYNSETS_FILE to deserializeJsonMap<List<Int>>(File(inDir, "$NID_PREFIX$SENSES_WORDS_SYNSETS_FILE$EXTENSION")),
         )
     }
 
@@ -65,12 +86,11 @@ object DeSerializeJsonNIDs {
             exitProcess(1)
         }
         val maps = deserializeAllNIDs(inDir)
-        println("$WORDS_FILE ${maps[WORDS_FILE]!!.size}")
-        //println(maps[WORDS_FILE]!!.entries.iterator().next().javaClass)
-        println("$SENSES_FILE ${maps[SENSES_FILE]!!.size}")
-        //println(maps[SENSES_FILE]!!.entries.iterator().next().javaClass)
-        //println(maps[SENSES_WORDS_FILE]!!.entries.iterator().next().javaClass)
-        println("$SYNSETS_FILE ${maps[SYNSETS_FILE]!!.size}")
-        //println(maps[SYNSETS_FILE]!!.entries.iterator().next().javaClass)
+        maps.keys.forEach { mk ->
+            val m = maps[mk]!!
+            println("$mk ${m.size}")
+            m.asSequence().take(10).forEach { (k, v) -> println("\t$k -> $v") }
+            //println(maps[k]!!.entries.iterator().next().javaClass)
+        }
     }
 }
