@@ -16,8 +16,8 @@ open class LexItem(lemma: String) : Comparable<LexItem> {
 
     // O R D E R
 
-    override fun compareTo(p: LexItem): Int {
-        return word.compareTo(p.word)
+    override fun compareTo(other: LexItem): Int {
+        return word.compareTo(other.word)
     }
 
     // T O S T R I N G
