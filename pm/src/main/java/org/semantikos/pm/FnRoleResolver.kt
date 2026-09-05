@@ -9,4 +9,4 @@ typealias PmFnRoleResolved = Triple<Int, Int, Int>
 typealias PmFnRoleAndLuResolvable = Triple<String, String, String>
 typealias PmFnRoleAndLuResolved = Triple<Int, Int, Int>
 
-class FnRoleResolver(ser: String) : Resolver<PmFnRoleResolvable, PmFnRoleResolved>(deserialize<Map<PmFnRoleResolvable, PmFnRoleResolved>>(File(ser)))
+class FnRoleResolver(ser: String) : Resolver<PmFnRoleResolvable, PmFnRoleResolved>(deserialize(File(ser)))

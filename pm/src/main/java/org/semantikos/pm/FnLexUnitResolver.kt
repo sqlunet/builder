@@ -7,4 +7,4 @@ import java.io.File
 typealias PmFnLexUnitResolvable = Pair<String, String>
 typealias PmFnLexUnitResolved = Pair<Int, Int>
 
-class FnLexUnitResolver(ser: String) : Resolver<PmFnLexUnitResolvable, PmFnLexUnitResolved>(deserialize<Map<PmFnLexUnitResolvable, PmFnLexUnitResolved>>(File(ser)))
+class FnLexUnitResolver(ser: String) : Resolver<PmFnLexUnitResolvable, PmFnLexUnitResolved>(deserialize(File(ser)))

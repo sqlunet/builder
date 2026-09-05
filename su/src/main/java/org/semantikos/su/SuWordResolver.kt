@@ -7,4 +7,4 @@ import java.io.File
 typealias SuWordResolvable = String
 typealias SuWordResolved = Int
 
-class SuWordResolver(ser: String) : Resolver<SuWordResolvable, SuWordResolved>(deserialize<Map<SuWordResolvable, SuWordResolved>>(File(ser)))
+class SuWordResolver(ser: String) : Resolver<SuWordResolvable, SuWordResolved>(deserialize(File(ser)))

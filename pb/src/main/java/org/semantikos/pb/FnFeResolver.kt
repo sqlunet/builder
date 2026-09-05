@@ -7,4 +7,4 @@ import java.io.File
 typealias PbFnFeResolvable = Pair<String, String>
 typealias PbFnFeResolved = Triple<Int, Int, Int>
 
-class FnFeResolver(ser: String) : Resolver<PbFnFeResolvable, PbFnFeResolved>(DeSerialize.deserialize<Map<PbFnFeResolvable, PbFnFeResolved>>(File(ser)))
+class FnFeResolver(ser: String) : Resolver<PbFnFeResolvable, PbFnFeResolved>(DeSerialize.deserialize(File(ser)))

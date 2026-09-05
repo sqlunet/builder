@@ -10,4 +10,4 @@ typealias SnOffset = Int
 typealias SnLemmaPosOffsetResolvable = Triple<SnWord, SnPos, SnOffset>
 typealias SnLemmaPosOffsetResolved = SnSensekeyResolvable
 
-class SnLemmaPosOffsetResolver(ser: String) : Resolver<SnLemmaPosOffsetResolvable, SnLemmaPosOffsetResolved>(DeSerialize.deserialize<Map<SnLemmaPosOffsetResolvable, SnLemmaPosOffsetResolved>>(File(ser)))
+class SnLemmaPosOffsetResolver(ser: String) : Resolver<SnLemmaPosOffsetResolvable, SnLemmaPosOffsetResolved>(DeSerialize.deserialize(File(ser)))

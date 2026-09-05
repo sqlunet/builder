@@ -7,4 +7,4 @@ import java.io.File
 typealias PmSensekeyResolvable = String
 typealias PmSensekeyResolved = Pair<Int, Int>
 
-class SensekeyResolver(ser: String) : Resolver<PmSensekeyResolvable, PmSensekeyResolved>(deserialize<Map<PmSensekeyResolvable, PmSensekeyResolved>>(File(ser)))
+class SensekeyResolver(ser: String) : Resolver<PmSensekeyResolvable, PmSensekeyResolved>(deserialize(File(ser)))

@@ -7,4 +7,4 @@ import java.io.File
 typealias PmVnRoleResolvable = Pair<String, String>
 typealias PmVnRoleResolved = Triple<Int, Int, Int>
 
-class VnRoleResolver(ser: String) : Resolver<PmVnRoleResolvable, PmVnRoleResolved>(deserialize<Map<PmVnRoleResolvable, PmVnRoleResolved>>(File(ser)))
+class VnRoleResolver(ser: String) : Resolver<PmVnRoleResolvable, PmVnRoleResolved>(deserialize(File(ser)))

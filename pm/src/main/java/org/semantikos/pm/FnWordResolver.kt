@@ -7,4 +7,4 @@ import java.io.File
 typealias PmFnWordResolvable = String
 typealias PmFnWordResolved = Int
 
-class FnWordResolver(ser: String) : Resolver<PmFnWordResolvable, PmFnWordResolved>(deserialize<Map<PmFnWordResolvable, PmFnWordResolved>>(File(ser)))
+class FnWordResolver(ser: String) : Resolver<PmFnWordResolvable, PmFnWordResolved>(deserialize(File(ser)))

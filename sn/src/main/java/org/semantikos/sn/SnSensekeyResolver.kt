@@ -9,4 +9,4 @@ typealias SnSynsetResolved = Int
 typealias SnSensekeyResolvable = String
 typealias SnSensekeyResolved = Pair<SnWordResolved, SnSynsetResolved>
 
-class SnSensekeyResolver(ser: String) : Resolver<SnSensekeyResolvable, SnSensekeyResolved>(DeSerialize.deserialize<Map<SnSensekeyResolvable, SnSensekeyResolved>>(File(ser)))
+class SnSensekeyResolver(ser: String) : Resolver<SnSensekeyResolvable, SnSensekeyResolved>(DeSerialize.deserialize(File(ser)))

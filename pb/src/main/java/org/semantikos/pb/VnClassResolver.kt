@@ -7,4 +7,4 @@ import java.io.File
 typealias PbVnClassResolvable = String
 typealias PbVnClassResolved = Int
 
-class VnClassResolver(ser: String) : Resolver<PbVnClassResolvable, PbVnClassResolved>(DeSerialize.deserialize<Map<PbVnClassResolvable, PbVnClassResolved>>(File(ser)))
+class VnClassResolver(ser: String) : Resolver<PbVnClassResolvable, PbVnClassResolved>(DeSerialize.deserialize(File(ser)))

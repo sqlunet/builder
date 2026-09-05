@@ -7,4 +7,4 @@ import java.io.File
 typealias VnSensekeyResolvable = String?
 typealias VnSensekeyResolved = Pair<Int, Int>
 
-class VnSensekeyResolver(ser: String) : Resolver<VnSensekeyResolvable, VnSensekeyResolved>(deserialize<Map<VnSensekeyResolvable, VnSensekeyResolved>>(File(ser)))
+class VnSensekeyResolver(ser: String) : Resolver<VnSensekeyResolvable, VnSensekeyResolved>(deserialize(File(ser)))
