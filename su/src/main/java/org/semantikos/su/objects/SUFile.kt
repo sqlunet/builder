@@ -36,8 +36,8 @@ class SUFile private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: SUFile): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: SUFile): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

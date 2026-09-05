@@ -30,8 +30,8 @@ abstract class AliasRoleLinks internal constructor(
 
     // O R D E R
 
-    override fun compareTo(that: AliasRoleLinks): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: AliasRoleLinks): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

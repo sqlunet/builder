@@ -10,14 +10,14 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as ArgType
+        val that = other as ArgType
         return argType == that.argType
     }
 
@@ -27,8 +27,8 @@ class ArgType private constructor(n: String) : Comparable<ArgType>, Insertable {
 
     // O R D E R
 
-    override fun compareTo(that: ArgType): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: ArgType): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

@@ -40,8 +40,8 @@ class Formula private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Formula): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Formula): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // T O S T R I N G

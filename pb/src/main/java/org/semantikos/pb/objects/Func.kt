@@ -19,8 +19,8 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
 
     // O R D E R
 
-    override fun compareTo(that: Func): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Func): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

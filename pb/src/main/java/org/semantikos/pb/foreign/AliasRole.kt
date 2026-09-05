@@ -26,8 +26,8 @@ class AliasRole private constructor(
 
     // O R D E R I N G
 
-    override fun compareTo(that: AliasRole): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: AliasRole): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // T O S T R I N G

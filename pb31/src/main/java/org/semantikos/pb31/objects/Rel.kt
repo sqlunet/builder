@@ -19,8 +19,8 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
 
     // O R D E R
 
-    override fun compareTo(that: Rel): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Rel): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     override fun dataRow(): String {
