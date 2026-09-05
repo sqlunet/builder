@@ -114,9 +114,9 @@ class SynsetToSynsetProcessor(private val conf: Properties) : Processor("sy2sy")
         val h = names.header("synsets_to_synsets").replace("\\$\\{from}".toRegex(), from).replace("\\$\\{to}".toRegex(), to)
         ps.println("-- $h")
         ps.println("INSERT INTO $table ($columns) VALUES")
-        file.useLines {
+        file.useLines { lines ->
             var count = 0L
-            it
+            lines
                 .filter { it.isNotEmpty() && it[0] != '#' }
                 .map {
                     try {

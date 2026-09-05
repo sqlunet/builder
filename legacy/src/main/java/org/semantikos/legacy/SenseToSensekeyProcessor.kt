@@ -68,7 +68,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
             file.useLines { lines ->
                 return lines
                     .filter { it.isNotEmpty() && it[0] != '#' }
-                    .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
+                    .map { it.split("\\s".toRegex()).dropLastWhile { it2 -> it2.isEmpty() }.toTypedArray() }
                     .associate { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
             }
         }
@@ -83,7 +83,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
             file.useLines { lines ->
                 return lines
                     .filter { it.isNotEmpty() && it[0] != '#' }
-                    .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
+                    .map { it.split("\\s".toRegex()).dropLastWhile { it2 -> it2.isEmpty() }.toTypedArray() }
                     .associate { LegacyLemmaPosOffsetResolvable(getLemmaFromSensekey(it[0]), getPosFromSensekey(it[0]), it[1].toInt()) to it[0] }
                     .toSortedMap(resolvableComparator)
             }
@@ -94,7 +94,7 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
             file.useLines { lines ->
                 return lines
                     .filter { it.isNotEmpty() && it[0] != '#' }
-                    .map { it.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray() }
+                    .map { it.split("\\s".toRegex()).dropLastWhile { it2 -> it2.isEmpty() }.toTypedArray() }
                     .associate { it[0] to it[1].toInt() }
             }
         }

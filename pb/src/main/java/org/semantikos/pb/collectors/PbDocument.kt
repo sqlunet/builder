@@ -88,8 +88,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             // v e r b n e t
                             makeVnRoleSetLinks(roleSetElement)
                                 ?.asSequence()
-                                ?.forEach {
-                                    val clazz = it.trim { it <= ' ' }
+                                ?.forEach { e ->
+                                    val clazz = e.trim { it <= ' ' }
                                     if (clazz.isNotEmpty() && "-" != clazz) {
                                         m?.entries
                                             ?.asSequence()
@@ -103,8 +103,8 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
                             // f r a m e n e t
                             makeFnFrameLinks(roleSetElement)
                                 ?.asSequence()
-                                ?.forEach {
-                                    val frame = it.trim { it <= ' ' }
+                                ?.forEach { e ->
+                                    val frame = e.trim { it <= ' ' }
                                     if (frame.isNotEmpty() && "-" != frame) {
                                         m
                                             ?.asSequence()
@@ -123,7 +123,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeVnRoleSetLinks(roleSetElement: Element): Set<String>? {
             return getXPaths(roleSetElement, "./roles/role/rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
                 ?.asSequence()
-                ?.map { it.getAttribute("class").trim { it <= ' ' } }
+                ?.map { it.getAttribute("class").trim { it2 -> it2 <= ' ' } }
                 ?.toSet()
         }
 
@@ -131,7 +131,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeFnFrameLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./roles/role/rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
                 ?.asSequence()
-                ?.map { it.getAttribute("class").trim { it <= ' ' } }
+                ?.map { it.getAttribute("class").trim { it2 -> it2 <= ' ' } }
                 ?.toSet()
         }
 
@@ -189,7 +189,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='VerbNet' and (@version='verbnet3.3' or @version='verbnet3.4')]")
                 ?.asSequence()
                 ?.sortedBy { it.getAttribute("version").substring(7) }
-                ?.map { it.textContent.trim { it <= ' ' } }
+                ?.map { it.textContent.trim { it2 -> it2 <= ' ' } }
                 ?.toSet()
         }
 
@@ -197,7 +197,7 @@ class PbDocument(filePath: String) : XmlDocument(filePath) {
         fun makeFnFeLinks(roleElement: Element): Set<String>? {
             return getXPaths(roleElement, "./rolelinks/rolelink[@resource='FrameNet' and @version='1.7']")
                 ?.asSequence()
-                ?.map { it.textContent.trim { it <= ' ' } }
+                ?.map { it.textContent.trim { it2 -> it2 <= ' ' } }
                 ?.toSet()
         }
 
