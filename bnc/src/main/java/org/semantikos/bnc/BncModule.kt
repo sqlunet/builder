@@ -12,10 +12,10 @@ class BncModule(
         checkNotNull(props)
         try {
             when (mode) {
-                Mode.PLAIN   -> BncProcessor(props).run()
+                Mode.PLAIN -> BncProcessor(props).run()
                 Mode.RESOLVE -> BncResolvingProcessor(props).run()
-                Mode.UPDATE  -> BncUpdatingProcessor(props).run()
-                else         -> {}
+                Mode.UPDATE -> BncUpdatingProcessor(props).run()
+                else -> {}
             }
         } catch (e: IOException) {
             e.printStackTrace()
