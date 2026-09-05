@@ -52,7 +52,7 @@ object DeSerializeJsonNIDs {
      * @param file file
      * @return id-to-nid map
      */
-    inline fun <reified V> deserializeJsonMap(file: File): Map<String, V> {
+    inline fun <reified V> deserializeJson(file: File): Map<String, V> {
         return Json.decodeFromString(file.readText())
     }
 
@@ -65,11 +65,11 @@ object DeSerializeJsonNIDs {
      */
     fun deserializeAllNIDs(inDir: File): Map<String, Map<String, *>> {
         return mapOf(
-            WORDS_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$WORDS_FILE$EXTENSION")),
-            SENSES_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$SENSES_FILE$EXTENSION")),
-            SENSES_WORDS_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$SENSES_WORDS_FILE$EXTENSION")),
-            SYNSETS_FILE to deserializeJsonMap<Int>(File(inDir, "$NID_PREFIX$SYNSETS_FILE$EXTENSION")),
-            SENSES_WORDS_SYNSETS_FILE to deserializeJsonMap<List<Int>>(File(inDir, "$NID_PREFIX$SENSES_WORDS_SYNSETS_FILE$EXTENSION")),
+            WORDS_FILE to deserializeJson<Int>(File(inDir, "$NID_PREFIX$WORDS_FILE$EXTENSION")),
+            SENSES_FILE to deserializeJson<Int>(File(inDir, "$NID_PREFIX$SENSES_FILE$EXTENSION")),
+            SENSES_WORDS_FILE to deserializeJson<Int>(File(inDir, "$NID_PREFIX$SENSES_WORDS_FILE$EXTENSION")),
+            SYNSETS_FILE to deserializeJson<Int>(File(inDir, "$NID_PREFIX$SYNSETS_FILE$EXTENSION")),
+            SENSES_WORDS_SYNSETS_FILE to deserializeJson<List<Int>>(File(inDir, "$NID_PREFIX$SENSES_WORDS_SYNSETS_FILE$EXTENSION")),
         )
     }
 
