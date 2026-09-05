@@ -9,7 +9,6 @@ class BncModule(
 ) : Module(MODULE_ID, conf, mode) {
 
     override fun run() {
-        checkNotNull(props)
         try {
             when (mode) {
                 Mode.PLAIN -> BncProcessor(props).run()
