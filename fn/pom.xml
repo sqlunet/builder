@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.semantikos-builder</groupId>
             <artifactId>fn-beans</artifactId>
-            <version>${project.parent.version}</version>
+            <version>2.3.3</version>
             <scope>compile</scope>
         </dependency>
 

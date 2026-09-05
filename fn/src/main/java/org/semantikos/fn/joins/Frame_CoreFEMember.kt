@@ -15,14 +15,14 @@ class Frame_CoreFEMember private constructor(
         return "$frameid,$feid"
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as Frame_CoreFEMember
+        val that = other as Frame_CoreFEMember
         return frameid == that.frameid && feid == that.feid
     }
 

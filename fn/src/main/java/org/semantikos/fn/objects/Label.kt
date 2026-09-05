@@ -28,8 +28,8 @@ class Label private constructor(label: LabelType, val layer: Layer) : Insertable
 
     // O R D E R
 
-    override fun compareTo(that: Label): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Label): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T

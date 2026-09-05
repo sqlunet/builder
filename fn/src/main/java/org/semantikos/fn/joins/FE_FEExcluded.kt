@@ -17,14 +17,14 @@ data class FE_FEExcluded(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as FE_FEExcluded
+        val that = other as FE_FEExcluded
         return feid == that.feid && feid2 == that.feid2
     }
 
@@ -42,7 +42,7 @@ data class FE_FEExcluded(
 
         val COMPARATOR: Comparator<FE_FEExcluded> = Comparator
             .comparing<FE_FEExcluded, Int> { it.feid }
-            .thenComparing<Int?> { it.feid2 }
+            .thenComparing<Int> { it.feid2 }
 
         val SET = HashSet<FE_FEExcluded>()
 

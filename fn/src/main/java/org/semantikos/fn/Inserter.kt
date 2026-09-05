@@ -56,7 +56,7 @@ open class Inserter(
     @Throws(FileNotFoundException::class)
     fun insertFrames() {
         traceSaving("frames")
-        insert(Frame.SET, Comparator.comparing<Frame, Int?>(Frame::iD), File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"), header)
+        insert(Frame.SET, Comparator.comparing(Frame::iD), File(outDir, names.file("frames")), names.table("frames"), names.columns("frames"), header)
         Frame.SET.clear()
         traceDone()
 

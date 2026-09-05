@@ -16,14 +16,14 @@ data class FE_SemType(
 
     // I D E N T I T Y
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o == null || javaClass != o.javaClass) {
+        if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val that = o as FE_SemType
+        val that = other as FE_SemType
         return feid == that.feid && semtypeid == that.semtypeid
     }
 

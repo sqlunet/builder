@@ -26,8 +26,8 @@ class Layer private constructor(
 
     // O R D E R
 
-    override fun compareTo(that: Layer): Int {
-        return COMPARATOR.compare(this, that)
+    override fun compareTo(other: Layer): Int {
+        return COMPARATOR.compare(this, other)
     }
 
     // I N S E R T
