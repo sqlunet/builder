@@ -116,7 +116,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>SOURCE</name>
                             <value>${env.FNHOME}</value>
@@ -124,7 +124,7 @@
                         <property>
                             <name>SILENT</name>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 

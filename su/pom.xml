@@ -49,7 +49,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <skipTests>true</skipTests>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>java.util.logging.config.file</name>
                             <value>logging.properties</value>
@@ -57,7 +57,7 @@
                         <property>
                             <name>SILENT</name>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
