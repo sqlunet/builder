@@ -40,9 +40,8 @@ data class FE_FERequired(
 
     companion object {
 
-        val COMPARATOR: Comparator<FE_FERequired> = Comparator
-            .comparing<FE_FERequired, Int> { it.feid }
-            .thenComparing { it.feid2 }
+        val COMPARATOR: Comparator<FE_FERequired> = compareBy<FE_FERequired> { it.feid }
+            .thenBy { it.feid2 }
 
         val SET = HashSet<FE_FERequired>()
 

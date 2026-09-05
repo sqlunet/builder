@@ -40,9 +40,8 @@ data class LexUnit_SemType(
 
     companion object {
 
-        val COMPARATOR: Comparator<LexUnit_SemType> = Comparator
-            .comparing<LexUnit_SemType, Int> { it.luid }
-            .thenComparing { it.semtypeid }
+        val COMPARATOR: Comparator<LexUnit_SemType> = compareBy<LexUnit_SemType> { it.luid }
+            .thenBy { it.semtypeid }
 
         val SET = HashSet<LexUnit_SemType>()
 

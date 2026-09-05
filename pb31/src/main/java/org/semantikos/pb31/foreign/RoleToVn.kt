@@ -56,9 +56,8 @@ class RoleToVn private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<RoleToVn> = Comparator
-            .comparing<RoleToVn, Role> { it.role }
-            .thenComparing { it.aliasRole }
+        val COMPARATOR: Comparator<RoleToVn> = compareBy<RoleToVn> { it.role }
+            .thenBy { it.aliasRole }
 
         val SET: MutableSet<RoleToVn> = HashSet<RoleToVn>()
 

@@ -37,9 +37,8 @@ class PbRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<PbRole> = Comparator
-            .comparing<PbRole, String>{ it.roleSet }
-            .thenComparing { it.arg }
+        val COMPARATOR: Comparator<PbRole> = compareBy<PbRole>{ it.roleSet }
+            .thenBy { it.arg }
 
         fun make(roleSet: String, arg: String): PbRole {
             return PbRole(roleSet, arg)

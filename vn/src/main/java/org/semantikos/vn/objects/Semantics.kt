@@ -48,7 +48,7 @@ class Semantics private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Semantics> = Comparator.comparing { it.semantics }
+        val COMPARATOR: Comparator<Semantics> = compareBy { it.semantics }
 
         val COLLECTOR: SetCollector<Semantics> = SetCollector(COMPARATOR)
 

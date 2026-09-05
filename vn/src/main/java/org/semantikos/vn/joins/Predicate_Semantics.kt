@@ -48,10 +48,8 @@ class Predicate_Semantics private constructor(
 
         val SET = HashSet<Predicate_Semantics>()
 
-        val COMPARATOR: Comparator<Predicate_Semantics> =
-            Comparator
-                .comparing<Predicate_Semantics, Semantics> { it.semantics }
-                .thenComparing { it.predicate }
+        val COMPARATOR: Comparator<Predicate_Semantics> = compareBy<Predicate_Semantics> { it.semantics }
+                .thenBy { it.predicate }
 
         fun make(predicate: Predicate, semantics: Semantics): Predicate_Semantics {
             val m = Predicate_Semantics(predicate, semantics)

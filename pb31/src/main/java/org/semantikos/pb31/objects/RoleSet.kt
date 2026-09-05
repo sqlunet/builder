@@ -67,9 +67,8 @@ class RoleSet private constructor(private val predicate: Predicate, val name: St
 
     companion object {
 
-        val COMPARATOR: Comparator<RoleSet> = Comparator
-            .comparing<RoleSet, Predicate> { it.predicate }
-            .thenComparing { it.name }
+        val COMPARATOR: Comparator<RoleSet> = compareBy<RoleSet> { it.predicate }
+            .thenBy { it.name }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

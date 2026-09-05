@@ -39,9 +39,8 @@ data class FE_SemType(
 
     companion object {
 
-        val COMPARATOR: Comparator<FE_SemType> = Comparator
-            .comparing<FE_SemType, Int> { it.feid }
-            .thenComparing { it.semtypeid }
+        val COMPARATOR: Comparator<FE_SemType> = compareBy<FE_SemType> { it.feid }
+            .thenBy { it.semtypeid }
 
         val SET = HashSet<FE_SemType>()
 

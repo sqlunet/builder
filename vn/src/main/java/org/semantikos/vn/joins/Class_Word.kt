@@ -54,9 +54,8 @@ class Class_Word private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Class_Word> = Comparator
-            .comparing<Class_Word, Word> { it.word }
-            .thenComparing { it.clazz }
+        val COMPARATOR: Comparator<Class_Word> = compareBy<Class_Word> { it.word }
+            .thenBy { it.clazz }
 
         val SET = HashSet<Class_Word>()
 

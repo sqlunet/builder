@@ -35,7 +35,7 @@ class Func private constructor(funcName: String) : HasId, Comparable<Func>, Inse
 
     companion object {
 
-        val COMPARATOR: Comparator<Func> = Comparator.comparing { it.func }
+        val COMPARATOR: Comparator<Func> = compareBy { it.func }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

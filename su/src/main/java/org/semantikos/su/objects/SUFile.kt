@@ -63,8 +63,7 @@ class SUFile private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<SUFile> = Comparator
-            .comparing { it.filename }
+        val COMPARATOR: Comparator<SUFile> = compareBy { it.filename }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

@@ -49,9 +49,8 @@ class Corpus private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Corpus> = Comparator
-            .comparing<Corpus, String> { it.name }
-            .thenComparing { it.iD }
+        val COMPARATOR: Comparator<Corpus> = compareBy<Corpus> { it.name }
+            .thenBy { it.iD }
 
         val SET = HashSet<Corpus>()
 

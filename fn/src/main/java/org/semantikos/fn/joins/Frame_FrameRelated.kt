@@ -50,10 +50,9 @@ data class Frame_FrameRelated(
 
     companion object {
 
-        val COMPARATOR: Comparator<Frame_FrameRelated> = Comparator
-            .comparing<Frame_FrameRelated, String> { it.relation }
-            .thenComparing { it.frameid }
-            .thenComparing { it.frame2id }
+        val COMPARATOR: Comparator<Frame_FrameRelated> = compareBy<Frame_FrameRelated> { it.relation }
+            .thenBy { it.frameid }
+            .thenBy { it.frame2id }
 
         val SET = HashSet<Frame_FrameRelated>()
 

@@ -42,9 +42,8 @@ data class LexUnit_Governor(
 
     companion object {
 
-        val COMPARATOR: Comparator<LexUnit_Governor> = Comparator
-            .comparing<LexUnit_Governor, Int> { it.luid }
-            .thenComparing({ it.governor }, Governor.COMPARATOR)
+        val COMPARATOR: Comparator<LexUnit_Governor> = compareBy<LexUnit_Governor> { it.luid }
+            .thenBy(Governor.COMPARATOR) { it.governor }
 
         val SET = HashSet<LexUnit_Governor>()
 

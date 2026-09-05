@@ -6,11 +6,10 @@ import org.semantikos.pb31.objects.Word
 class RoleSetToFn private constructor(clazz: String, pos: String, pbRoleSet: RoleSet, word: Word) : RoleSetTo(clazz, pos, pbRoleSet, word) {
     companion object {
 
-        val COMPARATOR: Comparator<RoleSetToFn> = Comparator
-            .comparing<RoleSetToFn, RoleSet> { it.pbRoleSet}
-            .thenComparing {it.pbWord}
-            .thenComparing {it.ref}
-            .thenComparing {it.pos}
+        val COMPARATOR: Comparator<RoleSetToFn> = compareBy<RoleSetToFn> { it.pbRoleSet}
+            .thenBy {it.pbWord}
+            .thenBy {it.ref}
+            .thenBy {it.pos}
 
         val SET: MutableSet<RoleSetToFn> = HashSet()
 

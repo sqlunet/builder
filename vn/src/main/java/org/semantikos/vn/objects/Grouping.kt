@@ -50,7 +50,7 @@ class Grouping private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Grouping> = Comparator.comparing { it.name }
+        val COMPARATOR: Comparator<Grouping> = compareBy { it.name }
 
         val COLLECTOR: SetCollector<Grouping> = SetCollector(COMPARATOR)
 

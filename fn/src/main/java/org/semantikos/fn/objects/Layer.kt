@@ -47,9 +47,8 @@ class Layer private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Layer> = Comparator
-            .comparing<Layer, String> { it.name }
-            .thenComparing { it.annosetid }
+        val COMPARATOR: Comparator<Layer> = compareBy<Layer> { it.name }
+            .thenBy { it.annosetid }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

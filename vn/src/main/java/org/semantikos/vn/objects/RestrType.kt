@@ -58,10 +58,9 @@ class RestrType private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<RestrType> =
-            Comparator.comparing<RestrType, String> { it.type }
-                .thenComparing { it.value }
-                .thenComparing { it.isSyntactic }
+        val COMPARATOR: Comparator<RestrType> = compareBy<RestrType> { it.type }
+                .thenBy { it.value }
+                .thenBy { it.isSyntactic }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

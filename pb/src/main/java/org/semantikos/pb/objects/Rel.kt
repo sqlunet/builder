@@ -34,9 +34,8 @@ class Rel private constructor(val example: Example, text: String) : HasId, Inser
 
     companion object {
 
-        private val COMPARATOR: Comparator<Rel> = Comparator
-            .comparing<Rel, Example> { it.example }
-            .thenComparing { it.text }
+        private val COMPARATOR: Comparator<Rel> = compareBy<Rel> { it.example }
+            .thenBy { it.text }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

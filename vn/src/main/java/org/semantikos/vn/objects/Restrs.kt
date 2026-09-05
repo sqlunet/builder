@@ -66,8 +66,8 @@ class Restrs private constructor(
 
         private const val LOG_ONLY = false
 
-        val COMPARATOR: Comparator<Restrs> = Comparator.comparing<Restrs, String> { it.value }
-            .thenComparing { it.isSyntactic }
+        val COMPARATOR: Comparator<Restrs> = compareBy<Restrs> { it.value }
+            .thenBy { it.isSyntactic }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

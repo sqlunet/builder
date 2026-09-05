@@ -32,9 +32,8 @@ class SubCorpus private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<SubCorpus> = Comparator
-            .comparing<SubCorpus, String> { it.name }
-            .thenComparing { it.luid }
+        val COMPARATOR: Comparator<SubCorpus> = compareBy<SubCorpus> { it.name }
+            .thenBy { it.luid }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

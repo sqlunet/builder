@@ -56,10 +56,9 @@ class PmRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<PmRole> = Comparator
-            .comparing<PmRole, PmPredicate> { it.predicate }
-            .thenComparing { it.role }
-            .thenComparing { it.pos }
+        val COMPARATOR: Comparator<PmRole> = compareBy<PmRole> { it.predicate }
+            .thenBy { it.role }
+            .thenBy { it.pos }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

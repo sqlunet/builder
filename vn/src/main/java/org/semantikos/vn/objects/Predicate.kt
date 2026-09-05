@@ -44,7 +44,7 @@ class Predicate private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Predicate> = Comparator.comparing { it.name }
+        val COMPARATOR: Comparator<Predicate> = compareBy { it.name }
 
         val COLLECTOR: SetCollector<Predicate> = SetCollector(COMPARATOR)
 

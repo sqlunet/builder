@@ -47,9 +47,8 @@ class Member private constructor(val roleSet: RoleSet, val word: Word) : Inserta
 
     companion object {
 
-        val COMPARATOR: Comparator<Member> = Comparator
-            .comparing<Member, Word> { it.word }
-            .thenComparing { it.roleSet }
+        val COMPARATOR: Comparator<Member> = compareBy<Member> { it.word }
+            .thenBy { it.roleSet }
 
         val SET: MutableSet<Member> = HashSet<Member>()
 

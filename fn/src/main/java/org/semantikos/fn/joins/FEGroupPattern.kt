@@ -62,8 +62,7 @@ class FEGroupPattern private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FEGroupPattern> = Comparator
-            .comparing({ it.fegr }, FEGroupRealization.COMPARATOR)
+        val COMPARATOR: Comparator<FEGroupPattern> = compareBy(FEGroupRealization.COMPARATOR) { it.fegr }
 
         val LIST: ListCollector<FEGroupPattern> = ListCollector()
 

@@ -63,7 +63,7 @@ class Word private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Word> = Comparator.comparing { it.word }
+        val COMPARATOR: Comparator<Word> = compareBy { it.word }
 
         val COLLECTOR: SetCollector<Word> = SetCollector(COMPARATOR)
 

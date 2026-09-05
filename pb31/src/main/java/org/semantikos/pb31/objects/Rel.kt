@@ -33,10 +33,9 @@ class Rel private constructor(val example: Example, text: String, val f: Func?) 
 
     companion object {
 
-        private val COMPARATOR: Comparator<Rel> = Comparator
-            .comparing<Rel, Example> { it.example }
-            .thenComparing { it.text }
-            .thenComparing( { it.f }, Comparator.nullsFirst<Func>(Comparator.naturalOrder()))
+        private val COMPARATOR: Comparator<Rel> = compareBy<Rel> { it.example }
+            .thenBy { it.text }
+            .thenBy(nullsFirst()) { it.f }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

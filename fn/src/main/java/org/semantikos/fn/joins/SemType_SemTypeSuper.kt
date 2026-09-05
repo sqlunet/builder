@@ -41,9 +41,8 @@ data class SemType_SemTypeSuper(
 
     companion object {
 
-        val COMPARATOR: Comparator<SemType_SemTypeSuper> = Comparator
-            .comparing<SemType_SemTypeSuper, Int> { it.semtypeid }
-            .thenComparing { it.supersemtypeid }
+        val COMPARATOR: Comparator<SemType_SemTypeSuper> = compareBy<SemType_SemTypeSuper> { it.semtypeid }
+            .thenBy { it.supersemtypeid }
 
         val SET = HashSet<SemType_SemTypeSuper>()
 

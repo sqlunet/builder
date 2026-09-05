@@ -51,8 +51,7 @@ class Formula_Arg private constructor(
 
     companion object {
 
-        private val COMPARATOR: Comparator<Formula_Arg> = Comparator
-            .comparing { it.argNum }
+        private val COMPARATOR: Comparator<Formula_Arg> = compareBy { it.argNum }
 
         @Throws(IllegalArgumentException::class, ParseException::class, IOException::class)
         fun make(formula: Formula): Collection<Formula_Arg> {

@@ -45,7 +45,7 @@ class FrameExample private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FrameExample> = Comparator.comparing { it.example }
+        val COMPARATOR: Comparator<FrameExample> = compareBy { it.example }
 
         val COLLECTOR: SetCollector<FrameExample> = SetCollector(COMPARATOR)
 

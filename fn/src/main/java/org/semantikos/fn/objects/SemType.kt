@@ -49,9 +49,8 @@ class SemType private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<SemType> = Comparator
-            .comparing<SemType, String> { it.name }
-            .thenComparing { it.iD }
+        val COMPARATOR: Comparator<SemType> = compareBy<SemType> { it.name }
+            .thenBy { it.iD }
 
         val SET = HashSet<SemType>()
 

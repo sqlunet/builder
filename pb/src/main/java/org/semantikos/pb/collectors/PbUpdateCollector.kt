@@ -25,7 +25,7 @@ class PbUpdateCollector(conf: Properties) : PbCollector(conf) {
         Progress.traceHeader("propbank", "reading files")
         var fileCount = 0
         listOf<File>(*fileArray)
-            .sortedWith(Comparator.comparing { it!!.name })
+            .sortedWith(compareBy { it.name })
             .forEach {
                 fileCount++
                 processPropBankFile(it.absolutePath, it.name)

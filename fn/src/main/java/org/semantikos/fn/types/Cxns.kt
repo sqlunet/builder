@@ -35,9 +35,8 @@ class Cxns private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Cxns> = Comparator
-            .comparing<Cxns, String> { it.name }
-            .thenComparing { it.id }
+        val COMPARATOR: Comparator<Cxns> = compareBy<Cxns> { it.name }
+            .thenBy { it.id }
 
         val SET = HashSet<Cxns>()
 

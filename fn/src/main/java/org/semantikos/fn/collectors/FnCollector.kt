@@ -24,7 +24,7 @@ abstract class FnCollector(protected val fnDir: String, props: Properties, tag: 
         val files = folder.listFiles(filter) ?: throw RuntimeException("Dir:$frameNetHome is empty")
         files
             .asSequence()
-            .sortedWith(Comparator.comparing { it.name })
+            .sortedWith(compareBy { it.name })
             .forEach {
                 filename = it.name
                 try {

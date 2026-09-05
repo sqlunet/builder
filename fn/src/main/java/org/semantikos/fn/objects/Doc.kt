@@ -50,9 +50,8 @@ class Doc private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Doc> = Comparator
-            .comparing<Doc, String> { it.name }
-            .thenComparing { it.iD }
+        val COMPARATOR: Comparator<Doc> = compareBy<Doc> { it.name }
+            .thenBy { it.iD }
 
         val SET = HashSet<Doc>()
 

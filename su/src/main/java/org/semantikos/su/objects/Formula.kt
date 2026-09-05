@@ -87,8 +87,7 @@ class Formula private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Formula> = Comparator
-            .comparing { it.formulaText }
+        val COMPARATOR: Comparator<Formula> = compareBy { it.formulaText }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

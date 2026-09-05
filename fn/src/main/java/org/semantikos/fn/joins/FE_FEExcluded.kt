@@ -40,9 +40,8 @@ data class FE_FEExcluded(
 
     companion object {
 
-        val COMPARATOR: Comparator<FE_FEExcluded> = Comparator
-            .comparing<FE_FEExcluded, Int> { it.feid }
-            .thenComparing { it.feid2 }
+        val COMPARATOR: Comparator<FE_FEExcluded> = compareBy<FE_FEExcluded> { it.feid }
+            .thenBy { it.feid2 }
 
         val SET = HashSet<FE_FEExcluded>()
 

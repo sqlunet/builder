@@ -20,9 +20,8 @@ class RoleToFn private constructor(
 
         val RESOLVE_RESULT_STRINGIFIER = { r: PbFnFeResolved? -> if (r == null) "NULL,NULL,NULL" else "${r.first},${r.second},${r.third}" }
 
-        val COMPARATOR: Comparator<RoleToFn> = Comparator
-            .comparing<RoleToFn, Role> { it.role }
-            .thenComparing { it.aliasRole }
+        val COMPARATOR: Comparator<RoleToFn> = compareBy<RoleToFn> { it.role }
+            .thenBy { it.aliasRole }
 
         val SET: MutableSet<RoleToFn> = HashSet()
 

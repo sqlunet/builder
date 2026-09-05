@@ -39,9 +39,8 @@ class VnRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnRole> = Comparator
-            .comparing<VnRole, String> { it.vnClass }
-            .thenComparing { it.theta }
+        val COMPARATOR: Comparator<VnRole> = compareBy<VnRole> { it.vnClass }
+            .thenBy { it.theta }
 
         fun make(vnClass: String, theta: Theta): VnRole {
             return VnRole(vnClass, theta)

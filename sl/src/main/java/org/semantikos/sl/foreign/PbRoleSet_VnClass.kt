@@ -29,9 +29,8 @@ class PbRoleSet_VnClass private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<PbRoleSet_VnClass> = Comparator
-            .comparing<PbRoleSet_VnClass, String> { it.pbRoleset }
-            .thenComparing { it.vnClass }
+        val COMPARATOR: Comparator<PbRoleSet_VnClass> = compareBy<PbRoleSet_VnClass> { it.pbRoleset }
+            .thenBy { it.vnClass }
 
         val SET: MutableSet<PbRoleSet_VnClass> = TreeSet<PbRoleSet_VnClass>(COMPARATOR)
 

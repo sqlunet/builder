@@ -49,7 +49,7 @@ class Syntax private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Syntax> = Comparator.comparing { it.syntax }
+        val COMPARATOR: Comparator<Syntax> = compareBy { it.syntax }
 
         val COLLECTOR: SetCollector<Syntax> = SetCollector(COMPARATOR)
 

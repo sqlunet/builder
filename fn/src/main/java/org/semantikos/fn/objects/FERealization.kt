@@ -68,10 +68,9 @@ class FERealization private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FERealization> = Comparator
-            .comparing<FERealization, Int> { it.luId }
-            .thenComparing { it.fEName }
-            .thenComparing { it.frameId }
+        val COMPARATOR: Comparator<FERealization> = compareBy<FERealization> { it.luId }
+            .thenBy { it.fEName }
+            .thenBy { it.frameId }
 
         val LIST = ListCollector<FERealization>()
 

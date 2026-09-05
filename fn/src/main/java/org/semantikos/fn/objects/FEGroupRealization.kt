@@ -66,9 +66,8 @@ class FEGroupRealization private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FEGroupRealization> = Comparator
-            .comparing<FEGroupRealization, Int> { it.luID }
-            .thenComparing { it.fENames }
+        val COMPARATOR: Comparator<FEGroupRealization> = compareBy<FEGroupRealization> { it.luID }
+            .thenBy { it.fENames }
 
         val LIST = ListCollector<FEGroupRealization>()
 

@@ -104,8 +104,7 @@ class AnnotationSet private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<AnnotationSet> = Comparator
-            .comparing { it.iD }
+        val COMPARATOR: Comparator<AnnotationSet> = compareBy { it.iD }
 
         val SET = HashSet<AnnotationSet>()
 

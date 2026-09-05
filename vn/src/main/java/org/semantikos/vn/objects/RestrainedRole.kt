@@ -47,11 +47,8 @@ class RestrainedRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<RestrainedRole> = Comparator
-            .comparing<RestrainedRole, RoleType> { it.roleType }
-            .thenComparing(
-                { it.restrs }, Comparator.nullsFirst(Comparator.naturalOrder<Restrs>())
-            )
+        val COMPARATOR: Comparator<RestrainedRole> = compareBy<RestrainedRole> { it.roleType }
+            .thenBy(nullsFirst()) { it.restrs }
 
         val SET = HashSet<RestrainedRole>()
 

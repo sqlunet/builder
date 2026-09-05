@@ -129,9 +129,8 @@ class LexUnit : HasID, Insertable, Serializable {
 
     companion object {
 
-        val COMPARATOR: Comparator<LexUnit> = Comparator
-            .comparing<LexUnit, String> { it.name }
-            .thenComparing { it.iD }
+        val COMPARATOR: Comparator<LexUnit> = compareBy<LexUnit> { it.name }
+            .thenBy { it.iD }
 
         val SET = HashSet<LexUnit>()
 

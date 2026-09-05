@@ -44,11 +44,10 @@ class Label private constructor(label: LabelType, val layer: Layer) : Insertable
 
     companion object {
 
-        val COMPARATOR: Comparator<Label> = Comparator
-            .comparing<Label, String> { it.name }
-            .thenComparing { it.layer }
-            .thenComparing { it.start }
-            .thenComparing { it.end }
+        val COMPARATOR: Comparator<Label> = compareBy<Label> { it.name }
+            .thenBy { it.layer }
+            .thenBy { it.start }
+            .thenBy { it.end }
 
         val SET = HashSet<Label>()
 

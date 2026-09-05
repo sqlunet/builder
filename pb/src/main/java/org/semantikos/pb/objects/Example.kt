@@ -49,10 +49,9 @@ class Example private constructor(
 
     companion object {
 
-        private val COMPARATOR: Comparator<Example> = Comparator
-            .comparing<Example, RoleSet> { it.roleSet }
-            .thenComparing { it.name }
-            .thenComparing { it.text }
+        private val COMPARATOR: Comparator<Example> = compareBy<Example> { it.roleSet }
+            .thenBy { it.name }
+            .thenBy { it.text }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

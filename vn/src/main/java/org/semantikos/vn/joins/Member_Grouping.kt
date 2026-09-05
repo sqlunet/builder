@@ -55,10 +55,9 @@ class Member_Grouping private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Member_Grouping> = Comparator
-            .comparing<Member_Grouping, Word> { it.word }
-            .thenComparing { it.vnClass }
-            .thenComparing { it.grouping }
+        val COMPARATOR: Comparator<Member_Grouping> = compareBy<Member_Grouping> { it.word }
+            .thenBy { it.vnClass }
+            .thenBy { it.grouping }
 
         val SET: MutableSet<Member_Grouping> = HashSet<Member_Grouping>()
 

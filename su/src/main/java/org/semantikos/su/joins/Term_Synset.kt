@@ -62,11 +62,10 @@ class Term_Synset private constructor(
 
     companion object {
 
-        private val COMPARATOR: Comparator<Term_Synset> = Comparator
-            .comparing<Term_Synset, Term> { it.term }
-            .thenComparing { it.synsetId }
-            .thenComparing { it.posId }
-            .thenComparing { it.mapType }
+        private val COMPARATOR: Comparator<Term_Synset> = compareBy<Term_Synset> { it.term }
+            .thenBy { it.synsetId }
+            .thenBy { it.posId }
+            .thenBy { it.mapType }
 
         val SET = TreeSet<Term_Synset>()
 

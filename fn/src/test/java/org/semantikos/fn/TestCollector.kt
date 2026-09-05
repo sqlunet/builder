@@ -153,7 +153,7 @@ class TestCollector {
 
         private val SET = mutableSetOf("one", "two", "three", "four")
 
-        private val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
+        private val COMPARATOR: Comparator<String> = naturalOrder()
 
         private val C = SetCollector(COMPARATOR)
 

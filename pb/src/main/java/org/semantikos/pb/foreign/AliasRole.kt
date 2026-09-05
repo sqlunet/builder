@@ -38,9 +38,8 @@ class AliasRole private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<AliasRole> = Comparator
-            .comparing<AliasRole, AliasClass> { it.aliasClass }
-            .thenComparing { it.aliasLink }
+        val COMPARATOR: Comparator<AliasRole> = compareBy<AliasRole> { it.aliasClass }
+            .thenBy { it.aliasLink }
 
         fun make(aliasVnClass: AliasClass, aliasLink: String): AliasRole {
             return AliasRole(aliasVnClass, aliasLink)

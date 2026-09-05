@@ -56,7 +56,7 @@ class VnClass private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<VnClass> = Comparator.comparing { it.name }
+        val COMPARATOR: Comparator<VnClass> = compareBy { it.name }
 
         val COLLECTOR: SetCollector<VnClass> = SetCollector(COMPARATOR)
 

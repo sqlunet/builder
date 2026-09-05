@@ -61,17 +61,16 @@ class Example private constructor(
 
     companion object {
 
-        private val COMPARATOR: Comparator<Example> = Comparator
-            .comparing<Example, RoleSet> { it.roleSet }
-            .thenComparing { it.name }
-            .thenComparing({ it.aspect }, Comparator.nullsFirst<String>(Comparator.naturalOrder()))
-            .thenComparing({ it.form }, Comparator.nullsFirst<String>(Comparator.naturalOrder()))
-            .thenComparing({ it.person }, Comparator.nullsFirst<String>(Comparator.naturalOrder()))
-            .thenComparing({ it.tense }, Comparator.nullsFirst<String>(Comparator.naturalOrder()))
-            .thenComparing({ it.voice }, Comparator.nullsFirst<String>(Comparator.naturalOrder()))
-            .thenComparing { it.text }
+        private val COMPARATOR: Comparator<Example> = compareBy<Example> { it.roleSet }
+            .thenBy { it.name }
+            .thenBy(nullsFirst()) { it.aspect }
+            .thenBy(nullsFirst()) { it.form }
+            .thenBy(nullsFirst()) { it.person }
+            .thenBy(nullsFirst()) { it.tense }
+            .thenBy(nullsFirst()) { it.voice }
+            .thenBy { it.text }
 
-        private val STRING_COMPARATOR = Comparator { s1: String, s2: String -> s1.compareTo(s2) }
+        private val STRING_COMPARATOR = naturalOrder<String>()
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

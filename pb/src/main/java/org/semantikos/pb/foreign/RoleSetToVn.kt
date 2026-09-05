@@ -22,11 +22,10 @@ open class RoleSetToVn protected constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<RoleSetToVn> = Comparator
-            .comparing<RoleSetToVn, RoleSet> { it.pbRoleSet }
-            .thenComparing { it.pbWord }
-            .thenComparing { it.ref }
-            .thenComparing { it.pos }
+        val COMPARATOR: Comparator<RoleSetToVn> = compareBy<RoleSetToVn> { it.pbRoleSet }
+            .thenBy { it.pbWord }
+            .thenBy { it.ref }
+            .thenBy { it.pos }
 
         val SET: MutableSet<RoleSetToVn> = HashSet()
 

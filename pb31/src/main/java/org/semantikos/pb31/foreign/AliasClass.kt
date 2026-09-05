@@ -41,7 +41,7 @@ class AliasClass private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<AliasClass> = Comparator.comparing { it.className }
+        val COMPARATOR: Comparator<AliasClass> = compareBy { it.className }
 
         fun make(head: String?, classTag: String): AliasClass {
             return AliasClass(head, classTag)

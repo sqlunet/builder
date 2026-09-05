@@ -40,7 +40,7 @@ class FrameSubName private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FrameSubName> = Comparator.comparing { it.subName }
+        val COMPARATOR: Comparator<FrameSubName> = compareBy { it.subName }
 
         val COLLECTOR: SetCollector<FrameSubName> = SetCollector(COMPARATOR)
 

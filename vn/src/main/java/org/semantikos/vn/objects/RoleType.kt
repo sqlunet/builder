@@ -50,7 +50,7 @@ class RoleType private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<RoleType> = Comparator.comparing { it.type }
+        val COMPARATOR: Comparator<RoleType> = compareBy { it.type }
 
         val COLLECTOR: SetCollector<RoleType> = SetCollector(COMPARATOR)
 

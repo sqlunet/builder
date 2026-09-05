@@ -61,9 +61,8 @@ class Role private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Role> = Comparator
-            .comparing<Role, VnClass> { it.clazz }
-            .thenComparing { it.restrRole }
+        val COMPARATOR: Comparator<Role> = compareBy<Role> { it.clazz }
+            .thenBy { it.restrRole }
 
         val COLLECTOR: SetCollector<Role> = SetCollector(COMPARATOR)
 

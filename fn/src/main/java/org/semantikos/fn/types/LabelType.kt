@@ -6,7 +6,7 @@ import org.semantikos.common.SqlId.getSqlId
 
 object LabelType {
 
-    val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
+    val COMPARATOR: Comparator<String> = naturalOrder()
 
     val COLLECTOR = SetCollector(COMPARATOR)
 

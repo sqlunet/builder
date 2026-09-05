@@ -22,15 +22,14 @@ class Values {
 
         companion object {
 
-            val COMPARATOR: Comparator<Pos> = Comparator
-                .comparing { it.pos }
+            val COMPARATOR: Comparator<Pos> = compareBy { it.pos }
 
-                val MAP = TreeMap<Pos, Int>(COMPARATOR)
+            val MAP = TreeMap<Pos, Int>(COMPARATOR)
 
-                    fun make(pos: String, idx: Int): Pos {
+            fun make(pos: String, idx: Int): Pos {
                 val p = Pos(pos)
-                        MAP[p] = idx
-                        return p
+                MAP[p] = idx
+                return p
             }
         }
     }
@@ -50,15 +49,14 @@ class Values {
 
         companion object {
 
-            val COMPARATOR: Comparator<CoreType> = Comparator
-                .comparing { it.coretype }
+            val COMPARATOR: Comparator<CoreType> = compareBy { it.coretype }
 
-                val MAP = TreeMap<CoreType, Int>(COMPARATOR)
+            val MAP = TreeMap<CoreType, Int>(COMPARATOR)
 
-                    fun make(coretype: String, idx: Int): CoreType {
+            fun make(coretype: String, idx: Int): CoreType {
                 val t = CoreType(coretype)
-                        MAP[t] = idx
-                        return t
+                MAP[t] = idx
+                return t
             }
         }
     }
@@ -76,15 +74,14 @@ class Values {
 
         companion object {
 
-            val COMPARATOR: Comparator<LabelIType> = Comparator
-                .comparing { it.labelitype }
+            val COMPARATOR: Comparator<LabelIType> = compareBy { it.labelitype }
 
-                val MAP = TreeMap<LabelIType, Int>(COMPARATOR)
+            val MAP = TreeMap<LabelIType, Int>(COMPARATOR)
 
-                    fun make(labelitype: String, idx: Int): LabelIType {
+            fun make(labelitype: String, idx: Int): LabelIType {
                 val l = LabelIType(labelitype)
-                        MAP[l] = idx
-                        return l
+                MAP[l] = idx
+                return l
             }
         }
     }

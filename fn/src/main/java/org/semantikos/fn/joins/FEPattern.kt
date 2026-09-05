@@ -54,10 +54,9 @@ data class FEPattern(
 
     companion object {
 
-        val COMPARATOR: Comparator<FEPattern> = Comparator
-            .comparing<FEPattern, Int> { it.luId }
-            .thenComparing { it.feName }
-            .thenComparing { it.vu }
+        val COMPARATOR: Comparator<FEPattern> = compareBy<FEPattern> { it.luId }
+            .thenBy { it.feName }
+            .thenBy { it.vu }
 
         val SET = HashSet<FEPattern>()
 

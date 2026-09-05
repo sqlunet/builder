@@ -63,17 +63,15 @@ class Collocation private constructor(
 
     companion object {
 
-        val COMPARATOR_BY_SENSEKEYS: Comparator<Collocation> = Comparator
-            .comparing<Collocation, String>({ it.sensekey1 }, nullsFirst(naturalOrder()))
-            .thenComparing<String>({ it.sensekey2 }, nullsFirst(naturalOrder()))
+        val COMPARATOR_BY_SENSEKEYS: Comparator<Collocation> = compareBy<Collocation> { it.sensekey1 }
+            .thenBy { it.sensekey2 }
 
-        val COMPARATOR_BY_WORDS_POSES: Comparator<Collocation> = Comparator
-            .comparing<Collocation, String> { it.word1 }
-            .thenComparing { it.pos1 }
-            .thenComparing<String>({ it.sensekey1 }, nullsFirst(naturalOrder()))
-            .thenComparing { it.word2 }
-            .thenComparing { it.pos2 }
-            .thenComparing<String>({ it.sensekey2 }, nullsFirst(naturalOrder()))
+        val COMPARATOR_BY_WORDS_POSES: Comparator<Collocation> = compareBy<Collocation> { it.word1 }
+            .thenBy { it.pos1 }
+            .thenBy(nullsFirst()) { it.sensekey1 }
+            .thenBy { it.word2 }
+            .thenBy { it.pos2 }
+            .thenBy(nullsFirst()) { it.sensekey2 }
 
         @Throws(ParseException::class)
         fun parse(line: String): Collocation {

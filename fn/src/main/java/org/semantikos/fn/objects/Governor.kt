@@ -42,9 +42,8 @@ class Governor private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Governor> = Comparator
-            .comparing<Governor, String> { it.getWord() }
-            .thenComparing { it.type }
+        val COMPARATOR: Comparator<Governor> = compareBy<Governor> { it.getWord() }
+            .thenBy { it.type }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

@@ -7,7 +7,7 @@ import org.semantikos.common.SqlId.getSqlId
 //TODO Remove
 object Status {
 
-    val COMPARATOR: Comparator<String> = Comparator.naturalOrder()
+    val COMPARATOR: Comparator<String> = naturalOrder()
 
     val COLLECTOR = SetCollector(COMPARATOR)
 

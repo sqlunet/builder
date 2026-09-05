@@ -66,9 +66,8 @@ class Frame private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Frame> = Comparator
-            .comparing<Frame, String> { it.name }
-            .thenComparing { it.iD }
+        val COMPARATOR: Comparator<Frame> = compareBy<Frame> { it.name }
+            .thenBy { it.iD }
 
         val SET = HashSet<Frame>()
 

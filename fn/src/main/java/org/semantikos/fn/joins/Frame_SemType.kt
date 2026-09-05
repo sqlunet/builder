@@ -39,9 +39,8 @@ data class Frame_SemType(
 
     companion object {
 
-        val COMPARATOR: Comparator<Frame_SemType> = Comparator
-            .comparing<Frame_SemType, Int> { it.frameid }
-            .thenComparing { it.semtypeid }
+        val COMPARATOR: Comparator<Frame_SemType> = compareBy<Frame_SemType> { it.frameid }
+            .thenBy { it.semtypeid }
 
         val SET = HashSet<Frame_SemType>()
 

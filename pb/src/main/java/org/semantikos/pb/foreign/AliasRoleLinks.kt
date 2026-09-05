@@ -48,7 +48,7 @@ abstract class AliasRoleLinks internal constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<AliasRoleLinks> = Comparator.comparing { it.names.toString() }
+        val COMPARATOR: Comparator<AliasRoleLinks> = compareBy { it.names.toString() }
 
         fun normalize(link: String): String {
             return Utils.camelCase(link)

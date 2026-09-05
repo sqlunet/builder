@@ -75,10 +75,9 @@ class Member_Sense private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Member_Sense> = Comparator
-            .comparing<Member_Sense, VnClass> { it.memberClass }
-            .thenComparing { it.memberWord }
-            .thenComparing({ it.sensekey }, nullsFirst(naturalOrder()))
+        val COMPARATOR: Comparator<Member_Sense> = compareBy<Member_Sense> { it.memberClass }
+            .thenBy { it.memberWord }
+            .thenBy(nullsFirst()) { it.sensekey }
 
         val SET = HashSet<Member_Sense>()
 

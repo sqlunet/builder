@@ -177,7 +177,7 @@ private constructor() {
         toValue.keys.asSequence()
             .map { it to if (it.contains(".")) it.substring(it.lastIndexOf('.') + 1) else it }  // (key, key2)
             .filter { setOf("table", "file", "columns", "resolved").contains(it.second) }
-            .sortedWith(Comparator.comparing { it.second })
+            .sortedWith(compareBy { it.second })
             .map { it.second.uppercase() to toValue[it.first] }  // (key2, value)
             .distinct()
             .map { "public static final String ${it.first}=\"${it.second}\";" }

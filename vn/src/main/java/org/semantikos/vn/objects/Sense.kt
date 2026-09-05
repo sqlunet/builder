@@ -36,8 +36,7 @@ class Sense private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Sense> = Comparator
-            .comparing { it.sensekey }
+        val COMPARATOR: Comparator<Sense> = compareBy { it.sensekey }
 
         val SET = HashSet<Sense>()
 

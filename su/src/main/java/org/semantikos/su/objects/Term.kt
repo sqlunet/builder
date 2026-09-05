@@ -67,8 +67,7 @@ class Term private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<Term> = Comparator
-            .comparing { it.term }
+        val COMPARATOR: Comparator<Term> = compareBy { it.term }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 

@@ -42,7 +42,7 @@ open class VnCollector(props: Properties) : Processor("vn") {
         traceHeader("verbnet", "reading files")
         files
             .asSequence()
-            .sortedWith(Comparator.comparing { it.name })
+            .sortedWith(compareBy { it.name })
             .forEach {
                 fileCount++
                 processVerbNetFile(it.absolutePath, it.name)

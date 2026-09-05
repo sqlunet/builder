@@ -61,9 +61,8 @@ class Lexeme private constructor(lexeme: LexemeType, val luid: Long) : Insertabl
 
     companion object {
 
-        val COMPARATOR: Comparator<Lexeme> = Comparator
-            .comparing<Lexeme, String> { it.getWord() }
-            .thenComparing { it.luid }
+        val COMPARATOR: Comparator<Lexeme> = compareBy<Lexeme> { it.getWord() }
+            .thenBy { it.luid }
 
         val SET = HashSet<Lexeme>()
 

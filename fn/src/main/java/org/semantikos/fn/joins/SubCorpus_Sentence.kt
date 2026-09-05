@@ -43,9 +43,8 @@ data class SubCorpus_Sentence(
 
     companion object {
 
-        val COMPARATOR: Comparator<SubCorpus_Sentence> = Comparator
-            .comparing<SubCorpus_Sentence, SubCorpus>({ it.subcorpus }, SubCorpus.COMPARATOR)
-            .thenComparing { it.sentenceid }
+        val COMPARATOR: Comparator<SubCorpus_Sentence> = compareBy<SubCorpus_Sentence> { it.sentenceid }
+            .thenBy(SubCorpus.COMPARATOR) { it.subcorpus }
 
         val SET = HashSet<SubCorpus_Sentence>()
 

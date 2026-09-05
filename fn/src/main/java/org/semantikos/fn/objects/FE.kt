@@ -80,9 +80,8 @@ class FE private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<FE> = Comparator
-            .comparing<FE, String> { it.name }
-            .thenComparing { it.iD }
+        val COMPARATOR: Comparator<FE> = compareBy<FE> { it.name }
+            .thenBy { it.iD }
 
         val SET = HashSet<FE>()
 

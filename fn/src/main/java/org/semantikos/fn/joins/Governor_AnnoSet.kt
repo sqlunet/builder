@@ -43,9 +43,8 @@ data class Governor_AnnoSet(
 
     companion object {
 
-        val COMPARATOR: Comparator<Governor_AnnoSet> = Comparator
-            .comparing<Governor_AnnoSet, Governor>({ it.governor }, Governor.COMPARATOR)
-            .thenComparing { it.annosetid }
+        val COMPARATOR: Comparator<Governor_AnnoSet> = compareBy(Governor.COMPARATOR, Governor_AnnoSet::governor)
+            .thenBy { it.annosetid }
 
         val SET = HashSet<Governor_AnnoSet>()
 

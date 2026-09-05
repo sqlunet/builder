@@ -203,9 +203,8 @@ open class Exporter(conf: Properties) {
 
     companion object {
 
-        private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> =
-            Comparator.comparing { p: Pair<String, String> -> p.first }
-                .thenComparing { it.second }
+        private val STRING_PAIR_COMPARATOR: Comparator<Pair<String, String>> = compareBy<Pair<String, String>> { p -> p.first }
+            .thenBy { it.second }
 
         @Throws(IOException::class)
         fun <K, V> export(m: Map<K, V>, file: File) {

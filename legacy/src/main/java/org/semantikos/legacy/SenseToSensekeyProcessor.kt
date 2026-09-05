@@ -73,10 +73,9 @@ class SenseToSensekeyProcessor(private val conf: Properties) : Processor("sk2nid
             }
         }
 
-        var resolvableComparator: Comparator<LegacyLemmaPosOffsetResolvable> = Comparator
-            .comparing<LegacyLemmaPosOffsetResolvable, LegacyWord> { it.first }
-            .thenComparing { it.second }
-            .thenComparing { it.third }
+        var resolvableComparator: Comparator<LegacyLemmaPosOffsetResolvable> = compareBy<LegacyLemmaPosOffsetResolvable> { it.first }
+            .thenBy { it.second }
+            .thenBy { it.third }
 
         @Throws(IOException::class)
         fun getLemmaPosOffsetToSensekeyOrdered(file: File): Map<LegacyLemmaPosOffsetResolvable, LegacyLemmaPosOffsetResolved> {

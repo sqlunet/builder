@@ -6,7 +6,7 @@ import org.semantikos.common.SqlId.getSqlId
 
 object FeType {
 
-    val COMPARATOR: Comparator<String> = Comparator { obj, str -> obj.compareTo(str, ignoreCase = true) }
+    val COMPARATOR: Comparator<String> = String.CASE_INSENSITIVE_ORDER
 
     val COLLECTOR = SetCollector(COMPARATOR)
 

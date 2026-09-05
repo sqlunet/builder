@@ -28,7 +28,7 @@ class VnUpdateCollector(props: Properties) : VnCollector(props) {
         var fileCount = 0
         traceHeader("verbnet", "reading files")
         files
-            .sortedWith(Comparator.comparing { it.name })
+            .sortedWith(compareBy { it.name })
             .forEach {
                 fileCount++
                 processVerbNetFile(it.absolutePath, it.name)

@@ -79,10 +79,9 @@ class ValenceUnit private constructor(
 
     companion object {
 
-        val COMPARATOR: Comparator<ValenceUnit> = Comparator
-            .comparing<ValenceUnit, String>({ it.fE }, nullsFirst(naturalOrder()))
-            .thenComparing<String>({ it.pT }, nullsFirst(naturalOrder()))
-            .thenComparing<String>({ it.gF }, nullsFirst(naturalOrder()))
+        val COMPARATOR: Comparator<ValenceUnit> = compareBy<ValenceUnit, String?>(nullsFirst()) { it.fE }
+            .thenBy(nullsFirst()) { it.pT }
+            .thenBy(nullsFirst()) { it.gF }
 
         val COLLECTOR = SetCollector(COMPARATOR)
 
