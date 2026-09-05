@@ -22,7 +22,7 @@ open class PbModule protected constructor(conf: String, mode: Mode) : Module(MOD
                 }
             }
 
-            Mode.UPDATE -> {
+            Mode.UPDATE              -> {
                 PbUpdateCollector(props).run()
                 try {
                     val inserter: Inserter = ResolvingUpdater(props)
@@ -34,7 +34,7 @@ open class PbModule protected constructor(conf: String, mode: Mode) : Module(MOD
                 }
             }
 
-            Mode.EXPORT -> {
+            Mode.EXPORT              -> {
                 PbExportCollector(props).run()
                 try {
                     val exporter = Exporter(props)
@@ -44,7 +44,7 @@ open class PbModule protected constructor(conf: String, mode: Mode) : Module(MOD
                 }
             }
 
-            else -> {}
+            else                     -> {}
         }
     }
 
