@@ -158,25 +158,22 @@ open class SuProcessor(conf: Properties) : Processor("sumo") {
         fun collectFileSynsets(filename: String, pse: PrintStream) {
             // iterate on synsets
             val path = Paths.get(filename)
-            BufferedReader(InputStreamReader(Files.newInputStream(path))).use { reader ->
-                var lineno = 0
-                var line: String?
-                while ((reader.readLine().also { line = it }) != null) {
-                    lineno++
-                    line = line!!.trim { it <= ' ' }
-                    if (line.isEmpty() || line[0] == ' ' || line[0] == ';' || !line.contains("&%")) {
-                        continue
-                    }
-
-                    // read
-                    try {
-                        val term = parse(line)
-                        /* final Term_Sense mapping = */
-                        parse(term, line) // side effect: term mapping collected into set
-                    } catch (iae: IllegalArgumentException) {
-                        pse.println(path.fileName.toString() + ':' + lineno + " " + ": ILLEGAL [" + iae.message + "] : " + line)
-                    } catch (afe: AlreadyFoundException) {
-                        pse.println(path.fileName.toString() + ':' + lineno + " " + ": DUPLICATE [" + afe.message + "] : " + line)
+            Files.newInputStream(path).bufferedReader().use { reader ->
+                var lineNum = 0
+                reader.forEachLine { line ->
+                    lineNum++
+                    val line2 = line.trim { it <= ' ' }
+                    if (line2.isNotEmpty() && line2[0] != ' ' && line2[0] != ';' && line2.contains("&%")) {
+                        // read
+                        try {
+                            val term = parse(line2)
+                            /* final Term_Sense mapping = */
+                            parse(term, line2) // side effect: term mapping collected into set
+                        } catch (iae: IllegalArgumentException) {
+                            pse.println(path.fileName.toString() + ':' + lineNum + " " + ": ILLEGAL [" + iae.message + "] : " + line)
+                        } catch (afe: AlreadyFoundException) {
+                            pse.println(path.fileName.toString() + ':' + lineNum + " " + ": DUPLICATE [" + afe.message + "] : " + line)
+                        }
                     }
                 }
             }
