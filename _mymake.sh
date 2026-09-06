@@ -29,7 +29,7 @@ echo -e "${Y}O E W N${Z}"
 case "$from" in
         oewn) echo -e "${bY}${K}oewn${Z}"
                 pushd nids/oewn > /dev/null
-                for f in *.ser; do
+                for f in *.ser *.json; do
                     age "${f}"
                 done
                 popd  > /dev/null
@@ -37,7 +37,7 @@ case "$from" in
 
         oewnplus) echo -e "${bY}${K}oewnplus${Z}"
                 pushd nids/oewn-plus > /dev/null
-                for f in *.ser; do
+                for f in *.ser *.json; do
                     age "${f}"
                 done
                 popd  > /dev/null
