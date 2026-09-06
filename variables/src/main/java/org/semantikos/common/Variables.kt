@@ -4,11 +4,9 @@
 package org.semantikos.common
 
 import java.io.*
-import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import kotlin.Throws
 
 /**
  * Variable substitution
@@ -68,25 +66,25 @@ private constructor() {
      */
     @Throws(IOException::class)
     fun varSubstitutionInIS(input: InputStream, ps: PrintStream, useBackticks: Boolean, compress: Boolean, check: Boolean = false) {
-        BufferedReader(InputStreamReader(input, Charset.defaultCharset())).use { reader ->
+        input.bufferedReader().use { reader ->
             var lineNum = 0
-            var line: String
-            while ((reader.readLine().also { line = it }) != null) {
+            reader.forEachLine { line ->
                 lineNum++
-                try {
-                    line = varSubstitution(line, useBackticks)
-                } catch (iae: IllegalArgumentException) {
-                    System.err.println("At line $line content: [$line]")
-                    throw iae
-                }
+                var line2 =
+                    try {
+                        varSubstitution(line, useBackticks)
+                    } catch (iae: IllegalArgumentException) {
+                        System.err.println("At line $line content: [$line]")
+                        throw iae
+                    }
                 if (compress) {
-                    line = line.replace("\\s+".toRegex(), " ")
+                    line2 = line2.replace("\\s+".toRegex(), " ")
                 }
-                ps.println(line)
+                ps.println(line2)
 
                 // check
                 if (check) {
-                    check(line)
+                    check(line2)
                 }
             }
         }
