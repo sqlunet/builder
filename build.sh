@@ -18,6 +18,13 @@ JAR=semantikos-builder.jar
 
 vmargs='-Xmx9G -ea'
 
+# plus
+plus=
+if [ "$1" == "--plus" ]; then
+  plus="-plus"
+  shift
+fi
+
 # module
 module="$1"
 if [ "${module}" == "" ]; then
@@ -49,7 +56,7 @@ for m in ${modules}; do
     if [ "${t}" = "-base" ]; then
       t=
     fi
-    java ${vmargs} -cp "../${JAR}" org.semantikos.${m}.${m^}Module ${t} ${m}.properties
+    java ${vmargs} -cp "../${JAR}" org.semantikos.${m}.${m^}Module ${t} ${m}${plus}.properties
   done
   popd > /dev/null
 done
