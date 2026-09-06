@@ -62,7 +62,7 @@ for suffix in '' ewn vn fn sn wn; do
 echo -e "${Y}Make GitHub release${Z}"
 echo -e "Github assets:
 ${C}${assets}${Z}"
-if confirm 'Github' "Make release ${RELEASE_NAME}?" 'proceeding...'; then
+if confirm 'Github' "Proceed $from with release ${RELEASE_NAME}?" 'proceeding...'; then
 
 case "$from" in
        initial) echo -e "${bY}${K}initial${Z}"
@@ -95,17 +95,22 @@ case "$from" in
                
         view) echo -e "${bY}${K}view${Z}"
                 pushd dist/repos/github > /dev/null
-                gh release view
+                gh release view "${RELEASE_NAME}"
                 popd > /dev/null
                 ;&
                 
         end) echo -e "${bY}${K}end${Z}"
                 ;;
+                
+        flush) echo -e "${bY}${K}end${Z}"
+                pushd dist/repos/github > /dev/null
+                for a in ${assets}; do
+                  an=$(basename ${a})
+                  echo "delete ${an}"
+                  gh release delete-asset "${RELEASE_NAME}" ${an}
+                done
+                popd > /dev/null
+                ;;
 esac
-
-
-
-
-
 
 fi
