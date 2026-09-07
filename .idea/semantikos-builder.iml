@@ -27,6 +27,7 @@
       <excludeFolder url="file://$MODULE_DIR$/semantikos-android/zip" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/semantikos-android/archive" />
+      <excludeFolder url="file://$MODULE_DIR$/semantikos-android/db-all" />
     </content>
   </component>
 </module>
