@@ -32,8 +32,9 @@
 /dist/doc/site/*.pdf
 /dist/test_*
 
+/**/archive/*
 /**/*.sqlite
 /**/*.jar
 
 /.idea/workspace.xml
-/**/archive/*
+/.env
